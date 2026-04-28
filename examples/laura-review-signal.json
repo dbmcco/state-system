@@ -5,7 +5,7 @@
   "status": "rollup_queued",
   "summary": "Campaign state and Laura memory were updated; marketing operating picture should be reviewed because campaign readiness changed.",
   "journal_entry_refs": [
-    "journal.campaign.launch-positioning-v1.initial"
+    "journal.campaign.launch-positioning-v1.audience-clarified"
   ],
   "memory_entry_refs": [
     "memory.laura.marketing.draft.audience-before-copy"

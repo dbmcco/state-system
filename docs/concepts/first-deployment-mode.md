@@ -241,3 +241,6 @@ The first model-mediated contracts are:
 
 They were derived from the scenario pressure test in
 `docs/concepts/model-pressure-test.md`.
+
+The implementation path and first fixture trace are described in
+`docs/concepts/first-deployment-implementation-blueprint.md`.
