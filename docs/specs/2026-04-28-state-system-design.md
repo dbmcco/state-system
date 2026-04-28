@@ -158,6 +158,10 @@ state, evidence, context, and persona.
 
 ## Update Flow
 
+The detailed lifecycle lives in
+`docs/concepts/state-update-lifecycle.md`. The durable invariant is journal
+first, snapshot second.
+
 1. A trigger arrives: meeting note, message, task update, tool result, scheduled review, human edit, or agent reasoning cycle.
 2. The system loads relevant snapshots and recent journal entries.
 3. The model receives the trigger, evidence, persona, and state context.

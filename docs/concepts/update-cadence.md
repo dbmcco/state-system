@@ -2,6 +2,10 @@
 
 State changes through triggers and reviews.
 
+Cadence determines when the lifecycle starts. It does not determine what the
+state should become. The state update lifecycle is defined in
+`docs/concepts/state-update-lifecycle.md`.
+
 ## Event-Driven Updates
 
 Examples:

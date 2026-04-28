@@ -9,6 +9,7 @@
     "created_at",
     "actor_ref",
     "source",
+    "update_class",
     "interpretation",
     "state_patch",
     "evidence_refs",
@@ -34,6 +35,10 @@
       ]
     },
     "trigger_ref": { "type": "string" },
+    "update_class": {
+      "type": "string",
+      "enum": ["direct", "interpretive", "corrective", "rollup", "developmental"]
+    },
     "interpretation": { "type": "string" },
     "state_patch": { "type": "object" },
     "evidence_refs": {
@@ -43,6 +48,22 @@
     "uncertainty": {
       "type": "array",
       "items": { "type": "string" }
+    },
+    "rollup_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state_object_id", "reason"],
+        "properties": {
+          "state_object_id": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      },
+      "default": []
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": ["not_required", "pending", "approved", "rejected"]
     },
     "proposed_actions": {
       "type": "array",
@@ -61,4 +82,3 @@
     }
   }
 }
-

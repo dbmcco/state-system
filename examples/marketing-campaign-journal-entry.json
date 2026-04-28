@@ -5,6 +5,7 @@
   "actor_ref": "persona.laura",
   "source": "agent_reasoning",
   "trigger_ref": "trigger.initial-design-session",
+  "update_class": "interpretive",
   "interpretation": "The campaign idea is promising but not ready for external execution because audience, proof, and success criteria are still underspecified.",
   "state_patch": {
     "status": "planning",
@@ -22,6 +23,13 @@
     "Primary audience is not yet selected.",
     "No campaign success metric has been chosen."
   ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "Campaign readiness affects the current marketing operating picture."
+    }
+  ],
+  "approval_status": "not_required",
   "proposed_actions": [
     {
       "summary": "Draft an internal campaign brief before external-facing copy.",
@@ -35,4 +43,3 @@
     }
   ]
 }
-
