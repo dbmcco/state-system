@@ -34,6 +34,16 @@ trigger
   -> review signal
 ```
 
+For source-system changes, a source event precedes the trigger:
+
+```text
+source event
+  -> trigger
+  -> model review packet
+  -> model proposal output
+  -> commit result
+```
+
 ## Proposed Module Boundaries
 
 ### `contracts`
@@ -43,6 +53,7 @@ Owns schema loading and validation.
 Responsibilities:
 
 - load JSON schemas
+- validate source-event envelopes
 - validate examples and runtime payloads
 - expose stable contract names
 - keep schema validation separate from business meaning
@@ -56,6 +67,7 @@ Owns persistence interfaces.
 Initial adapters:
 
 - `FileStateStore`
+- `FileSourceEventStore`
 - `FileJournalStore`
 - `FileMemoryStore`
 - `FileRollupQueue`
@@ -81,6 +93,8 @@ Owns the Notice phase.
 Responsibilities:
 
 - accept a trigger
+- accept a source event and convert it to a trigger when needed
+- validate and dedupe source events before trigger creation
 - validate trigger schema
 - resolve evidence refs
 - load state snapshots
@@ -249,7 +263,8 @@ The Linear deal-won opportunity fixture set forms the recent-change and context
 package trace:
 
 ```text
-examples/linear-southern-abrasives-won-trigger.json
+examples/source-linear-southern-abrasives-won.json
+  -> examples/linear-southern-abrasives-won-trigger.json
   -> examples/linear-southern-abrasives-won-model-review-packet.json
   -> examples/linear-southern-abrasives-won-model-proposal-output.json
   -> examples/linear-southern-abrasives-won-commit-result.json
@@ -292,17 +307,18 @@ After code exists, these become automated tests.
 1. Add schema validation utility.
 2. Add fixture consistency tests.
 3. Add file-backed stores.
-4. Add fixture reviewer.
-5. Add committer conversion from model output to journal/memory/commit result.
-6. Add snapshot materializer.
-7. Add recent-change registry writes from commit results, including affected
+4. Add source-event ingestion and idempotency checks.
+5. Add fixture reviewer.
+6. Add committer conversion from model output to journal/memory/commit result.
+7. Add snapshot materializer.
+8. Add recent-change registry writes from commit results, including affected
    state ids, source refs, candidate personas, routing reason, and relevance
    tier.
-8. Add context package assembly for standing, recent-change, and opportunity
+9. Add context package assembly for standing, recent-change, and opportunity
    packages.
-9. Add CLI commands.
-10. Replace fixture reviewer with model reviewer.
-11. Add optional `paia-memory` adapter.
+10. Add CLI commands.
+11. Replace fixture reviewer with model reviewer.
+12. Add optional `paia-memory` adapter.
 
 ## Pressure-Test Questions For Each Step
 
@@ -319,6 +335,8 @@ Ask at every step:
 ## Current Gaps
 
 - The catch-point map is documented but not automated.
+- The source-event contract is draft only.
+- Source adapter idempotency checks are not automated.
 - The recent-change-entry contract is draft only.
 - The context-package contract is draft only.
 - Routing audit rules are draft only.
@@ -326,6 +344,6 @@ Ask at every step:
 - Package-level read permissions and redaction are not defined.
 - The Linear deal-won to Laura opportunity fixture is fixture-only, not automated.
 - The model reviewer prompt is not defined.
-- File-backed idempotency rules are not defined.
+- File-backed idempotency rules are documented as a contract but not implemented.
 - Promotion proposal persistence needs a pending-approval record shape.
 - The `paia-memory` adapter boundary is not specified in detail.

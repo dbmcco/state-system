@@ -8,6 +8,7 @@ system now has multiple moving parts:
 
 ```text
 source systems
+  -> source events
   -> triggers
   -> evidence
   -> recent-change registry
@@ -91,11 +92,9 @@ would make it visible.
 - Laura may propose internal LinkedIn draft, customer story draft, or no-op
 - external publication is pending approval
 
-**Pressure result:** passes conceptually.
-
 **Pressure result:** passes as a first fixture trace.
 
-**Fixture:** `examples/linear-southern-abrasives-won-trigger.json` through
+**Fixture:** `examples/source-linear-southern-abrasives-won.json` through
 `examples/laura-southern-abrasives-opportunity-commit-result.json` exercises the
 recent-change registry, context package, opportunity review, and governance in
 one chain.
@@ -118,8 +117,9 @@ recent-change entries, and duplicate agent opportunities.
 
 **Pressure result:** partially passes.
 
-**Gap:** file-backed idempotency and source-event identity are not yet defined.
-This was already a current gap, but recent-change indexing makes it more urgent.
+**Gap:** source-event identity now has a draft contract, but file-backed
+idempotency behavior still needs implementation. Recent-change indexing makes
+this urgent because duplicates can become duplicate agent opportunities.
 
 ## Scenario 5: Context Package Goes Stale
 
@@ -347,13 +347,14 @@ persona-specific opportunity without hardcoding the opportunity.
 
 The system still holds, but the implementation sequence should change.
 
-Before building live source-system adapters, continue refining:
+Before building live source-system adapters, continue refining and implementing:
 
-1. recent-change-entry contract
-2. context-package contract
-3. routing audit rules
-4. freshness/watermark behavior
-5. Linear deal-won opportunity fixture
+1. source-event idempotency behavior
+2. recent-change-entry contract
+3. context-package contract
+4. routing audit rules
+5. freshness/watermark behavior
+6. automated Linear deal-won opportunity fixture checks
 
 Those pieces are more important than adding another live integration because
 they decide whether agents receive the right context and whether the system can

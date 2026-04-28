@@ -251,6 +251,7 @@ The first fixture extends the Linear deal-won scenario:
 
 ```text
 Linear deal stage changed to won
+  -> source event captured and deduped
   -> deal state updated
   -> recent-change entry routed to Laura
   -> Laura opportunity context package

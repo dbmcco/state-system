@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/source-event.schema.json",
+  "title": "SourceEvent",
+  "type": "object",
+  "required": [
+    "id",
+    "source_system",
+    "source_event",
+    "occurred_at",
+    "observed_at",
+    "actor_ref",
+    "summary",
+    "source_refs",
+    "change",
+    "idempotency"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "source_system": { "type": "string" },
+    "source_event": { "type": "string" },
+    "source_event_id": { "type": "string" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "actor_ref": { "type": "string" },
+    "summary": { "type": "string" },
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "change": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "type": "string" },
+        "object_ref": { "type": "string" },
+        "field": { "type": "string" },
+        "old_value": {},
+        "new_value": {},
+        "payload_summary": { "type": "string" }
+      }
+    },
+    "candidate_state_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "candidate_persona_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "governance_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "idempotency": {
+      "type": "object",
+      "required": ["key", "dedupe_strategy"],
+      "properties": {
+        "key": { "type": "string" },
+        "dedupe_strategy": {
+          "type": "string",
+          "enum": ["source_event_id", "source_ref_and_change", "semantic"]
+        },
+        "semantic_fingerprint": { "type": "string" },
+        "duplicate_of_ref": { "type": "string" }
+      }
+    },
+    "sync_context": {
+      "type": "object",
+      "properties": {
+        "sync_id": { "type": "string" },
+        "cursor": { "type": "string" },
+        "source_watermark": { "type": "string" },
+        "partial": { "type": "boolean" },
+        "confidence": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "unknown"]
+        }
+      }
+    }
+  }
+}

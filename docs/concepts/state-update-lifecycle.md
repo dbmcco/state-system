@@ -14,7 +14,8 @@ These stages are a conceptual checklist, not a requirement to build ten
 separate runtime components.
 
 ```text
-trigger
+source event
+  -> trigger
   -> evidence packet
   -> relevance selection
   -> model review
@@ -31,7 +32,8 @@ trigger
 
 The implementation should feel like a five-phase loop:
 
-1. Notice: receive a trigger and gather an evidence packet.
+1. Notice: receive and dedupe a source event or trigger, then gather an
+   evidence packet.
 2. Interpret: ask the model what changed, what matters, what is uncertain, and
    which state objects are affected.
 3. Commit: validate schema, authority, evidence, and risk; append journal
@@ -48,7 +50,26 @@ caught: source facts, duplicate events, durable meaning, attention candidates,
 persona routing, context packaging, opportunity review, governance risk,
 rollups, and audits.
 
-## 1. Trigger
+## 1. Source Event
+
+A source event is a factual envelope from a system of record.
+
+The draft generic source event contract is `schemas/source-event.schema.json`.
+See `docs/concepts/source-events-and-idempotency.md` for idempotency keys, sync
+context, and source watermarks.
+
+Examples:
+
+- Linear deal stage changed
+- GitHub pull request merged
+- Workgraph task completed
+- Speedrift finding created
+- Drive document updated
+
+Source events carry idempotency keys, source refs, sync context, and raw change
+summaries. They should not decide durable meaning or agent opportunity.
+
+## 2. Trigger
 
 A trigger is any event that might change state.
 
@@ -66,9 +87,12 @@ Examples:
 - scheduled review started
 - agent reasoning cycle completed
 
+Triggers can be created from source events, human edits, scheduled reviews, or
+agent reasoning cycles.
+
 Triggers do not mutate snapshots directly. They create an update opportunity.
 
-## 2. Evidence Packet
+## 3. Evidence Packet
 
 The system builds an evidence packet from factual inputs.
 
@@ -86,7 +110,7 @@ The packet may include:
 The evidence packet should prefer references over copied content. Large source
 material should remain in its system of record.
 
-## 3. Relevance Selection
+## 4. Relevance Selection
 
 The system identifies likely relevant state objects.
 
@@ -100,7 +124,7 @@ This is a model-mediated boundary:
 - The model decides relevance, salience, uncertainty, and whether the update
   should affect a state object.
 
-## 4. Model Review
+## 5. Model Review
 
 The model receives:
 
@@ -124,7 +148,7 @@ The model answers:
 
 The model may also decide that no durable update is warranted.
 
-## 5. Journal Proposal
+## 6. Journal Proposal
 
 A journal proposal is the model's proposed state transition before persistence.
 
@@ -143,7 +167,7 @@ It includes:
 
 Journal proposals are allowed to be rejected, revised, or held for review.
 
-## 6. Governance Gate
+## 7. Governance Gate
 
 Code checks the proposal against governance state and system policy.
 
@@ -163,7 +187,7 @@ The gate checks:
 The governance gate should not decide business meaning. It should decide whether
 the proposed transition is allowed to become durable state.
 
-## 7. Journal Append
+## 8. Journal Append
 
 If the proposal passes the governance gate, the system appends a journal entry.
 
@@ -182,7 +206,7 @@ Each appended entry should identify:
 - proposed or taken actions
 - approval status, if relevant
 
-## 8. Snapshot Materialization
+## 9. Snapshot Materialization
 
 The snapshot is regenerated or patched from journal history.
 
@@ -201,7 +225,7 @@ The materializer should:
 Humans and agents usually read snapshots first because they are compact. They
 inspect journal history when they need provenance, disagreement, or nuance.
 
-## 9. Rollup Queue
+## 10. Rollup Queue
 
 Some updates affect parent state.
 
@@ -217,7 +241,7 @@ or request rollup review for affected parents. Rollup review follows the same
 lifecycle: trigger, evidence packet, model review, journal proposal, governance,
 journal append, snapshot materialization.
 
-## 10. Review Signal
+## 11. Review Signal
 
 The lifecycle ends by emitting a review signal.
 
@@ -237,7 +261,7 @@ Possible outcomes:
 Review signals are useful for operating pictures and for agent onboarding: they
 show whether the system is actually staying current.
 
-## 11. Recent Change Registry
+## 12. Recent Change Registry
 
 The lifecycle should index accepted commits, review signals, and relevant source
 events into a recent-change registry.
@@ -313,15 +337,16 @@ into chat context.
 
 The smallest useful lifecycle runner needs to do only this:
 
-1. Accept a trigger.
-2. Build an evidence packet.
-3. Load relevant snapshots and recent journals.
-4. Ask a model to produce zero or more journal proposals.
-5. Validate proposals against schema and governance.
-6. Append accepted journal entries.
-7. Materialize affected snapshots.
-8. Queue rollup reviews.
-9. Return a review signal.
+1. Accept a source event or trigger.
+2. Dedupe source events and replayed triggers.
+3. Build an evidence packet.
+4. Load relevant snapshots and recent journals.
+5. Ask a model to produce zero or more journal proposals.
+6. Validate proposals against schema and governance.
+7. Append accepted journal entries.
+8. Materialize affected snapshots.
+9. Queue rollup reviews.
+10. Return a review signal.
 
 Storage, queueing, and integrations can change later. This lifecycle contract
 should remain stable.

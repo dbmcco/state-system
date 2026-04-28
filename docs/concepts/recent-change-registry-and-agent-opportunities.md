@@ -354,6 +354,7 @@ The first fixture is:
 
 ```text
 Linear deal stage changed to won
+  -> source event captured and deduped
   -> deal state updated
   -> recent-change registry entry
   -> Laura context package
@@ -368,7 +369,8 @@ opportunity while preserving governance.
 The first fixture version now lives in:
 
 ```text
-examples/linear-southern-abrasives-won-trigger.json
+examples/source-linear-southern-abrasives-won.json
+  -> examples/linear-southern-abrasives-won-trigger.json
   -> examples/linear-southern-abrasives-won-model-review-packet.json
   -> examples/linear-southern-abrasives-won-model-proposal-output.json
   -> examples/linear-southern-abrasives-won-commit-result.json

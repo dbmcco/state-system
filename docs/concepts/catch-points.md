@@ -38,6 +38,9 @@ Each layer catches a different class of issue.
 
 Source adapters catch raw changes from systems of record.
 
+The draft source event contract is `schemas/source-event.schema.json`; see
+`docs/concepts/source-events-and-idempotency.md`.
+
 Examples:
 
 - Linear task done
@@ -268,7 +271,8 @@ This is how the system improves routing and packaging without hiding mistakes.
 
 ## Southern Abrasives Example
 
-The Southern Abrasives fixture exercises the catch points:
+The Southern Abrasives fixture exercises the catch points, starting with
+`examples/source-linear-southern-abrasives-won.json`:
 
 1. Linear adapter catches deal moved from proposal to won.
 2. Dedupe uses the Linear source event id.
