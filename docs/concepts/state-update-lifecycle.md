@@ -24,11 +24,12 @@ trigger
   -> snapshot materialization
   -> rollup queue
   -> review signal
+  -> recent-change registry
 ```
 
 ## Practical Runtime Shape
 
-The implementation should feel like a four-phase loop:
+The implementation should feel like a five-phase loop:
 
 1. Notice: receive a trigger and gather an evidence packet.
 2. Interpret: ask the model what changed, what matters, what is uncertain, and
@@ -36,6 +37,8 @@ The implementation should feel like a four-phase loop:
 3. Commit: validate schema, authority, evidence, and risk; append journal
    entries; materialize snapshots.
 4. Propagate: queue rollups, emit review signals, and surface follow-up.
+5. Index: record accepted changes for recent-change and agent opportunity
+   review.
 
 The detailed stages below exist to prevent concern-blending. They should not
 turn the system into ceremony.
@@ -228,6 +231,29 @@ Possible outcomes:
 
 Review signals are useful for operating pictures and for agent onboarding: they
 show whether the system is actually staying current.
+
+## 11. Recent Change Registry
+
+The lifecycle should index accepted commits, review signals, and relevant source
+events into a recent-change registry.
+
+The registry is not the source of truth. The journal remains the source of
+truth. The registry is an access surface that helps humans and agents ask:
+
+- what changed recently?
+- which state objects were affected?
+- what evidence supports the change?
+- which agents or personas might care?
+- what opportunities or follow-ups might need review?
+
+This is especially important for agents. Laura may watch recent deal,
+relationship, campaign, capability, or operating-picture changes for marketing
+opportunities. Patrick may watch recent task, obligation, contract, project, and
+GitHub changes for operational follow-up.
+
+The registry should surface candidate changes. The model decides whether any
+candidate is meaningful enough to propose a state update, memory write, action,
+or approval-gated external publication.
 
 ## Update Classes
 

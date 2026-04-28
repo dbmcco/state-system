@@ -56,12 +56,14 @@ Initial adapters:
 - `FileMemoryStore`
 - `FileRollupQueue`
 - `FileReviewSignalStore`
+- `FileRecentChangeStore`
 
 End-state adapters:
 
 - database-backed state store
 - `paia-memory` evidence and memory adapter
 - event-backed rollup queue
+- event-backed recent-change registry
 
 ### `runner`
 
@@ -107,6 +109,7 @@ Responsibilities:
 - queue rollup requests
 - materialize snapshots
 - emit commit result and review signal
+- record recent-change entries for later agent opportunity review
 
 It should not reinterpret Laura's marketing judgment.
 
@@ -122,6 +125,7 @@ Initial commands:
 - `state journal <state-id>`
 - `state memory <agent-id>`
 - `state rollups`
+- `state recent --persona <persona-id>`
 
 The CLI is an access adapter, not the architecture.
 
@@ -135,6 +139,7 @@ state/
   review-signals/
   rollups/
   commits/
+  recent-changes/
 ```
 
 The current `examples/` directory should remain fixtures. Runtime state should
@@ -226,9 +231,10 @@ After code exists, these become automated tests.
 4. Add fixture reviewer.
 5. Add committer conversion from model output to journal/memory/commit result.
 6. Add snapshot materializer.
-7. Add CLI commands.
-8. Replace fixture reviewer with model reviewer.
-9. Add optional `paia-memory` adapter.
+7. Add recent-change registry writes from commit results.
+8. Add CLI commands.
+9. Replace fixture reviewer with model reviewer.
+10. Add optional `paia-memory` adapter.
 
 ## Pressure-Test Questions For Each Step
 
