@@ -195,6 +195,9 @@ first, snapshot second.
 
 The draft trigger and review-signal contracts live in
 `schemas/trigger.schema.json` and `schemas/review-signal.schema.json`.
+The model-mediated review contracts live in
+`schemas/model-review-packet.schema.json` and
+`schemas/model-proposal-output.schema.json`.
 
 ## Regular Updates
 

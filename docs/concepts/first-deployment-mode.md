@@ -211,6 +211,8 @@ These sit beside the existing state contracts:
 
 - `schemas/state-object.schema.json`
 - `schemas/state-journal-entry.schema.json`
+- `schemas/model-review-packet.schema.json`
+- `schemas/model-proposal-output.schema.json`
 
 Together, these contracts let the first deployment prove the end-state loop:
 trigger in, model review, journal and memory persistence, snapshot update,
@@ -229,10 +231,12 @@ The first deployment mode works when:
 - approval-required actions are not executed automatically
 - a human can inspect every file involved
 
-## Next Design Question
+## Contract Derivation
 
-Before implementation, define the model review packet and model proposal output.
-Those are the contracts around the model-mediated decision layer.
+The first model-mediated contracts are:
 
-Before writing those contracts, pressure-test the model against realistic
-scenarios. See `docs/concepts/model-pressure-test.md`.
+- `schemas/model-review-packet.schema.json`
+- `schemas/model-proposal-output.schema.json`
+
+They were derived from the scenario pressure test in
+`docs/concepts/model-pressure-test.md`.

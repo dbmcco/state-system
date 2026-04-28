@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/model-review-packet.schema.json",
+  "title": "ModelReviewPacket",
+  "type": "object",
+  "required": [
+    "id",
+    "created_at",
+    "trigger",
+    "evidence_packet",
+    "state_context",
+    "journal_context",
+    "memory_context",
+    "persona_context",
+    "governance_context",
+    "allowed_outputs"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "trigger": {
+      "type": "object"
+    },
+    "evidence_packet": {
+      "type": "object",
+      "required": ["evidence_refs", "resolved_evidence", "unresolved_evidence_refs"],
+      "properties": {
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "resolved_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["ref", "summary"],
+            "properties": {
+              "ref": { "type": "string" },
+              "summary": { "type": "string" },
+              "source_type": { "type": "string" },
+              "observed_at": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "unresolved_evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "state_context": {
+      "type": "object",
+      "required": ["snapshots"],
+      "properties": {
+        "snapshots": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "journal_context": {
+      "type": "object",
+      "required": ["recent_entries"],
+      "properties": {
+        "recent_entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "memory_context": {
+      "type": "object",
+      "required": ["entries"],
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "persona_context": {
+      "type": "object",
+      "required": ["persona"],
+      "properties": {
+        "persona": { "type": "object" }
+      }
+    },
+    "governance_context": {
+      "type": "object",
+      "required": ["constraints"],
+      "properties": {
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "summary"],
+            "properties": {
+              "id": { "type": "string" },
+              "summary": { "type": "string" },
+              "approval_required": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "allowed_outputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "no_op",
+          "state_proposal",
+          "memory_proposal",
+          "promotion_proposal",
+          "action_proposal",
+          "rollup_request",
+          "missing_evidence",
+          "review_signal"
+        ]
+      },
+      "uniqueItems": true
+    }
+  }
+}

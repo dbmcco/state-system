@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/model-proposal-output.schema.json",
+  "title": "ModelProposalOutput",
+  "type": "object",
+  "required": [
+    "id",
+    "review_packet_id",
+    "decision",
+    "observations",
+    "state_proposals",
+    "memory_proposals",
+    "promotion_proposals",
+    "action_proposals",
+    "rollup_requests",
+    "uncertainty",
+    "missing_evidence",
+    "review_signal"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "review_packet_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["no_op", "propose_updates", "needs_approval", "needs_evidence", "reject"]
+    },
+    "observations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "state_proposals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/state_proposal" }
+    },
+    "memory_proposals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/memory_proposal" }
+    },
+    "promotion_proposals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/promotion_proposal" }
+    },
+    "action_proposals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action_proposal" }
+    },
+    "rollup_requests": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/rollup_request" }
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["summary", "needed_ref_or_source"],
+        "properties": {
+          "summary": { "type": "string" },
+          "needed_ref_or_source": { "type": "string" }
+        }
+      }
+    },
+    "review_signal": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "state_proposal": {
+      "type": "object",
+      "required": [
+        "target_state_object_id",
+        "update_class",
+        "interpretation",
+        "state_patch",
+        "evidence_refs",
+        "uncertainty",
+        "approval_required"
+      ],
+      "properties": {
+        "target_state_object_id": { "type": "string" },
+        "update_class": {
+          "type": "string",
+          "enum": ["direct", "interpretive", "corrective", "rollup", "developmental"]
+        },
+        "interpretation": { "type": "string" },
+        "state_patch": { "type": "object" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "uncertainty": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "approval_required": { "type": "boolean" }
+      }
+    },
+    "memory_proposal": {
+      "type": "object",
+      "required": [
+        "agent_ref",
+        "memory_key",
+        "layer",
+        "memory_type",
+        "summary",
+        "content",
+        "confidence",
+        "evidence_refs",
+        "promotion_status",
+        "approval_required"
+      ],
+      "properties": {
+        "agent_ref": { "type": "string" },
+        "memory_key": { "type": "string" },
+        "layer": {
+          "type": "string",
+          "enum": ["foundation", "active", "searchable", "draft"]
+        },
+        "memory_type": {
+          "type": "string",
+          "enum": [
+            "identity",
+            "preference",
+            "pattern",
+            "relationship",
+            "tooling",
+            "domain_observation",
+            "working_theory",
+            "lesson"
+          ]
+        },
+        "summary": { "type": "string" },
+        "content": { "type": "string" },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "related_state_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "promotion_status": {
+          "type": "string",
+          "enum": ["private", "candidate", "proposed", "promoted", "rejected"]
+        },
+        "supersedes_ref": { "type": "string" },
+        "approval_required": { "type": "boolean" }
+      }
+    },
+    "promotion_proposal": {
+      "type": "object",
+      "required": [
+        "source_memory_refs",
+        "target_state_object_id",
+        "rationale",
+        "proposed_state_patch",
+        "evidence_refs",
+        "approval_required"
+      ],
+      "properties": {
+        "source_memory_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "target_state_object_id": { "type": "string" },
+        "rationale": { "type": "string" },
+        "proposed_state_patch": { "type": "object" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "approval_required": { "type": "boolean" }
+      }
+    },
+    "action_proposal": {
+      "type": "object",
+      "required": ["summary", "risk", "approval_required"],
+      "properties": {
+        "summary": { "type": "string" },
+        "risk": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "forbidden"]
+        },
+        "approval_required": { "type": "boolean" },
+        "target": { "type": "object" },
+        "payload": { "type": "object" }
+      }
+    },
+    "rollup_request": {
+      "type": "object",
+      "required": ["state_object_id", "reason"],
+      "properties": {
+        "state_object_id": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

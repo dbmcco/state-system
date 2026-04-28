@@ -325,6 +325,8 @@ Likely future fields:
 
 ### Model Review Packet
 
+Draft schema: `schemas/model-review-packet.schema.json`.
+
 The packet should include:
 
 - `id`
@@ -338,6 +340,8 @@ The packet should include:
 - `allowed_outputs`
 
 ### Model Proposal Output
+
+Draft schema: `schemas/model-proposal-output.schema.json`.
 
 The output should include:
 
