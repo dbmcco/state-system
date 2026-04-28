@@ -17,7 +17,9 @@
     "state.operating_picture.marketing"
   ],
   "promotion_status": "private",
+  "status": "draft",
   "review_notes": [
     "Keep as Laura memory until there is enough evidence to promote into shared marketing narrative state."
-  ]
+  ],
+  "last_reviewed_at": "2026-04-28T13:05:00Z"
 }

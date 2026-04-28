@@ -233,3 +233,6 @@ The first deployment mode works when:
 
 Before implementation, define the model review packet and model proposal output.
 Those are the contracts around the model-mediated decision layer.
+
+Before writing those contracts, pressure-test the model against realistic
+scenarios. See `docs/concepts/model-pressure-test.md`.

@@ -36,6 +36,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
 - `docs/concepts/first-deployment-mode.md` - first deployment mode for the end-state architecture
+- `docs/concepts/model-pressure-test.md` - scenario pressure test for the model-mediated decision layer
 - `schemas/` - draft JSON schemas for state objects, journal entries, triggers, review signals, memory entries, personas, and facets
 - `examples/` - example state packets and the first persona, Laura
 

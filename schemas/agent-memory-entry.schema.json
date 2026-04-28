@@ -64,6 +64,14 @@
       "type": "array",
       "items": { "type": "string" },
       "default": []
-    }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "draft", "stale", "superseded", "rejected"],
+      "default": "active"
+    },
+    "supersedes_ref": { "type": "string" },
+    "superseded_by_ref": { "type": "string" },
+    "last_reviewed_at": { "type": "string", "format": "date-time" }
   }
 }

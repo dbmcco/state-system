@@ -207,6 +207,10 @@ adding promotion fields needed by State System:
 - `related_state_refs`
 - `promotion_status`
 - `promotion_target_ref`
+- `status`
+- `supersedes_ref`
+- `superseded_by_ref`
+- `last_reviewed_at`
 
 ## Laura Memory Examples
 
