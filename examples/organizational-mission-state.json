@@ -1,6 +1,9 @@
 {
   "id": "state.org.mission",
   "type": "mission",
+  "primary_family": "organizational_identity",
+  "secondary_families": ["governance", "role_and_persona", "onboarding", "work"],
+  "state_traits": ["slow_changing"],
   "scope": "organization",
   "owner_refs": ["human.leadership"],
   "as_of": "2026-04-28T12:30:00Z",
@@ -45,4 +48,3 @@
   ],
   "latest_journal_entry_id": "journal.org.mission.initial"
 }
-

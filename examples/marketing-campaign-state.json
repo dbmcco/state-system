@@ -1,6 +1,9 @@
 {
   "id": "state.campaign.launch-positioning-v1",
   "type": "campaign",
+  "primary_family": "work",
+  "secondary_families": ["organizational_identity", "relationship", "knowledge"],
+  "state_traits": ["dynamic"],
   "scope": "work.marketing",
   "owner_refs": ["persona.laura"],
   "as_of": "2026-04-28T12:00:00Z",
@@ -45,4 +48,3 @@
   "child_state_refs": [],
   "latest_journal_entry_id": "journal.campaign.launch-positioning-v1.initial"
 }
-

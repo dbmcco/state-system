@@ -6,6 +6,9 @@
   "required": [
     "id",
     "type",
+    "primary_family",
+    "secondary_families",
+    "state_traits",
     "scope",
     "as_of",
     "summary",
@@ -41,6 +44,18 @@
         "agent",
         "operating_picture"
       ]
+    },
+    "primary_family": { "$ref": "#/$defs/state_family" },
+    "secondary_families": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/state_family" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "state_traits": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/state_trait" },
+      "uniqueItems": true
     },
     "scope": { "type": "string" },
     "owner_refs": {
@@ -89,6 +104,23 @@
     "latest_journal_entry_id": { "type": "string" }
   },
   "$defs": {
+    "state_family": {
+      "type": "string",
+      "enum": [
+        "organizational_identity",
+        "operating",
+        "work",
+        "relationship",
+        "knowledge",
+        "role_and_persona",
+        "onboarding",
+        "governance"
+      ]
+    },
+    "state_trait": {
+      "type": "string",
+      "enum": ["slow_changing", "dynamic", "developmental", "rollup"]
+    },
     "situation": {
       "type": "object",
       "required": ["id", "label", "state", "rationale"],

@@ -1,6 +1,9 @@
 {
   "id": "state.operating_picture.marketing",
   "type": "operating_picture",
+  "primary_family": "operating",
+  "secondary_families": ["work", "relationship", "knowledge", "governance"],
+  "state_traits": ["dynamic", "rollup"],
   "scope": "work.marketing",
   "owner_refs": ["persona.laura"],
   "as_of": "2026-04-28T12:00:00Z",
