@@ -247,7 +247,7 @@ Minimum behavior:
 4. Preserve excluded-context summaries.
 5. Return package JSON that can be passed into the model reviewer.
 
-The first fixture should probably extend the Linear deal-won scenario:
+The first fixture extends the Linear deal-won scenario:
 
 ```text
 Linear deal stage changed to won
@@ -260,6 +260,16 @@ Linear deal stage changed to won
 
 That would test whether packaging can give Laura enough context to act without
 making her scan unrelated operations.
+
+The first fixture version is:
+
+```text
+examples/recent-linear-southern-abrasives-won.json
+  -> examples/laura-southern-abrasives-opportunity-context-package.json
+  -> examples/laura-southern-abrasives-opportunity-review-packet.json
+  -> examples/laura-southern-abrasives-opportunity-model-output.json
+  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+```
 
 ## Design Rule
 

@@ -1,0 +1,71 @@
+{
+  "id": "recent.linear.southern-abrasives-won",
+  "created_at": "2026-04-28T16:07:30Z",
+  "occurred_at": "2026-04-28T16:05:00Z",
+  "observed_at": "2026-04-28T16:05:00Z",
+  "source_system": "linear",
+  "source_event": "deal.stage_changed",
+  "source_event_id": "linear-event-southern-abrasives-stage-won-2026-04-28",
+  "summary": "Southern Abrasives moved from proposal to won, creating operational handoff work and a possible marketing proof-point opportunity.",
+  "source_refs": [
+    "linear:deal:southern-abrasives",
+    "linear:event:southern-abrasives-stage-won-2026-04-28"
+  ],
+  "trigger_refs": [
+    "trigger.linear.southern-abrasives-won"
+  ],
+  "affected_state_refs": [
+    "state.lfw.deal.southern-abrasives",
+    "state.lfw.operating_picture.ops",
+    "state.operating_picture.marketing"
+  ],
+  "journal_entry_refs": [
+    "journal.lfw.deal.southern-abrasives.won"
+  ],
+  "commit_refs": [
+    "commit.linear.southern-abrasives-won"
+  ],
+  "review_signal_refs": [
+    "review.linear.southern-abrasives-won"
+  ],
+  "candidate_persona_routes": [
+    {
+      "persona_ref": "persona.patrick",
+      "relevance_tier": "primary",
+      "routing_reason": "Won deal creates operational handoff, owner, next-action, document, and relationship-sensitivity checks.",
+      "included": true,
+      "opportunity_class_hints": [
+        "operational_handoff",
+        "relationship_follow_up"
+      ]
+    },
+    {
+      "persona_ref": "persona.laura",
+      "relevance_tier": "secondary",
+      "routing_reason": "Won deal may become a marketing proof point or announcement, but public naming permission is unresolved.",
+      "included": true,
+      "opportunity_class_hints": [
+        "marketing_opportunity",
+        "proof_point",
+        "external_copy_candidate"
+      ]
+    }
+  ],
+  "opportunity_class_hints": [
+    "operational_handoff",
+    "marketing_opportunity",
+    "relationship_follow_up"
+  ],
+  "unresolved_follow_up_refs": [
+    "action.patrick.southern-abrasives-handoff",
+    "action.laura.southern-abrasives-opportunity-review"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "governance.external-copy-approval"
+    ],
+    "stale_after": "2026-04-29T16:07:30Z",
+    "requires_refresh_before_external_action": true
+  }
+}

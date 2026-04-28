@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/recent-change-entry.schema.json",
+  "title": "RecentChangeEntry",
+  "type": "object",
+  "required": [
+    "id",
+    "created_at",
+    "occurred_at",
+    "source_system",
+    "source_event",
+    "summary",
+    "source_refs",
+    "affected_state_refs",
+    "candidate_persona_routes",
+    "opportunity_class_hints",
+    "freshness"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "source_system": { "type": "string" },
+    "source_event": { "type": "string" },
+    "source_event_id": { "type": "string" },
+    "summary": { "type": "string" },
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "trigger_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "affected_state_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "journal_entry_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "commit_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "review_signal_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "candidate_persona_routes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/persona_route" }
+    },
+    "opportunity_class_hints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unresolved_follow_up_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "duplicate_of_ref": { "type": "string" },
+    "freshness": { "$ref": "#/$defs/freshness" }
+  },
+  "$defs": {
+    "persona_route": {
+      "type": "object",
+      "required": [
+        "persona_ref",
+        "relevance_tier",
+        "routing_reason",
+        "included"
+      ],
+      "properties": {
+        "persona_ref": { "type": "string" },
+        "relevance_tier": {
+          "type": "string",
+          "enum": ["primary", "secondary", "escalated", "ambient", "excluded"]
+        },
+        "routing_reason": { "type": "string" },
+        "included": { "type": "boolean" },
+        "opportunity_class_hints": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "excluded_context_summary": { "type": "string" }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["watermark_refs", "stale_after"],
+      "properties": {
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "stale_after": { "type": "string", "format": "date-time" },
+        "requires_refresh_before_external_action": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

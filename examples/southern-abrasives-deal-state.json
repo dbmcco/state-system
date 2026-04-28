@@ -1,0 +1,51 @@
+{
+  "id": "state.lfw.deal.southern-abrasives",
+  "type": "deal",
+  "primary_family": "work",
+  "secondary_families": ["relationship", "operating", "governance"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.deals.southern-abrasives",
+  "owner_refs": ["human.braydon", "persona.patrick"],
+  "as_of": "2026-04-28T16:00:00Z",
+  "summary": "Southern Abrasives is an active deal in proposal review with commercial potential, but announcement and delivery readiness are not yet established.",
+  "status": "proposal",
+  "situations": [
+    {
+      "id": "situation.southern-abrasives-proposal",
+      "label": "Deal is in proposal stage",
+      "state": "waiting_on_external",
+      "rationale": "The deal has not yet been confirmed as won in the State System fixture set."
+    }
+  ],
+  "goals": [
+    "Track deal stage and evidence.",
+    "Keep operational handoff separate from marketing opportunity.",
+    "Avoid external claims until relationship sensitivity and approval are clear."
+  ],
+  "blockers": [
+    "No won-stage evidence is recorded yet.",
+    "No public announcement permission is recorded."
+  ],
+  "open_questions": [
+    "Has the deal moved to won?",
+    "What delivery or onboarding follow-up is required?",
+    "Can Southern Abrasives be named publicly?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.southern-abrasives-stage-check",
+      "summary": "Confirm Southern Abrasives deal stage and operational handoff needs.",
+      "owner_ref": "persona.patrick",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "linear:deal:southern-abrasives"
+  ],
+  "parent_state_refs": [
+    "state.lfw.operating_picture.ops",
+    "state.operating_picture.marketing"
+  ],
+  "child_state_refs": [],
+  "latest_journal_entry_id": "journal.lfw.deal.southern-abrasives.initial"
+}

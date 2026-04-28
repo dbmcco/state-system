@@ -1,0 +1,30 @@
+{
+  "id": "trigger.linear.southern-abrasives-won",
+  "source": "tool_result",
+  "created_at": "2026-04-28T16:05:00Z",
+  "actor_ref": "system.linear-webhook",
+  "summary": "Linear reported Southern Abrasives moved from proposal to won.",
+  "payload": {
+    "source_system": "linear",
+    "source_event": "deal.stage_changed",
+    "source_event_id": "linear-event-southern-abrasives-stage-won-2026-04-28",
+    "deal": "Southern Abrasives",
+    "from_stage": "proposal",
+    "to_stage": "won"
+  },
+  "evidence_refs": [
+    "linear:deal:southern-abrasives",
+    "linear:event:southern-abrasives-stage-won-2026-04-28"
+  ],
+  "candidate_state_refs": [
+    "state.lfw.deal.southern-abrasives",
+    "state.lfw.operating_picture.ops",
+    "state.operating_picture.marketing"
+  ],
+  "candidate_memory_refs": [],
+  "persona_ref": "persona.patrick",
+  "governance_refs": [
+    "governance.source-of-truth-discipline",
+    "governance.external-copy-approval"
+  ]
+}

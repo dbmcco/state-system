@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/context-package.schema.json",
+  "title": "ContextPackage",
+  "type": "object",
+  "required": [
+    "id",
+    "package_type",
+    "created_at",
+    "persona_context",
+    "review_goal",
+    "recent_change_context",
+    "state_context",
+    "journal_context",
+    "memory_context",
+    "evidence_context",
+    "governance_context",
+    "available_actions",
+    "excluded_context_summary",
+    "freshness"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "package_type": {
+      "type": "string",
+      "enum": ["standing", "recent_change", "opportunity", "deep_dive"]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "persona_context": {
+      "type": "object",
+      "required": ["persona_ref"],
+      "properties": {
+        "persona_ref": { "type": "string" },
+        "summary": { "type": "string" },
+        "watched_domains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "authority_boundaries": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "review_goal": { "type": "string" },
+    "recent_change_context": {
+      "type": "object",
+      "required": ["entries"],
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "state_context": {
+      "type": "object",
+      "required": ["snapshots"],
+      "properties": {
+        "snapshots": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "journal_context": {
+      "type": "object",
+      "required": ["recent_entries"],
+      "properties": {
+        "recent_entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "memory_context": {
+      "type": "object",
+      "required": ["entries"],
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "evidence_context": {
+      "type": "object",
+      "required": ["evidence_refs", "resolved_evidence", "unresolved_evidence_refs"],
+      "properties": {
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "resolved_evidence": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "unresolved_evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "governance_context": {
+      "type": "object",
+      "required": ["constraints"],
+      "properties": {
+        "constraints": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "relationship_sensitivity": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "unknown"]
+        },
+        "summary": { "type": "string" },
+        "redactions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "available_actions": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "excluded_context_summary": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "freshness": {
+      "type": "object",
+      "required": [
+        "watermark_refs",
+        "valid_until",
+        "requires_refresh_before_external_action"
+      ],
+      "properties": {
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "valid_until": { "type": "string", "format": "date-time" },
+        "requires_refresh_before_external_action": { "type": "boolean" },
+        "stale_if_refs_change": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    }
+  }
+}

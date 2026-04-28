@@ -46,7 +46,8 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/recent-change-registry-and-agent-opportunities.md` - recent-change indexing and persona-specific opportunity review
 - `docs/concepts/agent-context-packages.md` - bounded persona-specific context packages for agents
 - `docs/concepts/system-pressure-test.md` - system-level pressure test across routing, packaging, freshness, governance, and agent conflict
-- `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, and facets
+- `docs/concepts/routing-audit-and-freshness.md` - routing audit, excluded context, and package freshness rules
+- `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, and context packages
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
 
 ## First Personas

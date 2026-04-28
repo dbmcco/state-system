@@ -1,0 +1,59 @@
+{
+  "id": "state.lfw.deal.southern-abrasives",
+  "type": "deal",
+  "primary_family": "work",
+  "secondary_families": ["relationship", "operating", "governance"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.deals.southern-abrasives",
+  "owner_refs": ["human.braydon", "persona.patrick"],
+  "as_of": "2026-04-28T16:06:00Z",
+  "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
+  "status": "won",
+  "situations": [
+    {
+      "id": "situation.southern-abrasives-won",
+      "label": "Deal moved to won",
+      "state": "ready_to_act",
+      "rationale": "Linear records the deal moving from proposal to won, but downstream delivery, relationship sensitivity, and external announcement approval still need review."
+    }
+  ],
+  "goals": [
+    "Track won-stage evidence.",
+    "Prepare operational handoff without assuming public announcement permission.",
+    "Surface marketing opportunity for Laura without exposing unnecessary operational detail."
+  ],
+  "blockers": [
+    "Public naming permission is not recorded.",
+    "Delivery handoff details are not linked."
+  ],
+  "open_questions": [
+    "Can Southern Abrasives be named publicly?",
+    "Which delivery or onboarding follow-up is required?",
+    "What proof point, if any, is safe to use in external marketing?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.southern-abrasives-handoff",
+      "summary": "Patrick should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
+      "owner_ref": "persona.patrick",
+      "status": "active"
+    },
+    {
+      "id": "action.laura.southern-abrasives-opportunity-review",
+      "summary": "Laura should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
+      "owner_ref": "persona.laura",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "linear:deal:southern-abrasives",
+    "linear:event:southern-abrasives-stage-won-2026-04-28",
+    "journal.lfw.deal.southern-abrasives.won"
+  ],
+  "parent_state_refs": [
+    "state.lfw.operating_picture.ops",
+    "state.operating_picture.marketing"
+  ],
+  "child_state_refs": [],
+  "latest_journal_entry_id": "journal.lfw.deal.southern-abrasives.won"
+}

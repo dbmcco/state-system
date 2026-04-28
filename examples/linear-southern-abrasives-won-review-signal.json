@@ -1,0 +1,25 @@
+{
+  "id": "review.linear.southern-abrasives-won",
+  "trigger_id": "trigger.linear.southern-abrasives-won",
+  "created_at": "2026-04-28T16:06:00Z",
+  "status": "rollup_queued",
+  "summary": "Southern Abrasives deal state was updated to won; operations and marketing rollups should review downstream effects.",
+  "journal_entry_refs": [
+    "journal.lfw.deal.southern-abrasives.won"
+  ],
+  "memory_entry_refs": [],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.lfw.operating_picture.ops",
+      "reason": "A won deal creates operational handoff and follow-up risk."
+    },
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "A won deal may create a marketing proof-point or announcement opportunity."
+    }
+  ],
+  "follow_up_refs": [
+    "action.patrick.southern-abrasives-handoff",
+    "action.laura.southern-abrasives-opportunity-review"
+  ]
+}

@@ -9,7 +9,7 @@ service, API, or PAIA adapters.
 
 ## Objective
 
-Build a local, inspectable deployment that can run three comparison scenarios end
+Build a local, inspectable deployment that can run four comparison scenarios end
 to end:
 
 - Laura campaign-audience clarification, which tests marketing interpretation
@@ -19,6 +19,8 @@ to end:
 - Patrick GitHub launch-readiness review, which tests source-system evidence,
   code commits versus delivery commitments, multi-state proposals, and proposed
   Workgraph follow-up.
+- Linear deal-won opportunity review, which tests recent-change routing,
+  context packaging, and Laura's approval-gated marketing opportunity review.
 
 ```text
 trigger
@@ -225,6 +227,30 @@ Pressure-test finding:
 - Proposed Workgraph follow-up should remain an action proposal; Workgraph owns
   task creation and execution.
 
+The Linear deal-won opportunity fixture set forms the recent-change and context
+package trace:
+
+```text
+examples/linear-southern-abrasives-won-trigger.json
+  -> examples/linear-southern-abrasives-won-model-review-packet.json
+  -> examples/linear-southern-abrasives-won-model-proposal-output.json
+  -> examples/linear-southern-abrasives-won-commit-result.json
+  -> examples/recent-linear-southern-abrasives-won.json
+  -> examples/laura-southern-abrasives-opportunity-context-package.json
+  -> examples/laura-southern-abrasives-opportunity-review-packet.json
+  -> examples/laura-southern-abrasives-opportunity-model-output.json
+  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+```
+
+Pressure-test finding:
+
+- Linear deal-stage movement can become durable deal state.
+- The same change can route to Patrick for operations and Laura for marketing.
+- Laura receives a bounded opportunity package, not the full operational task
+  surface.
+- External LinkedIn publication remains pending approval and requires fresh
+  evidence.
+
 ## First Verification Checks
 
 Before code exists, verification is fixture consistency:
@@ -236,9 +262,10 @@ Before code exists, verification is fixture consistency:
 - accepted journal refs exist as examples
 - accepted memory refs exist as examples
 - review signal refs match commit result refs
-- Laura, Patrick stale-contract, and Patrick GitHub commitment traces pass the
-  same consistency checks
+- Laura, Patrick stale-contract, Patrick GitHub commitment, and Linear deal-won
+  traces pass the same consistency checks
 - multi-state traces can accept multiple journal refs and materialized snapshots
+- recent-change and context-package traces preserve routing and freshness refs
 
 After code exists, these become automated tests.
 
@@ -273,12 +300,12 @@ Ask at every step:
 
 ## Current Gaps
 
-- The recent-change-entry contract is not defined.
-- The context-package contract is not defined.
-- Routing audit rules are not defined.
-- Context package freshness and source watermark semantics are not defined.
+- The recent-change-entry contract is draft only.
+- The context-package contract is draft only.
+- Routing audit rules are draft only.
+- Context package freshness and source watermark semantics are draft only.
 - Package-level read permissions and redaction are not defined.
-- The Linear deal-won to Laura opportunity fixture is not defined.
+- The Linear deal-won to Laura opportunity fixture is fixture-only, not automated.
 - The model reviewer prompt is not defined.
 - File-backed idempotency rules are not defined.
 - Promotion proposal persistence needs a pending-approval record shape.

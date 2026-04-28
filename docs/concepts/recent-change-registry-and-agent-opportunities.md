@@ -350,7 +350,7 @@ Minimum useful behavior:
 5. build persona-specific context packages from selected changes
 6. allow a fixture opportunity review for Laura
 
-The first fixture should probably be:
+The first fixture is:
 
 ```text
 Linear deal stage changed to won
@@ -364,6 +364,20 @@ Linear deal stage changed to won
 
 This fixture would test a full chain from operational change to marketing
 opportunity while preserving governance.
+
+The first fixture version now lives in:
+
+```text
+examples/linear-southern-abrasives-won-trigger.json
+  -> examples/linear-southern-abrasives-won-model-review-packet.json
+  -> examples/linear-southern-abrasives-won-model-proposal-output.json
+  -> examples/linear-southern-abrasives-won-commit-result.json
+  -> examples/recent-linear-southern-abrasives-won.json
+  -> examples/laura-southern-abrasives-opportunity-context-package.json
+  -> examples/laura-southern-abrasives-opportunity-review-packet.json
+  -> examples/laura-southern-abrasives-opportunity-model-output.json
+  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+```
 
 ## Design Rule
 

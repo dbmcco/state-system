@@ -50,9 +50,9 @@ The system is strong enough to start implementation when it can answer:
 
 **Pressure result:** passes with the recent-change routing model.
 
-**Gap:** the first implementation needs a concrete `recent-change-entry`
-contract with candidate persona refs, routing reason, relevance tier, and
-excluded-context support.
+**Follow-up:** the draft `recent-change-entry` contract now includes candidate
+persona refs, routing reason, relevance tier, and excluded-context support. The
+first implementation still needs automated validation around those fields.
 
 ## Scenario 2: Laura Misses A Marketable Capability
 
@@ -93,7 +93,10 @@ would make it visible.
 
 **Pressure result:** passes conceptually.
 
-**Gap:** this should become the next fixture trace because it exercises the
+**Pressure result:** passes as a first fixture trace.
+
+**Fixture:** `examples/linear-southern-abrasives-won-trigger.json` through
+`examples/laura-southern-abrasives-opportunity-commit-result.json` exercises the
 recent-change registry, context package, opportunity review, and governance in
 one chain.
 
@@ -324,7 +327,7 @@ It must also constrain:
 
 ### Finding 7: Next Fixture Should Be Linear Deal Won To Laura Package
 
-The next trace should exercise the whole new chain:
+The next trace now exercises the whole new chain:
 
 ```text
 Linear deal stage changed to won
@@ -337,14 +340,14 @@ Linear deal stage changed to won
   -> pending approval for external publication
 ```
 
-This will test whether the architecture can move from operational fact to
+This tests whether the architecture can move from operational fact to
 persona-specific opportunity without hardcoding the opportunity.
 
 ## Result
 
 The system still holds, but the implementation sequence should change.
 
-Before building live source-system adapters, define and validate:
+Before building live source-system adapters, continue refining:
 
 1. recent-change-entry contract
 2. context-package contract

@@ -1,0 +1,132 @@
+{
+  "id": "review_packet.linear.southern-abrasives-won",
+  "created_at": "2026-04-28T16:05:30Z",
+  "trigger": {
+    "id": "trigger.linear.southern-abrasives-won",
+    "source": "tool_result",
+    "created_at": "2026-04-28T16:05:00Z",
+    "actor_ref": "system.linear-webhook",
+    "summary": "Linear reported Southern Abrasives moved from proposal to won.",
+    "payload": {
+      "source_system": "linear",
+      "source_event": "deal.stage_changed",
+      "source_event_id": "linear-event-southern-abrasives-stage-won-2026-04-28",
+      "deal": "Southern Abrasives",
+      "from_stage": "proposal",
+      "to_stage": "won"
+    },
+    "evidence_refs": [
+      "linear:deal:southern-abrasives",
+      "linear:event:southern-abrasives-stage-won-2026-04-28"
+    ],
+    "candidate_state_refs": [
+      "state.lfw.deal.southern-abrasives",
+      "state.lfw.operating_picture.ops",
+      "state.operating_picture.marketing"
+    ],
+    "candidate_memory_refs": [],
+    "persona_ref": "persona.patrick",
+    "governance_refs": [
+      "governance.source-of-truth-discipline",
+      "governance.external-copy-approval"
+    ]
+  },
+  "evidence_packet": {
+    "evidence_refs": [
+      "linear:deal:southern-abrasives",
+      "linear:event:southern-abrasives-stage-won-2026-04-28"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "linear:event:southern-abrasives-stage-won-2026-04-28",
+        "summary": "Linear stage change event shows Southern Abrasives moved from proposal to won.",
+        "source_type": "linear_event",
+        "observed_at": "2026-04-28T16:05:00Z"
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "linear:deal:southern-abrasives.delivery-handoff",
+      "linear:deal:southern-abrasives.public-announcement-permission"
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "id": "state.lfw.deal.southern-abrasives",
+        "type": "deal",
+        "summary": "Southern Abrasives is an active deal in proposal review with commercial potential, but announcement and delivery readiness are not yet established.",
+        "status": "proposal",
+        "open_questions": [
+          "Has the deal moved to won?",
+          "What delivery or onboarding follow-up is required?",
+          "Can Southern Abrasives be named publicly?"
+        ]
+      },
+      {
+        "id": "state.lfw.operating_picture.ops",
+        "type": "operating_picture",
+        "summary": "LFW operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks."
+      },
+      {
+        "id": "state.operating_picture.marketing",
+        "type": "operating_picture",
+        "summary": "Marketing state is in early formation. The primary active object is a launch positioning campaign that needs audience and proof clarification before external execution."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": [
+      {
+        "id": "journal.lfw.deal.southern-abrasives.initial",
+        "state_object_id": "state.lfw.deal.southern-abrasives",
+        "interpretation": "Southern Abrasives should remain in proposal stage until source evidence confirms a won-stage transition."
+      }
+    ]
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "persona_context": {
+    "persona": {
+      "id": "persona.patrick",
+      "name": "Patrick",
+      "role": "Operations manager agent",
+      "watched_domains": [
+        "operating_picture",
+        "obligation",
+        "project",
+        "deal",
+        "relationship",
+        "governance"
+      ],
+      "authority_boundaries": [
+        "May propose operational state changes and internal follow-up actions autonomously.",
+        "Requires approval before creating external commitments."
+      ]
+    }
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "governance.source-of-truth-discipline",
+        "summary": "Operational records should cite the canonical system before being treated as actionable fact.",
+        "approval_required": false
+      },
+      {
+        "id": "governance.external-copy-approval",
+        "summary": "External-facing campaign copy requires approval before publication.",
+        "approval_required": true
+      }
+    ]
+  },
+  "allowed_outputs": [
+    "no_op",
+    "state_proposal",
+    "memory_proposal",
+    "promotion_proposal",
+    "action_proposal",
+    "rollup_request",
+    "missing_evidence",
+    "review_signal"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "id": "journal.lfw.deal.southern-abrasives.won",
+  "state_object_id": "state.lfw.deal.southern-abrasives",
+  "created_at": "2026-04-28T16:06:00Z",
+  "actor_ref": "persona.patrick",
+  "source": "agent_reasoning",
+  "trigger_ref": "trigger.linear.southern-abrasives-won",
+  "update_class": "direct",
+  "interpretation": "Southern Abrasives moved to won in Linear, creating both operational handoff needs and a possible marketing proof-point opportunity.",
+  "state_patch": {
+    "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
+    "status": "won",
+    "open_questions": [
+      "Can Southern Abrasives be named publicly?",
+      "Which delivery or onboarding follow-up is required?",
+      "What proof point, if any, is safe to use in external marketing?"
+    ],
+    "next_actions": [
+      {
+        "id": "action.patrick.southern-abrasives-handoff",
+        "summary": "Patrick should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
+        "owner_ref": "persona.patrick",
+        "status": "active"
+      },
+      {
+        "id": "action.laura.southern-abrasives-opportunity-review",
+        "summary": "Laura should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
+        "owner_ref": "persona.laura",
+        "status": "proposed"
+      }
+    ]
+  },
+  "evidence_refs": [
+    "linear:deal:southern-abrasives",
+    "linear:event:southern-abrasives-stage-won-2026-04-28"
+  ],
+  "uncertainty": [
+    "Public announcement permission is not recorded.",
+    "Delivery handoff details are not linked.",
+    "The strongest external proof point is not defined."
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.lfw.operating_picture.ops",
+      "reason": "A won deal creates operational handoff and follow-up risk."
+    },
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "A won deal may create a marketing proof-point or announcement opportunity."
+    }
+  ],
+  "approval_status": "not_required",
+  "proposed_actions": [
+    {
+      "summary": "Create recent-change routes for Patrick and Laura from the Southern Abrasives won deal.",
+      "risk": "low",
+      "approval_required": false
+    }
+  ]
+}
