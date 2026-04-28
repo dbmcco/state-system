@@ -27,6 +27,8 @@ The system should support:
 - scoped state objects for organizational and work entities
 - append-only state journals
 - materialized snapshots
+- explicit triggers and review signals
+- individual agent memory entries
 - rollups from child state to parent state
 - persona and facet definitions for model-mediated agents
 - regular state updates from meetings, messages, tasks, tool results, and model reasoning
@@ -190,6 +192,9 @@ first, snapshot second.
 6. The system appends a journal entry.
 7. The system materializes an updated snapshot.
 8. Parent rollups are queued or recomputed when affected.
+
+The draft trigger and review-signal contracts live in
+`schemas/trigger.schema.json` and `schemas/review-signal.schema.json`.
 
 ## Regular Updates
 

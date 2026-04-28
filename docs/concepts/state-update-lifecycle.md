@@ -44,6 +44,8 @@ turn the system into ceremony.
 
 A trigger is any event that might change state.
 
+The draft generic trigger contract is `schemas/trigger.schema.json`.
+
 Examples:
 
 - human edit
@@ -204,6 +206,9 @@ journal append, snapshot materialization.
 ## 10. Review Signal
 
 The lifecycle ends by emitting a review signal.
+
+The draft generic review signal contract is
+`schemas/review-signal.schema.json`.
 
 Possible outcomes:
 

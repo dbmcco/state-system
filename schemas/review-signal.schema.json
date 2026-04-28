@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/review-signal.schema.json",
+  "title": "ReviewSignal",
+  "type": "object",
+  "required": [
+    "id",
+    "trigger_id",
+    "created_at",
+    "status",
+    "summary",
+    "journal_entry_refs",
+    "memory_entry_refs",
+    "rollup_requests",
+    "follow_up_refs"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "trigger_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "no_update_warranted",
+        "committed",
+        "pending_approval",
+        "rejected",
+        "evidence_missing",
+        "rollup_queued",
+        "needs_follow_up"
+      ]
+    },
+    "summary": { "type": "string" },
+    "journal_entry_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "memory_entry_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "rollup_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state_object_id", "reason"],
+        "properties": {
+          "state_object_id": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "follow_up_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blocked_reason": { "type": "string" }
+  }
+}

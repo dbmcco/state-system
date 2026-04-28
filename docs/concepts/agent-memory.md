@@ -190,6 +190,24 @@ State System should treat those as implementation candidates for agent memory.
 The generic architecture should not require PAIA, but it should not ignore a
 working memory substrate that already exists.
 
+## Contract
+
+The draft generic schema for one memory entry is
+`schemas/agent-memory-entry.schema.json`.
+
+It intentionally resembles the useful parts of `paia-memory` facets while
+adding promotion fields needed by State System:
+
+- `agent_ref`
+- `memory_key`
+- `layer`
+- `memory_type`
+- `confidence`
+- `evidence_refs`
+- `related_state_refs`
+- `promotion_status`
+- `promotion_target_ref`
+
 ## Laura Memory Examples
 
 Candidate Laura memory families:

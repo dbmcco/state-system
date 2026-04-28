@@ -1,0 +1,22 @@
+{
+  "id": "review.laura.campaign-audience-clarified",
+  "trigger_id": "trigger.laura.campaign-audience-clarified",
+  "created_at": "2026-04-28T13:06:00Z",
+  "status": "rollup_queued",
+  "summary": "Campaign state and Laura memory were updated; marketing operating picture should be reviewed because campaign readiness changed.",
+  "journal_entry_refs": [
+    "journal.campaign.launch-positioning-v1.initial"
+  ],
+  "memory_entry_refs": [
+    "memory.laura.marketing.draft.audience-before-copy"
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "Audience clarification affects campaign readiness and marketing operating picture."
+    }
+  ],
+  "follow_up_refs": [
+    "action.laura.campaign-brief"
+  ]
+}

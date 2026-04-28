@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/trigger.schema.json",
+  "title": "StateTrigger",
+  "type": "object",
+  "required": [
+    "id",
+    "source",
+    "created_at",
+    "actor_ref",
+    "summary",
+    "evidence_refs",
+    "candidate_state_refs"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "source": {
+      "type": "string",
+      "enum": [
+        "human_edit",
+        "meeting",
+        "message",
+        "task_update",
+        "tool_result",
+        "scheduled_review",
+        "agent_reasoning",
+        "metric_update"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "actor_ref": { "type": "string" },
+    "summary": { "type": "string" },
+    "payload": {
+      "type": "object",
+      "default": {}
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "candidate_state_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "candidate_memory_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "persona_ref": { "type": "string" },
+    "governance_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}

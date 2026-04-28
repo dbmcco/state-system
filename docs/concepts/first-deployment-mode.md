@@ -198,6 +198,24 @@ The first implementation should expose a small set of commands or functions:
 The command names are placeholders for design clarity. The important point is
 the capability boundary, not the exact CLI syntax.
 
+## First Contracts
+
+The first deployment mode depends on three edge contracts:
+
+- `schemas/trigger.schema.json`: the runner input that starts the loop
+- `schemas/agent-memory-entry.schema.json`: accepted agent memory writes
+- `schemas/review-signal.schema.json`: the committer output that tells humans
+  and agents what happened
+
+These sit beside the existing state contracts:
+
+- `schemas/state-object.schema.json`
+- `schemas/state-journal-entry.schema.json`
+
+Together, these contracts let the first deployment prove the end-state loop:
+trigger in, model review, journal and memory persistence, snapshot update,
+rollup request, review signal out.
+
 ## Success Criteria
 
 The first deployment mode works when:
@@ -213,6 +231,5 @@ The first deployment mode works when:
 
 ## Next Design Question
 
-Before implementation, define the first trigger schema, review-signal schema,
-and agent-memory entry schema. Those are the contracts between the runner, model
-reviewer, memory store, state store, and committer.
+Before implementation, define the model review packet and model proposal output.
+Those are the contracts around the model-mediated decision layer.
