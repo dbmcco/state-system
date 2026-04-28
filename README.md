@@ -49,6 +49,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/routing-audit-and-freshness.md` - routing audit, excluded context, and package freshness rules
 - `docs/concepts/catch-points.md` - where facts, meaning, routing, packages, opportunity, risk, and rollups are caught
 - `docs/concepts/source-events-and-idempotency.md` - source event envelope, idempotency keys, sync context, and source watermarks
+- `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
 - `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, and context packages
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
 
