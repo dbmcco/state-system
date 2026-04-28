@@ -166,6 +166,11 @@ Examples:
 The ontology should support multiple parent references and multiple rollup
 paths.
 
+See `docs/concepts/lfw-ontology-pressure-test.md` for a concrete pressure test
+using LightForge Works source material. That example suggests support for
+primary and secondary state families, mission/strategy parent references,
+developmental onboarding state, and operating-picture rollups.
+
 ## First-Cut Hierarchy
 
 ```text
@@ -226,4 +231,3 @@ When adding a state type, first ask:
 3. Is it slow-changing, fast-changing, or developmental?
 4. Does it represent facts, interpretations, or both?
 5. Which persona is likely to interpret it differently?
-

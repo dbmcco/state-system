@@ -31,6 +31,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/concepts/` - focused concept notes
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
+- `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `schemas/` - draft JSON schemas for state objects, journal entries, personas, and facets
 - `examples/` - example state packets and the first persona, Laura
 
