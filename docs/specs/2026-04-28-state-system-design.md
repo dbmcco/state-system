@@ -250,6 +250,10 @@ not only tactical work status.
 Add a small library that can validate schemas, append journal entries, materialize
 snapshots, and compute simple rollup requests.
 
+The minimum viable runtime should remain local and inspectable at first:
+file-backed state store, explicit trigger files, model reviewer, committer, and
+CLI commands. See `docs/concepts/minimum-viable-runtime.md`.
+
 ### Phase 3: Model-Mediated Update Runner
 
 Add a runner that gives a model a trigger, state context, persona, and tools,
@@ -266,6 +270,7 @@ campaign metrics.
 - Should snapshots be directly editable by humans, or should human edits always append journal entries?
 - How strict should evidence requirements be for internal interpretations versus external factual claims?
 - How should personas inherit shared organizational policy without becoming generic?
-- What is the smallest useful runtime that proves the model-mediated update loop?
+- What trigger and review-signal schemas are needed to prove the model-mediated
+  update loop?
 - Which organizational state types need first-class treatment versus generic
   `StateObject` specialization?

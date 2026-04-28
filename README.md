@@ -33,6 +33,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
+- `docs/concepts/minimum-viable-runtime.md` - smallest local runtime shape for proving the state loop
 - `schemas/` - draft JSON schemas for state objects, journal entries, personas, and facets
 - `examples/` - example state packets and the first persona, Laura
 
