@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/state-object.schema.json",
+  "title": "StateObject",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "scope",
+    "as_of",
+    "summary",
+    "situations",
+    "goals",
+    "open_questions",
+    "next_actions",
+    "evidence_refs",
+    "latest_journal_entry_id"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "type": {
+      "type": "string",
+      "enum": [
+        "project",
+        "deal",
+        "client",
+        "relationship",
+        "campaign",
+        "meeting",
+        "obligation",
+        "person",
+        "organization",
+        "agent",
+        "operating_picture"
+      ]
+    },
+    "scope": { "type": "string" },
+    "owner_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "as_of": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string" },
+    "status": { "type": "string" },
+    "situations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/situation" }
+    },
+    "goals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_actions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/action" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "parent_state_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "child_state_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "latest_journal_entry_id": { "type": "string" }
+  },
+  "$defs": {
+    "situation": {
+      "type": "object",
+      "required": ["id", "label", "state", "rationale"],
+      "properties": {
+        "id": { "type": "string" },
+        "label": { "type": "string" },
+        "state": {
+          "type": "string",
+          "enum": [
+            "watching",
+            "investigating",
+            "planning",
+            "ready_to_act",
+            "waiting_on_human",
+            "waiting_on_external",
+            "executing",
+            "resolved"
+          ]
+        },
+        "rationale": { "type": "string" }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["id", "summary", "owner_ref", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "summary": { "type": "string" },
+        "owner_ref": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["proposed", "active", "blocked", "done", "canceled"]
+        }
+      }
+    }
+  }
+}
+

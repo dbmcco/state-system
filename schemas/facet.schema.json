@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/facet.schema.json",
+  "title": "Facet",
+  "type": "object",
+  "required": ["id", "name", "description", "notices", "bias_toward"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "notices": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "bias_toward": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "escalates_when": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}
+

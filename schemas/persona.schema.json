@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/persona.schema.json",
+  "title": "Persona",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "role",
+    "mission",
+    "facets",
+    "anti_facets",
+    "state_domains_watched",
+    "authority_boundaries",
+    "communication_posture"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "role": { "type": "string" },
+    "mission": { "type": "string" },
+    "facets": {
+      "type": "array",
+      "items": { "$ref": "facet.schema.json" }
+    },
+    "anti_facets": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "state_domains_watched": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "authority_boundaries": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "communication_posture": { "type": "string" }
+  }
+}
+

@@ -1,0 +1,46 @@
+{
+  "id": "state.operating_picture.marketing",
+  "type": "operating_picture",
+  "scope": "work.marketing",
+  "owner_refs": ["persona.laura"],
+  "as_of": "2026-04-28T12:00:00Z",
+  "summary": "Marketing state is in early formation. The primary active object is a launch positioning campaign that needs audience and proof clarification before external execution.",
+  "status": "forming",
+  "situations": [
+    {
+      "id": "situation.marketing-system-formation",
+      "label": "Marketing state system is being formed",
+      "state": "planning",
+      "rationale": "The repo has an initial state model and Laura persona, but no runtime update loop yet."
+    }
+  ],
+  "goals": [
+    "Use Laura to test persona-mediated campaign state updates.",
+    "Create the smallest useful model-mediated update loop.",
+    "Keep marketing state connected to work outcomes, not vanity metrics."
+  ],
+  "blockers": [
+    "Runtime storage and model-update runner are not implemented yet."
+  ],
+  "open_questions": [
+    "Which storage backend should be first?",
+    "Which real marketing source should be connected first?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.state-system.design-review",
+      "summary": "Review the initial state-system design before implementing runtime plumbing.",
+      "owner_ref": "human.braydon",
+      "status": "active"
+    }
+  ],
+  "evidence_refs": [
+    "journal.campaign.launch-positioning-v1.initial"
+  ],
+  "parent_state_refs": [],
+  "child_state_refs": [
+    "state.campaign.launch-positioning-v1"
+  ],
+  "latest_journal_entry_id": "journal.campaign.launch-positioning-v1.initial"
+}
+

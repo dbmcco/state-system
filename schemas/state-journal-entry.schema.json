@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/state-journal-entry.schema.json",
+  "title": "StateJournalEntry",
+  "type": "object",
+  "required": [
+    "id",
+    "state_object_id",
+    "created_at",
+    "actor_ref",
+    "source",
+    "interpretation",
+    "state_patch",
+    "evidence_refs",
+    "uncertainty",
+    "proposed_actions"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "state_object_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "actor_ref": { "type": "string" },
+    "source": {
+      "type": "string",
+      "enum": [
+        "human_edit",
+        "meeting",
+        "message",
+        "task_update",
+        "tool_result",
+        "scheduled_review",
+        "agent_reasoning",
+        "metric_update"
+      ]
+    },
+    "trigger_ref": { "type": "string" },
+    "interpretation": { "type": "string" },
+    "state_patch": { "type": "object" },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "proposed_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["summary", "risk"],
+        "properties": {
+          "summary": { "type": "string" },
+          "risk": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "forbidden"]
+          },
+          "approval_required": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}
+
