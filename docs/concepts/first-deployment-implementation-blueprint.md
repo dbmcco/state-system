@@ -195,7 +195,6 @@ Ask at every step:
 ## Current Gaps
 
 - The model reviewer prompt is not defined.
-- Governance policy objects are still conceptual.
 - File-backed idempotency rules are not defined.
 - Promotion proposal persistence needs a pending-approval record shape.
 - The `paia-memory` adapter boundary is not specified in detail.

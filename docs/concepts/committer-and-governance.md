@@ -49,6 +49,10 @@ The committer checks:
 
 Each check should produce an explicit result. Silent fallback is not allowed.
 
+Governance policy shape is defined in
+`docs/concepts/governance-policy.md` and
+`schemas/governance-policy.schema.json`.
+
 ## Commit Outcomes
 
 ### Accepted

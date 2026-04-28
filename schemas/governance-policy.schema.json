@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/governance-policy.schema.json",
+  "title": "GovernancePolicy",
+  "type": "object",
+  "required": [
+    "id",
+    "scope",
+    "applies_to",
+    "controlled_action",
+    "risk",
+    "approval",
+    "allowed_actor_refs",
+    "approver_refs",
+    "evidence_requirements",
+    "blocked_effect"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "scope": { "type": "string" },
+    "applies_to": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["state", "memory", "promotion", "action", "publication", "tool"]
+      },
+      "uniqueItems": true
+    },
+    "controlled_action": { "type": "string" },
+    "risk": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "forbidden"]
+    },
+    "approval": {
+      "type": "object",
+      "required": ["required", "reason"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "reason": { "type": "string" }
+      }
+    },
+    "allowed_actor_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "approver_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "blocked_effect": {
+      "type": "string",
+      "enum": ["pending_approval", "rejected"]
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}
