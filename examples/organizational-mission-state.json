@@ -1,0 +1,48 @@
+{
+  "id": "state.org.mission",
+  "type": "mission",
+  "scope": "organization",
+  "owner_refs": ["human.leadership"],
+  "as_of": "2026-04-28T12:30:00Z",
+  "summary": "The organization needs a durable mission state that can guide projects, agents, onboarding, marketing narrative, and strategic tradeoffs.",
+  "status": "forming",
+  "situations": [
+    {
+      "id": "situation.mission-state-forming",
+      "label": "Mission state is being made explicit",
+      "state": "planning",
+      "rationale": "The State System North Star now treats mission as first-class organizational state, but the concrete mission content and evidence are not yet defined."
+    }
+  ],
+  "goals": [
+    "Represent mission as a durable state object.",
+    "Connect mission state to strategy, roles, onboarding, campaigns, and agent behavior.",
+    "Make mission changes auditable through journal entries."
+  ],
+  "blockers": [
+    "Concrete mission text has not been authored in this repo.",
+    "No mission update workflow exists yet."
+  ],
+  "open_questions": [
+    "Who owns mission state updates?",
+    "What evidence is required to revise mission state?",
+    "How should mission state influence persona behavior?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.org.mission-draft",
+      "summary": "Draft an initial mission state packet with evidence references and review ownership.",
+      "owner_ref": "human.braydon",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "docs/NORTH_STAR.md"
+  ],
+  "parent_state_refs": [],
+  "child_state_refs": [
+    "state.operating_picture.marketing"
+  ],
+  "latest_journal_entry_id": "journal.org.mission.initial"
+}
+

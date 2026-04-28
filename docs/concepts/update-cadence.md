@@ -13,6 +13,9 @@ Examples:
 - document edited
 - deal moved
 - agent action completed
+- mission or strategy clarified
+- human or agent onboarding step completed
+- operating norm changed
 
 ## Scheduled Updates
 
@@ -23,6 +26,9 @@ Examples:
 - stale-state scan
 - campaign review
 - relationship health review
+- mission/strategy coherence review
+- human onboarding review
+- agent onboarding review
 
 ## Model-Mediated Review
 
@@ -33,4 +39,3 @@ Scheduled updates should not blindly rewrite state. They should ask a model:
 - what is uncertain?
 - what should be watched?
 - what action is warranted?
-

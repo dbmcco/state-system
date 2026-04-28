@@ -1,0 +1,28 @@
+{
+  "id": "journal.org.mission.initial",
+  "state_object_id": "state.org.mission",
+  "created_at": "2026-04-28T12:30:00Z",
+  "actor_ref": "human.braydon",
+  "source": "human_edit",
+  "trigger_ref": "conversation.2026-04-28.north-star",
+  "interpretation": "Mission should be represented as organizational state, not as static prose outside the system. This lets mission guide onboarding, personas, strategy, campaigns, and operating decisions.",
+  "state_patch": {
+    "type": "mission",
+    "status": "forming"
+  },
+  "evidence_refs": [
+    "docs/NORTH_STAR.md"
+  ],
+  "uncertainty": [
+    "The concrete mission statement is not defined yet.",
+    "Ownership and review cadence are not defined yet."
+  ],
+  "proposed_actions": [
+    {
+      "summary": "Draft a concrete mission state packet and review workflow.",
+      "risk": "low",
+      "approval_required": false
+    }
+  ]
+}
+

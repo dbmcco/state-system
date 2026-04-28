@@ -34,6 +34,5 @@ Facets should be operational enough to affect interpretation.
 ## First Persona
 
 Laura is the first persona: a marketing agent focused on positioning, campaign
-state, audience fit, narrative clarity, and commercially grounded creative
-judgment.
-
+state, audience fit, narrative clarity, commercially grounded creative judgment,
+and marketing narrative alignment with organizational mission.

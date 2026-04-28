@@ -1,6 +1,7 @@
 # State Objects
 
-A state object is a scoped current-state view for a work entity.
+A state object is a scoped current-state view for an organizational or work
+entity.
 
 It should be small enough to read quickly and specific enough to act on.
 
@@ -15,6 +16,14 @@ It should be small enough to read quickly and specific enough to act on.
 - `obligation`
 - `person`
 - `organization`
+- `mission`
+- `strategy`
+- `principle`
+- `role`
+- `onboarding`
+- `norm`
+- `decision_area`
+- `capability`
 - `agent`
 - `operating_picture`
 
@@ -40,4 +49,3 @@ Each state object needs:
 
 Each state object owns its local truth. Rollups synthesize state across objects,
 but they do not replace the child objects.
-

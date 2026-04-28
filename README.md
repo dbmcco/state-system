@@ -1,11 +1,13 @@
 # State System
 
-State System is a generic model-mediated substrate for tracking work state.
+State System is a generic model-mediated substrate for tracking organizational
+state.
 
-It defines how projects, deals, relationships, campaigns, meetings, obligations,
-people, organizations, and agents maintain durable state over time. The first
-use case is work operations, not PAIA migration. PAIA remains a useful reference,
-but this repo owns its own design and can grow into runtime plumbing.
+It defines how organizations, missions, strategies, roles, onboarding, projects,
+deals, relationships, campaigns, meetings, obligations, people, and agents
+maintain durable state over time. The first use case is work and organizational
+operations, not PAIA migration. PAIA remains a useful reference, but this repo
+owns its own design and can grow into runtime plumbing.
 
 ## Core Idea
 
@@ -25,6 +27,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 
 ## Initial Contents
 
+- `docs/NORTH_STAR.md` - guiding North Star for the effort
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/concepts/` - focused concept notes
 - `schemas/` - draft JSON schemas for state objects, journal entries, personas, and facets
@@ -37,5 +40,6 @@ campaign momentum, audience fit, narrative clarity, and commercially grounded
 creative judgment.
 
 Laura is not a PAIA personal assistant. She is a work agent whose personality
-is expressed through professional judgment facets.
-
+is expressed through professional judgment facets. She is also a test case for
+how persona-mediated interpretation can maintain broader organizational state,
+such as marketing narrative and mission alignment.

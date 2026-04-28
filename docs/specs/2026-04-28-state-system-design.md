@@ -2,19 +2,20 @@
 
 **Date:** 2026-04-28
 **Status:** Draft
-**Scope:** Generic work-state system for model-mediated agents and human operators
+**Scope:** Generic organizational state system for model-mediated agents and human operators
 
 ## Problem
 
-Work systems often scatter current truth across chats, documents, tasks,
-meetings, CRM records, calendars, memory stores, and individual agent context.
-Agents can retrieve pieces of that history, but they do not necessarily know the
-current state of a project, deal, relationship, campaign, obligation, or
-operating picture.
+Organizations scatter current truth across chats, documents, tasks, meetings,
+CRM records, calendars, memory stores, decisions, onboarding rituals, operating
+principles, and individual agent context. Agents can retrieve pieces of that
+history, but they do not necessarily know the current state of a mission,
+strategy, role, human onboarding process, agent onboarding process, project,
+deal, relationship, campaign, obligation, or operating picture.
 
-The missing layer is a durable state system: a way to represent what is true
-now, why it changed, what evidence supports it, what is uncertain, and what
-should happen next.
+The missing layer is a durable state system: a way to represent what appears to
+be true now, why it changed, what evidence supports it, what is uncertain, and
+what should happen next.
 
 ## Goal
 
@@ -23,7 +24,7 @@ grow into runtime plumbing.
 
 The system should support:
 
-- scoped state objects for work entities
+- scoped state objects for organizational and work entities
 - append-only state journals
 - materialized snapshots
 - rollups from child state to parent state
@@ -57,6 +58,14 @@ Examples:
 - obligation
 - person
 - organization
+- mission
+- strategy
+- principle
+- role
+- onboarding
+- norm
+- decision area
+- capability
 - agent
 - operating picture
 
@@ -197,7 +206,9 @@ Laura is the first modeled persona.
 
 Laura is a marketing agent. Her role is to track and improve the state of
 positioning, audience fit, campaign momentum, message clarity, and marketing
-execution.
+execution. She also helps maintain marketing narrative state and flags tension
+between campaign work and the broader mission, strategy, or organizational
+voice.
 
 Laura should notice:
 
@@ -222,6 +233,9 @@ Laura should avoid:
 
 Create docs, schemas, and examples for state objects, journals, personas, and facets.
 
+This phase must preserve the North Star: state covers organizational condition,
+not only tactical work status.
+
 ### Phase 2: Local Library
 
 Add a small library that can validate schemas, append journal entries, materialize
@@ -244,4 +258,5 @@ campaign metrics.
 - How strict should evidence requirements be for internal interpretations versus external factual claims?
 - How should personas inherit shared organizational policy without becoming generic?
 - What is the smallest useful runtime that proves the model-mediated update loop?
-
+- Which organizational state types need first-class treatment versus generic
+  `StateObject` specialization?

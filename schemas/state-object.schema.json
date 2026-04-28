@@ -30,6 +30,14 @@
         "obligation",
         "person",
         "organization",
+        "mission",
+        "strategy",
+        "principle",
+        "role",
+        "onboarding",
+        "norm",
+        "decision_area",
+        "capability",
         "agent",
         "operating_picture"
       ]
@@ -118,4 +126,3 @@
     }
   }
 }
-

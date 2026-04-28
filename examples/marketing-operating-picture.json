@@ -17,7 +17,8 @@
   "goals": [
     "Use Laura to test persona-mediated campaign state updates.",
     "Create the smallest useful model-mediated update loop.",
-    "Keep marketing state connected to work outcomes, not vanity metrics."
+    "Keep marketing state connected to work outcomes, not vanity metrics.",
+    "Keep marketing narrative aligned with organizational mission state."
   ],
   "blockers": [
     "Runtime storage and model-update runner are not implemented yet."
@@ -37,10 +38,11 @@
   "evidence_refs": [
     "journal.campaign.launch-positioning-v1.initial"
   ],
-  "parent_state_refs": [],
+  "parent_state_refs": [
+    "state.org.mission"
+  ],
   "child_state_refs": [
     "state.campaign.launch-positioning-v1"
   ],
   "latest_journal_entry_id": "journal.campaign.launch-positioning-v1.initial"
 }
-
