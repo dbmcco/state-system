@@ -178,6 +178,9 @@ Each appended entry should identify:
 
 The snapshot is regenerated or patched from journal history.
 
+Patch and replay semantics are defined in
+`docs/concepts/materialization-and-patch-semantics.md`.
+
 The materializer should:
 
 - apply accepted journal entries in order

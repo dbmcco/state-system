@@ -1,0 +1,51 @@
+{
+  "id": "state.campaign.launch-positioning-v1",
+  "type": "campaign",
+  "primary_family": "work",
+  "secondary_families": ["organizational_identity", "relationship", "knowledge"],
+  "state_traits": ["dynamic"],
+  "scope": "work.marketing",
+  "owner_refs": ["persona.laura"],
+  "as_of": "2026-04-28T13:06:00Z",
+  "summary": "The launch positioning campaign now has a clarified primary audience of mid-market operators, but proof points and success criteria still need definition before external copy.",
+  "status": "planning",
+  "situations": [
+    {
+      "id": "situation.positioning-clarity",
+      "label": "Positioning clarity is incomplete",
+      "state": "investigating",
+      "rationale": "The campaign has a broad goal but lacks a crisp audience and proof-backed offer."
+    }
+  ],
+  "goals": [
+    "Define the primary audience for the campaign.",
+    "Identify proof points that support the offer.",
+    "Draft an internal campaign brief before external copy."
+  ],
+  "blockers": [
+    "No evidence reference yet for the strongest customer pain.",
+    "No success metric has been selected."
+  ],
+  "open_questions": [
+    "What proof point makes the offer credible?",
+    "Is the goal pipeline creation, relationship warming, or market education?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.laura.campaign-brief",
+      "summary": "Laura should draft an internal campaign brief that separates audience, offer, proof, and success metric.",
+      "owner_ref": "persona.laura",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "journal.campaign.launch-positioning-v1.initial",
+    "journal.campaign.launch-positioning-v1.audience-clarified",
+    "conversation.2026-04-28.state-system"
+  ],
+  "parent_state_refs": [
+    "state.operating_picture.marketing"
+  ],
+  "child_state_refs": [],
+  "latest_journal_entry_id": "journal.campaign.launch-positioning-v1.audience-clarified"
+}

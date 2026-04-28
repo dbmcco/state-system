@@ -195,7 +195,6 @@ Ask at every step:
 ## Current Gaps
 
 - The model reviewer prompt is not defined.
-- The materializer patch semantics are not defined.
 - Governance policy objects are still conceptual.
 - File-backed idempotency rules are not defined.
 - Promotion proposal persistence needs a pending-approval record shape.

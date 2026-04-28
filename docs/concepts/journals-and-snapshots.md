@@ -23,6 +23,9 @@ compact answer to "what is true now?"
 
 Snapshots can be regenerated from journals when compaction logic improves.
 
+Patch and replay semantics are defined in
+`docs/concepts/materialization-and-patch-semantics.md`.
+
 ## Rule
 
 Do not update a snapshot without a corresponding journal entry.
