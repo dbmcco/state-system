@@ -47,6 +47,8 @@ Responsibilities:
 - expose stable contract names
 - keep schema validation separate from business meaning
 
+Contracts are the first catch point for malformed payloads.
+
 ### `stores`
 
 Owns persistence interfaces.
@@ -69,6 +71,9 @@ End-state adapters:
 - event-backed recent-change registry
 - generated context package cache
 
+Stores preserve evidence, journals, recent changes, context packages, and
+commit outputs so later catch points can audit what happened.
+
 ### `runner`
 
 Owns the Notice phase.
@@ -87,6 +92,9 @@ Responsibilities:
 
 It should not decide what changed.
 
+The runner catches source facts, evidence resolution, and candidate state
+loading. It should not catch opportunity or business meaning.
+
 ### `context-packager`
 
 Owns bounded context assembly for agents.
@@ -101,6 +109,9 @@ Responsibilities:
 
 It should not decide whether an opportunity is real.
 
+The context packager catches bounded working context: what the agent should see,
+what was excluded, and what freshness constraints apply.
+
 ### `reviewer`
 
 Owns the Interpret phase.
@@ -114,6 +125,9 @@ Responsibilities:
 
 In test mode, this can use a fixture reviewer that returns
 `examples/laura-model-proposal-output.json`.
+
+The reviewer catches meaning, salience, uncertainty, and proposed action. It is
+the first layer allowed to decide whether something is an opportunity.
 
 ### `committer`
 
@@ -131,6 +145,10 @@ Responsibilities:
 - record recent-change entries for later agent opportunity review
 
 It should not reinterpret Laura's marketing judgment.
+
+The committer catches schema, authority, duplicate commit, freshness, and
+approval problems. It does not decide whether the proposal is strategically
+good.
 
 ### `cli`
 
@@ -300,6 +318,7 @@ Ask at every step:
 
 ## Current Gaps
 
+- The catch-point map is documented but not automated.
 - The recent-change-entry contract is draft only.
 - The context-package contract is draft only.
 - Routing audit rules are draft only.

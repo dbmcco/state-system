@@ -43,6 +43,11 @@ The implementation should feel like a five-phase loop:
 The detailed stages below exist to prevent concern-blending. They should not
 turn the system into ceremony.
 
+See `docs/concepts/catch-points.md` for where each class of issue should be
+caught: source facts, duplicate events, durable meaning, attention candidates,
+persona routing, context packaging, opportunity review, governance risk,
+rollups, and audits.
+
 ## 1. Trigger
 
 A trigger is any event that might change state.
