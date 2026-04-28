@@ -1,0 +1,230 @@
+# Agent Memory
+
+Agents need their own memory.
+
+Shared organizational state is not enough. A useful agent must also carry what
+it has learned from its own work, mistakes, observations, and repeated
+interactions.
+
+## Memory Is Not Persona
+
+Persona defines professional identity.
+
+Examples:
+
+- role
+- mission
+- watched domains
+- facets
+- authority boundaries
+- communication posture
+- anti-patterns
+
+Memory defines learned experience.
+
+Examples:
+
+- preferences learned from Braydon
+- successful tactics
+- repeated failure modes
+- domain observations
+- relationship-specific context
+- tool fluency
+- working theories
+- lessons from prior reviews
+- patterns noticed across projects
+
+An agent can keep the same persona while its memory evolves.
+
+## Memory Is Not Organizational State
+
+Organizational state is shared current truth.
+
+Examples:
+
+- mission
+- strategy
+- campaign state
+- project state
+- operating picture
+- governance rules
+- onboarding state
+
+Agent memory is individual learning.
+
+Example:
+
+Laura may learn that LightForge Works messaging becomes stronger when it frames
+AI work as bounded business capability rather than generic AI application
+development. That is initially Laura's learned memory. It becomes organizational
+state only if it is promoted, evidenced, and accepted.
+
+## Memory Planes
+
+```text
+evidence records
+  -> agent memory
+  -> agent state
+  -> organizational state
+```
+
+These planes overlap, but they should not collapse into one blob.
+
+### Evidence Records
+
+Raw or source-backed records.
+
+Examples:
+
+- conversations
+- meetings
+- documents
+- task events
+- campaign metrics
+- source links
+
+### Agent Memory
+
+The agent's learned recall.
+
+Examples:
+
+- `marketing.draft.positioning.bounded-capability-language`
+- `marketing.pattern.audience-proof-before-copy`
+- `relationship.braydon.prefers-direct-strategy-language`
+
+### Agent State
+
+The agent's current operating condition.
+
+Examples:
+
+- active situations
+- goals
+- plans
+- open questions
+- next actions
+- current confidence
+- memory refs being used
+
+### Organizational State
+
+Shared current truth that other humans and agents can rely on.
+
+Examples:
+
+- marketing narrative state
+- mission state
+- strategy state
+- operating picture
+- campaign state
+
+## Memory Lifecycle
+
+```text
+experience
+  -> memory proposal
+  -> memory write
+  -> memory review
+  -> durable agent memory
+  -> optional promotion proposal
+  -> shared state update
+```
+
+Not every experience should become memory. Not every memory should become
+shared state.
+
+## Draft And Promotion Pattern
+
+The Derek memory model in `/Users/braydon/projects/experiments/paia-agents`
+uses a useful pattern:
+
+```text
+arch.draft.*
+  -> reviewed and consolidated
+  -> arch.*
+```
+
+State System should generalize that pattern.
+
+For Laura:
+
+```text
+marketing.draft.positioning.bounded-capability-language
+  -> reviewed and consolidated
+  -> marketing.pattern.bounded-capability-language
+  -> optional promotion to state.lfw.marketing_narrative
+```
+
+The draft layer lets agents learn without immediately converting observations
+into shared truth.
+
+## Promotion Rules
+
+Agent memory can propose promotion into organizational state when:
+
+- the memory is recurring or high-signal
+- evidence references exist
+- the agent can explain why it matters
+- the target state object is clear
+- governance allows the proposal
+- required human approval is satisfied
+
+Promotion should create a state journal entry. It should not silently mutate a
+snapshot.
+
+## Relationship To PAIA Memory
+
+`paia-memory` already has useful primitives:
+
+- evidence ledger
+- facets
+- facet layers
+- semantic retrieval
+- triplets
+- digests
+- active context sections
+- tenant isolation
+
+State System should treat those as implementation candidates for agent memory.
+The generic architecture should not require PAIA, but it should not ignore a
+working memory substrate that already exists.
+
+## Laura Memory Examples
+
+Candidate Laura memory families:
+
+- `identity.*`: durable Laura self-model and professional posture
+- `marketing.pattern.*`: campaign and positioning patterns
+- `marketing.draft.*`: unreviewed observations
+- `relationship.*`: collaborator-specific communication context
+- `lfw.narrative.*`: learned LightForge Works narrative patterns
+- `tooling.*`: learned tool capabilities and limitations
+
+Examples:
+
+```text
+marketing.draft.audience-before-copy:
+Laura has repeatedly found campaign work weaker when copy starts before audience
+and proof are defined.
+```
+
+```text
+relationship.braydon.directness:
+Braydon tends to prefer direct strategic language over polished marketing
+abstraction when evaluating positioning.
+```
+
+```text
+lfw.narrative.bounded-business-capability:
+LFW messaging appears stronger when framed as bounded business capability rather
+than generic AI app development.
+```
+
+## Design Rule
+
+Agent memory should be private enough to preserve individual learning, but
+governed enough that important learned truth can be promoted into shared state.
+
+The promotion path is the bridge between individual agent intelligence and
+organizational learning.

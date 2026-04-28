@@ -30,10 +30,12 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/NORTH_STAR.md` - guiding North Star for the effort
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/concepts/` - focused concept notes
+- `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
+- `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
-- `docs/concepts/minimum-viable-runtime.md` - smallest local runtime shape for proving the state loop
+- `docs/concepts/first-deployment-mode.md` - first deployment mode for the end-state architecture
 - `schemas/` - draft JSON schemas for state objects, journal entries, personas, and facets
 - `examples/` - example state packets and the first persona, Laura
 

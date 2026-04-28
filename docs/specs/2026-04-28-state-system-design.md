@@ -48,6 +48,11 @@ The detailed state-family ontology lives in
 the system should know what kinds of state exist before it defines how they
 change or where they are stored.
 
+The end-state architecture lives in
+`docs/concepts/end-state-architecture.md`. Early runtime work should implement
+the target interfaces in a small deployment mode, not create a throwaway local
+architecture.
+
 ### StateObject
 
 A `StateObject` is a scoped current-state view.
@@ -118,6 +123,17 @@ It includes:
 Personality is not decorative. It changes what the agent notices and how it
 interprets state.
 
+### Agent Memory
+
+Agent memory is what an individual agent has learned over time.
+
+It is distinct from persona and distinct from shared organizational state.
+Personas define who an agent is. Agent memory records what the agent has learned.
+Organizational state records shared current truth.
+
+Agent memory should support promotion into shared state when observations become
+important, evidenced, and approved. See `docs/concepts/agent-memory.md`.
+
 ### Facet
 
 A facet is a specific judgment tendency or behavioral lens.
@@ -140,6 +156,8 @@ The model decides:
 - which uncertainties are important
 - what next actions make sense
 - how a persona's facets should affect interpretation
+- what an agent should remember
+- whether agent memory should be proposed for shared-state promotion
 - whether a state object should roll up into a broader concern
 
 Code decides:
@@ -150,6 +168,8 @@ Code decides:
 - whether requested actions are allowed
 - whether a snapshot can be materialized
 - whether the journal entry is persisted
+- whether a memory write is allowed
+- whether a promotion requires approval
 - whether audit and replay are possible
 
 Code should not decide business salience through brittle thresholds like
@@ -245,14 +265,16 @@ Create docs, schemas, and examples for state objects, journals, personas, and fa
 This phase must preserve the North Star: state covers organizational condition,
 not only tactical work status.
 
-### Phase 2: Local Library
+### Phase 2: First Deployment Mode
 
-Add a small library that can validate schemas, append journal entries, materialize
-snapshots, and compute simple rollup requests.
+Add a small deployment of the end-state interfaces that can validate schemas,
+append journal entries, materialize snapshots, persist agent memory, and compute
+simple rollup requests.
 
-The minimum viable runtime should remain local and inspectable at first:
-file-backed state store, explicit trigger files, model reviewer, committer, and
-CLI commands. See `docs/concepts/minimum-viable-runtime.md`.
+The first deployment mode should remain local and inspectable at first, while
+preserving the target interfaces: evidence store, memory store, state store,
+model reviewer, governance, committer, and access surface. See
+`docs/concepts/first-deployment-mode.md`.
 
 ### Phase 3: Model-Mediated Update Runner
 

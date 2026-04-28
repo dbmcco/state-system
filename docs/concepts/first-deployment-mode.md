@@ -1,34 +1,55 @@
-# Minimum Viable Runtime
+# First Deployment Mode
 
-The minimum viable runtime should prove the state loop without turning the
-design repo into an infrastructure project too early.
+The first deployment mode should prove the end-state architecture without
+turning the design repo into an infrastructure project too early.
 
-The goal is not to build the final storage, queueing, search, or integration
-layer. The goal is to answer one question:
+The goal is not to build a temporary architecture. The goal is to run the same
+interfaces locally before connecting database-backed stores, APIs, queues, and
+integrations.
 
 Can a model-mediated agent notice evidence, interpret what changed, append a
 journal entry, materialize a snapshot, and request rollups without losing
 provenance or violating authority boundaries?
 
+See `docs/concepts/end-state-architecture.md` for the target architecture this
+deployment mode should serve.
+
 ## Runtime Posture
 
-Start local, explicit, and inspectable.
+Start local, explicit, and inspectable, while preserving end-state interfaces.
 
-- local files before database
-- CLI before daemon
-- JSON before custom persistence
+- local store adapter before database-backed store
+- CLI access surface before API/UI access surfaces
+- JSON files before durable persistence service
 - explicit trigger files before live integrations
 - manual command invocation before scheduled automation
 - one persona and one domain before many agents
 
-This keeps the runtime close to the design artifacts and makes failures easy to
-inspect.
+This keeps failures easy to inspect without creating a local-only design.
 
-## Four Components
+## Six Interfaces
 
-### 1. State Store
+The first deployment should implement or stub the same interfaces expected in
+the end state.
 
-The state store owns durable files.
+### 1. Evidence Store
+
+The evidence store resolves source references and retrieves relevant source
+records.
+
+Initial local behavior can be simple reference checking. The end-state adapter
+may use `paia-memory` evidence, embeddings, digests, and retrieval.
+
+### 2. Memory Store
+
+The memory store owns agent-specific learned memory.
+
+Initial local behavior can read and write JSON fixtures. The end-state adapter
+may use `paia-memory` facets, triplets, semantic retrieval, and active context.
+
+### 3. State Store
+
+The state store owns durable state objects and journals.
 
 Initial responsibilities:
 
@@ -48,6 +69,8 @@ state/
   journals/
     state.org.mission.jsonl
     state.campaign.launch-positioning-v1.jsonl
+  memory/
+    persona.laura.jsonl
   rollups/
     pending.jsonl
 ```
@@ -55,7 +78,7 @@ state/
 The current `examples/` directory stays as design fixtures. Runtime state should
 live under a separate `state/` directory when implementation begins.
 
-### 2. Trigger Runner
+### 4. Trigger Runner
 
 The trigger runner starts the four-phase loop:
 
@@ -80,7 +103,7 @@ Initial trigger input can be a JSON file:
 The runner should gather candidate snapshots and journals, then hand them to the
 model. It should not decide business meaning.
 
-### 3. Model Reviewer
+### 5. Model Reviewer
 
 The model reviewer is the decision layer.
 
@@ -97,22 +120,25 @@ Inputs:
 Outputs:
 
 - zero or more journal proposals
+- zero or more memory proposals
 - rollup requests
 - review signal
 
 The model may decide that no durable update is warranted. That outcome matters:
 it prevents state churn.
 
-### 4. Committer
+### 6. Committer
 
 The committer is the safety and persistence layer.
 
 Responsibilities:
 
 - validate journal proposals against schema
+- validate memory proposals against memory policy
 - verify evidence refs are present or explicitly unresolved
 - check actor authority and action approval boundaries
 - append accepted journal entries
+- persist accepted memory writes
 - materialize affected snapshots
 - record rejected or pending proposals as review signals
 - queue requested rollups
@@ -123,17 +149,20 @@ judgments.
 
 ## First Vertical Slice
 
-The first runnable slice should use Laura and marketing campaign state.
+The first runnable slice should use Laura, Laura's memory, and marketing
+campaign state.
 
 Scenario:
 
 1. Trigger says a human clarified the campaign's primary audience.
-2. Runner loads Laura, the campaign snapshot, the marketing operating picture,
-   and recent campaign journal entries.
-3. Model proposes an interpretive journal entry for the campaign.
-4. Committer validates and appends it.
-5. Snapshot materializer updates the campaign snapshot.
-6. Rollup request is queued for marketing operating picture.
+2. Runner loads Laura, Laura's relevant memory, the campaign snapshot, the
+   marketing operating picture, and recent campaign journal entries.
+3. Model proposes an interpretive journal entry for the campaign and may propose
+   a Laura memory write.
+4. Committer validates and appends the journal entry.
+5. Committer persists accepted memory writes.
+6. Snapshot materializer updates the campaign snapshot.
+7. Rollup request is queued for marketing operating picture.
 
 This slice touches the full lifecycle while staying small.
 
@@ -152,7 +181,7 @@ Do not start with:
 - all personas at once
 
 These may become useful later, but they are not required to prove the core
-state loop.
+state and memory loop.
 
 ## Implementation Interfaces
 
@@ -161,6 +190,7 @@ The first implementation should expose a small set of commands or functions:
 - `state validate`: validate schemas and state files
 - `state get <state-id>`: print current snapshot
 - `state journal <state-id>`: print journal history
+- `state memory <agent-id>`: inspect agent memory
 - `state trigger <trigger-file>`: run the model-mediated update loop
 - `state materialize <state-id>`: rebuild a snapshot from journals
 - `state rollups`: inspect pending rollup requests
@@ -170,11 +200,12 @@ the capability boundary, not the exact CLI syntax.
 
 ## Success Criteria
 
-The MVP works when:
+The first deployment mode works when:
 
 - a trigger can create a journal proposal
-- the model can choose no-op, update, or rollup request
+- the model can choose no-op, state update, memory write, or rollup request
 - accepted proposals append immutable journal entries
+- accepted memory proposals persist to agent memory
 - snapshots can be regenerated from journals
 - evidence refs and uncertainty remain visible
 - approval-required actions are not executed automatically
@@ -182,5 +213,6 @@ The MVP works when:
 
 ## Next Design Question
 
-Before implementation, define the first trigger schema and review-signal schema.
-Those are the contracts between the runner, model reviewer, and committer.
+Before implementation, define the first trigger schema, review-signal schema,
+and agent-memory entry schema. Those are the contracts between the runner, model
+reviewer, memory store, state store, and committer.
