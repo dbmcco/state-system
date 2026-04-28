@@ -10,6 +10,9 @@ The lifecycle must preserve two constraints:
 
 ## Lifecycle Stages
 
+These stages are a conceptual checklist, not a requirement to build ten
+separate runtime components.
+
 ```text
 trigger
   -> evidence packet
@@ -22,6 +25,20 @@ trigger
   -> rollup queue
   -> review signal
 ```
+
+## Practical Runtime Shape
+
+The implementation should feel like a four-phase loop:
+
+1. Notice: receive a trigger and gather an evidence packet.
+2. Interpret: ask the model what changed, what matters, what is uncertain, and
+   which state objects are affected.
+3. Commit: validate schema, authority, evidence, and risk; append journal
+   entries; materialize snapshots.
+4. Propagate: queue rollups, emit review signals, and surface follow-up.
+
+The detailed stages below exist to prevent concern-blending. They should not
+turn the system into ceremony.
 
 ## 1. Trigger
 
