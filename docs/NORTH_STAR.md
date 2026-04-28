@@ -46,6 +46,10 @@ State includes developmental context:
 - a process maturing from ad hoc to reliable
 - a market belief becoming stronger, weaker, or stale
 
+The first ontology is captured in `docs/concepts/ontology.md`. It groups state
+into organizational identity, operating, work, relationship, knowledge, role and
+persona, onboarding, and governance families.
+
 ## Personas
 
 Personas are first-class.
@@ -108,4 +112,3 @@ State System is not a task tracker, CRM, notes app, memory store, onboarding app
 or agent framework by itself. It is the missing state layer between those systems:
 the layer that helps an organization remain understandable, current, and
 actionable over time.
-

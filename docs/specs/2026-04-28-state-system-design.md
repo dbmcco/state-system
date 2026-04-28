@@ -43,6 +43,11 @@ The system should support:
 
 ## Core Concepts
 
+The detailed state-family ontology lives in
+`docs/concepts/ontology.md`. Ontology comes before lifecycle and infrastructure:
+the system should know what kinds of state exist before it defines how they
+change or where they are stored.
+
 ### StateObject
 
 A `StateObject` is a scoped current-state view.
