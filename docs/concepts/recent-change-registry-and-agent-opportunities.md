@@ -49,6 +49,39 @@ source event
 
 The registry should not mutate state directly. It makes changes discoverable.
 
+## Relevance Routing
+
+The registry should not behave like one global inbox where every agent sees
+every recent change.
+
+It should support relevance routing:
+
+```text
+change entry
+  -> domain tags
+  -> affected state refs
+  -> source-system refs
+  -> candidate personas
+  -> routing reason
+  -> optional escalation path
+```
+
+This matters because an agent should not burn attention on changes outside its
+role. Laura, as a marketing agent, should not normally review an operational
+software-development task just because it changed recently. Patrick, the
+operations manager, may care. Laura should see it only if the change crosses
+into her watched domains.
+
+Examples of crossing conditions:
+
+- the task completes a capability that can become market-facing proof
+- the change affects a campaign, customer story, launch, or public claim
+- the change affects a relationship, deal, or named customer
+- Patrick or another agent explicitly escalates it as marketing-relevant
+- a rollup state Laura watches changes because of the task
+
+This keeps the registry useful without turning it into noise.
+
 ## Registry Entries
 
 A registry entry should be small and source-backed.
@@ -62,12 +95,30 @@ It should answer:
 - which state objects were affected?
 - which journal entries or commit results were produced?
 - which agents or personas might care?
+- why those agents or personas might care?
 - what opportunity class might apply, if any?
+- what relevance tier applies for each persona?
 - what still needs review?
 
 Early implementation can derive entries from triggers, commit results, journal
 entries, and review signals. Later implementation can also ingest source-system
 events directly.
+
+## Relevance Tiers
+
+Candidate routing should use a simple relevance tier before a model reviews the
+entry.
+
+Suggested tiers:
+
+- `primary`: directly inside the persona's watched domains
+- `secondary`: adjacent to a watched domain or parent rollup
+- `escalated`: another agent, human, or governance rule flagged it
+- `ambient`: visible only in broad review or search
+- `excluded`: outside the persona's current scope
+
+These tiers are routing hints, not final judgments. The model can still decide
+that a primary item is a no-op or that an escalated item is important.
 
 ## What Belongs In The Registry
 
@@ -138,6 +189,75 @@ Patrick might ask:
 
 The same registry supports both agents, but the model's persona context changes
 what each agent notices.
+
+It should also change what the registry returns by default. Laura's default
+recent-change query should prefer campaigns, deals, relationships, market-facing
+capabilities, proof points, launches, and marketing operating-picture updates.
+Patrick's default query should prefer obligations, contracts, operational
+projects, missing owners, stale records, follow-up risks, and source-of-truth
+gaps.
+
+Low-level software-development tasks should usually route to Patrick or a
+project/technical agent first. Laura should receive them only when a state
+change, rollup, or explicit escalation makes them marketing-relevant.
+
+## Routing Examples
+
+### Software Task Done
+
+Source event:
+
+```text
+linear.task.completed
+task: Add retry handling to webhook worker
+project: Internal workflow reliability
+```
+
+Likely routing:
+
+- Patrick: `primary` if it affects operating reliability, launch readiness, or
+  follow-up state
+- Laura: `excluded` or `ambient` by default
+
+Laura should not review this unless the task becomes evidence for a public
+claim, customer proof point, launch note, or campaign message.
+
+### Capability Becomes Marketable
+
+Source event:
+
+```text
+github.pull_request.merged
+capability: Auditable workflows
+review: accepted release note says customer-facing audit trail is ready
+```
+
+Likely routing:
+
+- Patrick: `primary` for launch readiness and obligations
+- Laura: `secondary` or `escalated` if the capability can support external
+  positioning, proof, or a launch post
+
+Laura still should not publish directly. She may propose a draft or internal
+brief, subject to governance.
+
+### Deal Stage Changed
+
+Source event:
+
+```text
+linear.deal.stage_changed
+deal: Southern Abrasives
+from: proposal
+to: won
+```
+
+Likely routing:
+
+- Patrick: `primary` for operational handoff, owner, next action, document
+  control, and delivery readiness
+- Laura: `primary` or `secondary` for proof point, announcement, customer story,
+  or relationship-sensitive campaign opportunity
 
 ## Linear Deal Example
 
@@ -222,8 +342,11 @@ Minimum useful behavior:
 
 1. record every accepted commit result as a recent change
 2. index affected state ids, journal ids, source refs, actor, and timestamp
-3. expose a query by persona, state family, source system, and recency
-4. allow a fixture opportunity review for Laura
+3. index candidate persona refs, routing reason, opportunity class, and relevance
+   tier when known
+4. expose a query by persona, state family, source system, relevance tier, and
+   recency
+5. allow a fixture opportunity review for Laura
 
 The first fixture should probably be:
 
@@ -245,3 +368,9 @@ Do not confuse recency with importance.
 
 The registry should surface what changed recently. The model, using persona,
 state, evidence, and governance context, decides what matters.
+
+Also do not confuse global awareness with agent attention.
+
+State System can know about a software task. Laura does not need to see it
+unless it becomes relevant to marketing state, relationship state, campaign
+state, proof, launch readiness, or a human/agent escalation.

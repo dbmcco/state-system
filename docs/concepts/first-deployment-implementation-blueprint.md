@@ -78,6 +78,7 @@ Responsibilities:
 - load recent journals
 - load relevant agent memory
 - load persona context
+- load recent-change candidates when a persona is reviewing opportunities
 - build model review packet
 
 It should not decide what changed.
@@ -231,7 +232,9 @@ After code exists, these become automated tests.
 4. Add fixture reviewer.
 5. Add committer conversion from model output to journal/memory/commit result.
 6. Add snapshot materializer.
-7. Add recent-change registry writes from commit results.
+7. Add recent-change registry writes from commit results, including affected
+   state ids, source refs, candidate personas, routing reason, and relevance
+   tier.
 8. Add CLI commands.
 9. Replace fixture reviewer with model reviewer.
 10. Add optional `paia-memory` adapter.
