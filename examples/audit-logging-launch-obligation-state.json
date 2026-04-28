@@ -1,0 +1,51 @@
+{
+  "id": "state.lfw.obligation.audit-logging-before-launch",
+  "type": "obligation",
+  "primary_family": "governance",
+  "secondary_families": ["work", "operating"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.product.auditable-workflows.launch",
+  "owner_refs": ["persona.patrick"],
+  "as_of": "2026-04-28T15:02:00Z",
+  "summary": "Audit logging before launch is a possible delivery obligation inferred from GitHub review discussion and needs explicit ownership and verification evidence.",
+  "status": "candidate",
+  "situations": [
+    {
+      "id": "situation.audit-logging-obligation-candidate",
+      "label": "Review comment may create a launch obligation",
+      "state": "investigating",
+      "rationale": "A GitHub review comment can contain a delivery commitment, but the obligation should not be treated as resolved without linked task and implementation evidence."
+    }
+  ],
+  "goals": [
+    "Confirm whether audit logging is launch-blocking.",
+    "Link the obligation to a Workgraph task or explicit owner.",
+    "Preserve GitHub review evidence until the obligation is resolved."
+  ],
+  "blockers": [
+    "No linked Workgraph task is confirmed.",
+    "No evidence confirms audit logging was implemented after the review comment."
+  ],
+  "open_questions": [
+    "Is audit logging a launch blocker or a post-launch follow-up?",
+    "Who owns the audit logging follow-up?",
+    "Which commit, PR, check, or task proves the obligation is satisfied?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.audit-logging-follow-up",
+      "summary": "Patrick should confirm or create the Workgraph follow-up for audit logging before launch.",
+      "owner_ref": "persona.patrick",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "github:pr:lightforge/lfw-ai-graph-crm#142",
+    "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765"
+  ],
+  "parent_state_refs": [
+    "state.lfw.capability.auditable-workflows"
+  ],
+  "child_state_refs": [],
+  "latest_journal_entry_id": "journal.lfw.obligation.audit-logging-before-launch.initial"
+}

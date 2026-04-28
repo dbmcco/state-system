@@ -267,6 +267,31 @@ and missing evidence separately from state patches. A second persona also
 confirms that professional facets are not just tone; they change what the model
 notices and what it refuses to do.
 
+## Scenario 14: GitHub Commit Versus Commitment
+
+**Trigger:** GitHub reports that PR 142 merged for an LFW auditable workflows
+capability, but a PR review comment says audit logging must be added before
+launch.
+
+**Expected model decision:**
+
+- treat the merge commit and PR as implementation evidence
+- do not mark the capability launch-ready from merge evidence alone
+- preserve the PR review comment as a delivery obligation candidate
+- request evidence for audit logging implementation and launch readiness
+- propose a Workgraph follow-up action rather than directly mutating Workgraph
+- write Patrick private memory about scanning merged PRs for unresolved review
+  commitments
+- queue the operations operating-picture rollup
+
+**Pressure result:** passes.
+
+**Contract implication:** the source-ref and trigger contracts can represent
+GitHub facts without adding GitHub-specific schema fields yet. The model output
+must be able to update more than one state object from a single trigger because
+one source event can advance capability state while also creating or preserving
+an obligation.
+
 ## Findings
 
 ### Finding 1: The Model Packet Must Preserve Separation

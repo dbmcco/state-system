@@ -259,7 +259,7 @@ the pipeline preserves provenance:
 
 This lets us test the boundary before we bind to real APIs.
 
-## Pressure-Test Scenario To Add Later
+## Pressure-Test Scenario
 
 A GitHub PR is merged for an LFW capability, but the PR review includes a
 comment: "Add audit logging before launch."
@@ -275,3 +275,16 @@ Expected State System behavior:
 
 This scenario would test the difference between code completion, delivery
 commitment, launch readiness, and agent learning.
+
+The first fixture version of this scenario lives in:
+
+```text
+examples/patrick-github-launch-readiness-trigger.json
+  -> examples/patrick-github-launch-readiness-model-review-packet.json
+  -> examples/patrick-github-launch-readiness-model-proposal-output.json
+  -> examples/patrick-github-launch-readiness-commit-result.json
+  -> examples/patrick-github-capability-journal-entry.json
+  -> examples/patrick-github-obligation-journal-entry.json
+  -> examples/patrick-github-launch-readiness-agent-memory-entry.json
+  -> examples/patrick-github-launch-readiness-review-signal.json
+```

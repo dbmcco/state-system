@@ -1,0 +1,57 @@
+{
+  "id": "state.lfw.capability.auditable-workflows",
+  "type": "capability",
+  "primary_family": "work",
+  "secondary_families": ["governance", "operating", "knowledge"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.product.auditable-workflows",
+  "owner_refs": ["persona.patrick"],
+  "as_of": "2026-04-28T15:16:00Z",
+  "summary": "Auditable workflows have merged implementation evidence from PR 142, but launch readiness is not established because audit logging before launch remains unresolved.",
+  "status": "implemented_not_launch_ready",
+  "situations": [
+    {
+      "id": "situation.auditable-workflows-launch-readiness",
+      "label": "Launch readiness is not established",
+      "state": "investigating",
+      "rationale": "The capability has implementation signal, but launch readiness still depends on review obligations, checks, and operational evidence."
+    }
+  ],
+  "goals": [
+    "Track whether auditable workflows are implemented, reviewed, and launch-ready.",
+    "Separate code landing from deployment, stakeholder acceptance, and governance readiness.",
+    "Preserve review commitments as obligations until evidence resolves them."
+  ],
+  "blockers": [
+    "Audit logging obligation is not resolved.",
+    "Launch readiness approval is missing."
+  ],
+  "open_questions": [
+    "Has audit logging been implemented and verified?",
+    "Which Workgraph task owns the audit logging follow-up?",
+    "What evidence establishes launch readiness?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.link-audit-logging-task",
+      "summary": "Patrick should create or link the Workgraph task that owns audit logging before launch.",
+      "owner_ref": "persona.patrick",
+      "status": "active"
+    }
+  ],
+  "evidence_refs": [
+    "github:repo:lightforge/lfw-ai-graph-crm",
+    "workgraph:repo:lfw-ai-graph-crm:task:ship-auditable-workflows",
+    "github:pr:lightforge/lfw-ai-graph-crm#142",
+    "github:commit:lightforge/lfw-ai-graph-crm@abc1234",
+    "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765",
+    "journal.lfw.capability.auditable-workflows.github-merged"
+  ],
+  "parent_state_refs": [
+    "state.lfw.operating_picture.ops"
+  ],
+  "child_state_refs": [
+    "state.lfw.obligation.audit-logging-before-launch"
+  ],
+  "latest_journal_entry_id": "journal.lfw.capability.auditable-workflows.github-merged"
+}

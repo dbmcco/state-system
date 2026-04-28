@@ -1,0 +1,53 @@
+{
+  "id": "state.lfw.capability.auditable-workflows",
+  "type": "capability",
+  "primary_family": "work",
+  "secondary_families": ["governance", "operating", "knowledge"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.product.auditable-workflows",
+  "owner_refs": ["persona.patrick"],
+  "as_of": "2026-04-28T15:00:00Z",
+  "summary": "Auditable workflows are an emerging LFW capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
+  "status": "implementation_in_progress",
+  "situations": [
+    {
+      "id": "situation.auditable-workflows-launch-readiness",
+      "label": "Launch readiness is not established",
+      "state": "investigating",
+      "rationale": "The capability has implementation signal, but launch readiness still depends on review obligations, checks, and operational evidence."
+    }
+  ],
+  "goals": [
+    "Track whether auditable workflows are implemented, reviewed, and launch-ready.",
+    "Separate code landing from deployment, stakeholder acceptance, and governance readiness.",
+    "Preserve review commitments as obligations until evidence resolves them."
+  ],
+  "blockers": [
+    "Launch-readiness evidence is incomplete.",
+    "Audit logging obligation is not resolved."
+  ],
+  "open_questions": [
+    "Has audit logging been implemented and verified?",
+    "Which Workgraph task owns the audit logging follow-up?",
+    "What evidence establishes launch readiness?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.link-audit-logging-task",
+      "summary": "Patrick should create or link the Workgraph task that owns audit logging before launch.",
+      "owner_ref": "persona.patrick",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "github:repo:lightforge/lfw-ai-graph-crm",
+    "workgraph:repo:lfw-ai-graph-crm:task:ship-auditable-workflows"
+  ],
+  "parent_state_refs": [
+    "state.lfw.operating_picture.ops"
+  ],
+  "child_state_refs": [
+    "state.lfw.obligation.audit-logging-before-launch"
+  ],
+  "latest_journal_entry_id": "journal.lfw.capability.auditable-workflows.initial"
+}

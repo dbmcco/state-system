@@ -9,13 +9,16 @@ service, API, or PAIA adapters.
 
 ## Objective
 
-Build a local, inspectable deployment that can run two comparison scenarios end
+Build a local, inspectable deployment that can run three comparison scenarios end
 to end:
 
 - Laura campaign-audience clarification, which tests marketing interpretation
   and agent memory.
 - Patrick stale-contract review, which tests operational state hygiene, missing
   evidence, and governance boundaries.
+- Patrick GitHub launch-readiness review, which tests source-system evidence,
+  code commits versus delivery commitments, multi-state proposals, and proposed
+  Workgraph follow-up.
 
 ```text
 trigger
@@ -177,6 +180,27 @@ Pressure-test finding:
 - Patrick forces the same contracts to handle operational source-of-truth
   discipline, missing evidence, internal follow-up, and approval boundaries.
 
+The GitHub commitment fixture set forms the ecosystem integration trace:
+
+```text
+examples/patrick-github-launch-readiness-trigger.json
+  -> examples/patrick-github-launch-readiness-model-review-packet.json
+  -> examples/patrick-github-launch-readiness-model-proposal-output.json
+  -> examples/patrick-github-launch-readiness-commit-result.json
+  -> examples/patrick-github-capability-journal-entry.json
+  -> examples/patrick-github-obligation-journal-entry.json
+  -> examples/patrick-github-launch-readiness-agent-memory-entry.json
+  -> examples/patrick-github-launch-readiness-review-signal.json
+```
+
+Pressure-test finding:
+
+- A GitHub merge is implementation evidence, not launch readiness.
+- A PR review comment can create or preserve a delivery obligation.
+- One trigger can validly produce multiple state proposals.
+- Proposed Workgraph follow-up should remain an action proposal; Workgraph owns
+  task creation and execution.
+
 ## First Verification Checks
 
 Before code exists, verification is fixture consistency:
@@ -188,7 +212,9 @@ Before code exists, verification is fixture consistency:
 - accepted journal refs exist as examples
 - accepted memory refs exist as examples
 - review signal refs match commit result refs
-- both Laura and Patrick traces pass the same consistency checks
+- Laura, Patrick stale-contract, and Patrick GitHub commitment traces pass the
+  same consistency checks
+- multi-state traces can accept multiple journal refs and materialized snapshots
 
 After code exists, these become automated tests.
 
