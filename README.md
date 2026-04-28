@@ -42,6 +42,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/first-deployment-implementation-blueprint.md` - implementation path and fixture trace for the first deployment
 - `docs/concepts/materialization-and-patch-semantics.md` - how accepted journal patches become snapshots
 - `docs/concepts/patrick-ops-manager.md` - second persona and operational pressure test
+- `docs/concepts/workgraph-speedrift-github-integration.md` - how State System attaches to execution, drift, and code collaboration systems
 - `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, and facets
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick
 

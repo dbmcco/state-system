@@ -41,6 +41,8 @@ Source systems remain the systems of record for raw facts and artifacts.
 
 Examples:
 
+- Workgraph
+- Speedrift / Driftdriver
 - Linear
 - GitHub
 - Google Drive
@@ -51,6 +53,13 @@ Examples:
 - campaign metrics
 - human edits
 - agent actions
+
+GitHub should be treated carefully. Commits, pull requests, issues, review
+comments, checks, and releases are source records. Some of those records may
+also contain commitments, such as promised follow-up work, launch requirements,
+review conditions, or governance approvals. The raw GitHub artifact belongs in
+the evidence layer; the interpreted commitment belongs in state only after model
+review and governance checks.
 
 State System should reference source records rather than copying large blobs
 into state objects.
