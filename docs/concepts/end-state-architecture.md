@@ -26,6 +26,7 @@ source systems
   -> evidence layer
   -> memory kernel
   -> state kernel
+  -> context packaging layer
   -> model-mediated update layer
   -> governance layer
   -> access surfaces
@@ -125,7 +126,24 @@ This repo currently defines the generic state object and journal contracts. The
 end state may implement those contracts in a database, but local file-backed
 execution should use the same abstractions.
 
-## 5. Model-Mediated Update Layer
+## 5. Context Packaging Layer
+
+The context packaging layer prepares bounded working sets for agents and model
+reviews.
+
+End-state responsibilities:
+
+- persona-specific standing packages
+- recent-change packages
+- opportunity review packages
+- relevant state, journal, memory, evidence, and governance slices
+- excluded-context summaries
+- package ids for audit and replay
+
+The package is not the decision. It gives the model the right context and
+available actions without forcing the agent to search the whole organization.
+
+## 6. Model-Mediated Update Layer
 
 The update layer gives models tools and context, then asks them to decide what
 changed.
@@ -161,7 +179,7 @@ evaluation, risk checks, action execution, journals, snapshots, events, and
 memory writes. State System should learn from that implementation and generalize
 the pattern beyond PAIA agents.
 
-## 6. Governance Layer
+## 7. Governance Layer
 
 The governance layer controls what can become durable state or action.
 
@@ -179,7 +197,7 @@ It covers:
 Governance should not decide business meaning. It should decide whether a
 model-proposed state transition, memory write, action, or promotion is allowed.
 
-## 7. Access Surfaces
+## 8. Access Surfaces
 
 The same kernel should support multiple access surfaces.
 

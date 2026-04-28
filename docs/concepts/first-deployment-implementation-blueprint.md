@@ -57,6 +57,7 @@ Initial adapters:
 - `FileRollupQueue`
 - `FileReviewSignalStore`
 - `FileRecentChangeStore`
+- `FileContextPackageStore`
 
 End-state adapters:
 
@@ -64,6 +65,7 @@ End-state adapters:
 - `paia-memory` evidence and memory adapter
 - event-backed rollup queue
 - event-backed recent-change registry
+- generated context package cache
 
 ### `runner`
 
@@ -82,6 +84,20 @@ Responsibilities:
 - build model review packet
 
 It should not decide what changed.
+
+### `context-packager`
+
+Owns bounded context assembly for agents.
+
+Responsibilities:
+
+- build standing packages from persona, active state, memory, and governance
+- build recent-change packages from routed registry entries
+- build opportunity packages for a specific candidate change
+- include excluded-context summaries so omissions are inspectable
+- keep packaging separate from salience decisions
+
+It should not decide whether an opportunity is real.
 
 ### `reviewer`
 
@@ -127,6 +143,7 @@ Initial commands:
 - `state memory <agent-id>`
 - `state rollups`
 - `state recent --persona <persona-id>`
+- `state package --persona <persona-id>`
 
 The CLI is an access adapter, not the architecture.
 
@@ -141,6 +158,7 @@ state/
   rollups/
   commits/
   recent-changes/
+  context-packages/
 ```
 
 The current `examples/` directory should remain fixtures. Runtime state should
@@ -235,9 +253,11 @@ After code exists, these become automated tests.
 7. Add recent-change registry writes from commit results, including affected
    state ids, source refs, candidate personas, routing reason, and relevance
    tier.
-8. Add CLI commands.
-9. Replace fixture reviewer with model reviewer.
-10. Add optional `paia-memory` adapter.
+8. Add context package assembly for standing, recent-change, and opportunity
+   packages.
+9. Add CLI commands.
+10. Replace fixture reviewer with model reviewer.
+11. Add optional `paia-memory` adapter.
 
 ## Pressure-Test Questions For Each Step
 

@@ -318,6 +318,7 @@ The opportunity loop should look like this:
 ```text
 agent asks for recent relevant changes
   -> registry returns candidate change cards
+  -> context packager builds a persona-specific package
   -> model reviews candidates with persona + governance + state context
   -> model emits no-op, state proposal, memory proposal, action proposal, or
      approval-gated publication proposal
@@ -346,7 +347,8 @@ Minimum useful behavior:
    tier when known
 4. expose a query by persona, state family, source system, relevance tier, and
    recency
-5. allow a fixture opportunity review for Laura
+5. build persona-specific context packages from selected changes
+6. allow a fixture opportunity review for Laura
 
 The first fixture should probably be:
 
@@ -354,6 +356,7 @@ The first fixture should probably be:
 Linear deal stage changed to won
   -> deal state updated
   -> recent-change registry entry
+  -> Laura context package
   -> Laura reviews marketing opportunity
   -> Laura proposes internal LinkedIn draft
   -> external publication is pending approval
