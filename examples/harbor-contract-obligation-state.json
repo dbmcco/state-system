@@ -1,0 +1,53 @@
+{
+  "id": "state.lfw.contract.harbor",
+  "type": "obligation",
+  "primary_family": "work",
+  "secondary_families": ["governance", "relationship", "operating"],
+  "state_traits": ["dynamic"],
+  "scope": "organization.lfw.contracts.harbor",
+  "owner_refs": ["persona.patrick"],
+  "as_of": "2026-04-28T14:05:00Z",
+  "summary": "Harbor appears to have an active or recently active contract obligation, but the current owner, stage, next action, and retained Drive source are not explicit in State System fixtures.",
+  "status": "waiting_on_internal",
+  "situations": [
+    {
+      "id": "situation.harbor-contract-record-stale",
+      "label": "Harbor contract record is stale",
+      "state": "investigating",
+      "rationale": "The record has enough signal to warrant operational review, but not enough evidence to mark the obligation ready, done, or externally actionable."
+    }
+  ],
+  "goals": [
+    "Identify the accountable owner for Harbor contract follow-up.",
+    "Confirm the current contract stage from the canonical source.",
+    "Link the retained Drive record or identify the missing archive gap.",
+    "Create only internal follow-up until approval authority is clear."
+  ],
+  "blockers": [
+    "Current contract stage is not evidenced.",
+    "Canonical Drive archive reference is missing.",
+    "External-action authority is not established."
+  ],
+  "open_questions": [
+    "Who owns Harbor contract follow-up?",
+    "What is the current Harbor contract stage?",
+    "Where is the canonical Drive document or retained archive reference?",
+    "Does any next action require legal, sales, or leadership approval?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.harbor-contract-clarify",
+      "summary": "Patrick should identify the owner, current stage, next action, and canonical Drive reference before any external follow-up is proposed.",
+      "owner_ref": "persona.patrick",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "lfw-process/pipeline/ops-manager-operating-model.md"
+  ],
+  "parent_state_refs": [
+    "state.lfw.operating_picture.ops"
+  ],
+  "child_state_refs": [],
+  "latest_journal_entry_id": "journal.lfw.contract.harbor.initial"
+}

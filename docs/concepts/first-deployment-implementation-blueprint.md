@@ -9,8 +9,13 @@ service, API, or PAIA adapters.
 
 ## Objective
 
-Build a local, inspectable deployment that can run the Laura campaign-audience
-scenario end to end:
+Build a local, inspectable deployment that can run two comparison scenarios end
+to end:
+
+- Laura campaign-audience clarification, which tests marketing interpretation
+  and agent memory.
+- Patrick stale-contract review, which tests operational state hygiene, missing
+  evidence, and governance boundaries.
 
 ```text
 trigger
@@ -132,9 +137,9 @@ state/
 The current `examples/` directory should remain fixtures. Runtime state should
 be generated under `state/`.
 
-## First End-To-End Trace
+## First End-To-End Traces
 
-The Laura fixture set should form a complete contract trace:
+The Laura fixture set forms a complete contract trace:
 
 ```text
 examples/laura-campaign-audience-trigger.json
@@ -154,6 +159,24 @@ Pressure-test finding:
 - The trace should include that journal entry so every accepted commit ref has a
   corresponding durable example.
 
+The Patrick fixture set forms the comparison trace:
+
+```text
+examples/patrick-stale-contract-trigger.json
+  -> examples/patrick-model-review-packet.json
+  -> examples/patrick-model-proposal-output.json
+  -> examples/patrick-commit-result.json
+  -> examples/patrick-contract-journal-entry.json
+  -> examples/patrick-agent-memory-entry.json
+  -> examples/patrick-review-signal.json
+```
+
+Pressure-test finding:
+
+- Laura alone could make the system look like a marketing memory tool.
+- Patrick forces the same contracts to handle operational source-of-truth
+  discipline, missing evidence, internal follow-up, and approval boundaries.
+
 ## First Verification Checks
 
 Before code exists, verification is fixture consistency:
@@ -165,6 +188,7 @@ Before code exists, verification is fixture consistency:
 - accepted journal refs exist as examples
 - accepted memory refs exist as examples
 - review signal refs match commit result refs
+- both Laura and Patrick traces pass the same consistency checks
 
 After code exists, these become automated tests.
 

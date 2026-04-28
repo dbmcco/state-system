@@ -243,6 +243,30 @@ metadata.
 **Contract implication:** trigger packet should carry stable ids and source refs.
 Committer should be idempotent around journal append.
 
+## Scenario 13: Patrick Contract Record Stale
+
+**Trigger:** Patrick's scheduled operations review finds that the Harbor
+contract record lacks an explicit owner, current stage, next action, and
+canonical Drive archive reference.
+
+**Expected model decision:**
+
+- keep the Harbor obligation active as waiting on internal clarification
+- propose an interpretive state update, not a resolved direct update
+- request missing evidence for the current stage and canonical source
+- write Patrick private draft memory about confirming canonical source before
+  external follow-up
+- queue an operations operating-picture rollup
+- avoid approving, sending, signing, or externally committing anything
+
+**Pressure result:** passes.
+
+**Contract implication:** the same contracts used for Laura can handle a more
+operational agent, but the review packet must preserve governance constraints
+and missing evidence separately from state patches. A second persona also
+confirms that professional facets are not just tone; they change what the model
+notices and what it refuses to do.
+
 ## Findings
 
 ### Finding 1: The Model Packet Must Preserve Separation

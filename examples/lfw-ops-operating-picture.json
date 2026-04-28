@@ -1,0 +1,52 @@
+{
+  "id": "state.lfw.operating_picture.ops",
+  "type": "operating_picture",
+  "primary_family": "operating",
+  "secondary_families": ["work", "governance", "relationship"],
+  "state_traits": ["dynamic", "rollup"],
+  "scope": "organization.lfw.operations",
+  "owner_refs": ["persona.patrick"],
+  "as_of": "2026-04-28T14:00:00Z",
+  "summary": "LFW operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
+  "status": "forming",
+  "situations": [
+    {
+      "id": "situation.lfw.ops-picture-forming",
+      "label": "Operations operating picture is being formed",
+      "state": "planning",
+      "rationale": "The State System has marketing examples, but operational work now needs its own rollup state for contracts, follow-up, approvals, and source-of-truth hygiene."
+    }
+  ],
+  "goals": [
+    "Keep active operational records current enough for weekly review.",
+    "Expose stale obligations before they block follow-through.",
+    "Separate internal operational cleanup from approval-bearing external actions."
+  ],
+  "blockers": [
+    "Some contract and document records lack canonical Drive references.",
+    "Some active relationship or obligation records may not have explicit owners and next actions."
+  ],
+  "open_questions": [
+    "Which active obligations need weekly operations review?",
+    "Which records lack a canonical Drive document or retained evidence reference?",
+    "Which follow-ups require human approval before external action?"
+  ],
+  "next_actions": [
+    {
+      "id": "action.patrick.ops-rollup-review",
+      "summary": "Patrick should review active obligations and queue internal follow-ups for stale owner, stage, source, or next-action gaps.",
+      "owner_ref": "persona.patrick",
+      "status": "proposed"
+    }
+  ],
+  "evidence_refs": [
+    "lfw-process/pipeline/ops-manager-operating-model.md"
+  ],
+  "parent_state_refs": [
+    "state.org.mission"
+  ],
+  "child_state_refs": [
+    "state.lfw.contract.harbor"
+  ],
+  "latest_journal_entry_id": "journal.lfw.ops.operating-picture.initial"
+}

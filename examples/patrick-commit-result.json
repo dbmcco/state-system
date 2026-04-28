@@ -1,0 +1,45 @@
+{
+  "id": "commit.patrick.harbor-contract-stale",
+  "model_output_id": "model_output.patrick.harbor-contract-stale",
+  "created_at": "2026-04-28T14:17:00Z",
+  "status": "accepted",
+  "accepted_journal_entry_refs": [
+    "journal.lfw.contract.harbor.stale-review"
+  ],
+  "accepted_memory_entry_refs": [
+    "memory.patrick.ops.draft.canonical-source-before-followup"
+  ],
+  "materialized_snapshot_refs": [
+    "state.lfw.contract.harbor"
+  ],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.lfw.operating_picture.ops",
+      "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
+    }
+  ],
+  "pending_approvals": [],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.patrick.harbor-contract-stale",
+    "trigger_id": "trigger.patrick.harbor-contract-stale",
+    "created_at": "2026-04-28T14:16:00Z",
+    "status": "evidence_missing",
+    "summary": "Harbor obligation state and Patrick memory were updated; operations operating picture should be reviewed because the contract record is stale and missing canonical evidence.",
+    "journal_entry_refs": [
+      "journal.lfw.contract.harbor.stale-review"
+    ],
+    "memory_entry_refs": [
+      "memory.patrick.ops.draft.canonical-source-before-followup"
+    ],
+    "rollup_requests": [
+      {
+        "state_object_id": "state.lfw.operating_picture.ops",
+        "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
+      }
+    ],
+    "follow_up_refs": [
+      "action.patrick.harbor-contract-clarify"
+    ]
+  }
+}

@@ -41,10 +41,11 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/governance-policy.md` - inspectable policy shape for approvals and blocked effects
 - `docs/concepts/first-deployment-implementation-blueprint.md` - implementation path and fixture trace for the first deployment
 - `docs/concepts/materialization-and-patch-semantics.md` - how accepted journal patches become snapshots
+- `docs/concepts/patrick-ops-manager.md` - second persona and operational pressure test
 - `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, and facets
-- `examples/` - example state packets and the first persona, Laura
+- `examples/` - example state packets and end-to-end traces for Laura and Patrick
 
-## First Persona
+## First Personas
 
 Laura is the first modeled persona: a marketing agent focused on positioning,
 campaign momentum, audience fit, narrative clarity, and commercially grounded
@@ -54,3 +55,12 @@ Laura is not a PAIA personal assistant. She is a work agent whose personality
 is expressed through professional judgment facets. She is also a test case for
 how persona-mediated interpretation can maintain broader organizational state,
 such as marketing narrative and mission alignment.
+
+Patrick is the second modeled persona: an operations manager agent focused on
+source-of-truth discipline, stale-state detection, ownership clarity,
+follow-through, and governance boundaries around contracts and commitments.
+
+Patrick gives the system a comparison trace. Where Laura tests strategic and
+market-facing interpretation, Patrick tests terse operational state: what is the
+owner, what is the stage, what is missing, what is the next action, and what
+requires human approval before external action.
