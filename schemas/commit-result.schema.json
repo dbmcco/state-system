@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/commit-result.schema.json",
+  "title": "CommitResult",
+  "type": "object",
+  "required": [
+    "id",
+    "model_output_id",
+    "created_at",
+    "status",
+    "accepted_journal_entry_refs",
+    "accepted_memory_entry_refs",
+    "materialized_snapshot_refs",
+    "queued_rollup_requests",
+    "pending_approvals",
+    "rejected_proposals",
+    "review_signal"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "model_output_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "status": {
+      "type": "string",
+      "enum": ["accepted", "partial", "pending_approval", "rejected", "no_op"]
+    },
+    "accepted_journal_entry_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "accepted_memory_entry_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "materialized_snapshot_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "queued_rollup_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state_object_id", "reason"],
+        "properties": {
+          "state_object_id": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "pending_approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["proposal_type", "summary", "reason"],
+        "properties": {
+          "proposal_type": {
+            "type": "string",
+            "enum": ["state", "memory", "promotion", "action"]
+          },
+          "summary": { "type": "string" },
+          "reason": { "type": "string" },
+          "target_ref": { "type": "string" }
+        }
+      }
+    },
+    "rejected_proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["proposal_type", "summary", "reason"],
+        "properties": {
+          "proposal_type": {
+            "type": "string",
+            "enum": ["state", "memory", "promotion", "action", "rollup"]
+          },
+          "summary": { "type": "string" },
+          "reason": { "type": "string" },
+          "target_ref": { "type": "string" }
+        }
+      }
+    },
+    "review_signal": {
+      "type": "object"
+    }
+  }
+}

@@ -198,6 +198,7 @@ The draft trigger and review-signal contracts live in
 The model-mediated review contracts live in
 `schemas/model-review-packet.schema.json` and
 `schemas/model-proposal-output.schema.json`.
+The committer receipt contract lives in `schemas/commit-result.schema.json`.
 
 ## Regular Updates
 

@@ -213,10 +213,11 @@ These sit beside the existing state contracts:
 - `schemas/state-journal-entry.schema.json`
 - `schemas/model-review-packet.schema.json`
 - `schemas/model-proposal-output.schema.json`
+- `schemas/commit-result.schema.json`
 
 Together, these contracts let the first deployment prove the end-state loop:
 trigger in, model review, journal and memory persistence, snapshot update,
-rollup request, review signal out.
+rollup request, commit result, review signal out.
 
 ## Success Criteria
 

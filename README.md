@@ -37,7 +37,8 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
 - `docs/concepts/first-deployment-mode.md` - first deployment mode for the end-state architecture
 - `docs/concepts/model-pressure-test.md` - scenario pressure test for the model-mediated decision layer
-- `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, review signals, memory entries, personas, and facets
+- `docs/concepts/committer-and-governance.md` - how proposals become durable effects or pending/rejected signals
+- `schemas/` - draft JSON schemas for state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, personas, and facets
 - `examples/` - example state packets and the first persona, Laura
 
 ## First Persona

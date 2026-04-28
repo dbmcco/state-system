@@ -139,6 +139,9 @@ Journal proposals are allowed to be rejected, revised, or held for review.
 
 Code checks the proposal against governance state and system policy.
 
+See `docs/concepts/committer-and-governance.md` for the committer boundary and
+commit result contract.
+
 The gate checks:
 
 - schema validity
