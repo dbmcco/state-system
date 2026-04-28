@@ -273,6 +273,12 @@ Ask at every step:
 
 ## Current Gaps
 
+- The recent-change-entry contract is not defined.
+- The context-package contract is not defined.
+- Routing audit rules are not defined.
+- Context package freshness and source watermark semantics are not defined.
+- Package-level read permissions and redaction are not defined.
+- The Linear deal-won to Laura opportunity fixture is not defined.
 - The model reviewer prompt is not defined.
 - File-backed idempotency rules are not defined.
 - Promotion proposal persistence needs a pending-approval record shape.

@@ -458,3 +458,6 @@ proposal output contracts, but the contracts should explicitly support:
 - governance handoff
 - separated context sections
 - future memory revision links
+
+See `docs/concepts/system-pressure-test.md` for the broader pressure test after
+recent-change routing and context packaging were added.
