@@ -7,6 +7,18 @@ from state_system.contracts import validate_schema
 from state_system.stores import JsonObject, StateStoreBundle
 
 
+DEFAULT_ALLOWED_OUTPUTS = (
+    "no_op",
+    "state_proposal",
+    "memory_proposal",
+    "promotion_proposal",
+    "action_proposal",
+    "rollup_request",
+    "missing_evidence",
+    "review_signal",
+)
+
+
 class SourceEventValidationError(ValueError):
     def __init__(self, errors: list[str]):
         super().__init__("source event validation failed")
@@ -117,6 +129,76 @@ class SourceEventIngestor:
         return "in_order"
 
 
+class ReviewPacketBuilder:
+    def __init__(self, stores: StateStoreBundle):
+        self.stores = stores
+
+    def build(
+        self,
+        *,
+        trigger: JsonObject,
+        created_at: str,
+        packet_id: str | None = None,
+        resolved_evidence_by_ref: dict[str, JsonObject] | None = None,
+        unresolved_evidence_refs: list[str] | None = None,
+        persona: JsonObject | None = None,
+        governance_constraints: list[JsonObject] | None = None,
+        allowed_outputs: tuple[str, ...] = DEFAULT_ALLOWED_OUTPUTS,
+    ) -> JsonObject:
+        evidence_refs = list(trigger.get("evidence_refs", []))
+        resolved_evidence_by_ref = resolved_evidence_by_ref or {}
+        unresolved = list(unresolved_evidence_refs or [])
+        unresolved.extend(
+            ref
+            for ref in evidence_refs
+            if ref not in resolved_evidence_by_ref and ref not in unresolved
+        )
+
+        candidate_state_refs = list(trigger.get("candidate_state_refs", []))
+        candidate_memory_refs = list(trigger.get("candidate_memory_refs", []))
+
+        return {
+            "id": packet_id or _review_packet_id(trigger),
+            "created_at": created_at,
+            "trigger": deepcopy(trigger),
+            "evidence_packet": {
+                "evidence_refs": evidence_refs,
+                "resolved_evidence": [
+                    deepcopy(resolved_evidence_by_ref[ref])
+                    for ref in evidence_refs
+                    if ref in resolved_evidence_by_ref
+                ],
+                "unresolved_evidence_refs": unresolved,
+            },
+            "state_context": {
+                "snapshots": self._read_existing(self.stores.state_objects, candidate_state_refs)
+            },
+            "journal_context": {
+                "recent_entries": [
+                    entry
+                    for entry in self.stores.journals.replay()
+                    if entry.get("state_object_id") in candidate_state_refs
+                ]
+            },
+            "memory_context": {
+                "entries": self._read_existing(self.stores.memory, candidate_memory_refs)
+            },
+            "persona_context": {"persona": deepcopy(persona or {})},
+            "governance_context": {
+                "constraints": [deepcopy(item) for item in governance_constraints or []]
+            },
+            "allowed_outputs": list(allowed_outputs),
+        }
+
+    def _read_existing(self, store, record_ids: list[str]) -> list[JsonObject]:
+        records = []
+        existing_ids = set(store.list_ids())
+        for record_id in record_ids:
+            if record_id in existing_ids:
+                records.append(store.read(record_id))
+        return records
+
+
 def _trigger_from_source_event(source_event: JsonObject) -> JsonObject:
     payload = {
         "source_system": source_event["source_system"],
@@ -154,6 +236,13 @@ def _trigger_id(source_event: JsonObject) -> str:
     if source_id.startswith("source."):
         return f"trigger.{source_id[len('source.'):]}"
     return f"trigger.{source_id}"
+
+
+def _review_packet_id(trigger: JsonObject) -> str:
+    trigger_id = str(trigger["id"])
+    if trigger_id.startswith("trigger."):
+        return f"review_packet.{trigger_id[len('trigger.'):]}"
+    return f"review_packet.{trigger_id}"
 
 
 def _source_event_id(source_event: JsonObject) -> str:
