@@ -81,5 +81,5 @@ requires human approval before external action.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py
 ```
