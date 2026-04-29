@@ -79,7 +79,9 @@ To begin execution, start the coordinator:
 wg service start
 ```
 
-The coordinator will start with the assignment task for `ss-spec-anchor`.
+The first lane task is `ss-spec-anchor`. If coordinator assignment is not
+available, use manual Workgraph mode: run the drift check, complete the scoped
+task, run the drift check again, then mark the task done.
 
 ## Current Drift Result
 

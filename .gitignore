@@ -1,1 +1,4 @@
 .workgraph
+.wg-worktrees/
+__pycache__/
+*.pyc

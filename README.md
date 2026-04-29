@@ -29,6 +29,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 
 - `docs/NORTH_STAR.md` - guiding North Star for the effort
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
+- `docs/specs/2026-04-28-state-system-speedrift-plan.md` - Speedrift execution anchor for the first deployment
 - `docs/concepts/` - focused concept notes
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
@@ -72,3 +73,11 @@ Patrick gives the system a comparison trace. Where Laura tests strategic and
 market-facing interpretation, Patrick tests terse operational state: what is the
 owner, what is the stage, what is missing, what is the next action, and what
 requires human approval before external action.
+
+## Validation
+
+Run the local contract and fixture harness:
+
+```bash
+python3 -m unittest tests/test_contracts.py
+```
