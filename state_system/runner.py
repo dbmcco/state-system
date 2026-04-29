@@ -21,6 +21,8 @@ class SourceEventIngestionResult:
     trigger: JsonObject | None
     evidence_context: JsonObject
     duplicate_of: str | None = None
+    duplicate_reason: str | None = None
+    watermark_status: str = "unknown"
 
 
 class SourceEventIngestor:
@@ -34,9 +36,11 @@ class SourceEventIngestor:
             raise SourceEventValidationError(errors)
 
         idempotency_key = _idempotency_key(source_event)
-        existing = self._find_existing_by_idempotency_key(idempotency_key)
-        evidence_context = _evidence_context(source_event)
+        existing, duplicate_reason = self._find_duplicate(source_event)
+        watermark_status = self._watermark_status(source_event)
+        evidence_context = _evidence_context(source_event, watermark_status)
         if existing is not None:
+            self._record_duplicate(source_event, existing, duplicate_reason, watermark_status)
             return SourceEventIngestionResult(
                 created=False,
                 idempotency_key=idempotency_key,
@@ -44,9 +48,11 @@ class SourceEventIngestor:
                 trigger=None,
                 evidence_context=evidence_context,
                 duplicate_of=existing["id"],
+                duplicate_reason=duplicate_reason,
+                watermark_status=watermark_status,
             )
 
-        self.stores.source_events.create(source_event)
+        self.stores.source_events.create(_record_with_watermark(source_event, watermark_status))
         trigger = _trigger_from_source_event(source_event)
         return SourceEventIngestionResult(
             created=True,
@@ -54,13 +60,61 @@ class SourceEventIngestor:
             source_event_id=_source_event_id(source_event),
             trigger=trigger,
             evidence_context=evidence_context,
+            watermark_status=watermark_status,
         )
 
-    def _find_existing_by_idempotency_key(self, idempotency_key: str) -> JsonObject | None:
+    def _find_duplicate(self, source_event: JsonObject) -> tuple[JsonObject | None, str | None]:
+        identities = _dedupe_identities(source_event)
         for record in self.stores.source_events.replay():
-            if _idempotency_key(record) == idempotency_key:
-                return record
-        return None
+            record_identities = _dedupe_identities(record)
+            for reason in (
+                "idempotency_key",
+                "source_event_id",
+                "semantic_fingerprint",
+                "field_transition",
+            ):
+                if (
+                    identities.get(reason)
+                    and identities.get(reason) == record_identities.get(reason)
+                ):
+                    return record, reason
+        return None, None
+
+    def _record_duplicate(
+        self,
+        source_event: JsonObject,
+        existing: JsonObject,
+        duplicate_reason: str | None,
+        watermark_status: str,
+    ) -> None:
+        if source_event["id"] == existing["id"]:
+            return
+        if source_event["id"] in self.stores.source_events.list_ids():
+            return
+
+        duplicate = _record_with_watermark(source_event, watermark_status)
+        duplicate["duplicate_of_ref"] = existing["id"]
+        duplicate["duplicate_reason"] = duplicate_reason
+        duplicate["idempotency"] = deepcopy(source_event["idempotency"])
+        duplicate["idempotency"]["duplicate_of_ref"] = existing["id"]
+        self.stores.source_events.create(duplicate)
+
+    def _watermark_status(self, source_event: JsonObject) -> str:
+        watermark = _source_watermark(source_event)
+        if watermark is None:
+            return "unknown"
+
+        source_system = source_event.get("source_system")
+        prior_watermarks = [
+            prior
+            for record in self.stores.source_events.replay()
+            if record.get("source_system") == source_system
+            for prior in [_source_watermark(record)]
+            if prior is not None
+        ]
+        if prior_watermarks and watermark < max(prior_watermarks):
+            return "out_of_order"
+        return "in_order"
 
 
 def _trigger_from_source_event(source_event: JsonObject) -> JsonObject:
@@ -87,9 +141,10 @@ def _trigger_from_source_event(source_event: JsonObject) -> JsonObject:
     return trigger
 
 
-def _evidence_context(source_event: JsonObject) -> JsonObject:
+def _evidence_context(source_event: JsonObject, watermark_status: str) -> JsonObject:
+    event = _record_with_watermark(source_event, watermark_status)
     return {
-        "source_event": deepcopy(source_event),
+        "source_event": event,
         "source_refs": list(source_event["source_refs"]),
     }
 
@@ -107,3 +162,57 @@ def _source_event_id(source_event: JsonObject) -> str:
 
 def _idempotency_key(source_event: JsonObject) -> str:
     return str(source_event["idempotency"]["key"])
+
+
+def _dedupe_identities(source_event: JsonObject) -> dict[str, str]:
+    identities = {"idempotency_key": _idempotency_key(source_event)}
+    source_event_id = source_event.get("source_event_id")
+    if isinstance(source_event_id, str) and source_event_id:
+        identities["source_event_id"] = source_event_id
+
+    semantic_fingerprint = source_event.get("idempotency", {}).get(
+        "semantic_fingerprint"
+    )
+    if isinstance(semantic_fingerprint, str) and semantic_fingerprint:
+        identities["semantic_fingerprint"] = semantic_fingerprint
+
+    field_transition = _field_transition_identity(source_event)
+    if field_transition is not None:
+        identities["field_transition"] = field_transition
+
+    return identities
+
+
+def _field_transition_identity(source_event: JsonObject) -> str | None:
+    change = source_event.get("change")
+    if not isinstance(change, dict):
+        return None
+    required = ("object_ref", "field", "old_value", "new_value")
+    if not all(key in change for key in required):
+        return None
+    return ":".join(
+        [
+            str(source_event.get("source_system", "")),
+            str(change["object_ref"]),
+            str(change["field"]),
+            str(change["old_value"]),
+            str(change["new_value"]),
+        ]
+    )
+
+
+def _source_watermark(source_event: JsonObject) -> str | None:
+    sync_context = source_event.get("sync_context")
+    if not isinstance(sync_context, dict):
+        return None
+    watermark = sync_context.get("source_watermark")
+    if not isinstance(watermark, str) or not watermark:
+        return None
+    return watermark
+
+
+def _record_with_watermark(source_event: JsonObject, watermark_status: str) -> JsonObject:
+    record = deepcopy(source_event)
+    if watermark_status != "unknown":
+        record["watermark_status"] = watermark_status
+    return record
