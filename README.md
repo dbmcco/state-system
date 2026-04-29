@@ -38,6 +38,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
 - `docs/concepts/first-deployment-mode.md` - first deployment mode for the end-state architecture
 - `docs/concepts/model-pressure-test.md` - scenario pressure test for the model-mediated decision layer
+- `docs/concepts/model-reviewer-runtime-boundary.md` - production reviewer prompt, tool, and agent access boundary
 - `docs/concepts/committer-and-governance.md` - how proposals become durable effects or pending/rejected signals
 - `docs/concepts/governance-policy.md` - inspectable policy shape for approvals and blocked effects
 - `docs/concepts/first-deployment-implementation-blueprint.md` - implementation path and fixture trace for the first deployment
