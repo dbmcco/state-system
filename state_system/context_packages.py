@@ -88,6 +88,7 @@ class ContextPackager:
         included_entries: list[JsonObject] = []
         excluded_summary: list[JsonObject] = []
         watermark_refs: list[str] = []
+        requires_refresh_before_external_action = False
 
         for recent_change in self.stores.recent_changes.replay():
             route = _route_for_persona(recent_change, persona["id"])
@@ -100,6 +101,13 @@ class ContextPackager:
             if route["included"] and route["relevance_tier"] in included_tiers:
                 included_entries.append(
                     self._recent_entry_for_persona(recent_change, persona["id"], None)
+                )
+                requires_refresh_before_external_action = (
+                    requires_refresh_before_external_action
+                    or recent_change["freshness"].get(
+                        "requires_refresh_before_external_action",
+                        False,
+                    )
                 )
             else:
                 excluded_summary.append(
@@ -132,7 +140,7 @@ class ContextPackager:
             open_questions=[],
             watermark_refs=watermark_refs,
             valid_until=valid_until,
-            requires_refresh_before_external_action=False,
+            requires_refresh_before_external_action=requires_refresh_before_external_action,
             stale_if_refs_change=[],
         )
         return self._persist(package)

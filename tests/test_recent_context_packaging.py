@@ -228,6 +228,88 @@ class RecentContextPackagingTests(unittest.TestCase):
                 ],
             )
 
+    def test_recent_change_package_preserves_freshness_for_external_action(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            change = self._change_with_routes(
+                "recent.linear.southern-abrasives-won",
+                [
+                    {
+                        "persona_ref": "persona.laura",
+                        "relevance_tier": "secondary",
+                        "routing_reason": "Won deal may become a proof point.",
+                        "included": True,
+                    }
+                ],
+            )
+            change["freshness"] = {
+                "watermark_refs": [
+                    "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                    "governance.external-copy-approval",
+                ],
+                "stale_after": "2026-04-29T16:07:30Z",
+                "requires_refresh_before_external_action": True,
+            }
+            stores.recent_changes.create(change)
+
+            package = ContextPackager(stores, self._schemas()).build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "laura-persona.json"),
+                package_id="context.laura.recent-refresh-required",
+                created_at="2026-04-30T12:00:00Z",
+                review_goal="Review recent Laura-relevant changes.",
+                valid_until="2026-04-30T18:00:00Z",
+            )
+
+            self.assertTrue(package["freshness"]["requires_refresh_before_external_action"])
+            self.assertEqual(
+                [
+                    "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                    "governance.external-copy-approval",
+                ],
+                package["freshness"]["watermark_refs"],
+            )
+
+    def test_shared_change_can_route_differently_to_laura_and_patrick(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            stores.recent_changes.create(
+                self._change_with_routes(
+                    "recent.linear.southern-abrasives-won",
+                    self._southern_abrasives_routes(),
+                )
+            )
+
+            laura_package = ContextPackager(stores, self._schemas()).build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "laura-persona.json"),
+                package_id="context.laura.recent-southern-abrasives",
+                created_at="2026-04-30T12:00:00Z",
+                review_goal="Review Laura-relevant changes.",
+                valid_until="2026-04-30T18:00:00Z",
+            )
+            patrick_package = ContextPackager(
+                stores,
+                self._schemas(),
+            ).build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "patrick-persona.json"),
+                package_id="context.patrick.recent-southern-abrasives",
+                created_at="2026-04-30T12:00:00Z",
+                review_goal="Review Patrick-relevant changes.",
+                valid_until="2026-04-30T18:00:00Z",
+            )
+
+            self.assertEqual(
+                "secondary",
+                laura_package["recent_change_context"]["entries"][0]["persona_route"][
+                    "relevance_tier"
+                ],
+            )
+            self.assertEqual(
+                "primary",
+                patrick_package["recent_change_context"]["entries"][0]["persona_route"][
+                    "relevance_tier"
+                ],
+            )
+
     def _stores_with_southern_abrasives_context(self, root: Path) -> StateStoreBundle:
         stores = StateStoreBundle(root)
         stores.state_objects.create(

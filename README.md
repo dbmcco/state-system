@@ -33,6 +33,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/` - focused concept notes
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
+- `docs/concepts/paia-memory-adapter-boundary.md` - adapter boundary for reusing PAIA memory without making State System PAIA-only
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
@@ -81,5 +82,5 @@ requires human approval before external action.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py
 ```
