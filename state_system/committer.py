@@ -37,6 +37,11 @@ class Committer:
         rejected = self._rejected_proposals(model_output, evidence_ref_set)
         if pending or rejected:
             status = "pending_approval" if pending and not rejected else "rejected"
+            queued_rollups = (
+                list(model_output["rollup_requests"])
+                if status == "pending_approval"
+                else []
+            )
             result = self._commit_result(
                 model_output,
                 commit_id=commit_id,
@@ -45,7 +50,7 @@ class Committer:
                 accepted_journal_refs=[],
                 accepted_memory_refs=[],
                 materialized_snapshot_refs=[],
-                queued_rollups=[],
+                queued_rollups=queued_rollups,
                 pending_approvals=pending,
                 rejected_proposals=rejected,
             )
@@ -352,7 +357,11 @@ def _indexed_ref(refs: list[str], index: int, fallback: str) -> str:
 def _target_ref(proposal: JsonObject) -> str:
     target = proposal.get("target", {})
     if isinstance(target, dict):
-        value = target.get("state_object_id") or target.get("owner_ref")
+        value = (
+            target.get("state_object_id")
+            or target.get("target_ref")
+            or target.get("owner_ref")
+        )
         if isinstance(value, str):
             return value
     return ""
