@@ -1,0 +1,52 @@
+{
+  "id": "source.speedrift.model-mediated-intent-routing",
+  "source_system": "speedrift",
+  "source_event": "drift.model_mediation_finding",
+  "source_event_id": "speedrift:experiments:model-mediated-example:finding:intent-router-keywords",
+  "occurred_at": "2026-04-30T17:10:00Z",
+  "observed_at": "2026-04-30T17:10:05Z",
+  "actor_ref": "system.speedrift.archdrift",
+  "summary": "archdrift found a possible model agency violation in an intent routing path.",
+  "source_refs": [
+    "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+    "workgraph:repo:experiments:task:model-mediated-example",
+    "file:src/intent_router.py",
+    "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md"
+  ],
+  "change": {
+    "kind": "model_mediation_candidate",
+    "object_ref": "workgraph:repo:experiments:task:model-mediated-example",
+    "payload_summary": "A changed intent routing file appears to classify user intent with deterministic keyword lists before a model can choose the route.",
+    "new_value": {
+      "type": "possible_model_agency_violation",
+      "subtype": "routing_violation",
+      "profile": "advisory",
+      "decision": "Classify user intent for assistant workflow routing",
+      "current_owner": "code",
+      "expected_owner": "model",
+      "deviation_path": "docs/model-mediated/MODEL_MEDIATED_DEVIATION_REGISTER.md",
+      "workgraph_followup_suggested": true
+    }
+  },
+  "candidate_state_refs": [
+    "state.experiments.capability.model-mediated-development",
+    "state.experiments.decision.model-mediated-routing"
+  ],
+  "candidate_persona_refs": [
+    "persona.codex",
+    "persona.architecture-steward"
+  ],
+  "governance_refs": [
+    "governance.model-mediated-deviation-approval"
+  ],
+  "idempotency": {
+    "key": "speedrift:experiments:model-mediated-example:finding:intent-router-keywords",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "speedrift-check-2026-04-30T17:10:00Z",
+    "source_watermark": "model-mediated-example@working-tree",
+    "partial": false,
+    "confidence": "medium"
+  }
+}

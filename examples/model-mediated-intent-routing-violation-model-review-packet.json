@@ -1,0 +1,128 @@
+{
+  "id": "review_packet.model-mediated.intent-routing-violation",
+  "created_at": "2026-04-30T17:10:30Z",
+  "trigger": {
+    "id": "trigger.speedrift.model-mediated-intent-routing",
+    "source": "tool_result",
+    "created_at": "2026-04-30T17:10:06Z",
+    "actor_ref": "system.speedrift.archdrift",
+    "summary": "Speedrift reported a possible model agency violation in intent routing.",
+    "payload": {
+      "source_system": "speedrift",
+      "source_event": "drift.model_mediation_finding",
+      "source_event_id": "speedrift:experiments:model-mediated-example:finding:intent-router-keywords",
+      "finding_type": "possible_model_agency_violation",
+      "finding_subtype": "routing_violation",
+      "decision": "Classify user intent for assistant workflow routing",
+      "current_owner": "code",
+      "expected_owner": "model",
+      "profile": "advisory"
+    },
+    "evidence_refs": [
+      "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+      "workgraph:repo:experiments:task:model-mediated-example",
+      "file:src/intent_router.py",
+      "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md"
+    ],
+    "candidate_state_refs": [
+      "state.experiments.capability.model-mediated-development",
+      "state.experiments.decision.model-mediated-routing"
+    ],
+    "candidate_memory_refs": [
+      "memory.codex.development.pattern.model-mediation-heuristic-drift"
+    ],
+    "persona_ref": "persona.codex",
+    "governance_refs": [
+      "governance.model-mediated-deviation-approval"
+    ]
+  },
+  "evidence_packet": {
+    "evidence_refs": [
+      "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+      "workgraph:repo:experiments:task:model-mediated-example",
+      "file:src/intent_router.py",
+      "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+        "summary": "archdrift classified the changed routing path as a possible model agency violation candidate, not a final violation judgment.",
+        "source_type": "speedrift_finding",
+        "observed_at": "2026-04-30T17:10:05Z"
+      },
+      {
+        "ref": "file:src/intent_router.py",
+        "summary": "The changed path name and finding context indicate intent routing code where semantic ownership should be reviewed.",
+        "source_type": "changed_file",
+        "observed_at": "2026-04-30T17:10:05Z"
+      },
+      {
+        "ref": "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md",
+        "summary": "The local doctrine says model owns semantic routing decisions unless code earns a documented exception.",
+        "source_type": "architecture_doc",
+        "observed_at": "2026-04-30T17:10:05Z"
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "diff:src/intent_router.py",
+      "file:docs/model-mediated/MODEL_MEDIATED_DEVIATION_REGISTER.md"
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "id": "state.experiments.capability.model-mediated-development",
+        "type": "capability",
+        "summary": "Model-mediated development doctrine is being promoted into a skill, Speedrift review surface, State System memory loop, and Workgraph execution pattern.",
+        "status": "in_progress"
+      },
+      {
+        "id": "state.experiments.decision.model-mediated-routing",
+        "type": "decision_area",
+        "summary": "Intent routing should be model-owned by default; deterministic routing can exist only as an explicit, scoped, evidenced deviation.",
+        "status": "open"
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "persona_context": {
+    "persona": {
+      "id": "persona.codex",
+      "name": "Codex",
+      "role": "CLI implementation agent",
+      "watched_domains": [
+        "implementation_discipline",
+        "model_mediation",
+        "architecture_drift"
+      ],
+      "authority_boundaries": [
+        "May propose internal documentation, tests, and code changes inside task scope.",
+        "Requires explicit deviation record before preserving deterministic semantic ownership in model-mediated paths."
+      ]
+    }
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "governance.model-mediated-deviation-approval",
+        "summary": "A deterministic exception to model-owned semantic judgment must be explicit, scoped, evidenced, owned, and revisitable.",
+        "approval_required": true
+      }
+    ]
+  },
+  "allowed_outputs": [
+    "no_op",
+    "state_proposal",
+    "memory_proposal",
+    "promotion_proposal",
+    "action_proposal",
+    "rollup_request",
+    "missing_evidence",
+    "review_signal"
+  ]
+}

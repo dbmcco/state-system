@@ -46,6 +46,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/materialization-and-patch-semantics.md` - how accepted journal patches become snapshots
 - `docs/concepts/patrick-ops-manager.md` - second persona and operational pressure test
 - `docs/concepts/workgraph-speedrift-github-integration.md` - how State System attaches to execution, drift, and code collaboration systems
+- `docs/concepts/model-mediation-drift-memory-loop.md` - how Speedrift model-agency findings become source events, review packets, memory, state, or Workgraph action proposals
 - `docs/concepts/recent-change-registry-and-agent-opportunities.md` - recent-change indexing and persona-specific opportunity review
 - `docs/concepts/agent-context-packages.md` - bounded persona-specific context packages for agents
 - `docs/concepts/system-pressure-test.md` - system-level pressure test across routing, packaging, freshness, governance, and agent conflict

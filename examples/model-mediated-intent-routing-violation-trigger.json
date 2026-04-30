@@ -1,0 +1,35 @@
+{
+  "id": "trigger.speedrift.model-mediated-intent-routing",
+  "source": "tool_result",
+  "created_at": "2026-04-30T17:10:06Z",
+  "actor_ref": "system.speedrift.archdrift",
+  "summary": "Speedrift reported a possible model agency violation in intent routing.",
+  "payload": {
+    "source_system": "speedrift",
+    "source_event": "drift.model_mediation_finding",
+    "source_event_id": "speedrift:experiments:model-mediated-example:finding:intent-router-keywords",
+    "finding_type": "possible_model_agency_violation",
+    "finding_subtype": "routing_violation",
+    "decision": "Classify user intent for assistant workflow routing",
+    "current_owner": "code",
+    "expected_owner": "model",
+    "profile": "advisory"
+  },
+  "evidence_refs": [
+    "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+    "workgraph:repo:experiments:task:model-mediated-example",
+    "file:src/intent_router.py",
+    "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md"
+  ],
+  "candidate_state_refs": [
+    "state.experiments.capability.model-mediated-development",
+    "state.experiments.decision.model-mediated-routing"
+  ],
+  "candidate_memory_refs": [
+    "memory.codex.development.pattern.model-mediation-heuristic-drift"
+  ],
+  "persona_ref": "persona.codex",
+  "governance_refs": [
+    "governance.model-mediated-deviation-approval"
+  ]
+}

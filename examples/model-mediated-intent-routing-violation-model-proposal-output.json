@@ -1,0 +1,121 @@
+{
+  "id": "model_output.model-mediated.intent-routing-violation",
+  "review_packet_id": "review_packet.model-mediated.intent-routing-violation",
+  "decision": "propose_updates",
+  "observations": [
+    "The Speedrift finding is a candidate, not proof by itself.",
+    "The decision under review is semantic intent classification for route selection, which the model-mediated doctrine assigns to the model unless a deviation is recorded.",
+    "The available packet supports a follow-up and draft agent memory, but the exact code diff and deviation register are still needed before declaring a confirmed violation."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.experiments.decision.model-mediated-routing",
+      "update_class": "interpretive",
+      "interpretation": "Intent routing has an unresolved model-ownership review point: deterministic code may be classifying user intent before the model can choose a route.",
+      "state_patch": {
+        "summary": "Intent routing should remain model-owned by default. A Speedrift finding indicates a possible deterministic routing shortcut that needs review against the deviation register.",
+        "status": "needs_review",
+        "open_questions": [
+          "Does the changed code classify semantic intent or only validate explicit user commands?",
+          "Is there an approved deviation for deterministic intent routing?",
+          "Can route selection be expressed as a model structured output or tool choice instead?"
+        ]
+      },
+      "evidence_refs": [
+        "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+        "file:src/intent_router.py",
+        "file:docs/model-mediated/MODEL_MEDIATED_SPEEDRIFT_DRIFT_CHECK.md"
+      ],
+      "uncertainty": [
+        "The exact diff is unresolved in the packet.",
+        "The deviation register was not resolved."
+      ],
+      "approval_required": false
+    }
+  ],
+  "memory_proposals": [
+    {
+      "agent_ref": "persona.codex",
+      "memory_key": "development.pattern.model-mediation-heuristic-drift",
+      "layer": "draft",
+      "memory_type": "lesson",
+      "summary": "When implementing model-mediated routing, check whether deterministic code is taking semantic ownership before adding keyword or rule maps.",
+      "content": "A Speedrift model-mediation finding identified possible intent routing drift. Future implementation should first map the decision owner, then prefer model structured outputs or tool choice for semantic routing unless a deterministic exception is documented.",
+      "confidence": 0.65,
+      "evidence_refs": [
+        "speedrift:repo:experiments:task:model-mediated-example:finding:intent-router-keywords",
+        "workgraph:repo:experiments:task:model-mediated-example"
+      ],
+      "related_state_refs": [
+        "state.experiments.capability.model-mediated-development",
+        "state.experiments.decision.model-mediated-routing"
+      ],
+      "promotion_status": "candidate",
+      "approval_required": false
+    }
+  ],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create a Workgraph follow-up to inspect the intent routing diff and either move semantic routing back to a model-owned contract or record an explicit deviation.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "system": "workgraph",
+        "repo": "experiments"
+      },
+      "payload": {
+        "suggested_task_id": "review-model-mediated-intent-routing",
+        "depends_on": [
+          "model-mediated-example"
+        ],
+        "acceptance": [
+          "Decision owner for intent routing is documented.",
+          "If code owns semantic routing, the deviation register includes owner, scope, evidence, tests, and review date.",
+          "If the model owns routing, the implementation exposes route choice through a model-readable structured output or tool contract."
+        ]
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.experiments.capability.model-mediated-development",
+      "reason": "A possible routing violation may affect implementation discipline and skill doctrine."
+    }
+  ],
+  "uncertainty": [
+    "The exact code diff is not resolved.",
+    "The deviation register was not resolved.",
+    "The finding profile is advisory, so remediation should remain a Workgraph follow-up unless confirmed."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Exact changed diff for the routing path.",
+      "needed_ref_or_source": "diff:src/intent_router.py"
+    },
+    {
+      "summary": "Existing deviation register entries for deterministic routing.",
+      "needed_ref_or_source": "file:docs/model-mediated/MODEL_MEDIATED_DEVIATION_REGISTER.md"
+    }
+  ],
+  "review_signal": {
+    "id": "review.model-mediated.intent-routing-violation",
+    "trigger_id": "trigger.speedrift.model-mediated-intent-routing",
+    "created_at": "2026-04-30T17:11:00Z",
+    "status": "follow_up_proposed",
+    "summary": "The finding should be treated as a possible model agency violation with a Workgraph follow-up and draft Codex memory, not as an automatic confirmed violation.",
+    "journal_entry_refs": [],
+    "memory_entry_refs": [
+      "memory.codex.development.pattern.model-mediation-heuristic-drift"
+    ],
+    "rollup_requests": [
+      {
+        "state_object_id": "state.experiments.capability.model-mediated-development",
+        "reason": "A possible routing violation may affect implementation discipline and skill doctrine."
+      }
+    ],
+    "follow_up_refs": [
+      "workgraph:repo:experiments:task:review-model-mediated-intent-routing"
+    ]
+  }
+}

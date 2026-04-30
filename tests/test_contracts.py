@@ -65,6 +65,12 @@ class ContractHarnessTests(unittest.TestCase):
                 "examples/laura-southern-abrasives-opportunity-model-output.json",
                 "examples/laura-southern-abrasives-opportunity-commit-result.json",
             ],
+            [
+                "examples/source-model-mediated-intent-routing-violation.json",
+                "examples/model-mediated-intent-routing-violation-trigger.json",
+                "examples/model-mediated-intent-routing-violation-model-review-packet.json",
+                "examples/model-mediated-intent-routing-violation-model-proposal-output.json",
+            ],
         ]
 
         failures = []
