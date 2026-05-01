@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/agent-response.schema.json",
+  "title": "AgentResponse",
+  "type": "object",
+  "required": [
+    "id",
+    "package_id",
+    "consumer_ref",
+    "created_at",
+    "response_text",
+    "evidence_refs",
+    "status",
+    "extraction_status",
+    "proposed_effect_refs"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "package_id": { "type": "string" },
+    "consumer_ref": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "response_text": { "type": "string" },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["captured", "extracted", "rejected"]
+    },
+    "extraction_status": {
+      "type": "string",
+      "enum": ["not_extracted", "extracted", "failed"]
+    },
+    "proposed_effect_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

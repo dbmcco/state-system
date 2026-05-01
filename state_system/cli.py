@@ -6,6 +6,10 @@ from pathlib import Path
 import sys
 from typing import TextIO
 
+from state_system.agent_consumers import (
+    capture_agent_response,
+    render_package_for_agent,
+)
 from state_system.contracts import load_json, validate_all_examples
 from state_system.runtime import (
     build_recent_package,
@@ -34,6 +38,7 @@ COLLECTIONS = {
     "commit": "commits",
     "recent": "recent_changes",
     "package": "context_packages",
+    "agent-response": "agent_responses",
 }
 
 
@@ -220,6 +225,25 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, package)
         return 0
 
+    if args.command == "render-package":
+        stdout.write(render_package_for_agent(stores.context_packages.read(args.package_id)))
+        stdout.write("\n")
+        return 0
+
+    if args.command == "capture-response":
+        response_text = Path(args.response_path).read_text(encoding="utf-8")
+        record = capture_agent_response(
+            stores,
+            _runtime_schemas(project_root),
+            package_id=args.package_id,
+            consumer_ref=args.consumer,
+            response_text=response_text,
+            created_at=args.created_at,
+            response_id=args.response_id,
+        )
+        _write_json(stdout, record)
+        return 0
+
     if args.command == "get":
         store = _store(stores, args.collection)
         _write_json(stdout, store.read(args.record_id))
@@ -345,6 +369,16 @@ def _parser() -> argparse.ArgumentParser:
     build_package.add_argument("--review-goal", required=True)
     build_package.add_argument("--valid-until", required=True)
 
+    render_package = subcommands.add_parser("render-package")
+    render_package.add_argument("package_id")
+
+    capture_response = subcommands.add_parser("capture-response")
+    capture_response.add_argument("package_id")
+    capture_response.add_argument("response_path")
+    capture_response.add_argument("--consumer", required=True)
+    capture_response.add_argument("--created-at", required=True)
+    capture_response.add_argument("--response-id")
+
     get = subcommands.add_parser("get")
     get.add_argument("collection", choices=sorted(COLLECTIONS))
     get.add_argument("record_id")
@@ -410,6 +444,9 @@ def _runtime_schemas(project_root: Path) -> dict[str, JsonObject]:
         ),
         "context_package": load_json(
             project_root / "schemas" / "context-package.schema.json"
+        ),
+        "agent_response": load_json(
+            project_root / "schemas" / "agent-response.schema.json"
         ),
     }
 

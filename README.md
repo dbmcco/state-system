@@ -57,7 +57,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/source-events-and-idempotency.md` - source event envelope, idempotency keys, sync context, and source watermarks
 - `docs/concepts/backward-gap-audit.md` - thin backward pass before committer implementation
 - `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
-- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, and context packages
+- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, and agent responses
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
 
 ## First Personas
@@ -85,7 +85,7 @@ requires human approval before external action.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py
 ```
 
 ## Runtime V0 CLI
@@ -101,4 +101,20 @@ python3 -m state_system.cli --state-root /path/to/runtime git-commit-from-repo .
 python3 -m state_system.cli --state-root /path/to/runtime index-source-recent source.git.repo.state-system.<sha> --created-at 2026-05-01T18:47:00Z --summary "Latest commit changed runtime support." --routes /path/to/routes.json --watermark-ref git:repo.state-system:commit:<sha> --stale-after 2026-05-02T18:47:00Z
 python3 -m state_system.cli --state-root /path/to/runtime review source.linear.southern-abrasives-won --packet-id review_packet.linear.southern-abrasives-won --created-at 2026-04-28T16:05:30Z --persona examples/patrick-persona.json --resolved-evidence /path/to/evidence.json --governance-constraints /path/to/governance.json
 python3 -m state_system.cli --state-root /path/to/runtime commit examples/linear-southern-abrasives-won-model-proposal-output.json --created-at 2026-04-28T16:07:00Z --evidence-ref linear:deal:southern-abrasives
+```
+
+## Agent Consumer Contract V0
+
+Context packages can be rendered for any agent or CLI as free-text narrative
+without binding State System to a provider:
+
+```bash
+python3 -m state_system.cli --state-root /path/to/runtime render-package context.laura.southern-abrasives-won-opportunity
+```
+
+Raw agent output is captured as a durable artifact linked back to the package
+and evidence that shaped it:
+
+```bash
+python3 -m state_system.cli --state-root /path/to/runtime capture-response context.laura.southern-abrasives-won-opportunity /path/to/response.txt --consumer consumer.codex --created-at 2026-05-01T20:31:00Z
 ```
