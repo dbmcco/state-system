@@ -189,7 +189,7 @@
 
     .explainer-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
     }
 
@@ -258,10 +258,10 @@
   <main>
     <h1>State System Orientation Diagram</h1>
     <p class="lede">
-      State System is the organizational state layer: it turns scattered signals into durable,
-      evidence-backed interpretation that humans and agents can act from. This diagram shows the
-      system as of May 1, 2026, including what is implemented, what is partially in place, and what
-      should come next.
+      State System is the organizational state layer: it turns scattered signals from known and
+      unknown sources into durable, evidence-backed interpretation that humans and agents can act
+      from. This diagram shows the system as of May 1, 2026, including source generalization,
+      coherence maintenance, what is implemented, what is partial, and what should come next.
     </p>
 
     <section class="section" aria-labelledby="legend-heading">
@@ -277,7 +277,7 @@
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--next);"></span>Next</strong>
-          <p>The next design lane: State Activation Contract and answer loop.</p>
+          <p>The next design lanes: source generalization, coherence, then activation.</p>
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--future);"></span>Future</strong>
@@ -293,11 +293,12 @@
     <section class="section" aria-labelledby="diagram-heading">
       <h2 id="diagram-heading">System Map</h2>
       <div class="diagram-wrap">
-        <svg viewBox="0 0 1320 930" role="img" aria-labelledby="svg-title svg-desc">
+        <svg viewBox="0 0 1320 1200" role="img" aria-labelledby="svg-title svg-desc">
           <title id="svg-title">State System detailed architecture diagram</title>
           <desc id="svg-desc">
-            A layered system diagram showing source systems, evidence intake, model-mediated state
-            updates, durable state, context packaging, activation, feedback, and consumers.
+            A layered system diagram showing source systems, generalized evidence access,
+            model-mediated state updates, coherence maintenance, activation, feedback, and
+            consumers.
           </desc>
 
           <defs>
@@ -312,35 +313,35 @@
             </filter>
           </defs>
 
-          <rect x="0" y="0" width="1320" height="930" fill="#ffffff"></rect>
+          <rect x="0" y="0" width="1320" height="1200" fill="#ffffff"></rect>
           <text x="34" y="40" class="svg-title">State System: durable interpretation for humans and agents</text>
-          <text x="34" y="62" class="svg-subtitle">Core spine: update state, activate state, capture feedback, then review what should become durable.</text>
+          <text x="34" y="62" class="svg-subtitle">Core spine: generalize sources, update state, maintain coherence, activate state, capture feedback.</text>
 
-          <text x="34" y="105" class="layer-label">Source Systems</text>
+          <text x="34" y="105" class="layer-label">Source Universe</text>
           <g filter="url(#shadow)">
             <rect x="34" y="122" width="184" height="86" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="50" y="149" class="node-title">Linear / CRM</text>
-            <text x="50" y="171" class="node-copy">Deals, tasks, project</text>
-            <text x="50" y="188" class="node-copy">stage changes</text>
-            <text x="50" y="202" class="status-label" fill="var(--partial)">PARTIAL SOURCES</text>
+            <text x="50" y="149" class="node-title">Event Sources</text>
+            <text x="50" y="171" class="node-copy">Linear, GitHub,</text>
+            <text x="50" y="188" class="node-copy">Workgraph, Speedrift</text>
+            <text x="50" y="202" class="status-label" fill="var(--partial)">PARTIAL</text>
 
             <rect x="242" y="122" width="184" height="86" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="258" y="149" class="node-title">Git / GitHub</text>
-            <text x="258" y="171" class="node-copy">Commits, PRs, checks,</text>
-            <text x="258" y="188" class="node-copy">commitments</text>
-            <text x="258" y="202" class="status-label" fill="var(--done)">GIT ADAPTER DONE</text>
+            <text x="258" y="149" class="node-title">Canonical Corpora</text>
+            <text x="258" y="171" class="node-copy">Gmail, Google Drive,</text>
+            <text x="258" y="188" class="node-copy">docs, meetings, PDFs</text>
+            <text x="258" y="202" class="status-label" fill="var(--next)">EXPANDING</text>
 
             <rect x="450" y="122" width="184" height="86" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="466" y="149" class="node-title">Workgraph / Speedrift</text>
-            <text x="466" y="171" class="node-copy">Tasks, drift checks,</text>
-            <text x="466" y="188" class="node-copy">execution signals</text>
-            <text x="466" y="202" class="status-label" fill="var(--partial)">PARTIAL SOURCE</text>
+            <text x="466" y="149" class="node-title">Mirrors + Indexes</text>
+            <text x="466" y="171" class="node-copy">msgvault, Folio tenants,</text>
+            <text x="466" y="188" class="node-copy">pgvector, digests</text>
+            <text x="466" y="202" class="status-label" fill="var(--next)">NEWLY NAMED</text>
 
             <rect x="658" y="122" width="184" height="86" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
-            <text x="674" y="149" class="node-title">Docs / Meetings / Email</text>
-            <text x="674" y="171" class="node-copy">Notes, decisions,</text>
-            <text x="674" y="188" class="node-copy">calendar, messages</text>
-            <text x="674" y="202" class="status-label" fill="var(--future)">FUTURE ADAPTERS</text>
+            <text x="674" y="149" class="node-title">Unknown Sources</text>
+            <text x="674" y="171" class="node-copy">Future tools, channels,</text>
+            <text x="674" y="188" class="node-copy">metrics, app records</text>
+            <text x="674" y="202" class="status-label" fill="var(--future)">OPEN ENDED</text>
 
             <rect x="866" y="122" width="184" height="86" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
             <text x="882" y="149" class="node-title">Human / Agent Input</text>
@@ -349,155 +350,222 @@
             <text x="882" y="202" class="status-label" fill="var(--next)">NEXT LOOP</text>
           </g>
 
-          <text x="34" y="255" class="layer-label">State Update Loop</text>
+          <text x="34" y="255" class="layer-label">Source Generalization + Evidence Access</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="272" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="50" y="298" class="node-title">Source Event</text>
-            <text x="50" y="320" class="node-copy">Stable source refs,</text>
-            <text x="50" y="337" class="node-copy">idempotency, watermarks</text>
-            <text x="50" y="362" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="34" y="272" width="184" height="92" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="50" y="298" class="node-title">Source Recipes</text>
+            <text x="50" y="320" class="node-copy">Kind, identity, dedupe,</text>
+            <text x="50" y="337" class="node-copy">permissions, sync rules</text>
+            <text x="50" y="355" class="status-label" fill="var(--next)">NEXT CONTRACT</text>
 
-            <rect x="242" y="272" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="258" y="298" class="node-title">Trigger</text>
-            <text x="258" y="320" class="node-copy">Event becomes a</text>
-            <text x="258" y="337" class="node-copy">reviewable state signal</text>
-            <text x="258" y="362" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="242" y="272" width="184" height="92" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="258" y="298" class="node-title">Source Observation</text>
+            <text x="258" y="320" class="node-copy">Event, snapshot, corpus</text>
+            <text x="258" y="337" class="node-copy">item, mirror, index hit</text>
+            <text x="258" y="355" class="status-label" fill="var(--next)">NEXT CONTRACT</text>
 
-            <rect x="450" y="272" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="466" y="298" class="node-title">Review Packet</text>
-            <text x="466" y="320" class="node-copy">Evidence, persona,</text>
-            <text x="466" y="337" class="node-copy">state, memory, policy</text>
-            <text x="466" y="362" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="450" y="272" width="184" height="92" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="466" y="298" class="node-title">Evidence Access</text>
+            <text x="466" y="320" class="node-copy">Resolve retrieved items</text>
+            <text x="466" y="337" class="node-copy">to stable source refs</text>
+            <text x="466" y="355" class="status-label" fill="var(--partial)">PARTIAL</text>
 
-            <rect x="658" y="272" width="172" height="108" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="674" y="298" class="node-title">Model Interpretation</text>
-            <text x="674" y="320" class="node-copy">Meaning, uncertainty,</text>
-            <text x="674" y="337" class="node-copy">state and memory proposals</text>
-            <text x="674" y="362" class="status-label" fill="var(--partial)">FIXTURE NOW</text>
+            <rect x="658" y="272" width="184" height="92" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="674" y="298" class="node-title">Promotion Gate</text>
+            <text x="674" y="320" class="node-copy">Archive, evidence only,</text>
+            <text x="674" y="337" class="node-copy">memory, state, task</text>
+            <text x="674" y="355" class="status-label" fill="var(--governance)">CONTROL</text>
 
-            <rect x="866" y="272" width="172" height="108" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
-            <text x="882" y="298" class="node-title">Governed Commit</text>
-            <text x="882" y="320" class="node-copy">Validate, approve,</text>
-            <text x="882" y="337" class="node-copy">reject, or hold effects</text>
-            <text x="882" y="362" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="866" y="272" width="184" height="92" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
+            <text x="882" y="298" class="node-title">Retrieval Substrate</text>
+            <text x="882" y="320" class="node-copy">Indexes find candidates;</text>
+            <text x="882" y="337" class="node-copy">refs prove evidence</text>
+            <text x="882" y="355" class="status-label" fill="var(--future)">SERVICE LATER</text>
           </g>
 
-          <path class="arrow" d="M206 326 H242"></path>
-          <path class="arrow" d="M414 326 H450"></path>
-          <path class="arrow" d="M622 326 H658"></path>
-          <path class="arrow" d="M830 326 H866"></path>
+          <path class="soft-arrow" d="M126 208 V272"></path>
+          <path class="soft-arrow" d="M334 208 V272"></path>
+          <path class="soft-arrow" d="M542 208 V272"></path>
+          <path class="soft-arrow" d="M750 208 V272"></path>
+          <path class="soft-arrow" d="M958 208 V272"></path>
+          <path class="arrow" d="M218 318 H242"></path>
+          <path class="arrow" d="M426 318 H450"></path>
+          <path class="arrow" d="M634 318 H658"></path>
+          <path class="arrow" d="M842 318 H866"></path>
 
-          <text x="34" y="430" class="layer-label">Durable State Substrate</text>
+          <text x="34" y="405" class="layer-label">State Update Loop</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="448" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="50" y="474" class="node-title">State Kernel</text>
-            <text x="50" y="496" class="node-copy">State objects, journals,</text>
-            <text x="50" y="513" class="node-copy">snapshots, rollup requests</text>
-            <text x="50" y="544" class="status-label" fill="var(--done)">FILE-BACKED DONE</text>
+            <rect x="34" y="422" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="50" y="448" class="node-title">Source Event</text>
+            <text x="50" y="470" class="node-copy">Stable source refs,</text>
+            <text x="50" y="487" class="node-copy">idempotency, watermarks</text>
+            <text x="50" y="512" class="status-label" fill="var(--done)">IMPLEMENTED</text>
 
-            <rect x="270" y="448" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="286" y="474" class="node-title">Evidence Layer</text>
-            <text x="286" y="496" class="node-copy">Refs and resolved evidence</text>
-            <text x="286" y="513" class="node-copy">exist; ledger/retrieval later</text>
-            <text x="286" y="544" class="status-label" fill="var(--partial)">PARTIAL</text>
+            <rect x="242" y="422" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="258" y="448" class="node-title">Trigger</text>
+            <text x="258" y="470" class="node-copy">Event becomes a</text>
+            <text x="258" y="487" class="node-copy">reviewable state signal</text>
+            <text x="258" y="512" class="status-label" fill="var(--done)">IMPLEMENTED</text>
 
-            <rect x="506" y="448" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="522" y="474" class="node-title">Memory Kernel</text>
-            <text x="522" y="496" class="node-copy">Agent memory entries exist;</text>
-            <text x="522" y="513" class="node-copy">promotion policy is early</text>
-            <text x="522" y="544" class="status-label" fill="var(--partial)">PARTIAL</text>
+            <rect x="450" y="422" width="172" height="108" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="466" y="448" class="node-title">Review Packet</text>
+            <text x="466" y="470" class="node-copy">Evidence, persona,</text>
+            <text x="466" y="487" class="node-copy">state, memory, policy</text>
+            <text x="466" y="512" class="status-label" fill="var(--done)">IMPLEMENTED</text>
 
-            <rect x="742" y="448" width="206" height="116" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
-            <text x="758" y="474" class="node-title">Governance Layer</text>
-            <text x="758" y="496" class="node-copy">Approval gates, protected</text>
-            <text x="758" y="513" class="node-copy">state, freshness limits</text>
-            <text x="758" y="544" class="status-label" fill="var(--done)">IMPLEMENTED CORE</text>
+            <rect x="658" y="422" width="172" height="108" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="674" y="448" class="node-title">Model Interpretation</text>
+            <text x="674" y="470" class="node-copy">Meaning, uncertainty,</text>
+            <text x="674" y="487" class="node-copy">state and memory proposals</text>
+            <text x="674" y="512" class="status-label" fill="var(--partial)">FIXTURE NOW</text>
 
-            <rect x="978" y="448" width="206" height="116" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
-            <text x="994" y="474" class="node-title">Service Backends</text>
-            <text x="994" y="496" class="node-copy">Database, API, MCP,</text>
-            <text x="994" y="513" class="node-copy">background sync workers</text>
-            <text x="994" y="544" class="status-label" fill="var(--future)">FUTURE</text>
+            <rect x="866" y="422" width="172" height="108" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="882" y="448" class="node-title">Governed Commit</text>
+            <text x="882" y="470" class="node-copy">Validate, approve,</text>
+            <text x="882" y="487" class="node-copy">reject, or hold effects</text>
+            <text x="882" y="512" class="status-label" fill="var(--done)">IMPLEMENTED</text>
           </g>
 
-          <path class="arrow" d="M952 380 C952 414 845 414 845 448"></path>
-          <path class="soft-arrow" d="M102 208 C102 238 120 238 120 272"></path>
-          <path class="soft-arrow" d="M334 208 C334 238 328 238 328 272"></path>
-          <path class="soft-arrow" d="M542 208 C542 238 536 238 536 272"></path>
-          <path class="soft-arrow" d="M750 208 C750 238 744 238 744 272"></path>
+          <path class="arrow" d="M750 364 C750 392 120 392 120 422"></path>
+          <path class="arrow" d="M206 476 H242"></path>
+          <path class="arrow" d="M414 476 H450"></path>
+          <path class="arrow" d="M622 476 H658"></path>
+          <path class="arrow" d="M830 476 H866"></path>
 
-          <text x="34" y="614" class="layer-label">State Activation Loop</text>
+          <text x="34" y="580" class="layer-label">Durable State Substrate</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="632" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="50" y="658" class="node-title">Recent-Change Registry</text>
-            <text x="50" y="680" class="node-copy">What changed recently,</text>
-            <text x="50" y="697" class="node-copy">who should care, freshness</text>
-            <text x="50" y="728" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="34" y="598" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="50" y="624" class="node-title">State Kernel</text>
+            <text x="50" y="646" class="node-copy">State objects, journals,</text>
+            <text x="50" y="663" class="node-copy">snapshots, rollup requests</text>
+            <text x="50" y="694" class="status-label" fill="var(--done)">FILE-BACKED DONE</text>
 
-            <rect x="270" y="632" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="286" y="658" class="node-title">Context Packages</text>
-            <text x="286" y="680" class="node-copy">Persona-specific bounded</text>
-            <text x="286" y="697" class="node-copy">state, memory, evidence</text>
-            <text x="286" y="728" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="270" y="598" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="286" y="624" class="node-title">Evidence Layer</text>
+            <text x="286" y="646" class="node-copy">Refs and resolved evidence</text>
+            <text x="286" y="663" class="node-copy">exist; ledger/retrieval later</text>
+            <text x="286" y="694" class="status-label" fill="var(--partial)">PARTIAL</text>
 
-            <rect x="506" y="632" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="522" y="658" class="node-title">Agent Consumer Contract</text>
-            <text x="522" y="680" class="node-copy">Narrative package render</text>
-            <text x="522" y="697" class="node-copy">and raw response capture</text>
-            <text x="522" y="728" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+            <rect x="506" y="598" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="522" y="624" class="node-title">Memory Kernel</text>
+            <text x="522" y="646" class="node-copy">Agent memory entries exist;</text>
+            <text x="522" y="663" class="node-copy">promotion policy is early</text>
+            <text x="522" y="694" class="status-label" fill="var(--partial)">PARTIAL</text>
 
-            <rect x="742" y="632" width="206" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="758" y="658" class="node-title">State Activation Contract</text>
-            <text x="758" y="680" class="node-copy">Unify human answers</text>
-            <text x="758" y="697" class="node-copy">and agent packages</text>
-            <text x="758" y="728" class="status-label" fill="var(--next)">NEXT</text>
+            <rect x="742" y="598" width="206" height="116" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="758" y="624" class="node-title">Governance Layer</text>
+            <text x="758" y="646" class="node-copy">Approval gates, protected</text>
+            <text x="758" y="663" class="node-copy">state, freshness limits</text>
+            <text x="758" y="694" class="status-label" fill="var(--done)">IMPLEMENTED CORE</text>
 
-            <rect x="978" y="632" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="994" y="658" class="node-title">Activation Outputs</text>
-            <text x="994" y="680" class="node-copy">Answers, packages,</text>
-            <text x="994" y="697" class="node-copy">proposals, next actions</text>
-            <text x="994" y="728" class="status-label" fill="var(--partial)">HALF-BUILT</text>
+            <rect x="978" y="598" width="206" height="116" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
+            <text x="994" y="624" class="node-title">Service Backends</text>
+            <text x="994" y="646" class="node-copy">Database, API, MCP,</text>
+            <text x="994" y="663" class="node-copy">background sync workers</text>
+            <text x="994" y="694" class="status-label" fill="var(--future)">FUTURE</text>
           </g>
 
-          <path class="arrow" d="M240 690 H270"></path>
-          <path class="arrow" d="M476 690 H506"></path>
-          <path class="arrow" d="M712 690 H742"></path>
-          <path class="arrow" d="M948 690 H978"></path>
-          <path class="arrow" d="M137 564 V632"></path>
-          <path class="arrow" d="M609 564 V632"></path>
-          <path class="arrow" d="M845 564 V632"></path>
+          <path class="arrow" d="M952 530 C952 562 845 562 845 598"></path>
 
-          <text x="34" y="798" class="layer-label">Consumers and Feedback</text>
+          <text x="34" y="760" class="layer-label">State Coherence Maintenance</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="816" width="184" height="72" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="50" y="842" class="node-title">Humans</text>
-            <text x="50" y="864" class="node-copy">Ask state questions,</text>
-            <text x="50" y="881" class="node-copy">approve, correct</text>
+            <rect x="34" y="778" width="206" height="96" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="50" y="804" class="node-title">Backward Reweave</text>
+            <text x="50" y="826" class="node-copy">Find affected state, links,</text>
+            <text x="50" y="843" class="node-copy">packages, and rollups</text>
+            <text x="50" y="861" class="status-label" fill="var(--next)">NEXT</text>
 
-            <rect x="242" y="816" width="184" height="72" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="258" y="842" class="node-title">Laura / Patrick</text>
-            <text x="258" y="864" class="node-copy">Persona agents consume</text>
-            <text x="258" y="881" class="node-copy">packages and propose</text>
+            <rect x="270" y="778" width="206" height="96" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="286" y="804" class="node-title">Identity Resolution</text>
+            <text x="286" y="826" class="node-copy">People, orgs, repos,</text>
+            <text x="286" y="843" class="node-copy">docs, concepts, agents</text>
+            <text x="286" y="861" class="status-label" fill="var(--next)">NEXT</text>
 
-            <rect x="450" y="816" width="184" height="72" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="466" y="842" class="node-title">Codex / Claude / opencode</text>
-            <text x="466" y="864" class="node-copy">CLI agents consume same</text>
-            <text x="466" y="881" class="node-copy">provider-agnostic context</text>
+            <rect x="506" y="778" width="206" height="96" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="522" y="804" class="node-title">Compact Scan Surface</text>
+            <text x="522" y="826" class="node-copy">Summary, status, scope,</text>
+            <text x="522" y="843" class="node-copy">freshness, uncertainty</text>
+            <text x="522" y="861" class="status-label" fill="var(--partial)">PARTIAL</text>
 
-            <rect x="658" y="816" width="184" height="72" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
-            <text x="674" y="842" class="node-title">PAIA / App Surfaces</text>
-            <text x="674" y="864" class="node-copy">Future API, MCP, app,</text>
-            <text x="674" y="881" class="node-copy">scheduled jobs</text>
-
-            <rect x="866" y="816" width="184" height="72" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="882" y="842" class="node-title">Captured Responses</text>
-            <text x="882" y="864" class="node-copy">Raw text preserved as</text>
-            <text x="882" y="881" class="node-copy">artifact, not truth</text>
+            <rect x="742" y="778" width="206" height="96" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="758" y="804" class="node-title">Review Cadence</text>
+            <text x="758" y="826" class="node-copy">Stale, uncertain, orphaned,</text>
+            <text x="758" y="843" class="node-copy">approval-sensitive state</text>
+            <text x="758" y="861" class="status-label" fill="var(--governance)">CONTROL</text>
           </g>
 
-          <path class="arrow" d="M1081 748 C1081 782 958 782 958 816"></path>
-          <path class="arrow" d="M1030 852 C1120 852 1120 326 1038 326"></path>
-          <text x="1084" y="826" class="flow-label">feedback returns through review</text>
+          <path class="arrow" d="M137 714 V778"></path>
+          <path class="arrow" d="M373 714 V778"></path>
+          <path class="arrow" d="M609 714 V778"></path>
+          <path class="arrow" d="M845 714 V778"></path>
+          <path class="arrow" d="M948 826 C1068 826 1068 476 1038 476"></path>
+          <text x="982" y="812" class="flow-label">bad promotions return to review</text>
+
+          <text x="34" y="930" class="layer-label">State Activation Loop</text>
+          <g filter="url(#shadow)">
+            <rect x="34" y="948" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="50" y="974" class="node-title">Recent-Change Registry</text>
+            <text x="50" y="996" class="node-copy">What changed recently,</text>
+            <text x="50" y="1013" class="node-copy">who should care, freshness</text>
+            <text x="50" y="1044" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+
+            <rect x="270" y="948" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="286" y="974" class="node-title">Context Packages</text>
+            <text x="286" y="996" class="node-copy">Persona-specific bounded</text>
+            <text x="286" y="1013" class="node-copy">state, memory, evidence</text>
+            <text x="286" y="1044" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+
+            <rect x="506" y="948" width="206" height="116" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="522" y="974" class="node-title">Agent Consumer Contract</text>
+            <text x="522" y="996" class="node-copy">Narrative package render</text>
+            <text x="522" y="1013" class="node-copy">and raw response capture</text>
+            <text x="522" y="1044" class="status-label" fill="var(--done)">IMPLEMENTED</text>
+
+            <rect x="742" y="948" width="206" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="758" y="974" class="node-title">State Activation Contract</text>
+            <text x="758" y="996" class="node-copy">Unify human answers</text>
+            <text x="758" y="1013" class="node-copy">and agent packages</text>
+            <text x="758" y="1044" class="status-label" fill="var(--next)">NEXT AFTER SOURCES</text>
+
+            <rect x="978" y="948" width="206" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="994" y="974" class="node-title">Activation Outputs</text>
+            <text x="994" y="996" class="node-copy">Answers, packages,</text>
+            <text x="994" y="1013" class="node-copy">proposals, next actions</text>
+            <text x="994" y="1044" class="status-label" fill="var(--partial)">HALF-BUILT</text>
+          </g>
+
+          <path class="arrow" d="M137 874 V948"></path>
+          <path class="arrow" d="M240 1006 H270"></path>
+          <path class="arrow" d="M476 1006 H506"></path>
+          <path class="arrow" d="M712 1006 H742"></path>
+          <path class="arrow" d="M948 1006 H978"></path>
+
+          <text x="34" y="1110" class="layer-label">Consumers and Feedback</text>
+          <g filter="url(#shadow)">
+            <rect x="34" y="1128" width="184" height="54" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="50" y="1152" class="node-title">Humans</text>
+            <text x="50" y="1174" class="node-copy">Ask, approve, correct</text>
+
+            <rect x="242" y="1128" width="184" height="54" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="258" y="1152" class="node-title">Laura / Patrick</text>
+            <text x="258" y="1174" class="node-copy">Persona agents</text>
+
+            <rect x="450" y="1128" width="184" height="54" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="466" y="1152" class="node-title">Codex / Claude</text>
+            <text x="466" y="1174" class="node-copy">CLI agents</text>
+
+            <rect x="658" y="1128" width="184" height="54" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
+            <text x="674" y="1152" class="node-title">PAIA / Apps</text>
+            <text x="674" y="1174" class="node-copy">API, MCP, jobs</text>
+
+            <rect x="866" y="1128" width="184" height="54" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="882" y="1152" class="node-title">Captured Responses</text>
+            <text x="882" y="1174" class="node-copy">Artifacts, not truth</text>
+          </g>
+
+          <path class="arrow" d="M1081 1064 C1081 1102 958 1102 958 1128"></path>
+          <path class="arrow" d="M1030 1155 C1160 1155 1160 476 1038 476"></path>
+          <text x="1068" y="1138" class="flow-label">feedback returns through review</text>
 
           <rect x="1122" y="116" width="152" height="264" rx="8" fill="#f8fafc" stroke="#cbd5e1"></rect>
           <text x="1140" y="145" class="node-title">Boundary Rule</text>
@@ -517,7 +585,17 @@
       <h2 id="workflow-heading">Workflow Explainer</h2>
       <div class="explainer-grid">
         <div class="workflow">
-          <h3>1. State Update Loop</h3>
+          <h3>1. Source Generalization Loop</h3>
+          <ol>
+            <li>A known or unknown source is described by a source recipe: kind, identity, dedupe, permissions, sync behavior, and confidence.</li>
+            <li>Canonical sources such as Gmail and Google Drive are distinguished from mirrors and indexes such as msgvault, Folio tenant corpora, and pgvector.</li>
+            <li>Indexes find candidate evidence, but the system only trusts items that resolve back to stable source refs.</li>
+            <li>Each observation is classified as archive, evidence only, memory candidate, state review trigger, task proposal, approval item, or activation context.</li>
+          </ol>
+        </div>
+
+        <div class="workflow">
+          <h3>2. State Update Loop</h3>
           <ol>
             <li>A source system emits a signal: a deal moves, a commit lands, a task changes, or a human makes a decision.</li>
             <li>The signal becomes a source event with stable refs, idempotency, evidence, and watermarks.</li>
@@ -528,7 +606,17 @@
         </div>
 
         <div class="workflow">
-          <h3>2. State Activation Loop</h3>
+          <h3>3. State Coherence Loop</h3>
+          <ol>
+            <li>After a governed commit, the system checks what existing state, memory, rollups, packages, and activation outputs may now be stale.</li>
+            <li>Identity resolution prevents duplicate people, companies, repos, documents, agents, and concepts from fragmenting state.</li>
+            <li>Compact metadata lets agents scan state cheaply before opening detailed records.</li>
+            <li>Review cadence catches stale, uncertain, orphaned, sensitive, or approval-blocked state before it pollutes activation.</li>
+          </ol>
+        </div>
+
+        <div class="workflow">
+          <h3>4. State Activation Loop</h3>
           <ol>
             <li>A human or agent needs to act from state: “What is going on?” or “What should Laura know?”</li>
             <li>The system scopes the need to relevant state objects, journals, memory, evidence, recent changes, and governance constraints.</li>
@@ -539,7 +627,7 @@
         </div>
 
         <div class="workflow">
-          <h3>3. Feedback Loop</h3>
+          <h3>5. Feedback Loop</h3>
           <ol>
             <li>A human or agent response is captured as an artifact, not accepted as truth by default.</li>
             <li>The captured response can become a new source event or review input.</li>
@@ -559,6 +647,7 @@
           <ul class="list">
             <li>File-backed stores, schemas, examples, and validation harness.</li>
             <li>Source events, triggers, idempotency, and Git commit source adapter.</li>
+            <li>msgvault and Folio/GDrive now clarify the need for source recipes, mirror/index refs, and tenant-scoped evidence access.</li>
             <li>Review packets, fixture model outputs, governed committer, journals, snapshots, memory entries, and review signals.</li>
             <li>Recent-change registry, persona context packages, CLI access, and agent narrative rendering.</li>
           </ul>
@@ -566,15 +655,16 @@
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
-            <li>Define the State Activation Contract that unifies human answers and agent packages.</li>
-            <li>Pressure test it with one human question and one agent need over the same Southern Abrasives state.</li>
-            <li>Keep the activation output narrative and readable, but require evidence, uncertainty, freshness, and governance to be visible.</li>
+            <li>Define Source Generalization and Evidence Access so future sources inherit identity, dedupe, permissions, sync, and evidence rules.</li>
+            <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>
+            <li>Then define the State Activation Contract that unifies human answers and agent packages.</li>
             <li>Defer API, database, MCP, live models, and sync workers until the activation contract is boring and useful.</li>
           </ul>
         </div>
       </div>
       <div class="callout">
-        The center of gravity should remain durable organizational interpretation. Context packages,
+        The center of gravity should remain durable organizational interpretation. Source indexes find
+        possible evidence, coherence keeps state from decaying as sources expand, and context packages,
         answers, and agent prompts are activation surfaces over that state, not replacements for it.
       </div>
     </section>
