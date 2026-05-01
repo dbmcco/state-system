@@ -14,6 +14,7 @@ from state_system.runtime import (
     index_recent_change,
 )
 from state_system.runner import SourceEventIngestor
+from state_system.source_adapters import git_commit_to_source_event
 from state_system.stores import JsonObject, StateStoreBundle
 
 
@@ -76,6 +77,31 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
                 "evidence_context": result.evidence_context,
             },
         )
+        return 0
+
+    if args.command == "git-commit-event":
+        event = git_commit_to_source_event(
+            load_json(Path(args.commit_metadata)),
+            repo_ref=args.repo_ref,
+            observed_at=args.observed_at,
+            candidate_state_refs=list(args.candidate_state_ref or []),
+            governance_refs=list(args.governance_ref or []),
+        )
+        payload: JsonObject = {"source_event": event}
+        if args.ingest:
+            schema = load_json(project_root / "schemas" / "source-event.schema.json")
+            result = SourceEventIngestor(stores, schema).ingest(event)
+            payload["ingested"] = {
+                "created": result.created,
+                "idempotency_key": result.idempotency_key,
+                "source_event_id": result.source_event_id,
+                "duplicate_of": result.duplicate_of,
+                "duplicate_reason": result.duplicate_reason,
+                "watermark_status": result.watermark_status,
+                "trigger": result.trigger,
+                "evidence_context": result.evidence_context,
+            }
+        _write_json(stdout, payload)
         return 0
 
     if args.command == "review":
@@ -191,6 +217,14 @@ def _parser() -> argparse.ArgumentParser:
 
     trigger = subcommands.add_parser("trigger")
     trigger.add_argument("source_event")
+
+    git_commit = subcommands.add_parser("git-commit-event")
+    git_commit.add_argument("commit_metadata")
+    git_commit.add_argument("--repo-ref", required=True)
+    git_commit.add_argument("--observed-at", required=True)
+    git_commit.add_argument("--candidate-state-ref", action="append")
+    git_commit.add_argument("--governance-ref", action="append")
+    git_commit.add_argument("--ingest", action="store_true")
 
     review = subcommands.add_parser("review")
     review.add_argument("source_event_id")
