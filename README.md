@@ -28,6 +28,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 ## Initial Contents
 
 - `docs/NORTH_STAR.md` - guiding North Star for the effort
+- `docs/system-diagram.html` - standalone HTML/SVG orientation diagram with completeness key and workflow explainer
 - `docs/app-substrate-contract.md` - app-facing contract for shared state, proposals, evidence, and approval flows across the new application repos
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/specs/2026-04-28-state-system-speedrift-plan.md` - Speedrift execution anchor for the first deployment
