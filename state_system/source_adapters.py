@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from pathlib import Path
+import subprocess
+
 from state_system.stores import JsonObject
 
 
@@ -61,6 +64,37 @@ def git_commit_to_source_event(
     }
 
 
+def git_commit_metadata_from_repo(repo_path: Path, commit_ref: str) -> JsonObject:
+    header = _git(
+        repo_path,
+        "show",
+        "--no-patch",
+        "--format=%H%x1f%an%x1f%ae%x1f%aI%x1f%s%x1f%b",
+        commit_ref,
+    ).stdout.rstrip("\n")
+    parts = header.split("\x1f", 5)
+    if len(parts) != 6:
+        raise ValueError(f"unable to parse git commit metadata for {commit_ref}")
+    changed_files = _git(
+        repo_path,
+        "diff-tree",
+        "--root",
+        "--no-commit-id",
+        "--name-only",
+        "-r",
+        commit_ref,
+    ).stdout.splitlines()
+    return {
+        "sha": parts[0],
+        "author_name": parts[1],
+        "author_email": parts[2],
+        "authored_at": parts[3],
+        "subject": parts[4],
+        "body": parts[5].strip(),
+        "changed_files": sorted(file for file in changed_files if file),
+    }
+
+
 def _required_string(value: JsonObject, key: str) -> str:
     candidate = value.get(key)
     if not isinstance(candidate, str) or not candidate:
@@ -88,3 +122,14 @@ def _payload_summary(subject: str, changed_files: list[str]) -> str:
     if not changed_files:
         return subject
     return f"{subject} ({len(changed_files)} changed files)"
+
+
+def _git(repo_path: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", *args],
+        cwd=repo_path,
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )

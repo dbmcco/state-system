@@ -12,9 +12,14 @@ from state_system.runtime import (
     build_review_packet_from_source_event,
     commit_model_output,
     index_recent_change,
+    index_recent_change_from_source_event,
 )
+from state_system.runtime_seed import seed_repo_runtime
 from state_system.runner import SourceEventIngestor
-from state_system.source_adapters import git_commit_to_source_event
+from state_system.source_adapters import (
+    git_commit_metadata_from_repo,
+    git_commit_to_source_event,
+)
 from state_system.stores import JsonObject, StateStoreBundle
 
 
@@ -79,6 +84,15 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "seed-runtime":
+        payload = seed_repo_runtime(
+            stores,
+            repo_ref=args.repo_ref,
+            created_at=args.created_at,
+        )
+        _write_json(stdout, payload)
+        return 0
+
     if args.command == "git-commit-event":
         event = git_commit_to_source_event(
             load_json(Path(args.commit_metadata)),
@@ -88,6 +102,32 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             governance_refs=list(args.governance_ref or []),
         )
         payload: JsonObject = {"source_event": event}
+        if args.ingest:
+            schema = load_json(project_root / "schemas" / "source-event.schema.json")
+            result = SourceEventIngestor(stores, schema).ingest(event)
+            payload["ingested"] = {
+                "created": result.created,
+                "idempotency_key": result.idempotency_key,
+                "source_event_id": result.source_event_id,
+                "duplicate_of": result.duplicate_of,
+                "duplicate_reason": result.duplicate_reason,
+                "watermark_status": result.watermark_status,
+                "trigger": result.trigger,
+                "evidence_context": result.evidence_context,
+            }
+        _write_json(stdout, payload)
+        return 0
+
+    if args.command == "git-commit-from-repo":
+        metadata = git_commit_metadata_from_repo(Path(args.repo_path), args.commit)
+        event = git_commit_to_source_event(
+            metadata,
+            repo_ref=args.repo_ref,
+            observed_at=args.observed_at,
+            candidate_state_refs=list(args.candidate_state_ref or []),
+            governance_refs=list(args.governance_ref or []),
+        )
+        payload = {"commit_metadata": metadata, "source_event": event}
         if args.ingest:
             schema = load_json(project_root / "schemas" / "source-event.schema.json")
             result = SourceEventIngestor(stores, schema).ingest(event)
@@ -136,6 +176,24 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             _runtime_schemas(project_root),
             source_event_id=args.source_event_id,
             commit_id=args.commit_id,
+            created_at=args.created_at,
+            summary=args.summary,
+            routes=_load_list(args.routes),
+            opportunity_class_hints=list(args.opportunity_class_hint or []),
+            watermark_refs=list(args.watermark_ref or []),
+            stale_after=args.stale_after,
+            requires_refresh_before_external_action=(
+                args.requires_refresh_before_external_action
+            ),
+        )
+        _write_json(stdout, entry)
+        return 0
+
+    if args.command == "index-source-recent":
+        entry = index_recent_change_from_source_event(
+            stores,
+            _runtime_schemas(project_root),
+            source_event_id=args.source_event_id,
             created_at=args.created_at,
             summary=args.summary,
             routes=_load_list(args.routes),
@@ -218,6 +276,10 @@ def _parser() -> argparse.ArgumentParser:
     trigger = subcommands.add_parser("trigger")
     trigger.add_argument("source_event")
 
+    seed_runtime = subcommands.add_parser("seed-runtime")
+    seed_runtime.add_argument("--repo-ref", required=True)
+    seed_runtime.add_argument("--created-at", required=True)
+
     git_commit = subcommands.add_parser("git-commit-event")
     git_commit.add_argument("commit_metadata")
     git_commit.add_argument("--repo-ref", required=True)
@@ -225,6 +287,15 @@ def _parser() -> argparse.ArgumentParser:
     git_commit.add_argument("--candidate-state-ref", action="append")
     git_commit.add_argument("--governance-ref", action="append")
     git_commit.add_argument("--ingest", action="store_true")
+
+    git_commit_repo = subcommands.add_parser("git-commit-from-repo")
+    git_commit_repo.add_argument("repo_path")
+    git_commit_repo.add_argument("--commit", default="HEAD")
+    git_commit_repo.add_argument("--repo-ref", required=True)
+    git_commit_repo.add_argument("--observed-at", required=True)
+    git_commit_repo.add_argument("--candidate-state-ref", action="append")
+    git_commit_repo.add_argument("--governance-ref", action="append")
+    git_commit_repo.add_argument("--ingest", action="store_true")
 
     review = subcommands.add_parser("review")
     review.add_argument("source_event_id")
@@ -250,6 +321,19 @@ def _parser() -> argparse.ArgumentParser:
     recent_index.add_argument("--watermark-ref", action="append")
     recent_index.add_argument("--stale-after", required=True)
     recent_index.add_argument(
+        "--requires-refresh-before-external-action",
+        action="store_true",
+    )
+
+    source_recent_index = subcommands.add_parser("index-source-recent")
+    source_recent_index.add_argument("source_event_id")
+    source_recent_index.add_argument("--created-at", required=True)
+    source_recent_index.add_argument("--summary", required=True)
+    source_recent_index.add_argument("--routes", required=True)
+    source_recent_index.add_argument("--opportunity-class-hint", action="append")
+    source_recent_index.add_argument("--watermark-ref", action="append")
+    source_recent_index.add_argument("--stale-after", required=True)
+    source_recent_index.add_argument(
         "--requires-refresh-before-external-action",
         action="store_true",
     )

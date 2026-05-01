@@ -88,6 +88,35 @@ def index_recent_change(
     )
 
 
+def index_recent_change_from_source_event(
+    stores: StateStoreBundle,
+    schemas: dict[str, JsonObject],
+    *,
+    source_event_id: str,
+    created_at: str,
+    summary: str,
+    routes: list[JsonObject],
+    opportunity_class_hints: list[str],
+    watermark_refs: list[str],
+    stale_after: str,
+    requires_refresh_before_external_action: bool,
+) -> JsonObject:
+    return RecentChangeIndexer(stores, schemas).index_from_source_event(
+        source_event=stores.source_events.read(source_event_id),
+        created_at=created_at,
+        summary=summary,
+        candidate_persona_routes=routes,
+        opportunity_class_hints=opportunity_class_hints,
+        freshness={
+            "watermark_refs": watermark_refs,
+            "stale_after": stale_after,
+            "requires_refresh_before_external_action": (
+                requires_refresh_before_external_action
+            ),
+        },
+    )
+
+
 def build_recent_package(
     stores: StateStoreBundle,
     schemas: dict[str, JsonObject],

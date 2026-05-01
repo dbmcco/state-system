@@ -60,6 +60,40 @@ class RecentChangeIndexer:
         self.stores.recent_changes.create(entry)
         return entry
 
+    def index_from_source_event(
+        self,
+        *,
+        source_event: JsonObject,
+        created_at: str,
+        summary: str,
+        candidate_persona_routes: list[JsonObject],
+        opportunity_class_hints: list[str],
+        freshness: JsonObject,
+    ) -> JsonObject:
+        entry = {
+            "id": _recent_id(source_event),
+            "created_at": created_at,
+            "occurred_at": source_event["occurred_at"],
+            "observed_at": source_event.get("observed_at"),
+            "source_system": source_event["source_system"],
+            "source_event": source_event["source_event"],
+            "source_event_id": source_event.get("source_event_id"),
+            "summary": summary,
+            "source_refs": list(source_event["source_refs"]),
+            "trigger_refs": [_trigger_id(source_event)],
+            "affected_state_refs": list(source_event.get("candidate_state_refs", [])),
+            "journal_entry_refs": [],
+            "commit_refs": [],
+            "review_signal_refs": [],
+            "candidate_persona_routes": deepcopy(candidate_persona_routes),
+            "opportunity_class_hints": list(opportunity_class_hints),
+            "unresolved_follow_up_refs": [],
+            "freshness": deepcopy(freshness),
+        }
+        self._validate(entry)
+        self.stores.recent_changes.create(entry)
+        return entry
+
     def _validate(self, entry: JsonObject) -> None:
         errors = validate_schema(entry, self.schemas["recent_change"])
         if errors:
@@ -71,6 +105,13 @@ def _recent_id(source_event: JsonObject) -> str:
     if source_id.startswith("source."):
         return f"recent.{source_id[len('source.'):]}"
     return f"recent.{source_id}"
+
+
+def _trigger_id(source_event: JsonObject) -> str:
+    source_id = source_event["id"]
+    if source_id.startswith("source."):
+        return f"trigger.{source_id[len('source.'):]}"
+    return f"trigger.{source_id}"
 
 
 def _unique(*groups: list[str]) -> list[str]:
