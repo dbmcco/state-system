@@ -34,6 +34,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
 - `docs/concepts/paia-memory-adapter-boundary.md` - adapter boundary for reusing PAIA memory without making State System PAIA-only
+- `docs/concepts/runtime-v0.md` - first practical local runtime loop from source event to persona package
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
 - `docs/concepts/state-update-lifecycle.md` - trigger-to-journal-to-snapshot lifecycle
@@ -83,5 +84,16 @@ requires human approval before external action.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py
+```
+
+## Runtime V0 CLI
+
+The first local runtime loop is exposed as JSON CLI commands:
+
+```bash
+python3 -m state_system.cli --project-root . validate
+python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
+python3 -m state_system.cli --state-root /path/to/runtime review source.linear.southern-abrasives-won --packet-id review_packet.linear.southern-abrasives-won --created-at 2026-04-28T16:05:30Z --persona examples/patrick-persona.json --resolved-evidence /path/to/evidence.json --governance-constraints /path/to/governance.json
+python3 -m state_system.cli --state-root /path/to/runtime commit examples/linear-southern-abrasives-won-model-proposal-output.json --created-at 2026-04-28T16:07:00Z --evidence-ref linear:deal:southern-abrasives
 ```

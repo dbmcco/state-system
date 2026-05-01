@@ -11,6 +11,7 @@ JsonObject = dict[str, Any]
 DEFAULT_COLLECTIONS = {
     "state_objects": "objects",
     "source_events": "source-events",
+    "review_packets": "review-packets",
     "journals": "journals",
     "memory": "memory",
     "rollups": "rollups",
