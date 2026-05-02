@@ -36,6 +36,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
 - `docs/concepts/paia-memory-adapter-boundary.md` - adapter boundary for reusing PAIA memory without making State System PAIA-only
+- `docs/concepts/deep-reviewer-personas.md` - how antagonistic reviewer personas such as Miriam are used through Workgraph/Speedrift
 - `docs/concepts/runtime-v0.md` - first practical local runtime loop from source event to persona package
 - `docs/concepts/ontology.md` - first-cut organizational state ontology
 - `docs/concepts/lfw-ontology-pressure-test.md` - concrete LFW example used to test the ontology
@@ -80,6 +81,11 @@ Patrick gives the system a comparison trace. Where Laura tests strategic and
 market-facing interpretation, Patrick tests terse operational state: what is the
 owner, what is the stage, what is missing, what is the next action, and what
 requires human approval before external action.
+
+Miriam is the first deep reviewer persona: an antagonistic critical reviewer and
+systems epistemologist focused on source/evidence boundaries, category errors,
+coherence failure, governance leaks, activation-to-use confusion, and downstream
+effects that could make the system confidently wrong.
 
 ## Validation
 
