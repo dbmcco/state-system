@@ -260,8 +260,9 @@
     <p class="lede">
       State System is the organizational state layer: it turns scattered signals from known and
       unknown sources into durable, evidence-backed interpretation that humans and agents can act
-      from. This diagram shows the system as of May 1, 2026, including source generalization,
-      coherence maintenance, what is implemented, what is partial, and what should come next.
+      from. This diagram shows the system as of May 2, 2026, including source generalization,
+      app substrate contracts, coherence maintenance, what is implemented, what is partial,
+      and what should come next.
     </p>
 
     <section class="section" aria-labelledby="legend-heading">
@@ -459,6 +460,120 @@
           <text x="34" y="704" class="layer-label">Short Version</text>
           <text x="34" y="730" class="node-copy">Source material is observed and normalized before it becomes evidence. Evidence-backed interpretation can become governed state.</text>
           <text x="34" y="750" class="node-copy">Durable state is maintained for coherence before it is activated into human answers, agent packages, or proposals.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="app-substrate-heading">
+      <h2 id="app-substrate-heading">Application Substrate Map</h2>
+      <p class="lede">
+        The new application repos should build against the same proposal, approval, evidence,
+        and state substrate. Apps own their workflow loops; State System owns durable interpreted
+        state and accepted doctrine. Qualitative judgment remains model- and human-mediated.
+      </p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 1320 560" role="img" aria-labelledby="app-svg-title app-svg-desc">
+          <title id="app-svg-title">Application substrate map</title>
+          <desc id="app-svg-desc">
+            A map showing State System as the shared substrate between five application repos,
+            CRM, PAIA memory, Folio, task systems, source systems, and the shared proposal and
+            approval loop.
+          </desc>
+
+          <defs>
+            <marker id="app-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#617286"></polygon>
+            </marker>
+            <marker id="app-arrowhead-soft" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#93a3b5"></polygon>
+            </marker>
+          </defs>
+
+          <rect x="0" y="0" width="1320" height="560" fill="#ffffff"></rect>
+          <text x="34" y="40" class="svg-title">Shared app substrate: build plans should start here</text>
+          <text x="34" y="62" class="svg-subtitle">Source events and app outcomes become context packages, model proposals, approvals, commits, and future app context.</text>
+
+          <g>
+            <rect x="34" y="106" width="220" height="116" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
+            <text x="50" y="133" class="node-title">Source Systems</text>
+            <text x="50" y="156" class="node-copy">Email, meetings, docs, repos</text>
+            <text x="50" y="173" class="node-copy">CRM, Folio, assets, transcripts</text>
+            <text x="50" y="190" class="node-copy">Human review decisions</text>
+            <text x="50" y="211" class="status-label" fill="var(--source)">EVIDENCE REFS</text>
+
+            <rect x="300" y="78" width="292" height="172" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="320" y="107" class="node-title">State System Substrate</text>
+            <text x="320" y="130" class="node-copy">SourceEvent -> ContextPackage</text>
+            <text x="320" y="147" class="node-copy">ModelProposalOutput -> ReviewSignal</text>
+            <text x="320" y="164" class="node-copy">Governance -> CommitResult</text>
+            <text x="320" y="190" class="node-copy">company, campaign, contact, relationship,</text>
+            <text x="320" y="207" class="node-copy">meeting, work, author, idea, visual, doctrine</text>
+            <text x="320" y="232" class="status-label" fill="var(--done)">SHARED CONTRACT</text>
+
+            <rect x="638" y="78" width="292" height="172" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="658" y="107" class="node-title">Model-Mediated Judgment Loop</text>
+            <text x="658" y="130" class="node-copy">Models interpret meaning and uncertainty</text>
+            <text x="658" y="147" class="node-copy">Humans approve sensitive transitions</text>
+            <text x="658" y="164" class="node-copy">Code validates, persists, executes</text>
+            <text x="658" y="190" class="node-copy">Qualitative learning stays qualitative</text>
+            <text x="658" y="207" class="node-copy">No hidden rules, scores, regexes, thresholds</text>
+            <text x="658" y="232" class="status-label" fill="var(--governance)">GUARDRAIL</text>
+
+            <rect x="976" y="106" width="220" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="996" y="133" class="node-title">Accepted Effects</text>
+            <text x="996" y="156" class="node-copy">State snapshots, journals, memory</text>
+            <text x="996" y="173" class="node-copy">Work items, CRM updates, corpora</text>
+            <text x="996" y="190" class="node-copy">Approved doctrine and context</text>
+            <text x="996" y="211" class="status-label" fill="var(--partial)">APP FEEDBACK</text>
+          </g>
+
+          <path d="M254 164 H300" class="arrow" marker-end="url(#app-arrowhead)"></path>
+          <path d="M592 164 H638" class="arrow" marker-end="url(#app-arrowhead)"></path>
+          <path d="M930 164 H976" class="arrow" marker-end="url(#app-arrowhead)"></path>
+          <path d="M1086 222 C1086 276 144 276 144 222" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+          <text x="382" y="287" class="flow-label">accepted outcomes become new evidence, state, memory, and app context</text>
+
+          <text x="34" y="336" class="layer-label">Application Repos</text>
+          <g>
+            <rect x="34" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="52" y="385" class="node-title">Prospect Researcher</text>
+            <text x="52" y="408" class="node-copy">Campaigns, ICPs, opportunity fit</text>
+            <text x="52" y="425" class="node-copy">Prospect Opportunity Packages</text>
+            <text x="52" y="452" class="status-label" fill="var(--next)">PLAN NEXT</text>
+
+            <rect x="286" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="304" y="385" class="node-title">Outreach Engine</text>
+            <text x="304" y="408" class="node-copy">Engagement intelligence</text>
+            <text x="304" y="425" class="node-copy">Qualified CRM handoffs</text>
+            <text x="304" y="452" class="status-label" fill="var(--next)">PLAN NEXT</text>
+
+            <rect x="538" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="556" y="385" class="node-title">Meeting Manager</text>
+            <text x="556" y="408" class="node-copy">Meeting Context Packages</text>
+            <text x="556" y="425" class="node-copy">Coordination Update Proposals</text>
+            <text x="556" y="452" class="status-label" fill="var(--next)">PLAN AFTER CONTACT LOOP</text>
+
+            <rect x="790" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="808" y="385" class="node-title">Thoughtforge</text>
+            <text x="808" y="408" class="node-copy">Author corpora and idea states</text>
+            <text x="808" y="425" class="node-copy">Longform editorial candidates</text>
+            <text x="808" y="452" class="status-label" fill="var(--next)">PLAN LATER</text>
+
+            <rect x="1042" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="1060" y="385" class="node-title">Visual Forge</text>
+            <text x="1060" y="408" class="node-copy">Visual corpora and production</text>
+            <text x="1060" y="425" class="node-copy">Finished assets and qualitative memory</text>
+            <text x="1060" y="452" class="status-label" fill="var(--next)">PLAN LATER</text>
+          </g>
+
+          <path d="M150 358 C150 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+          <path d="M402 358 C402 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+          <path d="M654 358 C654 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+          <path d="M906 358 C906 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+          <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
+
+          <text x="34" y="522" class="node-copy">Shared adjacent systems: LFW AI Graph CRM owns real relationship history; PAIA memory and Folio provide recall and notes; task/work systems execute approved commitments.</text>
+          <text x="34" y="542" class="node-copy">Pressure-test gate: every app handoff needs a fixture trace before implementation. First gates: Prospect -> Outreach, then Outreach reply -> CRM + secondary contacts.</text>
         </svg>
       </div>
     </section>

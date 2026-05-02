@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">State System overview</title>
+  <desc id="desc">A model-mediated state system flow from source evidence to context packages, model proposals, governance, committed state, and agent-ready output.</desc>
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2933; }
+    .title { font-size: 34px; font-weight: 700; }
+    .subtitle { font-size: 17px; fill: #526170; }
+    .label { font-size: 19px; font-weight: 700; }
+    .body { font-size: 14px; fill: #445260; }
+    .badge { font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .box { stroke-width: 2; rx: 10; }
+    .arrow { fill: none; stroke: #6b7c8f; stroke-width: 2.4; marker-end: url(#arrow); }
+    .soft-arrow { fill: none; stroke: #9aa8b6; stroke-width: 2; stroke-dasharray: 7 7; marker-end: url(#softArrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L11,4 L0,8 Z" fill="#6b7c8f"/>
+    </marker>
+    <marker id="softArrow" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
+      <path d="M0,0 L11,4 L0,8 Z" fill="#9aa8b6"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="720" fill="#ffffff"/>
+  <text x="44" y="62" class="title">State System</text>
+  <text x="44" y="94" class="subtitle">Durable, evidence-backed organizational state for agent-heavy work systems.</text>
+
+  <rect x="44" y="145" width="188" height="130" class="box" fill="#eef6ff" stroke="#2f7abf"/>
+  <text x="64" y="178" class="label">Source Evidence</text>
+  <text x="64" y="204" class="body">Linear, Git, email,</text>
+  <text x="64" y="224" class="body">meetings, docs, CRM,</text>
+  <text x="64" y="244" class="body">human review decisions</text>
+  <text x="64" y="262" class="badge" fill="#2f7abf">SOURCE EVENT</text>
+
+  <rect x="292" y="145" width="188" height="130" class="box" fill="#edf8ef" stroke="#2f8a50"/>
+  <text x="312" y="178" class="label">Context Package</text>
+  <text x="312" y="204" class="body">Bounded evidence,</text>
+  <text x="312" y="224" class="body">state, memory,</text>
+  <text x="312" y="244" class="body">freshness, governance</text>
+  <text x="312" y="262" class="badge" fill="#2f8a50">AGENT-READY</text>
+
+  <rect x="540" y="145" width="188" height="130" class="box" fill="#fff7e8" stroke="#b06b00"/>
+  <text x="560" y="178" class="label">Model Proposal</text>
+  <text x="560" y="204" class="body">Interpret meaning,</text>
+  <text x="560" y="224" class="body">preserve uncertainty,</text>
+  <text x="560" y="244" class="body">propose changes</text>
+  <text x="560" y="262" class="badge" fill="#b06b00">NO HIDDEN RULES</text>
+
+  <rect x="788" y="145" width="188" height="130" class="box" fill="#fbeeee" stroke="#b33a3a"/>
+  <text x="808" y="178" class="label">Governance</text>
+  <text x="808" y="204" class="body">Approve, reject,</text>
+  <text x="808" y="224" class="body">hold, or commit</text>
+  <text x="808" y="244" class="body">sensitive transitions</text>
+  <text x="808" y="262" class="badge" fill="#b33a3a">CONTROL</text>
+
+  <rect x="1036" y="145" width="188" height="130" class="box" fill="#f3f0ff" stroke="#6f55c9"/>
+  <text x="1056" y="178" class="label">Committed State</text>
+  <text x="1056" y="204" class="body">Journals, snapshots,</text>
+  <text x="1056" y="224" class="body">review signals, memory,</text>
+  <text x="1056" y="244" class="body">recent changes</text>
+  <text x="1056" y="262" class="badge" fill="#6f55c9">DURABLE</text>
+
+  <path d="M232 210 H292" class="arrow"/>
+  <path d="M480 210 H540" class="arrow"/>
+  <path d="M728 210 H788" class="arrow"/>
+  <path d="M976 210 H1036" class="arrow"/>
+
+  <rect x="80" y="365" width="250" height="148" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="104" y="398" class="label">Functional Today</text>
+  <text x="104" y="426" class="body">Schemas and validation</text>
+  <text x="104" y="448" class="body">Source-event ingestion</text>
+  <text x="104" y="470" class="body">Review packet assembly</text>
+  <text x="104" y="492" class="body">Commit and materialization</text>
+
+  <rect x="390" y="365" width="250" height="148" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="414" y="398" class="label">Functional Today</text>
+  <text x="414" y="426" class="body">Recent-change indexing</text>
+  <text x="414" y="448" class="body">Persona context packages</text>
+  <text x="414" y="470" class="body">Agent package rendering</text>
+  <text x="414" y="492" class="body">Agent response capture</text>
+
+  <rect x="700" y="365" width="250" height="148" class="box" fill="#fffaf0" stroke="#cc8a1a"/>
+  <text x="724" y="398" class="label">Designed Next</text>
+  <text x="724" y="426" class="body">App substrate contracts</text>
+  <text x="724" y="448" class="body">Prospect -> Outreach</text>
+  <text x="724" y="470" class="body">Outreach -> CRM handoff</text>
+  <text x="724" y="492" class="body">Qualitative learning loops</text>
+
+  <rect x="1010" y="365" width="190" height="148" class="box" fill="#fffaf0" stroke="#cc8a1a"/>
+  <text x="1034" y="398" class="label">Share Gate</text>
+  <text x="1034" y="426" class="body">Anonymize fixtures</text>
+  <text x="1034" y="448" class="body">Pressure test handoffs</text>
+  <text x="1034" y="470" class="body">Publish reviewer path</text>
+  <text x="1034" y="492" class="body">Run demo and tests</text>
+
+  <path d="M1130 275 C1130 320 205 320 205 365" class="soft-arrow"/>
+  <text x="420" y="326" class="body">Committed outcomes become future context for humans, apps, and agents.</text>
+
+  <rect x="44" y="590" width="1180" height="76" rx="10" fill="#f7fafc" stroke="#d5dde5"/>
+  <text x="68" y="624" class="label">One-command demo</text>
+  <text x="68" y="650" class="body">./scripts/demo_state_system.sh runs the current proof path from source event to rendered agent package.</text>
+</svg>

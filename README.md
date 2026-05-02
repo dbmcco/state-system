@@ -25,11 +25,84 @@ State is a durable, scoped record of:
 The model interprets meaning and proposes state transitions. Code validates
 schemas, evidence, access policy, persistence, audit, and runtime execution.
 
+## System Shape
+
+![State System overview](docs/assets/state-system-overview.svg)
+
+For a richer local orientation diagram, open `docs/system-diagram.html` in a
+browser.
+
+## Reviewer Path
+
+If you are reviewing State System for the first time, read it in this order:
+
+1. This README for the thesis, current runtime, and limits.
+2. `docs/system-diagram.html` for the broader architecture map.
+3. `docs/NORTH_STAR.md` for the intended direction.
+4. `docs/concepts/first-deployment-implementation-blueprint.md` for the
+   implemented runtime path.
+5. One trace in `examples/`, starting with
+   `examples/source-linear-southern-abrasives-won.json`.
+6. `docs/app-substrate-contract.md` and
+   `docs/app-integration-pressure-tests.md` for the app-facing future state.
+
+Good feedback targets:
+
+- whether the source event, context package, model proposal, governance, and
+  commit boundaries are the right boundaries
+- where the model-mediated layer is too vague, too powerful, or not powerful
+  enough
+- what failure modes are missing around stale context, hidden heuristics,
+  approval bypasses, and app-local state drift
+- what would make this useful in another agent-heavy workflow
+
+## What Works Today
+
+The current repo is a working contract prototype, not only a reference design.
+It can run a local JSON-backed runtime loop that:
+
+- validates schemas and examples
+- ingests a source event with idempotency checks
+- builds a model review packet from source evidence, state, persona, and
+  governance context
+- commits a fixture model proposal into journals, state snapshots, review
+  signals, and rollup requests
+- indexes recent changes for persona-specific routing
+- builds and renders agent-readable context packages
+- captures raw agent responses with package and evidence refs
+
+Run the one-command demo:
+
+```bash
+./scripts/demo_state_system.sh
+```
+
+The demo writes each generated artifact to a temporary directory and prints that
+path at the end.
+
+## What Is Designed Next
+
+The app-facing substrate is designed but not fully implemented. The intended
+next functional slices are:
+
+- Prospect Researcher creates a Prospect Opportunity Package that Outreach
+  Engine can consume.
+- Outreach Engine turns a real reply into a qualified CRM handoff, secondary
+  contact proposals, and retained engagement intelligence.
+- Meeting Manager, Thoughtforge, and Visual Forge use the same source event,
+  context package, proposal, approval, and commit pattern.
+- Qualitative human judgment remains model-interpretable evidence, not hidden
+  numeric scoring or hardcoded rules.
+
+Before sharing externally, real-looking fixture names and source refs should be
+anonymized.
+
 ## Initial Contents
 
 - `docs/NORTH_STAR.md` - guiding North Star for the effort
 - `docs/system-diagram.html` - standalone HTML/SVG orientation diagram with completeness key and workflow explainer
 - `docs/app-substrate-contract.md` - app-facing contract for shared state, proposals, evidence, and approval flows across the new application repos
+- `docs/app-integration-pressure-tests.md` - cross-app pressure tests for handoffs, approval gates, qualitative learning, and hidden heuristic drift
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/specs/2026-04-28-state-system-speedrift-plan.md` - Speedrift execution anchor for the first deployment
 - `docs/concepts/` - focused concept notes
@@ -61,6 +134,7 @@ schemas, evidence, access policy, persistence, audit, and runtime execution.
 - `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
 - `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, and agent responses
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
+- `examples/app-integrations/` - app integration fixture trace anchors for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, Thoughtforge, and Visual Forge
 
 ## First Personas
 
@@ -88,6 +162,12 @@ coherence failure, governance leaks, activation-to-use confusion, and downstream
 effects that could make the system confidently wrong.
 
 ## Validation
+
+Run the shareable functional demo:
+
+```bash
+./scripts/demo_state_system.sh
+```
 
 Run the local contract and fixture harness:
 
