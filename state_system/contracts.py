@@ -29,7 +29,7 @@ class ExampleIndex:
         paths_by_id: dict[str, list[Path]] = {}
         documents_by_path: dict[Path, JsonObject] = {}
 
-        for path in sorted(examples_dir.glob("*.json")):
+        for path in sorted(examples_dir.rglob("*.json")):
             document = load_json(path)
             documents_by_path[path] = document
             document_id = document.get("id")
@@ -52,7 +52,7 @@ def validate_all_examples(root: Path) -> list[ValidationResult]:
     schemas = _load_schemas(root / "schemas")
     results: list[ValidationResult] = []
 
-    for path in sorted((root / "examples").glob("*.json")):
+    for path in sorted((root / "examples").rglob("*.json")):
         schema_name = schema_for_example(path.name)
         if schema_name is None:
             continue
@@ -190,6 +190,8 @@ def validate_trace(
 
 
 def schema_for_example(filename: str) -> str | None:
+    if filename.endswith(".trace.json"):
+        return "trace-manifest.schema.json"
     if filename.startswith("source-"):
         return "source-event.schema.json"
     if filename.endswith("-trigger.json"):

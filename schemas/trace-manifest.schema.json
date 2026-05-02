@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/trace-manifest.schema.json",
+  "title": "TraceManifest",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "created_at",
+    "seed_records",
+    "source_event",
+    "review",
+    "commit",
+    "recent_change",
+    "context_package",
+    "render_package",
+    "capture_response"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "title": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "description": { "type": "string" },
+    "seed_records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["collection", "path"],
+        "properties": {
+          "collection": {
+            "type": "string",
+            "enum": ["state", "memory", "recent", "package", "commit", "source-event"]
+          },
+          "path": { "type": "string" }
+        }
+      }
+    },
+    "source_event": {
+      "type": "object",
+      "required": ["path"],
+      "properties": {
+        "path": { "type": "string" }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "source_event_id",
+        "packet_id",
+        "created_at",
+        "persona_path",
+        "resolved_evidence",
+        "governance_constraints"
+      ],
+      "properties": {
+        "source_event_id": { "type": "string" },
+        "packet_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "persona_path": { "type": "string" },
+        "resolved_evidence": { "type": "array", "items": { "type": "object" } },
+        "governance_constraints": { "type": "array", "items": { "type": "object" } },
+        "unresolved_evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "commit": {
+      "type": "object",
+      "required": ["model_output_path", "created_at", "evidence_refs"],
+      "properties": {
+        "model_output_path": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "recent_change": {
+      "type": "object",
+      "required": [
+        "source_event_id",
+        "commit_id",
+        "created_at",
+        "summary",
+        "routes",
+        "opportunity_class_hints",
+        "watermark_refs",
+        "stale_after",
+        "requires_refresh_before_external_action"
+      ],
+      "properties": {
+        "source_event_id": { "type": "string" },
+        "commit_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "summary": { "type": "string" },
+        "routes": { "type": "array", "items": { "type": "object" } },
+        "opportunity_class_hints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "watermark_refs": { "type": "array", "items": { "type": "string" } },
+        "stale_after": { "type": "string", "format": "date-time" },
+        "requires_refresh_before_external_action": { "type": "boolean" }
+      }
+    },
+    "context_package": {
+      "type": "object",
+      "required": ["persona_path", "package_id", "created_at", "review_goal", "valid_until"],
+      "properties": {
+        "persona_path": { "type": "string" },
+        "package_id": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "review_goal": { "type": "string" },
+        "valid_until": { "type": "string", "format": "date-time" }
+      }
+    },
+    "render_package": {
+      "type": "object",
+      "required": ["package_id"],
+      "properties": {
+        "package_id": { "type": "string" }
+      }
+    },
+    "capture_response": {
+      "type": "object",
+      "required": ["package_id", "consumer_ref", "created_at", "response_text"],
+      "properties": {
+        "package_id": { "type": "string" },
+        "consumer_ref": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "response_text": { "type": "string" },
+        "response_id": { "type": "string" }
+      }
+    }
+  }
+}

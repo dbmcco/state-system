@@ -25,6 +25,7 @@ from state_system.source_adapters import (
     git_commit_to_source_event,
 )
 from state_system.stores import JsonObject, StateStoreBundle
+from state_system.trace_runner import run_trace_manifest
 
 
 COLLECTIONS = {
@@ -244,6 +245,16 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, record)
         return 0
 
+    if args.command == "trace-run":
+        output_dir = Path(args.output_dir)
+        report = run_trace_manifest(
+            project_root=project_root,
+            manifest_path=Path(args.trace_manifest),
+            output_dir=output_dir,
+        )
+        _write_json(stdout, report)
+        return 0
+
     if args.command == "get":
         store = _store(stores, args.collection)
         _write_json(stdout, store.read(args.record_id))
@@ -378,6 +389,10 @@ def _parser() -> argparse.ArgumentParser:
     capture_response.add_argument("--consumer", required=True)
     capture_response.add_argument("--created-at", required=True)
     capture_response.add_argument("--response-id")
+
+    trace_run = subcommands.add_parser("trace-run")
+    trace_run.add_argument("trace_manifest")
+    trace_run.add_argument("--output-dir", required=True)
 
     get = subcommands.add_parser("get")
     get.add_argument("collection", choices=sorted(COLLECTIONS))

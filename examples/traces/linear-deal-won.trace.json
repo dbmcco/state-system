@@ -1,0 +1,114 @@
+{
+  "id": "trace.linear-deal-won",
+  "title": "Linear deal won to agent context",
+  "created_at": "2026-05-02T22:00:00Z",
+  "description": "Replays the current functional proof path: source event, review packet, fixture model output, commit, recent-change index, context package, rendered agent package, and captured response.",
+  "seed_records": [
+    {
+      "collection": "state",
+      "path": "examples/southern-abrasives-deal-state.json"
+    },
+    {
+      "collection": "state",
+      "path": "examples/lfw-ops-operating-picture.json"
+    },
+    {
+      "collection": "state",
+      "path": "examples/marketing-operating-picture.json"
+    }
+  ],
+  "source_event": {
+    "path": "examples/source-linear-southern-abrasives-won.json"
+  },
+  "review": {
+    "source_event_id": "source.linear.southern-abrasives-won",
+    "packet_id": "review_packet.linear.southern-abrasives-won",
+    "created_at": "2026-04-28T16:05:30Z",
+    "persona_path": "examples/patrick-persona.json",
+    "resolved_evidence": [
+      {
+        "ref": "linear:deal:southern-abrasives",
+        "summary": "Linear deal record for Southern Abrasives.",
+        "source_type": "linear_deal",
+        "observed_at": "2026-04-28T16:05:00Z"
+      },
+      {
+        "ref": "linear:event:southern-abrasives-stage-won-2026-04-28",
+        "summary": "Linear shows Southern Abrasives moved from proposal to won.",
+        "source_type": "linear_event",
+        "observed_at": "2026-04-28T16:05:00Z"
+      }
+    ],
+    "governance_constraints": [
+      {
+        "id": "governance.external-copy-approval",
+        "summary": "External-facing copy requires approval before publication.",
+        "approval_required": true
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "linear:deal:southern-abrasives.public-announcement-permission",
+      "linear:deal:southern-abrasives.delivery-handoff"
+    ]
+  },
+  "commit": {
+    "model_output_path": "examples/linear-southern-abrasives-won-model-proposal-output.json",
+    "created_at": "2026-04-28T16:07:00Z",
+    "evidence_refs": [
+      "linear:deal:southern-abrasives",
+      "linear:event:southern-abrasives-stage-won-2026-04-28"
+    ]
+  },
+  "recent_change": {
+    "source_event_id": "source.linear.southern-abrasives-won",
+    "commit_id": "commit.linear.southern-abrasives-won",
+    "created_at": "2026-04-28T16:07:30Z",
+    "summary": "Southern Abrasives moved from proposal to won.",
+    "routes": [
+      {
+        "persona_ref": "persona.patrick",
+        "relevance_tier": "primary",
+        "routing_reason": "Won deal creates operational handoff.",
+        "included": true,
+        "opportunity_class_hints": [
+          "operational_handoff"
+        ]
+      },
+      {
+        "persona_ref": "persona.laura",
+        "relevance_tier": "secondary",
+        "routing_reason": "Won deal may become a marketing proof point.",
+        "included": true,
+        "opportunity_class_hints": [
+          "marketing_opportunity"
+        ]
+      }
+    ],
+    "opportunity_class_hints": [
+      "operational_handoff",
+      "marketing_opportunity"
+    ],
+    "watermark_refs": [
+      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "governance.external-copy-approval"
+    ],
+    "stale_after": "2026-04-29T16:07:30Z",
+    "requires_refresh_before_external_action": true
+  },
+  "context_package": {
+    "persona_path": "examples/laura-persona.json",
+    "package_id": "context.laura.demo-recent",
+    "created_at": "2026-04-28T16:08:00Z",
+    "review_goal": "Review Laura-relevant recent changes.",
+    "valid_until": "2026-04-29T16:08:00Z"
+  },
+  "render_package": {
+    "package_id": "context.laura.demo-recent"
+  },
+  "capture_response": {
+    "package_id": "context.laura.demo-recent",
+    "consumer_ref": "consumer.demo",
+    "created_at": "2026-04-28T16:09:00Z",
+    "response_text": "Draft an internal proof-point note. Hold external publication until public naming and external copy approvals exist.\n"
+  }
+}

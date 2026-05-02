@@ -62,6 +62,7 @@ The current repo is a working contract prototype, not only a reference design.
 It can run a local JSON-backed runtime loop that:
 
 - validates schemas and examples
+- validates trace manifests
 - ingests a source event with idempotency checks
 - builds a model review packet from source evidence, state, persona, and
   governance context
@@ -70,6 +71,12 @@ It can run a local JSON-backed runtime loop that:
 - indexes recent changes for persona-specific routing
 - builds and renders agent-readable context packages
 - captures raw agent responses with package and evidence refs
+
+The main functional surface is now a trace runner. A trace manifest declares the
+source evidence, seed state, model proposal fixture, governance context, recent
+change routing, context package, rendered package, and captured response. The
+runner executes the flow and writes a machine-readable report plus each
+intermediate artifact.
 
 Run the one-command demo:
 
@@ -134,6 +141,7 @@ anonymized.
 - `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
 - `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, and agent responses
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
+- `examples/traces/` - runnable trace manifests for replaying source-event-to-agent-context flows
 - `examples/app-integrations/` - app integration fixture trace anchors for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, Thoughtforge, and Visual Forge
 
 ## First Personas
@@ -169,10 +177,16 @@ Run the shareable functional demo:
 ./scripts/demo_state_system.sh
 ```
 
+Run the canonical trace directly:
+
+```bash
+python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
+```
+
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py
 ```
 
 ## Runtime V0 CLI
@@ -181,6 +195,7 @@ The first local runtime loop is exposed as JSON CLI commands:
 
 ```bash
 python3 -m state_system.cli --project-root . validate
+python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
