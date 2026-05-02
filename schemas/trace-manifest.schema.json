@@ -8,13 +8,7 @@
     "title",
     "created_at",
     "seed_records",
-    "source_event",
-    "review",
-    "commit",
-    "recent_change",
-    "context_package",
-    "render_package",
-    "capture_response"
+    "commit"
   ],
   "properties": {
     "id": { "type": "string" },
@@ -72,7 +66,13 @@
       "properties": {
         "model_output_path": { "type": "string" },
         "created_at": { "type": "string", "format": "date-time" },
-        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "expected_status": {
+          "type": "string",
+          "enum": ["accepted", "pending_approval", "rejected", "no_op"]
+        },
+        "expected_materialized_snapshot_count": { "type": "number" },
+        "expected_pending_approval_count": { "type": "number" }
       }
     },
     "recent_change": {

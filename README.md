@@ -41,8 +41,8 @@ If you are reviewing State System for the first time, read it in this order:
 3. `docs/NORTH_STAR.md` for the intended direction.
 4. `docs/concepts/first-deployment-implementation-blueprint.md` for the
    implemented runtime path.
-5. One trace in `examples/`, starting with
-   `examples/source-linear-southern-abrasives-won.json`.
+5. One runnable trace in `examples/traces/`, starting with
+   `examples/traces/linear-deal-won.trace.json`.
 6. `docs/app-substrate-contract.md` and
    `docs/app-integration-pressure-tests.md` for the app-facing future state.
 
@@ -77,6 +77,15 @@ source evidence, seed state, model proposal fixture, governance context, recent
 change routing, context package, rendered package, and captured response. The
 runner executes the flow and writes a machine-readable report plus each
 intermediate artifact.
+
+Canonical traces:
+
+- `examples/traces/linear-deal-won.trace.json` proves accepted state update,
+  materialized state, recent-change routing, context packaging, and agent
+  response capture.
+- `examples/traces/laura-approval-gated-publication.trace.json` proves
+  governance can hold an external-facing action as pending approval without
+  materializing state or executing the action.
 
 Run the one-command demo:
 
@@ -181,6 +190,7 @@ Run the canonical trace directly:
 
 ```bash
 python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
+python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
 ```
 
 Run the local contract and fixture harness:
@@ -196,6 +206,7 @@ The first local runtime loop is exposed as JSON CLI commands:
 ```bash
 python3 -m state_system.cli --project-root . validate
 python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
+python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest

@@ -1,0 +1,45 @@
+{
+  "id": "trace.laura-approval-gated-publication",
+  "title": "Laura approval-gated external publication",
+  "created_at": "2026-05-02T22:20:00Z",
+  "description": "Replays a governance pressure trace where the model proposes external-facing publication and the committer preserves it as pending approval without materializing state or executing the action.",
+  "seed_records": [
+    {
+      "collection": "state",
+      "path": "examples/southern-abrasives-deal-state-after-won.json"
+    },
+    {
+      "collection": "state",
+      "path": "examples/marketing-operating-picture.json"
+    },
+    {
+      "collection": "recent",
+      "path": "examples/recent-linear-southern-abrasives-won.json"
+    },
+    {
+      "collection": "package",
+      "path": "examples/laura-southern-abrasives-opportunity-context-package.json"
+    }
+  ],
+  "commit": {
+    "model_output_path": "examples/laura-southern-abrasives-opportunity-model-output.json",
+    "created_at": "2026-04-28T16:11:00Z",
+    "evidence_refs": [
+      "context.laura.southern-abrasives-won-opportunity",
+      "recent.linear.southern-abrasives-won",
+      "journal.lfw.deal.southern-abrasives.won"
+    ],
+    "expected_status": "pending_approval",
+    "expected_materialized_snapshot_count": 0,
+    "expected_pending_approval_count": 1
+  },
+  "render_package": {
+    "package_id": "context.laura.southern-abrasives-won-opportunity"
+  },
+  "capture_response": {
+    "package_id": "context.laura.southern-abrasives-won-opportunity",
+    "consumer_ref": "consumer.demo",
+    "created_at": "2026-04-28T16:12:00Z",
+    "response_text": "Prepare internal draft material only. Do not publish external copy until approval, public naming permission, and approved proof point evidence are present.\n"
+  }
+}

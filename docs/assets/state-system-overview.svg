@@ -98,5 +98,5 @@
 
   <rect x="44" y="590" width="1180" height="76" rx="10" fill="#f7fafc" stroke="#d5dde5"/>
   <text x="68" y="624" class="label">One-command demo</text>
-  <text x="68" y="650" class="body">./scripts/demo_state_system.sh runs the current proof path from source event to rendered agent package.</text>
+  <text x="68" y="650" class="body">./scripts/demo_state_system.sh runs the accepted-state trace; trace-run also supports approval-gated pending-action traces.</text>
 </svg>
