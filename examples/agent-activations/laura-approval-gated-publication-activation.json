@@ -1,0 +1,49 @@
+{
+  "id": "activation.context.laura.southern-abrasives-won-opportunity.consumer.codex.20260503T100000Z",
+  "type": "agent_activation",
+  "package_id": "context.laura.southern-abrasives-won-opportunity",
+  "consumer_ref": "consumer.codex",
+  "created_at": "2026-05-03T10:00:00Z",
+  "activation_goal": "Draft internal material and identify what requires approval.",
+  "expected_response_type": "proposal",
+  "allowed_action_refs": [
+    "action.laura.southern-abrasives-internal-proof-note",
+    "action.laura.southern-abrasives-linkedin-draft",
+    "action.laura.southern-abrasives-no-op"
+  ],
+  "prohibited_action_refs": [
+    "action.laura.southern-abrasives-linkedin-publish"
+  ],
+  "evidence_refs": [
+    "context.laura.southern-abrasives-won-opportunity",
+    "linear:deal:southern-abrasives",
+    "linear:event:southern-abrasives-stage-won-2026-04-28",
+    "journal.lfw.deal.southern-abrasives.won"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "governance.external-copy-approval",
+      "recent.linear.southern-abrasives-won"
+    ],
+    "valid_until": "2026-04-29T16:08:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "state.lfw.deal.southern-abrasives",
+      "governance.external-copy-approval",
+      "linear:deal:southern-abrasives.public-announcement-permission"
+    ]
+  },
+  "capture_policy": {
+    "mode": "capture_required",
+    "store_raw_response": true,
+    "response_becomes_truth": false,
+    "next_review_required": true
+  },
+  "instructions": [
+    "Use only the attached State System package as your working context.",
+    "Do not take external action from this activation.",
+    "Treat prohibited actions as unavailable unless a future activation changes them.",
+    "Return a response matching the expected response type."
+  ]
+}

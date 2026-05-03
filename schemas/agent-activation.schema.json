@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/agent-activation.schema.json",
+  "title": "AgentActivation",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "package_id",
+    "consumer_ref",
+    "created_at",
+    "activation_goal",
+    "expected_response_type",
+    "allowed_action_refs",
+    "prohibited_action_refs",
+    "evidence_refs",
+    "freshness",
+    "capture_policy",
+    "instructions"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string", "enum": ["agent_activation"] },
+    "package_id": { "type": "string" },
+    "consumer_ref": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "activation_goal": { "type": "string" },
+    "expected_response_type": {
+      "type": "string",
+      "enum": ["proposal", "draft", "review", "answer", "no_op"]
+    },
+    "allowed_action_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "prohibited_action_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "freshness": { "type": "object" },
+    "capture_policy": {
+      "type": "object",
+      "required": [
+        "mode",
+        "store_raw_response",
+        "response_becomes_truth",
+        "next_review_required"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["capture_required", "capture_optional"]
+        },
+        "store_raw_response": { "type": "boolean" },
+        "response_becomes_truth": { "type": "boolean" },
+        "next_review_required": { "type": "boolean" }
+      }
+    },
+    "instructions": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

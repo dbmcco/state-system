@@ -7,8 +7,7 @@
     "id",
     "title",
     "created_at",
-    "seed_records",
-    "commit"
+    "seed_records"
   ],
   "properties": {
     "id": { "type": "string" },
@@ -23,7 +22,7 @@
         "properties": {
           "collection": {
             "type": "string",
-            "enum": ["state", "memory", "recent", "package", "commit", "source-event"]
+            "enum": ["state", "memory", "recent", "package", "commit", "source-event", "agent-activation"]
           },
           "path": { "type": "string" }
         }
@@ -121,6 +120,33 @@
         "package_id": { "type": "string" }
       }
     },
+    "agent_activation": {
+      "type": "object",
+      "required": [
+        "package_id",
+        "consumer_ref",
+        "created_at",
+        "activation_goal",
+        "expected_response_type"
+      ],
+      "properties": {
+        "package_id": { "type": "string" },
+        "consumer_ref": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "activation_goal": { "type": "string" },
+        "expected_response_type": {
+          "type": "string",
+          "enum": ["proposal", "draft", "review", "answer", "no_op"]
+        },
+        "activation_id": { "type": "string" }
+      }
+    },
+    "render_activation": {
+      "type": "object",
+      "properties": {
+        "activation_id": { "type": "string" }
+      }
+    },
     "capture_response": {
       "type": "object",
       "required": ["package_id", "consumer_ref", "created_at", "response_text"],
@@ -129,7 +155,8 @@
         "consumer_ref": { "type": "string" },
         "created_at": { "type": "string", "format": "date-time" },
         "response_text": { "type": "string" },
-        "response_id": { "type": "string" }
+        "response_id": { "type": "string" },
+        "activation_id": { "type": "string" }
       }
     }
   }

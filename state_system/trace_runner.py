@@ -3,6 +3,10 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
+from state_system.agent_activation import (
+    create_agent_activation,
+    render_activation_for_agent,
+)
 from state_system.agent_consumers import capture_agent_response, render_package_for_agent
 from state_system.contracts import load_json, validate_schema
 from state_system.runtime import (
@@ -22,6 +26,7 @@ SEED_COLLECTIONS = {
     "package": "context_packages",
     "commit": "commits",
     "source-event": "source_events",
+    "agent-activation": "agent_activations",
 }
 
 
@@ -95,43 +100,46 @@ def run_trace_manifest(
         )
         step_number += 1
 
-    commit = manifest["commit"]
-    commit_result = commit_model_output(
-        stores,
-        schemas,
-        model_output=load_json(project_root / commit["model_output_path"]),
-        created_at=commit["created_at"],
-        evidence_refs=list(commit["evidence_refs"]),
-    )
-    _check_commit_expectations(commit, commit_result)
-    _write_step(steps, output_dir, _numbered(step_number, "commit"), commit_result)
-    step_number += 1
+    commit_result = None
+    if "commit" in manifest:
+        commit = manifest["commit"]
+        commit_result = commit_model_output(
+            stores,
+            schemas,
+            model_output=load_json(project_root / commit["model_output_path"]),
+            created_at=commit["created_at"],
+            evidence_refs=list(commit["evidence_refs"]),
+        )
+        _check_commit_expectations(commit, commit_result)
+        _write_step(steps, output_dir, _numbered(step_number, "commit"), commit_result)
+        step_number += 1
 
-    if commit_result["materialized_snapshot_refs"]:
-        first_snapshot = commit_result["materialized_snapshot_refs"][0]
-        updated_state = stores.state_objects.read(first_snapshot)
-        _write_step(
-            steps,
-            output_dir,
-            _numbered(step_number, "updated-state"),
-            updated_state,
-        )
-    else:
-        _write_step(
-            steps,
-            output_dir,
-            _numbered(step_number, "commit-effects"),
-            {
-                "commit_id": commit_result["id"],
-                "commit_status": commit_result["status"],
-                "materialized_snapshot_refs": [],
-                "pending_approvals": list(commit_result["pending_approvals"]),
-                "rejected_proposals": list(commit_result["rejected_proposals"]),
-            },
-        )
-    step_number += 1
+        if commit_result["materialized_snapshot_refs"]:
+            first_snapshot = commit_result["materialized_snapshot_refs"][0]
+            updated_state = stores.state_objects.read(first_snapshot)
+            _write_step(
+                steps,
+                output_dir,
+                _numbered(step_number, "updated-state"),
+                updated_state,
+            )
+        else:
+            _write_step(
+                steps,
+                output_dir,
+                _numbered(step_number, "commit-effects"),
+                {
+                    "commit_id": commit_result["id"],
+                    "commit_status": commit_result["status"],
+                    "materialized_snapshot_refs": [],
+                    "pending_approvals": list(commit_result["pending_approvals"]),
+                    "rejected_proposals": list(commit_result["rejected_proposals"]),
+                },
+            )
+        step_number += 1
 
     context_package_id = None
+    agent_activation_id = None
     if "recent_change" in manifest:
         recent = manifest["recent_change"]
         recent_change = index_recent_change(
@@ -186,9 +194,45 @@ def run_trace_manifest(
         context_package_id = context_package_id or render_package_id
         step_number += 1
 
+    if "agent_activation" in manifest:
+        activation_spec = manifest["agent_activation"]
+        activation = create_agent_activation(
+            stores,
+            schemas,
+            package_id=activation_spec["package_id"],
+            consumer_ref=activation_spec["consumer_ref"],
+            created_at=activation_spec["created_at"],
+            activation_goal=activation_spec["activation_goal"],
+            expected_response_type=activation_spec["expected_response_type"],
+            activation_id=activation_spec.get("activation_id"),
+        )
+        agent_activation_id = activation["id"]
+        context_package_id = context_package_id or activation["package_id"]
+        _write_step(
+            steps,
+            output_dir,
+            _numbered(step_number, "agent-activation"),
+            activation,
+        )
+        step_number += 1
+
+    if "render_activation" in manifest:
+        activation_id = (
+            manifest["render_activation"].get("activation_id")
+            or agent_activation_id
+        )
+        if activation_id is None:
+            raise TraceRunnerError(["render_activation requires an activation id"])
+        rendered = render_activation_for_agent(stores, activation_id)
+        render_path = output_dir / f"{_numbered(step_number, 'rendered-activation')}.txt"
+        render_path.write_text(rendered + "\n", encoding="utf-8")
+        steps.append(_step("render-activation", render_path, "text"))
+        step_number += 1
+
     agent_response_id = None
     if "capture_response" in manifest:
         response = manifest["capture_response"]
+        response_activation_id = response.get("activation_id") or agent_activation_id
         response_record = capture_agent_response(
             stores,
             schemas,
@@ -197,6 +241,7 @@ def run_trace_manifest(
             response_text=response["response_text"],
             created_at=response["created_at"],
             response_id=response.get("response_id"),
+            activation_id=response_activation_id,
         )
         agent_response_id = response_record["id"]
         _write_step(
@@ -217,10 +262,17 @@ def run_trace_manifest(
         "validated": {
             "manifest": True,
             "source_event_created": source_event_created,
-            "commit_status": commit_result["status"],
-            "materialized_snapshot_count": len(commit_result["materialized_snapshot_refs"]),
-            "pending_approval_count": len(commit_result["pending_approvals"]),
+            "commit_status": commit_result["status"] if commit_result else None,
+            "materialized_snapshot_count": (
+                len(commit_result["materialized_snapshot_refs"])
+                if commit_result
+                else 0
+            ),
+            "pending_approval_count": (
+                len(commit_result["pending_approvals"]) if commit_result else 0
+            ),
             "context_package_id": context_package_id,
+            "agent_activation_id": agent_activation_id,
             "agent_response_id": agent_response_id,
         },
     }
@@ -362,5 +414,8 @@ def _runtime_schemas(project_root: Path) -> dict[str, JsonObject]:
         ),
         "agent_response": load_json(
             project_root / "schemas" / "agent-response.schema.json"
+        ),
+        "agent_activation": load_json(
+            project_root / "schemas" / "agent-activation.schema.json"
         ),
     }

@@ -19,6 +19,7 @@ DEFAULT_COLLECTIONS = {
     "commits": "commits",
     "recent_changes": "recent-changes",
     "context_packages": "context-packages",
+    "agent_activations": "agent-activations",
     "agent_responses": "agent-responses",
 }
 

@@ -192,6 +192,8 @@ def validate_trace(
 def schema_for_example(filename: str) -> str | None:
     if filename.endswith(".trace.json"):
         return "trace-manifest.schema.json"
+    if filename.endswith("-activation.json"):
+        return "agent-activation.schema.json"
     if filename.startswith("source-"):
         return "source-event.schema.json"
     if filename.endswith("-trigger.json"):

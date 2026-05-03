@@ -78,6 +78,7 @@ class JsonFileStoreTests(unittest.TestCase):
                     "commits",
                     "recent_changes",
                     "context_packages",
+                    "agent_activations",
                     "agent_responses",
                 },
                 set(DEFAULT_COLLECTIONS),

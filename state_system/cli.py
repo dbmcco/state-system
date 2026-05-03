@@ -10,6 +10,10 @@ from state_system.agent_consumers import (
     capture_agent_response,
     render_package_for_agent,
 )
+from state_system.agent_activation import (
+    create_agent_activation,
+    render_activation_for_agent,
+)
 from state_system.contracts import load_json, validate_all_examples
 from state_system.runtime import (
     build_recent_package,
@@ -39,6 +43,7 @@ COLLECTIONS = {
     "commit": "commits",
     "recent": "recent_changes",
     "package": "context_packages",
+    "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
 }
 
@@ -241,8 +246,28 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             response_text=response_text,
             created_at=args.created_at,
             response_id=args.response_id,
+            activation_id=args.activation_id,
         )
         _write_json(stdout, record)
+        return 0
+
+    if args.command == "activate-agent":
+        activation = create_agent_activation(
+            stores,
+            _runtime_schemas(project_root),
+            package_id=args.package_id,
+            consumer_ref=args.consumer,
+            created_at=args.created_at,
+            activation_goal=args.activation_goal,
+            expected_response_type=args.expected_response_type,
+            activation_id=args.activation_id,
+        )
+        _write_json(stdout, activation)
+        return 0
+
+    if args.command == "render-activation":
+        stdout.write(render_activation_for_agent(stores, args.activation_id))
+        stdout.write("\n")
         return 0
 
     if args.command == "trace-run":
@@ -389,6 +414,18 @@ def _parser() -> argparse.ArgumentParser:
     capture_response.add_argument("--consumer", required=True)
     capture_response.add_argument("--created-at", required=True)
     capture_response.add_argument("--response-id")
+    capture_response.add_argument("--activation-id")
+
+    activate_agent = subcommands.add_parser("activate-agent")
+    activate_agent.add_argument("package_id")
+    activate_agent.add_argument("--consumer", required=True)
+    activate_agent.add_argument("--created-at", required=True)
+    activate_agent.add_argument("--activation-goal", required=True)
+    activate_agent.add_argument("--expected-response-type", required=True)
+    activate_agent.add_argument("--activation-id")
+
+    render_activation = subcommands.add_parser("render-activation")
+    render_activation.add_argument("activation_id")
 
     trace_run = subcommands.add_parser("trace-run")
     trace_run.add_argument("trace_manifest")
@@ -462,6 +499,9 @@ def _runtime_schemas(project_root: Path) -> dict[str, JsonObject]:
         ),
         "agent_response": load_json(
             project_root / "schemas" / "agent-response.schema.json"
+        ),
+        "agent_activation": load_json(
+            project_root / "schemas" / "agent-activation.schema.json"
         ),
     }
 

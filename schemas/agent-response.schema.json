@@ -17,6 +17,7 @@
   "properties": {
     "id": { "type": "string" },
     "package_id": { "type": "string" },
+    "activation_id": { "type": "string" },
     "consumer_ref": { "type": "string" },
     "created_at": { "type": "string", "format": "date-time" },
     "response_text": { "type": "string" },

@@ -55,9 +55,13 @@ def capture_agent_response(
     response_text: str,
     created_at: str,
     response_id: str | None = None,
+    activation_id: str | None = None,
     evidence_refs: list[str] | None = None,
 ) -> JsonObject:
     package = stores.context_packages.read(package_id)
+    refs = list(evidence_refs) if evidence_refs is not None else _package_evidence_refs(package)
+    if activation_id and activation_id not in refs:
+        refs = [activation_id, *refs]
     record = {
         "id": response_id
         or _default_response_id(
@@ -69,11 +73,13 @@ def capture_agent_response(
         "consumer_ref": consumer_ref,
         "created_at": created_at,
         "response_text": response_text,
-        "evidence_refs": evidence_refs or _package_evidence_refs(package),
+        "evidence_refs": refs,
         "status": "captured",
         "extraction_status": "not_extracted",
         "proposed_effect_refs": [],
     }
+    if activation_id:
+        record["activation_id"] = activation_id
     errors = validate_schema(record, schemas["agent_response"])
     if errors:
         raise AgentResponseValidationError(errors)

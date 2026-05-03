@@ -24,6 +24,7 @@ class TraceRunnerTests(unittest.TestCase):
         self.assertEqual(
             {
                 "laura-approval-gated-publication.trace.json",
+                "laura-agent-activation.trace.json",
                 "linear-deal-won.trace.json",
             },
             set(trace_results),

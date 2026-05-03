@@ -70,13 +70,18 @@ It can run a local JSON-backed runtime loop that:
   signals, and rollup requests
 - indexes recent changes for persona-specific routing
 - builds and renders agent-readable context packages
+- creates persisted agent activation records with goals, expected response
+  types, allowed/prohibited actions, evidence refs, freshness, and capture
+  policy
+- renders activation records into agent-facing instructions plus the bounded
+  context package
 - captures raw agent responses with package and evidence refs
 
 The main functional surface is now a trace runner. A trace manifest declares the
 source evidence, seed state, model proposal fixture, governance context, recent
-change routing, context package, rendered package, and captured response. The
-runner executes the flow and writes a machine-readable report plus each
-intermediate artifact.
+change routing, context package, agent activation, rendered activation, and
+captured response. The runner executes the flow and writes a machine-readable
+report plus each intermediate artifact.
 
 Canonical traces:
 
@@ -86,6 +91,9 @@ Canonical traces:
 - `examples/traces/laura-approval-gated-publication.trace.json` proves
   governance can hold an external-facing action as pending approval without
   materializing state or executing the action.
+- `examples/traces/laura-agent-activation.trace.json` proves an agent can be
+  activated from a bounded context package, receive explicit action boundaries,
+  and have its response captured without treating that response as truth.
 
 Run the one-command demo:
 
@@ -148,7 +156,7 @@ anonymized.
 - `docs/concepts/source-events-and-idempotency.md` - source event envelope, idempotency keys, sync context, and source watermarks
 - `docs/concepts/backward-gap-audit.md` - thin backward pass before committer implementation
 - `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
-- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, and agent responses
+- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, agent activations, and agent responses
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
 - `examples/traces/` - runnable trace manifests for replaying source-event-to-agent-context flows
 - `examples/app-integrations/` - app integration fixture trace anchors for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, Thoughtforge, and Visual Forge
@@ -191,12 +199,13 @@ Run the canonical trace directly:
 ```bash
 python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
+python3 -m state_system.cli --project-root . trace-run examples/traces/laura-agent-activation.trace.json --output-dir /tmp/state-system-agent-activation
 ```
 
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py
 ```
 
 ## Runtime V0 CLI
@@ -207,6 +216,7 @@ The first local runtime loop is exposed as JSON CLI commands:
 python3 -m state_system.cli --project-root . validate
 python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
+python3 -m state_system.cli --project-root . trace-run examples/traces/laura-agent-activation.trace.json --output-dir /tmp/state-system-agent-activation
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
@@ -216,10 +226,21 @@ python3 -m state_system.cli --state-root /path/to/runtime review source.linear.s
 python3 -m state_system.cli --state-root /path/to/runtime commit examples/linear-southern-abrasives-won-model-proposal-output.json --created-at 2026-04-28T16:07:00Z --evidence-ref linear:deal:southern-abrasives
 ```
 
-## Agent Consumer Contract V0
+## Agent Activation Contract V0
 
-Context packages can be rendered for any agent or CLI as free-text narrative
-without binding State System to a provider:
+Humans operate through agents in this design. A reporting surface may exist, but
+the primary use path is: State System creates an activation record, an agent
+acts from that bounded context, and the response is captured as evidence for the
+next review loop.
+
+Create and render an activation:
+
+```bash
+python3 -m state_system.cli --state-root /path/to/runtime activate-agent context.laura.southern-abrasives-won-opportunity --consumer consumer.codex --created-at 2026-05-03T10:00:00Z --activation-goal "Draft internal material and identify what requires approval." --expected-response-type proposal
+python3 -m state_system.cli --state-root /path/to/runtime render-activation activation.context.laura.southern-abrasives-won-opportunity.consumer.codex.20260503T100000Z
+```
+
+Context packages can still be rendered directly for inspection or debugging:
 
 ```bash
 python3 -m state_system.cli --state-root /path/to/runtime render-package context.laura.southern-abrasives-won-opportunity
@@ -229,5 +250,5 @@ Raw agent output is captured as a durable artifact linked back to the package
 and evidence that shaped it:
 
 ```bash
-python3 -m state_system.cli --state-root /path/to/runtime capture-response context.laura.southern-abrasives-won-opportunity /path/to/response.txt --consumer consumer.codex --created-at 2026-05-01T20:31:00Z
+python3 -m state_system.cli --state-root /path/to/runtime capture-response context.laura.southern-abrasives-won-opportunity /path/to/response.txt --consumer consumer.codex --created-at 2026-05-03T10:02:00Z --activation-id activation.context.laura.southern-abrasives-won-opportunity.consumer.codex.20260503T100000Z
 ```
