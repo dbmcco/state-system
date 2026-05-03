@@ -14,7 +14,7 @@ echo
 
 echo "==> Run trace manifest"
 python3 -m state_system.cli --project-root "$ROOT" \
-  trace-run examples/traces/linear-deal-won.trace.json \
+  trace-run examples/traces/laura-agent-activation.trace.json \
   --output-dir "$RUN_ROOT" > "$RUN_ROOT/trace-run-output.json"
 
 python3 - "$RUN_ROOT/trace-run-output.json" <<'PY'
@@ -32,6 +32,7 @@ PY
 echo
 echo "Demo complete."
 echo "Inspect generated artifacts in: $RUN_ROOT"
+echo "Report: $RUN_ROOT/index.html"
 echo
-echo "Rendered package preview:"
-sed -n '1,32p' "$RUN_ROOT/08-rendered-package.txt"
+echo "Rendered activation preview:"
+sed -n '1,36p' "$RUN_ROOT/03-rendered-activation.txt"

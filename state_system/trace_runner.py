@@ -15,6 +15,7 @@ from state_system.runtime import (
     commit_model_output,
     index_recent_change,
 )
+from state_system.reporting import write_trace_report_html
 from state_system.runner import SourceEventIngestor
 from state_system.stores import JsonObject, StateStoreBundle
 
@@ -278,6 +279,7 @@ def run_trace_manifest(
     }
     report_path = output_dir / "trace-report.json"
     _write_json(report_path, report)
+    write_trace_report_html(output_dir=output_dir, report=report)
     return report
 
 

@@ -76,12 +76,13 @@ It can run a local JSON-backed runtime loop that:
 - renders activation records into agent-facing instructions plus the bounded
   context package
 - captures raw agent responses with package and evidence refs
+- writes a static user-test report at `index.html` for each trace run
 
 The main functional surface is now a trace runner. A trace manifest declares the
 source evidence, seed state, model proposal fixture, governance context, recent
 change routing, context package, agent activation, rendered activation, and
 captured response. The runner executes the flow and writes a machine-readable
-report plus each intermediate artifact.
+report, a user-readable HTML report, and each intermediate artifact.
 
 Canonical traces:
 
@@ -102,7 +103,11 @@ Run the one-command demo:
 ```
 
 The demo writes each generated artifact to a temporary directory and prints that
-path at the end.
+path at the end. It also prints the static report path:
+
+```text
+Report: /tmp/state-system-demo.XXXXXX/index.html
+```
 
 ## What Is Designed Next
 
@@ -205,7 +210,7 @@ python3 -m state_system.cli --project-root . trace-run examples/traces/laura-age
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py
 ```
 
 ## Runtime V0 CLI
