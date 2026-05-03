@@ -260,7 +260,7 @@
     <p class="lede">
       State System is the organizational state layer: it turns scattered signals from known and
       unknown sources into durable, evidence-backed interpretation that humans and agents can act
-      from. This diagram shows the system as of May 2, 2026, including source generalization,
+      from. This diagram shows the system as of May 3, 2026, including source generalization,
       app substrate contracts, coherence maintenance, what is implemented, what is partial,
       and what should come next.
     </p>
@@ -503,8 +503,8 @@
 
             <rect x="300" y="78" width="292" height="172" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
             <text x="320" y="107" class="node-title">State System Substrate</text>
-            <text x="320" y="130" class="node-copy">SourceEvent -> ContextPackage</text>
-            <text x="320" y="147" class="node-copy">ModelProposalOutput -> ReviewSignal</text>
+            <text x="320" y="130" class="node-copy">TraceManifest -> SourceEvent</text>
+            <text x="320" y="147" class="node-copy">ContextPackage -> ModelProposalOutput</text>
             <text x="320" y="164" class="node-copy">Governance -> CommitResult</text>
             <text x="320" y="190" class="node-copy">company, campaign, contact, relationship,</text>
             <text x="320" y="207" class="node-copy">meeting, work, author, idea, visual, doctrine</text>
@@ -521,9 +521,9 @@
 
             <rect x="976" y="106" width="220" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
             <text x="996" y="133" class="node-title">Accepted Effects</text>
-            <text x="996" y="156" class="node-copy">State snapshots, journals, memory</text>
-            <text x="996" y="173" class="node-copy">Work items, CRM updates, corpora</text>
-            <text x="996" y="190" class="node-copy">Approved doctrine and context</text>
+            <text x="996" y="156" class="node-copy">Accepted snapshots and journals</text>
+            <text x="996" y="173" class="node-copy">Pending approvals and review signals</text>
+            <text x="996" y="190" class="node-copy">Agent packages and captured responses</text>
             <text x="996" y="211" class="status-label" fill="var(--partial)">APP FEEDBACK</text>
           </g>
 
@@ -531,7 +531,7 @@
           <path d="M592 164 H638" class="arrow" marker-end="url(#app-arrowhead)"></path>
           <path d="M930 164 H976" class="arrow" marker-end="url(#app-arrowhead)"></path>
           <path d="M1086 222 C1086 276 144 276 144 222" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
-          <text x="382" y="287" class="flow-label">accepted outcomes become new evidence, state, memory, and app context</text>
+          <text x="382" y="287" class="flow-label">accepted and held outcomes become inspectable trace artifacts before app work starts</text>
 
           <text x="34" y="336" class="layer-label">Application Repos</text>
           <g>
@@ -572,8 +572,8 @@
           <path d="M906 358 C906 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
           <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
 
-          <text x="34" y="522" class="node-copy">Shared adjacent systems: LFW AI Graph CRM owns real relationship history; PAIA memory and Folio provide recall and notes; task/work systems execute approved commitments.</text>
-          <text x="34" y="542" class="node-copy">Pressure-test gate: every app handoff needs a fixture trace before implementation. First gates: Prospect -> Outreach, then Outreach reply -> CRM + secondary contacts.</text>
+          <text x="34" y="522" class="node-copy">Current trace coverage: accepted state update and approval-gated external action with zero materialized snapshots.</text>
+          <text x="34" y="542" class="node-copy">Next pressure target: stale context and refresh-before-external-action behavior, then app handoffs such as Prospect -> Outreach and Outreach reply -> CRM.</text>
         </svg>
       </div>
     </section>
@@ -648,6 +648,7 @@
             <li>Review packets, fixture model outputs, governed committer, journals, snapshots, memory entries, and review signals.</li>
             <li>Recent-change registry, persona context packages, CLI access, agent narrative rendering, and captured agent responses.</li>
             <li>Trace manifests and `trace-run` now replay accepted-state and approval-gated source-event-to-agent-context flows with inspectable artifacts and a validation report.</li>
+            <li>The approval-gated trace proves pending external action can be held without materializing state or executing the action.</li>
           </ul>
         </div>
         <div>
