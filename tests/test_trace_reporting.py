@@ -83,7 +83,7 @@ class TraceReportingTests(unittest.TestCase):
             self.assertIn("Report:", result.stdout)
             self.assertTrue((Path(directory) / "index.html").exists())
 
-    def test_report_suite_writes_index_for_trace_and_app_reports(self):
+    def test_report_suite_writes_index_for_trace_app_and_mission_reports(self):
         with TemporaryDirectory() as directory:
             report = run_report_suite(
                 project_root=ROOT,
@@ -92,14 +92,19 @@ class TraceReportingTests(unittest.TestCase):
 
             self.assertEqual("passed", report["status"])
             self.assertEqual(
-                {"agent-activation-trace", "app-integrations"},
+                {"agent-activation-trace", "app-integrations", "mission-records"},
                 {entry["id"] for entry in report["reports"]},
             )
             self.assertTrue((Path(directory) / "index.html").exists())
+            self.assertTrue(
+                (Path(directory) / "mission-records" / "mission-read-model.json").exists()
+            )
             html = (Path(directory) / "index.html").read_text(encoding="utf-8")
             self.assertIn("State System Report Suite", html)
             self.assertIn("Agent Activation Trace", html)
             self.assertIn("App Integration Report", html)
+            self.assertIn("Mission Records Read Model", html)
+            self.assertIn("href=\"mission-records/mission-read-model.json\"", html)
 
     def test_cli_runs_report_suite(self):
         with TemporaryDirectory() as directory:
@@ -124,6 +129,9 @@ class TraceReportingTests(unittest.TestCase):
             )
             self.assertTrue(
                 (Path(directory) / "app-integrations" / "index.html").exists()
+            )
+            self.assertTrue(
+                (Path(directory) / "mission-records" / "mission-read-model.json").exists()
             )
 
 

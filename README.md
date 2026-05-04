@@ -122,8 +122,8 @@ python3 -m state_system.cli --project-root . report-suite-run --output-dir /tmp/
 ```
 
 Open `/tmp/state-system-report-suite/index.html` to inspect the current
-agent-activation trace report and app-integration contract report from one
-place.
+agent-activation trace report, app-integration contract report, and mission
+records read model from one place.
 
 Replay the deterministic mission fixture and regenerate its read model:
 

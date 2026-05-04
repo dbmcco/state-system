@@ -9,12 +9,18 @@ from state_system.stores import JsonObject
 
 def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
     from state_system.app_integrations import run_app_integration_fixtures
+    from state_system.mission_records import (
+        MissionStoreBundle,
+        build_mission_read_model,
+        replay_mission_fixture,
+    )
     from state_system.trace_runner import run_trace_manifest
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
     trace_dir = output_dir / "agent-activation-trace"
     app_dir = output_dir / "app-integrations"
+    mission_dir = output_dir / "mission-records"
     trace_report = run_trace_manifest(
         project_root=project_root,
         manifest_path=(
@@ -29,6 +35,18 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
         project_root=project_root,
         output_dir=app_dir,
     )
+    mission_dir.mkdir(parents=True, exist_ok=True)
+    mission_stores = MissionStoreBundle(mission_dir)
+    mission_replay = replay_mission_fixture(
+        project_root / "examples" / "missions" / "repo-audit-streamlinear.json",
+        mission_stores,
+    )
+    mission_read_model = build_mission_read_model(
+        mission_stores,
+        mission_replay["mission_run_id"],
+    )
+    mission_read_model_path = mission_dir / "mission-read-model.json"
+    _write_json(mission_read_model_path, mission_read_model)
 
     reports = [
         {
@@ -44,6 +62,13 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
             "status": app_report["status"],
             "report_path": str(app_dir / "index.html"),
             "summary": "Fixture-backed Prospect/Outreach/CRM contract inspection report.",
+        },
+        {
+            "id": "mission-records",
+            "title": "Mission Records Read Model",
+            "status": "passed",
+            "report_path": str(mission_read_model_path),
+            "summary": "Replay-backed mission read model for the Streamlinear repo-audit fixture.",
         },
     ]
     status = "passed" if all(report["status"] == "passed" for report in reports) else "failed"
@@ -330,13 +355,14 @@ def _rendered_section(rendered_activation: str) -> str:
 
 def _report_suite_card(entry: JsonObject) -> str:
     path = Path(str(entry["report_path"]))
+    link_path = f"{path.parent.name}/{path.name}"
     return "\n".join(
         [
             "<div class=\"card\">",
             f"<h2>{escape(str(entry['title']))}</h2>",
             f"<p>Status: <span class=\"{escape(str(entry['status']))}\">{escape(str(entry['status']))}</span></p>",
             f"<p>{escape(str(entry['summary']))}</p>",
-            f"<p><a href=\"{escape(path.parent.name)}/index.html\">Open report</a></p>",
+            f"<p><a href=\"{escape(link_path)}\">Open report</a></p>",
             f"<p><code>{escape(str(path))}</code></p>",
             "</div>",
         ]
