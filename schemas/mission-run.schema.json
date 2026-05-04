@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-run.schema.json",
+  "title": "MissionRun",
+  "type": "object",
+  "required": [
+    "id",
+    "mission_type",
+    "created_at",
+    "created_by_ref",
+    "status",
+    "summary",
+    "objective",
+    "source_refs",
+    "trigger_refs",
+    "root_state_refs",
+    "context_package_refs",
+    "coordinator_agent_run_ref",
+    "agent_run_refs",
+    "event_refs",
+    "finding_refs",
+    "stumble_refs",
+    "artifact_refs",
+    "governance_receipt_refs",
+    "review_signal_refs",
+    "freshness"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_type": {
+      "type": "string",
+      "enum": [
+        "repo_audit",
+        "security_review",
+        "launch_readiness_review",
+        "marketing_opportunity_review",
+        "operations_cleanup_review",
+        "relationship_followup_review",
+        "onboarding_review",
+        "custom"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "created_by_ref": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "created",
+        "context_packaging",
+        "routing",
+        "running",
+        "blocked",
+        "waiting_on_approval",
+        "summarizing",
+        "committing",
+        "completed",
+        "failed",
+        "canceled"
+      ]
+    },
+    "summary": { "type": "string" },
+    "objective": { "type": "string" },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "trigger_refs": { "type": "array", "items": { "type": "string" } },
+    "root_state_refs": { "type": "array", "items": { "type": "string" } },
+    "context_package_refs": { "type": "array", "items": { "type": "string" } },
+    "coordinator_agent_run_ref": { "type": "string" },
+    "agent_run_refs": { "type": "array", "items": { "type": "string" } },
+    "event_refs": { "type": "array", "items": { "type": "string" } },
+    "finding_refs": { "type": "array", "items": { "type": "string" } },
+    "stumble_refs": { "type": "array", "items": { "type": "string" } },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "governance_receipt_refs": { "type": "array", "items": { "type": "string" } },
+    "review_signal_refs": { "type": "array", "items": { "type": "string" } },
+    "freshness": { "type": "object" }
+  }
+}

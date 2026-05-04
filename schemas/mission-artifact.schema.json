@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-artifact.schema.json",
+  "title": "MissionArtifact",
+  "type": "object",
+  "required": ["id", "mission_run_id", "agent_run_id", "created_at", "artifact_type", "summary", "uri", "content_ref", "evidence_refs", "related_state_refs", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "artifact_type": {
+      "type": "string",
+      "enum": ["transcript", "report", "patch", "diff", "test_output", "screenshot", "log_excerpt", "source_excerpt", "model_output", "commit_result", "approval_record"]
+    },
+    "summary": { "type": "string" },
+    "uri": { "type": "string" },
+    "content_ref": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "related_state_refs": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string" }
+  }
+}

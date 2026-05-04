@@ -16,6 +16,11 @@ from state_system.agent_activation import (
 )
 from state_system.app_integrations import run_app_integration_fixtures
 from state_system.contracts import load_json, validate_all_examples
+from state_system.mission_records import (
+    MissionStoreBundle,
+    build_mission_read_model,
+    replay_mission_fixture,
+)
 from state_system.runtime import (
     build_recent_package,
     build_review_packet_from_source_event,
@@ -300,6 +305,29 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, report)
         return 0 if report["status"] == "passed" else 1
 
+    if args.command == "mission-replay":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        mission_stores = MissionStoreBundle(output_dir)
+        replay = replay_mission_fixture(Path(args.fixture), mission_stores)
+        read_model = build_mission_read_model(
+            mission_stores,
+            replay["mission_run_id"],
+        )
+        read_model_path = output_dir / "mission-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                **replay,
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "get":
         store = _store(stores, args.collection)
         _write_json(stdout, store.read(args.record_id))
@@ -456,6 +484,10 @@ def _parser() -> argparse.ArgumentParser:
 
     report_suite_run = subcommands.add_parser("report-suite-run")
     report_suite_run.add_argument("--output-dir", required=True)
+
+    mission_replay = subcommands.add_parser("mission-replay")
+    mission_replay.add_argument("fixture")
+    mission_replay.add_argument("--output-dir", required=True)
 
     get = subcommands.add_parser("get")
     get.add_argument("collection", choices=sorted(COLLECTIONS))

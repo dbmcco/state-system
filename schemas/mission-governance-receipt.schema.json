@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-governance-receipt.schema.json",
+  "title": "MissionGovernanceReceipt",
+  "type": "object",
+  "required": ["id", "mission_run_id", "agent_run_id", "created_at", "policy_refs", "controlled_effect", "risk", "status", "summary", "approval_refs", "commit_result_refs"],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "policy_refs": { "type": "array", "items": { "type": "string" } },
+    "controlled_effect": { "type": "string" },
+    "risk": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "forbidden"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["allowed", "pending_approval", "rejected", "requires_refresh", "blocked_by_policy"]
+    },
+    "summary": { "type": "string" },
+    "approval_refs": { "type": "array", "items": { "type": "string" } },
+    "commit_result_refs": { "type": "array", "items": { "type": "string" } }
+  }
+}

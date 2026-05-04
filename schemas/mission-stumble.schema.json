@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-stumble.schema.json",
+  "title": "MissionStumble",
+  "type": "object",
+  "required": ["id", "mission_run_id", "agent_run_id", "created_at", "summary", "stumble_class", "evidence_refs", "correction", "lesson_candidate", "memory_proposal_refs", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "summary": { "type": "string" },
+    "stumble_class": {
+      "type": "string",
+      "enum": ["bad_assumption", "missed_context", "tool_error", "schema_error", "routing_error", "evidence_gap", "overreach", "duplicated_work", "prompt_gap", "unknown"]
+    },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "correction": { "type": "string" },
+    "lesson_candidate": { "type": "string" },
+    "memory_proposal_refs": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["recorded", "corrected", "memory_proposed", "memory_committed", "superseded"]
+    }
+  }
+}

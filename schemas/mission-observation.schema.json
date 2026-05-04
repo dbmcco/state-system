@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-observation.schema.json",
+  "title": "MissionObservation",
+  "type": "object",
+  "required": ["id", "mission_run_id", "agent_run_id", "created_at", "summary", "interpretation", "evidence_refs", "related_state_refs", "confidence", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "summary": { "type": "string" },
+    "interpretation": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "related_state_refs": { "type": "array", "items": { "type": "string" } },
+    "confidence": { "type": "number" },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "promoted_to_finding", "used_in_model_output", "superseded", "discarded"]
+    }
+  }
+}

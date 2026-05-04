@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-fixture.schema.json",
+  "title": "MissionFixture",
+  "type": "object",
+  "required": [
+    "id",
+    "mission_runs",
+    "agent_runs",
+    "events",
+    "observations",
+    "findings",
+    "stumbles",
+    "artifacts",
+    "governance_receipts",
+    "commit_results",
+    "journal_entries",
+    "memory_entries",
+    "review_signals"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_runs": { "type": "array", "items": { "type": "object" } },
+    "agent_runs": { "type": "array", "items": { "type": "object" } },
+    "events": { "type": "array", "items": { "type": "object" } },
+    "observations": { "type": "array", "items": { "type": "object" } },
+    "findings": { "type": "array", "items": { "type": "object" } },
+    "stumbles": { "type": "array", "items": { "type": "object" } },
+    "artifacts": { "type": "array", "items": { "type": "object" } },
+    "governance_receipts": { "type": "array", "items": { "type": "object" } },
+    "commit_results": { "type": "array", "items": { "type": "object" } },
+    "journal_entries": { "type": "array", "items": { "type": "object" } },
+    "memory_entries": { "type": "array", "items": { "type": "object" } },
+    "review_signals": { "type": "array", "items": { "type": "object" } }
+  }
+}

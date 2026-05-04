@@ -125,6 +125,15 @@ Open `/tmp/state-system-report-suite/index.html` to inspect the current
 agent-activation trace report and app-integration contract report from one
 place.
 
+Replay the deterministic mission fixture and regenerate its read model:
+
+```bash
+python3 -m state_system.cli --project-root . mission-replay examples/missions/repo-audit-streamlinear.json --output-dir /tmp/state-system-mission
+```
+
+The mission replay writes `/tmp/state-system-mission/mission-read-model.json`
+plus the file-backed mission records used to generate it.
+
 ## What Is Designed Next
 
 The app-facing substrate has its first schema-valid contract fixtures, but it
@@ -237,7 +246,7 @@ handoff and the Outreach reply -> CRM plus secondary contacts handoff.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py
 ```
 
 ## Runtime V0 CLI

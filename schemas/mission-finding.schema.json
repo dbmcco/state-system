@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-finding.schema.json",
+  "title": "MissionFinding",
+  "type": "object",
+  "required": ["id", "mission_run_id", "agent_run_id", "created_at", "finding_type", "severity", "summary", "details", "evidence_refs", "related_state_refs", "proposed_action_refs", "review_signal_refs", "status"],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_run_id": { "type": "string" },
+    "created_at": { "type": "string" },
+    "finding_type": {
+      "type": "string",
+      "enum": ["security_risk", "quality_risk", "architecture_risk", "dependency_risk", "scope_drift", "missing_evidence", "launch_blocker", "operational_gap", "opportunity", "lesson"]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low", "informational", "unknown"]
+    },
+    "summary": { "type": "string" },
+    "details": { "type": "string" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "related_state_refs": { "type": "array", "items": { "type": "string" } },
+    "proposed_action_refs": { "type": "array", "items": { "type": "string" } },
+    "review_signal_refs": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string" }
+  }
+}

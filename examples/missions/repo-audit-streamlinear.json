@@ -1,0 +1,667 @@
+{
+  "id": "mission.fixture.repo-audit-streamlinear",
+  "mission_runs": [
+    {
+      "id": "mission.repo_audit.streamlinear",
+      "mission_type": "repo_audit",
+      "created_at": "2026-05-04T18:00:00Z",
+      "created_by_ref": "agent.coordinator",
+      "status": "completed",
+      "summary": "Deterministic repo-audit mission for Streamlinear.",
+      "objective": "Audit a repository for security, architecture, dependency, and quality risks while preserving evidence and governed state effects.",
+      "source_refs": [
+        "github:repo:example/streamlinear",
+        "workgraph:repo:streamlinear:task:audit-linear-mcp",
+        "speedrift:repo:streamlinear:review:security-audit-2026-05-04"
+      ],
+      "trigger_refs": [
+        "trigger.repo-audit.streamlinear"
+      ],
+      "root_state_refs": [
+        "state.repo.streamlinear.project",
+        "state.repo.streamlinear.capability.linear-mcp-bridge",
+        "state.repo.streamlinear.obligation.security-review",
+        "state.repo.streamlinear.operating_picture.delivery",
+        "state.agent.security-reviewer"
+      ],
+      "context_package_refs": [
+        "context.mission.repo-audit.coordinator",
+        "context.mission.repo-audit.security",
+        "context.mission.repo-audit.architecture",
+        "context.mission.repo-audit.dependencies",
+        "context.mission.repo-audit.quality"
+      ],
+      "coordinator_agent_run_ref": "agent_run.repo_audit.coordinator",
+      "agent_run_refs": [
+        "agent_run.repo_audit.coordinator",
+        "agent_run.repo_audit.project_explorer",
+        "agent_run.repo_audit.security",
+        "agent_run.repo_audit.architecture",
+        "agent_run.repo_audit.dependencies",
+        "agent_run.repo_audit.quality"
+      ],
+      "event_refs": [
+        "mission_event.repo_audit.created",
+        "mission_event.repo_audit.security.assigned",
+        "mission_event.repo_audit.security.file_read",
+        "mission_event.repo_audit.security.finding",
+        "mission_event.repo_audit.dependencies.finding",
+        "mission_event.repo_audit.quality.stumble",
+        "mission_event.repo_audit.governance.blocked",
+        "mission_event.repo_audit.commit",
+        "mission_event.repo_audit.completed"
+      ],
+      "finding_refs": [
+        "mission_finding.streamlinear.security-token-scope",
+        "mission_finding.streamlinear.missing-dependency-evidence"
+      ],
+      "stumble_refs": [
+        "mission_stumble.streamlinear.quality-overreach"
+      ],
+      "artifact_refs": [
+        "mission_artifact.streamlinear.security-report",
+        "mission_artifact.streamlinear.commit-result"
+      ],
+      "governance_receipt_refs": [
+        "mission_governance.streamlinear.external-advisory-blocked"
+      ],
+      "review_signal_refs": [
+        "review.mission.streamlinear.follow-up"
+      ],
+      "freshness": {
+        "watermark_refs": [
+          "github:repo:example/streamlinear@2026-05-04T18:00:00Z"
+        ],
+        "valid_until": "2026-05-05T18:00:00Z",
+        "requires_refresh_before_external_action": true
+      }
+    }
+  ],
+  "agent_runs": [
+    {
+      "id": "agent_run.repo_audit.coordinator",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.coordinator",
+      "persona_ref": "persona.coordinator",
+      "role": "coordinator",
+      "responsibility": "Coordinate audit routing, preserve governance boundaries, and summarize mission results.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:00:00Z",
+      "completed_at": "2026-05-04T18:30:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.coordinator"
+      ],
+      "review_packet_refs": [
+        "review_packet.mission.streamlinear.project-update"
+      ],
+      "event_refs": [
+        "mission_event.repo_audit.created",
+        "mission_event.repo_audit.completed"
+      ],
+      "observation_refs": [],
+      "finding_refs": [],
+      "stumble_refs": [],
+      "artifact_refs": [],
+      "memory_entry_refs": [],
+      "token_usage": {
+        "input": 1200,
+        "output": 450
+      },
+      "cost": {
+        "usd": 0.04
+      }
+    },
+    {
+      "id": "agent_run.repo_audit.project_explorer",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.project-explorer",
+      "persona_ref": "persona.project-explorer",
+      "role": "project_explorer",
+      "responsibility": "Identify repo layout, source refs, and audit scope.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:02:00Z",
+      "completed_at": "2026-05-04T18:10:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.project-explorer"
+      ],
+      "review_packet_refs": [],
+      "event_refs": [],
+      "observation_refs": [
+        "mission_observation.streamlinear.repo-layout"
+      ],
+      "finding_refs": [],
+      "stumble_refs": [],
+      "artifact_refs": [],
+      "memory_entry_refs": [],
+      "token_usage": {
+        "input": 900,
+        "output": 300
+      },
+      "cost": {
+        "usd": 0.03
+      }
+    },
+    {
+      "id": "agent_run.repo_audit.security",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.security-reviewer",
+      "persona_ref": "persona.security-reviewer",
+      "role": "specialist_reviewer",
+      "responsibility": "Inspect authentication and token handling risks.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:04:00Z",
+      "completed_at": "2026-05-04T18:20:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.security"
+      ],
+      "review_packet_refs": [
+        "review_packet.mission.streamlinear.security"
+      ],
+      "event_refs": [
+        "mission_event.repo_audit.security.assigned",
+        "mission_event.repo_audit.security.file_read",
+        "mission_event.repo_audit.security.finding"
+      ],
+      "observation_refs": [],
+      "finding_refs": [
+        "mission_finding.streamlinear.security-token-scope"
+      ],
+      "stumble_refs": [],
+      "artifact_refs": [
+        "mission_artifact.streamlinear.security-report"
+      ],
+      "memory_entry_refs": [],
+      "token_usage": {
+        "input": 1500,
+        "output": 520
+      },
+      "cost": {
+        "usd": 0.05
+      }
+    },
+    {
+      "id": "agent_run.repo_audit.architecture",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.architecture-reviewer",
+      "persona_ref": "persona.architecture-reviewer",
+      "role": "specialist_reviewer",
+      "responsibility": "Inspect boundary clarity and integration shape.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:04:00Z",
+      "completed_at": "2026-05-04T18:18:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.architecture"
+      ],
+      "review_packet_refs": [],
+      "event_refs": [],
+      "observation_refs": [],
+      "finding_refs": [],
+      "stumble_refs": [],
+      "artifact_refs": [],
+      "memory_entry_refs": [],
+      "token_usage": {
+        "input": 1100,
+        "output": 410
+      },
+      "cost": {
+        "usd": 0.04
+      }
+    },
+    {
+      "id": "agent_run.repo_audit.dependencies",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.dependency-reviewer",
+      "persona_ref": "persona.dependency-reviewer",
+      "role": "specialist_reviewer",
+      "responsibility": "Inspect dependency evidence and freshness.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:04:00Z",
+      "completed_at": "2026-05-04T18:19:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.dependencies"
+      ],
+      "review_packet_refs": [],
+      "event_refs": [
+        "mission_event.repo_audit.dependencies.finding"
+      ],
+      "observation_refs": [],
+      "finding_refs": [
+        "mission_finding.streamlinear.missing-dependency-evidence"
+      ],
+      "stumble_refs": [],
+      "artifact_refs": [],
+      "memory_entry_refs": [],
+      "token_usage": {
+        "input": 1000,
+        "output": 360
+      },
+      "cost": {
+        "usd": 0.04
+      }
+    },
+    {
+      "id": "agent_run.repo_audit.quality",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_ref": "agent.quality-reviewer",
+      "persona_ref": "persona.quality-reviewer",
+      "role": "specialist_reviewer",
+      "responsibility": "Inspect test and quality signals while recording stumbles.",
+      "status": "complete",
+      "model_ref": "fixture-model",
+      "started_at": "2026-05-04T18:04:00Z",
+      "completed_at": "2026-05-04T18:21:00Z",
+      "context_package_refs": [
+        "context.mission.repo-audit.quality"
+      ],
+      "review_packet_refs": [],
+      "event_refs": [
+        "mission_event.repo_audit.quality.stumble"
+      ],
+      "observation_refs": [],
+      "finding_refs": [],
+      "stumble_refs": [
+        "mission_stumble.streamlinear.quality-overreach"
+      ],
+      "artifact_refs": [],
+      "memory_entry_refs": [
+        "memory.mission.streamlinear.quality-overreach"
+      ],
+      "token_usage": {
+        "input": 950,
+        "output": 380
+      },
+      "cost": {
+        "usd": 0.03
+      }
+    }
+  ],
+  "events": [
+    {
+      "id": "mission_event.repo_audit.created",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:00:00Z",
+      "event_type": "mission_created",
+      "summary": "Repo audit mission created from Workgraph request.",
+      "source_refs": [
+        "workgraph:repo:streamlinear:task:audit-linear-mcp"
+      ],
+      "evidence_refs": [
+        "github:repo:example/streamlinear"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.security.assigned",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.security",
+      "created_at": "2026-05-04T18:04:00Z",
+      "event_type": "agent_assigned",
+      "summary": "Security reviewer assigned to authentication and token handling.",
+      "source_refs": [
+        "workgraph:repo:streamlinear:task:audit-linear-mcp"
+      ],
+      "evidence_refs": [
+        "context.mission.repo-audit.security"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.security.file_read",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.security",
+      "created_at": "2026-05-04T18:07:00Z",
+      "event_type": "file_read",
+      "summary": "Security reviewer inspected token handling source excerpt.",
+      "source_refs": [
+        "github:repo:example/streamlinear:file:src/auth/tokens.py"
+      ],
+      "evidence_refs": [
+        "github:blob:streamlinear:src/auth/tokens.py#L40"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.security.finding",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.security",
+      "created_at": "2026-05-04T18:12:00Z",
+      "event_type": "finding_recorded",
+      "summary": "Security reviewer recorded token scope risk.",
+      "source_refs": [
+        "speedrift:repo:streamlinear:review:security-audit-2026-05-04"
+      ],
+      "evidence_refs": [
+        "github:blob:streamlinear:src/auth/tokens.py#L40"
+      ],
+      "artifact_refs": [
+        "mission_artifact.streamlinear.security-report"
+      ]
+    },
+    {
+      "id": "mission_event.repo_audit.dependencies.finding",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.dependencies",
+      "created_at": "2026-05-04T18:13:00Z",
+      "event_type": "finding_recorded",
+      "summary": "Dependency reviewer recorded missing evidence for dependency freshness.",
+      "source_refs": [
+        "github:repo:example/streamlinear"
+      ],
+      "evidence_refs": [
+        "github:blob:streamlinear:pyproject.toml"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.quality.stumble",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.quality",
+      "created_at": "2026-05-04T18:15:00Z",
+      "event_type": "stumble_recorded",
+      "summary": "Quality reviewer initially treated low coverage as a launch blocker without enough evidence.",
+      "source_refs": [
+        "mission_stumble.streamlinear.quality-overreach"
+      ],
+      "evidence_refs": [
+        "github:check:streamlinear:test-output-2026-05-04"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.governance.blocked",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:22:00Z",
+      "event_type": "approval_requested",
+      "summary": "External security advisory was blocked by policy pending human approval.",
+      "source_refs": [
+        "mission_governance.streamlinear.external-advisory-blocked"
+      ],
+      "evidence_refs": [
+        "mission_finding.streamlinear.security-token-scope"
+      ],
+      "artifact_refs": []
+    },
+    {
+      "id": "mission_event.repo_audit.commit",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:26:00Z",
+      "event_type": "commit_result_created",
+      "summary": "Internal project-state update committed; external advisory remains blocked.",
+      "source_refs": [
+        "commit.mission.streamlinear.project-update"
+      ],
+      "evidence_refs": [
+        "model_output.mission.streamlinear.project-update"
+      ],
+      "artifact_refs": [
+        "mission_artifact.streamlinear.commit-result"
+      ]
+    },
+    {
+      "id": "mission_event.repo_audit.completed",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:30:00Z",
+      "event_type": "mission_completed",
+      "summary": "Mission completed with internal update, follow-up task, and blocked external action.",
+      "source_refs": [
+        "review.mission.streamlinear.follow-up"
+      ],
+      "evidence_refs": [
+        "commit.mission.streamlinear.project-update"
+      ],
+      "artifact_refs": [
+        "mission_artifact.streamlinear.security-report",
+        "mission_artifact.streamlinear.commit-result"
+      ]
+    }
+  ],
+  "observations": [
+    {
+      "id": "mission_observation.streamlinear.repo-layout",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.project_explorer",
+      "created_at": "2026-05-04T18:06:00Z",
+      "summary": "Repo layout suggests a compact service around a Linear MCP bridge.",
+      "interpretation": "Architecture is small enough for specialist review to work from bounded context packages.",
+      "evidence_refs": [
+        "github:repo:example/streamlinear"
+      ],
+      "related_state_refs": [
+        "state.repo.streamlinear.project"
+      ],
+      "confidence": 0.74,
+      "status": "used_in_model_output"
+    }
+  ],
+  "findings": [
+    {
+      "id": "mission_finding.streamlinear.security-token-scope",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.security",
+      "created_at": "2026-05-04T18:12:00Z",
+      "finding_type": "security_risk",
+      "severity": "high",
+      "summary": "Token scope appears broader than the bridge needs.",
+      "details": "The finding is model-interpreted from the source excerpt and should drive a follow-up hardening task, not an automatic external disclosure.",
+      "evidence_refs": [
+        "github:blob:streamlinear:src/auth/tokens.py#L40"
+      ],
+      "related_state_refs": [
+        "state.repo.streamlinear.obligation.security-review"
+      ],
+      "proposed_action_refs": [
+        "wg:task:streamlinear-security-hardening"
+      ],
+      "review_signal_refs": [
+        "review.mission.streamlinear.follow-up"
+      ],
+      "status": "open"
+    },
+    {
+      "id": "mission_finding.streamlinear.missing-dependency-evidence",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.dependencies",
+      "created_at": "2026-05-04T18:13:00Z",
+      "finding_type": "missing_evidence",
+      "severity": "medium",
+      "summary": "Dependency freshness cannot be confirmed from the available fixture.",
+      "details": "The dependency reviewer found pyproject evidence but no lockfile or scan output in the bounded package.",
+      "evidence_refs": [
+        "github:blob:streamlinear:pyproject.toml"
+      ],
+      "related_state_refs": [
+        "state.repo.streamlinear.project"
+      ],
+      "proposed_action_refs": [
+        "wg:task:streamlinear-dependency-evidence"
+      ],
+      "review_signal_refs": [
+        "review.mission.streamlinear.follow-up"
+      ],
+      "status": "open"
+    }
+  ],
+  "stumbles": [
+    {
+      "id": "mission_stumble.streamlinear.quality-overreach",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.quality",
+      "created_at": "2026-05-04T18:15:00Z",
+      "summary": "Quality reviewer initially promoted low coverage to launch blocker without enough evidence.",
+      "stumble_class": "overreach",
+      "evidence_refs": [
+        "github:check:streamlinear:test-output-2026-05-04"
+      ],
+      "correction": "Downgraded the issue to an evidence gap pending test output review.",
+      "lesson_candidate": "Do not convert incomplete test evidence into launch-blocker severity without a model review packet and governance context.",
+      "memory_proposal_refs": [
+        "memory.mission.streamlinear.quality-overreach"
+      ],
+      "status": "memory_proposed"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "mission_artifact.streamlinear.security-report",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.security",
+      "created_at": "2026-05-04T18:20:00Z",
+      "artifact_type": "report",
+      "summary": "Security review report excerpt for token scope risk.",
+      "uri": "artifact://mission/streamlinear/security-report",
+      "content_ref": "mission-content:streamlinear:security-report",
+      "evidence_refs": [
+        "github:blob:streamlinear:src/auth/tokens.py#L40"
+      ],
+      "related_state_refs": [
+        "state.repo.streamlinear.obligation.security-review"
+      ],
+      "status": "available"
+    },
+    {
+      "id": "mission_artifact.streamlinear.commit-result",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:26:00Z",
+      "artifact_type": "commit_result",
+      "summary": "Commit result for accepted internal project-state update.",
+      "uri": "artifact://mission/streamlinear/commit-result",
+      "content_ref": "commit.mission.streamlinear.project-update",
+      "evidence_refs": [
+        "model_output.mission.streamlinear.project-update"
+      ],
+      "related_state_refs": [
+        "state.repo.streamlinear.project"
+      ],
+      "status": "available"
+    }
+  ],
+  "governance_receipts": [
+    {
+      "id": "mission_governance.streamlinear.external-advisory-blocked",
+      "mission_run_id": "mission.repo_audit.streamlinear",
+      "agent_run_id": "agent_run.repo_audit.coordinator",
+      "created_at": "2026-05-04T18:22:00Z",
+      "policy_refs": [
+        "governance.external-security-advisory-human-approval"
+      ],
+      "controlled_effect": "external_security_advisory",
+      "risk": "high",
+      "status": "blocked_by_policy",
+      "summary": "External advisory was blocked until a human approves disclosure and recipient scope.",
+      "approval_refs": [],
+      "commit_result_refs": [
+        "commit.mission.streamlinear.project-update"
+      ]
+    }
+  ],
+  "commit_results": [
+    {
+      "id": "commit.mission.streamlinear.project-update",
+      "model_output_id": "model_output.mission.streamlinear.project-update",
+      "created_at": "2026-05-04T18:26:00Z",
+      "status": "accepted",
+      "accepted_journal_entry_refs": [
+        "journal.mission.streamlinear.project-update"
+      ],
+      "accepted_memory_entry_refs": [
+        "memory.mission.streamlinear.quality-overreach"
+      ],
+      "materialized_snapshot_refs": [],
+      "queued_rollup_requests": [],
+      "pending_approvals": [],
+      "rejected_proposals": [],
+      "review_signal": {
+        "id": "review.mission.streamlinear.follow-up",
+        "status": "needs_follow_up",
+        "follow_up_refs": [
+          "wg:task:streamlinear-security-hardening",
+          "wg:task:streamlinear-dependency-evidence"
+        ]
+      }
+    }
+  ],
+  "journal_entries": [
+    {
+      "id": "journal.mission.streamlinear.project-update",
+      "state_object_id": "state.repo.streamlinear.project",
+      "created_at": "2026-05-04T18:26:00Z",
+      "actor_ref": "agent.coordinator",
+      "source": "agent_reasoning",
+      "trigger_ref": "trigger.repo-audit.streamlinear",
+      "update_class": "interpretive",
+      "interpretation": "Streamlinear audit has open security and evidence follow-ups; external advisory remains blocked by governance.",
+      "state_patch": {
+        "audit_status": "follow_up_required",
+        "external_action_status": "blocked_by_policy"
+      },
+      "evidence_refs": [
+        "mission_finding.streamlinear.security-token-scope",
+        "mission_governance.streamlinear.external-advisory-blocked"
+      ],
+      "uncertainty": [
+        "Dependency evidence is incomplete in the fixture."
+      ],
+      "rollup_requests": [],
+      "approval_status": "approved",
+      "proposed_actions": [
+        {
+          "summary": "Create security hardening follow-up.",
+          "risk": "medium",
+          "approval_required": false
+        }
+      ]
+    }
+  ],
+  "memory_entries": [
+    {
+      "id": "memory.mission.streamlinear.quality-overreach",
+      "agent_ref": "agent.quality-reviewer",
+      "created_at": "2026-05-04T18:26:00Z",
+      "memory_key": "quality-overreach-with-incomplete-evidence",
+      "layer": "draft",
+      "memory_type": "lesson",
+      "summary": "Avoid launch-blocker claims from incomplete test evidence.",
+      "content": "When coverage or test output is incomplete, record an evidence gap before proposing launch-blocker severity.",
+      "confidence": 0.78,
+      "evidence_refs": [
+        "mission_stumble.streamlinear.quality-overreach"
+      ],
+      "related_state_refs": [
+        "state.agent.security-reviewer"
+      ],
+      "promotion_status": "candidate",
+      "status": "draft"
+    }
+  ],
+  "review_signals": [
+    {
+      "id": "review.mission.streamlinear.follow-up",
+      "trigger_id": "trigger.repo-audit.streamlinear",
+      "created_at": "2026-05-04T18:27:00Z",
+      "status": "needs_follow_up",
+      "summary": "Mission produced security hardening and dependency evidence follow-ups; external advisory remains blocked.",
+      "journal_entry_refs": [
+        "journal.mission.streamlinear.project-update"
+      ],
+      "memory_entry_refs": [
+        "memory.mission.streamlinear.quality-overreach"
+      ],
+      "rollup_requests": [],
+      "follow_up_refs": [
+        "wg:task:streamlinear-security-hardening",
+        "wg:task:streamlinear-dependency-evidence"
+      ],
+      "blocked_reason": "External advisory requires human approval."
+    }
+  ]
+}

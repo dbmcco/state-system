@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/mission-agent-run.schema.json",
+  "title": "MissionAgentRun",
+  "type": "object",
+  "required": [
+    "id",
+    "mission_run_id",
+    "agent_ref",
+    "persona_ref",
+    "role",
+    "responsibility",
+    "status",
+    "model_ref",
+    "started_at",
+    "completed_at",
+    "context_package_refs",
+    "review_packet_refs",
+    "event_refs",
+    "observation_refs",
+    "finding_refs",
+    "stumble_refs",
+    "artifact_refs",
+    "memory_entry_refs",
+    "token_usage",
+    "cost"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "mission_run_id": { "type": "string" },
+    "agent_ref": { "type": "string" },
+    "persona_ref": { "type": "string" },
+    "role": {
+      "type": "string",
+      "enum": [
+        "coordinator",
+        "observer",
+        "project_explorer",
+        "specialist_reviewer",
+        "implementer",
+        "verifier",
+        "summarizer"
+      ]
+    },
+    "responsibility": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "assigned", "starting", "running", "blocked", "waiting", "complete", "failed", "canceled"]
+    },
+    "model_ref": { "type": "string" },
+    "started_at": { "type": "string" },
+    "completed_at": { "type": "string" },
+    "context_package_refs": { "type": "array", "items": { "type": "string" } },
+    "review_packet_refs": { "type": "array", "items": { "type": "string" } },
+    "event_refs": { "type": "array", "items": { "type": "string" } },
+    "observation_refs": { "type": "array", "items": { "type": "string" } },
+    "finding_refs": { "type": "array", "items": { "type": "string" } },
+    "stumble_refs": { "type": "array", "items": { "type": "string" } },
+    "artifact_refs": { "type": "array", "items": { "type": "string" } },
+    "memory_entry_refs": { "type": "array", "items": { "type": "string" } },
+    "token_usage": { "type": "object" },
+    "cost": { "type": "object" }
+  }
+}
