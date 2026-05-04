@@ -64,6 +64,20 @@ CHAIN_DEFINITIONS: tuple[JsonObject, ...] = (
         "conformance": "conformance-no-hardcoded-author-source-free-publication-004.json",
         "conformance_label": "No hardcoded author assignment or source-free publication",
     },
+    {
+        "id": "visual-forge-qualitative-learning",
+        "title": "Visual Forge -> qualitative creative learning",
+        "source": "source-visual-forge-creative-review-005.json",
+        "package": "visual-forge-workspace-context-package-005.json",
+        "model_output": "visual-forge-creative-review-model-proposal-output-005.json",
+        "commit": "visual-forge-creative-review-commit-result-005.json",
+        "artifacts": [
+            "visual-forge-revision-candidate-005.json",
+            "visual-forge-corpus-memory-candidate-005.json",
+        ],
+        "conformance": "conformance-no-style-score-hidden-prompt-rewrite-005.json",
+        "conformance_label": "No style scores or hidden prompt rewrite",
+    },
 )
 
 

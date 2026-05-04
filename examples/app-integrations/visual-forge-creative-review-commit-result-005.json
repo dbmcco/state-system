@@ -1,0 +1,34 @@
+{
+  "id": "commit.visual-forge-creative-review.005",
+  "model_output_id": "model_output.visual-forge-creative-review.005",
+  "created_at": "2026-05-04T16:32:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.visual.streamlinear-campaign",
+      "reason": "Visual rollup should refresh after revision review and corpus-memory approval decision."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "memory",
+      "summary": "Approve texture preference as private corpus memory.",
+      "reason": "Qualitative creative learning should not become durable corpus memory without human approval.",
+      "target_ref": "visual-forge.corpus-memory-candidate.005"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.visual-forge-creative-review.005",
+    "trigger_id": "trigger.visual-forge-creative-review.005",
+    "status": "pending_approval",
+    "summary": "Visual Forge proposed a revision candidate and corpus memory candidate; corpus memory promotion is approval gated.",
+    "follow_up_refs": [
+      "visual-forge.revision-candidate.005",
+      "visual-forge.corpus-memory-candidate.005"
+    ]
+  }
+}

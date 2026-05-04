@@ -331,6 +331,76 @@ class AppIntegrationContractTests(unittest.TestCase):
             if ref not in index.by_id
         ])
 
+    def test_visual_forge_preserves_qualitative_creative_feedback(self):
+        index = ExampleIndex.load(ROOT / "examples")
+
+        source = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "source-visual-forge-creative-review-005.json"
+        )
+        package = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "visual-forge-workspace-context-package-005.json"
+        )
+        output = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "visual-forge-creative-review-model-proposal-output-005.json"
+        )
+        commit = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "visual-forge-creative-review-commit-result-005.json"
+        )
+        revision_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "visual-forge-revision-candidate-005.json"
+        )
+        memory_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "visual-forge-corpus-memory-candidate-005.json"
+        )
+        conformance = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "conformance-no-style-score-hidden-prompt-rewrite-005.json"
+        )
+
+        self.assertEqual("visual_forge", source["source_system"])
+        self.assertEqual("visual_forge_workspace_package", package["package_type"])
+        self.assertIn(source["source_refs"][0], package["evidence_context"]["evidence_refs"])
+        self.assertEqual("needs_approval", output["decision"])
+        self.assertEqual("pending_approval", commit["status"])
+        self.assertEqual(
+            {revision_artifact["id"], memory_artifact["id"]},
+            set(commit["review_signal"]["follow_up_refs"]),
+        )
+        self.assertEqual("visual_forge_revision_candidate", revision_artifact["artifact_type"])
+        self.assertEqual("visual_forge_corpus_memory_candidate", memory_artifact["artifact_type"])
+        self.assertEqual("pending_approval", memory_artifact["approval_status"])
+        self.assertIn("keep texture from version two", revision_artifact["payload"]["human_feedback"])
+        self.assertNotIn("style_score", revision_artifact["payload"])
+        self.assertNotIn("rewritten_prompt", revision_artifact["payload"])
+        self.assertEqual("no_style_score_hidden_prompt_rewrite", conformance["check_type"])
+        self.assertEqual([], conformance["deterministic_judgment_rules"])
+        self.assertEqual([], [
+            ref
+            for artifact in [revision_artifact, memory_artifact]
+            for ref in artifact["evidence_refs"]
+            if ref not in index.by_id
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()

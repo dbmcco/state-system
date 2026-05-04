@@ -32,7 +32,9 @@
         "prospect_referral_signal",
         "thoughtforge_idea_candidate",
         "thoughtforge_interview_prompt_candidate",
-        "thoughtforge_longform_candidate"
+        "thoughtforge_longform_candidate",
+        "visual_forge_revision_candidate",
+        "visual_forge_corpus_memory_candidate"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

@@ -24,7 +24,8 @@
         "no_local_state_mutation",
         "approval_boundary_visible",
         "no_keyword_extraction_source_free_ideas",
-        "no_hardcoded_author_source_free_publication"
+        "no_hardcoded_author_source_free_publication",
+        "no_style_score_hidden_prompt_rewrite"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

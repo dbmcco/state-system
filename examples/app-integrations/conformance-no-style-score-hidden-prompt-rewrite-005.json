@@ -1,0 +1,28 @@
+{
+  "id": "conformance.no-style-score-hidden-prompt-rewrite.005",
+  "check_type": "no_style_score_hidden_prompt_rewrite",
+  "created_at": "2026-05-04T16:33:00Z",
+  "summary": "Visual Forge preserves qualitative creative feedback as model-owned interpretation with evidence rather than style scores or hidden prompt rewrites.",
+  "applies_to_refs": [
+    "context.visual-forge-workspace-package.005",
+    "model_output.visual-forge-creative-review.005",
+    "visual-forge.revision-candidate.005",
+    "visual-forge.corpus-memory-candidate.005"
+  ],
+  "evidence_refs": [
+    "source.visual-forge.creative-review.005",
+    "context.visual-forge-workspace-package.005",
+    "model_output.visual-forge-creative-review.005",
+    "visual-forge.revision-candidate.005",
+    "visual-forge.corpus-memory-candidate.005"
+  ],
+  "model_owned_judgments": [
+    "brand fit versus campaign fit",
+    "texture preference significance",
+    "revision direction",
+    "corpus memory promotion need",
+    "campaign proof orientation"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

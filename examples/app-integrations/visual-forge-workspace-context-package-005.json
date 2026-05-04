@@ -1,0 +1,117 @@
+{
+  "id": "context.visual-forge-workspace-package.005",
+  "package_type": "visual_forge_workspace_package",
+  "created_at": "2026-05-04T16:31:00Z",
+  "persona_context": {
+    "persona_ref": "app.visual-forge",
+    "summary": "Visual Forge interprets qualitative creative feedback and proposes revision or corpus-memory artifacts without rewriting prompts invisibly.",
+    "watched_domains": [
+      "visual",
+      "campaign",
+      "brand",
+      "creative_memory"
+    ],
+    "authority_boundaries": [
+      "May propose revised visual candidates.",
+      "May propose private corpus memory candidates.",
+      "May not collapse feedback into a numeric style score.",
+      "May not rewrite prompts without traceable source evidence."
+    ]
+  },
+  "review_goal": "Interpret human creative feedback and decide whether to create a revision candidate and corpus memory proposal while preserving source evidence and approval boundary.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "source.visual-forge.creative-review.005",
+        "summary": "Reviewer asked to keep texture from version two while redirecting the visual toward campaign fit.",
+        "persona_route": [
+          "app.visual-forge",
+          "persona.laura"
+        ]
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "state_ref": "state.visual.streamlinear-campaign",
+        "summary": "Campaign visual has multiple candidates and human feedback not yet applied."
+      },
+      {
+        "state_ref": "state.campaign.auditable-workflows",
+        "summary": "Campaign needs proof-oriented visual direction rather than generic brand texture."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "source.visual-forge.creative-review.005",
+      "visualforge:review:streamlinear-visual-005",
+      "visualforge:asset:streamlinear-campaign-v1",
+      "visualforge:asset:streamlinear-campaign-v2"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "source.visual-forge.creative-review.005",
+        "summary": "Source event captures qualitative feedback and candidate asset refs."
+      },
+      {
+        "ref": "visualforge:review:streamlinear-visual-005",
+        "summary": "Human feedback: matches brand but not campaign; keep texture from version two."
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "visual:corpus-memory:streamlinear-texture.approval"
+    ]
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "policy_ref": "governance.human-review.creative-corpus-update",
+        "summary": "Creative corpus memory updates require approval before promotion.",
+        "approval_required": true
+      }
+    ]
+  },
+  "relationship_sensitivity": {
+    "level": "low",
+    "summary": "Feedback is internal creative judgment and should remain attached to private visual assets until approved.",
+    "redactions": []
+  },
+  "available_actions": [
+    {
+      "action": "propose_revision_candidate",
+      "approval_required": false
+    },
+    {
+      "action": "propose_corpus_memory_candidate",
+      "approval_required": true
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "No unrelated sales or operations context included because this package is limited to creative feedback interpretation."
+    }
+  ],
+  "open_questions": [
+    "Should the texture preference become reusable private corpus memory?",
+    "What campaign proof point should guide the revision?"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "source.visual-forge.creative-review.005"
+    ],
+    "valid_until": "2026-05-05T16:31:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "visualforge:review:streamlinear-visual-005",
+      "state.campaign.auditable-workflows"
+    ]
+  }
+}

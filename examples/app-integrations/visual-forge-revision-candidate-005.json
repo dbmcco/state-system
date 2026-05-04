@@ -1,0 +1,30 @@
+{
+  "id": "visual-forge.revision-candidate.005",
+  "artifact_type": "visual_forge_revision_candidate",
+  "created_at": "2026-05-04T16:32:30Z",
+  "summary": "Revision candidate instructions preserving qualitative feedback for the Streamlinear campaign visual.",
+  "source_package_ref": "context.visual-forge-workspace-package.005",
+  "model_output_ref": "model_output.visual-forge-creative-review.005",
+  "commit_result_ref": "commit.visual-forge-creative-review.005",
+  "target_app_refs": [
+    "app.visual-forge"
+  ],
+  "evidence_refs": [
+    "source.visual-forge.creative-review.005",
+    "context.visual-forge-workspace-package.005",
+    "model_output.visual-forge-creative-review.005",
+    "commit.visual-forge-creative-review.005"
+  ],
+  "contact_refs": [],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "not_required",
+  "payload": {
+    "human_feedback": "Matches the brand but not the campaign; keep texture from version two.",
+    "revision_direction": "Retain version-two texture while shifting visual emphasis toward campaign proof.",
+    "source_asset_refs": [
+      "visualforge:asset:streamlinear-campaign-v1",
+      "visualforge:asset:streamlinear-campaign-v2"
+    ],
+    "traceability_boundary": "Revision direction must remain tied to human feedback and source assets."
+  }
+}

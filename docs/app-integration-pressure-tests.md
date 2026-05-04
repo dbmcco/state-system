@@ -155,6 +155,10 @@ review artifact
 
 **Pass condition:** qualitative feedback is preserved, model interpretation is visible, and corpus updates distinguish private from approved visual material.
 
+**Fixture gate:** `examples/app-integrations/source-visual-forge-creative-review-005.json`
+through
+`examples/app-integrations/conformance-no-style-score-hidden-prompt-rewrite-005.json`.
+
 ## Scenario 6: CRM Relationship Outcome Feeds Prospect And Outreach Doctrine
 
 **Trigger:** CRM shows that a prior handoff became a valuable relationship, but only after a referral path emerged.

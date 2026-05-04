@@ -1,0 +1,29 @@
+{
+  "id": "visual-forge.corpus-memory-candidate.005",
+  "artifact_type": "visual_forge_corpus_memory_candidate",
+  "created_at": "2026-05-04T16:32:45Z",
+  "summary": "Private corpus memory candidate preserving the texture preference as qualitative feedback, pending approval.",
+  "source_package_ref": "context.visual-forge-workspace-package.005",
+  "model_output_ref": "model_output.visual-forge-creative-review.005",
+  "commit_result_ref": "commit.visual-forge-creative-review.005",
+  "target_app_refs": [
+    "app.visual-forge"
+  ],
+  "evidence_refs": [
+    "source.visual-forge.creative-review.005",
+    "context.visual-forge-workspace-package.005",
+    "model_output.visual-forge-creative-review.005",
+    "commit.visual-forge-creative-review.005"
+  ],
+  "contact_refs": [],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "memory_type": "private_visual_corpus_candidate",
+    "qualitative_learning": "Texture from version two can be useful when the brand is right but campaign fit needs sharper proof orientation.",
+    "approval_boundary": "Do not promote into reusable corpus memory until human approval.",
+    "source_asset_refs": [
+      "visualforge:asset:streamlinear-campaign-v2"
+    ]
+  }
+}

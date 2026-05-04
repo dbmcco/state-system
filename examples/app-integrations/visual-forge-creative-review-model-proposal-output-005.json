@@ -1,0 +1,85 @@
+{
+  "id": "model_output.visual-forge-creative-review.005",
+  "review_packet_id": "review_packet.visual-forge-creative-review.005",
+  "decision": "needs_approval",
+  "observations": [
+    "The feedback is a model interpretation over qualitative creative judgment, not a style score, threshold, or deterministic prompt rewrite.",
+    "The reviewer separates brand fit from campaign fit and preserves a specific texture preference from version two.",
+    "A revision candidate can be produced, while corpus memory promotion remains approval gated."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.visual.streamlinear-campaign",
+      "update_class": "interpretive",
+      "interpretation": "The next visual should retain version-two texture while shifting composition toward campaign proof.",
+      "state_patch": {
+        "revision_direction": "retain_texture_shift_to_campaign_fit",
+        "candidate_status": "revision_candidate_pending_review"
+      },
+      "evidence_refs": [
+        "source.visual-forge.creative-review.005"
+      ],
+      "uncertainty": [
+        "The exact campaign proof point is not specified.",
+        "Corpus learning needs human approval."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create a revision candidate preserving qualitative feedback.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.visual-forge",
+        "artifact_ref": "visual-forge.revision-candidate.005"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.visual-forge-workspace-package.005"
+      }
+    },
+    {
+      "summary": "Create a private corpus memory candidate for the texture preference.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.visual-forge",
+        "artifact_ref": "visual-forge.corpus-memory-candidate.005"
+      },
+      "payload": {
+        "basis": "human_qualitative_feedback",
+        "source_package_ref": "context.visual-forge-workspace-package.005"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.visual.streamlinear-campaign",
+      "reason": "Visual rollup should refresh after the revision candidate is reviewed."
+    }
+  ],
+  "uncertainty": [
+    "Campaign fit needs a more specific proof point.",
+    "Texture preference may be project-specific rather than reusable doctrine."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Approval to promote texture preference into corpus memory",
+      "needed_ref_or_source": "visual:corpus-memory:streamlinear-texture.approval"
+    }
+  ],
+  "review_signal": {
+    "id": "review.visual-forge-creative-review.005",
+    "trigger_id": "trigger.visual-forge-creative-review.005",
+    "status": "pending_approval",
+    "summary": "Visual Forge proposed a revision candidate and corpus memory candidate; corpus memory promotion is approval gated.",
+    "follow_up_refs": [
+      "visual-forge.revision-candidate.005",
+      "visual-forge.corpus-memory-candidate.005"
+    ]
+  }
+}

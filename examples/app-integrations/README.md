@@ -5,7 +5,7 @@ implementation begins.
 
 Each trace is backed by schema-valid JSON artifacts once it becomes an
 implementation gate. Prose anchors can still be used for later scenarios, but
-the first four traces now have concrete source events, context packages, model
+the first five traces now have concrete source events, context packages, model
 outputs, commit results, downstream app artifacts, and conformance notes.
 
 Required artifact chain:
@@ -33,6 +33,9 @@ source event
 4. Thoughtforge provenance fixture chain - meeting-derived idea candidate
    becomes an interview prompt and longform candidate without hardcoded author
    assignment or source-free publication.
+5. Visual Forge qualitative learning fixture chain - human creative feedback
+   becomes revision and corpus-memory candidates without style scores or hidden
+   prompt rewrites.
 
 These traces are the first build gate because Prospect Researcher, Outreach
 Engine, Meeting Manager, Thoughtforge, work/task systems, and LFW AI Graph CRM
@@ -70,3 +73,10 @@ Schema-valid fixture chains:
   `thoughtforge-interview-prompt-candidate-004.json`,
   `thoughtforge-longform-candidate-004.json` ->
   `conformance-no-hardcoded-author-source-free-publication-004.json`
+- `source-visual-forge-creative-review-005.json` ->
+  `visual-forge-workspace-context-package-005.json` ->
+  `visual-forge-creative-review-model-proposal-output-005.json` ->
+  `visual-forge-creative-review-commit-result-005.json` ->
+  `visual-forge-revision-candidate-005.json`,
+  `visual-forge-corpus-memory-candidate-005.json` ->
+  `conformance-no-style-score-hidden-prompt-rewrite-005.json`

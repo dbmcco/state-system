@@ -1,0 +1,40 @@
+{
+  "id": "source.visual-forge.creative-review.005",
+  "source_system": "visual_forge",
+  "source_event": "visual_forge.human_review_received",
+  "source_event_id": "visual-forge-creative-review-005",
+  "occurred_at": "2026-05-04T16:30:00Z",
+  "observed_at": "2026-05-04T16:30:20Z",
+  "actor_ref": "app.visual-forge",
+  "summary": "Human reviewed a generated campaign visual and gave qualitative revision feedback.",
+  "source_refs": [
+    "visualforge:review:streamlinear-visual-005",
+    "visualforge:asset:streamlinear-campaign-v1",
+    "visualforge:asset:streamlinear-campaign-v2"
+  ],
+  "change": {
+    "kind": "human_creative_review",
+    "object_ref": "visualforge:review:streamlinear-visual-005",
+    "payload_summary": "Reviewer said the visual matches the brand but not the campaign, and asked to keep texture from version two."
+  },
+  "candidate_state_refs": [
+    "state.visual.streamlinear-campaign",
+    "state.campaign.auditable-workflows"
+  ],
+  "candidate_persona_refs": [
+    "persona.laura"
+  ],
+  "governance_refs": [
+    "governance.human-review.creative-corpus-update"
+  ],
+  "idempotency": {
+    "key": "visual-forge-creative-review-005",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "sync.visual-forge.2026-05-04",
+    "source_watermark": "visual-forge-creative-review-005",
+    "partial": false,
+    "confidence": "high"
+  }
+}
