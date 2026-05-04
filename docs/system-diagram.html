@@ -261,8 +261,9 @@
       State System is the organizational state layer: it turns scattered signals from known and
       unknown sources into durable, evidence-backed interpretation that agents can act from and
       humans can inspect through agents or reporting surfaces. This diagram shows the system as
-      of May 3, 2026, including source generalization, app substrate contracts, coherence
-      maintenance, implemented agent activation, what is partial, and what should come next.
+      of May 4, 2026, including source generalization, app substrate contracts, coherence
+      maintenance, implemented agent activation, stale-context reporting, queued mission
+      records, what is partial, and what should come next.
     </p>
 
     <section class="section" aria-labelledby="legend-heading">
@@ -278,7 +279,7 @@
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--next);"></span>Next</strong>
-          <p>The next design lanes: source generalization, coherence, and reporting surfaces.</p>
+          <p>The next design lanes: app handoffs, mission records, source generalization, and coherence.</p>
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--future);"></span>Future</strong>
@@ -358,9 +359,9 @@
 
             <rect x="1066" y="124" width="148" height="104" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
             <text x="1082" y="151" class="status-label" fill="var(--done)">STEP 7</text>
-            <text x="1082" y="174" class="node-title">Activate</text>
-            <text x="1082" y="196" class="node-copy">Agent records and</text>
-            <text x="1082" y="213" class="node-copy">reporting surfaces</text>
+            <text x="1082" y="174" class="node-title">Activate + Report</text>
+            <text x="1082" y="196" class="node-copy">Agent records, reports,</text>
+            <text x="1082" y="213" class="node-copy">stale-context guard</text>
           </g>
 
           <path class="arrow" d="M182 176 H206"></path>
@@ -431,8 +432,8 @@
             <text x="590" y="556" class="node-copy">Recent-change registry</text>
             <text x="590" y="573" class="node-copy">Persona context packages</text>
             <text x="590" y="590" class="node-copy">Agent activation records</text>
-            <text x="590" y="607" class="node-copy">Reporting surface still next</text>
-            <text x="590" y="628" class="status-label" fill="var(--done)">AGENT PATH WORKS</text>
+            <text x="590" y="607" class="node-copy">Static reports and stale refresh markers</text>
+            <text x="590" y="628" class="status-label" fill="var(--done)">USER-TESTABLE</text>
 
             <rect x="844" y="506" width="246" height="132" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
             <text x="860" y="533" class="node-title">Feedback</text>
@@ -572,8 +573,89 @@
           <path d="M906 358 C906 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
           <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
 
-          <text x="34" y="522" class="node-copy">Current trace coverage: accepted state update, approval-gated external action, and agent activation with captured response.</text>
-          <text x="34" y="542" class="node-copy">Next pressure target: stale context and refresh-before-external-action behavior, then app handoffs such as Prospect -> Outreach and Outreach reply -> CRM.</text>
+          <text x="34" y="522" class="node-copy">Current trace coverage: accepted update, approval-gated action, agent activation, static HTML report, and stale-context refresh boundary.</text>
+          <text x="34" y="542" class="node-copy">Current ready target: app handoffs such as Prospect -> Outreach and Outreach reply -> CRM; mission records are queued behind that lane.</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="mission-heading">
+      <h2 id="mission-heading">Mission Records Lane</h2>
+      <p class="lede">
+        The newest design work adds a generic mission-control substrate to State System. It should
+        become a durable record family before any PAIA Shell mission board is built: live operator
+        UI becomes a projection over mission records, not a separate truth source.
+      </p>
+      <div class="diagram-wrap">
+        <svg viewBox="0 0 1320 430" role="img" aria-labelledby="mission-svg-title mission-svg-desc">
+          <title id="mission-svg-title">Mission records implementation lane</title>
+          <desc id="mission-svg-desc">
+            A flow diagram showing how a mission request becomes mission records, deterministic
+            fixture replay, a regenerated read model, and future PAIA Shell mission control.
+          </desc>
+
+          <defs>
+            <marker id="mission-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#617286"></polygon>
+            </marker>
+          </defs>
+
+          <rect x="0" y="0" width="1320" height="430" fill="#ffffff"></rect>
+          <text x="34" y="40" class="svg-title">Mission Control becomes State System records first</text>
+          <text x="34" y="62" class="svg-subtitle">The queued task is blocked behind the Prospect -> Outreach -> CRM contract trace so app handoffs stay first.</text>
+
+          <g filter="url(#shadow)">
+            <rect x="34" y="106" width="196" height="132" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="52" y="134" class="node-title">Design Anchor</text>
+            <text x="52" y="158" class="node-copy">state-backed mission</text>
+            <text x="52" y="175" class="node-copy">control spec</text>
+            <text x="52" y="197" class="node-copy">generic, PAIA-agnostic</text>
+            <text x="52" y="222" class="status-label" fill="var(--done)">COMMITTED</text>
+
+            <rect x="274" y="106" width="196" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="292" y="134" class="node-title">Mission Schemas</text>
+            <text x="292" y="158" class="node-copy">MissionRun, AgentRun,</text>
+            <text x="292" y="175" class="node-copy">Event, Observation,</text>
+            <text x="292" y="192" class="node-copy">Finding, Stumble, Artifact</text>
+            <text x="292" y="222" class="status-label" fill="var(--next)">QUEUED</text>
+
+            <rect x="514" y="106" width="196" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="532" y="134" class="node-title">Fixture Replay</text>
+            <text x="532" y="158" class="node-copy">PAIA/Speedrift repo audit</text>
+            <text x="532" y="175" class="node-copy">deterministic, file-backed</text>
+            <text x="532" y="192" class="node-copy">idempotent replay</text>
+            <text x="532" y="222" class="status-label" fill="var(--next)">QUEUED</text>
+
+            <rect x="754" y="106" width="196" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="772" y="134" class="node-title">Read Model</text>
+            <text x="772" y="158" class="node-copy">mission header, roster,</text>
+            <text x="772" y="175" class="node-copy">timeline, findings,</text>
+            <text x="772" y="192" class="node-copy">stumbles, governance</text>
+            <text x="772" y="222" class="status-label" fill="var(--next)">QUEUED</text>
+
+            <rect x="994" y="106" width="196" height="132" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
+            <text x="1012" y="134" class="node-title">Mission Board</text>
+            <text x="1012" y="158" class="node-copy">PAIA Shell consumes</text>
+            <text x="1012" y="175" class="node-copy">read model later</text>
+            <text x="1012" y="192" class="node-copy">no separate truth source</text>
+            <text x="1012" y="222" class="status-label" fill="var(--future)">LATER UI</text>
+          </g>
+
+          <path d="M230 172 H274" class="arrow" marker-end="url(#mission-arrowhead)"></path>
+          <path d="M470 172 H514" class="arrow" marker-end="url(#mission-arrowhead)"></path>
+          <path d="M710 172 H754" class="arrow" marker-end="url(#mission-arrowhead)"></path>
+          <path d="M950 172 H994" class="arrow" marker-end="url(#mission-arrowhead)"></path>
+
+          <rect x="34" y="292" width="552" height="104" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+          <text x="52" y="321" class="node-title">Boundary</text>
+          <text x="52" y="345" class="node-copy">Mission records capture coordinated work, evidence, findings, stumbles,</text>
+          <text x="52" y="363" class="node-copy">artifacts, governance receipts, and review signals. Transcripts and UI cards</text>
+          <text x="52" y="381" class="node-copy">are evidence or artifacts, not durable truth by default.</text>
+
+          <rect x="626" y="292" width="552" height="104" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+          <text x="644" y="321" class="node-title">Sequence</text>
+          <text x="644" y="345" class="node-copy">Current ready work remains Prospect -> Outreach -> CRM contract traces.</text>
+          <text x="644" y="363" class="node-copy">state-mission-records-v0 follows after that lane proves app handoff contracts.</text>
         </svg>
       </div>
     </section>
@@ -619,7 +701,7 @@
             <li>The system scopes the need to relevant state objects, journals, memory, evidence, recent changes, and governance constraints.</li>
             <li>The current implemented path creates a persisted agent activation with a goal, expected response type, action boundaries, evidence refs, freshness, and capture policy.</li>
             <li>The activation renders into agent-facing instructions plus the bounded context package.</li>
-            <li>Reporting surfaces should use the same underlying state, not a separate knowledge system.</li>
+            <li>The static report shows activation goals, action boundaries, captured response, validity window, stale status, and refresh-before-external-action blockers.</li>
           </ol>
         </div>
 
@@ -631,6 +713,17 @@
             <li>The model decides whether it proposes a state update, memory write, task, approval request, or no-op.</li>
             <li>Governance determines whether the proposal can become durable state or action.</li>
             <li>This closes the loop without letting downstream reasoning bypass evidence or approval boundaries.</li>
+          </ol>
+        </div>
+
+        <div class="workflow">
+          <h3>6. Mission Records Loop</h3>
+          <ol>
+            <li>A coordinated work request becomes a `MissionRun` with evidence, trigger, state, and context refs.</li>
+            <li>Each participant becomes a `MissionAgentRun` with role, responsibility, model, cost, and context refs.</li>
+            <li>Append-only mission events record observations, findings, stumbles, artifacts, governance receipts, and commit results.</li>
+            <li>A read model regenerates the operator view without making the UI a new source of truth.</li>
+            <li>PAIA Shell Mission Control should consume that read model only after the generic fixture replay is proven.</li>
           </ol>
         </div>
       </div>
@@ -647,19 +740,22 @@
             <li>msgvault and Folio/GDrive now clarify the need for source recipes, mirror/index refs, and tenant-scoped evidence access.</li>
             <li>Review packets, fixture model outputs, governed committer, journals, snapshots, memory entries, and review signals.</li>
             <li>Recent-change registry, persona context packages, CLI access, agent activation records, activation rendering, and captured agent responses.</li>
-            <li>Trace manifests and `trace-run` now replay accepted-state, approval-gated, and agent-activation flows with inspectable artifacts and a validation report.</li>
+            <li>Trace manifests and `trace-run` now replay accepted-state, approval-gated, agent-activation, and stale-context refresh flows with inspectable artifacts and a validation report.</li>
             <li>The approval-gated trace proves pending external action can be held without materializing state or executing the action.</li>
             <li>The agent-activation trace proves an agent can receive action boundaries and respond without its response becoming truth by default.</li>
+            <li>The stale-context trace proves expired packages surface validity, refresh blockers, prohibited external actions, and captured refusal before external use.</li>
+            <li>The mission-control design is committed and queued as `state-mission-records-v0` behind the app handoff lane.</li>
           </ul>
         </div>
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
             <li>Promote more scenarios into trace manifests so functional coverage grows from fixture contracts, not prose.</li>
-            <li>Next pressure target: stale-context and refresh-before-external-action behavior across trace manifests.</li>
+            <li>Current ready target: Prospect Researcher -> Outreach Engine -> CRM contract traces.</li>
+            <li>Next queued lane: mission schemas, deterministic repo-audit fixture replay, and mission read model.</li>
             <li>Define Source Generalization and Evidence Access so future sources inherit identity, dedupe, permissions, sync, and evidence rules.</li>
             <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>
-            <li>Define the reporting surface for human inspection without making humans direct state-system operators.</li>
+            <li>Extend reporting surfaces for human inspection without making humans direct state-system operators.</li>
             <li>Defer API, database, MCP, live models, and sync workers until the activation and reporting contracts are boring and useful.</li>
           </ul>
         </div>
