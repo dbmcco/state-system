@@ -1,0 +1,120 @@
+{
+  "id": "model_output.meeting-coordination.003",
+  "review_packet_id": "review_packet.meeting-coordination.003",
+  "decision": "needs_approval",
+  "observations": [
+    "The checklist request, referral, and essay idea are model interpretations over meeting evidence, not deterministic action-item extraction.",
+    "A follow-up task can be proposed from the commitment, but CRM referral movement and Thoughtforge public use remain approval gated.",
+    "The Thoughtforge idea must keep the transcript source attached; it is not a source-free idea created from keywords."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.relationship.streamlinear",
+      "update_class": "interpretive",
+      "interpretation": "Streamlinear may have a referral path through Jon Reeves, pending human approval and enrichment.",
+      "state_patch": {
+        "referral_signal": "jon_reeves_named_in_meeting",
+        "proposed_stage": "referral_follow_up_pending_approval"
+      },
+      "evidence_refs": [
+        "source.meeting.coordination.003"
+      ],
+      "uncertainty": [
+        "The transcript does not prove Jon has opted into outreach.",
+        "Human owner has not approved CRM relationship movement."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create a work follow-up package for the requested security checklist.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.work",
+        "artifact_ref": "work.follow-up-task-package.003"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.meeting-coordination-package.003"
+      }
+    },
+    {
+      "summary": "Create a CRM referral update for human review.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.lfw-ai-graph-crm",
+        "artifact_ref": "crm.referral-update.003"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.meeting-coordination-package.003"
+      }
+    },
+    {
+      "summary": "Send Jon Reeves to Prospect Researcher as a referral signal with meeting provenance.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.prospect-researcher",
+        "artifact_ref": "prospect.referral-signal.003"
+      },
+      "payload": {
+        "basis": "meeting_referral_evidence"
+      }
+    },
+    {
+      "summary": "Create a Thoughtforge idea candidate with transcript provenance and publication approval boundary.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.thoughtforge",
+        "artifact_ref": "thoughtforge.idea-candidate.003"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.meeting-coordination-package.003"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.relationship.streamlinear",
+      "reason": "Relationship rollup may change after referral approval."
+    },
+    {
+      "state_object_id": "state.content.idea.audit-trails-small-teams",
+      "reason": "Idea state may change if the Thoughtforge candidate is approved."
+    }
+  ],
+  "uncertainty": [
+    "The checklist commitment is clear, but task priority is not.",
+    "Referral outreach and public idea use require human approval."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Human approval for CRM referral update",
+      "needed_ref_or_source": "crm:relationship:streamlinear.approved-referral-update"
+    },
+    {
+      "summary": "Permission to use meeting-derived idea in public content",
+      "needed_ref_or_source": "content:idea:audit-trails-small-teams.publication-approval"
+    }
+  ],
+  "review_signal": {
+    "id": "review.meeting-coordination.003",
+    "trigger_id": "trigger.meeting-coordination.003",
+    "status": "pending_approval",
+    "summary": "Meeting created task, CRM, prospecting, and Thoughtforge artifacts; CRM referral and public content use are approval gated.",
+    "follow_up_refs": [
+      "work.follow-up-task-package.003",
+      "crm.referral-update.003",
+      "prospect.referral-signal.003",
+      "thoughtforge.idea-candidate.003"
+    ]
+  }
+}

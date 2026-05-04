@@ -21,11 +21,12 @@ class AppIntegrationRunnerTests(unittest.TestCase):
             )
 
             self.assertEqual("passed", report["status"])
-            self.assertEqual(2, len(report["chains"]))
+            self.assertEqual(3, len(report["chains"]))
             self.assertEqual(
                 {
                     "prospect-to-outreach",
                     "outreach-reply-to-crm-secondary-contacts",
+                    "meeting-coordination-updates",
                 },
                 {chain["id"] for chain in report["chains"]},
             )
@@ -39,8 +40,10 @@ class AppIntegrationRunnerTests(unittest.TestCase):
             html = unescape((Path(directory) / "index.html").read_text(encoding="utf-8"))
             self.assertIn("Prospect Researcher -> Outreach Engine", html)
             self.assertIn("Outreach reply -> CRM and secondary contacts", html)
+            self.assertIn("Meeting -> cross-app coordination updates", html)
             self.assertIn("No hidden scoring", html)
             self.assertIn("No regex routing", html)
+            self.assertIn("No keyword extraction or source-free ideas", html)
 
     def test_cli_runs_app_integration_report(self):
         with TemporaryDirectory() as directory:

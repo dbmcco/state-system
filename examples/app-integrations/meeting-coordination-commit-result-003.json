@@ -1,0 +1,46 @@
+{
+  "id": "commit.meeting-coordination.003",
+  "model_output_id": "model_output.meeting-coordination.003",
+  "created_at": "2026-05-04T16:06:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.relationship.streamlinear",
+      "reason": "Relationship rollup should refresh after CRM referral approval or rejection."
+    },
+    {
+      "state_object_id": "state.content.idea.audit-trails-small-teams",
+      "reason": "Idea rollup should refresh after Thoughtforge approval or rejection."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "state",
+      "summary": "Approve CRM referral update for Streamlinear.",
+      "reason": "Referral interpretation and CRM relationship movement require human approval.",
+      "target_ref": "crm.referral-update.003"
+    },
+    {
+      "proposal_type": "action",
+      "summary": "Approve Thoughtforge use of meeting-derived idea.",
+      "reason": "Public or reusable content derived from a private meeting requires approval.",
+      "target_ref": "thoughtforge.idea-candidate.003"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.meeting-coordination.003",
+    "trigger_id": "trigger.meeting-coordination.003",
+    "status": "pending_approval",
+    "summary": "Meeting created task, CRM, prospecting, and Thoughtforge artifacts; CRM referral and public content use are approval gated.",
+    "follow_up_refs": [
+      "work.follow-up-task-package.003",
+      "crm.referral-update.003",
+      "prospect.referral-signal.003",
+      "thoughtforge.idea-candidate.003"
+    ]
+  }
+}

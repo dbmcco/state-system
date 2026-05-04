@@ -29,7 +29,8 @@
         "opportunity",
         "deep_dive",
         "prospect_opportunity_package",
-        "outreach_engagement_package"
+        "outreach_engagement_package",
+        "meeting_coordination_package"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

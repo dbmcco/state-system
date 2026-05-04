@@ -101,6 +101,10 @@ meeting transcript / notes / artifacts
 
 **Pass condition:** each proposed downstream update has evidence refs, uncertainty, approval status, and a commit result.
 
+**Fixture gate:** `examples/app-integrations/source-meeting-coordination-003.json`
+through
+`examples/app-integrations/conformance-no-keyword-extraction-source-free-ideas-003.json`.
+
 ## Scenario 4: Thoughtforge Uses Meeting-Derived Idea Without Losing Provenance
 
 **Trigger:** Meeting Manager sends a meeting-derived idea candidate to Thoughtforge.

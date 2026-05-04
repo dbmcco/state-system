@@ -5,7 +5,7 @@ implementation begins.
 
 Each trace is backed by schema-valid JSON artifacts once it becomes an
 implementation gate. Prose anchors can still be used for later scenarios, but
-the first two traces now have concrete source events, context packages, model
+the first three traces now have concrete source events, context packages, model
 outputs, commit results, downstream app artifacts, and conformance notes.
 
 Required artifact chain:
@@ -27,10 +27,13 @@ source event
 2. `trace-002-outreach-reply-crm-secondary-contacts.md` - real outreach reply
    produces a CRM handoff, secondary contact proposals, and retained engagement
    intelligence.
+3. Meeting coordination fixture chain - meeting-derived commitment, referral,
+   and essay idea become task/work, CRM, Prospect Researcher, and Thoughtforge
+   artifacts without keyword extraction or source-free ideas.
 
-These two traces are the first build gate because Prospect Researcher, Outreach
-Engine, and LFW AI Graph CRM share the same contact, campaign, relationship,
-and doctrine spine.
+These traces are the first build gate because Prospect Researcher, Outreach
+Engine, Meeting Manager, Thoughtforge, work/task systems, and LFW AI Graph CRM
+share the same contact, campaign, relationship, content, and doctrine spine.
 
 Schema-valid fixture chains:
 
@@ -48,3 +51,12 @@ Schema-valid fixture chains:
   `prospect-secondary-contact-candidates-002.json`,
   `outreach-engagement-intelligence-002.json` ->
   `conformance-no-regex-reply-routing-002.json`
+- `source-meeting-coordination-003.json` ->
+  `meeting-coordination-context-package-003.json` ->
+  `meeting-coordination-model-proposal-output-003.json` ->
+  `meeting-coordination-commit-result-003.json` ->
+  `work-follow-up-task-package-003.json`,
+  `crm-referral-update-003.json`,
+  `prospect-referral-signal-003.json`,
+  `thoughtforge-idea-candidate-003.json` ->
+  `conformance-no-keyword-extraction-source-free-ideas-003.json`

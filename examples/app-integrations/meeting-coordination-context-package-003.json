@@ -1,0 +1,135 @@
+{
+  "id": "context.meeting-coordination-package.003",
+  "package_type": "meeting_coordination_package",
+  "created_at": "2026-05-04T16:04:00Z",
+  "persona_context": {
+    "persona_ref": "app.meeting-manager",
+    "summary": "Meeting Manager packages meeting-derived commitments, referrals, and ideas for downstream review without directly mutating task, CRM, prospecting, or publishing systems.",
+    "watched_domains": [
+      "meeting",
+      "task",
+      "relationship",
+      "content"
+    ],
+    "authority_boundaries": [
+      "May propose follow-up task packages.",
+      "May propose CRM and prospecting artifacts with provenance.",
+      "May propose Thoughtforge idea candidates.",
+      "May not create tasks, CRM changes, or publishable content by keyword extraction."
+    ]
+  },
+  "review_goal": "Determine which meeting-derived commitments and ideas should become downstream artifacts while preserving evidence, uncertainty, and approval boundaries.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "source.meeting.coordination.003",
+        "summary": "Meeting transcript includes a checklist commitment, referral to Jon Reeves, and essay idea about audit trails for small teams.",
+        "persona_route": [
+          "persona.patrick",
+          "persona.laura",
+          "app.lfw-ai-graph-crm",
+          "app.prospect-researcher",
+          "app.thoughtforge"
+        ]
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "state_ref": "state.relationship.streamlinear",
+        "summary": "Streamlinear is an active relationship with unresolved follow-up and referral opportunities."
+      },
+      {
+        "state_ref": "state.content.idea.audit-trails-small-teams",
+        "summary": "No approved public essay exists; meeting discussion may be private source material."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "source.meeting.coordination.003",
+      "gdrive:doc:meeting-streamlinear-strategy-003",
+      "calendar:event:streamlinear-strategy-003",
+      "crm:contact:streamlinear:maya-patel",
+      "crm:contact:streamlinear:jon-reeves"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "source.meeting.coordination.003",
+        "summary": "Source event captures the follow-up commitment, referral, and essay idea candidates."
+      },
+      {
+        "ref": "gdrive:doc:meeting-streamlinear-strategy-003",
+        "summary": "Transcript source for the checklist request, referral, and audit-trail discussion."
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "crm:relationship:streamlinear.approved-referral-update",
+      "content:idea:audit-trails-small-teams.publication-approval"
+    ]
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "policy_ref": "governance.human-review.crm-relationship-update",
+        "summary": "CRM relationship interpretation and referral updates require human approval.",
+        "approval_required": true
+      },
+      {
+        "policy_ref": "governance.external-copy-approval",
+        "summary": "Meeting-derived content ideas require review before public use.",
+        "approval_required": true
+      }
+    ]
+  },
+  "relationship_sensitivity": {
+    "level": "medium",
+    "summary": "The meeting contains customer relationship detail and source material that should remain private until approved.",
+    "redactions": []
+  },
+  "available_actions": [
+    {
+      "action": "propose_work_follow_up_task",
+      "approval_required": false
+    },
+    {
+      "action": "propose_crm_referral_update",
+      "approval_required": true
+    },
+    {
+      "action": "propose_prospect_referral_signal",
+      "approval_required": false
+    },
+    {
+      "action": "propose_thoughtforge_idea_candidate",
+      "approval_required": true
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "No unrelated engineering tasks were included because the meeting package is about relationship, follow-up, and content interpretation."
+    }
+  ],
+  "open_questions": [
+    "Does the human owner approve the CRM referral update?",
+    "Can the meeting-derived idea be used publicly or only as private source material?"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "source.meeting.coordination.003"
+    ],
+    "valid_until": "2026-05-05T16:04:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "gdrive:doc:meeting-streamlinear-strategy-003",
+      "state.relationship.streamlinear"
+    ]
+  }
+}

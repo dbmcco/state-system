@@ -1,0 +1,32 @@
+{
+  "id": "conformance.no-keyword-extraction-source-free-ideas.003",
+  "check_type": "no_keyword_extraction_source_free_ideas",
+  "created_at": "2026-05-04T16:08:00Z",
+  "summary": "Meeting coordination keeps follow-up, referral, and Thoughtforge idea routing as model-owned judgments with evidence rather than keyword extraction or source-free idea generation.",
+  "applies_to_refs": [
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "work.follow-up-task-package.003",
+    "crm.referral-update.003",
+    "prospect.referral-signal.003",
+    "thoughtforge.idea-candidate.003"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "work.follow-up-task-package.003",
+    "crm.referral-update.003",
+    "prospect.referral-signal.003",
+    "thoughtforge.idea-candidate.003"
+  ],
+  "model_owned_judgments": [
+    "follow-up commitment significance",
+    "referral significance",
+    "CRM approval need",
+    "prospecting provenance sufficiency",
+    "Thoughtforge idea fit and source boundary"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

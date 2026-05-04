@@ -163,6 +163,99 @@ class AppIntegrationContractTests(unittest.TestCase):
             if ref not in index.by_id
         ])
 
+    def test_meeting_creates_cross_app_coordination_updates(self):
+        index = ExampleIndex.load(ROOT / "examples")
+
+        source = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "source-meeting-coordination-003.json"
+        )
+        package = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "meeting-coordination-context-package-003.json"
+        )
+        output = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "meeting-coordination-model-proposal-output-003.json"
+        )
+        commit = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "meeting-coordination-commit-result-003.json"
+        )
+        task_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "work-follow-up-task-package-003.json"
+        )
+        crm_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "crm-referral-update-003.json"
+        )
+        prospect_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "prospect-referral-signal-003.json"
+        )
+        thoughtforge_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-idea-candidate-003.json"
+        )
+        conformance = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "conformance-no-keyword-extraction-source-free-ideas-003.json"
+        )
+
+        self.assertEqual("meeting_manager", source["source_system"])
+        self.assertEqual("meeting_coordination_package", package["package_type"])
+        self.assertIn(source["source_refs"][0], package["evidence_context"]["evidence_refs"])
+        self.assertEqual("needs_approval", output["decision"])
+        self.assertGreaterEqual(len(output["action_proposals"]), 4)
+        self.assertEqual("pending_approval", commit["status"])
+        self.assertEqual(
+            {
+                task_artifact["id"],
+                crm_artifact["id"],
+                prospect_artifact["id"],
+                thoughtforge_artifact["id"],
+            },
+            set(commit["review_signal"]["follow_up_refs"]),
+        )
+        self.assertEqual("work_follow_up_task_package", task_artifact["artifact_type"])
+        self.assertEqual("crm_referral_update", crm_artifact["artifact_type"])
+        self.assertEqual("prospect_referral_signal", prospect_artifact["artifact_type"])
+        self.assertEqual("thoughtforge_idea_candidate", thoughtforge_artifact["artifact_type"])
+        self.assertEqual("pending_approval", crm_artifact["approval_status"])
+        self.assertEqual("pending_approval", thoughtforge_artifact["approval_status"])
+        self.assertEqual("no_keyword_extraction_source_free_ideas", conformance["check_type"])
+        self.assertEqual([], conformance["deterministic_judgment_rules"])
+        self.assertEqual([], [
+            ref
+            for artifact in [
+                task_artifact,
+                crm_artifact,
+                prospect_artifact,
+                thoughtforge_artifact,
+            ]
+            for ref in artifact["evidence_refs"]
+            if ref not in index.by_id
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()

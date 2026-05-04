@@ -1,0 +1,30 @@
+{
+  "id": "crm.referral-update.003",
+  "artifact_type": "crm_referral_update",
+  "created_at": "2026-05-04T16:06:45Z",
+  "summary": "Proposed CRM referral update for Streamlinear based on meeting discussion of Jon Reeves.",
+  "source_package_ref": "context.meeting-coordination-package.003",
+  "model_output_ref": "model_output.meeting-coordination.003",
+  "commit_result_ref": "commit.meeting-coordination.003",
+  "target_app_refs": [
+    "app.lfw-ai-graph-crm"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "commit.meeting-coordination.003"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:maya-patel",
+    "crm:contact:streamlinear:jon-reeves"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "relationship_ref": "state.relationship.streamlinear",
+    "referral_contact_ref": "crm:contact:streamlinear:jon-reeves",
+    "approval_boundary": "Human must approve before CRM relationship or referral state changes.",
+    "do_not_mutate_directly": true
+  }
+}

@@ -26,7 +26,11 @@
         "outreach_candidate_package",
         "crm_relationship_update",
         "prospect_secondary_contact_candidates",
-        "outreach_engagement_intelligence"
+        "outreach_engagement_intelligence",
+        "work_follow_up_task_package",
+        "crm_referral_update",
+        "prospect_referral_signal",
+        "thoughtforge_idea_candidate"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

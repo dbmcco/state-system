@@ -1,0 +1,29 @@
+{
+  "id": "prospect.referral-signal.003",
+  "artifact_type": "prospect_referral_signal",
+  "created_at": "2026-05-04T16:07:00Z",
+  "summary": "Referral signal for Prospect Researcher with meeting provenance for Jon Reeves.",
+  "source_package_ref": "context.meeting-coordination-package.003",
+  "model_output_ref": "model_output.meeting-coordination.003",
+  "commit_result_ref": "commit.meeting-coordination.003",
+  "target_app_refs": [
+    "app.prospect-researcher"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "commit.meeting-coordination.003"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:jon-reeves"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "not_required",
+  "payload": {
+    "candidate_contact_ref": "crm:contact:streamlinear:jon-reeves",
+    "basis": "Named referral in meeting transcript",
+    "next_step": "Enrich role and relationship before outreach.",
+    "prohibited_use": "Do not contact referral without enrichment and approval."
+  }
+}

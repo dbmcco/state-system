@@ -1,0 +1,45 @@
+{
+  "id": "source.meeting.coordination.003",
+  "source_system": "meeting_manager",
+  "source_event": "meeting.transcript_ready",
+  "source_event_id": "meeting-coordination-003",
+  "occurred_at": "2026-05-04T16:00:00Z",
+  "observed_at": "2026-05-04T16:03:00Z",
+  "actor_ref": "app.meeting-manager",
+  "summary": "A customer strategy meeting produced a follow-up commitment, a referral, and a longform essay idea.",
+  "source_refs": [
+    "gdrive:doc:meeting-streamlinear-strategy-003",
+    "calendar:event:streamlinear-strategy-003",
+    "crm:contact:streamlinear:maya-patel",
+    "crm:contact:streamlinear:jon-reeves"
+  ],
+  "change": {
+    "kind": "meeting_transcript_ready",
+    "object_ref": "gdrive:doc:meeting-streamlinear-strategy-003",
+    "payload_summary": "Maya asked for a security checklist, referred Jon Reeves for workflow integration, and discussed an essay idea about audit trails for small teams."
+  },
+  "candidate_state_refs": [
+    "state.relationship.streamlinear",
+    "state.contact.streamlinear.maya-patel",
+    "state.contact.streamlinear.jon-reeves",
+    "state.content.idea.audit-trails-small-teams"
+  ],
+  "candidate_persona_refs": [
+    "persona.patrick",
+    "persona.laura"
+  ],
+  "governance_refs": [
+    "governance.human-review.crm-relationship-update",
+    "governance.external-copy-approval"
+  ],
+  "idempotency": {
+    "key": "meeting-coordination-003",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "sync.meeting-manager.2026-05-04",
+    "source_watermark": "meeting-coordination-003",
+    "partial": false,
+    "confidence": "high"
+  }
+}

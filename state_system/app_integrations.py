@@ -34,6 +34,22 @@ CHAIN_DEFINITIONS: tuple[JsonObject, ...] = (
         "conformance": "conformance-no-regex-reply-routing-002.json",
         "conformance_label": "No regex routing",
     },
+    {
+        "id": "meeting-coordination-updates",
+        "title": "Meeting -> cross-app coordination updates",
+        "source": "source-meeting-coordination-003.json",
+        "package": "meeting-coordination-context-package-003.json",
+        "model_output": "meeting-coordination-model-proposal-output-003.json",
+        "commit": "meeting-coordination-commit-result-003.json",
+        "artifacts": [
+            "work-follow-up-task-package-003.json",
+            "crm-referral-update-003.json",
+            "prospect-referral-signal-003.json",
+            "thoughtforge-idea-candidate-003.json",
+        ],
+        "conformance": "conformance-no-keyword-extraction-source-free-ideas-003.json",
+        "conformance_label": "No keyword extraction or source-free ideas",
+    },
 )
 
 
@@ -96,7 +112,7 @@ def render_app_integration_report_html(report: JsonObject) -> str:
             "<header>",
             "<p class=\"eyebrow\">State System</p>",
             "<h1>App Integration Report</h1>",
-            "<p class=\"lede\">Fixture-backed inspection surface for Prospect Researcher, Outreach Engine, and CRM handoff contracts.</p>",
+            "<p class=\"lede\">Fixture-backed inspection surface for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, work/task, and Thoughtforge handoff contracts.</p>",
             "</header>",
             "<section>",
             "<h2>Run Summary</h2>",

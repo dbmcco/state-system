@@ -1,0 +1,29 @@
+{
+  "id": "work.follow-up-task-package.003",
+  "artifact_type": "work_follow_up_task_package",
+  "created_at": "2026-05-04T16:06:30Z",
+  "summary": "Follow-up task package for the requested Streamlinear security checklist.",
+  "source_package_ref": "context.meeting-coordination-package.003",
+  "model_output_ref": "model_output.meeting-coordination.003",
+  "commit_result_ref": "commit.meeting-coordination.003",
+  "target_app_refs": [
+    "app.work"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "commit.meeting-coordination.003"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:maya-patel"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "not_required",
+  "payload": {
+    "task_summary": "Prepare Streamlinear security checklist follow-up.",
+    "requesting_contact_ref": "crm:contact:streamlinear:maya-patel",
+    "priority_basis": "meeting commitment, not keyword count",
+    "next_step": "Human or operations agent schedules the task in the work system."
+  }
+}

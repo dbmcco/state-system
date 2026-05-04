@@ -1,0 +1,29 @@
+{
+  "id": "thoughtforge.idea-candidate.003",
+  "artifact_type": "thoughtforge_idea_candidate",
+  "created_at": "2026-05-04T16:07:15Z",
+  "summary": "Thoughtforge idea candidate about audit trails for small teams, preserving meeting transcript provenance.",
+  "source_package_ref": "context.meeting-coordination-package.003",
+  "model_output_ref": "model_output.meeting-coordination.003",
+  "commit_result_ref": "commit.meeting-coordination.003",
+  "target_app_refs": [
+    "app.thoughtforge"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "context.meeting-coordination-package.003",
+    "model_output.meeting-coordination.003",
+    "commit.meeting-coordination.003"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:maya-patel"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "idea_ref": "state.content.idea.audit-trails-small-teams",
+    "candidate_angle": "Why small teams need audit trails before automation scales.",
+    "source_boundary": "Private meeting source; public use requires approval.",
+    "do_not_publish_directly": true
+  }
+}

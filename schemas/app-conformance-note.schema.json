@@ -22,7 +22,8 @@
         "no_hidden_scoring",
         "no_regex_routing",
         "no_local_state_mutation",
-        "approval_boundary_visible"
+        "approval_boundary_visible",
+        "no_keyword_extraction_source_free_ideas"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },
