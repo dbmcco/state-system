@@ -1,6 +1,7 @@
 from pathlib import Path
 from io import StringIO
 import json
+import os
 import subprocess
 from tempfile import TemporaryDirectory
 import unittest
@@ -67,12 +68,12 @@ class TraceReportingTests(unittest.TestCase):
             )
             self.assertIn("action.laura.southern-abrasives-linkedin-publish", html)
 
-    def test_demo_script_runs_activation_trace_and_prints_report_path(self):
+    def test_demo_script_runs_report_suite_and_prints_report_path(self):
         with TemporaryDirectory() as directory:
             result = subprocess.run(
                 ["bash", str(ROOT / "scripts" / "demo_state_system.sh")],
                 cwd=ROOT,
-                env={"STATE_SYSTEM_DEMO_ROOT": directory},
+                env={**os.environ, "STATE_SYSTEM_DEMO_ROOT": directory},
                 text=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
@@ -80,8 +81,15 @@ class TraceReportingTests(unittest.TestCase):
             )
 
             self.assertEqual(0, result.returncode, result.stderr)
-            self.assertIn("Report:", result.stdout)
+            self.assertIn("Report Suite:", result.stdout)
             self.assertTrue((Path(directory) / "index.html").exists())
+            self.assertTrue(
+                (Path(directory) / "agent-activation-trace" / "index.html").exists()
+            )
+            self.assertTrue(
+                (Path(directory) / "app-integrations" / "index.html").exists()
+            )
+            self.assertTrue((Path(directory) / "mission-records" / "index.html").exists())
 
     def test_report_suite_writes_index_for_trace_app_and_mission_reports(self):
         with TemporaryDirectory() as directory:

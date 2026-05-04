@@ -12,27 +12,27 @@ echo "Project: $ROOT"
 echo "Output:  $RUN_ROOT"
 echo
 
-echo "==> Run trace manifest"
+echo "==> Run report suite"
 python3 -m state_system.cli --project-root "$ROOT" \
-  trace-run examples/traces/laura-agent-activation.trace.json \
-  --output-dir "$RUN_ROOT" > "$RUN_ROOT/trace-run-output.json"
+  report-suite-run \
+  --output-dir "$RUN_ROOT" > "$RUN_ROOT/report-suite-output.json"
 
-python3 - "$RUN_ROOT/trace-run-output.json" <<'PY'
+python3 - "$RUN_ROOT/report-suite-output.json" <<'PY'
 import json
 import sys
 from pathlib import Path
 
-report = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-print(f"Trace:  {report['trace_id']}")
-print(f"Status: {report['status']}")
-for step in report["steps"]:
-    print(f"    {step['name']}: {step['artifact_path']}")
+suite = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+print(f"Suite:  {suite['id']}")
+print(f"Status: {suite['status']}")
+for report in suite["reports"]:
+    print(f"    {report['title']}: {report['report_path']}")
 PY
 
 echo
 echo "Demo complete."
 echo "Inspect generated artifacts in: $RUN_ROOT"
-echo "Report: $RUN_ROOT/index.html"
+echo "Report Suite: $RUN_ROOT/index.html"
 echo
-echo "Rendered activation preview:"
-sed -n '1,36p' "$RUN_ROOT/03-rendered-activation.txt"
+echo "Mission report preview:"
+sed -n '1,36p' "$RUN_ROOT/mission-records/index.html"

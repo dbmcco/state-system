@@ -108,11 +108,11 @@ Run the one-command demo:
 ./scripts/demo_state_system.sh
 ```
 
-The demo writes each generated artifact to a temporary directory and prints that
-path at the end. It also prints the static report path:
+The demo writes the full report suite to a temporary directory and prints that
+path at the end. It also prints the static report-suite path:
 
 ```text
-Report: /tmp/state-system-demo.XXXXXX/index.html
+Report Suite: /tmp/state-system-demo.XXXXXX/index.html
 ```
 
 Run the current report suite:
