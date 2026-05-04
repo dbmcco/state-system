@@ -30,7 +30,8 @@
         "deep_dive",
         "prospect_opportunity_package",
         "outreach_engagement_package",
-        "meeting_coordination_package"
+        "meeting_coordination_package",
+        "thoughtforge_author_package"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

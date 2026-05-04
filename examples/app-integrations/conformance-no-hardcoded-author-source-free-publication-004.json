@@ -1,0 +1,28 @@
+{
+  "id": "conformance.no-hardcoded-author-source-free-publication.004",
+  "check_type": "no_hardcoded_author_source_free_publication",
+  "created_at": "2026-05-04T16:12:00Z",
+  "summary": "Thoughtforge preserves author-fit and editorial direction as model-owned judgments with source refs and publication approval instead of hardcoded author assignment or source-free publication.",
+  "applies_to_refs": [
+    "context.thoughtforge-author-package.004",
+    "model_output.thoughtforge-meeting-idea.004",
+    "thoughtforge.interview-prompt-candidate.004",
+    "thoughtforge.longform-candidate.004"
+  ],
+  "evidence_refs": [
+    "source.thoughtforge.meeting-idea.004",
+    "context.thoughtforge-author-package.004",
+    "model_output.thoughtforge-meeting-idea.004",
+    "thoughtforge.interview-prompt-candidate.004",
+    "thoughtforge.longform-candidate.004"
+  ],
+  "model_owned_judgments": [
+    "author fit",
+    "idea maturity",
+    "editorial direction",
+    "source redaction need",
+    "publication approval need"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

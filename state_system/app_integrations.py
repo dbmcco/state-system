@@ -50,6 +50,20 @@ CHAIN_DEFINITIONS: tuple[JsonObject, ...] = (
         "conformance": "conformance-no-keyword-extraction-source-free-ideas-003.json",
         "conformance_label": "No keyword extraction or source-free ideas",
     },
+    {
+        "id": "thoughtforge-meeting-idea-provenance",
+        "title": "Thoughtforge -> meeting-derived idea provenance",
+        "source": "source-thoughtforge-meeting-idea-004.json",
+        "package": "thoughtforge-author-context-package-004.json",
+        "model_output": "thoughtforge-meeting-idea-model-proposal-output-004.json",
+        "commit": "thoughtforge-meeting-idea-commit-result-004.json",
+        "artifacts": [
+            "thoughtforge-interview-prompt-candidate-004.json",
+            "thoughtforge-longform-candidate-004.json",
+        ],
+        "conformance": "conformance-no-hardcoded-author-source-free-publication-004.json",
+        "conformance_label": "No hardcoded author assignment or source-free publication",
+    },
 )
 
 

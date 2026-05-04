@@ -1,0 +1,40 @@
+{
+  "id": "source.thoughtforge.meeting-idea.004",
+  "source_system": "thoughtforge",
+  "source_event": "thoughtforge.idea_candidate_received",
+  "source_event_id": "thoughtforge-meeting-idea-004",
+  "occurred_at": "2026-05-04T16:09:00Z",
+  "observed_at": "2026-05-04T16:09:30Z",
+  "actor_ref": "app.thoughtforge",
+  "summary": "Thoughtforge received the meeting-derived audit-trails idea candidate from the coordination update chain.",
+  "source_refs": [
+    "thoughtforge.idea-candidate.003",
+    "gdrive:doc:meeting-streamlinear-strategy-003",
+    "source.meeting.coordination.003"
+  ],
+  "change": {
+    "kind": "idea_candidate_received",
+    "object_ref": "thoughtforge.idea-candidate.003",
+    "payload_summary": "Idea candidate proposes audit trails for small teams and retains the private meeting source boundary."
+  },
+  "candidate_state_refs": [
+    "state.content.idea.audit-trails-small-teams",
+    "state.org.mission"
+  ],
+  "candidate_persona_refs": [
+    "persona.laura"
+  ],
+  "governance_refs": [
+    "governance.external-copy-approval"
+  ],
+  "idempotency": {
+    "key": "thoughtforge-meeting-idea-004",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "sync.thoughtforge.2026-05-04",
+    "source_watermark": "thoughtforge-meeting-idea-004",
+    "partial": false,
+    "confidence": "high"
+  }
+}

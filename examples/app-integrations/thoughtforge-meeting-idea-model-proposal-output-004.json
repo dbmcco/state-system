@@ -1,0 +1,89 @@
+{
+  "id": "model_output.thoughtforge-meeting-idea.004",
+  "review_packet_id": "review_packet.thoughtforge-meeting-idea.004",
+  "decision": "needs_approval",
+  "observations": [
+    "Author fit is a model interpretation over mission, voice, and evidence; it must not be hardcoded from audit-trail keywords or a deterministic topic map.",
+    "The idea is promising as an interview prompt or longform candidate, but public publication requires approval because the source is a private meeting.",
+    "The output preserves transcript provenance instead of turning the meeting into source-free editorial direction."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.content.idea.audit-trails-small-teams",
+      "update_class": "interpretive",
+      "interpretation": "The idea may fit DBMCCO thought leadership after redaction and author-fit review.",
+      "state_patch": {
+        "candidate_author_ref": "author.dbmcco",
+        "idea_status": "longform_candidate_pending_approval"
+      },
+      "evidence_refs": [
+        "source.thoughtforge.meeting-idea.004"
+      ],
+      "uncertainty": [
+        "Author fit needs human review.",
+        "Publication permission for private meeting source material is unresolved."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create an interview prompt candidate to clarify the idea without publishing it.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.thoughtforge",
+        "artifact_ref": "thoughtforge.interview-prompt-candidate.004"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.thoughtforge-author-package.004"
+      }
+    },
+    {
+      "summary": "Create a longform candidate with provenance and approval boundary.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.thoughtforge",
+        "artifact_ref": "thoughtforge.longform-candidate.004"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.thoughtforge-author-package.004"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.content.idea.audit-trails-small-teams",
+      "reason": "Idea rollup should refresh after approval or rejection."
+    }
+  ],
+  "uncertainty": [
+    "Author fit and publication permission are unresolved.",
+    "Private meeting details may need redaction before any public draft."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Author-fit approval",
+      "needed_ref_or_source": "author:dbmcco.fit-review.approval"
+    },
+    {
+      "summary": "Permission to use meeting-derived idea publicly",
+      "needed_ref_or_source": "content:idea:audit-trails-small-teams.publication-approval"
+    }
+  ],
+  "review_signal": {
+    "id": "review.thoughtforge-meeting-idea.004",
+    "trigger_id": "trigger.thoughtforge-meeting-idea.004",
+    "status": "pending_approval",
+    "summary": "Thoughtforge proposed an interview prompt and a longform candidate; longform/public use remains approval gated.",
+    "follow_up_refs": [
+      "thoughtforge.interview-prompt-candidate.004",
+      "thoughtforge.longform-candidate.004"
+    ]
+  }
+}

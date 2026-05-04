@@ -30,7 +30,9 @@
         "work_follow_up_task_package",
         "crm_referral_update",
         "prospect_referral_signal",
-        "thoughtforge_idea_candidate"
+        "thoughtforge_idea_candidate",
+        "thoughtforge_interview_prompt_candidate",
+        "thoughtforge_longform_candidate"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

@@ -5,7 +5,7 @@ implementation begins.
 
 Each trace is backed by schema-valid JSON artifacts once it becomes an
 implementation gate. Prose anchors can still be used for later scenarios, but
-the first three traces now have concrete source events, context packages, model
+the first four traces now have concrete source events, context packages, model
 outputs, commit results, downstream app artifacts, and conformance notes.
 
 Required artifact chain:
@@ -30,6 +30,9 @@ source event
 3. Meeting coordination fixture chain - meeting-derived commitment, referral,
    and essay idea become task/work, CRM, Prospect Researcher, and Thoughtforge
    artifacts without keyword extraction or source-free ideas.
+4. Thoughtforge provenance fixture chain - meeting-derived idea candidate
+   becomes an interview prompt and longform candidate without hardcoded author
+   assignment or source-free publication.
 
 These traces are the first build gate because Prospect Researcher, Outreach
 Engine, Meeting Manager, Thoughtforge, work/task systems, and LFW AI Graph CRM
@@ -60,3 +63,10 @@ Schema-valid fixture chains:
   `prospect-referral-signal-003.json`,
   `thoughtforge-idea-candidate-003.json` ->
   `conformance-no-keyword-extraction-source-free-ideas-003.json`
+- `source-thoughtforge-meeting-idea-004.json` ->
+  `thoughtforge-author-context-package-004.json` ->
+  `thoughtforge-meeting-idea-model-proposal-output-004.json` ->
+  `thoughtforge-meeting-idea-commit-result-004.json` ->
+  `thoughtforge-interview-prompt-candidate-004.json`,
+  `thoughtforge-longform-candidate-004.json` ->
+  `conformance-no-hardcoded-author-source-free-publication-004.json`

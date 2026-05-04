@@ -1,0 +1,123 @@
+{
+  "id": "context.thoughtforge-author-package.004",
+  "package_type": "thoughtforge_author_package",
+  "created_at": "2026-05-04T16:10:00Z",
+  "persona_context": {
+    "persona_ref": "app.thoughtforge",
+    "summary": "Thoughtforge evaluates whether a meeting-derived idea fits an author corpus and what safe next artifact should be proposed.",
+    "watched_domains": [
+      "content",
+      "author",
+      "mission",
+      "relationship"
+    ],
+    "authority_boundaries": [
+      "May propose interview prompts and longform candidates.",
+      "May not assign author fit through hardcoded topic matching.",
+      "May not publish meeting-derived content without approval."
+    ]
+  },
+  "review_goal": "Determine whether the meeting-derived idea should become an interview prompt, longform candidate, or no-op while preserving author fit reasoning and transcript provenance.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "source.thoughtforge.meeting-idea.004",
+        "summary": "Thoughtforge received a meeting-derived idea candidate with private source provenance.",
+        "persona_route": [
+          "app.thoughtforge",
+          "persona.laura"
+        ]
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "state_ref": "state.content.idea.audit-trails-small-teams",
+        "summary": "Candidate idea has meeting provenance but no public approval."
+      },
+      {
+        "state_ref": "state.org.mission",
+        "summary": "Organizational mission favors practical, auditable workflows and clear state-backed operations."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "source.thoughtforge.meeting-idea.004",
+      "thoughtforge.idea-candidate.003",
+      "source.meeting.coordination.003",
+      "gdrive:doc:meeting-streamlinear-strategy-003"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "source.thoughtforge.meeting-idea.004",
+        "summary": "Source event captures the handoff from meeting coordination into Thoughtforge."
+      },
+      {
+        "ref": "thoughtforge.idea-candidate.003",
+        "summary": "Meeting-derived idea candidate includes source boundary and publication approval requirement."
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "content:idea:audit-trails-small-teams.publication-approval",
+      "author:dbmcco.fit-review.approval"
+    ]
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "policy_ref": "governance.external-copy-approval",
+        "summary": "Public content from private meeting source material requires approval.",
+        "approval_required": true
+      }
+    ]
+  },
+  "relationship_sensitivity": {
+    "level": "medium",
+    "summary": "The source meeting may include customer-specific context that should not leak into public copy.",
+    "redactions": [
+      "customer-specific operational details"
+    ]
+  },
+  "available_actions": [
+    {
+      "action": "propose_interview_prompt",
+      "approval_required": false
+    },
+    {
+      "action": "propose_longform_candidate",
+      "approval_required": true
+    },
+    {
+      "action": "publish_content",
+      "approval_required": true
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "No unrelated marketing campaign state included because this package tests author fit and provenance, not campaign execution."
+    }
+  ],
+  "open_questions": [
+    "Does this idea fit DBMCCO, Sam Ashford, or another author context?",
+    "Can private meeting source material be used publicly after redaction?"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "source.thoughtforge.meeting-idea.004"
+    ],
+    "valid_until": "2026-05-05T16:10:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "thoughtforge.idea-candidate.003",
+      "gdrive:doc:meeting-streamlinear-strategy-003"
+    ]
+  }
+}

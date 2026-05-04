@@ -1,0 +1,40 @@
+{
+  "id": "commit.thoughtforge-meeting-idea.004",
+  "model_output_id": "model_output.thoughtforge-meeting-idea.004",
+  "created_at": "2026-05-04T16:11:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.content.idea.audit-trails-small-teams",
+      "reason": "Idea rollup should refresh after author-fit and publication review."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "state",
+      "summary": "Approve DBMCCO author fit for the meeting-derived idea.",
+      "reason": "Author assignment is a qualitative judgment, not a topic-map rule.",
+      "target_ref": "thoughtforge.longform-candidate.004"
+    },
+    {
+      "proposal_type": "action",
+      "summary": "Approve public use of meeting-derived source material.",
+      "reason": "Private meeting provenance requires approval before publication.",
+      "target_ref": "thoughtforge.longform-candidate.004"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.thoughtforge-meeting-idea.004",
+    "trigger_id": "trigger.thoughtforge-meeting-idea.004",
+    "status": "pending_approval",
+    "summary": "Thoughtforge proposed an interview prompt and a longform candidate; longform/public use remains approval gated.",
+    "follow_up_refs": [
+      "thoughtforge.interview-prompt-candidate.004",
+      "thoughtforge.longform-candidate.004"
+    ]
+  }
+}

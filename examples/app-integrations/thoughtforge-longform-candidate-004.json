@@ -1,0 +1,31 @@
+{
+  "id": "thoughtforge.longform-candidate.004",
+  "artifact_type": "thoughtforge_longform_candidate",
+  "created_at": "2026-05-04T16:11:45Z",
+  "summary": "Longform candidate about audit trails for small teams with meeting provenance and approval boundary.",
+  "source_package_ref": "context.thoughtforge-author-package.004",
+  "model_output_ref": "model_output.thoughtforge-meeting-idea.004",
+  "commit_result_ref": "commit.thoughtforge-meeting-idea.004",
+  "target_app_refs": [
+    "app.thoughtforge"
+  ],
+  "evidence_refs": [
+    "source.thoughtforge.meeting-idea.004",
+    "context.thoughtforge-author-package.004",
+    "model_output.thoughtforge-meeting-idea.004",
+    "commit.thoughtforge-meeting-idea.004"
+  ],
+  "contact_refs": [],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "candidate_author_ref": "author.dbmcco",
+    "editorial_direction": "Explain why audit trails are operational state, not overhead, for small teams adopting automation.",
+    "source_refs": [
+      "gdrive:doc:meeting-streamlinear-strategy-003",
+      "thoughtforge.idea-candidate.003"
+    ],
+    "approval_boundary": "Do not publish or add to approved corpus until author-fit and public-source-use approval exist.",
+    "do_not_publish_directly": true
+  }
+}

@@ -128,6 +128,10 @@ coordination update accepted
 
 **Pass condition:** author fit, idea maturity, and editorial direction are model interpretations with source refs and human approval gates.
 
+**Fixture gate:** `examples/app-integrations/source-thoughtforge-meeting-idea-004.json`
+through
+`examples/app-integrations/conformance-no-hardcoded-author-source-free-publication-004.json`.
+
 ## Scenario 5: Visual Forge Learns From Qualitative Creative Judgment
 
 **Trigger:** a human reviews a generated campaign visual and says, "This matches the brand but not the campaign; keep the texture from version two."

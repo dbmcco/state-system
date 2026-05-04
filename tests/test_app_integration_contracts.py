@@ -256,6 +256,81 @@ class AppIntegrationContractTests(unittest.TestCase):
             if ref not in index.by_id
         ])
 
+    def test_thoughtforge_uses_meeting_idea_without_losing_provenance(self):
+        index = ExampleIndex.load(ROOT / "examples")
+
+        source = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "source-thoughtforge-meeting-idea-004.json"
+        )
+        package = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-author-context-package-004.json"
+        )
+        output = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-meeting-idea-model-proposal-output-004.json"
+        )
+        commit = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-meeting-idea-commit-result-004.json"
+        )
+        interview_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-interview-prompt-candidate-004.json"
+        )
+        longform_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "thoughtforge-longform-candidate-004.json"
+        )
+        conformance = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "conformance-no-hardcoded-author-source-free-publication-004.json"
+        )
+
+        self.assertEqual("thoughtforge", source["source_system"])
+        self.assertEqual("thoughtforge_author_package", package["package_type"])
+        self.assertIn(source["source_refs"][0], package["evidence_context"]["evidence_refs"])
+        self.assertEqual("needs_approval", output["decision"])
+        self.assertEqual("pending_approval", commit["status"])
+        self.assertEqual(
+            {interview_artifact["id"], longform_artifact["id"]},
+            set(commit["review_signal"]["follow_up_refs"]),
+        )
+        self.assertEqual(
+            "thoughtforge_interview_prompt_candidate",
+            interview_artifact["artifact_type"],
+        )
+        self.assertEqual("thoughtforge_longform_candidate", longform_artifact["artifact_type"])
+        self.assertEqual("pending_approval", longform_artifact["approval_status"])
+        self.assertIn(
+            "gdrive:doc:meeting-streamlinear-strategy-003",
+            longform_artifact["payload"]["source_refs"],
+        )
+        self.assertNotIn("author_score", longform_artifact["payload"])
+        self.assertEqual("no_hardcoded_author_source_free_publication", conformance["check_type"])
+        self.assertEqual([], conformance["deterministic_judgment_rules"])
+        self.assertEqual([], [
+            ref
+            for artifact in [interview_artifact, longform_artifact]
+            for ref in artifact["evidence_refs"]
+            if ref not in index.by_id
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()
