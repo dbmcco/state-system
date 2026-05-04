@@ -249,6 +249,8 @@ def _is_app_integration_artifact(filename: str) -> bool:
         "thoughtforge-longform-candidate-",
         "visual-forge-revision-candidate-",
         "visual-forge-corpus-memory-candidate-",
+        "prospect-referral-doctrine-candidate-",
+        "outreach-referral-doctrine-candidate-",
     )
     return filename.endswith(".json") and filename.startswith(artifact_names)
 

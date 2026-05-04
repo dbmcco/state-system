@@ -1,0 +1,29 @@
+{
+  "id": "prospect.referral-doctrine-candidate.006",
+  "artifact_type": "prospect_referral_doctrine_candidate",
+  "created_at": "2026-05-04T17:02:30Z",
+  "summary": "Prospect Researcher doctrine candidate that treats referral paths as relationship evidence, pending approval.",
+  "source_package_ref": "context.crm-outcome-learning-package.006",
+  "model_output_ref": "model_output.crm-outcome-learning.006",
+  "commit_result_ref": "commit.crm-outcome-learning.006",
+  "target_app_refs": [
+    "app.prospect-researcher"
+  ],
+  "evidence_refs": [
+    "source.crm.relationship-outcome.006",
+    "context.crm-outcome-learning-package.006",
+    "model_output.crm-outcome-learning.006",
+    "commit.crm-outcome-learning.006"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:maya-patel",
+    "crm:contact:streamlinear:jon-reeves"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "learning": "Treat referral path as relationship evidence when the outcome shows implementation relevance.",
+    "evidence_boundary": "Use this as context for model interpretation, not as a deterministic prospecting rule.",
+    "approval_boundary": "Do not add to approved prospecting doctrine until human approval."
+  }
+}

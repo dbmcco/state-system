@@ -32,7 +32,8 @@
         "outreach_engagement_package",
         "meeting_coordination_package",
         "thoughtforge_author_package",
-        "visual_forge_workspace_package"
+        "visual_forge_workspace_package",
+        "crm_outcome_learning_package"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

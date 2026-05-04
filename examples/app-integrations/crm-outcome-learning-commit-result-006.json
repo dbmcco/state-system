@@ -1,0 +1,44 @@
+{
+  "id": "commit.crm-outcome-learning.006",
+  "model_output_id": "model_output.crm-outcome-learning.006",
+  "created_at": "2026-05-04T17:02:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.doctrine.prospect.referral-paths",
+      "reason": "Doctrine rollup should refresh after prospect learning approval."
+    },
+    {
+      "state_object_id": "state.doctrine.outreach.referral-follow-up",
+      "reason": "Doctrine rollup should refresh after outreach learning approval."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "state",
+      "summary": "Approve Prospect Researcher referral-path doctrine candidate.",
+      "reason": "Reusable doctrine must be approved before app context packages change.",
+      "target_ref": "prospect.referral-doctrine-candidate.006"
+    },
+    {
+      "proposal_type": "state",
+      "summary": "Approve Outreach Engine referral follow-up doctrine candidate.",
+      "reason": "Outreach tone or sequence behavior must remain model-mediated until doctrine is approved.",
+      "target_ref": "outreach.referral-doctrine-candidate.006"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.crm-outcome-learning.006",
+    "trigger_id": "trigger.crm-outcome-learning.006",
+    "status": "pending_approval",
+    "summary": "CRM outcome produced Prospect and Outreach doctrine candidates; both remain approval gated.",
+    "follow_up_refs": [
+      "prospect.referral-doctrine-candidate.006",
+      "outreach.referral-doctrine-candidate.006"
+    ]
+  }
+}

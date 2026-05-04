@@ -25,7 +25,8 @@
         "approval_boundary_visible",
         "no_keyword_extraction_source_free_ideas",
         "no_hardcoded_author_source_free_publication",
-        "no_style_score_hidden_prompt_rewrite"
+        "no_style_score_hidden_prompt_rewrite",
+        "no_sales_score_app_local_doctrine"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

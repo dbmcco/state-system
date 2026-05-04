@@ -1,0 +1,28 @@
+{
+  "id": "conformance.no-sales-score-app-local-doctrine.006",
+  "check_type": "no_sales_score_app_local_doctrine",
+  "created_at": "2026-05-04T17:03:00Z",
+  "summary": "CRM outcome learning remains evidence-backed, approval-gated doctrine rather than sales scores, hardcoded referral preferences, or app-local behavior changes.",
+  "applies_to_refs": [
+    "context.crm-outcome-learning-package.006",
+    "model_output.crm-outcome-learning.006",
+    "prospect.referral-doctrine-candidate.006",
+    "outreach.referral-doctrine-candidate.006"
+  ],
+  "evidence_refs": [
+    "source.crm.relationship-outcome.006",
+    "context.crm-outcome-learning-package.006",
+    "model_output.crm-outcome-learning.006",
+    "prospect.referral-doctrine-candidate.006",
+    "outreach.referral-doctrine-candidate.006"
+  ],
+  "model_owned_judgments": [
+    "relationship outcome significance",
+    "referral path relevance",
+    "prospecting doctrine promotion",
+    "outreach doctrine promotion",
+    "approval need for reusable learning"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

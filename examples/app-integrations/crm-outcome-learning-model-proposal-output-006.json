@@ -1,0 +1,109 @@
+{
+  "id": "model_output.crm-outcome-learning.006",
+  "review_packet_id": "review_packet.crm-outcome-learning.006",
+  "decision": "needs_approval",
+  "observations": [
+    "The CRM outcome is a model interpretation over relationship evidence, not a sales score, threshold, or deterministic referral preference.",
+    "Prospect and Outreach learning should become approved doctrine with source refs before downstream apps change behavior.",
+    "The referral path matters because the model interprets the outcome in context; code should not hardcode referral weighting or tone rules."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.doctrine.prospect.referral-paths",
+      "update_class": "interpretive",
+      "interpretation": "Referral-path evidence may improve prospecting context when relationship outcome proves implementation relevance.",
+      "state_patch": {
+        "candidate_learning": "referral_path_as_relationship_evidence",
+        "status": "pending_approval"
+      },
+      "evidence_refs": [
+        "source.crm.relationship-outcome.006"
+      ],
+      "uncertainty": [
+        "One outcome may not be enough to generalize broadly.",
+        "Human owner has not approved doctrine promotion."
+      ],
+      "approval_required": true
+    },
+    {
+      "target_state_object_id": "state.doctrine.outreach.referral-follow-up",
+      "update_class": "interpretive",
+      "interpretation": "Referral-originated opportunities may require follow-up that preserves relationship context rather than generic sequence tone.",
+      "state_patch": {
+        "candidate_learning": "preserve_referral_context_in_follow_up",
+        "status": "pending_approval"
+      },
+      "evidence_refs": [
+        "source.crm.relationship-outcome.006"
+      ],
+      "uncertainty": [
+        "The right outreach language should remain model-mediated and context-specific."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create Prospect Researcher referral doctrine candidate.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.prospect-researcher",
+        "artifact_ref": "prospect.referral-doctrine-candidate.006"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.crm-outcome-learning-package.006"
+      }
+    },
+    {
+      "summary": "Create Outreach Engine referral follow-up doctrine candidate.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.outreach-engine",
+        "artifact_ref": "outreach.referral-doctrine-candidate.006"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.crm-outcome-learning-package.006"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.doctrine.prospect.referral-paths",
+      "reason": "Doctrine rollup should refresh after approval or rejection."
+    },
+    {
+      "state_object_id": "state.doctrine.outreach.referral-follow-up",
+      "reason": "Doctrine rollup should refresh after approval or rejection."
+    }
+  ],
+  "uncertainty": [
+    "Learning may be relationship-specific.",
+    "Approval is required before any app changes behavior."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Human approval for Prospect Researcher doctrine update",
+      "needed_ref_or_source": "doctrine:prospect.referral-paths.approval"
+    },
+    {
+      "summary": "Human approval for Outreach Engine doctrine update",
+      "needed_ref_or_source": "doctrine:outreach.referral-follow-up.approval"
+    }
+  ],
+  "review_signal": {
+    "id": "review.crm-outcome-learning.006",
+    "trigger_id": "trigger.crm-outcome-learning.006",
+    "status": "pending_approval",
+    "summary": "CRM outcome produced Prospect and Outreach doctrine candidates; both remain approval gated.",
+    "follow_up_refs": [
+      "prospect.referral-doctrine-candidate.006",
+      "outreach.referral-doctrine-candidate.006"
+    ]
+  }
+}

@@ -34,7 +34,9 @@
         "thoughtforge_interview_prompt_candidate",
         "thoughtforge_longform_candidate",
         "visual_forge_revision_candidate",
-        "visual_forge_corpus_memory_candidate"
+        "visual_forge_corpus_memory_candidate",
+        "prospect_referral_doctrine_candidate",
+        "outreach_referral_doctrine_candidate"
       ]
     },
     "created_at": { "type": "string", "format": "date-time" },

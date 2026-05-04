@@ -401,6 +401,84 @@ class AppIntegrationContractTests(unittest.TestCase):
             if ref not in index.by_id
         ])
 
+    def test_crm_outcome_feeds_prospect_and_outreach_doctrine(self):
+        index = ExampleIndex.load(ROOT / "examples")
+
+        source = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "source-crm-relationship-outcome-006.json"
+        )
+        package = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "crm-outcome-learning-context-package-006.json"
+        )
+        output = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "crm-outcome-learning-model-proposal-output-006.json"
+        )
+        commit = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "crm-outcome-learning-commit-result-006.json"
+        )
+        prospect_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "prospect-referral-doctrine-candidate-006.json"
+        )
+        outreach_artifact = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "outreach-referral-doctrine-candidate-006.json"
+        )
+        conformance = load_json(
+            ROOT
+            / "examples"
+            / "app-integrations"
+            / "conformance-no-sales-score-app-local-doctrine-006.json"
+        )
+
+        self.assertEqual("lfw_ai_graph_crm", source["source_system"])
+        self.assertEqual("crm_outcome_learning_package", package["package_type"])
+        self.assertIn(source["source_refs"][0], package["evidence_context"]["evidence_refs"])
+        self.assertEqual("needs_approval", output["decision"])
+        self.assertEqual("pending_approval", commit["status"])
+        self.assertEqual(
+            {prospect_artifact["id"], outreach_artifact["id"]},
+            set(commit["review_signal"]["follow_up_refs"]),
+        )
+        self.assertEqual(
+            "prospect_referral_doctrine_candidate",
+            prospect_artifact["artifact_type"],
+        )
+        self.assertEqual(
+            "outreach_referral_doctrine_candidate",
+            outreach_artifact["artifact_type"],
+        )
+        self.assertEqual("pending_approval", prospect_artifact["approval_status"])
+        self.assertEqual("pending_approval", outreach_artifact["approval_status"])
+        self.assertIn("relationship evidence", prospect_artifact["payload"]["learning"])
+        self.assertNotIn("sales_score", prospect_artifact["payload"])
+        self.assertNotIn("referral_weight", prospect_artifact["payload"])
+        self.assertNotIn("tone_rule", outreach_artifact["payload"])
+        self.assertEqual("no_sales_score_app_local_doctrine", conformance["check_type"])
+        self.assertEqual([], conformance["deterministic_judgment_rules"])
+        self.assertEqual([], [
+            ref
+            for artifact in [prospect_artifact, outreach_artifact]
+            for ref in artifact["evidence_refs"]
+            if ref not in index.by_id
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()

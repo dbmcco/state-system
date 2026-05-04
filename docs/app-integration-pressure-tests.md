@@ -182,6 +182,10 @@ CRM relationship outcome
 
 **Pass condition:** the learning is represented as accepted state/doctrine with evidence refs, not as app-local deterministic behavior.
 
+**Fixture gate:** `examples/app-integrations/source-crm-relationship-outcome-006.json`
+through
+`examples/app-integrations/conformance-no-sales-score-app-local-doctrine-006.json`.
+
 ## Scenario 7: Conflicting App Interpretations
 
 **Trigger:** Outreach Engine sees a reply as promising. CRM history shows the relationship is sensitive. Prospect Researcher sees weak opportunity fit.

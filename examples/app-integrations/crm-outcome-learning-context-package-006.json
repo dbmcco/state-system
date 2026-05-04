@@ -1,0 +1,125 @@
+{
+  "id": "context.crm-outcome-learning-package.006",
+  "package_type": "crm_outcome_learning_package",
+  "created_at": "2026-05-04T17:01:00Z",
+  "persona_context": {
+    "persona_ref": "app.lfw-ai-graph-crm",
+    "summary": "CRM packages relationship outcomes as evidence for shared prospecting and outreach doctrine without writing app-local rules.",
+    "watched_domains": [
+      "relationship",
+      "prospecting",
+      "outreach",
+      "doctrine"
+    ],
+    "authority_boundaries": [
+      "May propose doctrine candidates with evidence.",
+      "May not turn outcomes into sales scores.",
+      "May not mutate Prospect Researcher or Outreach Engine local behavior directly."
+    ]
+  },
+  "review_goal": "Determine whether the referral-driven CRM outcome should become approved prospecting and outreach learning.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "source.crm.relationship-outcome.006",
+        "summary": "CRM outcome shows Streamlinear became valuable through a referral path.",
+        "persona_route": [
+          "app.lfw-ai-graph-crm",
+          "app.prospect-researcher",
+          "app.outreach-engine",
+          "persona.laura"
+        ]
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "state_ref": "state.relationship.streamlinear",
+        "summary": "Streamlinear outcome was positive after referral path clarity, not because of a simple outbound sequence."
+      },
+      {
+        "state_ref": "state.doctrine.prospect.referral-paths",
+        "summary": "Referral-path doctrine is not yet approved as reusable prospecting learning."
+      },
+      {
+        "state_ref": "state.doctrine.outreach.referral-follow-up",
+        "summary": "Outreach follow-up doctrine has no approved change for referral-originated opportunities."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "source.crm.relationship-outcome.006",
+      "crm:relationship:streamlinear:outcome-006",
+      "source.meeting.coordination.003",
+      "crm:contact:streamlinear:maya-patel",
+      "crm:contact:streamlinear:jon-reeves"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "source.crm.relationship-outcome.006",
+        "summary": "Source event captures the relationship outcome and referral path."
+      },
+      {
+        "ref": "source.meeting.coordination.003",
+        "summary": "Meeting coordination source introduced the Jon Reeves referral evidence."
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "doctrine:prospect.referral-paths.approval",
+      "doctrine:outreach.referral-follow-up.approval"
+    ]
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "policy_ref": "governance.human-review.doctrine-update",
+        "summary": "Reusable prospecting and outreach doctrine updates require human approval.",
+        "approval_required": true
+      }
+    ]
+  },
+  "relationship_sensitivity": {
+    "level": "medium",
+    "summary": "Relationship outcome should become evidence-backed learning, not a public claim or app-local rule.",
+    "redactions": []
+  },
+  "available_actions": [
+    {
+      "action": "propose_prospect_referral_doctrine",
+      "approval_required": true
+    },
+    {
+      "action": "propose_outreach_referral_doctrine",
+      "approval_required": true
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "No unrelated CRM revenue metrics included because the learning is about referral-path evidence, not sales scoring."
+    }
+  ],
+  "open_questions": [
+    "Is this referral-path learning reusable or specific to Streamlinear?",
+    "Should Outreach Engine change context packages before human doctrine approval?"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "source.crm.relationship-outcome.006"
+    ],
+    "valid_until": "2026-05-05T17:01:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "crm:relationship:streamlinear",
+      "state.doctrine.prospect.referral-paths",
+      "state.doctrine.outreach.referral-follow-up"
+    ]
+  }
+}

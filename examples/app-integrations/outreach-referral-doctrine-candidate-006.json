@@ -1,0 +1,29 @@
+{
+  "id": "outreach.referral-doctrine-candidate.006",
+  "artifact_type": "outreach_referral_doctrine_candidate",
+  "created_at": "2026-05-04T17:02:45Z",
+  "summary": "Outreach Engine doctrine candidate for preserving referral context in follow-up, pending approval.",
+  "source_package_ref": "context.crm-outcome-learning-package.006",
+  "model_output_ref": "model_output.crm-outcome-learning.006",
+  "commit_result_ref": "commit.crm-outcome-learning.006",
+  "target_app_refs": [
+    "app.outreach-engine"
+  ],
+  "evidence_refs": [
+    "source.crm.relationship-outcome.006",
+    "context.crm-outcome-learning-package.006",
+    "model_output.crm-outcome-learning.006",
+    "commit.crm-outcome-learning.006"
+  ],
+  "contact_refs": [
+    "crm:contact:streamlinear:maya-patel",
+    "crm:contact:streamlinear:jon-reeves"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "learning": "Preserve referral relationship context in follow-up when a CRM outcome shows the referral path mattered.",
+    "evidence_boundary": "Use as context for model-owned outreach judgment, not as a hardcoded sequence or tone rule.",
+    "approval_boundary": "Do not change Outreach Engine doctrine until human approval."
+  }
+}

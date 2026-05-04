@@ -78,6 +78,20 @@ CHAIN_DEFINITIONS: tuple[JsonObject, ...] = (
         "conformance": "conformance-no-style-score-hidden-prompt-rewrite-005.json",
         "conformance_label": "No style scores or hidden prompt rewrite",
     },
+    {
+        "id": "crm-outcome-to-prospect-outreach-doctrine",
+        "title": "CRM outcome -> Prospect and Outreach doctrine",
+        "source": "source-crm-relationship-outcome-006.json",
+        "package": "crm-outcome-learning-context-package-006.json",
+        "model_output": "crm-outcome-learning-model-proposal-output-006.json",
+        "commit": "crm-outcome-learning-commit-result-006.json",
+        "artifacts": [
+            "prospect-referral-doctrine-candidate-006.json",
+            "outreach-referral-doctrine-candidate-006.json",
+        ],
+        "conformance": "conformance-no-sales-score-app-local-doctrine-006.json",
+        "conformance_label": "No sales scores or app-local doctrine mutation",
+    },
 )
 
 

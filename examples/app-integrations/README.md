@@ -5,7 +5,7 @@ implementation begins.
 
 Each trace is backed by schema-valid JSON artifacts once it becomes an
 implementation gate. Prose anchors can still be used for later scenarios, but
-the first five traces now have concrete source events, context packages, model
+the first six traces now have concrete source events, context packages, model
 outputs, commit results, downstream app artifacts, and conformance notes.
 
 Required artifact chain:
@@ -36,6 +36,9 @@ source event
 5. Visual Forge qualitative learning fixture chain - human creative feedback
    becomes revision and corpus-memory candidates without style scores or hidden
    prompt rewrites.
+6. CRM outcome doctrine fixture chain - relationship outcome evidence becomes
+   Prospect Researcher and Outreach Engine doctrine candidates without sales
+   scores or app-local behavior mutation.
 
 These traces are the first build gate because Prospect Researcher, Outreach
 Engine, Meeting Manager, Thoughtforge, work/task systems, and LFW AI Graph CRM
@@ -80,3 +83,10 @@ Schema-valid fixture chains:
   `visual-forge-revision-candidate-005.json`,
   `visual-forge-corpus-memory-candidate-005.json` ->
   `conformance-no-style-score-hidden-prompt-rewrite-005.json`
+- `source-crm-relationship-outcome-006.json` ->
+  `crm-outcome-learning-context-package-006.json` ->
+  `crm-outcome-learning-model-proposal-output-006.json` ->
+  `crm-outcome-learning-commit-result-006.json` ->
+  `prospect-referral-doctrine-candidate-006.json`,
+  `outreach-referral-doctrine-candidate-006.json` ->
+  `conformance-no-sales-score-app-local-doctrine-006.json`

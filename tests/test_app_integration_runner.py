@@ -21,7 +21,7 @@ class AppIntegrationRunnerTests(unittest.TestCase):
             )
 
             self.assertEqual("passed", report["status"])
-            self.assertEqual(5, len(report["chains"]))
+            self.assertEqual(6, len(report["chains"]))
             self.assertEqual(
                 {
                     "prospect-to-outreach",
@@ -29,6 +29,7 @@ class AppIntegrationRunnerTests(unittest.TestCase):
                     "meeting-coordination-updates",
                     "thoughtforge-meeting-idea-provenance",
                     "visual-forge-qualitative-learning",
+                    "crm-outcome-to-prospect-outreach-doctrine",
                 },
                 {chain["id"] for chain in report["chains"]},
             )
@@ -45,11 +46,13 @@ class AppIntegrationRunnerTests(unittest.TestCase):
             self.assertIn("Meeting -> cross-app coordination updates", html)
             self.assertIn("Thoughtforge -> meeting-derived idea provenance", html)
             self.assertIn("Visual Forge -> qualitative creative learning", html)
+            self.assertIn("CRM outcome -> Prospect and Outreach doctrine", html)
             self.assertIn("No hidden scoring", html)
             self.assertIn("No regex routing", html)
             self.assertIn("No keyword extraction or source-free ideas", html)
             self.assertIn("No hardcoded author assignment or source-free publication", html)
             self.assertIn("No style scores or hidden prompt rewrite", html)
+            self.assertIn("No sales scores or app-local doctrine mutation", html)
 
     def test_cli_runs_app_integration_report(self):
         with TemporaryDirectory() as directory:
