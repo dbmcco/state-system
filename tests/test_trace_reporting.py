@@ -1,8 +1,12 @@
 from pathlib import Path
+from io import StringIO
+import json
 import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 
+from state_system import cli
+from state_system.reporting import run_report_suite
 from state_system.trace_runner import run_trace_manifest
 
 
@@ -78,6 +82,49 @@ class TraceReportingTests(unittest.TestCase):
             self.assertEqual(0, result.returncode, result.stderr)
             self.assertIn("Report:", result.stdout)
             self.assertTrue((Path(directory) / "index.html").exists())
+
+    def test_report_suite_writes_index_for_trace_and_app_reports(self):
+        with TemporaryDirectory() as directory:
+            report = run_report_suite(
+                project_root=ROOT,
+                output_dir=Path(directory),
+            )
+
+            self.assertEqual("passed", report["status"])
+            self.assertEqual(
+                {"agent-activation-trace", "app-integrations"},
+                {entry["id"] for entry in report["reports"]},
+            )
+            self.assertTrue((Path(directory) / "index.html").exists())
+            html = (Path(directory) / "index.html").read_text(encoding="utf-8")
+            self.assertIn("State System Report Suite", html)
+            self.assertIn("Agent Activation Trace", html)
+            self.assertIn("App Integration Report", html)
+
+    def test_cli_runs_report_suite(self):
+        with TemporaryDirectory() as directory:
+            output = StringIO()
+            code = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "report-suite-run",
+                    "--output-dir",
+                    directory,
+                ],
+                stdout=output,
+            )
+
+            self.assertEqual(0, code)
+            payload = json.loads(output.getvalue())
+            self.assertEqual("passed", payload["status"])
+            self.assertTrue((Path(directory) / "index.html").exists())
+            self.assertTrue(
+                (Path(directory) / "agent-activation-trace" / "index.html").exists()
+            )
+            self.assertTrue(
+                (Path(directory) / "app-integrations" / "index.html").exists()
+            )
 
 
 if __name__ == "__main__":

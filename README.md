@@ -115,6 +115,16 @@ path at the end. It also prints the static report path:
 Report: /tmp/state-system-demo.XXXXXX/index.html
 ```
 
+Run the current report suite:
+
+```bash
+python3 -m state_system.cli --project-root . report-suite-run --output-dir /tmp/state-system-report-suite
+```
+
+Open `/tmp/state-system-report-suite/index.html` to inspect the current
+agent-activation trace report and app-integration contract report from one
+place.
+
 ## What Is Designed Next
 
 The app-facing substrate has its first schema-valid contract fixtures, but it

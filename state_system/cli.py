@@ -25,6 +25,7 @@ from state_system.runtime import (
 )
 from state_system.runtime_seed import seed_repo_runtime
 from state_system.runner import SourceEventIngestor
+from state_system.reporting import run_report_suite
 from state_system.source_adapters import (
     git_commit_metadata_from_repo,
     git_commit_to_source_event,
@@ -290,6 +291,15 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, report)
         return 0 if report["status"] == "passed" else 1
 
+    if args.command == "report-suite-run":
+        output_dir = Path(args.output_dir)
+        report = run_report_suite(
+            project_root=project_root,
+            output_dir=output_dir,
+        )
+        _write_json(stdout, report)
+        return 0 if report["status"] == "passed" else 1
+
     if args.command == "get":
         store = _store(stores, args.collection)
         _write_json(stdout, store.read(args.record_id))
@@ -443,6 +453,9 @@ def _parser() -> argparse.ArgumentParser:
 
     app_integrations_run = subcommands.add_parser("app-integrations-run")
     app_integrations_run.add_argument("--output-dir", required=True)
+
+    report_suite_run = subcommands.add_parser("report-suite-run")
+    report_suite_run.add_argument("--output-dir", required=True)
 
     get = subcommands.add_parser("get")
     get.add_argument("collection", choices=sorted(COLLECTIONS))

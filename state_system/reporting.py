@@ -7,6 +7,107 @@ from pathlib import Path
 from state_system.stores import JsonObject
 
 
+def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
+    from state_system.app_integrations import run_app_integration_fixtures
+    from state_system.trace_runner import run_trace_manifest
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    trace_dir = output_dir / "agent-activation-trace"
+    app_dir = output_dir / "app-integrations"
+    trace_report = run_trace_manifest(
+        project_root=project_root,
+        manifest_path=(
+            project_root
+            / "examples"
+            / "traces"
+            / "laura-agent-activation.trace.json"
+        ),
+        output_dir=trace_dir,
+    )
+    app_report = run_app_integration_fixtures(
+        project_root=project_root,
+        output_dir=app_dir,
+    )
+
+    reports = [
+        {
+            "id": "agent-activation-trace",
+            "title": "Agent Activation Trace",
+            "status": trace_report["status"],
+            "report_path": str(trace_dir / "index.html"),
+            "summary": "Trace-run report for Laura activation, action boundaries, freshness, and captured response.",
+        },
+        {
+            "id": "app-integrations",
+            "title": "App Integration Report",
+            "status": app_report["status"],
+            "report_path": str(app_dir / "index.html"),
+            "summary": "Fixture-backed Prospect/Outreach/CRM contract inspection report.",
+        },
+    ]
+    status = "passed" if all(report["status"] == "passed" for report in reports) else "failed"
+    suite: JsonObject = {
+        "id": "report.suite",
+        "title": "State System Report Suite",
+        "status": status,
+        "output_dir": str(output_dir),
+        "reports": reports,
+    }
+    _write_json(output_dir / "report-suite.json", suite)
+    (output_dir / "index.html").write_text(
+        render_report_suite_html(suite),
+        encoding="utf-8",
+    )
+    return suite
+
+
+def render_report_suite_html(report: JsonObject) -> str:
+    report_cards = [_report_suite_card(entry) for entry in report["reports"]]
+    return "\n".join(
+        [
+            "<!doctype html>",
+            "<html lang=\"en\">",
+            "<head>",
+            "  <meta charset=\"utf-8\">",
+            "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
+            f"  <title>{escape(str(report['title']))}</title>",
+            "  <style>",
+            "    :root { --bg:#f6f7f9; --paper:#fff; --ink:#1f2933; --muted:#526170; --line:#d8dee6; --ok:#1f7a4d; --bad:#a22f3b; --code:#eef2f6; }",
+            "    * { box-sizing:border-box; } body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",sans-serif; line-height:1.45; }",
+            "    main { width:min(1100px, calc(100vw - 32px)); margin:0 auto; padding:32px 0 48px; }",
+            "    header, section { margin-bottom:16px; padding:18px; background:var(--paper); border:1px solid var(--line); border-radius:8px; }",
+            "    h1,h2,p { margin-top:0; } h1 { margin-bottom:8px; font-size:30px; letter-spacing:0; } h2 { margin-bottom:8px; font-size:20px; letter-spacing:0; }",
+            "    .eyebrow { margin-bottom:6px; color:var(--muted); font-size:12px; font-weight:760; text-transform:uppercase; } .lede { max-width:820px; color:var(--muted); }",
+            "    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; } .card { padding:14px; border:1px solid var(--line); border-radius:8px; background:#fbfcfd; }",
+            "    .passed { color:var(--ok); font-weight:760; } .failed { color:var(--bad); font-weight:760; } code { padding:2px 5px; border-radius:5px; background:var(--code); } a { color:#275f9f; font-weight:700; }",
+            "  </style>",
+            "</head>",
+            "<body>",
+            "<main>",
+            "<header>",
+            "<p class=\"eyebrow\">State System</p>",
+            "<h1>State System Report Suite</h1>",
+            "<p class=\"lede\">Single inspection entry point for current user-testable traces and app-substrate reports.</p>",
+            "</header>",
+            "<section>",
+            "<h2>Suite Summary</h2>",
+            f"<p>Status: <span class=\"{escape(str(report['status']))}\">{escape(str(report['status']))}</span></p>",
+            f"<p>Output directory: <code>{escape(str(report['output_dir']))}</code></p>",
+            "</section>",
+            "<section>",
+            "<h2>Reports</h2>",
+            "<div class=\"grid\">",
+            *report_cards,
+            "</div>",
+            "</section>",
+            "</main>",
+            "</body>",
+            "</html>",
+        ]
+    )
+
+
 def write_trace_report_html(*, output_dir: Path, report: JsonObject) -> Path:
     path = output_dir / "index.html"
     path.write_text(
@@ -227,6 +328,21 @@ def _rendered_section(rendered_activation: str) -> str:
     )
 
 
+def _report_suite_card(entry: JsonObject) -> str:
+    path = Path(str(entry["report_path"]))
+    return "\n".join(
+        [
+            "<div class=\"card\">",
+            f"<h2>{escape(str(entry['title']))}</h2>",
+            f"<p>Status: <span class=\"{escape(str(entry['status']))}\">{escape(str(entry['status']))}</span></p>",
+            f"<p>{escape(str(entry['summary']))}</p>",
+            f"<p><a href=\"{escape(path.parent.name)}/index.html\">Open report</a></p>",
+            f"<p><code>{escape(str(path))}</code></p>",
+            "</div>",
+        ]
+    )
+
+
 def _metric(label: str, value: object, class_name: str = "") -> str:
     class_attr = f" class=\"{class_name}\"" if class_name else ""
     return (
@@ -259,3 +375,7 @@ def _load_artifacts(report: JsonObject) -> dict[str, JsonObject | str]:
         elif step["artifact_type"] == "text":
             artifacts[step["name"]] = path.read_text(encoding="utf-8")
     return artifacts
+
+
+def _write_json(path: Path, payload: JsonObject) -> None:
+    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
