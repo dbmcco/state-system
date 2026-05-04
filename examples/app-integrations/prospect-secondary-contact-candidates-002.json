@@ -1,0 +1,39 @@
+{
+  "id": "prospect.secondary-contact-candidates.002",
+  "artifact_type": "prospect_secondary_contact_candidates",
+  "created_at": "2026-05-04T15:13:45Z",
+  "summary": "Priya Shah and Eli Roberts are secondary contact candidates because they were copied into the active reply thread.",
+  "source_package_ref": "context.outreach-engagement-package.002",
+  "model_output_ref": "model_output.outreach-reply-routing.002",
+  "commit_result_ref": "commit.outreach-reply-crm-secondary-contacts.002",
+  "target_app_refs": [
+    "app.prospect-researcher"
+  ],
+  "evidence_refs": [
+    "source.outreach.email-reply.002",
+    "context.outreach-engagement-package.002",
+    "model_output.outreach-reply-routing.002",
+    "commit.outreach-reply-crm-secondary-contacts.002"
+  ],
+  "contact_refs": [
+    "crm:contact:aurora-mills:priya-shah",
+    "crm:contact:aurora-mills:eli-roberts"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "not_required",
+  "payload": {
+    "candidate_contacts": [
+      {
+        "contact_ref": "crm:contact:aurora-mills:priya-shah",
+        "basis": "Copied on meaningful reply thread",
+        "next_step": "Enrich role and relationship before use."
+      },
+      {
+        "contact_ref": "crm:contact:aurora-mills:eli-roberts",
+        "basis": "Copied on meaningful reply thread",
+        "next_step": "Enrich role and relationship before use."
+      }
+    ],
+    "prohibited_use": "Do not contact secondary candidates without enrichment and approval."
+  }
+}

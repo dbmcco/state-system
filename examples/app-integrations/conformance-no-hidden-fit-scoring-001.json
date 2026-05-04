@@ -1,0 +1,25 @@
+{
+  "id": "conformance.no-hidden-fit-scoring.001",
+  "check_type": "no_hidden_scoring",
+  "created_at": "2026-05-04T14:04:00Z",
+  "summary": "Prospect-to-outreach handoff keeps fit judgment in the model proposal and does not encode hidden scoring rules in the app contract.",
+  "applies_to_refs": [
+    "context.prospect-opportunity-package.001",
+    "model_output.prospect-to-outreach.001",
+    "outreach.candidate-package.001"
+  ],
+  "evidence_refs": [
+    "source.prospect.campaign-research.001",
+    "context.prospect-opportunity-package.001",
+    "model_output.prospect-to-outreach.001",
+    "outreach.candidate-package.001"
+  ],
+  "model_owned_judgments": [
+    "opportunity fit",
+    "outreach readiness",
+    "evidence sufficiency",
+    "relationship uncertainty"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

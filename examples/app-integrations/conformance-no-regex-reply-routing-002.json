@@ -1,0 +1,30 @@
+{
+  "id": "conformance.no-regex-reply-routing.002",
+  "check_type": "no_regex_routing",
+  "created_at": "2026-05-04T15:14:30Z",
+  "summary": "Outreach reply routing keeps significance, secondary contacts, and CRM handoff as model-owned judgments rather than regex or keyword routing.",
+  "applies_to_refs": [
+    "context.outreach-engagement-package.002",
+    "model_output.outreach-reply-routing.002",
+    "crm.relationship-update.002",
+    "prospect.secondary-contact-candidates.002",
+    "outreach.engagement-intelligence.002"
+  ],
+  "evidence_refs": [
+    "source.outreach.email-reply.002",
+    "context.outreach-engagement-package.002",
+    "model_output.outreach-reply-routing.002",
+    "crm.relationship-update.002",
+    "prospect.secondary-contact-candidates.002",
+    "outreach.engagement-intelligence.002"
+  ],
+  "model_owned_judgments": [
+    "real engagement",
+    "routing significance",
+    "relationship significance",
+    "secondary contact significance",
+    "CRM approval need"
+  ],
+  "deterministic_judgment_rules": [],
+  "passed": true
+}

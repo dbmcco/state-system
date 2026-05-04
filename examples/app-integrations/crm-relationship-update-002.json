@@ -1,0 +1,32 @@
+{
+  "id": "crm.relationship-update.002",
+  "artifact_type": "crm_relationship_update",
+  "created_at": "2026-05-04T15:13:30Z",
+  "summary": "Proposed CRM relationship update for Aurora Mills based on Morgan Chen's reply and copied colleagues.",
+  "source_package_ref": "context.outreach-engagement-package.002",
+  "model_output_ref": "model_output.outreach-reply-routing.002",
+  "commit_result_ref": "commit.outreach-reply-crm-secondary-contacts.002",
+  "target_app_refs": [
+    "app.lfw-ai-graph-crm"
+  ],
+  "evidence_refs": [
+    "source.outreach.email-reply.002",
+    "context.outreach-engagement-package.002",
+    "model_output.outreach-reply-routing.002",
+    "commit.outreach-reply-crm-secondary-contacts.002"
+  ],
+  "contact_refs": [
+    "crm:contact:aurora-mills:morgan-chen",
+    "crm:contact:aurora-mills:priya-shah",
+    "crm:contact:aurora-mills:eli-roberts"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "relationship_ref": "state.relationship.aurora-mills",
+    "proposed_relationship_signal": "reply_with_internal_referrals",
+    "proposed_stage": "active_follow_up_pending_approval",
+    "approval_boundary": "Human must approve before CRM state changes.",
+    "do_not_mutate_directly": true
+  }
+}

@@ -46,6 +46,10 @@ proceed externally until the package is refreshed.
 - Full validation, unit tests, trace-run, and Speedrift drift checks pass.
 - Follow-on Workgraph tasks exist for stale-context pressure testing and
   Prospecting -> Outreach -> CRM integration traces.
+- The Prospecting -> Outreach -> CRM follow-on remains contract-first: it may
+  add schema-valid app fixture chains and diagram/docs coverage, but must not
+  implement live app behavior, local app state mutation, hidden scoring, or
+  regex reply routing.
 
 ## Key Constraints
 

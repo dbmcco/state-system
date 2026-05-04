@@ -1,0 +1,117 @@
+{
+  "id": "context.prospect-opportunity-package.001",
+  "package_type": "prospect_opportunity_package",
+  "created_at": "2026-05-04T14:01:00Z",
+  "persona_context": {
+    "persona_ref": "app.prospect-researcher",
+    "summary": "Prospect Researcher prepares bounded opportunity evidence for app handoff, not a final outreach decision.",
+    "watched_domains": [
+      "campaign",
+      "contact",
+      "company",
+      "relationship"
+    ],
+    "authority_boundaries": [
+      "May propose Outreach Engine handoff artifacts.",
+      "May not send external outreach or mutate CRM directly."
+    ]
+  },
+  "review_goal": "Decide whether Aurora Mills and Morgan Chen should become an Outreach Engine candidate package for human-approved first outreach.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "source.prospect.campaign-research.001",
+        "summary": "Prospect Researcher found possible campaign fit evidence for Aurora Mills.",
+        "persona_route": [
+          "persona.laura",
+          "app.outreach-engine"
+        ]
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "state_ref": "state.company.lightforge-works",
+        "summary": "Lightforge Works is prioritizing auditable, model-mediated workflow systems for work operations."
+      },
+      {
+        "state_ref": "state.campaign.auditable-workflows",
+        "summary": "Campaign thesis: organizations with opaque operational handoffs may value inspectable state and approval boundaries."
+      },
+      {
+        "state_ref": "state.contact.aurora-mills.morgan-chen",
+        "summary": "Morgan Chen is the named operations contact candidate; permission and relationship context are incomplete."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "source.prospect.campaign-research.001",
+      "prospect:research:aurora-mills:001",
+      "crm:account:aurora-mills",
+      "crm:contact:aurora-mills:morgan-chen"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "source.prospect.campaign-research.001",
+        "summary": "Source event with the prospect finding and candidate contact."
+      },
+      {
+        "ref": "prospect:research:aurora-mills:001",
+        "summary": "Research note says Aurora Mills has compliance-heavy multi-site operations."
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "crm:contact:aurora-mills:morgan-chen.permission-to-contact"
+    ]
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "policy_ref": "governance.human-review.external-outreach",
+        "summary": "External outreach requires human approval before send.",
+        "approval_required": true
+      }
+    ]
+  },
+  "available_actions": [
+    {
+      "action": "draft_outreach_candidate_package",
+      "approval_required": false
+    },
+    {
+      "action": "send_first_outreach",
+      "approval_required": true
+    },
+    {
+      "action": "no_op",
+      "approval_required": false
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "No private relationship notes were included because the handoff only needs prospect fit evidence."
+    }
+  ],
+  "open_questions": [
+    "Is there permission or prior relationship context for Morgan Chen?"
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "source.prospect.campaign-research.001"
+    ],
+    "valid_until": "2026-05-05T14:01:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "crm:contact:aurora-mills:morgan-chen",
+      "state.campaign.auditable-workflows"
+    ]
+  }
+}

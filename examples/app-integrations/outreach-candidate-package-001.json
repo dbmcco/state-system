@@ -1,0 +1,37 @@
+{
+  "id": "outreach.candidate-package.001",
+  "artifact_type": "outreach_candidate_package",
+  "created_at": "2026-05-04T14:03:30Z",
+  "summary": "Candidate package for Outreach Engine to prepare a human-approved first-touch draft for Morgan Chen at Aurora Mills.",
+  "source_package_ref": "context.prospect-opportunity-package.001",
+  "model_output_ref": "model_output.prospect-to-outreach.001",
+  "commit_result_ref": "commit.prospect-to-outreach-candidate.001",
+  "target_app_refs": [
+    "app.outreach-engine"
+  ],
+  "evidence_refs": [
+    "source.prospect.campaign-research.001",
+    "context.prospect-opportunity-package.001",
+    "model_output.prospect-to-outreach.001",
+    "commit.prospect-to-outreach-candidate.001"
+  ],
+  "contact_refs": [
+    "crm:contact:aurora-mills:morgan-chen"
+  ],
+  "handoff_basis": "model_interpretation",
+  "approval_status": "pending_approval",
+  "payload": {
+    "company_ref": "crm:account:aurora-mills",
+    "campaign_ref": "state.campaign.auditable-workflows",
+    "contact_ref": "crm:contact:aurora-mills:morgan-chen",
+    "opportunity_fit_interpretation": "The company appears to have operational complexity that may make inspectable state and approval boundaries relevant.",
+    "uncertainty": [
+      "Permission context missing",
+      "Research evidence needs human review before use"
+    ],
+    "prohibited_claims": [
+      "Do not claim verified budget, authority, need, or timing.",
+      "Do not send external outreach from this artifact alone."
+    ]
+  }
+}

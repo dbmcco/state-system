@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/app-integration-artifact.schema.json",
+  "title": "AppIntegrationArtifact",
+  "type": "object",
+  "required": [
+    "id",
+    "artifact_type",
+    "created_at",
+    "summary",
+    "source_package_ref",
+    "model_output_ref",
+    "commit_result_ref",
+    "target_app_refs",
+    "evidence_refs",
+    "contact_refs",
+    "handoff_basis",
+    "approval_status",
+    "payload"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "artifact_type": {
+      "type": "string",
+      "enum": [
+        "outreach_candidate_package",
+        "crm_relationship_update",
+        "prospect_secondary_contact_candidates",
+        "outreach_engagement_intelligence"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string" },
+    "source_package_ref": { "type": "string" },
+    "model_output_ref": { "type": "string" },
+    "commit_result_ref": { "type": "string" },
+    "target_app_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "contact_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "handoff_basis": {
+      "type": "string",
+      "enum": ["model_interpretation", "human_approval", "accepted_state"]
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": ["not_required", "pending_approval", "approved", "rejected"]
+    },
+    "payload": { "type": "object" }
+  }
+}

@@ -23,7 +23,14 @@
     "id": { "type": "string" },
     "package_type": {
       "type": "string",
-      "enum": ["standing", "recent_change", "opportunity", "deep_dive"]
+      "enum": [
+        "standing",
+        "recent_change",
+        "opportunity",
+        "deep_dive",
+        "prospect_opportunity_package",
+        "outreach_engagement_package"
+      ]
     },
     "created_at": { "type": "string", "format": "date-time" },
     "persona_context": {

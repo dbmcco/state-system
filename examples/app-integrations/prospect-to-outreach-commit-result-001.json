@@ -1,0 +1,33 @@
+{
+  "id": "commit.prospect-to-outreach-candidate.001",
+  "model_output_id": "model_output.prospect-to-outreach.001",
+  "created_at": "2026-05-04T14:03:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.campaign.auditable-workflows",
+      "reason": "Candidate may affect the campaign opportunity rollup after approval."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "action",
+      "summary": "Create Outreach Engine candidate package for Aurora Mills.",
+      "reason": "External outreach-adjacent handoff requires human approval before activation.",
+      "target_ref": "outreach.candidate-package.001"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.prospect-to-outreach.001",
+    "trigger_id": "trigger.prospect-opportunity.001",
+    "status": "pending_approval",
+    "summary": "Outreach candidate package proposed for Aurora Mills; external send remains approval gated.",
+    "follow_up_refs": [
+      "outreach.candidate-package.001"
+    ]
+  }
+}

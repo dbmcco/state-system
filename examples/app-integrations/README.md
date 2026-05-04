@@ -3,9 +3,10 @@
 These fixtures pressure test handoffs between the new application repos before
 implementation begins.
 
-Each trace should eventually be backed by schema-valid JSON artifacts. The first
-version may start as a trace anchor, but it must name the artifacts that will be
-created and the integration risks it is testing.
+Each trace is backed by schema-valid JSON artifacts once it becomes an
+implementation gate. Prose anchors can still be used for later scenarios, but
+the first two traces now have concrete source events, context packages, model
+outputs, commit results, downstream app artifacts, and conformance notes.
 
 Required artifact chain:
 
@@ -30,3 +31,20 @@ source event
 These two traces are the first build gate because Prospect Researcher, Outreach
 Engine, and LFW AI Graph CRM share the same contact, campaign, relationship,
 and doctrine spine.
+
+Schema-valid fixture chains:
+
+- `source-prospect-campaign-research-001.json` ->
+  `prospect-opportunity-context-package-001.json` ->
+  `prospect-to-outreach-model-proposal-output-001.json` ->
+  `prospect-to-outreach-commit-result-001.json` ->
+  `outreach-candidate-package-001.json` ->
+  `conformance-no-hidden-fit-scoring-001.json`
+- `source-outreach-email-reply-002.json` ->
+  `outreach-engagement-context-package-002.json` ->
+  `outreach-reply-routing-model-proposal-output-002.json` ->
+  `outreach-reply-crm-secondary-contacts-commit-result-002.json` ->
+  `crm-relationship-update-002.json`,
+  `prospect-secondary-contact-candidates-002.json`,
+  `outreach-engagement-intelligence-002.json` ->
+  `conformance-no-regex-reply-routing-002.json`

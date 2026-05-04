@@ -1,0 +1,72 @@
+{
+  "id": "model_output.prospect-to-outreach.001",
+  "review_packet_id": "review_packet.prospect-opportunity.001",
+  "decision": "propose_updates",
+  "observations": [
+    "Aurora Mills is plausibly relevant to the auditable workflow campaign based on the supplied research and campaign state.",
+    "Opportunity fit is a model interpretation over evidence, not a deterministic score, BANT rule, or source-system threshold.",
+    "The missing permission context means the result should be an Outreach Engine candidate package, not an external send."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.contact.aurora-mills.morgan-chen",
+      "update_class": "interpretive",
+      "interpretation": "Morgan Chen may be a relevant operational buyer for auditable workflow messaging.",
+      "state_patch": {
+        "candidate_campaign_refs": [
+          "state.campaign.auditable-workflows"
+        ],
+        "outreach_readiness": "candidate_pending_approval"
+      },
+      "evidence_refs": [
+        "source.prospect.campaign-research.001"
+      ],
+      "uncertainty": [
+        "Permission and prior relationship context are unknown."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create an Outreach Engine candidate package for Morgan Chen and Aurora Mills.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.outreach-engine",
+        "artifact_ref": "outreach.candidate-package.001"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.prospect-opportunity-package.001"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.campaign.auditable-workflows",
+      "reason": "A new prospect candidate may affect campaign pipeline summary."
+    }
+  ],
+  "uncertainty": [
+    "The research evidence may be incomplete.",
+    "No human has approved external outreach."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Permission to contact Morgan Chen",
+      "needed_ref_or_source": "crm:contact:aurora-mills:morgan-chen.permission-to-contact"
+    }
+  ],
+  "review_signal": {
+    "id": "review.prospect-to-outreach.001",
+    "trigger_id": "trigger.prospect-opportunity.001",
+    "status": "pending_approval",
+    "summary": "Outreach candidate package proposed for Aurora Mills; external send remains approval gated.",
+    "follow_up_refs": [
+      "outreach.candidate-package.001"
+    ]
+  }
+}

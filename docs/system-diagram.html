@@ -536,17 +536,17 @@
 
           <text x="34" y="336" class="layer-label">Application Repos</text>
           <g>
-            <rect x="34" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <rect x="34" y="358" width="232" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
             <text x="52" y="385" class="node-title">Prospect Researcher</text>
             <text x="52" y="408" class="node-copy">Campaigns, ICPs, opportunity fit</text>
             <text x="52" y="425" class="node-copy">Prospect Opportunity Packages</text>
-            <text x="52" y="452" class="status-label" fill="var(--next)">PLAN NEXT</text>
+            <text x="52" y="452" class="status-label" fill="var(--partial)">FIXTURED</text>
 
-            <rect x="286" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <rect x="286" y="358" width="232" height="116" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
             <text x="304" y="385" class="node-title">Outreach Engine</text>
             <text x="304" y="408" class="node-copy">Engagement intelligence</text>
             <text x="304" y="425" class="node-copy">Qualified CRM handoffs</text>
-            <text x="304" y="452" class="status-label" fill="var(--next)">PLAN NEXT</text>
+            <text x="304" y="452" class="status-label" fill="var(--partial)">FIXTURED</text>
 
             <rect x="538" y="358" width="232" height="116" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
             <text x="556" y="385" class="node-title">Meeting Manager</text>
@@ -574,7 +574,7 @@
           <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
 
           <text x="34" y="522" class="node-copy">Current trace coverage: accepted update, approval-gated action, agent activation, static HTML report, and stale-context refresh boundary.</text>
-          <text x="34" y="542" class="node-copy">Current ready target: app handoffs such as Prospect -> Outreach and Outreach reply -> CRM; mission records are queued behind that lane.</text>
+          <text x="34" y="542" class="node-copy">Current app fixture coverage: Prospect -> Outreach candidate and Outreach reply -> CRM, secondary contacts, and engagement intelligence.</text>
         </svg>
       </div>
     </section>
@@ -745,13 +745,14 @@
             <li>The agent-activation trace proves an agent can receive action boundaries and respond without its response becoming truth by default.</li>
             <li>The stale-context trace proves expired packages surface validity, refresh blockers, prohibited external actions, and captured refusal before external use.</li>
             <li>The mission-control design is committed and queued as `state-mission-records-v0` behind the app handoff lane.</li>
+            <li>Schema-valid app fixture chains now cover Prospect Researcher -> Outreach Engine and Outreach reply -> CRM plus secondary contacts and engagement intelligence.</li>
           </ul>
         </div>
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
             <li>Promote more scenarios into trace manifests so functional coverage grows from fixture contracts, not prose.</li>
-            <li>Current ready target: Prospect Researcher -> Outreach Engine -> CRM contract traces.</li>
+            <li>Current ready target: promote the Prospect Researcher -> Outreach Engine -> CRM contract fixtures into a runnable app-substrate harness.</li>
             <li>Next queued lane: mission schemas, deterministic repo-audit fixture replay, and mission read model.</li>
             <li>Define Source Generalization and Evidence Access so future sources inherit identity, dedupe, permissions, sync, and evidence rules.</li>
             <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>

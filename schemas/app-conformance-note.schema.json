@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/app-conformance-note.schema.json",
+  "title": "AppConformanceNote",
+  "type": "object",
+  "required": [
+    "id",
+    "check_type",
+    "created_at",
+    "summary",
+    "applies_to_refs",
+    "evidence_refs",
+    "model_owned_judgments",
+    "deterministic_judgment_rules",
+    "passed"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "check_type": {
+      "type": "string",
+      "enum": [
+        "no_hidden_scoring",
+        "no_regex_routing",
+        "no_local_state_mutation",
+        "approval_boundary_visible"
+      ]
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "summary": { "type": "string" },
+    "applies_to_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "model_owned_judgments": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "deterministic_judgment_rules": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "passed": { "type": "boolean" }
+  }
+}

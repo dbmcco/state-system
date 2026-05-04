@@ -202,12 +202,18 @@ def schema_for_example(filename: str) -> str | None:
         "-opportunity-review-packet.json"
     ):
         return "model-review-packet.schema.json"
-    if filename.endswith("-model-proposal-output.json") or filename.endswith(
-        "-opportunity-model-output.json"
+    if (
+        filename.endswith("-model-proposal-output.json")
+        or "-model-proposal-output-" in filename
+        or filename.endswith("-opportunity-model-output.json")
     ):
         return "model-proposal-output.schema.json"
-    if filename.endswith("-commit-result.json"):
+    if filename.endswith("-commit-result.json") or "-commit-result-" in filename:
         return "commit-result.schema.json"
+    if filename.startswith("conformance-"):
+        return "app-conformance-note.schema.json"
+    if _is_app_integration_artifact(filename):
+        return "app-integration-artifact.schema.json"
     if filename.endswith("-review-signal.json"):
         return "review-signal.schema.json"
     if filename.endswith("-journal-entry.json"):
@@ -220,11 +226,21 @@ def schema_for_example(filename: str) -> str | None:
         return "governance-policy.schema.json"
     if filename.startswith("recent-"):
         return "recent-change-entry.schema.json"
-    if filename.endswith("-context-package.json"):
+    if filename.endswith("-context-package.json") or "-context-package-" in filename:
         return "context-package.schema.json"
     if filename.endswith("-state.json") or "-state-after-" in filename:
         return "state-object.schema.json"
     return None
+
+
+def _is_app_integration_artifact(filename: str) -> bool:
+    artifact_names = (
+        "outreach-candidate-package-",
+        "crm-relationship-update-",
+        "prospect-secondary-contact-candidates-",
+        "outreach-engagement-intelligence-",
+    )
+    return filename.endswith(".json") and filename.startswith(artifact_names)
 
 
 def validate_schema(document: Any, schema: JsonObject, path: str = "$") -> list[str]:

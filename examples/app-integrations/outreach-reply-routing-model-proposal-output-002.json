@@ -1,0 +1,96 @@
+{
+  "id": "model_output.outreach-reply-routing.002",
+  "review_packet_id": "review_packet.outreach-engagement.002",
+  "decision": "needs_approval",
+  "observations": [
+    "The reply appears commercially meaningful because Morgan asked to continue and added colleagues, but that significance is a model interpretation.",
+    "Reply routing must not be implemented as a regex over words like interested, next week, or cc.",
+    "Copied contacts are relationship evidence, not automatically approved CRM contacts."
+  ],
+  "state_proposals": [
+    {
+      "target_state_object_id": "state.relationship.aurora-mills",
+      "update_class": "interpretive",
+      "interpretation": "Aurora Mills may have moved from cold prospecting into active relationship follow-up.",
+      "state_patch": {
+        "relationship_signal": "reply_with_internal_referrals",
+        "proposed_stage": "active_follow_up_pending_approval"
+      },
+      "evidence_refs": [
+        "source.outreach.email-reply.002"
+      ],
+      "uncertainty": [
+        "Human owner has not approved CRM stage movement."
+      ],
+      "approval_required": true
+    }
+  ],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Create CRM relationship update for human review.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "app_ref": "app.lfw-ai-graph-crm",
+        "artifact_ref": "crm.relationship-update.002"
+      },
+      "payload": {
+        "basis": "model_interpretation",
+        "source_package_ref": "context.outreach-engagement-package.002"
+      }
+    },
+    {
+      "summary": "Send Priya Shah and Eli Roberts to Prospect Researcher as secondary contact candidates.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.prospect-researcher",
+        "artifact_ref": "prospect.secondary-contact-candidates.002"
+      },
+      "payload": {
+        "basis": "cc_relationship_evidence"
+      }
+    },
+    {
+      "summary": "Retain engagement intelligence for future Outreach Engine context packages.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "app_ref": "app.outreach-engine",
+        "artifact_ref": "outreach.engagement-intelligence.002"
+      },
+      "payload": {
+        "basis": "reply_interpretation"
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.relationship.aurora-mills",
+      "reason": "Reply may affect relationship and campaign rollups after approval."
+    }
+  ],
+  "uncertainty": [
+    "The reply should not be treated as a deal stage change without human review.",
+    "Secondary contacts require enrichment before use."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Human approval for CRM relationship update",
+      "needed_ref_or_source": "crm:relationship:aurora-mills.approved-stage-change"
+    }
+  ],
+  "review_signal": {
+    "id": "review.outreach-reply-routing.002",
+    "trigger_id": "trigger.outreach-engagement.002",
+    "status": "pending_approval",
+    "summary": "Reply created CRM, prospecting, and outreach intelligence artifacts; CRM relationship update is approval gated.",
+    "follow_up_refs": [
+      "crm.relationship-update.002",
+      "prospect.secondary-contact-candidates.002",
+      "outreach.engagement-intelligence.002"
+    ]
+  }
+}

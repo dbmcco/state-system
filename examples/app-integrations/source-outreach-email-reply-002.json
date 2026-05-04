@@ -1,0 +1,44 @@
+{
+  "id": "source.outreach.email-reply.002",
+  "source_system": "outreach_engine",
+  "source_event": "outreach.email_reply_received",
+  "source_event_id": "outreach-email-reply-002",
+  "occurred_at": "2026-05-04T15:10:00Z",
+  "observed_at": "2026-05-04T15:10:20Z",
+  "actor_ref": "app.outreach-engine",
+  "summary": "Morgan Chen replied to the campaign thread and copied Priya Shah and Eli Roberts for follow-up context.",
+  "source_refs": [
+    "gmail:message:aurora-mills-reply-002",
+    "crm:contact:aurora-mills:morgan-chen",
+    "crm:contact:aurora-mills:priya-shah",
+    "crm:contact:aurora-mills:eli-roberts"
+  ],
+  "change": {
+    "kind": "message_received",
+    "object_ref": "gmail:message:aurora-mills-reply-002",
+    "payload_summary": "Morgan asked to continue next week and copied Priya and Eli as relevant colleagues."
+  },
+  "candidate_state_refs": [
+    "state.relationship.aurora-mills",
+    "state.contact.aurora-mills.morgan-chen",
+    "state.contact.aurora-mills.priya-shah",
+    "state.contact.aurora-mills.eli-roberts"
+  ],
+  "candidate_persona_refs": [
+    "persona.laura",
+    "persona.patrick"
+  ],
+  "governance_refs": [
+    "governance.human-review.crm-relationship-update"
+  ],
+  "idempotency": {
+    "key": "outreach-email-reply-002",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "sync.outreach-engine.2026-05-04",
+    "source_watermark": "outreach-email-reply-002",
+    "partial": false,
+    "confidence": "high"
+  }
+}

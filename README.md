@@ -98,6 +98,9 @@ Canonical traces:
 - `examples/traces/laura-stale-context-refresh.trace.json` proves a stale
   package surfaces its validity window, refresh requirement, prohibited external
   action, and captured refusal to proceed externally before refresh.
+- `examples/app-integrations/` now includes schema-valid contract fixture
+  chains for Prospect Researcher -> Outreach Engine and Outreach reply -> CRM
+  plus secondary contact and engagement-intelligence artifacts.
 
 Run the one-command demo:
 
@@ -114,13 +117,13 @@ Report: /tmp/state-system-demo.XXXXXX/index.html
 
 ## What Is Designed Next
 
-The app-facing substrate is designed but not fully implemented. The intended
-next functional slices are:
+The app-facing substrate has its first schema-valid contract fixtures, but it
+is not yet a runtime app service. The intended next functional slices are:
 
-- Prospect Researcher creates a Prospect Opportunity Package that Outreach
-  Engine can consume.
-- Outreach Engine turns a real reply into a qualified CRM handoff, secondary
-  contact proposals, and retained engagement intelligence.
+- Promote the Prospect Researcher -> Outreach Engine contract fixture into a
+  runnable trace or app-substrate harness.
+- Promote the Outreach reply -> CRM plus secondary contacts fixture into a
+  runnable trace or app-substrate harness.
 - Meeting Manager, Thoughtforge, and Visual Forge use the same source event,
   context package, proposal, approval, and commit pattern.
 - Qualitative human judgment remains model-interpretable evidence, not hidden

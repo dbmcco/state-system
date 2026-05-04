@@ -1,0 +1,41 @@
+{
+  "id": "source.prospect.campaign-research.001",
+  "source_system": "prospect_researcher",
+  "source_event": "prospect.campaign_research_candidate",
+  "source_event_id": "prospect-campaign-research-001",
+  "occurred_at": "2026-05-04T14:00:00Z",
+  "observed_at": "2026-05-04T14:00:30Z",
+  "actor_ref": "app.prospect-researcher",
+  "summary": "Prospect Researcher identified Aurora Mills and Morgan Chen as a possible fit for the auditable workflow campaign.",
+  "source_refs": [
+    "prospect:research:aurora-mills:001",
+    "crm:account:aurora-mills",
+    "crm:contact:aurora-mills:morgan-chen"
+  ],
+  "change": {
+    "kind": "app_candidate_identified",
+    "object_ref": "prospect:research:aurora-mills:001",
+    "payload_summary": "Aurora Mills appears to have multi-site compliance workflows and an operations leader who may care about auditability."
+  },
+  "candidate_state_refs": [
+    "state.company.lightforge-works",
+    "state.campaign.auditable-workflows",
+    "state.contact.aurora-mills.morgan-chen"
+  ],
+  "candidate_persona_refs": [
+    "persona.laura"
+  ],
+  "governance_refs": [
+    "governance.human-review.external-outreach"
+  ],
+  "idempotency": {
+    "key": "prospect-campaign-research-001",
+    "dedupe_strategy": "source_event_id"
+  },
+  "sync_context": {
+    "sync_id": "sync.prospect-researcher.2026-05-04",
+    "source_watermark": "prospect-campaign-research-001",
+    "partial": false,
+    "confidence": "medium"
+  }
+}

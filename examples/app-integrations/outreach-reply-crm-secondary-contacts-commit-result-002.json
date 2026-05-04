@@ -1,0 +1,35 @@
+{
+  "id": "commit.outreach-reply-crm-secondary-contacts.002",
+  "model_output_id": "model_output.outreach-reply-routing.002",
+  "created_at": "2026-05-04T15:13:00Z",
+  "status": "pending_approval",
+  "accepted_journal_entry_refs": [],
+  "accepted_memory_entry_refs": [],
+  "materialized_snapshot_refs": [],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.relationship.aurora-mills",
+      "reason": "Relationship rollup should refresh after the CRM update is approved or rejected."
+    }
+  ],
+  "pending_approvals": [
+    {
+      "proposal_type": "state",
+      "summary": "Approve CRM relationship update for Aurora Mills.",
+      "reason": "CRM stage and relationship interpretation require human approval.",
+      "target_ref": "crm.relationship-update.002"
+    }
+  ],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.outreach-reply-routing.002",
+    "trigger_id": "trigger.outreach-engagement.002",
+    "status": "pending_approval",
+    "summary": "Reply created CRM, prospecting, and outreach intelligence artifacts; CRM relationship update is approval gated.",
+    "follow_up_refs": [
+      "crm.relationship-update.002",
+      "prospect.secondary-contact-candidates.002",
+      "outreach.engagement-intelligence.002"
+    ]
+  }
+}

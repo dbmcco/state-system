@@ -1,11 +1,16 @@
 # Application Substrate Contract
 
-**Status:** Planning contract  
+**Status:** Planning contract with first schema-valid app fixtures
 **Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, LFW AI Graph CRM, PAIA memory, and State System
 
 ## Purpose
 
 This contract defines the minimum State System substrate the new application repos should build against before full runtime implementation exists.
+
+The first two app-facing contract traces now exist as JSON fixtures under
+`examples/app-integrations/`: Prospect Researcher -> Outreach Engine candidate
+handoff, and Outreach reply -> CRM handoff plus secondary contact and
+engagement-intelligence artifacts.
 
 The apps should not create parallel state systems. They should produce and consume the existing State System primitives:
 
@@ -81,7 +86,10 @@ Minimum app package types:
 | `thoughtforge_author_package` | Thoughtforge | Develop author-specific ideas from private and published corpora |
 | `visual_forge_workspace_package` | Visual Forge | Produce or revise visual assets from a workspace visual corpus |
 
-These package names can be represented through `ContextPackage.package_type` extensions later. Until schemas change, they can live in `review_goal`, `persona_context.watched_domains`, and `state_context.snapshots`.
+`prospect_opportunity_package` and `outreach_engagement_package` are now schema
+extensions. Later package names can live in `review_goal`,
+`persona_context.watched_domains`, and `state_context.snapshots` until they are
+promoted into the enum.
 
 ## Proposal And Approval Flow
 
@@ -227,7 +235,7 @@ Accepted doctrine can take effect immediately where the relevant app North Star 
 
 The next work should happen in this order:
 
-1. **Fixture the substrate first.** Create example context packages, model proposal outputs, governance policies, commit results, and cross-app refs for the five apps. These fixtures prove the contract before app implementation.
+1. **Extend the fixture substrate.** The Prospect/Outreach/CRM fixture chains exist; add Meeting Manager, Thoughtforge, and Visual Forge examples next.
 2. **Pressure test integrations.** Use `docs/app-integration-pressure-tests.md` to prove handoffs, approval gates, qualitative learning, stale-package behavior, CRM updates, and hidden-heuristic drift with fixture traces.
 3. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, and CRM handoff contracts.
 4. **Plan the CRM/contact intelligence improvements.** LFW AI Graph CRM remains the relationship system of record, but it needs shared contact refs and app-facing handoff/update contracts.

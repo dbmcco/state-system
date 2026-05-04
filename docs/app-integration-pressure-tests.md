@@ -1,6 +1,6 @@
 # Application Integration Pressure Tests
 
-**Status:** Planning contract  
+**Status:** Planning contract with first fixture gates
 **Scope:** State System, Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, LFW AI Graph CRM, PAIA memory, Folio, and task/work systems
 
 ## Purpose
@@ -47,6 +47,9 @@ external/source evidence
 
 **Pass condition:** the package includes evidence refs, Opportunity Fit Probability as model interpretation, missing evidence, contact refs, and a commit result that makes the handoff visible.
 
+**Fixture gate:** `examples/app-integrations/source-prospect-campaign-research-001.json`
+through `examples/app-integrations/conformance-no-hidden-fit-scoring-001.json`.
+
 ## Scenario 2: Outreach Reply Produces CRM Handoff And New Contacts
 
 **Trigger:** a prospect sends a real reply and CCs two colleagues.
@@ -71,6 +74,9 @@ email source event
 - Prospect Researcher never learns from reply-derived contacts.
 
 **Pass condition:** real engagement, secondary contacts, routing cues, CRM handoff, and prospect-research updates are separate proposals with shared evidence refs.
+
+**Fixture gate:** `examples/app-integrations/source-outreach-email-reply-002.json`
+through `examples/app-integrations/conformance-no-regex-reply-routing-002.json`.
 
 ## Scenario 3: Meeting Creates Cross-App Coordination Updates
 
