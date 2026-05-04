@@ -96,6 +96,7 @@ class TraceReportingTests(unittest.TestCase):
                 {entry["id"] for entry in report["reports"]},
             )
             self.assertTrue((Path(directory) / "index.html").exists())
+            self.assertTrue((Path(directory) / "mission-records" / "index.html").exists())
             self.assertTrue(
                 (Path(directory) / "mission-records" / "mission-read-model.json").exists()
             )
@@ -104,7 +105,21 @@ class TraceReportingTests(unittest.TestCase):
             self.assertIn("Agent Activation Trace", html)
             self.assertIn("App Integration Report", html)
             self.assertIn("Mission Records Read Model", html)
-            self.assertIn("href=\"mission-records/mission-read-model.json\"", html)
+            self.assertIn("href=\"mission-records/index.html\"", html)
+            mission_html = (
+                Path(directory) / "mission-records" / "index.html"
+            ).read_text(encoding="utf-8")
+            self.assertIn("Mission Records Report", mission_html)
+            self.assertIn("mission.repo_audit.streamlinear", mission_html)
+            self.assertIn("completed", mission_html)
+            self.assertIn("Agent Roster", mission_html)
+            self.assertIn("Timeline", mission_html)
+            self.assertIn("Findings", mission_html)
+            self.assertIn("Stumbles", mission_html)
+            self.assertIn("Governance", mission_html)
+            self.assertIn("Artifacts", mission_html)
+            self.assertIn("Follow-ups", mission_html)
+            self.assertIn("mission-read-model.json", mission_html)
 
     def test_cli_runs_report_suite(self):
         with TemporaryDirectory() as directory:
@@ -130,6 +145,7 @@ class TraceReportingTests(unittest.TestCase):
             self.assertTrue(
                 (Path(directory) / "app-integrations" / "index.html").exists()
             )
+            self.assertTrue((Path(directory) / "mission-records" / "index.html").exists())
             self.assertTrue(
                 (Path(directory) / "mission-records" / "mission-read-model.json").exists()
             )

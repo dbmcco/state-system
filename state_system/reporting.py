@@ -47,6 +47,14 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
     )
     mission_read_model_path = mission_dir / "mission-read-model.json"
     _write_json(mission_read_model_path, mission_read_model)
+    mission_report_path = mission_dir / "index.html"
+    mission_report_path.write_text(
+        render_mission_report_html(
+            read_model=mission_read_model,
+            read_model_path=mission_read_model_path,
+        ),
+        encoding="utf-8",
+    )
 
     reports = [
         {
@@ -67,7 +75,7 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
             "id": "mission-records",
             "title": "Mission Records Read Model",
             "status": "passed",
-            "report_path": str(mission_read_model_path),
+            "report_path": str(mission_report_path),
             "summary": "Replay-backed mission read model for the Streamlinear repo-audit fixture.",
         },
     ]
@@ -126,6 +134,73 @@ def render_report_suite_html(report: JsonObject) -> str:
             *report_cards,
             "</div>",
             "</section>",
+            "</main>",
+            "</body>",
+            "</html>",
+        ]
+    )
+
+
+def render_mission_report_html(*, read_model: JsonObject, read_model_path: Path) -> str:
+    mission = read_model["mission"]
+    state_effects = read_model.get("state_effects", {})
+    return "\n".join(
+        [
+            _html_head("Mission Records Report"),
+            "<body>",
+            "<main>",
+            "<header>",
+            "<p class=\"eyebrow\">State System</p>",
+            "<h1>Mission Records Report</h1>",
+            f"<p class=\"lede\">{escape(str(mission['summary']))}</p>",
+            "</header>",
+            "<section>",
+            "<h2>Mission Summary</h2>",
+            "<div class=\"grid\">",
+            _metric("Mission", mission["id"]),
+            _metric("Type", mission["mission_type"]),
+            _metric("Status", mission["status"], "status"),
+            _metric("Freshness", mission["freshness"]),
+            "</div>",
+            f"<p>{escape(str(mission['objective']))}</p>",
+            f"<p>Machine read model: <a href=\"{escape(read_model_path.name)}\">{escape(read_model_path.name)}</a></p>",
+            "</section>",
+            _mission_record_section(
+                "Agent Roster",
+                read_model.get("agent_roster", []),
+                ["agent_ref", "role", "status", "responsibility"],
+            ),
+            _mission_record_section(
+                "Timeline",
+                read_model.get("timeline", []),
+                ["occurred_at", "event_type", "summary"],
+            ),
+            _mission_record_section(
+                "Findings",
+                read_model.get("findings", []),
+                ["finding_type", "severity", "summary", "status"],
+            ),
+            _mission_record_section(
+                "Stumbles",
+                read_model.get("stumbles", []),
+                ["stumble_type", "summary", "resolution_status"],
+            ),
+            _mission_record_section(
+                "Governance",
+                read_model.get("governance", []),
+                ["policy_ref", "decision", "summary"],
+            ),
+            _mission_record_section(
+                "Artifacts",
+                read_model.get("artifacts", []),
+                ["artifact_type", "summary", "artifact_ref"],
+            ),
+            _list_block("Follow-ups", read_model.get("follow_ups", [])),
+            _mission_record_section(
+                "Review Signals",
+                state_effects.get("review_signals", []),
+                ["status", "summary"],
+            ),
             "</main>",
             "</body>",
             "</html>",
@@ -365,6 +440,46 @@ def _report_suite_card(entry: JsonObject) -> str:
             f"<p><a href=\"{escape(link_path)}\">Open report</a></p>",
             f"<p><code>{escape(str(path))}</code></p>",
             "</div>",
+        ]
+    )
+
+
+def _mission_record_section(
+    title: str,
+    records: list[JsonObject],
+    fields: list[str],
+) -> str:
+    if not records:
+        return "\n".join(["<section>", f"<h2>{escape(title)}</h2>", "<p>None</p>", "</section>"])
+
+    items = []
+    for record in records:
+        details = [
+            f"<li><strong>{escape(field.replace('_', ' ').title())}</strong>: "
+            f"{escape(str(record.get(field, 'None')))}</li>"
+            for field in fields
+        ]
+        items.append(
+            "\n".join(
+                [
+                    "<div class=\"metric\">",
+                    f"<strong>{escape(str(record.get('id', title)))}</strong>",
+                    "<ul>",
+                    *details,
+                    "</ul>",
+                    "</div>",
+                ]
+            )
+        )
+
+    return "\n".join(
+        [
+            "<section>",
+            f"<h2>{escape(title)}</h2>",
+            "<div class=\"grid\">",
+            *items,
+            "</div>",
+            "</section>",
         ]
     )
 
