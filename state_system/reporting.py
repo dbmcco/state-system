@@ -162,6 +162,7 @@ def _steps_section(report: JsonObject) -> str:
 def _activation_section(activation: JsonObject) -> str:
     freshness = activation.get("freshness", {})
     refresh = "Yes" if freshness.get("requires_refresh_before_external_action") else "No"
+    stale = "Yes" if freshness.get("stale_at_activation") else "No"
     return "\n".join(
         [
             "<section>",
@@ -170,6 +171,12 @@ def _activation_section(activation: JsonObject) -> str:
             _metric("Goal", activation["activation_goal"]),
             _metric("Expected response type", activation["expected_response_type"]),
             _metric("Consumer", activation["consumer_ref"]),
+            _metric("Valid until", freshness.get("valid_until", "Unknown")),
+            _metric(
+                "Package stale at activation",
+                stale,
+                "warn" if stale == "Yes" else "",
+            ),
             _metric(
                 "Requires refresh before external action",
                 refresh,

@@ -90,6 +90,12 @@ Freshness does not mean the package is unusable after expiration. It means the
 model or committer should treat the package as needing refresh before
 high-impact or external action.
 
+Agent activations should copy the package freshness metadata and stamp whether
+the package was stale at activation time. Reports should make the validity
+window, stale status, refresh requirement, and prohibited external actions
+visible so the downstream agent does not confuse a stale context package with
+permission to act externally.
+
 ## External Action Rule
 
 Before external action, the committer should check:
@@ -114,3 +120,4 @@ The Southern Abrasives fixture exercises these rules:
 - Laura can draft internal material
 - external LinkedIn publication stays pending approval
 - package requires refresh before external action
+- stale activation surfaces the expired validity window before external action

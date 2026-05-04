@@ -95,6 +95,9 @@ Canonical traces:
 - `examples/traces/laura-agent-activation.trace.json` proves an agent can be
   activated from a bounded context package, receive explicit action boundaries,
   and have its response captured without treating that response as truth.
+- `examples/traces/laura-stale-context-refresh.trace.json` proves a stale
+  package surfaces its validity window, refresh requirement, prohibited external
+  action, and captured refusal to proceed externally before refresh.
 
 Run the one-command demo:
 
@@ -205,6 +208,7 @@ Run the canonical trace directly:
 python3 -m state_system.cli --project-root . trace-run examples/traces/linear-deal-won.trace.json --output-dir /tmp/state-system-trace
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-agent-activation.trace.json --output-dir /tmp/state-system-agent-activation
+python3 -m state_system.cli --project-root . trace-run examples/traces/laura-stale-context-refresh.trace.json --output-dir /tmp/state-system-stale-refresh
 ```
 
 Run the local contract and fixture harness:

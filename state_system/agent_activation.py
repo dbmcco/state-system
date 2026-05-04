@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import datetime
+
 from state_system.agent_consumers import render_package_for_agent
 from state_system.contracts import validate_schema
 from state_system.stores import JsonObject, StateStoreBundle
@@ -23,6 +25,18 @@ def create_agent_activation(
     activation_id: str | None = None,
 ) -> JsonObject:
     package = stores.context_packages.read(package_id)
+    freshness = _activation_freshness(package, created_at)
+    instructions = [
+        "Use only the attached State System package as your working context.",
+        "Do not take external action from this activation.",
+        "Treat prohibited actions as unavailable unless a future activation changes them.",
+        "Return a response matching the expected response type.",
+    ]
+    if freshness.get("stale_at_activation") or freshness.get(
+        "requires_refresh_before_external_action"
+    ):
+        instructions.append("Refresh the package before any external-facing action.")
+
     activation = {
         "id": activation_id
         or _default_activation_id(
@@ -39,19 +53,14 @@ def create_agent_activation(
         "allowed_action_refs": _action_refs(package, approval_required=False),
         "prohibited_action_refs": _action_refs(package, approval_required=True),
         "evidence_refs": _evidence_refs(package),
-        "freshness": dict(package.get("freshness", {})),
+        "freshness": freshness,
         "capture_policy": {
             "mode": "capture_required",
             "store_raw_response": True,
             "response_becomes_truth": False,
             "next_review_required": True,
         },
-        "instructions": [
-            "Use only the attached State System package as your working context.",
-            "Do not take external action from this activation.",
-            "Treat prohibited actions as unavailable unless a future activation changes them.",
-            "Return a response matching the expected response type.",
-        ],
+        "instructions": instructions,
     }
     errors = validate_schema(activation, schemas["agent_activation"])
     if errors:
@@ -75,6 +84,21 @@ def render_activation_for_agent(stores: StateStoreBundle, activation_id: str) ->
     _append_list(lines, "Allowed action refs", activation["allowed_action_refs"])
     _append_list(lines, "Prohibited action refs", activation["prohibited_action_refs"])
     _append_list(lines, "Activation evidence refs", activation["evidence_refs"])
+    lines.extend(
+        [
+            "Activation freshness:",
+            f"- Valid until: {activation['freshness'].get('valid_until', 'unknown')}",
+            (
+                "- Package stale at activation: "
+                f"{str(activation['freshness'].get('stale_at_activation', False)).lower()}"
+            ),
+            (
+                "- Requires refresh before external action: "
+                f"{str(activation['freshness'].get('requires_refresh_before_external_action', False)).lower()}"
+            ),
+            "",
+        ]
+    )
     lines.extend(
         [
             "Capture policy:",
@@ -109,6 +133,20 @@ def _evidence_refs(package: JsonObject) -> list[str]:
         seen.add(ref)
         unique.append(ref)
     return unique
+
+
+def _activation_freshness(package: JsonObject, created_at: str) -> JsonObject:
+    freshness = dict(package.get("freshness", {}))
+    valid_until = freshness.get("valid_until")
+    stale_at_activation = False
+    if isinstance(valid_until, str):
+        stale_at_activation = _parse_timestamp(created_at) > _parse_timestamp(valid_until)
+    freshness["stale_at_activation"] = stale_at_activation
+    return freshness
+
+
+def _parse_timestamp(value: str) -> datetime:
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
 
 
 def _default_activation_id(

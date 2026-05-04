@@ -69,6 +69,11 @@ class AgentActivationTests(unittest.TestCase):
             self.assertTrue(
                 activation["freshness"]["requires_refresh_before_external_action"]
             )
+            self.assertTrue(activation["freshness"]["stale_at_activation"])
+            self.assertEqual(
+                "2026-04-29T16:08:00Z",
+                activation["freshness"]["valid_until"],
+            )
             self.assertEqual("capture_required", activation["capture_policy"]["mode"])
             self.assertEqual(
                 activation,
@@ -107,6 +112,11 @@ class AgentActivationTests(unittest.TestCase):
             self.assertIn("action.laura.southern-abrasives-linkedin-publish", text)
             self.assertIn("State System Agent Package", text)
             self.assertIn("Requires refresh before external action.", text)
+            self.assertIn("Package stale at activation: true", text)
+            self.assertIn(
+                "Refresh the package before any external-facing action.",
+                text,
+            )
 
     def test_trace_run_can_create_activation_and_capture_linked_response(self):
         with TemporaryDirectory() as directory:

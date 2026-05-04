@@ -25,6 +25,7 @@ class TraceRunnerTests(unittest.TestCase):
             {
                 "laura-approval-gated-publication.trace.json",
                 "laura-agent-activation.trace.json",
+                "laura-stale-context-refresh.trace.json",
                 "linear-deal-won.trace.json",
             },
             set(trace_results),

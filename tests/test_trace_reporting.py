@@ -36,6 +36,33 @@ class TraceReportingTests(unittest.TestCase):
             self.assertIn("Captured Agent Response", html)
             self.assertIn("I can draft an internal proof-point note", html)
 
+    def test_trace_report_surfaces_stale_context_refresh_boundary(self):
+        with TemporaryDirectory() as directory:
+            report = run_trace_manifest(
+                project_root=ROOT,
+                manifest_path=(
+                    ROOT
+                    / "examples"
+                    / "traces"
+                    / "laura-stale-context-refresh.trace.json"
+                ),
+                output_dir=Path(directory),
+            )
+
+            report_path = Path(directory) / "index.html"
+
+            self.assertEqual("passed", report["status"])
+            html = report_path.read_text(encoding="utf-8")
+            self.assertIn("trace.laura-stale-context-refresh", html)
+            self.assertIn("Package stale at activation", html)
+            self.assertIn("2026-04-29T16:08:00Z", html)
+            self.assertIn("Requires refresh before external action", html)
+            self.assertIn(
+                "Refresh the package before any external-facing action.",
+                html,
+            )
+            self.assertIn("action.laura.southern-abrasives-linkedin-publish", html)
+
     def test_demo_script_runs_activation_trace_and_prints_report_path(self):
         with TemporaryDirectory() as directory:
             result = subprocess.run(

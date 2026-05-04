@@ -17,6 +17,12 @@ activation goal, action boundaries, freshness, evidence refs, and captured
 response status. This is a report surface over runtime artifacts, not a separate
 source of truth and not a mutation UI.
 
+The stale-context pressure trace extends the same surface. When an activation is
+created after a package's `valid_until`, the activation and report should expose
+that the package was stale at activation time, preserve the
+refresh-before-external-action blocker, and show the agent response declining to
+proceed externally until the package is refreshed.
+
 ## Out Of Scope
 
 - No live model calls.
@@ -35,6 +41,8 @@ source of truth and not a mutation UI.
 - The report is generated from actual trace artifacts.
 - Tests assert the report includes status, activation goal, allowed and
   prohibited actions, freshness, and captured response content.
+- A stale-context trace proves the report exposes package validity, stale status,
+  refresh requirements, and prohibited external action before any downstream use.
 - Full validation, unit tests, trace-run, and Speedrift drift checks pass.
 - Follow-on Workgraph tasks exist for stale-context pressure testing and
   Prospecting -> Outreach -> CRM integration traces.
