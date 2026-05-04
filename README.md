@@ -214,10 +214,20 @@ python3 -m state_system.cli --project-root . trace-run examples/traces/laura-age
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-stale-context-refresh.trace.json --output-dir /tmp/state-system-stale-refresh
 ```
 
+Run the app-integration contract report:
+
+```bash
+python3 -m state_system.cli --project-root . app-integrations-run --output-dir /tmp/state-system-app-integrations
+```
+
+The app-integration report writes `app-integration-report.json` and
+`index.html`. It currently checks the Prospect Researcher -> Outreach Engine
+handoff and the Outreach reply -> CRM plus secondary contacts handoff.
+
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py
 ```
 
 ## Runtime V0 CLI
