@@ -27,6 +27,7 @@ class TraceRunnerTests(unittest.TestCase):
                 "laura-agent-activation.trace.json",
                 "laura-stale-context-refresh.trace.json",
                 "linear-deal-won.trace.json",
+                "southern-abrasives-loop.trace.json",
             },
             set(trace_results),
         )

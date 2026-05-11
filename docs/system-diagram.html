@@ -741,6 +741,7 @@
             <li>Review packets, fixture model outputs, governed committer, journals, snapshots, memory entries, and review signals.</li>
             <li>Recent-change registry, persona context packages, CLI access, agent activation records, activation rendering, and captured agent responses.</li>
             <li>Trace manifests and `trace-run` now replay accepted-state, approval-gated, agent-activation, and stale-context refresh flows with inspectable artifacts and a validation report.</li>
+            <li>The operational loop now runs source/evidence -> review -> commit -> package -> activation -> captured response with an operator summary.</li>
             <li>The approval-gated trace proves pending external action can be held without materializing state or executing the action.</li>
             <li>The agent-activation trace proves an agent can receive action boundaries and respond without its response becoming truth by default.</li>
             <li>The stale-context trace proves expired packages surface validity, refresh blockers, prohibited external actions, and captured refusal before external use.</li>
@@ -752,8 +753,9 @@
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
-            <li>Extend company memory and CRM operating picture with more source recipes, opportunities, open loops, and freshness rules.</li>
-            <li>Promote more scenarios into trace manifests so functional coverage grows from fixture contracts, not prose.</li>
+            <li>Run the operational loop against real local source fixtures before adding more substrate concepts.</li>
+            <li>Improve the operator summary until it is useful enough to inspect after every run.</li>
+            <li>Promote more scenarios into trace manifests only when operational pressure exposes a gap.</li>
             <li>Keep wiki, dashboard, and report surfaces as projections over JSON substrate, not as durable truth sources.</li>
             <li>Define Source Generalization and Evidence Access so future sources inherit identity, dedupe, permissions, sync, and evidence rules.</li>
             <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>

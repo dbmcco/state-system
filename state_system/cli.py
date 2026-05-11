@@ -22,6 +22,7 @@ from state_system.mission_records import (
     build_mission_read_model,
     replay_mission_fixture,
 )
+from state_system.operational_loop import run_operational_loop
 from state_system.runtime import (
     build_recent_package,
     build_review_packet_from_source_event,
@@ -350,6 +351,23 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "operational-loop-run":
+        summary = run_operational_loop(
+            project_root=project_root,
+            manifest_path=Path(args.trace_manifest),
+            output_dir=Path(args.output_dir),
+        )
+        _write_json(
+            stdout,
+            {
+                "id": summary["id"],
+                "status": summary["status"],
+                "summary_path": str(Path(args.output_dir) / "operator-summary.json"),
+                "trace_report_path": summary["trace_report_path"],
+            },
+        )
+        return 0 if summary["status"] == "passed" else 1
+
     if args.command == "get":
         store = _store(stores, args.collection)
         _write_json(stdout, store.read(args.record_id))
@@ -515,6 +533,10 @@ def _parser() -> argparse.ArgumentParser:
     company_memory.add_argument("company_memory")
     company_memory.add_argument("crm_operating_picture")
     company_memory.add_argument("--output-dir", required=True)
+
+    operational_loop = subcommands.add_parser("operational-loop-run")
+    operational_loop.add_argument("trace_manifest")
+    operational_loop.add_argument("--output-dir", required=True)
 
     get = subcommands.add_parser("get")
     get.add_argument("collection", choices=sorted(COLLECTIONS))

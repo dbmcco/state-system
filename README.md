@@ -102,6 +102,18 @@ Canonical traces:
   chains for Prospect Researcher -> Outreach Engine and Outreach reply -> CRM
   plus secondary contact and engagement-intelligence artifacts.
 
+Run the operational loop:
+
+```bash
+./scripts/run_operational_loop.sh
+```
+
+This is the current "basics working" path. It runs source/evidence -> review
+packet -> model proposal fixture -> commit -> recent-change index -> context
+package -> agent activation -> captured response, then writes
+`operator-summary.json` plus the trace artifacts. The captured response remains
+an artifact and does not become truth by default.
+
 Run the one-command demo:
 
 ```bash
@@ -147,12 +159,15 @@ projection over it.
 
 ## What Is Designed Next
 
-The app-facing substrate has six schema-valid contract fixture chains and a
-first company-memory/CRM operating-picture read model. It is still not a
-runtime app service. The intended next functional slices are:
+The current operational priority is to run and harden the boring local loop
+before adding more substrate concepts. The intended next functional slices are:
 
-- Define `ObjectRecord` and `ClaimRecord` as the lower substrate under working
-  models, state objects, packets, and projections.
+- Run the operational loop against one or two real local sources through manual
+  source-event fixtures before wiring live adapters.
+- Improve the operator summary until it is useful enough to inspect after every
+  run.
+- Only then define `ObjectRecord` and `ClaimRecord` as the lower substrate under
+  working models, state objects, packets, and projections.
 - Extend company memory and CRM operating picture fixtures with more source
   recipes, relationship states, opportunities, open loops, and freshness rules.
 - Promote more app-substrate scenarios into runnable traces when they expose new
