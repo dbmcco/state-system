@@ -1,16 +1,21 @@
 # Application Substrate Contract
 
-**Status:** Planning contract with first schema-valid app fixtures
+**Status:** Planning contract with six schema-valid app fixture chains
 **Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, LFW AI Graph CRM, PAIA memory, and State System
 
 ## Purpose
 
 This contract defines the minimum State System substrate the new application repos should build against before full runtime implementation exists.
 
-The first two app-facing contract traces now exist as JSON fixtures under
-`examples/app-integrations/`: Prospect Researcher -> Outreach Engine candidate
-handoff, and Outreach reply -> CRM handoff plus secondary contact and
-engagement-intelligence artifacts.
+Six app-facing contract traces now exist as JSON fixtures under
+`examples/app-integrations/`:
+
+- Prospect Researcher -> Outreach Engine candidate handoff
+- Outreach reply -> CRM handoff plus secondary contacts and engagement intelligence
+- Meeting Manager coordination updates into work, CRM, Prospect Researcher, and Thoughtforge
+- Thoughtforge provenance from meeting-derived idea to interview and longform candidates
+- Visual Forge qualitative learning into revision and corpus-memory candidates
+- CRM relationship outcome learning into Prospect Researcher and Outreach Engine doctrine candidates
 
 The apps should not create parallel state systems. They should produce and consume the existing State System primitives:
 
@@ -86,10 +91,9 @@ Minimum app package types:
 | `thoughtforge_author_package` | Thoughtforge | Develop author-specific ideas from private and published corpora |
 | `visual_forge_workspace_package` | Visual Forge | Produce or revise visual assets from a workspace visual corpus |
 
-`prospect_opportunity_package` and `outreach_engagement_package` are now schema
-extensions. Later package names can live in `review_goal`,
-`persona_context.watched_domains`, and `state_context.snapshots` until they are
-promoted into the enum.
+The first six app package types are now schema extensions. Later package names
+can live in `review_goal`, `persona_context.watched_domains`, and
+`state_context.snapshots` until they are promoted into the enum.
 
 ## Proposal And Approval Flow
 
@@ -235,14 +239,12 @@ Accepted doctrine can take effect immediately where the relevant app North Star 
 
 The next work should happen in this order:
 
-1. **Extend the fixture substrate.** The Prospect/Outreach/CRM fixture chains exist; add Meeting Manager, Thoughtforge, and Visual Forge examples next.
-2. **Pressure test integrations.** Use `docs/app-integration-pressure-tests.md` to prove handoffs, approval gates, qualitative learning, stale-package behavior, CRM updates, and hidden-heuristic drift with fixture traces.
-3. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, and CRM handoff contracts.
-4. **Plan the CRM/contact intelligence improvements.** LFW AI Graph CRM remains the relationship system of record, but it needs shared contact refs and app-facing handoff/update contracts.
-5. **Plan Meeting Manager.** Meeting Manager should consume the contact/relationship spine and then feed coordination updates back into State System, CRM, Prospect Researcher, Outreach Engine, Thoughtforge, Folio, memory, and task systems.
-6. **Plan Thoughtforge.** Thoughtforge can build on author, idea, meeting-derived idea, and corpus state once the app package pattern is proven.
-7. **Plan Visual Forge.** Visual Forge can build on the same qualitative learning/proposal pattern, with visual workspace state and execution orchestration as its special concern.
-8. **Only then move into implementation slices.** Each app should start with one vertical slice that uses source evidence, a bounded context package, model interpretation, proposal/approval, commit result, and a visible app outcome.
+1. **Keep extending the fixture substrate.** The first six app chains exist; continue promoting pressure scenarios into schema-valid traces when they expose new source, state, approval, memory, or doctrine behavior.
+2. **Build substrate read models before app UI.** Company memory and CRM operating picture should be deterministic JSON projections over State System records before any wiki, dashboard, or app screen is treated as product.
+3. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, CRM handoff contracts, and CRM outcome doctrine.
+4. **Plan the CRM/contact intelligence substrate.** LFW AI Graph CRM remains the relationship system of record, while State System owns interpreted relationship/opportunity state, evidence refs, freshness, open loops, and agent packaging.
+5. **Plan Meeting Manager, Thoughtforge, and Visual Forge from the proven pattern.** Meeting Manager feeds coordination updates into shared state; Thoughtforge builds on author/idea/corpus state; Visual Forge builds on qualitative visual workspace and corpus-memory state.
+6. **Move into implementation slices only when the substrate contract is boring.** Each app slice should use source evidence, a bounded context package, model interpretation, proposal/approval, commit result, and a visible app outcome without inventing local state.
 
 This sequence does not require a complete State System runtime. It does require contract fixtures, integration pressure-test traces, and conformance checks so app teams do not invent local state, hidden heuristics, or bypassed approval flows.
 
@@ -250,12 +252,13 @@ This sequence does not require a complete State System runtime. It does require 
 
 Before serious app implementation, State System should provide:
 
-1. Example context packages for Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, and Visual Forge.
+1. Example context packages for Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, and CRM outcome learning.
 2. Example model proposal outputs for each app package type.
-3. Governance policy examples for human approval gates.
+3. Governance policy or approval examples for human approval gates.
 4. Commit result examples for accepted, pending, rejected, and no-op outcomes.
 5. A cross-app reference convention for app-local ids, CRM ids, artifact ids, and state object ids.
 6. Fixture traces for the required scenarios in `docs/app-integration-pressure-tests.md`.
 7. A short conformance checklist proving apps are not bypassing proposal, approval, evidence, or state-commit flows.
+8. Substrate read models for company memory and CRM operating picture before durable app UI is built.
 
 The apps can build against fixtures first. A complete State System runtime is not required before app planning, but these contract fixtures are.
