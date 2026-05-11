@@ -151,11 +151,14 @@ The app-facing substrate has six schema-valid contract fixture chains and a
 first company-memory/CRM operating-picture read model. It is still not a
 runtime app service. The intended next functional slices are:
 
+- Define `ObjectRecord` and `ClaimRecord` as the lower substrate under working
+  models, state objects, packets, and projections.
 - Extend company memory and CRM operating picture fixtures with more source
   recipes, relationship states, opportunities, open loops, and freshness rules.
 - Promote more app-substrate scenarios into runnable traces when they expose new
   state, memory, approval, or doctrine behavior.
-- Keep wiki, dashboard, and report surfaces as projections over JSON substrate.
+- Keep packets, wiki, dashboard, and report surfaces as working models or
+  projections over substrate.
 - Qualitative human judgment remains model-interpretable evidence, not hidden
   numeric scoring or hardcoded rules.
 
@@ -173,6 +176,7 @@ anonymized.
 - `docs/concepts/` - focused concept notes
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
+- `docs/concepts/working-models.md` - generic working-model abstraction over durable substrate, including PAIA packets and State System context/read-model shapes
 - `docs/concepts/paia-memory-adapter-boundary.md` - adapter boundary for reusing PAIA memory without making State System PAIA-only
 - `docs/concepts/deep-reviewer-personas.md` - how antagonistic reviewer personas such as Miriam are used through Workgraph/Speedrift
 - `docs/concepts/runtime-v0.md` - first practical local runtime loop from source event to persona package
