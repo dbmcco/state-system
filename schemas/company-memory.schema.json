@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/company-memory.schema.json",
+  "title": "CompanyMemory",
+  "type": "object",
+  "required": [
+    "id",
+    "subject_ref",
+    "generated_at",
+    "mission",
+    "strategy",
+    "projects",
+    "agent_memory_refs",
+    "organizational_state_refs",
+    "evidence_refs",
+    "freshness"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "subject_ref": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "mission": {
+      "type": "object",
+      "required": ["summary", "evidence_refs"],
+      "properties": {
+        "summary": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "strategy": {
+      "type": "object",
+      "required": ["summary", "current_priorities", "evidence_refs"],
+      "properties": {
+        "summary": { "type": "string" },
+        "current_priorities": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary", "status", "evidence_refs"],
+        "properties": {
+          "id": { "type": "string" },
+          "summary": { "type": "string" },
+          "status": { "type": "string" },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "agent_memory_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "organizational_state_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["as_of", "stale_after", "watermark_refs"],
+      "properties": {
+        "as_of": { "type": "string" },
+        "stale_after": { "type": "string" },
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

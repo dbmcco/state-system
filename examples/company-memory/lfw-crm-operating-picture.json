@@ -1,0 +1,85 @@
+{
+  "id": "crm_operating_picture.lfw",
+  "subject_ref": "company.lfw",
+  "generated_at": "2026-05-04T15:00:00Z",
+  "system_of_record_ref": "lfw_ai_graph_crm",
+  "state_system_role": "state_system_interpretation",
+  "relationships": [
+    {
+      "id": "relationship.southern-abrasives",
+      "name": "Southern Abrasives",
+      "relationship_state": "qualified_conversation",
+      "interpretation": "Referral path created a stronger relationship signal than the initial outbound interaction alone.",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "source.crm.relationship-outcome.006"
+      ]
+    },
+    {
+      "id": "relationship.streamlinear",
+      "name": "Streamlinear",
+      "relationship_state": "active_workstream",
+      "interpretation": "Ongoing work creates reusable proof for bounded AI operating systems.",
+      "evidence_refs": [
+        "source.meeting.coordination.003"
+      ]
+    }
+  ],
+  "opportunities": [
+    {
+      "id": "opportunity.southern-abrasives.automation-discovery",
+      "summary": "Automation discovery opportunity opened through referral-backed relationship evidence.",
+      "stage": "discovery",
+      "relationship_refs": [
+        "relationship.southern-abrasives"
+      ],
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "crm.referral-update.003"
+      ]
+    }
+  ],
+  "open_loops": [
+    {
+      "id": "loop.southern-abrasives.follow-up",
+      "summary": "Confirm next useful follow-up after referral-backed discovery conversation.",
+      "owner_ref": "persona.patrick.operations",
+      "status": "open",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives"
+      ]
+    },
+    {
+      "id": "loop.southern-abrasives.marketable-proof",
+      "summary": "Decide whether anonymized relationship outcome can inform marketing proof.",
+      "owner_ref": "persona.laura.marketing",
+      "status": "needs_approval",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "prospect.referral-doctrine-candidate.006"
+      ]
+    }
+  ],
+  "recent_changes": [
+    {
+      "id": "recent.crm.southern-abrasives.relationship-outcome",
+      "summary": "CRM relationship outcome became useful evidence for doctrine and company memory.",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "source.crm.relationship-outcome.006"
+      ]
+    }
+  ],
+  "evidence_refs": [
+    "crm:relationship:southern-abrasives",
+    "source.crm.relationship-outcome.006",
+    "crm.referral-update.003"
+  ],
+  "freshness": {
+    "as_of": "2026-05-04T15:00:00Z",
+    "stale_after": "2026-05-11T15:00:00Z",
+    "watermark_refs": [
+      "crm.watermark.2026-05-04T14:00:00Z"
+    ]
+  }
+}

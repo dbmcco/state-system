@@ -1,0 +1,86 @@
+{
+  "id": "context.lfw.company-memory.patrick",
+  "package_type": "deep_dive",
+  "created_at": "2026-05-04T15:10:00Z",
+  "persona_context": {
+    "persona_ref": "persona.patrick.operations",
+    "summary": "Patrick reviews company memory and CRM outcomes for source discipline, open loops, and follow-through.",
+    "watched_domains": [
+      "company_memory",
+      "crm_open_loops",
+      "operating_picture"
+    ],
+    "authority_boundaries": [
+      "Do not mutate CRM records; propose state or follow-up changes with evidence."
+    ]
+  },
+  "review_goal": "Find open loops and stale or unsupported CRM relationship claims from the same company memory substrate.",
+  "recent_change_context": {
+    "entries": [
+      {
+        "id": "recent.crm.southern-abrasives.relationship-outcome",
+        "summary": "CRM relationship outcome became useful evidence for doctrine and company memory."
+      }
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "id": "company_memory.lfw",
+        "summary": "Company memory substrate for Lightforge Works."
+      },
+      {
+        "id": "crm_operating_picture.lfw",
+        "summary": "CRM operating picture interpreted from relationship and opportunity evidence."
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": []
+  },
+  "memory_context": {
+    "entries": [
+      {
+        "id": "memory.patrick.ops.draft.canonical-source-before-followup",
+        "promotion_status": "private",
+        "summary": "Patrick memory remains private unless explicitly promoted."
+      }
+    ]
+  },
+  "evidence_context": {
+    "evidence_refs": [
+      "crm:relationship:southern-abrasives",
+      "crm.referral-update.003"
+    ],
+    "resolved_evidence": [],
+    "unresolved_evidence_refs": []
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "governance.crm.relationship-outcome.approval",
+        "summary": "External use of CRM relationship outcomes requires approval."
+      }
+    ]
+  },
+  "available_actions": [
+    {
+      "action": "propose_crm_follow_up"
+    }
+  ],
+  "excluded_context_summary": [
+    {
+      "reason": "Marketing narrative extraction is routed to Laura."
+    }
+  ],
+  "freshness": {
+    "watermark_refs": [
+      "crm.watermark.2026-05-04T14:00:00Z"
+    ],
+    "valid_until": "2026-05-11T15:10:00Z",
+    "requires_refresh_before_external_action": true,
+    "stale_if_refs_change": [
+      "crm_operating_picture.lfw"
+    ]
+  }
+}

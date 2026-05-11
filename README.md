@@ -135,17 +135,27 @@ python3 -m state_system.cli --project-root . mission-replay examples/missions/re
 The mission replay writes `/tmp/state-system-mission/mission-read-model.json`
 plus the file-backed mission records used to generate it.
 
+Build the company memory and CRM operating picture substrate read model:
+
+```bash
+python3 -m state_system.cli --project-root . company-memory-build examples/company-memory/lfw-company-memory.json examples/company-memory/lfw-crm-operating-picture.json --output-dir /tmp/state-system-company-memory
+```
+
+This writes `/tmp/state-system-company-memory/company-memory-read-model.json`.
+The artifact is JSON substrate; any HTML/wiki/dashboard surface should be a
+projection over it.
+
 ## What Is Designed Next
 
-The app-facing substrate has its first schema-valid contract fixtures, but it
-is not yet a runtime app service. The intended next functional slices are:
+The app-facing substrate has six schema-valid contract fixture chains and a
+first company-memory/CRM operating-picture read model. It is still not a
+runtime app service. The intended next functional slices are:
 
-- Promote the Prospect Researcher -> Outreach Engine contract fixture into a
-  runnable trace or app-substrate harness.
-- Promote the Outreach reply -> CRM plus secondary contacts fixture into a
-  runnable trace or app-substrate harness.
-- Meeting Manager, Thoughtforge, and Visual Forge use the same source event,
-  context package, proposal, approval, and commit pattern.
+- Extend company memory and CRM operating picture fixtures with more source
+  recipes, relationship states, opportunities, open loops, and freshness rules.
+- Promote more app-substrate scenarios into runnable traces when they expose new
+  state, memory, approval, or doctrine behavior.
+- Keep wiki, dashboard, and report surfaces as projections over JSON substrate.
 - Qualitative human judgment remains model-interpretable evidence, not hidden
   numeric scoring or hardcoded rules.
 

@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/crm-operating-picture.schema.json",
+  "title": "CrmOperatingPicture",
+  "type": "object",
+  "required": [
+    "id",
+    "subject_ref",
+    "generated_at",
+    "system_of_record_ref",
+    "state_system_role",
+    "relationships",
+    "opportunities",
+    "open_loops",
+    "recent_changes",
+    "evidence_refs",
+    "freshness"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "subject_ref": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "system_of_record_ref": { "type": "string" },
+    "state_system_role": {
+      "type": "string",
+      "enum": ["state_system_interpretation"]
+    },
+    "relationships": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relationship" }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/opportunity" }
+    },
+    "open_loops": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/open_loop" }
+    },
+    "recent_changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "summary", "evidence_refs"],
+        "properties": {
+          "id": { "type": "string" },
+          "summary": { "type": "string" },
+          "evidence_refs": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["as_of", "stale_after", "watermark_refs"],
+      "properties": {
+        "as_of": { "type": "string" },
+        "stale_after": { "type": "string" },
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relationship": {
+      "type": "object",
+      "required": ["id", "name", "relationship_state", "evidence_refs"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "relationship_state": { "type": "string" },
+        "interpretation": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "opportunity": {
+      "type": "object",
+      "required": ["id", "summary", "stage", "evidence_refs"],
+      "properties": {
+        "id": { "type": "string" },
+        "summary": { "type": "string" },
+        "stage": { "type": "string" },
+        "relationship_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "open_loop": {
+      "type": "object",
+      "required": ["id", "summary", "owner_ref", "status", "evidence_refs"],
+      "properties": {
+        "id": { "type": "string" },
+        "summary": { "type": "string" },
+        "owner_ref": { "type": "string" },
+        "status": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

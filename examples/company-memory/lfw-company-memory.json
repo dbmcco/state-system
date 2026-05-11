@@ -1,0 +1,53 @@
+{
+  "id": "company_memory.lfw",
+  "subject_ref": "company.lfw",
+  "generated_at": "2026-05-04T15:00:00Z",
+  "mission": {
+    "summary": "Lightforge Works helps organizations turn AI capability into bounded, useful business systems.",
+    "evidence_refs": [
+      "source.meeting.coordination.003",
+      "crm:relationship:southern-abrasives"
+    ]
+  },
+  "strategy": {
+    "summary": "Use relationship-backed proof and concrete operating systems rather than generic AI positioning.",
+    "current_priorities": [
+      "Ship State System as a substrate for company memory and agent context.",
+      "Use CRM outcomes as evidence for doctrine, not as hidden sales scores."
+    ],
+    "evidence_refs": [
+      "prospect.referral-doctrine-candidate.006",
+      "crm:relationship:southern-abrasives"
+    ]
+  },
+  "projects": [
+    {
+      "id": "project.state-system",
+      "summary": "Substrate for durable interpreted state, memory, evidence, and agent activation.",
+      "status": "active",
+      "evidence_refs": [
+        "source.crm.relationship-outcome.006"
+      ]
+    }
+  ],
+  "agent_memory_refs": [
+    "memory.laura.marketing.draft.audience-before-copy",
+    "memory.patrick.ops.draft.canonical-source-before-followup"
+  ],
+  "organizational_state_refs": [
+    "state.lfw.strategy.ai-capability-systems",
+    "state.lfw.doctrine.relationship-backed-proof"
+  ],
+  "evidence_refs": [
+    "source.meeting.coordination.003",
+    "source.crm.relationship-outcome.006",
+    "crm:relationship:southern-abrasives"
+  ],
+  "freshness": {
+    "as_of": "2026-05-04T15:00:00Z",
+    "stale_after": "2026-05-11T15:00:00Z",
+    "watermark_refs": [
+      "crm.watermark.2026-05-04T14:00:00Z"
+    ]
+  }
+}
