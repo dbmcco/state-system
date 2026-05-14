@@ -99,6 +99,28 @@ PAIA tool exposure contract:
 - Preserve `proves_live_access: false` and `authorizes_execution: false` on
   bindings. State System declares the route; PAIA proves access and executes.
 
+PAIA preflight result contract:
+
+- PAIA owns the actual check and records the outcome through
+  `company-preflight-record`.
+- State System persists the result under the runtime state root and exports
+  `company-preflight-results-read-model.json` through
+  `company-preflight-export`.
+- Each result has a mechanical `scope_key`:
+  `preflight_ref|company_ref|connector_ref|tool_ref|action_ref|agent_ref|runner_ref`.
+- Consumers may use `latest_by_scope_key` for current status or scan `results[]`
+  for historical evidence.
+- Required fields are `preflight_ref`, `company_ref`, `status`, `checked_at`,
+  `evidence_refs`, `proves_live_access`, `authorizes_execution`, and
+  `protected_action_authorized_by`.
+- Optional scoping fields are `connector_ref`, `tool_ref`, `action_ref`,
+  `agent_ref`, `runner_ref`, `stale_after`, `ttl_seconds`, `error`, and
+  `detail`.
+- `status: passed` means live access was proven for that scoped check.
+  `status: failed` means it was not.
+- `authorizes_execution` is always false. Governance remains the authority for
+  protected effects.
+
 ## Core Principle
 
 Code records evidence, validates schemas, exposes tools, executes accepted effects, and preserves provenance.

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/company-preflight-result.schema.json",
+  "title": "CompanyPreflightResult",
+  "type": "object",
+  "required": [
+    "id",
+    "scope_key",
+    "preflight_ref",
+    "company_ref",
+    "status",
+    "checked_at",
+    "evidence_refs",
+    "proves_live_access",
+    "authorizes_execution",
+    "protected_action_authorized_by"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "scope_key": { "type": "string" },
+    "preflight_ref": { "type": "string" },
+    "company_ref": { "type": "string" },
+    "connector_ref": { "type": "string" },
+    "tool_ref": { "type": "string" },
+    "action_ref": { "type": "string" },
+    "agent_ref": { "type": "string" },
+    "runner_ref": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["passed", "failed"]
+    },
+    "checked_at": { "type": "string" },
+    "stale_after": { "type": "string" },
+    "ttl_seconds": { "type": "integer" },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      }
+    },
+    "detail": { "type": "string" },
+    "proves_live_access": { "type": "boolean" },
+    "authorizes_execution": { "type": "boolean" },
+    "protected_action_authorized_by": { "type": "string" }
+  }
+}

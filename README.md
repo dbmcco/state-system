@@ -175,6 +175,19 @@ proves live access; governance authorizes protected action. PAIA should expose
 tools from `companies[].tool_capability_bindings[]`, not by interpreting
 connector names or free-text descriptions.
 
+Record and export PAIA-owned connector preflight results as live-access
+evidence:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system company-preflight-export --output-dir /Users/braydon/.paia/state-system/company-preflight
+```
+
+This writes
+`/Users/braydon/.paia/state-system/company-preflight/company-preflight-results-read-model.json`.
+Preflight results prove or fail live access only. They do not authorize
+protected effects; governance remains separate.
+
 ## What Is Designed Next
 
 The current operational priority is to run and harden the boring local loop
@@ -313,6 +326,8 @@ python3 -m state_system.cli --project-root . trace-run examples/traces/laura-age
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-export --output-dir /tmp/state-system-company-preflight
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-from-repo . --commit HEAD --repo-ref repo.state-system --observed-at 2026-05-01T18:46:00Z --candidate-state-ref state.repo.state-system.runtime --ingest

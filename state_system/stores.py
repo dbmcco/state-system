@@ -22,6 +22,7 @@ DEFAULT_COLLECTIONS = {
     "agent_activations": "agent-activations",
     "agent_responses": "agent-responses",
     "company_capabilities": "company-capabilities",
+    "company_preflight_results": "company-preflight-results",
 }
 
 

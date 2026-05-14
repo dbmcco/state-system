@@ -21,6 +21,10 @@ from state_system.company_capability import (
     build_company_capability_read_model_from_runtime,
 )
 from state_system.company_memory import build_company_memory_read_model
+from state_system.company_preflight import (
+    CompanyPreflightRuntime,
+    build_company_preflight_read_model,
+)
 from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.mission_records import (
     MissionStoreBundle,
@@ -60,6 +64,7 @@ COLLECTIONS = {
     "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
     "company-capability": "company_capabilities",
+    "company-preflight": "company_preflight_results",
 }
 
 
@@ -413,6 +418,42 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "company-preflight-record":
+        result = CompanyPreflightRuntime(stores).record(
+            _preflight_result_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "company-preflight-result.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "preflight_result": result})
+        return 0
+
+    if args.command == "company-preflight-list":
+        _write_json(stdout, {"results": CompanyPreflightRuntime(stores).list_results()})
+        return 0
+
+    if args.command == "company-preflight-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_company_preflight_read_model(stores)
+        read_model_path = output_dir / "company-preflight-results-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "operational-loop-run":
         summary = run_operational_loop(
             project_root=project_root,
@@ -606,6 +647,32 @@ def _parser() -> argparse.ArgumentParser:
     company_capability_read = subcommands.add_parser("company-capability-read")
     company_capability_read.add_argument("--output-dir", required=True)
 
+    preflight_record = subcommands.add_parser("company-preflight-record")
+    preflight_record.add_argument("--preflight-ref", required=True)
+    preflight_record.add_argument("--company-ref", required=True)
+    preflight_record.add_argument("--connector-ref")
+    preflight_record.add_argument("--tool-ref")
+    preflight_record.add_argument("--action-ref")
+    preflight_record.add_argument("--agent-ref")
+    preflight_record.add_argument("--runner-ref")
+    preflight_record.add_argument(
+        "--status",
+        choices=["passed", "failed"],
+        required=True,
+    )
+    preflight_record.add_argument("--checked-at", required=True)
+    preflight_record.add_argument("--stale-after")
+    preflight_record.add_argument("--ttl-seconds", type=int)
+    preflight_record.add_argument("--evidence-ref", action="append")
+    preflight_record.add_argument("--error-code")
+    preflight_record.add_argument("--error-message")
+    preflight_record.add_argument("--detail")
+
+    subcommands.add_parser("company-preflight-list")
+
+    preflight_export = subcommands.add_parser("company-preflight-export")
+    preflight_export.add_argument("--output-dir", required=True)
+
     operational_loop = subcommands.add_parser("operational-loop-run")
     operational_loop.add_argument("trace_manifest")
     operational_loop.add_argument("--output-dir", required=True)
@@ -649,6 +716,35 @@ def _rollup_requests(stores: StateStoreBundle) -> list[JsonObject]:
     for journal in stores.journals.replay():
         requests.extend(journal.get("rollup_requests", []))
     return requests
+
+
+def _preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "preflight_ref": args.preflight_ref,
+        "company_ref": args.company_ref,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "evidence_refs": list(args.evidence_ref or []),
+    }
+    for source, target in (
+        ("connector_ref", "connector_ref"),
+        ("tool_ref", "tool_ref"),
+        ("action_ref", "action_ref"),
+        ("agent_ref", "agent_ref"),
+        ("runner_ref", "runner_ref"),
+        ("stale_after", "stale_after"),
+        ("ttl_seconds", "ttl_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
 
 
 def _runtime_schemas(project_root: Path) -> dict[str, JsonObject]:
