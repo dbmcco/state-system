@@ -25,7 +25,13 @@
       "connector_type": "msgvault",
       "source_ref": "msgvault:tenant:lfw-email",
       "owner": "source_system",
-      "declared": true
+      "declared": true,
+      "preflight_target": {
+        "kind": "msgvault_search",
+        "account_ref": "msgvault:account:braydon@lightforgeworks.com",
+        "query": "lightforgeworks",
+        "limit": 1
+      }
     },
     {
       "id": "connector.lfw.drive",

@@ -90,6 +90,27 @@ class CompanyCapabilityPackTests(unittest.TestCase):
                 self.assertIn(resource_kind, {"drive", "shared-drive"})
                 self.assertTrue(lookup_key)
 
+    def test_msgvault_connectors_declare_explicit_preflight_targets(self):
+        for path in sorted(PACK_DIR.glob("company-*.json")):
+            pack = load_json(path)
+            for connector in pack["source_connectors"]:
+                if connector["connector_type"] != "msgvault":
+                    continue
+
+                source_ref_parts = connector["source_ref"].split(":", 2)
+                self.assertEqual(["msgvault", "tenant"], source_ref_parts[:2])
+                self.assertTrue(source_ref_parts[2])
+
+                target = connector["preflight_target"]
+                self.assertEqual("msgvault_search", target["kind"])
+                self.assertTrue(target["query"])
+                self.assertGreaterEqual(target["limit"], 1)
+                if "account_ref" in target:
+                    self.assertTrue(
+                        target["account_ref"].startswith("msgvault:account:"),
+                        target,
+                    )
+
     def test_read_model_rolls_up_company_capability_packs(self):
         read_model = build_company_capability_read_model(
             [

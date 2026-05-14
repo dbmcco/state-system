@@ -194,8 +194,39 @@
           "type": "string",
           "enum": ["state_system", "paia_runtime", "source_system"]
         },
-        "declared": { "type": "boolean" }
+        "declared": { "type": "boolean" },
+        "preflight_target": { "$ref": "#/$defs/preflight_target" }
       }
+    },
+    "preflight_target": {
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["msgvault_search"]
+        },
+        "account_ref": {
+          "type": "string",
+          "pattern": "^msgvault:account:.+@.+$"
+        },
+        "query": { "type": "string" },
+        "limit": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "msgvault_search" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["query", "limit"]
+          }
+        }
+      ]
     },
     "tool_capability_binding": {
       "type": "object",

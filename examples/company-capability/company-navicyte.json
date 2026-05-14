@@ -32,7 +32,12 @@
       "connector_type": "msgvault",
       "source_ref": "msgvault:tenant:navicyte-email",
       "owner": "source_system",
-      "declared": true
+      "declared": true,
+      "preflight_target": {
+        "kind": "msgvault_search",
+        "query": "navicyte-email",
+        "limit": 1
+      }
     },
     {
       "id": "connector.navicyte.local",

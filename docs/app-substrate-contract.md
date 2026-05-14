@@ -94,6 +94,10 @@ PAIA tool exposure contract:
   status.
 - For `connector_type: gws_drive`, `source_ref` uses
   `gws:<gws-account-profile>:<drive|shared-drive>:<lookup-key>`.
+- For `connector_type: msgvault`, `source_ref` remains the logical corpus
+  identity `msgvault:tenant:<tenant-id>`. Live preflight checks must use
+  `source_connectors[].preflight_target` instead of deriving a CLI query from
+  the tenant id.
 - Each binding maps one `capability_ref` and `tool_ref` to one `action_ref`,
   `connector_refs`, `required_preflight_refs`, `governance_refs`, and
   `allowed_agent_refs`.

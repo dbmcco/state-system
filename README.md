@@ -177,6 +177,9 @@ targets from `companies[].source_connectors[]`, not by interpreting connector
 names or free-text descriptions.
 For `connector_type: gws_drive`, `source_ref` uses
 `gws:<gws-account-profile>:<drive|shared-drive>:<lookup-key>`.
+For `connector_type: msgvault`, `source_ref` remains
+`msgvault:tenant:<tenant-id>` and live preflight uses
+`source_connectors[].preflight_target`, not a query inferred from the tenant id.
 
 Record and export PAIA-owned connector preflight results as live-access
 evidence:
