@@ -21,6 +21,7 @@ DEFAULT_COLLECTIONS = {
     "context_packages": "context-packages",
     "agent_activations": "agent-activations",
     "agent_responses": "agent-responses",
+    "company_capabilities": "company-capabilities",
 }
 
 

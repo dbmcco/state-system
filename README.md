@@ -77,6 +77,8 @@ It can run a local JSON-backed runtime loop that:
   context package
 - captures raw agent responses with package and evidence refs
 - writes a static user-test report at `index.html` for each trace run
+- seeds company capability packs into a runtime state root and emits a
+  PAIA-facing company capability read model from persisted runtime records
 
 The main functional surface is now a trace runner. A trace manifest declares the
 source evidence, seed state, model proposal fixture, governance context, recent
@@ -157,11 +159,12 @@ This writes `/tmp/state-system-company-memory/company-memory-read-model.json`.
 The artifact is JSON substrate; any HTML/wiki/dashboard surface should be a
 projection over it.
 
-Build the company capability pack read model that PAIA should target before
-local connector/tool wiring:
+Seed the runtime company capability records that PAIA should target before local
+connector/tool wiring:
 
 ```bash
-python3 -m state_system.cli --project-root . company-capability-build examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json --output-dir /tmp/state-system-company-capability
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 
 This writes
@@ -293,7 +296,7 @@ handoff and the Outreach reply -> CRM plus secondary contacts handoff.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py tests/test_company_capability_pack.py tests/test_company_capability_runtime.py
 ```
 
 ## Runtime V0 CLI
@@ -306,6 +309,8 @@ python3 -m state_system.cli --project-root . trace-run examples/traces/linear-de
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-approval-gated-publication.trace.json --output-dir /tmp/state-system-approval-trace
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-agent-activation.trace.json --output-dir /tmp/state-system-agent-activation
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-from-repo . --commit HEAD --repo-ref repo.state-system --observed-at 2026-05-01T18:46:00Z --candidate-state-ref state.repo.state-system.runtime --ingest

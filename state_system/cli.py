@@ -15,9 +15,13 @@ from state_system.agent_activation import (
     render_activation_for_agent,
 )
 from state_system.app_integrations import run_app_integration_fixtures
-from state_system.company_capability import build_company_capability_read_model
+from state_system.company_capability import (
+    CompanyCapabilityRuntime,
+    build_company_capability_read_model,
+    build_company_capability_read_model_from_runtime,
+)
 from state_system.company_memory import build_company_memory_read_model
-from state_system.contracts import load_json, validate_all_examples
+from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.mission_records import (
     MissionStoreBundle,
     build_mission_read_model,
@@ -55,6 +59,7 @@ COLLECTIONS = {
     "package": "context_packages",
     "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
+    "company-capability": "company_capabilities",
 }
 
 
@@ -372,6 +377,42 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "company-capability-seed":
+        packs = [load_json(Path(path)) for path in args.company_capability_pack]
+        schema = load_json(
+            project_root / "schemas" / "company-capability-pack.schema.json"
+        )
+        failures = [
+            {"id": pack.get("id"), "errors": list(validate_schema(pack, schema))}
+            for pack in packs
+        ]
+        failures = [failure for failure in failures if failure["errors"]]
+        if failures:
+            _write_json(stdout, {"ok": False, "failures": failures})
+            return 1
+
+        result = CompanyCapabilityRuntime(stores).seed(packs)
+        _write_json(stdout, {"ok": True, **result})
+        return 0
+
+    if args.command == "company-capability-read":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_company_capability_read_model_from_runtime(stores)
+        read_model_path = output_dir / "company-capability-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "operational-loop-run":
         summary = run_operational_loop(
             project_root=project_root,
@@ -558,6 +599,12 @@ def _parser() -> argparse.ArgumentParser:
     company_capability = subcommands.add_parser("company-capability-build")
     company_capability.add_argument("company_capability_pack", nargs="+")
     company_capability.add_argument("--output-dir", required=True)
+
+    company_capability_seed = subcommands.add_parser("company-capability-seed")
+    company_capability_seed.add_argument("company_capability_pack", nargs="+")
+
+    company_capability_read = subcommands.add_parser("company-capability-read")
+    company_capability_read.add_argument("--output-dir", required=True)
 
     operational_loop = subcommands.add_parser("operational-loop-run")
     operational_loop.add_argument("trace_manifest")

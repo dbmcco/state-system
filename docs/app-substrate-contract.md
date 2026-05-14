@@ -34,8 +34,9 @@ The contract is intentionally app-facing. It names the shared objects and flows 
 
 ## Company Capability Packs
 
-`CompanyCapabilityPack` is the company-scoped capability baseline PAIA should
-target before local agent/tool wiring.
+`CompanyCapabilityPack` is the company-scoped runtime substrate PAIA should
+target before local agent/tool wiring. The example packs are seed inputs; PAIA
+should consume the read model emitted from a State System runtime state root.
 
 It declares company identity, source connectors, raw corpus, evidence index,
 company memory refs, operating picture refs, action surface, governance,
@@ -69,6 +70,16 @@ Ownership boundary:
 - Source systems own the raw records and canonical access semantics.
 - PAIA runtime owns credentialed connector calls, connector preflight results,
   agent dispatch, approval-gated execution, and per-agent tool exposure.
+
+Runtime command surface:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
+```
+
+PAIA should call the read command against the agreed runtime root, then perform
+its own connector preflight before exposing tools or corpora to any agent.
 
 ## Core Principle
 
@@ -277,14 +288,18 @@ Accepted doctrine can take effect immediately where the relevant app North Star 
 
 The next work should happen in this order:
 
-1. **Keep extending the fixture substrate.** The first six app chains exist; continue promoting pressure scenarios into schema-valid traces when they expose new source, state, approval, memory, or doctrine behavior.
-2. **Build substrate read models before app UI.** Company memory and CRM operating picture should be deterministic JSON projections over State System records before any wiki, dashboard, or app screen is treated as product.
-3. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, CRM handoff contracts, and CRM outcome doctrine.
-4. **Plan the CRM/contact intelligence substrate.** LFW AI Graph CRM remains the relationship system of record, while State System owns interpreted relationship/opportunity state, evidence refs, freshness, open loops, and agent packaging.
-5. **Plan Meeting Manager, Thoughtforge, and Visual Forge from the proven pattern.** Meeting Manager feeds coordination updates into shared state; Thoughtforge builds on author/idea/corpus state; Visual Forge builds on qualitative visual workspace and corpus-memory state.
-6. **Move into implementation slices only when the substrate contract is boring.** Each app slice should use source evidence, a bounded context package, model interpretation, proposal/approval, commit result, and a visible app outcome without inventing local state.
+1. **Consume runtime company capability first.** PAIA should target the runtime `company-capability-read` output before implementing company-scoped tools, corpora, or agent dispatch.
+2. **Keep extending the fixture substrate.** The first six app chains exist; continue promoting pressure scenarios into schema-valid traces when they expose new source, state, approval, memory, or doctrine behavior.
+3. **Build substrate read models before app UI.** Company memory and CRM operating picture should be deterministic JSON projections over State System records before any wiki, dashboard, or app screen is treated as product.
+4. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, CRM handoff contracts, and CRM outcome doctrine.
+5. **Plan the CRM/contact intelligence substrate.** LFW AI Graph CRM remains the relationship system of record, while State System owns interpreted relationship/opportunity state, evidence refs, freshness, open loops, and agent packaging.
+6. **Plan Meeting Manager, Thoughtforge, and Visual Forge from the proven pattern.** Meeting Manager feeds coordination updates into shared state; Thoughtforge builds on author/idea/corpus state; Visual Forge builds on qualitative visual workspace and corpus-memory state.
+7. **Move into implementation slices only when the substrate contract is boring.** Each app slice should use source evidence, a bounded context package, model interpretation, proposal/approval, commit result, and a visible app outcome without inventing local state.
 
-This sequence does not require a complete State System runtime. It does require contract fixtures, integration pressure-test traces, and conformance checks so app teams do not invent local state, hidden heuristics, or bypassed approval flows.
+This sequence does not require a complete State System runtime. It does require
+runtime-backed company capability, contract fixtures, integration pressure-test
+traces, and conformance checks so app teams do not invent local state, hidden
+heuristics, or bypassed approval flows.
 
 ## Minimum Readiness Before App Implementation
 
@@ -298,6 +313,8 @@ Before serious app implementation, State System should provide:
 6. Fixture traces for the required scenarios in `docs/app-integration-pressure-tests.md`.
 7. A short conformance checklist proving apps are not bypassing proposal, approval, evidence, or state-commit flows.
 8. Substrate read models for company memory and CRM operating picture before durable app UI is built.
-9. Company capability pack fixtures before PAIA implements company-scoped tool/corpus access.
+9. Runtime-backed company capability read model before PAIA implements company-scoped tool/corpus access.
 
-The apps can build against fixtures first. A complete State System runtime is not required before app planning, but these contract fixtures are.
+The apps can build against fixtures first. PAIA company-scoped execution should
+build against the runtime company capability read model rather than app-local
+company special cases.

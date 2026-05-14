@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
+
 from state_system.contracts import JsonObject
+from state_system.stores import RecordNotFoundError, StateStoreBundle
 
 
 def build_company_capability_read_model(packs: list[JsonObject]) -> JsonObject:
@@ -32,6 +35,58 @@ def build_company_capability_read_model(packs: list[JsonObject]) -> JsonObject:
             "protected_action_authorized_by": "governance",
         },
     }
+
+
+def build_company_capability_read_model_from_runtime(stores: StateStoreBundle) -> JsonObject:
+    return build_company_capability_read_model(
+        CompanyCapabilityRuntime(stores).list_packs()
+    )
+
+
+class CompanyCapabilityRuntime:
+    def __init__(self, stores: StateStoreBundle):
+        self.store = stores.company_capabilities
+
+    def seed(self, packs: list[JsonObject]) -> JsonObject:
+        created: list[str] = []
+        updated: list[str] = []
+        seeded: list[JsonObject] = []
+
+        for pack in sorted(packs, key=lambda value: value["company_ref"]):
+            record_id = pack["id"]
+            path = self.store.path_for(record_id)
+            path.parent.mkdir(parents=True, exist_ok=True)
+
+            if path.exists():
+                updated.append(record_id)
+            else:
+                created.append(record_id)
+
+            with path.open("w", encoding="utf-8") as handle:
+                json.dump(pack, handle, indent=2, sort_keys=True)
+                handle.write("\n")
+            seeded.append({"id": record_id, "company_ref": pack["company_ref"]})
+
+        return {
+            "created": created,
+            "updated": updated,
+            "seeded": seeded,
+            "count": len(seeded),
+        }
+
+    def read(self, record_id: str) -> JsonObject:
+        return self.store.read(record_id)
+
+    def read_company(self, company_ref: str) -> JsonObject:
+        for pack in self.list_packs():
+            if pack["company_ref"] == company_ref:
+                return pack
+        raise RecordNotFoundError(
+            f"{company_ref} does not exist in company-capabilities"
+        )
+
+    def list_packs(self) -> list[JsonObject]:
+        return sorted(self.store.replay(), key=lambda pack: pack["company_ref"])
 
 
 def _company_summary(pack: JsonObject) -> JsonObject:
