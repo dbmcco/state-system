@@ -32,6 +32,44 @@ The apps should not create parallel state systems. They should produce and consu
 
 The contract is intentionally app-facing. It names the shared objects and flows each app can rely on while leaving implementation details to the State System runtime.
 
+## Company Capability Packs
+
+`CompanyCapabilityPack` is the company-scoped capability baseline PAIA should
+target before local agent/tool wiring.
+
+It declares company identity, source connectors, raw corpus, evidence index,
+company memory refs, operating picture refs, action surface, governance,
+connector preflight requirements, runtime constraints, freshness, and lineage.
+
+The invariant is:
+
+```text
+CompanyCapabilityPack declares and packages company capability context.
+It does not prove live access and does not authorize execution.
+PAIA preflight proves live access.
+Governance authorizes protected action.
+```
+
+Term boundaries:
+
+- `raw_corpus`: searchable source set, still owned by source systems.
+- `evidence_index`: search/index refs over raw corpus, not truth.
+- `company_memory`: interpreted durable organizational memory/state.
+- `operating_picture`: projection/read model over state and evidence.
+- `action_surface`: actions available in principle, not necessarily credentialed.
+- `connector_preflight`: runtime check spec/result boundary.
+- `runtime_constraints`: PAIA execution constraints, separate from governance.
+- `governance`: approval/authority policy for state promotion and actions.
+
+Ownership boundary:
+
+- State System owns the durable/interpreted middle: company capability packs,
+  source refs, evidence refs, company memory, operating picture projections,
+  context packages, freshness, proposal/commit, and audit flow.
+- Source systems own the raw records and canonical access semantics.
+- PAIA runtime owns credentialed connector calls, connector preflight results,
+  agent dispatch, approval-gated execution, and per-agent tool exposure.
+
 ## Core Principle
 
 Code records evidence, validates schemas, exposes tools, executes accepted effects, and preserves provenance.
@@ -260,5 +298,6 @@ Before serious app implementation, State System should provide:
 6. Fixture traces for the required scenarios in `docs/app-integration-pressure-tests.md`.
 7. A short conformance checklist proving apps are not bypassing proposal, approval, evidence, or state-commit flows.
 8. Substrate read models for company memory and CRM operating picture before durable app UI is built.
+9. Company capability pack fixtures before PAIA implements company-scoped tool/corpus access.
 
 The apps can build against fixtures first. A complete State System runtime is not required before app planning, but these contract fixtures are.

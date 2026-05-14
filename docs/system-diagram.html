@@ -261,7 +261,8 @@
       State System is the organizational state layer: it turns scattered signals from known and
       unknown sources into durable, evidence-backed interpretation that agents can act from and
       humans can inspect through agents or reporting surfaces. This diagram shows the system as
-      of May 4, 2026, including source generalization, app substrate contracts, coherence
+      of May 14, 2026, including source generalization, app substrate contracts, company
+      capability packs, coherence
       maintenance, implemented agent activation, stale-context reporting, queued mission
       records, what is partial, and what should come next.
     </p>
@@ -508,7 +509,7 @@
             <text x="320" y="147" class="node-copy">ContextPackage -> ModelProposalOutput</text>
             <text x="320" y="164" class="node-copy">Governance -> CommitResult</text>
             <text x="320" y="190" class="node-copy">company, campaign, contact, relationship,</text>
-            <text x="320" y="207" class="node-copy">meeting, work, author, idea, visual, doctrine</text>
+            <text x="320" y="207" class="node-copy">capability packs, memory, operating pictures</text>
             <text x="320" y="232" class="status-label" fill="var(--done)">SHARED CONTRACT</text>
 
             <rect x="638" y="78" width="292" height="172" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
@@ -574,7 +575,7 @@
           <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
 
           <text x="34" y="522" class="node-copy">Current trace coverage: accepted update, approval-gated action, agent activation, static HTML report, and stale-context refresh boundary.</text>
-          <text x="34" y="542" class="node-copy">Current app fixture coverage: six chains cover Prospect/Outreach/CRM, Meeting, Thoughtforge, Visual Forge, and CRM outcome doctrine.</text>
+          <text x="34" y="542" class="node-copy">Current app fixture coverage: six chains plus company capability packs for LFW, Synthyra, and Navicyte.</text>
         </svg>
       </div>
     </section>
@@ -717,7 +718,18 @@
         </div>
 
         <div class="workflow">
-          <h3>6. Mission Records Loop</h3>
+          <h3>6. Company Capability Loop</h3>
+          <ol>
+            <li>A company capability pack declares company identity, source connectors, raw corpus, evidence indexes, memory, operating pictures, action surfaces, governance, and runtime constraints.</li>
+            <li>The pack is capability context, not proof of live access and not authorization to act.</li>
+            <li>PAIA runtime performs connector preflight before exposing tools or corpora to agents.</li>
+            <li>Governance decides whether protected state promotion or external action is allowed.</li>
+            <li>The read model lets PAIA target the same company contract without duplicating State System truth.</li>
+          </ol>
+        </div>
+
+        <div class="workflow">
+          <h3>7. Mission Records Loop</h3>
           <ol>
             <li>A coordinated work request becomes a `MissionRun` with evidence, trigger, state, and context refs.</li>
             <li>Each participant becomes a `MissionAgentRun` with role, responsibility, model, cost, and context refs.</li>
@@ -748,11 +760,13 @@
             <li>The mission-control design is committed and queued as `state-mission-records-v0` behind the app handoff lane.</li>
             <li>Schema-valid app fixture chains now cover six app-substrate flows: Prospect/Outreach/CRM, Meeting, Thoughtforge, Visual Forge, and CRM outcome doctrine.</li>
             <li>Company memory and CRM operating picture now have a first JSON substrate read model with Laura and Patrick package slices.</li>
+            <li>Company capability packs now define LFW, Synthyra, and Navicyte capability context before PAIA tool wiring.</li>
           </ul>
         </div>
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
+            <li>Have PAIA consume company capability packs through connector preflight and governance checks instead of app-local company specials.</li>
             <li>Run the operational loop against real local source fixtures before adding more substrate concepts.</li>
             <li>Improve the operator summary until it is useful enough to inspect after every run.</li>
             <li>Promote more scenarios into trace manifests only when operational pressure exposes a gap.</li>

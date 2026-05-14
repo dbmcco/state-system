@@ -157,11 +157,27 @@ This writes `/tmp/state-system-company-memory/company-memory-read-model.json`.
 The artifact is JSON substrate; any HTML/wiki/dashboard surface should be a
 projection over it.
 
+Build the company capability pack read model that PAIA should target before
+local connector/tool wiring:
+
+```bash
+python3 -m state_system.cli --project-root . company-capability-build examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json --output-dir /tmp/state-system-company-capability
+```
+
+This writes
+`/tmp/state-system-company-capability/company-capability-read-model.json`.
+`CompanyCapabilityPack` declares and packages company capability context. It
+does not prove live access and does not authorize execution. PAIA preflight
+proves live access; governance authorizes protected action.
+
 ## What Is Designed Next
 
 The current operational priority is to run and harden the boring local loop
 before adding more substrate concepts. The intended next functional slices are:
 
+- PAIA should wrap company capability packs into runtime packets only after
+  connector preflight proves live access and governance is checked for protected
+  action.
 - Run the operational loop against one or two real local sources through manual
   source-event fixtures before wiring live adapters.
 - Improve the operator summary until it is useful enough to inspect after every
@@ -216,8 +232,9 @@ anonymized.
 - `docs/concepts/source-events-and-idempotency.md` - source event envelope, idempotency keys, sync context, and source watermarks
 - `docs/concepts/backward-gap-audit.md` - thin backward pass before committer implementation
 - `docs/concepts/speedrift-execution-lane.md` - Workgraph/Speedrift implementation lane and pressure-test gates
-- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, agent activations, and agent responses
+- `schemas/` - draft JSON schemas for source events, state objects, journals, triggers, model review packets, model outputs, commit results, review signals, memory entries, governance policies, personas, facets, recent-change entries, context packages, agent activations, company capability packs, and agent responses
 - `examples/` - example state packets and end-to-end traces for Laura and Patrick, including GitHub commitment fixtures
+- `examples/company-capability/` - LFW, Synthyra, and Navicyte company capability packs for PAIA coordination
 - `examples/traces/` - runnable trace manifests for replaying source-event-to-agent-context flows
 - `examples/app-integrations/` - app integration fixture trace anchors for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, Thoughtforge, and Visual Forge
 

@@ -1,0 +1,134 @@
+{
+  "id": "company_capability_pack.navicyte",
+  "company_ref": "company.navicyte",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "identity": {
+    "name": "Navicyte",
+    "summary": "Company substrate for Navicyte scientific, regulatory, and investor work.",
+    "primary_agent_refs": [
+      "persona.helena"
+    ],
+    "oversight_agent_refs": [
+      "persona.samantha"
+    ]
+  },
+  "source_connectors": [
+    {
+      "id": "connector.navicyte.folio",
+      "connector_type": "folio",
+      "source_ref": "folio:tenant:navicyte",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.navicyte.drive",
+      "connector_type": "gws_drive",
+      "source_ref": "gws:mcco:shared-drive:navicyte-biotechnologies",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.navicyte.msgvault",
+      "connector_type": "msgvault",
+      "source_ref": "msgvault:tenant:navicyte-email",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.navicyte.local",
+      "connector_type": "local_path",
+      "source_ref": "local:/Users/braydon/projects/work/navicyte",
+      "owner": "source_system",
+      "declared": true
+    }
+  ],
+  "raw_corpus": {
+    "definition": "raw_corpus is the searchable source set still owned by source systems.",
+    "source_refs": [
+      "folio:tenant:navicyte",
+      "gws:mcco:shared-drive:navicyte-biotechnologies",
+      "msgvault:tenant:navicyte-email",
+      "local:/Users/braydon/projects/work/navicyte"
+    ]
+  },
+  "evidence_index": {
+    "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
+    "index_refs": [
+      "folio:index:tenant:navicyte",
+      "gws:index:mcco:navicyte-biotechnologies",
+      "msgvault:index:navicyte-email"
+    ]
+  },
+  "company_memory_refs": [
+    "company_memory.navicyte"
+  ],
+  "operating_picture_refs": [
+    "operating_picture.scientific.navicyte",
+    "operating_picture.regulatory.navicyte",
+    "operating_picture.investor.navicyte"
+  ],
+  "action_surface": {
+    "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
+    "action_refs": [
+      "action_surface.navicyte.read_folio",
+      "action_surface.navicyte.read_drive",
+      "action_surface.navicyte.search_msgvault",
+      "action_surface.navicyte.inspect_local_workspace"
+    ]
+  },
+  "governance": {
+    "definition": "governance is approval and authority policy for state promotion and protected actions.",
+    "governance_refs": [
+      "governance.company.navicyte.external_action",
+      "governance.company.navicyte.scientific_regulatory_sensitive"
+    ]
+  },
+  "connector_preflight": {
+    "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
+    "required_checks": [
+      {
+        "id": "preflight.navicyte.folio",
+        "connector_ref": "connector.navicyte.folio",
+        "check": "PAIA runtime can search Folio tenant navicyte.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.navicyte.drive",
+        "connector_ref": "connector.navicyte.drive",
+        "check": "PAIA runtime can read Navicyte Biotechnologies shared drive through gws-account mcco.",
+        "owner": "paia_runtime"
+      }
+    ]
+  },
+  "runtime_constraints": {
+    "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
+    "constraints": [
+      "Helena primary for Navicyte.",
+      "Samantha may oversee across company packs.",
+      "Derek technical/repo scope only by default.",
+      "No Linear connector is declared unless explicitly added later."
+    ]
+  },
+  "freshness": {
+    "as_of": "2026-05-14T12:00:00Z",
+    "stale_after": "2026-05-21T12:00:00Z",
+    "watermark_refs": [
+      "company_capability_pack.navicyte@2026-05-14T12:00:00Z"
+    ]
+  },
+  "lineage": {
+    "source_refs": [
+      "coordination:paia-company-scoped-access:2026-05-14"
+    ],
+    "evidence_refs": [
+      "docs:state-system:company-capability-baseline"
+    ]
+  },
+  "invariant": {
+    "declares_context": true,
+    "proves_live_access": false,
+    "authorizes_execution": false,
+    "live_access_proven_by": "paia_connector_preflight",
+    "protected_action_authorized_by": "governance"
+  }
+}

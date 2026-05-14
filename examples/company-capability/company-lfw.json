@@ -1,0 +1,141 @@
+{
+  "id": "company_capability_pack.lfw",
+  "company_ref": "company.lfw",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "identity": {
+    "name": "Lightforge Works",
+    "summary": "Work company substrate for relationship-backed AI operating systems.",
+    "primary_agent_refs": [
+      "persona.caroline"
+    ],
+    "oversight_agent_refs": [
+      "persona.samantha"
+    ]
+  },
+  "source_connectors": [
+    {
+      "id": "connector.lfw.folio",
+      "connector_type": "folio",
+      "source_ref": "folio:tenant:lfw",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.msgvault",
+      "connector_type": "msgvault",
+      "source_ref": "msgvault:tenant:lfw-email",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.drive",
+      "connector_type": "gws_drive",
+      "source_ref": "gws:drive:lfw",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.linear",
+      "connector_type": "linear",
+      "source_ref": "linear:teams:FORGE,LFW",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.local",
+      "connector_type": "local_path",
+      "source_ref": "local:/Users/braydon/projects/work/lfw",
+      "owner": "source_system",
+      "declared": true
+    }
+  ],
+  "raw_corpus": {
+    "definition": "raw_corpus is the searchable source set still owned by source systems.",
+    "source_refs": [
+      "folio:tenant:lfw",
+      "msgvault:tenant:lfw-email",
+      "gws:drive:lfw",
+      "linear:teams:FORGE,LFW",
+      "local:/Users/braydon/projects/work/lfw"
+    ]
+  },
+  "evidence_index": {
+    "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
+    "index_refs": [
+      "folio:index:tenant:lfw",
+      "msgvault:index:lfw-email",
+      "linear:index:teams:FORGE,LFW"
+    ]
+  },
+  "company_memory_refs": [
+    "company_memory.lfw"
+  ],
+  "operating_picture_refs": [
+    "operating_picture.crm.lfw",
+    "operating_picture.deal.lfw"
+  ],
+  "action_surface": {
+    "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
+    "action_refs": [
+      "action_surface.lfw.read_folio",
+      "action_surface.lfw.search_msgvault",
+      "action_surface.lfw.read_drive",
+      "action_surface.lfw.read_linear",
+      "action_surface.lfw.propose_crm_update"
+    ]
+  },
+  "governance": {
+    "definition": "governance is approval and authority policy for state promotion and protected actions.",
+    "governance_refs": [
+      "governance.company.lfw.external_action",
+      "governance.company.lfw.crm_mutation"
+    ]
+  },
+  "connector_preflight": {
+    "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
+    "required_checks": [
+      {
+        "id": "preflight.lfw.folio",
+        "connector_ref": "connector.lfw.folio",
+        "check": "PAIA runtime can search Folio tenant lfw.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.lfw.linear",
+        "connector_ref": "connector.lfw.linear",
+        "check": "PAIA runtime can read Linear FORGE and LFW teams.",
+        "owner": "paia_runtime"
+      }
+    ]
+  },
+  "runtime_constraints": {
+    "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
+    "constraints": [
+      "Caroline primary for LFW.",
+      "Samantha may oversee across company packs.",
+      "Derek technical/repo scope only by default."
+    ]
+  },
+  "freshness": {
+    "as_of": "2026-05-14T12:00:00Z",
+    "stale_after": "2026-05-21T12:00:00Z",
+    "watermark_refs": [
+      "company_capability_pack.lfw@2026-05-14T12:00:00Z"
+    ]
+  },
+  "lineage": {
+    "source_refs": [
+      "coordination:paia-company-scoped-access:2026-05-14"
+    ],
+    "evidence_refs": [
+      "docs:state-system:company-capability-baseline"
+    ]
+  },
+  "invariant": {
+    "declares_context": true,
+    "proves_live_access": false,
+    "authorizes_execution": false,
+    "live_access_proven_by": "paia_connector_preflight",
+    "protected_action_authorized_by": "governance"
+  }
+}

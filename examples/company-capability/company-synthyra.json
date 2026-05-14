@@ -1,0 +1,133 @@
+{
+  "id": "company_capability_pack.synthyra",
+  "company_ref": "company.synthyra",
+  "generated_at": "2026-05-14T12:00:00Z",
+  "identity": {
+    "name": "Synthyra",
+    "summary": "Company substrate for Synthyra product, research, and finance work.",
+    "primary_agent_refs": [
+      "persona.ingrid"
+    ],
+    "oversight_agent_refs": [
+      "persona.samantha"
+    ]
+  },
+  "source_connectors": [
+    {
+      "id": "connector.synthyra.folio",
+      "connector_type": "folio",
+      "source_ref": "folio:tenant:synthyra",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.synthyra.drive",
+      "connector_type": "gws_drive",
+      "source_ref": "gws:mcco:drive:Synthyra Shared",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.synthyra.msgvault",
+      "connector_type": "msgvault",
+      "source_ref": "msgvault:tenant:synthyra-email",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.synthyra.local",
+      "connector_type": "local_path",
+      "source_ref": "local:/Users/braydon/projects/work/synth",
+      "owner": "source_system",
+      "declared": true
+    }
+  ],
+  "raw_corpus": {
+    "definition": "raw_corpus is the searchable source set still owned by source systems.",
+    "source_refs": [
+      "folio:tenant:synthyra",
+      "gws:mcco:drive:Synthyra Shared",
+      "msgvault:tenant:synthyra-email",
+      "local:/Users/braydon/projects/work/synth"
+    ]
+  },
+  "evidence_index": {
+    "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
+    "index_refs": [
+      "folio:index:tenant:synthyra",
+      "gws:index:mcco:Synthyra Shared",
+      "msgvault:index:synthyra-email"
+    ]
+  },
+  "company_memory_refs": [
+    "company_memory.synthyra"
+  ],
+  "operating_picture_refs": [
+    "operating_picture.product.synthyra",
+    "operating_picture.research.synthyra",
+    "operating_picture.finance.synthyra"
+  ],
+  "action_surface": {
+    "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
+    "action_refs": [
+      "action_surface.synthyra.read_folio",
+      "action_surface.synthyra.read_drive",
+      "action_surface.synthyra.search_msgvault",
+      "action_surface.synthyra.inspect_local_workspace"
+    ]
+  },
+  "governance": {
+    "definition": "governance is approval and authority policy for state promotion and protected actions.",
+    "governance_refs": [
+      "governance.company.synthyra.external_action",
+      "governance.company.synthyra.finance_sensitive"
+    ]
+  },
+  "connector_preflight": {
+    "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
+    "required_checks": [
+      {
+        "id": "preflight.synthyra.folio",
+        "connector_ref": "connector.synthyra.folio",
+        "check": "PAIA runtime can search Folio tenant synthyra.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.synthyra.drive",
+        "connector_ref": "connector.synthyra.drive",
+        "check": "PAIA runtime can read Synthyra Shared through gws-account mcco.",
+        "owner": "paia_runtime"
+      }
+    ]
+  },
+  "runtime_constraints": {
+    "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
+    "constraints": [
+      "Ingrid primary for Synthyra.",
+      "Samantha may oversee across company packs.",
+      "No Linear connector is declared unless explicitly added later."
+    ]
+  },
+  "freshness": {
+    "as_of": "2026-05-14T12:00:00Z",
+    "stale_after": "2026-05-21T12:00:00Z",
+    "watermark_refs": [
+      "company_capability_pack.synthyra@2026-05-14T12:00:00Z"
+    ]
+  },
+  "lineage": {
+    "source_refs": [
+      "coordination:paia-company-scoped-access:2026-05-14"
+    ],
+    "evidence_refs": [
+      "docs:state-system:company-capability-baseline"
+    ]
+  },
+  "invariant": {
+    "declares_context": true,
+    "proves_live_access": false,
+    "authorizes_execution": false,
+    "live_access_proven_by": "paia_connector_preflight",
+    "protected_action_authorized_by": "governance"
+  }
+}

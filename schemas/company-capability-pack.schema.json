@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/company-capability-pack.schema.json",
+  "title": "CompanyCapabilityPack",
+  "type": "object",
+  "required": [
+    "id",
+    "company_ref",
+    "generated_at",
+    "identity",
+    "source_connectors",
+    "raw_corpus",
+    "evidence_index",
+    "company_memory_refs",
+    "operating_picture_refs",
+    "action_surface",
+    "governance",
+    "connector_preflight",
+    "runtime_constraints",
+    "freshness",
+    "invariant"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "company_ref": { "type": "string" },
+    "generated_at": { "type": "string" },
+    "identity": {
+      "type": "object",
+      "required": ["name", "summary", "primary_agent_refs"],
+      "properties": {
+        "name": { "type": "string" },
+        "summary": { "type": "string" },
+        "primary_agent_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "oversight_agent_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "source_connectors": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source_connector" }
+    },
+    "raw_corpus": {
+      "type": "object",
+      "required": ["definition", "source_refs"],
+      "properties": {
+        "definition": { "type": "string" },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "evidence_index": {
+      "type": "object",
+      "required": ["definition", "index_refs"],
+      "properties": {
+        "definition": { "type": "string" },
+        "index_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "company_memory_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "operating_picture_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "action_surface": {
+      "type": "object",
+      "required": ["definition", "action_refs"],
+      "properties": {
+        "definition": { "type": "string" },
+        "action_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["definition", "governance_refs"],
+      "properties": {
+        "definition": { "type": "string" },
+        "governance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "connector_preflight": {
+      "type": "object",
+      "required": ["definition", "required_checks"],
+      "properties": {
+        "definition": { "type": "string" },
+        "required_checks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/preflight_check" }
+        }
+      }
+    },
+    "runtime_constraints": {
+      "type": "object",
+      "required": ["definition", "constraints"],
+      "properties": {
+        "definition": { "type": "string" },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["as_of", "stale_after", "watermark_refs"],
+      "properties": {
+        "as_of": { "type": "string" },
+        "stale_after": { "type": "string" },
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "properties": {
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": []
+        }
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "declares_context",
+        "proves_live_access",
+        "authorizes_execution",
+        "live_access_proven_by",
+        "protected_action_authorized_by"
+      ],
+      "properties": {
+        "declares_context": { "type": "boolean" },
+        "proves_live_access": { "type": "boolean" },
+        "authorizes_execution": { "type": "boolean" },
+        "live_access_proven_by": { "type": "string" },
+        "protected_action_authorized_by": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "source_connector": {
+      "type": "object",
+      "required": ["id", "connector_type", "source_ref", "owner"],
+      "properties": {
+        "id": { "type": "string" },
+        "connector_type": {
+          "type": "string",
+          "enum": [
+            "folio",
+            "msgvault",
+            "gws_drive",
+            "gws_account",
+            "linear",
+            "local_path",
+            "repo",
+            "crm",
+            "docs"
+          ]
+        },
+        "source_ref": { "type": "string" },
+        "owner": {
+          "type": "string",
+          "enum": ["state_system", "paia_runtime", "source_system"]
+        },
+        "declared": { "type": "boolean" }
+      }
+    },
+    "preflight_check": {
+      "type": "object",
+      "required": ["id", "connector_ref", "check", "owner"],
+      "properties": {
+        "id": { "type": "string" },
+        "connector_ref": { "type": "string" },
+        "check": { "type": "string" },
+        "owner": {
+          "type": "string",
+          "enum": ["paia_runtime", "state_system"]
+        }
+      }
+    }
+  }
+}

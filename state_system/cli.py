@@ -15,6 +15,7 @@ from state_system.agent_activation import (
     render_activation_for_agent,
 )
 from state_system.app_integrations import run_app_integration_fixtures
+from state_system.company_capability import build_company_capability_read_model
 from state_system.company_memory import build_company_memory_read_model
 from state_system.contracts import load_json, validate_all_examples
 from state_system.mission_records import (
@@ -351,6 +352,26 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "company-capability-build":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_company_capability_read_model(
+            [load_json(Path(path)) for path in args.company_capability_pack]
+        )
+        read_model_path = output_dir / "company-capability-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "operational-loop-run":
         summary = run_operational_loop(
             project_root=project_root,
@@ -533,6 +554,10 @@ def _parser() -> argparse.ArgumentParser:
     company_memory.add_argument("company_memory")
     company_memory.add_argument("crm_operating_picture")
     company_memory.add_argument("--output-dir", required=True)
+
+    company_capability = subcommands.add_parser("company-capability-build")
+    company_capability.add_argument("company_capability_pack", nargs="+")
+    company_capability.add_argument("--output-dir", required=True)
 
     operational_loop = subcommands.add_parser("operational-loop-run")
     operational_loop.add_argument("trace_manifest")
