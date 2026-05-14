@@ -97,6 +97,19 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                     ]
                 ],
             )
+            navicyte_connectors = _company(read_model, "company.navicyte")[
+                "source_connectors"
+            ]
+            self.assertIn(
+                {
+                    "id": "connector.navicyte.folio",
+                    "connector_type": "folio",
+                    "source_ref": "folio:tenant:navicyte",
+                    "owner": "source_system",
+                    "declared": True,
+                },
+                navicyte_connectors,
+            )
 
     def test_cli_seeds_and_reads_company_capability_from_state_root(self):
         with TemporaryDirectory() as directory, TemporaryDirectory() as output_dir:

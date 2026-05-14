@@ -172,8 +172,9 @@ This writes
 `CompanyCapabilityPack` declares and packages company capability context. It
 does not prove live access and does not authorize execution. PAIA preflight
 proves live access; governance authorizes protected action. PAIA should expose
-tools from `companies[].tool_capability_bindings[]`, not by interpreting
-connector names or free-text descriptions.
+tools from `companies[].tool_capability_bindings[]` and resolve preflight
+targets from `companies[].source_connectors[]`, not by interpreting connector
+names or free-text descriptions.
 
 Record and export PAIA-owned connector preflight results as live-access
 evidence:

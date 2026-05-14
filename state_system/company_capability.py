@@ -96,6 +96,7 @@ def _company_summary(pack: JsonObject) -> JsonObject:
         "name": pack["identity"]["name"],
         "primary_agent_refs": pack["identity"]["primary_agent_refs"],
         "oversight_agent_refs": pack["identity"].get("oversight_agent_refs", []),
+        "source_connectors": pack["source_connectors"],
         "connector_refs": [connector["id"] for connector in pack["source_connectors"]],
         "connector_types": sorted(
             {connector["connector_type"] for connector in pack["source_connectors"]}

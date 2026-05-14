@@ -89,6 +89,9 @@ PAIA tool exposure contract:
 
 - Consume `companies[].tool_capability_bindings[]` from
   `company-capability-read-model.json`.
+- Resolve preflight targets from `companies[].source_connectors[]`. Each record
+  ties a connector id to `connector_type`, `source_ref`, ownership, and declared
+  status.
 - Each binding maps one `capability_ref` and `tool_ref` to one `action_ref`,
   `connector_refs`, `required_preflight_refs`, `governance_refs`, and
   `allowed_agent_refs`.
@@ -98,7 +101,8 @@ PAIA tool exposure contract:
 - Treat `governance_refs` as protected-effect gates. They do not prove access;
   they tell PAIA which governance checks must pass before protected execution.
 - Never infer tool exposure from free-text summaries, connector names, or
-  operating-picture names. The binding array is the mechanical contract.
+  operating-picture names. The binding array and source connector records are
+  the mechanical contract.
 - Preserve `proves_live_access: false` and `authorizes_execution: false` on
   bindings. State System declares the route; PAIA proves access and executes.
 

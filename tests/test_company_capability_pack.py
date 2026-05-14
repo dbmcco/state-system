@@ -101,6 +101,11 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertIn("folio:tenant:lfw", read_model["source_refs"])
         self.assertIn("gws:mcco:shared-drive:navicyte-biotechnologies", read_model["source_refs"])
 
+        lfw_folio = _connector(lfw, "connector.lfw.folio")
+        self.assertEqual("folio", lfw_folio["connector_type"])
+        self.assertEqual("folio:tenant:lfw", lfw_folio["source_ref"])
+        self.assertEqual("source_system", lfw_folio["owner"])
+
     def test_read_model_exposes_mechanical_tool_capability_bindings(self):
         read_model = build_company_capability_read_model(
             [
@@ -168,6 +173,14 @@ def _binding(company, capability_ref):
         binding
         for binding in company["tool_capability_bindings"]
         if binding["capability_ref"] == capability_ref
+    )
+
+
+def _connector(company, connector_ref):
+    return next(
+        connector
+        for connector in company["source_connectors"]
+        if connector["id"] == connector_ref
     )
 
 
