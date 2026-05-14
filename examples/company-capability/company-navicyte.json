@@ -76,6 +76,89 @@
       "action_surface.navicyte.inspect_local_workspace"
     ]
   },
+  "tool_capability_bindings": [
+    {
+      "id": "tool_binding.navicyte.folio.search",
+      "capability_ref": "capability.navicyte.folio.search",
+      "tool_ref": "tool.paia.folio.search",
+      "action_ref": "action_surface.navicyte.read_folio",
+      "connector_refs": [
+        "connector.navicyte.folio"
+      ],
+      "required_preflight_refs": [
+        "preflight.navicyte.folio"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.helena",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.navicyte.drive.read",
+      "capability_ref": "capability.navicyte.drive.read",
+      "tool_ref": "tool.paia.gws_drive.read",
+      "action_ref": "action_surface.navicyte.read_drive",
+      "connector_refs": [
+        "connector.navicyte.drive"
+      ],
+      "required_preflight_refs": [
+        "preflight.navicyte.drive"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.helena",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.navicyte.msgvault.search",
+      "capability_ref": "capability.navicyte.msgvault.search",
+      "tool_ref": "tool.paia.msgvault.search",
+      "action_ref": "action_surface.navicyte.search_msgvault",
+      "connector_refs": [
+        "connector.navicyte.msgvault"
+      ],
+      "required_preflight_refs": [
+        "preflight.navicyte.msgvault"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.helena",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.navicyte.local.inspect",
+      "capability_ref": "capability.navicyte.local.inspect",
+      "tool_ref": "tool.paia.local_path.inspect",
+      "action_ref": "action_surface.navicyte.inspect_local_workspace",
+      "connector_refs": [
+        "connector.navicyte.local"
+      ],
+      "required_preflight_refs": [
+        "preflight.navicyte.local"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.helena",
+        "persona.samantha",
+        "persona.derek"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    }
+  ],
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
@@ -96,6 +179,18 @@
         "id": "preflight.navicyte.drive",
         "connector_ref": "connector.navicyte.drive",
         "check": "PAIA runtime can read Navicyte Biotechnologies shared drive through gws-account mcco.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.navicyte.msgvault",
+        "connector_ref": "connector.navicyte.msgvault",
+        "check": "PAIA runtime can search Navicyte msgvault email where applicable.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.navicyte.local",
+        "connector_ref": "connector.navicyte.local",
+        "check": "PAIA runtime can inspect the local Navicyte path when locally available.",
         "owner": "paia_runtime"
       }
     ]

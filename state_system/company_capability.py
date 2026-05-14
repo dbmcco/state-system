@@ -105,6 +105,7 @@ def _company_summary(pack: JsonObject) -> JsonObject:
         "company_memory_refs": pack["company_memory_refs"],
         "operating_picture_refs": pack["operating_picture_refs"],
         "action_surface_refs": pack["action_surface"]["action_refs"],
+        "tool_capability_bindings": pack["tool_capability_bindings"],
         "governance_refs": pack["governance"]["governance_refs"],
         "preflight_check_refs": [
             check["id"] for check in pack["connector_preflight"]["required_checks"]

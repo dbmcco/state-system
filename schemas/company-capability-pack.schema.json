@@ -14,6 +14,7 @@
     "company_memory_refs",
     "operating_picture_refs",
     "action_surface",
+    "tool_capability_bindings",
     "governance",
     "connector_preflight",
     "runtime_constraints",
@@ -85,6 +86,10 @@
           "items": { "type": "string" }
         }
       }
+    },
+    "tool_capability_bindings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/tool_capability_binding" }
     },
     "governance": {
       "type": "object",
@@ -190,6 +195,54 @@
           "enum": ["state_system", "paia_runtime", "source_system"]
         },
         "declared": { "type": "boolean" }
+      }
+    },
+    "tool_capability_binding": {
+      "type": "object",
+      "required": [
+        "id",
+        "capability_ref",
+        "tool_ref",
+        "action_ref",
+        "connector_refs",
+        "required_preflight_refs",
+        "governance_refs",
+        "allowed_agent_refs",
+        "exposure_policy",
+        "proves_live_access",
+        "authorizes_execution"
+      ],
+      "properties": {
+        "id": { "type": "string" },
+        "capability_ref": { "type": "string" },
+        "tool_ref": { "type": "string" },
+        "action_ref": { "type": "string" },
+        "connector_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "required_preflight_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "governance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "allowed_agent_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exposure_policy": {
+          "type": "string",
+          "enum": [
+            "hide_until_preflight_passes",
+            "available_after_preflight_governance_gates_effects",
+            "require_governance_before_execution"
+          ]
+        },
+        "proves_live_access": { "type": "boolean" },
+        "authorizes_execution": { "type": "boolean" }
       }
     },
     "preflight_check": {

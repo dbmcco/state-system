@@ -88,6 +88,15 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                 "company_memory.synthyra",
                 _company(read_model, "company.synthyra")["company_memory_refs"],
             )
+            self.assertIn(
+                "tool.paia.gws_drive.read",
+                [
+                    binding["tool_ref"]
+                    for binding in _company(read_model, "company.navicyte")[
+                        "tool_capability_bindings"
+                    ]
+                ],
+            )
 
     def test_cli_seeds_and_reads_company_capability_from_state_root(self):
         with TemporaryDirectory() as directory, TemporaryDirectory() as output_dir:

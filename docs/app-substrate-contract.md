@@ -40,7 +40,8 @@ should consume the read model emitted from a State System runtime state root.
 
 It declares company identity, source connectors, raw corpus, evidence index,
 company memory refs, operating picture refs, action surface, governance,
-connector preflight requirements, runtime constraints, freshness, and lineage.
+connector preflight requirements, explicit tool capability bindings, runtime
+constraints, freshness, and lineage.
 
 The invariant is:
 
@@ -80,6 +81,23 @@ python3 -m state_system.cli --project-root . --state-root /path/to/runtime compa
 
 PAIA should call the read command against the agreed runtime root, then perform
 its own connector preflight before exposing tools or corpora to any agent.
+
+PAIA tool exposure contract:
+
+- Consume `companies[].tool_capability_bindings[]` from
+  `company-capability-read-model.json`.
+- Each binding maps one `capability_ref` and `tool_ref` to one `action_ref`,
+  `connector_refs`, `required_preflight_refs`, `governance_refs`, and
+  `allowed_agent_refs`.
+- Hide the tool when the active agent is not listed in `allowed_agent_refs`.
+- Hide the tool until every `required_preflight_ref` has a PAIA-owned passing
+  preflight result.
+- Treat `governance_refs` as protected-effect gates. They do not prove access;
+  they tell PAIA which governance checks must pass before protected execution.
+- Never infer tool exposure from free-text summaries, connector names, or
+  operating-picture names. The binding array is the mechanical contract.
+- Preserve `proves_live_access: false` and `authorizes_execution: false` on
+  bindings. State System declares the route; PAIA proves access and executes.
 
 ## Core Principle
 

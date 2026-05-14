@@ -84,6 +84,106 @@
       "action_surface.lfw.propose_crm_update"
     ]
   },
+  "tool_capability_bindings": [
+    {
+      "id": "tool_binding.lfw.folio.search",
+      "capability_ref": "capability.lfw.folio.search",
+      "tool_ref": "tool.paia.folio.search",
+      "action_ref": "action_surface.lfw.read_folio",
+      "connector_refs": [
+        "connector.lfw.folio"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.folio"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.lfw.msgvault.search",
+      "capability_ref": "capability.lfw.msgvault.search",
+      "tool_ref": "tool.paia.msgvault.search",
+      "action_ref": "action_surface.lfw.search_msgvault",
+      "connector_refs": [
+        "connector.lfw.msgvault"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.msgvault"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.lfw.drive.read",
+      "capability_ref": "capability.lfw.drive.read",
+      "tool_ref": "tool.paia.gws_drive.read",
+      "action_ref": "action_surface.lfw.read_drive",
+      "connector_refs": [
+        "connector.lfw.drive"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.drive"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.lfw.linear.read",
+      "capability_ref": "capability.lfw.linear.read",
+      "tool_ref": "tool.paia.linear.read",
+      "action_ref": "action_surface.lfw.read_linear",
+      "connector_refs": [
+        "connector.lfw.linear"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.linear"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.lfw.crm.propose_update",
+      "capability_ref": "capability.lfw.crm.propose_update",
+      "tool_ref": "tool.paia.crm.propose_update",
+      "action_ref": "action_surface.lfw.propose_crm_update",
+      "connector_refs": [],
+      "required_preflight_refs": [],
+      "governance_refs": [
+        "governance.company.lfw.crm_mutation"
+      ],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "require_governance_before_execution",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    }
+  ],
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
@@ -101,9 +201,27 @@
         "owner": "paia_runtime"
       },
       {
+        "id": "preflight.lfw.msgvault",
+        "connector_ref": "connector.lfw.msgvault",
+        "check": "PAIA runtime can search LFW msgvault email.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.lfw.drive",
+        "connector_ref": "connector.lfw.drive",
+        "check": "PAIA runtime can read LFW Drive.",
+        "owner": "paia_runtime"
+      },
+      {
         "id": "preflight.lfw.linear",
         "connector_ref": "connector.lfw.linear",
         "check": "PAIA runtime can read Linear FORGE and LFW teams.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.lfw.local",
+        "connector_ref": "connector.lfw.local",
+        "check": "PAIA runtime can inspect the local LFW path when locally available.",
         "owner": "paia_runtime"
       }
     ]

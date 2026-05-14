@@ -56,6 +56,25 @@ class CompanyCapabilityPackTests(unittest.TestCase):
             any(connector["connector_type"] == "linear" for connector in navicyte["source_connectors"])
         )
 
+    def test_tool_capability_bindings_reference_declared_pack_parts(self):
+        for path in sorted(PACK_DIR.glob("company-*.json")):
+            pack = load_json(path)
+            connector_refs = {connector["id"] for connector in pack["source_connectors"]}
+            action_refs = set(pack["action_surface"]["action_refs"])
+            governance_refs = set(pack["governance"]["governance_refs"])
+            preflight_refs = {
+                check["id"]
+                for check in pack["connector_preflight"]["required_checks"]
+            }
+
+            for binding in pack["tool_capability_bindings"]:
+                self.assertIn(binding["action_ref"], action_refs)
+                self.assertLessEqual(set(binding["connector_refs"]), connector_refs)
+                self.assertLessEqual(set(binding["required_preflight_refs"]), preflight_refs)
+                self.assertLessEqual(set(binding["governance_refs"]), governance_refs)
+                self.assertFalse(binding["proves_live_access"])
+                self.assertFalse(binding["authorizes_execution"])
+
     def test_read_model_rolls_up_company_capability_packs(self):
         read_model = build_company_capability_read_model(
             [
@@ -81,6 +100,36 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertIn("operating_picture.regulatory.navicyte", navicyte["operating_picture_refs"])
         self.assertIn("folio:tenant:lfw", read_model["source_refs"])
         self.assertIn("gws:mcco:shared-drive:navicyte-biotechnologies", read_model["source_refs"])
+
+    def test_read_model_exposes_mechanical_tool_capability_bindings(self):
+        read_model = build_company_capability_read_model(
+            [
+                load_json(PACK_DIR / "company-lfw.json"),
+                load_json(PACK_DIR / "company-synthyra.json"),
+                load_json(PACK_DIR / "company-navicyte.json"),
+            ]
+        )
+
+        lfw = _company(read_model, "company.lfw")
+        binding = _binding(lfw, "capability.lfw.linear.read")
+
+        self.assertEqual("tool.paia.linear.read", binding["tool_ref"])
+        self.assertEqual("action_surface.lfw.read_linear", binding["action_ref"])
+        self.assertEqual(["connector.lfw.linear"], binding["connector_refs"])
+        self.assertEqual(["preflight.lfw.linear"], binding["required_preflight_refs"])
+        self.assertEqual([], binding["governance_refs"])
+        self.assertEqual(["persona.caroline", "persona.samantha"], binding["allowed_agent_refs"])
+        self.assertEqual("hide_until_preflight_passes", binding["exposure_policy"])
+        self.assertFalse(binding["proves_live_access"])
+        self.assertFalse(binding["authorizes_execution"])
+
+        synthyra = _company(read_model, "company.synthyra")
+        self.assertFalse(
+            any(
+                "linear" in binding["tool_ref"]
+                for binding in synthyra["tool_capability_bindings"]
+            )
+        )
 
     def test_cli_writes_company_capability_read_model(self):
         with TemporaryDirectory() as directory:
@@ -111,6 +160,14 @@ class CompanyCapabilityPackTests(unittest.TestCase):
 def _company(read_model, company_ref):
     return next(
         company for company in read_model["companies"] if company["company_ref"] == company_ref
+    )
+
+
+def _binding(company, capability_ref):
+    return next(
+        binding
+        for binding in company["tool_capability_bindings"]
+        if binding["capability_ref"] == capability_ref
     )
 
 
