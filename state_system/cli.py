@@ -32,6 +32,10 @@ from state_system.mission_records import (
     replay_mission_fixture,
 )
 from state_system.operational_loop import run_operational_loop
+from state_system.paia_bootstrap import (
+    DEFAULT_PAIA_STATE_ROOT,
+    bootstrap_paia_state_system,
+)
 from state_system.runtime import (
     build_recent_package,
     build_review_packet_from_source_event,
@@ -454,6 +458,14 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "paia-bootstrap-export":
+        bootstrap_root = (
+            Path(args.state_root) if args.state_root else DEFAULT_PAIA_STATE_ROOT
+        )
+        result = bootstrap_paia_state_system(project_root, bootstrap_root)
+        _write_json(stdout, result)
+        return 0
+
     if args.command == "operational-loop-run":
         summary = run_operational_loop(
             project_root=project_root,
@@ -672,6 +684,8 @@ def _parser() -> argparse.ArgumentParser:
 
     preflight_export = subcommands.add_parser("company-preflight-export")
     preflight_export.add_argument("--output-dir", required=True)
+
+    subcommands.add_parser("paia-bootstrap-export")
 
     operational_loop = subcommands.add_parser("operational-loop-run")
     operational_loop.add_argument("trace_manifest")

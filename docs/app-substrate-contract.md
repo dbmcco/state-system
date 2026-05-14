@@ -75,12 +75,15 @@ Ownership boundary:
 Runtime command surface:
 
 ```bash
+python3 -m state_system.cli --project-root . paia-bootstrap-export
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 
-PAIA should call the read command against the agreed runtime root, then perform
-its own connector preflight before exposing tools or corpora to any agent.
+`paia-bootstrap-export` refreshes the default operational artifact layout under
+`/Users/braydon/.paia/state-system`. PAIA should consume those read artifacts,
+then perform its own connector preflight before exposing tools or corpora to any
+agent.
 
 PAIA tool exposure contract:
 
