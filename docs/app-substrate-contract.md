@@ -92,6 +92,8 @@ PAIA tool exposure contract:
 - Resolve preflight targets from `companies[].source_connectors[]`. Each record
   ties a connector id to `connector_type`, `source_ref`, ownership, and declared
   status.
+- For `connector_type: gws_drive`, `source_ref` uses
+  `gws:<gws-account-profile>:<drive|shared-drive>:<lookup-key>`.
 - Each binding maps one `capability_ref` and `tool_ref` to one `action_ref`,
   `connector_refs`, `required_preflight_refs`, `governance_refs`, and
   `allowed_agent_refs`.

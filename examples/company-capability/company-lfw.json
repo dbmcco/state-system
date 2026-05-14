@@ -30,7 +30,7 @@
     {
       "id": "connector.lfw.drive",
       "connector_type": "gws_drive",
-      "source_ref": "gws:drive:lfw",
+      "source_ref": "gws:lfw:drive:lfw",
       "owner": "source_system",
       "declared": true
     },
@@ -54,7 +54,7 @@
     "source_refs": [
       "folio:tenant:lfw",
       "msgvault:tenant:lfw-email",
-      "gws:drive:lfw",
+      "gws:lfw:drive:lfw",
       "linear:teams:FORGE,LFW",
       "local:/Users/braydon/projects/work/lfw"
     ]

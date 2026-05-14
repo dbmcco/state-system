@@ -75,6 +75,21 @@ class CompanyCapabilityPackTests(unittest.TestCase):
                 self.assertFalse(binding["proves_live_access"])
                 self.assertFalse(binding["authorizes_execution"])
 
+    def test_gws_drive_source_refs_include_profile_and_resource_kind(self):
+        for path in sorted(PACK_DIR.glob("company-*.json")):
+            pack = load_json(path)
+            for connector in pack["source_connectors"]:
+                if connector["connector_type"] != "gws_drive":
+                    continue
+
+                source_ref_parts = connector["source_ref"].split(":", 3)
+                self.assertEqual(4, len(source_ref_parts), connector)
+                system, profile, resource_kind, lookup_key = source_ref_parts
+                self.assertEqual("gws", system)
+                self.assertIn(profile, {"lfw", "mcco"})
+                self.assertIn(resource_kind, {"drive", "shared-drive"})
+                self.assertTrue(lookup_key)
+
     def test_read_model_rolls_up_company_capability_packs(self):
         read_model = build_company_capability_read_model(
             [

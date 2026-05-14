@@ -175,6 +175,8 @@ proves live access; governance authorizes protected action. PAIA should expose
 tools from `companies[].tool_capability_bindings[]` and resolve preflight
 targets from `companies[].source_connectors[]`, not by interpreting connector
 names or free-text descriptions.
+For `connector_type: gws_drive`, `source_ref` uses
+`gws:<gws-account-profile>:<drive|shared-drive>:<lookup-key>`.
 
 Record and export PAIA-owned connector preflight results as live-access
 evidence:
