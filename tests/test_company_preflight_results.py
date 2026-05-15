@@ -35,7 +35,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "stale_after": "2026-05-14T19:20:00Z",
                     "ttl_seconds": 3600,
                     "evidence_refs": ["paia:preflight:linear:20260514T182000Z"],
-                    "detail": "Linear read preflight passed for FORGE/LFW teams.",
+                    "detail": "Linear read preflight passed for FORGE/INT teams.",
                 }
             )
 

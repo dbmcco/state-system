@@ -194,7 +194,7 @@ Record and export PAIA-owned source freshness heartbeat results as recency
 evidence:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,LFW --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
 python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-export --output-dir /Users/braydon/.paia/state-system/source-freshness
 ```
 
@@ -359,7 +359,7 @@ python3 -m state_system.cli --project-root . --state-root /path/to/runtime compa
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-export --output-dir /tmp/state-system-company-preflight
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,LFW --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-export --output-dir /tmp/state-system-source-freshness
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest

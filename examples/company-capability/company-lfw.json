@@ -43,7 +43,7 @@
     {
       "id": "connector.lfw.linear",
       "connector_type": "linear",
-      "source_ref": "linear:teams:FORGE,LFW",
+      "source_ref": "linear:teams:FORGE,INT",
       "owner": "source_system",
       "declared": true
     },
@@ -61,7 +61,7 @@
       "folio:tenant:lfw",
       "msgvault:tenant:lfw-email",
       "gws:lfw:drive:lfw",
-      "linear:teams:FORGE,LFW",
+      "linear:teams:FORGE,INT",
       "local:/Users/braydon/projects/work/lfw"
     ]
   },
@@ -70,7 +70,7 @@
     "index_refs": [
       "folio:index:tenant:lfw",
       "msgvault:index:lfw-email",
-      "linear:index:teams:FORGE,LFW"
+      "linear:index:teams:FORGE,INT"
     ]
   },
   "company_memory_refs": [
@@ -221,7 +221,7 @@
       {
         "id": "preflight.lfw.linear",
         "connector_ref": "connector.lfw.linear",
-        "check": "PAIA runtime can read Linear FORGE and LFW teams.",
+        "check": "PAIA runtime can read Linear FORGE and INT teams.",
         "owner": "paia_runtime"
       },
       {

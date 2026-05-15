@@ -25,7 +25,7 @@ class SourceFreshnessTests(unittest.TestCase):
                 {
                     "company_ref": "company.lfw",
                     "connector_ref": "connector.lfw.linear",
-                    "source_ref": "linear:teams:FORGE,LFW",
+                    "source_ref": "linear:teams:FORGE,INT",
                     "connector_type": "linear",
                     "status": "fresh",
                     "checked_at": "2026-05-15T12:00:00Z",
@@ -33,12 +33,12 @@ class SourceFreshnessTests(unittest.TestCase):
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 120,
                     "evidence_refs": ["paia:freshness:linear:company.lfw:20260515T120000Z"],
-                    "detail": "Linear FORGE/LFW freshness watermark checked.",
+                    "detail": "Linear FORGE/INT freshness watermark checked.",
                 }
             )
 
             self.assertEqual(
-                "company.lfw|connector.lfw.linear|linear:teams:FORGE,LFW",
+                "company.lfw|connector.lfw.linear|linear:teams:FORGE,INT",
                 record["scope_key"],
             )
             self.assertTrue(
