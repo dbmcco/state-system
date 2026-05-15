@@ -9,6 +9,7 @@ from state_system.company_capability import (
 )
 from state_system.company_preflight import build_company_preflight_read_model
 from state_system.contracts import JsonObject, load_json, validate_schema
+from state_system.source_freshness import build_source_freshness_read_model
 from state_system.stores import StateStoreBundle
 
 
@@ -35,13 +36,21 @@ def bootstrap_paia_state_system(project_root: Path, state_root: Path) -> JsonObj
     )
     _write_json(preflight_path, preflight_model)
 
+    freshness_model = build_source_freshness_read_model(stores)
+    freshness_path = (
+        state_root / "source-freshness" / "source-freshness-read-model.json"
+    )
+    _write_json(freshness_path, freshness_model)
+
     return {
         "ok": True,
         "state_root": str(state_root),
         "company_capability_path": str(capability_path),
         "company_preflight_path": str(preflight_path),
+        "source_freshness_path": str(freshness_path),
         "company_capability_companies": len(capability_model["companies"]),
         "company_preflight_results": len(preflight_model["results"]),
+        "source_freshness_results": len(freshness_model["results"]),
         "seeded": seed_result,
     }
 

@@ -82,6 +82,7 @@ class JsonFileStoreTests(unittest.TestCase):
                     "agent_responses",
                     "company_capabilities",
                     "company_preflight_results",
+                    "source_freshness",
                 },
                 set(DEFAULT_COLLECTIONS),
             )

@@ -23,6 +23,7 @@ DEFAULT_COLLECTIONS = {
     "agent_responses": "agent-responses",
     "company_capabilities": "company-capabilities",
     "company_preflight_results": "company-preflight-results",
+    "source_freshness": "source-freshness",
 }
 
 

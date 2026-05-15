@@ -190,13 +190,25 @@ python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/s
 python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system company-preflight-export --output-dir /Users/braydon/.paia/state-system/company-preflight
 ```
 
+Record and export PAIA-owned source freshness heartbeat results as recency
+evidence:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,LFW --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-export --output-dir /Users/braydon/.paia/state-system/source-freshness
+```
+
 The bootstrap command refreshes the expected PAIA artifact layout under
 `/Users/braydon/.paia/state-system`. It writes
 `/Users/braydon/.paia/state-system/company-capability/company-capability-read-model.json`
 and
-`/Users/braydon/.paia/state-system/company-preflight/company-preflight-results-read-model.json`.
+`/Users/braydon/.paia/state-system/company-preflight/company-preflight-results-read-model.json`
+and
+`/Users/braydon/.paia/state-system/source-freshness/source-freshness-read-model.json`.
 Preflight results prove or fail live access only. They do not authorize
 protected effects; governance remains separate.
+Freshness results prove source recency only. They do not prove live access and
+do not authorize protected effects.
 
 ## What Is Designed Next
 
@@ -321,7 +333,7 @@ handoff and the Outreach reply -> CRM plus secondary contacts handoff.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py tests/test_company_capability_pack.py tests/test_company_capability_runtime.py tests/test_company_preflight_results.py tests/test_paia_bootstrap_export.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py tests/test_company_capability_pack.py tests/test_company_capability_runtime.py tests/test_company_preflight_results.py tests/test_source_freshness.py tests/test_paia_bootstrap_export.py
 ```
 
 ## Runtime V0 CLI
@@ -339,6 +351,8 @@ python3 -m state_system.cli --project-root . --state-root /path/to/runtime compa
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-export --output-dir /tmp/state-system-company-preflight
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,LFW --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-export --output-dir /tmp/state-system-source-freshness
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-from-repo . --commit HEAD --repo-ref repo.state-system --observed-at 2026-05-01T18:46:00Z --candidate-state-ref state.repo.state-system.runtime --ingest

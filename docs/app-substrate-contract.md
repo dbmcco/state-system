@@ -134,6 +134,28 @@ PAIA preflight result contract:
 - `authorizes_execution` is always false. Governance remains the authority for
   protected effects.
 
+PAIA source freshness result contract:
+
+- PAIA owns the actual source watermark check and records the outcome through
+  `source-freshness-record`.
+- State System persists the result under the runtime state root and exports
+  `source-freshness-read-model.json` through `source-freshness-export`.
+- Each result has a mechanical `scope_key`:
+  `company_ref|connector_ref|source_ref`.
+- Consumers may use `latest_by_scope_key` for current recency status or scan
+  `results[]` for historical freshness evidence.
+- Required fields are `company_ref`, `connector_ref`, `source_ref`,
+  `connector_type`, `status`, `checked_at`, `source_watermark`, `stale_after`,
+  `evidence_refs`, `freshness_is_recency_evidence`, `proves_live_access`,
+  `authorizes_execution`, and `protected_action_authorized_by`.
+- `status: fresh` means the source watermark is current enough for the checker
+  that recorded it. `stale`, `failed`, and `unknown` mean consumers should avoid
+  relying on interpreted state that depends on that source without refreshing.
+- Freshness does not prove live access. Preflight remains the live-access
+  evidence contract.
+- `authorizes_execution` is always false. Governance remains the authority for
+  protected effects.
+
 ## Core Principle
 
 Code records evidence, validates schemas, exposes tools, executes accepted effects, and preserves provenance.

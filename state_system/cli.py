@@ -50,6 +50,10 @@ from state_system.source_adapters import (
     git_commit_metadata_from_repo,
     git_commit_to_source_event,
 )
+from state_system.source_freshness import (
+    SourceFreshnessRuntime,
+    build_source_freshness_read_model,
+)
 from state_system.stores import JsonObject, StateStoreBundle
 from state_system.trace_runner import run_trace_manifest
 
@@ -69,6 +73,7 @@ COLLECTIONS = {
     "agent-response": "agent_responses",
     "company-capability": "company_capabilities",
     "company-preflight": "company_preflight_results",
+    "source-freshness": "source_freshness",
 }
 
 
@@ -458,6 +463,42 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "source-freshness-record":
+        result = SourceFreshnessRuntime(stores).record(
+            _source_freshness_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "source-freshness-record.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "source_freshness": result})
+        return 0
+
+    if args.command == "source-freshness-list":
+        _write_json(stdout, {"results": SourceFreshnessRuntime(stores).list_results()})
+        return 0
+
+    if args.command == "source-freshness-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_source_freshness_read_model(stores)
+        read_model_path = output_dir / "source-freshness-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "paia-bootstrap-export":
         bootstrap_root = (
             Path(args.state_root) if args.state_root else DEFAULT_PAIA_STATE_ROOT
@@ -685,6 +726,30 @@ def _parser() -> argparse.ArgumentParser:
     preflight_export = subcommands.add_parser("company-preflight-export")
     preflight_export.add_argument("--output-dir", required=True)
 
+    freshness_record = subcommands.add_parser("source-freshness-record")
+    freshness_record.add_argument("--company-ref", required=True)
+    freshness_record.add_argument("--connector-ref", required=True)
+    freshness_record.add_argument("--source-ref", required=True)
+    freshness_record.add_argument("--connector-type", required=True)
+    freshness_record.add_argument(
+        "--status",
+        choices=["fresh", "stale", "failed", "unknown"],
+        required=True,
+    )
+    freshness_record.add_argument("--checked-at", required=True)
+    freshness_record.add_argument("--source-watermark", required=True)
+    freshness_record.add_argument("--stale-after", required=True)
+    freshness_record.add_argument("--lag-seconds", type=int)
+    freshness_record.add_argument("--evidence-ref", action="append")
+    freshness_record.add_argument("--error-code")
+    freshness_record.add_argument("--error-message")
+    freshness_record.add_argument("--detail")
+
+    subcommands.add_parser("source-freshness-list")
+
+    freshness_export = subcommands.add_parser("source-freshness-export")
+    freshness_export.add_argument("--output-dir", required=True)
+
     subcommands.add_parser("paia-bootstrap-export")
 
     operational_loop = subcommands.add_parser("operational-loop-run")
@@ -748,6 +813,33 @@ def _preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
         ("runner_ref", "runner_ref"),
         ("stale_after", "stale_after"),
         ("ttl_seconds", "ttl_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
+
+
+def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "company_ref": args.company_ref,
+        "connector_ref": args.connector_ref,
+        "source_ref": args.source_ref,
+        "connector_type": args.connector_type,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "source_watermark": args.source_watermark,
+        "stale_after": args.stale_after,
+        "evidence_refs": list(args.evidence_ref or []),
+    }
+    for source, target in (
+        ("lag_seconds", "lag_seconds"),
         ("detail", "detail"),
     ):
         value = getattr(args, source)
