@@ -26,6 +26,7 @@ from state_system.company_preflight import (
     build_company_preflight_read_model,
 )
 from state_system.contracts import load_json, validate_all_examples, validate_schema
+from state_system.heartbeat import run_source_heartbeat
 from state_system.mission_records import (
     MissionStoreBundle,
     build_mission_read_model,
@@ -499,6 +500,17 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "source-heartbeat-run":
+        summary = run_source_heartbeat(
+            stores,
+            company_ref=args.company_ref,
+            checked_at=args.checked_at,
+            stale_after=args.stale_after,
+            output_dir=Path(args.output_dir),
+        )
+        _write_json(stdout, summary)
+        return 0
+
     if args.command == "paia-bootstrap-export":
         bootstrap_root = (
             Path(args.state_root) if args.state_root else DEFAULT_PAIA_STATE_ROOT
@@ -749,6 +761,12 @@ def _parser() -> argparse.ArgumentParser:
 
     freshness_export = subcommands.add_parser("source-freshness-export")
     freshness_export.add_argument("--output-dir", required=True)
+
+    source_heartbeat = subcommands.add_parser("source-heartbeat-run")
+    source_heartbeat.add_argument("--company-ref")
+    source_heartbeat.add_argument("--checked-at", required=True)
+    source_heartbeat.add_argument("--stale-after", required=True)
+    source_heartbeat.add_argument("--output-dir", required=True)
 
     subcommands.add_parser("paia-bootstrap-export")
 

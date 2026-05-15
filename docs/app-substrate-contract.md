@@ -156,6 +156,20 @@ PAIA source freshness result contract:
 - `authorizes_execution` is always false. Governance remains the authority for
   protected effects.
 
+State System active heartbeat contract:
+
+- State System owns heartbeat orchestration through `source-heartbeat-run`.
+- State System may directly check safe local metadata such as `local_path`
+  existence and mtime.
+- Credentialed or source-specific connector families such as Folio, msgvault,
+  GWS Drive, Linear, calendars, and Zulip remain delegated until explicit State
+  System adapters exist.
+- Delegated connectors are recorded as `status: unknown` with
+  `source_watermark: delegated:not_checked`, so stale/unknown state is visible
+  rather than treated as current.
+- The heartbeat never ingests raw source data and never makes semantic
+  decisions about importance or salience.
+
 ## Core Principle
 
 Code records evidence, validates schemas, exposes tools, executes accepted effects, and preserves provenance.

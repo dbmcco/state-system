@@ -198,6 +198,14 @@ python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/s
 python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-export --output-dir /Users/braydon/.paia/state-system/source-freshness
 ```
 
+Run the active State System heartbeat. In v0 it directly checks `local_path`
+connector metadata and records explicit `unknown` freshness for credentialed
+connectors that still require delegated adapters:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-heartbeat-run --company-ref company.lfw --checked-at 2026-05-15T13:00:00Z --stale-after 2026-05-15T13:15:00Z --output-dir /Users/braydon/.paia/state-system/source-freshness
+```
+
 The bootstrap command refreshes the expected PAIA artifact layout under
 `/Users/braydon/.paia/state-system`. It writes
 `/Users/braydon/.paia/state-system/company-capability/company-capability-read-model.json`
@@ -333,7 +341,7 @@ handoff and the Outreach reply -> CRM plus secondary contacts handoff.
 Run the local contract and fixture harness:
 
 ```bash
-python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py tests/test_company_capability_pack.py tests/test_company_capability_runtime.py tests/test_company_preflight_results.py tests/test_source_freshness.py tests/test_paia_bootstrap_export.py
+python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py tests/test_runner_reviewer.py tests/test_committer_materializer.py tests/test_governance_pressure.py tests/test_recent_context_packaging.py tests/test_cli.py tests/test_e2e_pressure_harness.py tests/test_cli_runtime.py tests/test_git_source_adapter.py tests/test_live_git_runtime.py tests/test_agent_consumers.py tests/test_trace_runner.py tests/test_agent_activation.py tests/test_trace_reporting.py tests/test_app_integration_contracts.py tests/test_app_integration_runner.py tests/test_mission_records.py tests/test_mission_replay.py tests/test_company_capability_pack.py tests/test_company_capability_runtime.py tests/test_company_preflight_results.py tests/test_source_freshness.py tests/test_active_heartbeat.py tests/test_paia_bootstrap_export.py
 ```
 
 ## Runtime V0 CLI
