@@ -27,6 +27,18 @@ def build_company_capability_read_model(packs: list[JsonObject]) -> JsonObject:
                 for index_ref in pack["evidence_index"]["index_refs"]
             }
         ),
+        "index_manifests": [
+            manifest
+            for pack in sorted_packs
+            for manifest in pack.get("index_manifests", [])
+        ],
+        "index_refs": sorted(
+            {
+                manifest["index_ref"]
+                for pack in sorted_packs
+                for manifest in pack.get("index_manifests", [])
+            }
+        ),
         "invariant": {
             "company_capability_pack_declares_context": True,
             "company_capability_pack_proves_live_access": False,
@@ -103,6 +115,10 @@ def _company_summary(pack: JsonObject) -> JsonObject:
         ),
         "raw_corpus_refs": pack["raw_corpus"]["source_refs"],
         "evidence_index_refs": pack["evidence_index"]["index_refs"],
+        "index_manifests": pack.get("index_manifests", []),
+        "index_refs": [
+            manifest["index_ref"] for manifest in pack.get("index_manifests", [])
+        ],
         "company_memory_refs": pack["company_memory_refs"],
         "operating_picture_refs": pack["operating_picture_refs"],
         "action_surface_refs": pack["action_surface"]["action_refs"],

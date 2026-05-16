@@ -11,6 +11,7 @@
     "source_connectors",
     "raw_corpus",
     "evidence_index",
+    "index_manifests",
     "company_memory_refs",
     "operating_picture_refs",
     "action_surface",
@@ -67,6 +68,10 @@
           "items": { "type": "string" }
         }
       }
+    },
+    "index_manifests": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/index_manifest" }
     },
     "company_memory_refs": {
       "type": "array",
@@ -228,6 +233,67 @@
           }
         }
       ]
+    },
+    "index_manifest": {
+      "type": "object",
+      "required": [
+        "index_ref",
+        "company_ref",
+        "owner",
+        "backend",
+        "scope",
+        "record_kinds",
+        "source_refs",
+        "connector_refs",
+        "query_surface",
+        "status"
+      ],
+      "properties": {
+        "index_ref": { "type": "string" },
+        "company_ref": { "type": "string" },
+        "owner": {
+          "type": "string",
+          "enum": ["state_system", "source_system", "paia_runtime"]
+        },
+        "backend": { "type": "string" },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "raw_source_index",
+            "interpreted_state_index",
+            "company_memory_index"
+          ]
+        },
+        "record_kinds": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "connector_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "query_surface": {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["paia_tool", "state_system_runtime", "source_adapter"]
+            },
+            "tool_ref": { "type": "string" },
+            "endpoint_ref": { "type": "string" }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["declared", "planned", "disabled"]
+        },
+        "notes": { "type": "string" }
+      }
     },
     "tool_capability_binding": {
       "type": "object",

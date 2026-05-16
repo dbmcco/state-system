@@ -75,6 +75,30 @@ class CompanyCapabilityPackTests(unittest.TestCase):
                 self.assertFalse(binding["proves_live_access"])
                 self.assertFalse(binding["authorizes_execution"])
 
+    def test_index_manifests_reference_declared_pack_parts(self):
+        for path in sorted(PACK_DIR.glob("company-*.json")):
+            pack = load_json(path)
+            connector_refs = {connector["id"] for connector in pack["source_connectors"]}
+            source_refs = set(pack["raw_corpus"]["source_refs"])
+
+            self.assertTrue(pack["index_manifests"], path)
+            for manifest in pack["index_manifests"]:
+                self.assertEqual(pack["company_ref"], manifest["company_ref"])
+                self.assertIn(manifest["status"], {"declared", "planned", "disabled"})
+                self.assertIn(
+                    manifest["scope"],
+                    {"raw_source_index", "interpreted_state_index", "company_memory_index"},
+                )
+                self.assertTrue(manifest["record_kinds"])
+                self.assertTrue(manifest["query_surface"]["type"])
+                self.assertLessEqual(set(manifest["connector_refs"]), connector_refs)
+                non_state_sources = [
+                    source_ref
+                    for source_ref in manifest["source_refs"]
+                    if not source_ref.startswith("state-system:")
+                ]
+                self.assertLessEqual(set(non_state_sources), source_refs)
+
     def test_gws_drive_source_refs_include_profile_and_resource_kind(self):
         for path in sorted(PACK_DIR.glob("company-*.json")):
             pack = load_json(path)
@@ -136,11 +160,25 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertIn("operating_picture.regulatory.navicyte", navicyte["operating_picture_refs"])
         self.assertIn("folio:tenant:lfw", read_model["source_refs"])
         self.assertIn("gws:mcco:shared-drive:navicyte-biotechnologies", read_model["source_refs"])
+        self.assertIn("index.lfw.folio.corpus", read_model["index_refs"])
+        self.assertIn("index.lfw.state_system.evidence_cards", read_model["index_refs"])
 
         lfw_folio = _connector(lfw, "connector.lfw.folio")
         self.assertEqual("folio", lfw_folio["connector_type"])
         self.assertEqual("folio:tenant:lfw", lfw_folio["source_ref"])
         self.assertEqual("source_system", lfw_folio["owner"])
+        lfw_folio_index = _index_manifest(lfw, "index.lfw.folio.corpus")
+        self.assertEqual("postgres_pgvector", lfw_folio_index["backend"])
+        self.assertEqual("raw_source_index", lfw_folio_index["scope"])
+        self.assertEqual("declared", lfw_folio_index["status"])
+        self.assertEqual(
+            {"type": "paia_tool", "tool_ref": "tool.paia.folio.search"},
+            lfw_folio_index["query_surface"],
+        )
+        lfw_state_index = _index_manifest(lfw, "index.lfw.state_system.evidence_cards")
+        self.assertEqual("state_system", lfw_state_index["owner"])
+        self.assertEqual("interpreted_state_index", lfw_state_index["scope"])
+        self.assertEqual("planned", lfw_state_index["status"])
 
     def test_read_model_exposes_mechanical_tool_capability_bindings(self):
         read_model = build_company_capability_read_model(
@@ -230,6 +268,14 @@ def _connector(company, connector_ref):
         connector
         for connector in company["source_connectors"]
         if connector["id"] == connector_ref
+    )
+
+
+def _index_manifest(company, index_ref):
+    return next(
+        manifest
+        for manifest in company["index_manifests"]
+        if manifest["index_ref"] == index_ref
     )
 
 

@@ -108,6 +108,197 @@
       "transcripts:index:lfw"
     ]
   },
+  "index_manifests": [
+    {
+      "index_ref": "index.lfw.folio.corpus",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "postgres_pgvector",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "note",
+        "document",
+        "source_summary"
+      ],
+      "source_refs": [
+        "folio:tenant:lfw"
+      ],
+      "connector_refs": [
+        "connector.lfw.folio"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.folio.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.lfw.msgvault.email",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "msgvault_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "email",
+        "thread",
+        "source_summary"
+      ],
+      "source_refs": [
+        "msgvault:tenant:lfw-email"
+      ],
+      "connector_refs": [
+        "connector.lfw.msgvault"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.msgvault.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.lfw.linear.issues",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "linear_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "issue",
+        "project",
+        "comment",
+        "source_summary"
+      ],
+      "source_refs": [
+        "linear:teams:FORGE,INT"
+      ],
+      "connector_refs": [
+        "connector.lfw.linear"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.linear.read"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.lfw.zulip.messages",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "zulip_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "message",
+        "stream",
+        "topic",
+        "source_summary"
+      ],
+      "source_refs": [
+        "zulip:realm:lightforgeworks"
+      ],
+      "connector_refs": [
+        "connector.lfw.zulip"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.zulip.read"
+      },
+      "status": "planned",
+      "notes": "Declared for company understanding; live indexing waits on Zulip credentials and adapter hardening."
+    },
+    {
+      "index_ref": "index.lfw.github_org.repos",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "github_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "repository",
+        "issue",
+        "pull_request",
+        "commit",
+        "source_summary"
+      ],
+      "source_refs": [
+        "github:org:LightForge-Works"
+      ],
+      "connector_refs": [
+        "connector.lfw.github_org"
+      ],
+      "query_surface": {
+        "type": "source_adapter",
+        "tool_ref": "tool.paia.github.read"
+      },
+      "status": "planned"
+    },
+    {
+      "index_ref": "index.lfw.transcripts.raw",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "local_filesystem",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "transcript_file",
+        "source_summary"
+      ],
+      "source_refs": [
+        "local:/Users/braydon/projects/work/lfw/transcripts"
+      ],
+      "connector_refs": [
+        "connector.lfw.transcripts.raw"
+      ],
+      "query_surface": {
+        "type": "source_adapter",
+        "tool_ref": "tool.paia.local_path.inspect"
+      },
+      "status": "planned"
+    },
+    {
+      "index_ref": "index.lfw.transcripts.processed",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "paia_meetings",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "transcript",
+        "meeting_summary",
+        "action_item",
+        "source_summary"
+      ],
+      "source_refs": [
+        "transcripts:pipeline:lfw"
+      ],
+      "connector_refs": [
+        "connector.lfw.transcripts.processed"
+      ],
+      "query_surface": {
+        "type": "source_adapter",
+        "tool_ref": "tool.paia.transcripts.search"
+      },
+      "status": "planned",
+      "notes": "Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
+    },
+    {
+      "index_ref": "index.lfw.state_system.evidence_cards",
+      "company_ref": "company.lfw",
+      "owner": "state_system",
+      "backend": "postgres_pgvector",
+      "scope": "interpreted_state_index",
+      "record_kinds": [
+        "evidence_card",
+        "claim",
+        "company_memory",
+        "operating_picture"
+      ],
+      "source_refs": [
+        "state-system:company.lfw"
+      ],
+      "connector_refs": [],
+      "query_surface": {
+        "type": "state_system_runtime",
+        "tool_ref": "tool.state_system.vector_search"
+      },
+      "status": "planned"
+    }
+  ],
   "company_memory_refs": [
     "company_memory.lfw"
   ],

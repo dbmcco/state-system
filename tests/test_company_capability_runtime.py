@@ -89,6 +89,21 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                 _company(read_model, "company.synthyra")["company_memory_refs"],
             )
             self.assertIn(
+                "index.synthyra.state_system.evidence_cards",
+                read_model["index_refs"],
+            )
+            self.assertEqual(
+                "planned",
+                next(
+                    manifest
+                    for manifest in _company(read_model, "company.synthyra")[
+                        "index_manifests"
+                    ]
+                    if manifest["index_ref"]
+                    == "index.synthyra.state_system.evidence_cards"
+                )["status"],
+            )
+            self.assertIn(
                 "tool.paia.gws_drive.read",
                 [
                     binding["tool_ref"]
@@ -153,6 +168,7 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(3, len(read_model["companies"]))
             self.assertIn("folio:tenant:lfw", read_model["source_refs"])
+            self.assertIn("index.lfw.folio.corpus", read_model["index_refs"])
 
 
 def _company(read_model, company_ref):

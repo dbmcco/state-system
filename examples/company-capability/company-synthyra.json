@@ -65,6 +65,99 @@
       "msgvault:index:synthyra-email"
     ]
   },
+  "index_manifests": [
+    {
+      "index_ref": "index.synthyra.folio.corpus",
+      "company_ref": "company.synthyra",
+      "owner": "source_system",
+      "backend": "postgres_pgvector",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "note",
+        "document",
+        "source_summary"
+      ],
+      "source_refs": [
+        "folio:tenant:synthyra"
+      ],
+      "connector_refs": [
+        "connector.synthyra.folio"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.folio.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.synthyra.msgvault.email",
+      "company_ref": "company.synthyra",
+      "owner": "source_system",
+      "backend": "msgvault_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "email",
+        "thread",
+        "source_summary"
+      ],
+      "source_refs": [
+        "msgvault:tenant:synthyra-email"
+      ],
+      "connector_refs": [
+        "connector.synthyra.msgvault"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.msgvault.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.synthyra.drive.corpus",
+      "company_ref": "company.synthyra",
+      "owner": "source_system",
+      "backend": "gws_drive_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "document",
+        "file_metadata",
+        "source_summary"
+      ],
+      "source_refs": [
+        "gws:mcco:drive:Synthyra Shared"
+      ],
+      "connector_refs": [
+        "connector.synthyra.drive"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.gws_drive.read"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.synthyra.state_system.evidence_cards",
+      "company_ref": "company.synthyra",
+      "owner": "state_system",
+      "backend": "postgres_pgvector",
+      "scope": "interpreted_state_index",
+      "record_kinds": [
+        "evidence_card",
+        "claim",
+        "company_memory",
+        "operating_picture"
+      ],
+      "source_refs": [
+        "state-system:company.synthyra"
+      ],
+      "connector_refs": [],
+      "query_surface": {
+        "type": "state_system_runtime",
+        "tool_ref": "tool.state_system.vector_search"
+      },
+      "status": "planned"
+    }
+  ],
   "company_memory_refs": [
     "company_memory.synthyra"
   ],
