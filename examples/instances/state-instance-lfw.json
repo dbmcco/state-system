@@ -1,0 +1,17 @@
+{
+  "id": "state_instance.lfw",
+  "instance_ref": "state_instance.lfw",
+  "kind": "company",
+  "display_name": "Lightforge Works State",
+  "runtime_root": "/Users/braydon/projects/work/lfw/state-system",
+  "primary_entity_ref": "entity.lfw",
+  "entity_kind": "company",
+  "governance_refs": [
+    "governance.lfw.external_action",
+    "governance.lfw.crm_mutation"
+  ],
+  "sensitivity_default": "confidential",
+  "federates_with": [],
+  "created_at": "2026-05-16T18:00:00Z",
+  "updated_at": "2026-05-16T18:00:00Z"
+}

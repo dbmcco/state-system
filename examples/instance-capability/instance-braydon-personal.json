@@ -1,0 +1,324 @@
+{
+  "id": "instance_capability_pack.braydon_personal",
+  "instance_ref": "state_instance.braydon_personal",
+  "primary_entity_ref": "entity.braydon",
+  "entity_kind": "person",
+  "generated_at": "2026-05-16T18:00:00Z",
+  "identity": {
+    "name": "Braydon Personal State",
+    "summary": "Personal state substrate for Braydon's life, commitments, work context, memory, and attention.",
+    "primary_agent_refs": [
+      "persona.samantha"
+    ],
+    "oversight_agent_refs": []
+  },
+  "source_connectors": [
+    {
+      "id": "connector.personal.folio",
+      "connector_type": "folio",
+      "source_ref": "folio:tenant:personal",
+      "owner": "source_system",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.msgvault",
+      "connector_type": "msgvault",
+      "source_ref": "msgvault:tenant:personal-email",
+      "owner": "source_system",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.agentmem",
+      "connector_type": "agentmem",
+      "source_ref": "agentmem:tenant:braydon",
+      "owner": "agentmem",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.workboard",
+      "connector_type": "paia_workboard",
+      "source_ref": "paia-workboard:default",
+      "owner": "paia_runtime",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "source_ref": "relationship-substrate:default",
+      "owner": "source_system",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.projects",
+      "connector_type": "local_path",
+      "source_ref": "local:/Users/braydon/projects/personal",
+      "owner": "source_system",
+      "declared": true,
+      "access_mode": "read"
+    },
+    {
+      "id": "connector.personal.lfw_state_system",
+      "connector_type": "state_system_instance",
+      "source_ref": "state-system-instance:state_instance.lfw",
+      "owner": "state_system",
+      "declared": true,
+      "access_mode": "read",
+      "governance_refs": [
+        "governance.lfw.read_summary"
+      ]
+    }
+  ],
+  "raw_corpus": {
+    "definition": "Raw personal source surfaces remain owned by source systems and federated instances.",
+    "source_refs": [
+      "folio:tenant:personal",
+      "msgvault:tenant:personal-email",
+      "agentmem:tenant:braydon",
+      "paia-workboard:default",
+      "relationship-substrate:default",
+      "local:/Users/braydon/projects/personal",
+      "state-system-instance:state_instance.lfw"
+    ]
+  },
+  "evidence_index": {
+    "definition": "Federated search surfaces for personal sources, agent memory, operational tasks, and interpreted state.",
+    "index_refs": [
+      "index.personal.folio.corpus",
+      "index.personal.msgvault.email",
+      "index.personal.agentmem.memory",
+      "index.personal.workboard.tasks",
+      "index.personal.relationship_substrate.network",
+      "index.personal.state_system.interpreted",
+      "index.personal.lfw_state_system.interpreted"
+    ]
+  },
+  "index_manifests": [
+    {
+      "index_ref": "index.personal.folio.corpus",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "source_system",
+      "backend": "postgres_pgvector",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "note",
+        "document",
+        "source_summary"
+      ],
+      "source_refs": [
+        "folio:tenant:personal"
+      ],
+      "connector_refs": [
+        "connector.personal.folio"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.folio.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.personal.msgvault.email",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "source_system",
+      "backend": "msgvault_sqlite_vec",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "email",
+        "thread",
+        "source_summary"
+      ],
+      "source_refs": [
+        "msgvault:tenant:personal-email"
+      ],
+      "connector_refs": [
+        "connector.personal.msgvault"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.msgvault.search"
+      },
+      "status": "declared",
+      "notes": "msgvault owns its email corpus and vector index; State System federates instead of copying messages."
+    },
+    {
+      "index_ref": "index.personal.agentmem.memory",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "agentmem",
+      "backend": "postgres_pgvector",
+      "scope": "memory_index",
+      "record_kinds": [
+        "agent_memory",
+        "facet",
+        "digest",
+        "semantic_recall"
+      ],
+      "source_refs": [
+        "agentmem:tenant:braydon"
+      ],
+      "connector_refs": [
+        "connector.personal.agentmem"
+      ],
+      "query_surface": {
+        "type": "agentmem_service",
+        "endpoint_ref": "agentmem:service:local"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.personal.workboard.tasks",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "paia_runtime",
+      "backend": "workgraph_jsonl",
+      "scope": "operational_index",
+      "record_kinds": [
+        "task",
+        "task_event",
+        "agent_session",
+        "artifact"
+      ],
+      "source_refs": [
+        "paia-workboard:default"
+      ],
+      "connector_refs": [
+        "connector.personal.workboard"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.workboard.read"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.personal.relationship_substrate.network",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "source_system",
+      "backend": "postgres_pgvector",
+      "scope": "relationship_index",
+      "record_kinds": [
+        "person",
+        "organization",
+        "relationship_edge",
+        "interaction",
+        "relationship_operating_picture"
+      ],
+      "source_refs": [
+        "relationship-substrate:default"
+      ],
+      "connector_refs": [
+        "connector.personal.relationship_substrate"
+      ],
+      "query_surface": {
+        "type": "source_adapter",
+        "tool_ref": "tool.relationship_substrate.search"
+      },
+      "status": "declared",
+      "notes": "Relationship Substrate owns network evidence, identity resolution, and relationship operating pictures; State System federates and promotes selected evidence through governed proposals."
+    },
+    {
+      "index_ref": "index.personal.state_system.interpreted",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "state_system",
+      "backend": "postgres_pgvector",
+      "scope": "interpreted_state_index",
+      "record_kinds": [
+        "evidence_card",
+        "claim",
+        "commitment",
+        "operating_picture"
+      ],
+      "source_refs": [
+        "state-system-instance:state_instance.braydon_personal"
+      ],
+      "connector_refs": [],
+      "query_surface": {
+        "type": "state_system_runtime",
+        "tool_ref": "tool.state_system.vector_search"
+      },
+      "status": "planned"
+    },
+    {
+      "index_ref": "index.personal.lfw_state_system.interpreted",
+      "instance_ref": "state_instance.braydon_personal",
+      "primary_entity_ref": "entity.braydon",
+      "owner": "state_system",
+      "backend": "state_system_remote",
+      "scope": "interpreted_state_index",
+      "record_kinds": [
+        "evidence_card",
+        "claim",
+        "operating_picture"
+      ],
+      "source_refs": [
+        "state-system-instance:state_instance.lfw"
+      ],
+      "connector_refs": [
+        "connector.personal.lfw_state_system"
+      ],
+      "query_surface": {
+        "type": "state_system_runtime",
+        "tool_ref": "tool.state_system.instance_read"
+      },
+      "status": "planned"
+    }
+  ],
+  "memory_refs": [
+    "agentmem:tenant:braydon"
+  ],
+  "operating_picture_refs": [
+    "operating_picture.personal.braydon"
+  ],
+  "action_surface": {
+    "definition": "Personal instance read actions are declared; protected effects remain governed separately.",
+    "action_refs": [
+      "action_surface.personal.read_folio",
+      "action_surface.personal.search_msgvault",
+      "action_surface.personal.read_agentmem",
+      "action_surface.personal.read_workboard",
+      "action_surface.personal.read_relationship_substrate",
+      "action_surface.personal.read_lfw_state"
+    ]
+  },
+  "tool_capability_bindings": [],
+  "governance": {
+    "definition": "Personal sources default private; cross-instance reads preserve source instance governance.",
+    "governance_refs": [
+      "governance.braydon.personal_default",
+      "governance.lfw.read_summary"
+    ]
+  },
+  "connector_preflight": {
+    "definition": "Preflight proves live access only.",
+    "required_checks": []
+  },
+  "runtime_constraints": {
+    "definition": "Runtime constraints for the deployed personal instance.",
+    "constraints": [
+      "Do not copy raw email, agent memory, or work instance corpora into b-state.",
+      "Do not synthesize life state in deterministic code.",
+      "Respect governance on federated work instances."
+    ]
+  },
+  "freshness": {
+    "as_of": "2026-05-16T18:00:00Z",
+    "stale_after": "2026-05-16T19:00:00Z",
+    "watermark_refs": []
+  },
+  "invariant": {
+    "declares_context": true,
+    "proves_live_access": false,
+    "authorizes_execution": false,
+    "live_access_proven_by": "connector_preflight",
+    "protected_action_authorized_by": "governance"
+  }
+}

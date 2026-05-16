@@ -30,6 +30,14 @@ from state_system.company_understanding_surface import (
 )
 from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.heartbeat import run_source_heartbeat
+from state_system.instance_capability import (
+    InstanceCapabilityRuntime,
+    build_instance_capability_read_model,
+    build_instance_capability_read_model_from_runtime,
+)
+from state_system.instance_understanding_surface import (
+    build_instance_understanding_surface_read_model,
+)
 from state_system.mission_records import (
     MissionStoreBundle,
     build_mission_read_model,
@@ -76,6 +84,7 @@ COLLECTIONS = {
     "package": "context_packages",
     "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
+    "instance-capability": "instance_capabilities",
     "company-capability": "company_capabilities",
     "company-preflight": "company_preflight_results",
     "source-freshness": "source_freshness",
@@ -396,6 +405,62 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "instance-capability-build":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_capability_read_model(
+            [load_json(Path(path)) for path in args.instance_capability_pack]
+        )
+        read_model_path = output_dir / "instance-capability-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-capability-seed":
+        packs = [load_json(Path(path)) for path in args.instance_capability_pack]
+        schema = load_json(
+            project_root / "schemas" / "instance-capability-pack.schema.json"
+        )
+        failures = [
+            {"id": pack.get("id"), "errors": list(validate_schema(pack, schema))}
+            for pack in packs
+        ]
+        failures = [failure for failure in failures if failure["errors"]]
+        if failures:
+            _write_json(stdout, {"ok": False, "failures": failures})
+            return 1
+
+        result = InstanceCapabilityRuntime(stores).seed(packs)
+        _write_json(stdout, {"ok": True, **result})
+        return 0
+
+    if args.command == "instance-capability-read":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_capability_read_model_from_runtime(stores)
+        read_model_path = output_dir / "instance-capability-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "company-capability-seed":
         packs = [load_json(Path(path)) for path in args.company_capability_pack]
         schema = load_json(
@@ -520,6 +585,24 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         read_model = build_company_understanding_surface_read_model(stores)
         read_model_path = output_dir / "company-understanding-surface-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-understanding-surface-read":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_understanding_surface_read_model(stores)
+        read_model_path = output_dir / "instance-understanding-surface-read-model.json"
         read_model_path.write_text(
             json.dumps(read_model, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -749,6 +832,16 @@ def _parser() -> argparse.ArgumentParser:
     company_capability_read = subcommands.add_parser("company-capability-read")
     company_capability_read.add_argument("--output-dir", required=True)
 
+    instance_capability = subcommands.add_parser("instance-capability-build")
+    instance_capability.add_argument("instance_capability_pack", nargs="+")
+    instance_capability.add_argument("--output-dir", required=True)
+
+    instance_capability_seed = subcommands.add_parser("instance-capability-seed")
+    instance_capability_seed.add_argument("instance_capability_pack", nargs="+")
+
+    instance_capability_read = subcommands.add_parser("instance-capability-read")
+    instance_capability_read.add_argument("--output-dir", required=True)
+
     preflight_record = subcommands.add_parser("company-preflight-record")
     preflight_record.add_argument("--preflight-ref", required=True)
     preflight_record.add_argument("--company-ref", required=True)
@@ -809,6 +902,11 @@ def _parser() -> argparse.ArgumentParser:
         "company-understanding-surface-read"
     )
     understanding_surface.add_argument("--output-dir", required=True)
+
+    instance_understanding_surface = subcommands.add_parser(
+        "instance-understanding-surface-read"
+    )
+    instance_understanding_surface.add_argument("--output-dir", required=True)
 
     migrate = subcommands.add_parser("state-root-migrate")
     migrate.add_argument("--from", dest="from_root", required=True)

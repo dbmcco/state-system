@@ -70,6 +70,9 @@ Canonical index scopes:
 - `raw_source_index`: source-owned raw corpus search, such as msgvault email,
   Folio notes, Drive documents, Linear issues, Zulip messages, or transcripts.
 - `memory_index`: agent or person memory, such as agentmem or paia-memory.
+- `relationship_index`: network evidence and relationship operating pictures,
+  such as the personal/professional network substrate in
+  `/Users/braydon/projects/experiments/relationship-substrate`.
 - `interpreted_state_index`: State System-owned semantic index over accepted
   state objects, claims, evidence cards, journals, operating pictures,
   commitments, context packages, and activation artifacts.
@@ -80,9 +83,10 @@ Canonical index scopes:
 
 State System owns the interpreted state index for a deployed instance. Raw
 email remains owned by msgvault. Agent memory remains owned by agentmem.
-Personal state may query those sources and promote selected evidence into
-accepted state, but it must not duplicate every message or memory blob into its
-own vector store.
+Relationship evidence, identity resolution, and relationship operating pictures
+remain owned by relationship-substrate. Personal state may query those sources
+and promote selected evidence into accepted state, but it must not duplicate
+every message, memory blob, or network record into its own vector store.
 
 ## Cross-Instance Federation
 
@@ -131,8 +135,7 @@ Implementation must proceed in this order:
    while making instance capability canonical for new work.
 3. Generalize understanding surfaces and index manifests to key by
    `instance_ref`.
-4. Add `state_system_instance`, `agentmem`, and `paia_workboard` connector
-   support as declared surfaces.
+4. Add `state_system_instance`, `agentmem`, `paia_workboard`, and
+   `relationship_substrate` connector support as declared surfaces.
 5. Create `/Users/braydon/projects/personal/b-state` only after the generic
    contracts can represent it directly.
-

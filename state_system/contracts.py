@@ -190,6 +190,10 @@ def validate_trace(
 
 
 def schema_for_example(filename: str) -> str | None:
+    if filename.startswith("state-instance-") and filename.endswith(".json"):
+        return "state-instance.schema.json"
+    if filename.startswith("instance-") and filename.endswith(".json"):
+        return "instance-capability-pack.schema.json"
     if filename.startswith("company-") and filename.endswith(".json"):
         return "company-capability-pack.schema.json"
     if filename == "lfw-company-memory.json":

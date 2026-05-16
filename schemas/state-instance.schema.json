@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/state-instance.schema.json",
+  "title": "StateInstance",
+  "type": "object",
+  "required": [
+    "id",
+    "instance_ref",
+    "kind",
+    "display_name",
+    "runtime_root",
+    "primary_entity_ref",
+    "entity_kind",
+    "governance_refs",
+    "sensitivity_default",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "instance_ref": {
+      "type": "string",
+      "pattern": "^state_instance\\.[a-z0-9_.-]+$"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "company",
+        "personal",
+        "project",
+        "portfolio",
+        "household",
+        "research",
+        "other"
+      ]
+    },
+    "display_name": { "type": "string" },
+    "runtime_root": { "type": "string" },
+    "primary_entity_ref": {
+      "type": "string",
+      "pattern": "^entity\\.[a-z0-9_.-]+$"
+    },
+    "entity_kind": {
+      "type": "string",
+      "enum": [
+        "company",
+        "person",
+        "project",
+        "portfolio",
+        "household",
+        "research",
+        "other"
+      ]
+    },
+    "governance_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "sensitivity_default": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "private", "restricted"]
+    },
+    "federates_with": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^state_instance\\.[a-z0-9_.-]+$"
+      },
+      "default": []
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "notes": { "type": "string" }
+  },
+  "additionalProperties": false
+}

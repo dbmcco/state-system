@@ -232,7 +232,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
                 errors = sorted(validator.iter_errors(pack), key=str)
                 self.assertEqual([], [error.message for error in errors])
 
-    def test_personal_pack_declares_workboard_agentmem_and_federated_work_instances(self):
+    def test_personal_pack_declares_workboard_agentmem_relationships_and_federated_work_instances(self):
         pack = _load_json(
             ROOT / "examples/instance-capability/instance-braydon-personal.json"
         )
@@ -240,6 +240,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         connector_types = {connector["connector_type"] for connector in pack["source_connectors"]}
         self.assertIn("paia_workboard", connector_types)
         self.assertIn("agentmem", connector_types)
+        self.assertIn("relationship_substrate", connector_types)
         self.assertIn("state_system_instance", connector_types)
         self.assertEqual("entity.braydon", pack["primary_entity_ref"])
         self.assertEqual("person", pack["entity_kind"])
@@ -255,6 +256,12 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertIn("memory_index", scopes)
         self.assertIn("operational_index", scopes)
         self.assertIn("interpreted_state_index", scopes)
+        relationship_index = next(
+            manifest
+            for manifest in pack["index_manifests"]
+            if manifest["index_ref"] == "index.personal.relationship_substrate.network"
+        )
+        self.assertEqual("relationship_index", relationship_index["scope"])
 
 
 def _load_json(path: Path):
@@ -407,7 +414,7 @@ Create `schemas/instance-capability-pack.schema.json` by adapting the existing c
         "id": { "type": "string" },
         "connector_type": {
           "type": "string",
-          "enum": ["folio", "msgvault", "gws_drive", "gws_account", "linear", "local_path", "zulip", "repo", "crm", "docs", "agentmem", "paia_workboard", "state_system_instance"]
+          "enum": ["folio", "msgvault", "gws_drive", "gws_account", "linear", "local_path", "zulip", "repo", "crm", "docs", "agentmem", "paia_workboard", "relationship_substrate", "state_system_instance"]
         },
         "source_ref": { "type": "string" },
         "owner": { "type": "string", "enum": ["state_system", "paia_runtime", "source_system", "agentmem"] },
@@ -425,7 +432,7 @@ Create `schemas/instance-capability-pack.schema.json` by adapting the existing c
         "primary_entity_ref": { "type": "string" },
         "owner": { "type": "string", "enum": ["state_system", "source_system", "paia_runtime", "agentmem"] },
         "backend": { "type": "string" },
-        "scope": { "type": "string", "enum": ["raw_source_index", "memory_index", "interpreted_state_index", "artifact_index", "operational_index"] },
+        "scope": { "type": "string", "enum": ["raw_source_index", "memory_index", "relationship_index", "interpreted_state_index", "artifact_index", "operational_index"] },
         "record_kinds": { "type": "array", "items": { "type": "string" } },
         "source_refs": { "type": "array", "items": { "type": "string" } },
         "connector_refs": { "type": "array", "items": { "type": "string" } },
@@ -476,7 +483,7 @@ Create `schemas/instance-capability-pack.schema.json` by adapting the existing c
 
 - [ ] **Step 4: Add minimal fixtures**
 
-Create personal and LFW fixtures that validate against the schema. Keep them small: one or two connectors per source class is enough. The personal fixture must include `agentmem`, `paia_workboard`, `msgvault`, `folio`, `local_path`, and one `state_system_instance` connector to LFW.
+Create personal and LFW fixtures that validate against the schema. Keep them small: one or two connectors per source class is enough. The personal fixture must include `agentmem`, `paia_workboard`, `relationship_substrate`, `msgvault`, `folio`, `local_path`, and one `state_system_instance` connector to LFW.
 
 - [ ] **Step 5: Run the focused test**
 
@@ -506,6 +513,7 @@ self.assertEqual(
     [instance["instance_ref"] for instance in read_model["instances"]],
 )
 self.assertIn("index.personal.agentmem.memory", read_model["index_refs"])
+self.assertIn("index.personal.relationship_substrate.network", read_model["index_refs"])
 self.assertIn("state-system-instance:state_instance.lfw", read_model["source_refs"])
 ```
 
@@ -670,6 +678,7 @@ Write tests proving the generic surface:
 self.assertEqual("instance_understanding_surface_read_model", read_model["id"])
 self.assertEqual(["state_instance.braydon_personal"], [i["instance_ref"] for i in read_model["instances"]])
 self.assertIn("index.personal.agentmem.memory", read_model["index_refs"])
+self.assertIn("index.personal.relationship_substrate.network", read_model["index_refs"])
 self.assertIn("state-system-instance:state_instance.lfw", read_model["source_gap_refs"])
 ```
 
@@ -746,5 +755,4 @@ Run:
 find /Users/braydon/projects/personal/b-state -maxdepth 3 -type f | sort
 ```
 
-Expected: only State System records/read models are present; no msgvault email corpus, agentmem database, or copied work instance corpus.
-
+Expected: only State System records/read models are present; no msgvault email corpus, agentmem database, relationship-substrate database, or copied work instance corpus.

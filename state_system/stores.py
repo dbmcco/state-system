@@ -21,6 +21,7 @@ DEFAULT_COLLECTIONS = {
     "context_packages": "context-packages",
     "agent_activations": "agent-activations",
     "agent_responses": "agent-responses",
+    "instance_capabilities": "instance-capabilities",
     "company_capabilities": "company-capabilities",
     "company_preflight_results": "company-preflight-results",
     "source_freshness": "source-freshness",
