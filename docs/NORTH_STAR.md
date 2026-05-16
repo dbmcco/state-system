@@ -10,6 +10,20 @@ State is not absolute truth. It is durable working interpretation: what appears
 to be true now, why we believe it, what evidence supports it, what remains
 uncertain, and what action may be warranted.
 
+State System has two separable forms:
+
+- the **State System product repo**, which defines schemas, contracts, runtime
+  code, migrations, and documentation
+- a **deployed State System instance**, such as
+  `/Users/braydon/projects/work/lfw/state-system`, which holds a company's
+  actual runtime state, read models, freshness evidence, index manifests,
+  database configuration, and operational artifacts
+
+The product repo should not contain private company corpora or mutable runtime
+indexes. A deployed company instance should own the runtime substrate needed to
+make that company understandable, including database/vector-index configuration
+and State System-owned semantic indexes as they become operational.
+
 The system turns scattered signals from meetings, messages, documents, tasks,
 metrics, decisions, rituals, onboarding, and agent reasoning into scoped state
 objects, append-only journals, current snapshots, and rollups that humans and
@@ -87,6 +101,17 @@ Code owns integrity:
 The system should not encode organizational judgment as brittle thresholds or
 routing rules. It should provide the structure that lets models interpret state
 while code keeps the record grounded and inspectable.
+
+Semantic retrieval is part of the integrity layer when it retrieves explicit
+State System records, evidence cards, claims, memory, journals, and operating
+pictures with provenance. Retrieval must remain evidence plumbing, not hidden
+organizational judgment. Source systems may still own raw corpus indexes, while
+State System instances own the canonical interpreted-state index and federate to
+source indexes when drill-down is needed.
+
+See
+`docs/decisions/2026-05-16-runtime-instance-and-vector-ownership.md` for the
+current decision record.
 
 ## Success
 

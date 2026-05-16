@@ -268,6 +268,7 @@ anonymized.
 - `docs/specs/2026-04-28-state-system-design.md` - initial system design
 - `docs/specs/2026-04-28-state-system-speedrift-plan.md` - Speedrift execution anchor for the first deployment
 - `docs/concepts/` - focused concept notes
+- `docs/decisions/` - accepted architecture decisions as the North Star evolves
 - `docs/concepts/end-state-architecture.md` - target architecture and reusable PAIA assets
 - `docs/concepts/agent-memory.md` - individual agent memory and promotion to shared state
 - `docs/concepts/working-models.md` - generic working-model abstraction over durable substrate, including PAIA packets and State System context/read-model shapes
