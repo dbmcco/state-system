@@ -164,6 +164,19 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(binding["proves_live_access"])
         self.assertFalse(binding["authorizes_execution"])
 
+        zulip_binding = _binding(lfw, "capability.lfw.zulip.read")
+        self.assertEqual("tool.paia.zulip.read", zulip_binding["tool_ref"])
+        self.assertEqual("action_surface.lfw.read_zulip", zulip_binding["action_ref"])
+        self.assertEqual(["connector.lfw.zulip"], zulip_binding["connector_refs"])
+        self.assertEqual(["preflight.lfw.zulip"], zulip_binding["required_preflight_refs"])
+        self.assertEqual([], zulip_binding["governance_refs"])
+        self.assertEqual(
+            ["persona.caroline", "persona.samantha"],
+            zulip_binding["allowed_agent_refs"],
+        )
+        self.assertFalse(zulip_binding["proves_live_access"])
+        self.assertFalse(zulip_binding["authorizes_execution"])
+
         synthyra = _company(read_model, "company.synthyra")
         self.assertFalse(
             any(

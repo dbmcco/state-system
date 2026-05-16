@@ -19,6 +19,7 @@ DELEGATED_CONNECTOR_TYPES = {
     "linear",
     "msgvault",
     "repo",
+    "zulip",
     "crm",
     "docs",
 }

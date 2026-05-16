@@ -48,6 +48,34 @@
       "declared": true
     },
     {
+      "id": "connector.lfw.zulip",
+      "connector_type": "zulip",
+      "source_ref": "zulip:realm:lightforgeworks",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.github_org",
+      "connector_type": "repo",
+      "source_ref": "github:org:LightForge-Works",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.transcripts.raw",
+      "connector_type": "local_path",
+      "source_ref": "local:/Users/braydon/projects/work/lfw/transcripts",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
+      "id": "connector.lfw.transcripts.processed",
+      "connector_type": "docs",
+      "source_ref": "transcripts:pipeline:lfw",
+      "owner": "source_system",
+      "declared": true
+    },
+    {
       "id": "connector.lfw.local",
       "connector_type": "local_path",
       "source_ref": "local:/Users/braydon/projects/work/lfw",
@@ -62,6 +90,10 @@
       "msgvault:tenant:lfw-email",
       "gws:lfw:drive:lfw",
       "linear:teams:FORGE,INT",
+      "zulip:realm:lightforgeworks",
+      "github:org:LightForge-Works",
+      "local:/Users/braydon/projects/work/lfw/transcripts",
+      "transcripts:pipeline:lfw",
       "local:/Users/braydon/projects/work/lfw"
     ]
   },
@@ -70,7 +102,10 @@
     "index_refs": [
       "folio:index:tenant:lfw",
       "msgvault:index:lfw-email",
-      "linear:index:teams:FORGE,INT"
+      "linear:index:teams:FORGE,INT",
+      "zulip:index:realm:lightforgeworks",
+      "github:index:org:LightForge-Works",
+      "transcripts:index:lfw"
     ]
   },
   "company_memory_refs": [
@@ -87,6 +122,7 @@
       "action_surface.lfw.search_msgvault",
       "action_surface.lfw.read_drive",
       "action_surface.lfw.read_linear",
+      "action_surface.lfw.read_zulip",
       "action_surface.lfw.propose_crm_update"
     ]
   },
@@ -172,6 +208,26 @@
       "authorizes_execution": false
     },
     {
+      "id": "tool_binding.lfw.zulip.read",
+      "capability_ref": "capability.lfw.zulip.read",
+      "tool_ref": "tool.paia.zulip.read",
+      "action_ref": "action_surface.lfw.read_zulip",
+      "connector_refs": [
+        "connector.lfw.zulip"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.zulip"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
       "id": "tool_binding.lfw.crm.propose_update",
       "capability_ref": "capability.lfw.crm.propose_update",
       "tool_ref": "tool.paia.crm.propose_update",
@@ -222,6 +278,12 @@
         "id": "preflight.lfw.linear",
         "connector_ref": "connector.lfw.linear",
         "check": "PAIA runtime can read Linear FORGE and INT teams.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.lfw.zulip",
+        "connector_ref": "connector.lfw.zulip",
+        "check": "PAIA runtime can read the LightForge Works Zulip realm.",
         "owner": "paia_runtime"
       },
       {
