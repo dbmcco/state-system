@@ -4,6 +4,10 @@ from state_system.contracts import JsonObject
 from state_system.instance_capability import (
     build_instance_capability_read_model_from_runtime,
 )
+from state_system.instance_preflight import build_instance_preflight_read_model
+from state_system.instance_source_freshness import (
+    build_instance_source_freshness_read_model,
+)
 from state_system.stores import StateStoreBundle
 
 
@@ -11,8 +15,10 @@ def build_instance_understanding_surface_read_model(
     stores: StateStoreBundle,
 ) -> JsonObject:
     capability = build_instance_capability_read_model_from_runtime(stores)
+    preflight = build_instance_preflight_read_model(stores)
+    freshness = build_instance_source_freshness_read_model(stores)
     instances = [
-        _instance_surface(instance)
+        _instance_surface(instance, preflight, freshness)
         for instance in capability.get("instances", [])
     ]
 
@@ -45,9 +51,13 @@ def build_instance_understanding_surface_read_model(
     }
 
 
-def _instance_surface(instance: JsonObject) -> JsonObject:
+def _instance_surface(
+    instance: JsonObject,
+    preflight_read_model: JsonObject,
+    freshness_read_model: JsonObject,
+) -> JsonObject:
     source_readiness = [
-        _source_readiness(instance, connector)
+        _source_readiness(instance, connector, preflight_read_model, freshness_read_model)
         for connector in instance.get("source_connectors", [])
     ]
     source_gaps = [
@@ -71,7 +81,12 @@ def _instance_surface(instance: JsonObject) -> JsonObject:
     }
 
 
-def _source_readiness(instance: JsonObject, connector: JsonObject) -> JsonObject:
+def _source_readiness(
+    instance: JsonObject,
+    connector: JsonObject,
+    preflight_read_model: JsonObject,
+    freshness_read_model: JsonObject,
+) -> JsonObject:
     instance_ref = instance["instance_ref"]
     connector_ref = connector["id"]
     source_ref = connector["source_ref"]
@@ -81,8 +96,20 @@ def _source_readiness(instance: JsonObject, connector: JsonObject) -> JsonObject
         if connector_ref in manifest.get("connector_refs", [])
         or source_ref in manifest.get("source_refs", [])
     ]
-    access_status = "missing"
-    freshness_status = "missing"
+    preflight_records = _preflight_records_for_source(
+        preflight_read_model,
+        instance_ref=instance_ref,
+        connector_ref=connector_ref,
+        source_ref=source_ref,
+    )
+    freshness_record = _freshness_record_for_source(
+        freshness_read_model,
+        instance_ref=instance_ref,
+        connector_ref=connector_ref,
+        source_ref=source_ref,
+    )
+    access_status = _access_status(preflight_records)
+    freshness_status = freshness_record.get("status", "missing")
     index_status = _index_status(index_manifests)
     gaps = _source_gaps(
         instance_ref=instance_ref,
@@ -104,11 +131,57 @@ def _source_readiness(instance: JsonObject, connector: JsonObject) -> JsonObject
             freshness_status=freshness_status,
             index_status=index_status,
         ),
-        "preflight_records": [],
-        "freshness_record": {},
+        "preflight_records": preflight_records,
+        "freshness_record": freshness_record,
         "index_refs": [manifest["index_ref"] for manifest in index_manifests],
         "gaps": gaps,
     }
+
+
+def _preflight_records_for_source(
+    preflight_read_model: JsonObject,
+    *,
+    instance_ref: str,
+    connector_ref: str,
+    source_ref: str,
+) -> list[JsonObject]:
+    return [
+        result
+        for result in preflight_read_model.get("latest_by_scope_key", {}).values()
+        if result.get("instance_ref") == instance_ref
+        and result.get("connector_ref") == connector_ref
+        and result.get("source_ref") == source_ref
+    ]
+
+
+def _freshness_record_for_source(
+    freshness_read_model: JsonObject,
+    *,
+    instance_ref: str,
+    connector_ref: str,
+    source_ref: str,
+) -> JsonObject:
+    matches = [
+        result
+        for result in freshness_read_model.get("latest_by_scope_key", {}).values()
+        if result.get("instance_ref") == instance_ref
+        and result.get("connector_ref") == connector_ref
+        and result.get("source_ref") == source_ref
+    ]
+    return max(matches, key=lambda result: result["checked_at"], default={})
+
+
+def _access_status(preflight_records: list[JsonObject]) -> str:
+    statuses = {record.get("status") for record in preflight_records}
+    if "passed" in statuses:
+        return "passed"
+    if "failed" in statuses:
+        return "failed"
+    if "planned" in statuses:
+        return "planned"
+    if "unknown" in statuses:
+        return "unknown"
+    return "missing"
 
 
 def _index_status(index_manifests: list[JsonObject]) -> str:

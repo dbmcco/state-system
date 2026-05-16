@@ -35,6 +35,14 @@ from state_system.instance_capability import (
     build_instance_capability_read_model,
     build_instance_capability_read_model_from_runtime,
 )
+from state_system.instance_preflight import (
+    InstancePreflightRuntime,
+    build_instance_preflight_read_model,
+)
+from state_system.instance_source_freshness import (
+    InstanceSourceFreshnessRuntime,
+    build_instance_source_freshness_read_model,
+)
 from state_system.instance_understanding_surface import (
     build_instance_understanding_surface_read_model,
 )
@@ -85,6 +93,8 @@ COLLECTIONS = {
     "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
     "instance-capability": "instance_capabilities",
+    "instance-preflight": "instance_preflight_results",
+    "instance-source-freshness": "instance_source_freshness",
     "company-capability": "company_capabilities",
     "company-preflight": "company_preflight_results",
     "source-freshness": "source_freshness",
@@ -448,6 +458,81 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         read_model = build_instance_capability_read_model_from_runtime(stores)
         read_model_path = output_dir / "instance-capability-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-preflight-record":
+        result = InstancePreflightRuntime(stores).record(
+            _instance_preflight_result_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "instance-preflight-result.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "preflight_result": result})
+        return 0
+
+    if args.command == "instance-preflight-list":
+        _write_json(stdout, {"results": InstancePreflightRuntime(stores).list_results()})
+        return 0
+
+    if args.command == "instance-preflight-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_preflight_read_model(stores)
+        read_model_path = output_dir / "instance-preflight-results-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-source-freshness-record":
+        result = InstanceSourceFreshnessRuntime(stores).record(
+            _instance_source_freshness_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "instance-source-freshness-record.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "source_freshness": result})
+        return 0
+
+    if args.command == "instance-source-freshness-list":
+        _write_json(
+            stdout,
+            {"results": InstanceSourceFreshnessRuntime(stores).list_results()},
+        )
+        return 0
+
+    if args.command == "instance-source-freshness-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_source_freshness_read_model(stores)
+        read_model_path = output_dir / "instance-source-freshness-read-model.json"
         read_model_path.write_text(
             json.dumps(read_model, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -842,6 +927,62 @@ def _parser() -> argparse.ArgumentParser:
     instance_capability_read = subcommands.add_parser("instance-capability-read")
     instance_capability_read.add_argument("--output-dir", required=True)
 
+    instance_preflight_record = subcommands.add_parser("instance-preflight-record")
+    instance_preflight_record.add_argument("--preflight-ref", required=True)
+    instance_preflight_record.add_argument("--instance-ref", required=True)
+    instance_preflight_record.add_argument("--connector-ref", required=True)
+    instance_preflight_record.add_argument("--source-ref", required=True)
+    instance_preflight_record.add_argument("--connector-type")
+    instance_preflight_record.add_argument("--tool-ref")
+    instance_preflight_record.add_argument("--action-ref")
+    instance_preflight_record.add_argument("--agent-ref")
+    instance_preflight_record.add_argument("--runner-ref")
+    instance_preflight_record.add_argument(
+        "--status",
+        choices=["passed", "failed", "unknown", "planned"],
+        required=True,
+    )
+    instance_preflight_record.add_argument("--checked-at", required=True)
+    instance_preflight_record.add_argument("--stale-after")
+    instance_preflight_record.add_argument("--ttl-seconds", type=int)
+    instance_preflight_record.add_argument("--evidence-ref", action="append")
+    instance_preflight_record.add_argument("--error-code")
+    instance_preflight_record.add_argument("--error-message")
+    instance_preflight_record.add_argument("--detail")
+
+    subcommands.add_parser("instance-preflight-list")
+
+    instance_preflight_export = subcommands.add_parser("instance-preflight-export")
+    instance_preflight_export.add_argument("--output-dir", required=True)
+
+    instance_freshness_record = subcommands.add_parser(
+        "instance-source-freshness-record"
+    )
+    instance_freshness_record.add_argument("--instance-ref", required=True)
+    instance_freshness_record.add_argument("--connector-ref", required=True)
+    instance_freshness_record.add_argument("--source-ref", required=True)
+    instance_freshness_record.add_argument("--connector-type", required=True)
+    instance_freshness_record.add_argument(
+        "--status",
+        choices=["fresh", "stale", "failed", "unknown", "planned"],
+        required=True,
+    )
+    instance_freshness_record.add_argument("--checked-at", required=True)
+    instance_freshness_record.add_argument("--source-watermark", required=True)
+    instance_freshness_record.add_argument("--stale-after", required=True)
+    instance_freshness_record.add_argument("--lag-seconds", type=int)
+    instance_freshness_record.add_argument("--evidence-ref", action="append")
+    instance_freshness_record.add_argument("--error-code")
+    instance_freshness_record.add_argument("--error-message")
+    instance_freshness_record.add_argument("--detail")
+
+    subcommands.add_parser("instance-source-freshness-list")
+
+    instance_freshness_export = subcommands.add_parser(
+        "instance-source-freshness-export"
+    )
+    instance_freshness_export.add_argument("--output-dir", required=True)
+
     preflight_record = subcommands.add_parser("company-preflight-record")
     preflight_record.add_argument("--preflight-ref", required=True)
     preflight_record.add_argument("--company-ref", required=True)
@@ -994,9 +1135,67 @@ def _preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
     return result
 
 
+def _instance_preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "preflight_ref": args.preflight_ref,
+        "instance_ref": args.instance_ref,
+        "connector_ref": args.connector_ref,
+        "source_ref": args.source_ref,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "evidence_refs": list(args.evidence_ref or []),
+    }
+    for source, target in (
+        ("connector_type", "connector_type"),
+        ("tool_ref", "tool_ref"),
+        ("action_ref", "action_ref"),
+        ("agent_ref", "agent_ref"),
+        ("runner_ref", "runner_ref"),
+        ("stale_after", "stale_after"),
+        ("ttl_seconds", "ttl_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
+
+
 def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
     result: JsonObject = {
         "company_ref": args.company_ref,
+        "connector_ref": args.connector_ref,
+        "source_ref": args.source_ref,
+        "connector_type": args.connector_type,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "source_watermark": args.source_watermark,
+        "stale_after": args.stale_after,
+        "evidence_refs": list(args.evidence_ref or []),
+    }
+    for source, target in (
+        ("lag_seconds", "lag_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
+
+
+def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "instance_ref": args.instance_ref,
         "connector_ref": args.connector_ref,
         "source_ref": args.source_ref,
         "connector_type": args.connector_type,

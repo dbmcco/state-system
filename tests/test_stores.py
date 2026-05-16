@@ -81,6 +81,8 @@ class JsonFileStoreTests(unittest.TestCase):
                     "agent_activations",
                     "agent_responses",
                     "instance_capabilities",
+                    "instance_preflight_results",
+                    "instance_source_freshness",
                     "company_capabilities",
                     "company_preflight_results",
                     "source_freshness",
