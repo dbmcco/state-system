@@ -28,6 +28,10 @@ from state_system.company_preflight import (
 from state_system.company_understanding_surface import (
     build_company_understanding_surface_read_model,
 )
+from state_system.interpreted_index import (
+    build_interpreted_index_read_model,
+    search_interpreted_index,
+)
 from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.heartbeat import run_source_heartbeat
 from state_system.instance_capability import (
@@ -598,6 +602,40 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "state-interpreted-index-read":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_interpreted_index_read_model(
+            stores,
+            company_ref=args.company_ref,
+        )
+        read_model_path = output_dir / "state-interpreted-index-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "state-interpreted-search":
+        read_model = build_interpreted_index_read_model(
+            stores,
+            company_ref=args.company_ref,
+        )
+        result = search_interpreted_index(
+            read_model,
+            query=args.query,
+            limit=args.limit,
+        )
+        _write_json(stdout, result)
+        return 0
+
     if args.command == "instance-understanding-surface-read":
         output_dir = Path(args.output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -902,6 +940,15 @@ def _parser() -> argparse.ArgumentParser:
         "company-understanding-surface-read"
     )
     understanding_surface.add_argument("--output-dir", required=True)
+
+    interpreted_index = subcommands.add_parser("state-interpreted-index-read")
+    interpreted_index.add_argument("--company-ref")
+    interpreted_index.add_argument("--output-dir", required=True)
+
+    interpreted_search = subcommands.add_parser("state-interpreted-search")
+    interpreted_search.add_argument("--company-ref")
+    interpreted_search.add_argument("--query", required=True)
+    interpreted_search.add_argument("--limit", type=int, default=10)
 
     instance_understanding_surface = subcommands.add_parser(
         "instance-understanding-surface-read"

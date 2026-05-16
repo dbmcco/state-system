@@ -178,7 +178,15 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         lfw_state_index = _index_manifest(lfw, "index.lfw.state_system.evidence_cards")
         self.assertEqual("state_system", lfw_state_index["owner"])
         self.assertEqual("interpreted_state_index", lfw_state_index["scope"])
-        self.assertEqual("planned", lfw_state_index["status"])
+        self.assertEqual("state_system_interpreted_index", lfw_state_index["backend"])
+        self.assertEqual("declared", lfw_state_index["status"])
+        self.assertEqual(
+            {
+                "type": "state_system_runtime",
+                "tool_ref": "tool.state_system.interpreted_search",
+            },
+            lfw_state_index["query_surface"],
+        )
         lfw_understanding_index = _index_manifest(
             lfw,
             "index.lfw.state_system.company_understanding_surface",

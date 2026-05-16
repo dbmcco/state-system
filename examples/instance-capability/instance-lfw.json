@@ -110,7 +110,7 @@
       "instance_ref": "state_instance.lfw",
       "primary_entity_ref": "entity.lfw",
       "owner": "state_system",
-      "backend": "postgres_pgvector",
+      "backend": "state_system_interpreted_index",
       "scope": "interpreted_state_index",
       "record_kinds": [
         "evidence_card",
@@ -125,9 +125,10 @@
       ],
       "query_surface": {
         "type": "state_system_runtime",
-        "tool_ref": "tool.state_system.vector_search"
+        "tool_ref": "tool.state_system.interpreted_search"
       },
-      "status": "planned"
+      "status": "declared",
+      "notes": "Operational interpreted State System search over runtime state records and readiness evidence. This does not ingest raw source corpora or synthesize company health."
     }
   ],
   "memory_refs": [

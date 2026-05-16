@@ -57,6 +57,22 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         )
         self.assertEqual("relationship_index", relationship_index["scope"])
 
+    def test_lfw_instance_uses_operational_interpreted_state_search(self):
+        pack_path = ROOT / "examples/instance-capability/instance-lfw.json"
+        self.assertTrue(pack_path.exists())
+        pack = _load_json(pack_path)
+        interpreted = _index_manifest(pack, "index.lfw.state_system.interpreted")
+
+        self.assertEqual("state_system_interpreted_index", interpreted["backend"])
+        self.assertEqual("declared", interpreted["status"])
+        self.assertEqual(
+            {
+                "type": "state_system_runtime",
+                "tool_ref": "tool.state_system.interpreted_search",
+            },
+            interpreted["query_surface"],
+        )
+
 
 def _index_manifest(pack: dict, index_ref: str):
     matches = [

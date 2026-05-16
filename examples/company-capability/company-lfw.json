@@ -351,13 +351,13 @@
         "tool_ref": "tool.state_system.company_understanding_read"
       },
       "status": "declared",
-      "notes": "Operational State System read model used by PAIA agents to see source readiness, gaps, and declared retrieval surfaces. This is separate from the planned pgvector evidence-card index."
+      "notes": "Operational State System read model used by PAIA agents to see source readiness, gaps, and declared retrieval surfaces."
     },
     {
       "index_ref": "index.lfw.state_system.evidence_cards",
       "company_ref": "company.lfw",
       "owner": "state_system",
-      "backend": "postgres_pgvector",
+      "backend": "state_system_interpreted_index",
       "scope": "interpreted_state_index",
       "record_kinds": [
         "evidence_card",
@@ -371,9 +371,10 @@
       "connector_refs": [],
       "query_surface": {
         "type": "state_system_runtime",
-        "tool_ref": "tool.state_system.vector_search"
+        "tool_ref": "tool.state_system.interpreted_search"
       },
-      "status": "planned"
+      "status": "declared",
+      "notes": "Operational interpreted State System search over runtime records, readiness evidence, gaps, company memory refs, and operating-picture refs. This does not ingest raw source corpora or synthesize company health."
     }
   ],
   "company_memory_refs": [
