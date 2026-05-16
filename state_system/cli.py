@@ -25,6 +25,9 @@ from state_system.company_preflight import (
     CompanyPreflightRuntime,
     build_company_preflight_read_model,
 )
+from state_system.company_understanding_surface import (
+    build_company_understanding_surface_read_model,
+)
 from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.heartbeat import run_source_heartbeat
 from state_system.mission_records import (
@@ -512,6 +515,24 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, summary)
         return 0
 
+    if args.command == "company-understanding-surface-read":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_company_understanding_surface_read_model(stores)
+        read_model_path = output_dir / "company-understanding-surface-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "state-root-migrate":
         result = migrate_state_root(
             project_root=project_root,
@@ -783,6 +804,11 @@ def _parser() -> argparse.ArgumentParser:
     source_heartbeat.add_argument("--checked-at", required=True)
     source_heartbeat.add_argument("--stale-after", required=True)
     source_heartbeat.add_argument("--output-dir", required=True)
+
+    understanding_surface = subcommands.add_parser(
+        "company-understanding-surface-read"
+    )
+    understanding_surface.add_argument("--output-dir", required=True)
 
     migrate = subcommands.add_parser("state-root-migrate")
     migrate.add_argument("--from", dest="from_root", required=True)
