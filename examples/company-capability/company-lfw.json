@@ -73,7 +73,8 @@
       "connector_type": "docs",
       "source_ref": "transcripts:pipeline:lfw",
       "owner": "source_system",
-      "declared": true
+      "declared": true,
+      "notes": "Placeholder connector only. Processed transcript pipeline health and watermarks are not proven yet."
     },
     {
       "id": "connector.lfw.local",
@@ -252,7 +253,8 @@
         "type": "source_adapter",
         "tool_ref": "tool.paia.github.read"
       },
-      "status": "planned"
+      "status": "declared",
+      "notes": "Live repo metadata and commit activity can be read through the PAIA GitHub adapter. Durable indexing can still be hardened later."
     },
     {
       "index_ref": "index.lfw.transcripts.raw",
@@ -274,7 +276,8 @@
         "type": "source_adapter",
         "tool_ref": "tool.paia.local_path.inspect"
       },
-      "status": "planned"
+      "status": "planned",
+      "notes": "Placeholder only. Raw transcript files are declared as source material, but no local transcript index is live yet."
     },
     {
       "index_ref": "index.lfw.transcripts.processed",
@@ -299,7 +302,7 @@
         "tool_ref": "tool.paia.transcripts.search"
       },
       "status": "planned",
-      "notes": "Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
+      "notes": "Placeholder only. Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
     },
     {
       "index_ref": "index.lfw.state_system.evidence_cards",
@@ -339,6 +342,7 @@
       "action_surface.lfw.read_drive",
       "action_surface.lfw.read_linear",
       "action_surface.lfw.read_zulip",
+      "action_surface.lfw.read_github",
       "action_surface.lfw.propose_crm_update"
     ]
   },
@@ -444,6 +448,26 @@
       "authorizes_execution": false
     },
     {
+      "id": "tool_binding.lfw.github.read",
+      "capability_ref": "capability.lfw.github.read",
+      "tool_ref": "tool.paia.github.read",
+      "action_ref": "action_surface.lfw.read_github",
+      "connector_refs": [
+        "connector.lfw.github_org"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.github"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
       "id": "tool_binding.lfw.crm.propose_update",
       "capability_ref": "capability.lfw.crm.propose_update",
       "tool_ref": "tool.paia.crm.propose_update",
@@ -500,6 +524,12 @@
         "id": "preflight.lfw.zulip",
         "connector_ref": "connector.lfw.zulip",
         "check": "PAIA runtime can read the LightForge Works Zulip realm.",
+        "owner": "paia_runtime"
+      },
+      {
+        "id": "preflight.lfw.github",
+        "connector_ref": "connector.lfw.github_org",
+        "check": "PAIA runtime can read LightForge Works GitHub org repository metadata.",
         "owner": "paia_runtime"
       },
       {

@@ -179,6 +179,13 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual("state_system", lfw_state_index["owner"])
         self.assertEqual("interpreted_state_index", lfw_state_index["scope"])
         self.assertEqual("planned", lfw_state_index["status"])
+        lfw_github_index = _index_manifest(lfw, "index.lfw.github_org.repos")
+        self.assertEqual("github_native", lfw_github_index["backend"])
+        self.assertEqual("raw_source_index", lfw_github_index["scope"])
+        self.assertEqual("declared", lfw_github_index["status"])
+        lfw_transcript_index = _index_manifest(lfw, "index.lfw.transcripts.processed")
+        self.assertEqual("planned", lfw_transcript_index["status"])
+        self.assertIn("Placeholder only", lfw_transcript_index["notes"])
 
     def test_read_model_exposes_mechanical_tool_capability_bindings(self):
         read_model = build_company_capability_read_model(
@@ -214,6 +221,19 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         )
         self.assertFalse(zulip_binding["proves_live_access"])
         self.assertFalse(zulip_binding["authorizes_execution"])
+
+        github_binding = _binding(lfw, "capability.lfw.github.read")
+        self.assertEqual("tool.paia.github.read", github_binding["tool_ref"])
+        self.assertEqual("action_surface.lfw.read_github", github_binding["action_ref"])
+        self.assertEqual(["connector.lfw.github_org"], github_binding["connector_refs"])
+        self.assertEqual(["preflight.lfw.github"], github_binding["required_preflight_refs"])
+        self.assertEqual([], github_binding["governance_refs"])
+        self.assertEqual(
+            ["persona.caroline", "persona.samantha"],
+            github_binding["allowed_agent_refs"],
+        )
+        self.assertFalse(github_binding["proves_live_access"])
+        self.assertFalse(github_binding["authorizes_execution"])
 
         synthyra = _company(read_model, "company.synthyra")
         self.assertFalse(
