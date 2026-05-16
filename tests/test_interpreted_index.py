@@ -118,6 +118,37 @@ class InterpretedIndexTests(unittest.TestCase):
             self.assertEqual("state_system_interpreted_search_result", search_payload["id"])
             self.assertTrue(search_payload["records"])
 
+    def test_cli_require_records_fails_when_live_search_has_no_records(self):
+        with TemporaryDirectory() as directory:
+            _lfw_runtime(Path(directory))
+
+            search_output = StringIO()
+            search_code = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "--state-root",
+                    directory,
+                    "state-interpreted-search",
+                    "--company-ref",
+                    "company.lfw",
+                    "--query",
+                    "zzzzzzzzzz",
+                    "--limit",
+                    "1",
+                    "--require-records",
+                ],
+                stdout=search_output,
+            )
+
+            self.assertEqual(1, search_code, search_output.getvalue())
+            search_payload = json.loads(search_output.getvalue())
+            self.assertFalse(search_payload["ok"])
+            self.assertEqual(
+                "state_interpreted_search_no_records",
+                search_payload["error"]["code"],
+            )
+
 
 def _lfw_runtime(root: Path) -> StateStoreBundle:
     stores = StateStoreBundle(root)

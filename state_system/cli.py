@@ -633,6 +633,14 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             query=args.query,
             limit=args.limit,
         )
+        if args.require_records and not result.get("records"):
+            result["ok"] = False
+            result["error"] = {
+                "code": "state_interpreted_search_no_records",
+                "message": "State interpreted search returned no records.",
+            }
+            _write_json(stdout, result)
+            return 1
         _write_json(stdout, result)
         return 0
 
@@ -949,6 +957,7 @@ def _parser() -> argparse.ArgumentParser:
     interpreted_search.add_argument("--company-ref")
     interpreted_search.add_argument("--query", required=True)
     interpreted_search.add_argument("--limit", type=int, default=10)
+    interpreted_search.add_argument("--require-records", action="store_true")
 
     instance_understanding_surface = subcommands.add_parser(
         "instance-understanding-surface-read"
