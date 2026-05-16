@@ -226,8 +226,8 @@
         "type": "paia_tool",
         "tool_ref": "tool.paia.zulip.read"
       },
-      "status": "planned",
-      "notes": "Declared for company understanding; live indexing waits on Zulip credentials and adapter hardening."
+      "status": "declared",
+      "notes": "Read surface is live for company understanding. Durable search indexing can still be hardened later."
     },
     {
       "index_ref": "index.lfw.github_org.repos",

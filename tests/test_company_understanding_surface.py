@@ -69,8 +69,8 @@ class CompanyUnderstandingSurfaceTests(unittest.TestCase):
             zulip = _source(lfw, "connector.lfw.zulip")
             self.assertEqual("missing", zulip["access_status"])
             self.assertEqual("missing", zulip["freshness_status"])
-            self.assertEqual("planned", zulip["index_status"])
-            self.assertEqual("planned", zulip["understanding_status"])
+            self.assertEqual("declared", zulip["index_status"])
+            self.assertEqual("searchable_access_unproven", zulip["understanding_status"])
             self.assertIn(
                 "gap.company.lfw.connector.lfw.zulip.access_missing",
                 read_model["source_gap_refs"],
