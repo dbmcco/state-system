@@ -81,9 +81,17 @@ python3 -m state_system.cli --project-root . --state-root /path/to/runtime compa
 ```
 
 `paia-bootstrap-export` refreshes the default operational artifact layout under
-`/Users/braydon/.paia/state-system`. PAIA should consume those read artifacts,
-then perform its own connector preflight before exposing tools or corpora to any
-agent.
+`/Users/braydon/projects/work/lfw/state-system`. PAIA should consume those read
+artifacts, then perform its own connector preflight before exposing tools or
+corpora to any agent.
+
+State System owns migration of the runtime root. The LFW canonical root is the
+visible directory `/Users/braydon/projects/work/lfw/state-system`; the old
+`/Users/braydon/.paia/state-system` path is a compatibility symlink after
+`state-root-migrate` succeeds. Migration is copy-not-destructive: replace any
+target symlink with a real directory, copy the prior root, validate the copied
+records, refresh read models, run heartbeat when requested, and only then point
+the compatibility path at the new root.
 
 PAIA tool exposure contract:
 

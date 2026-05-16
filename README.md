@@ -186,16 +186,16 @@ evidence:
 
 ```bash
 python3 -m state_system.cli --project-root . paia-bootstrap-export
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system company-preflight-export --output-dir /Users/braydon/.paia/state-system/company-preflight
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system company-preflight-export --output-dir /Users/braydon/projects/work/lfw/state-system/company-preflight
 ```
 
 Record and export PAIA-owned source freshness heartbeat results as recency
 evidence:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-freshness-export --output-dir /Users/braydon/.paia/state-system/source-freshness
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-freshness-export --output-dir /Users/braydon/projects/work/lfw/state-system/source-freshness
 ```
 
 Run the active State System heartbeat. In v0 it directly checks `local_path`
@@ -203,20 +203,35 @@ connector metadata and records explicit `unknown` freshness for credentialed
 connectors that still require delegated adapters:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/.paia/state-system source-heartbeat-run --company-ref company.lfw --checked-at 2026-05-15T13:00:00Z --stale-after 2026-05-15T13:15:00Z --output-dir /Users/braydon/.paia/state-system/source-freshness
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-heartbeat-run --company-ref company.lfw --checked-at 2026-05-15T13:00:00Z --stale-after 2026-05-15T13:15:00Z --output-dir /Users/braydon/projects/work/lfw/state-system/source-freshness
 ```
 
 The bootstrap command refreshes the expected PAIA artifact layout under
-`/Users/braydon/.paia/state-system`. It writes
-`/Users/braydon/.paia/state-system/company-capability/company-capability-read-model.json`
+`/Users/braydon/projects/work/lfw/state-system`. It writes
+`/Users/braydon/projects/work/lfw/state-system/company-capability/company-capability-read-model.json`
 and
-`/Users/braydon/.paia/state-system/company-preflight/company-preflight-results-read-model.json`
+`/Users/braydon/projects/work/lfw/state-system/company-preflight/company-preflight-results-read-model.json`
 and
-`/Users/braydon/.paia/state-system/source-freshness/source-freshness-read-model.json`.
+`/Users/braydon/projects/work/lfw/state-system/source-freshness/source-freshness-read-model.json`.
 Preflight results prove or fail live access only. They do not authorize
 protected effects; governance remains separate.
 Freshness results prove source recency only. They do not prove live access and
 do not authorize protected effects.
+
+Migrate the canonical runtime root from the old hidden location to the visible
+LFW workspace root:
+
+```bash
+python3 -m state_system.cli --project-root . state-root-migrate --from /Users/braydon/.paia/state-system --to /Users/braydon/projects/work/lfw/state-system --compat-link /Users/braydon/.paia/state-system --validate-company-ref company.lfw --refresh --heartbeat-company-ref company.lfw --heartbeat-checked-at 2026-05-16T12:00:00Z --heartbeat-stale-after 2026-05-16T12:15:00Z
+```
+
+`state-root-migrate` is copy-not-destructive. It replaces a target symlink with a
+real directory, copies the source state root into it, validates the migrated
+company capability records, optionally refreshes bootstrap artifacts, optionally
+runs heartbeat, and only then replaces the old compatibility path with a
+symlink. `/Users/braydon/.paia/state-system` is compatibility only after
+migration; the canonical inspectable root is
+`/Users/braydon/projects/work/lfw/state-system`.
 
 ## What Is Designed Next
 

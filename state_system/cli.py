@@ -55,6 +55,7 @@ from state_system.source_freshness import (
     SourceFreshnessRuntime,
     build_source_freshness_read_model,
 )
+from state_system.state_root_migration import migrate_state_root
 from state_system.stores import JsonObject, StateStoreBundle
 from state_system.trace_runner import run_trace_manifest
 
@@ -511,6 +512,21 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, summary)
         return 0
 
+    if args.command == "state-root-migrate":
+        result = migrate_state_root(
+            project_root=project_root,
+            source_root=Path(args.from_root),
+            target_root=Path(args.to_root),
+            compat_link=Path(args.compat_link) if args.compat_link else None,
+            validate_company_ref=args.validate_company_ref,
+            refresh=args.refresh,
+            heartbeat_company_ref=args.heartbeat_company_ref,
+            heartbeat_checked_at=args.heartbeat_checked_at,
+            heartbeat_stale_after=args.heartbeat_stale_after,
+        )
+        _write_json(stdout, result)
+        return 0
+
     if args.command == "paia-bootstrap-export":
         bootstrap_root = (
             Path(args.state_root) if args.state_root else DEFAULT_PAIA_STATE_ROOT
@@ -767,6 +783,16 @@ def _parser() -> argparse.ArgumentParser:
     source_heartbeat.add_argument("--checked-at", required=True)
     source_heartbeat.add_argument("--stale-after", required=True)
     source_heartbeat.add_argument("--output-dir", required=True)
+
+    migrate = subcommands.add_parser("state-root-migrate")
+    migrate.add_argument("--from", dest="from_root", required=True)
+    migrate.add_argument("--to", dest="to_root", required=True)
+    migrate.add_argument("--compat-link")
+    migrate.add_argument("--validate-company-ref")
+    migrate.add_argument("--refresh", action="store_true")
+    migrate.add_argument("--heartbeat-company-ref")
+    migrate.add_argument("--heartbeat-checked-at")
+    migrate.add_argument("--heartbeat-stale-after")
 
     subcommands.add_parser("paia-bootstrap-export")
 

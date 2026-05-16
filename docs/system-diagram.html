@@ -726,6 +726,7 @@
             <li>PAIA runtime performs connector preflight before exposing tools or corpora to agents.</li>
             <li>Governance decides whether protected state promotion or external action is allowed.</li>
             <li>The read command lets PAIA target the same runtime contract without duplicating State System truth.</li>
+            <li>The LFW runtime root is an inspectable real directory at `/Users/braydon/projects/work/lfw/state-system`; the old hidden path is only a compatibility symlink after migration.</li>
           </ol>
         </div>
 
@@ -764,6 +765,7 @@
             <li>Company capability packs now seed runtime State System records for LFW, Synthyra, and Navicyte before PAIA tool wiring.</li>
             <li>`paia-bootstrap-export` now refreshes the PAIA company capability, preflight, and source freshness read-model artifact layout.</li>
             <li>`source-heartbeat-run` makes State System the active freshness orchestrator, with direct local metadata checks and explicit delegated connector boundaries.</li>
+            <li>`state-root-migrate` moves the canonical runtime root into the visible LFW workspace with copy-not-destructive semantics and a compat symlink from the old dotdir path.</li>
           </ul>
         </div>
         <div>
