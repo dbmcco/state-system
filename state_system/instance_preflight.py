@@ -1,10 +1,21 @@
 from __future__ import annotations
 
 import json
+import os
+from pathlib import Path
 import re
+import shutil
+import urllib.error
+import urllib.request
 
 from state_system.contracts import JsonObject
 from state_system.stores import StateStoreBundle
+
+MSGVAULT_HEALTH_URL = "http://127.0.0.1:8080/health"
+FOLIO_ROOT = Path("/Users/braydon/projects/experiments/folio")
+RELATIONSHIP_SUBSTRATE_ROOT = Path(
+    "/Users/braydon/projects/experiments/relationship-substrate"
+)
 
 
 def build_instance_preflight_read_model(stores: StateStoreBundle) -> JsonObject:
@@ -20,6 +31,43 @@ def build_instance_preflight_read_model(stores: StateStoreBundle) -> JsonObject:
             "preflight_results_are_live_access_evidence": True,
             "authorizes_execution": False,
             "protected_action_authorized_by": "governance",
+        },
+    }
+
+
+def run_instance_connector_preflight(
+    stores: StateStoreBundle,
+    instance_capability_pack: JsonObject,
+    *,
+    checked_at: str,
+    stale_after: str,
+    allow_network: bool = True,
+    msgvault_health_url: str = MSGVAULT_HEALTH_URL,
+) -> JsonObject:
+    runtime = InstancePreflightRuntime(stores)
+    records = [
+        runtime.record(
+            _connector_preflight_result(
+                instance_capability_pack,
+                connector,
+                checked_at=checked_at,
+                stale_after=stale_after,
+                allow_network=allow_network,
+                msgvault_health_url=msgvault_health_url,
+            )
+        )
+        for connector in instance_capability_pack.get("source_connectors", [])
+    ]
+    return {
+        "id": f"instance_preflight_run.{_slug(instance_capability_pack['instance_ref'])}.{_slug(checked_at)}",
+        "instance_ref": instance_capability_pack["instance_ref"],
+        "checked_at": checked_at,
+        "stale_after": stale_after,
+        "records": records,
+        "invariant": {
+            "mutates_source_systems": False,
+            "copies_raw_corpora": False,
+            "authorizes_execution": False,
         },
     }
 
@@ -64,6 +112,119 @@ def _normalize_result(result: JsonObject) -> JsonObject:
     record["authorizes_execution"] = False
     record["protected_action_authorized_by"] = "governance"
     return record
+
+
+def _connector_preflight_result(
+    instance_capability_pack: JsonObject,
+    connector: JsonObject,
+    *,
+    checked_at: str,
+    stale_after: str,
+    allow_network: bool,
+    msgvault_health_url: str,
+) -> JsonObject:
+    status, detail, evidence_refs = _probe_connector(
+        connector,
+        allow_network=allow_network,
+        msgvault_health_url=msgvault_health_url,
+    )
+    return {
+        "preflight_ref": _preflight_ref(
+            instance_capability_pack["instance_ref"],
+            connector["id"],
+        ),
+        "instance_ref": instance_capability_pack["instance_ref"],
+        "connector_ref": connector["id"],
+        "source_ref": connector["source_ref"],
+        "connector_type": connector.get("connector_type", ""),
+        "status": status,
+        "checked_at": checked_at,
+        "stale_after": stale_after,
+        "evidence_refs": evidence_refs,
+        "detail": detail,
+    }
+
+
+def _probe_connector(
+    connector: JsonObject,
+    *,
+    allow_network: bool,
+    msgvault_health_url: str,
+) -> tuple[str, str, list[str]]:
+    connector_type = connector.get("connector_type", "")
+    source_ref = connector.get("source_ref", "")
+
+    if connector_type == "local_path":
+        return _probe_path(_path_from_local_source(source_ref), "local_path")
+    if connector_type == "relationship_substrate":
+        return _probe_path(RELATIONSHIP_SUBSTRATE_ROOT, "relationship_substrate")
+    if connector_type == "folio":
+        return _probe_path(FOLIO_ROOT, "folio_root")
+    if connector_type == "msgvault":
+        return _probe_msgvault(allow_network, msgvault_health_url)
+    if connector_type == "paia_workboard":
+        return _probe_executable("wg", "paia_workboard_cli")
+    if connector_type == "agentmem":
+        return _probe_agentmem()
+    if connector_type == "state_system_instance":
+        return (
+            "planned",
+            "no_safe_probe_declared: state_system_instance root resolution belongs to federation task",
+            [],
+        )
+    return (
+        "planned",
+        f"no_safe_probe_declared: unsupported connector_type {connector_type}",
+        [],
+    )
+
+
+def _probe_path(path: Path, label: str) -> tuple[str, str, list[str]]:
+    if path.exists():
+        return "passed", f"{label} exists: {path}", [f"local-path:{path}"]
+    return "failed", f"{label} missing: {path}", [f"local-path:{path}"]
+
+
+def _probe_executable(command: str, label: str) -> tuple[str, str, list[str]]:
+    path = shutil.which(command)
+    if path:
+        return "passed", f"{label} executable found: {path}", [f"executable:{command}"]
+    return "planned", f"no_safe_probe_declared: {label} executable not found", []
+
+
+def _probe_agentmem() -> tuple[str, str, list[str]]:
+    home = os.environ.get("AGENTMEM_HOME")
+    if home:
+        return _probe_path(Path(home), "agentmem_home")
+    return "planned", "no_safe_probe_declared: AGENTMEM_HOME is not set", []
+
+
+def _probe_msgvault(
+    allow_network: bool,
+    health_url: str,
+) -> tuple[str, str, list[str]]:
+    if not allow_network:
+        return "planned", "no_safe_probe_declared: network probes disabled", []
+    request = urllib.request.Request(health_url, method="GET")
+    try:
+        with urllib.request.urlopen(request, timeout=1) as response:
+            status = getattr(response, "status", 0)
+    except (OSError, urllib.error.URLError) as exc:
+        return "failed", f"msgvault health check failed: {exc}", [health_url]
+    if 200 <= status < 300:
+        return "passed", f"msgvault health check passed: {health_url}", [health_url]
+    return "failed", f"msgvault health check returned HTTP {status}", [health_url]
+
+
+def _path_from_local_source(source_ref: str) -> Path:
+    prefix = "local:"
+    if source_ref.startswith(prefix):
+        return Path(source_ref[len(prefix) :])
+    return Path(source_ref)
+
+
+def _preflight_ref(instance_ref: str, connector_ref: str) -> str:
+    return f"preflight.{_slug(instance_ref)}.{_slug(connector_ref)}"
 
 
 def _result_id(result: JsonObject) -> str:

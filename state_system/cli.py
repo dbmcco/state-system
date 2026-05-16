@@ -38,6 +38,7 @@ from state_system.instance_capability import (
 from state_system.instance_preflight import (
     InstancePreflightRuntime,
     build_instance_preflight_read_model,
+    run_instance_connector_preflight,
 )
 from state_system.instance_source_freshness import (
     InstanceSourceFreshnessRuntime,
@@ -507,6 +508,17 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "instance-preflight-run":
+        summary = run_instance_connector_preflight(
+            stores,
+            load_json(Path(args.instance_capability_pack)),
+            checked_at=args.checked_at,
+            stale_after=args.stale_after,
+            allow_network=not args.no_network,
+        )
+        _write_json(stdout, summary)
+        return 0
+
     if args.command == "instance-source-freshness-record":
         result = InstanceSourceFreshnessRuntime(stores).record(
             _instance_source_freshness_from_args(args)
@@ -954,6 +966,12 @@ def _parser() -> argparse.ArgumentParser:
 
     instance_preflight_export = subcommands.add_parser("instance-preflight-export")
     instance_preflight_export.add_argument("--output-dir", required=True)
+
+    instance_preflight_run = subcommands.add_parser("instance-preflight-run")
+    instance_preflight_run.add_argument("instance_capability_pack")
+    instance_preflight_run.add_argument("--checked-at", required=True)
+    instance_preflight_run.add_argument("--stale-after", required=True)
+    instance_preflight_run.add_argument("--no-network", action="store_true")
 
     instance_freshness_record = subcommands.add_parser(
         "instance-source-freshness-record"
