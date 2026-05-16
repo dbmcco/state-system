@@ -179,10 +179,30 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual("state_system", lfw_state_index["owner"])
         self.assertEqual("interpreted_state_index", lfw_state_index["scope"])
         self.assertEqual("planned", lfw_state_index["status"])
+        lfw_understanding_index = _index_manifest(
+            lfw,
+            "index.lfw.state_system.company_understanding_surface",
+        )
+        self.assertEqual("state_system", lfw_understanding_index["owner"])
+        self.assertEqual("json_read_model", lfw_understanding_index["backend"])
+        self.assertEqual("interpreted_state_index", lfw_understanding_index["scope"])
+        self.assertEqual("declared", lfw_understanding_index["status"])
+        self.assertEqual(
+            {
+                "type": "state_system_runtime",
+                "tool_ref": "tool.state_system.company_understanding_read",
+            },
+            lfw_understanding_index["query_surface"],
+        )
         lfw_github_index = _index_manifest(lfw, "index.lfw.github_org.repos")
         self.assertEqual("github_native", lfw_github_index["backend"])
         self.assertEqual("raw_source_index", lfw_github_index["scope"])
         self.assertEqual("declared", lfw_github_index["status"])
+        lfw_local_index = _index_manifest(lfw, "index.lfw.local.workspace")
+        self.assertEqual("local_filesystem", lfw_local_index["backend"])
+        self.assertEqual("raw_source_index", lfw_local_index["scope"])
+        self.assertEqual("declared", lfw_local_index["status"])
+        self.assertEqual(["connector.lfw.local"], lfw_local_index["connector_refs"])
         lfw_transcript_index = _index_manifest(lfw, "index.lfw.transcripts.processed")
         self.assertEqual("planned", lfw_transcript_index["status"])
         self.assertIn("Placeholder only", lfw_transcript_index["notes"])
@@ -234,6 +254,22 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         )
         self.assertFalse(github_binding["proves_live_access"])
         self.assertFalse(github_binding["authorizes_execution"])
+
+        local_binding = _binding(lfw, "capability.lfw.local.inspect")
+        self.assertEqual("tool.paia.local_path.inspect", local_binding["tool_ref"])
+        self.assertEqual(
+            "action_surface.lfw.inspect_local_workspace",
+            local_binding["action_ref"],
+        )
+        self.assertEqual(["connector.lfw.local"], local_binding["connector_refs"])
+        self.assertEqual(["preflight.lfw.local"], local_binding["required_preflight_refs"])
+        self.assertEqual([], local_binding["governance_refs"])
+        self.assertEqual(
+            ["persona.caroline", "persona.samantha"],
+            local_binding["allowed_agent_refs"],
+        )
+        self.assertFalse(local_binding["proves_live_access"])
+        self.assertFalse(local_binding["authorizes_execution"])
 
         synthyra = _company(read_model, "company.synthyra")
         self.assertFalse(

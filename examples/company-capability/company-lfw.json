@@ -107,6 +107,8 @@
       "linear:index:teams:FORGE,INT",
       "zulip:index:realm:lightforgeworks",
       "github:index:org:LightForge-Works",
+      "local:index:lfw-workspace",
+      "state-system:index:lfw-company-understanding",
       "transcripts:index:lfw"
     ]
   },
@@ -257,6 +259,30 @@
       "notes": "Live repo metadata and commit activity can be read through the PAIA GitHub adapter. Durable indexing can still be hardened later."
     },
     {
+      "index_ref": "index.lfw.local.workspace",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "local_filesystem",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "workspace_file",
+        "repository",
+        "source_summary"
+      ],
+      "source_refs": [
+        "local:/Users/braydon/projects/work/lfw"
+      ],
+      "connector_refs": [
+        "connector.lfw.local"
+      ],
+      "query_surface": {
+        "type": "source_adapter",
+        "tool_ref": "tool.paia.local_path.inspect"
+      },
+      "status": "declared",
+      "notes": "Read-only local workspace inspection for LFW. Transcript/archive content remains governed by the transcript placeholder connectors until that pipeline is proven."
+    },
+    {
       "index_ref": "index.lfw.transcripts.raw",
       "company_ref": "company.lfw",
       "owner": "source_system",
@@ -305,6 +331,29 @@
       "notes": "Placeholder only. Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
     },
     {
+      "index_ref": "index.lfw.state_system.company_understanding_surface",
+      "company_ref": "company.lfw",
+      "owner": "state_system",
+      "backend": "json_read_model",
+      "scope": "interpreted_state_index",
+      "record_kinds": [
+        "source_readiness",
+        "source_gap",
+        "searchable_surface",
+        "operating_picture"
+      ],
+      "source_refs": [
+        "state-system:company.lfw"
+      ],
+      "connector_refs": [],
+      "query_surface": {
+        "type": "state_system_runtime",
+        "tool_ref": "tool.state_system.company_understanding_read"
+      },
+      "status": "declared",
+      "notes": "Operational State System read model used by PAIA agents to see source readiness, gaps, and declared retrieval surfaces. This is separate from the planned pgvector evidence-card index."
+    },
+    {
       "index_ref": "index.lfw.state_system.evidence_cards",
       "company_ref": "company.lfw",
       "owner": "state_system",
@@ -343,6 +392,7 @@
       "action_surface.lfw.read_linear",
       "action_surface.lfw.read_zulip",
       "action_surface.lfw.read_github",
+      "action_surface.lfw.inspect_local_workspace",
       "action_surface.lfw.propose_crm_update"
     ]
   },
@@ -457,6 +507,26 @@
       ],
       "required_preflight_refs": [
         "preflight.lfw.github"
+      ],
+      "governance_refs": [],
+      "allowed_agent_refs": [
+        "persona.caroline",
+        "persona.samantha"
+      ],
+      "exposure_policy": "hide_until_preflight_passes",
+      "proves_live_access": false,
+      "authorizes_execution": false
+    },
+    {
+      "id": "tool_binding.lfw.local.inspect",
+      "capability_ref": "capability.lfw.local.inspect",
+      "tool_ref": "tool.paia.local_path.inspect",
+      "action_ref": "action_surface.lfw.inspect_local_workspace",
+      "connector_refs": [
+        "connector.lfw.local"
+      ],
+      "required_preflight_refs": [
+        "preflight.lfw.local"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
