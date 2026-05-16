@@ -110,8 +110,9 @@ State System instances own the canonical interpreted-state index and federate to
 source indexes when drill-down is needed.
 
 See
-`docs/decisions/2026-05-16-runtime-instance-and-vector-ownership.md` for the
-current decision record.
+`docs/decisions/2026-05-16-runtime-instance-and-vector-ownership.md` and
+`docs/decisions/2026-05-16-state-instance-entity-and-federated-indexes.md` for
+the current decision records.
 
 ## Success
 
