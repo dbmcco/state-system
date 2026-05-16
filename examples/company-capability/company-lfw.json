@@ -102,6 +102,7 @@
     "index_refs": [
       "folio:index:tenant:lfw",
       "msgvault:index:lfw-email",
+      "gws:index:lfw-drive",
       "linear:index:teams:FORGE,INT",
       "zulip:index:realm:lightforgeworks",
       "github:index:org:LightForge-Works",
@@ -152,6 +153,30 @@
       "query_surface": {
         "type": "paia_tool",
         "tool_ref": "tool.paia.msgvault.search"
+      },
+      "status": "declared"
+    },
+    {
+      "index_ref": "index.lfw.drive.documents",
+      "company_ref": "company.lfw",
+      "owner": "source_system",
+      "backend": "gws_drive_native",
+      "scope": "raw_source_index",
+      "record_kinds": [
+        "drive_file",
+        "document",
+        "spreadsheet",
+        "source_summary"
+      ],
+      "source_refs": [
+        "gws:lfw:drive:lfw"
+      ],
+      "connector_refs": [
+        "connector.lfw.drive"
+      ],
+      "query_surface": {
+        "type": "paia_tool",
+        "tool_ref": "tool.paia.gws_drive.read"
       },
       "status": "declared"
     },
