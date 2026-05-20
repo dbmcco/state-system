@@ -258,13 +258,13 @@
   <main>
     <h1>State System Orientation Diagram</h1>
     <p class="lede">
-      State System is the organizational state layer: it turns scattered signals from known and
-      unknown sources into durable, evidence-backed interpretation that agents can act from and
-      humans can inspect through agents or reporting surfaces. This diagram shows the system as
-      of May 14, 2026, including source generalization, app substrate contracts, company
-      capability packs, coherence
-      maintenance, implemented agent activation, stale-context reporting, queued mission
-      records, what is partial, and what should come next.
+      State System is the organizational state layer: it turns source-owned evidence, explicit
+      connector contracts, and instance readiness records into CLI-ready agent packages and
+      governed federation routes. This diagram shows the system as of May 19, 2026, including
+      the generic SourceModuleSpec, ToolActionContract, and QuestionRouteContract layer;
+      instance capability, preflight, freshness, and readiness records; b-state/Samantha and
+      LFW/Caroline packages; Navicyte/Helena and Synthyra/Ingrid scaffolds; and federation
+      packs that do not materialize raw remote data.
     </p>
 
     <section class="section" aria-labelledby="legend-heading">
@@ -280,7 +280,7 @@
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--next);"></span>Next</strong>
-          <p>The next design lanes: app handoffs, mission records, source generalization, and coherence.</p>
+          <p>Planned or scaffolded lanes with explicit gaps and repair paths.</p>
         </div>
         <div class="legend-item">
           <strong><span class="legend-swatch" style="background: var(--future);"></span>Future</strong>
@@ -296,12 +296,12 @@
     <section class="section" aria-labelledby="diagram-heading">
       <h2 id="diagram-heading">System Map</h2>
       <div class="diagram-wrap">
-        <svg viewBox="0 0 1320 780" role="img" aria-labelledby="svg-title svg-desc">
-          <title id="svg-title">State System flow-first architecture diagram</title>
+        <svg viewBox="0 0 1320 820" role="img" aria-labelledby="svg-title svg-desc">
+          <title id="svg-title">State System contract and package architecture diagram</title>
           <desc id="svg-desc">
-            A left-to-right flow diagram showing how known and unknown sources become normalized
-            observations, evidence-backed model review, governed state commits, coherence
-            maintenance, activation for agents, reporting for humans, and feedback into the next review.
+            A layered architecture diagram showing generic source, tool, and route contracts,
+            instance capability and readiness records, CLI-ready agent packages, governed source
+            modules, federation packs without raw materialization, and typed freshness gaps.
           </desc>
 
           <defs>
@@ -316,152 +316,131 @@
             </filter>
           </defs>
 
-          <rect x="0" y="0" width="1320" height="780" fill="#ffffff"></rect>
-          <text x="34" y="40" class="svg-title">State System: flow through the system</text>
-          <text x="34" y="62" class="svg-subtitle">Read left to right: observe source material, normalize it, interpret it, commit durable state, maintain coherence, activate it, then feed responses back through review.</text>
+          <rect x="0" y="0" width="1320" height="820" fill="#ffffff"></rect>
+          <text x="34" y="40" class="svg-title">State System: contracts to CLI-ready instance packages</text>
+          <text x="34" y="62" class="svg-subtitle">Read top to bottom: generic connector contracts declare behavior; instance records prove access and freshness.</text>
+          <text x="34" y="82" class="svg-subtitle">Packages expose bounded agent context; federation routes query without raw copies.</text>
 
-          <text x="34" y="106" class="layer-label">Primary Flow</text>
+          <text x="34" y="106" class="layer-label">Generic Contract Layer</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="124" width="148" height="104" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="50" y="151" class="status-label" fill="var(--source)">STEP 1</text>
-            <text x="50" y="174" class="node-title">Observe Sources</text>
-            <text x="50" y="196" class="node-copy">Known, unknown, human,</text>
-            <text x="50" y="213" class="node-copy">agent, mirror, index</text>
+            <rect x="34" y="124" width="286" height="128" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
+            <text x="52" y="153" class="node-title">SourceModuleSpec</text>
+            <text x="52" y="176" class="node-copy">Connector type, source ref shape,</text>
+            <text x="52" y="193" class="node-copy">module modes, preflight, freshness,</text>
+            <text x="52" y="210" class="node-copy">index ownership, output policy, gaps</text>
+            <text x="52" y="235" class="status-label" fill="var(--source)">GENERIC INTERFACE</text>
 
-            <rect x="206" y="124" width="148" height="104" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="222" y="151" class="status-label" fill="var(--next)">STEP 2</text>
-            <text x="222" y="174" class="node-title">Normalize</text>
-            <text x="222" y="196" class="node-copy">Source recipe plus</text>
-            <text x="222" y="213" class="node-copy">source observation</text>
+            <rect x="362" y="124" width="286" height="128" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="380" y="153" class="node-title">ToolActionContract</text>
+            <text x="380" y="176" class="node-copy">Canonical tool action maps to</text>
+            <text x="380" y="193" class="node-copy">deployment backing tools and modes</text>
+            <text x="380" y="210" class="node-copy">such as live API or historical cache</text>
+            <text x="380" y="235" class="status-label" fill="var(--done)">IMPLEMENTED CONTRACT</text>
 
-            <rect x="378" y="124" width="148" height="104" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
-            <text x="394" y="151" class="status-label" fill="var(--governance)">STEP 3</text>
-            <text x="394" y="174" class="node-title">Evidence Gate</text>
-            <text x="394" y="196" class="node-copy">Stable refs, dedupe,</text>
-            <text x="394" y="213" class="node-copy">permission, freshness</text>
+            <rect x="690" y="124" width="286" height="128" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="708" y="153" class="node-title">QuestionRouteContract</text>
+            <text x="708" y="176" class="node-copy">Required source coverage, tools,</text>
+            <text x="708" y="193" class="node-copy">fallback policy, answer contract,</text>
+            <text x="708" y="210" class="node-copy">gap behavior, federation needs</text>
+            <text x="708" y="235" class="status-label" fill="var(--done)">IMPLEMENTED CONTRACT</text>
 
-            <rect x="550" y="124" width="148" height="104" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="566" y="151" class="status-label" fill="var(--done)">STEP 4</text>
-            <text x="566" y="174" class="node-title">Review</text>
-            <text x="566" y="196" class="node-copy">Trigger, packet, model</text>
-            <text x="566" y="213" class="node-copy">interpretation</text>
-
-            <rect x="722" y="124" width="148" height="104" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="738" y="151" class="status-label" fill="var(--done)">STEP 5</text>
-            <text x="738" y="174" class="node-title">Commit State</text>
-            <text x="738" y="196" class="node-copy">Journals, snapshots,</text>
-            <text x="738" y="213" class="node-copy">memory, review signals</text>
-
-            <rect x="894" y="124" width="148" height="104" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="910" y="151" class="status-label" fill="var(--next)">STEP 6</text>
-            <text x="910" y="174" class="node-title">Cohere</text>
-            <text x="910" y="196" class="node-copy">Reweave, identity,</text>
-            <text x="910" y="213" class="node-copy">stale-state review</text>
-
-            <rect x="1066" y="124" width="148" height="104" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="1082" y="151" class="status-label" fill="var(--done)">STEP 7</text>
-            <text x="1082" y="174" class="node-title">Activate + Report</text>
-            <text x="1082" y="196" class="node-copy">Agent records, reports,</text>
-            <text x="1082" y="213" class="node-copy">stale-context guard</text>
+            <rect x="1018" y="124" width="250" height="128" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="1036" y="153" class="node-title">Boundary Rule</text>
+            <text x="1036" y="176" class="node-copy">Model interprets state, salience,</text>
+            <text x="1036" y="193" class="node-copy">uncertainty, and route meaning.</text>
+            <text x="1036" y="210" class="node-copy">Code validates, persists, audits.</text>
+            <text x="1036" y="235" class="status-label" fill="var(--governance)">NO HIDDEN HEURISTICS</text>
           </g>
 
-          <path class="arrow" d="M182 176 H206"></path>
-          <path class="arrow" d="M354 176 H378"></path>
-          <path class="arrow" d="M526 176 H550"></path>
-          <path class="arrow" d="M698 176 H722"></path>
-          <path class="arrow" d="M870 176 H894"></path>
-          <path class="arrow" d="M1042 176 H1066"></path>
+          <path class="arrow" d="M320 188 H362"></path>
+          <path class="arrow" d="M648 188 H690"></path>
+          <path class="arrow" d="M976 188 H1018"></path>
 
-          <path class="arrow" d="M1140 228 C1140 272 1208 272 1208 326 C1208 380 108 380 108 326 C108 286 108 260 108 228"></path>
-          <text x="858" y="350" class="flow-label">feedback returns as a new observation or review input</text>
-
-          <text x="34" y="282" class="layer-label">What Each Step Contains</text>
+          <text x="34" y="304" class="layer-label">Instance Capability, Readiness, Preflight, Freshness</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="304" width="246" height="132" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="50" y="331" class="node-title">1. Source Universe</text>
-            <text x="50" y="354" class="node-copy">Event sources: Linear, GitHub, Workgraph</text>
-            <text x="50" y="371" class="node-copy">Canonical corpora: Gmail, Google Drive</text>
-            <text x="50" y="388" class="node-copy">Mirrors/indexes: msgvault, Folio, pgvector</text>
-            <text x="50" y="405" class="node-copy">Human and agent artifacts</text>
-            <text x="50" y="426" class="status-label" fill="var(--next)">OPEN SOURCE SET</text>
+            <rect x="34" y="322" width="286" height="166" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="52" y="351" class="node-title">b-state / Samantha</text>
+            <text x="52" y="374" class="node-copy">CLI-ready personal package</text>
+            <text x="52" y="391" class="node-copy">Garmin Connect: fresh local sync</text>
+            <text x="52" y="408" class="node-copy">Spotify: historical-cache stale</text>
+            <text x="52" y="425" class="node-copy">PAIA memory: agent + owner surfaces</text>
+            <text x="52" y="442" class="node-copy">Relationship Substrate usable</text>
+            <text x="52" y="470" class="status-label" fill="var(--done)">PACKAGE RENDERS</text>
 
-            <rect x="304" y="304" width="246" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="320" y="331" class="node-title">2. Source Recipe</text>
-            <text x="320" y="354" class="node-copy">Kind: event, snapshot, corpus, mirror, index</text>
-            <text x="320" y="371" class="node-copy">Identity, tenant/scope, sync cursor</text>
-            <text x="320" y="388" class="node-copy">Dedupe, visibility, confidence</text>
-            <text x="320" y="405" class="node-copy">Canonical vs mirror relationship</text>
-            <text x="320" y="426" class="status-label" fill="var(--next)">NEXT CONTRACT</text>
+            <rect x="362" y="322" width="286" height="166" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
+            <text x="380" y="351" class="node-title">LFW / Caroline</text>
+            <text x="380" y="374" class="node-copy">CLI-ready company package</text>
+            <text x="380" y="391" class="node-copy">Linear: fresh source watermark</text>
+            <text x="380" y="408" class="node-copy">GitHub: fresh source watermark</text>
+            <text x="380" y="425" class="node-copy">Raw transcripts: planned index gap</text>
+            <text x="380" y="442" class="node-copy">Processed transcripts: planned gap</text>
+            <text x="380" y="470" class="status-label" fill="var(--done)">PACKAGE RENDERS</text>
 
-            <rect x="574" y="304" width="246" height="132" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
-            <text x="590" y="331" class="node-title">3. Evidence Gate</text>
-            <text x="590" y="354" class="node-copy">Indexes find candidates</text>
-            <text x="590" y="371" class="node-copy">Stable source refs prove evidence</text>
-            <text x="590" y="388" class="node-copy">Promotion choices: archive, evidence,</text>
-            <text x="590" y="405" class="node-copy">memory, state review, task, approval</text>
-            <text x="590" y="426" class="status-label" fill="var(--governance)">CONTROL</text>
+            <rect x="690" y="322" width="286" height="166" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="708" y="351" class="node-title">Navicyte / Helena</text>
+            <text x="708" y="374" class="node-copy">Instance agent package scaffold</text>
+            <text x="708" y="391" class="node-copy">Capability and readiness fields</text>
+            <text x="708" y="408" class="node-copy">Source module registry subset</text>
+            <text x="708" y="425" class="node-copy">Typed gap refs until access is proved</text>
+            <text x="708" y="470" class="status-label" fill="var(--next)">SCAFFOLD</text>
 
-            <rect x="844" y="304" width="246" height="132" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="860" y="331" class="node-title">4-5. Review and Commit</text>
-            <text x="860" y="354" class="node-copy">Source event -> trigger -> review packet</text>
-            <text x="860" y="371" class="node-copy">Model interprets meaning and uncertainty</text>
-            <text x="860" y="388" class="node-copy">Committer validates, gates, persists</text>
-            <text x="860" y="405" class="node-copy">State, memory, journals, snapshots</text>
-            <text x="860" y="426" class="status-label" fill="var(--done)">CORE IMPLEMENTED</text>
+            <rect x="1018" y="322" width="250" height="166" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
+            <text x="1036" y="351" class="node-title">Synthyra / Ingrid</text>
+            <text x="1036" y="374" class="node-copy">Instance agent package scaffold</text>
+            <text x="1036" y="391" class="node-copy">Baseline registry and guidance</text>
+            <text x="1036" y="408" class="node-copy">Docs/transcripts planned through</text>
+            <text x="1036" y="425" class="node-copy">explicit pipeline dependencies</text>
+            <text x="1036" y="470" class="status-label" fill="var(--next)">SCAFFOLD</text>
           </g>
 
-          <text x="34" y="484" class="layer-label">After Durable State Exists</text>
+          <path class="soft-arrow" d="M177 252 V322"></path>
+          <path class="soft-arrow" d="M505 252 V322"></path>
+          <path class="soft-arrow" d="M833 252 V322"></path>
+          <path class="soft-arrow" d="M1143 252 V322"></path>
+
+          <text x="34" y="548" class="layer-label">Governed Source And Federation Layer</text>
           <g filter="url(#shadow)">
-            <rect x="34" y="506" width="246" height="132" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="50" y="533" class="node-title">Durable State Substrate</text>
-            <text x="50" y="556" class="node-copy">Objects, claims, evidence refs</text>
-            <text x="50" y="573" class="node-copy">Accepted state, journals, snapshots</text>
-            <text x="50" y="590" class="node-copy">Memory: agent and org learning</text>
-            <text x="50" y="607" class="node-copy">Governance: approval and authority</text>
-            <text x="50" y="628" class="status-label" fill="var(--done)">FILE-BACKED CORE</text>
+            <rect x="34" y="566" width="286" height="156" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
+            <text x="52" y="595" class="node-title">Relationship Substrate</text>
+            <text x="52" y="618" class="node-copy">source_module.relationship_substrate</text>
+            <text x="52" y="635" class="node-copy">People, orgs, affiliations, notes</text>
+            <text x="52" y="652" class="node-copy">Source-owned correction writes</text>
+            <text x="52" y="669" class="node-copy">LFW federated route, no local copy</text>
+            <text x="52" y="700" class="status-label" fill="var(--source)">GOVERNED SOURCE</text>
 
-            <rect x="304" y="506" width="246" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="320" y="533" class="node-title">6. Coherence Maintenance</text>
-            <text x="320" y="556" class="node-copy">Backward reweave affected state</text>
-            <text x="320" y="573" class="node-copy">Identity resolution for people/orgs/docs</text>
-            <text x="320" y="590" class="node-copy">Compact scan surface for cheap routing</text>
-            <text x="320" y="607" class="node-copy">Review cadence for stale or uncertain state</text>
-            <text x="320" y="628" class="status-label" fill="var(--next)">NEXT</text>
+            <rect x="362" y="566" width="286" height="156" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
+            <text x="380" y="595" class="node-title">PAIA Memory Module</text>
+            <text x="380" y="618" class="node-copy">source_module.paia_memory</text>
+            <text x="380" y="635" class="node-copy">connector.personal.paia_memory.samantha</text>
+            <text x="380" y="652" class="node-copy">connector.personal.paia_memory.owner</text>
+            <text x="380" y="669" class="node-copy">Facets and turns stay source-owned</text>
+            <text x="380" y="700" class="status-label" fill="var(--source)">SEPARATE SURFACES</text>
 
-            <rect x="574" y="506" width="246" height="132" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="590" y="533" class="node-title">7. Activation</text>
-            <text x="590" y="556" class="node-copy">Working models over substrate</text>
-            <text x="590" y="573" class="node-copy">Context packages and packets</text>
-            <text x="590" y="590" class="node-copy">Agent activations and read models</text>
-            <text x="590" y="607" class="node-copy">Reports/wiki/CRM views as projections</text>
-            <text x="590" y="628" class="status-label" fill="var(--done)">USER-TESTABLE</text>
+            <rect x="690" y="566" width="286" height="156" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
+            <text x="708" y="595" class="node-title">InstanceFederationPack</text>
+            <text x="708" y="618" class="node-copy">Personal -> LFW interpreted state</text>
+            <text x="708" y="635" class="node-copy">LFW -> personal relationship route</text>
+            <text x="708" y="652" class="node-copy">Portfolio -> Navicyte/Synthyra planned</text>
+            <text x="708" y="669" class="node-copy">local_materialization=false</text>
+            <text x="708" y="700" class="status-label" fill="var(--partial)">SAFE SUMMARY ONLY</text>
 
-            <rect x="844" y="506" width="246" height="132" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
-            <text x="860" y="533" class="node-title">Feedback</text>
-            <text x="860" y="556" class="node-copy">Humans judge via agents</text>
-            <text x="860" y="573" class="node-copy">Laura and Patrick propose</text>
-            <text x="860" y="590" class="node-copy">Codex, Claude, opencode consume activations</text>
-            <text x="860" y="607" class="node-copy">Responses are artifacts, not truth</text>
-            <text x="860" y="628" class="status-label" fill="var(--partial)">CAPTURED</text>
+            <rect x="1018" y="566" width="250" height="156" rx="8" fill="var(--governance-soft)" stroke="var(--governance)"></rect>
+            <text x="1036" y="595" class="node-title">Freshness And Gaps</text>
+            <text x="1036" y="618" class="node-copy">Fresh only with source-owned proof</text>
+            <text x="1036" y="635" class="node-copy">Stale sources stay visible</text>
+            <text x="1036" y="652" class="node-copy">Planned pipelines keep gap refs</text>
+            <text x="1036" y="669" class="node-copy">Repair path is package metadata</text>
+            <text x="1036" y="700" class="status-label" fill="var(--governance)">CONTROL</text>
           </g>
 
-          <rect x="1122" y="304" width="154" height="334" rx="8" fill="#f8fafc" stroke="#cbd5e1"></rect>
-          <text x="1140" y="331" class="node-title">Boundary Rule</text>
-          <text x="1140" y="360" class="node-copy">Models interpret:</text>
-          <text x="1140" y="377" class="node-copy">meaning, salience,</text>
-          <text x="1140" y="394" class="node-copy">uncertainty, actions.</text>
-          <text x="1140" y="428" class="node-copy">Code protects:</text>
-          <text x="1140" y="445" class="node-copy">schemas, refs,</text>
-          <text x="1140" y="462" class="node-copy">permissions, replay,</text>
-          <text x="1140" y="479" class="node-copy">persistence, audit.</text>
-          <text x="1140" y="517" class="node-copy">Index rule:</text>
-          <text x="1140" y="534" class="node-copy">pgvector finds; stable</text>
-          <text x="1140" y="551" class="node-copy">source refs prove.</text>
-          <text x="1140" y="596" class="status-label" fill="var(--governance)">NORTH STAR</text>
+          <path class="soft-arrow" d="M177 488 V566"></path>
+          <path class="soft-arrow" d="M505 488 V566"></path>
+          <path class="soft-arrow" d="M505 488 C505 526 833 526 833 566"></path>
+          <path class="soft-arrow" d="M833 488 V566"></path>
+          <path class="soft-arrow" d="M1143 488 V566"></path>
 
-          <text x="34" y="704" class="layer-label">Short Version</text>
-          <text x="34" y="730" class="node-copy">Source material is observed and normalized before it becomes evidence. Evidence-backed interpretation can become governed state.</text>
-          <text x="34" y="750" class="node-copy">Working models assemble bounded context for agents, packets, reports, wiki, and CRM views without becoming truth.</text>
+          <text x="34" y="774" class="layer-label">Short Version</text>
+          <text x="34" y="798" class="node-copy">State System now makes connector behavior explicit in schemas, proves deployed access with preflight/freshness records, and renders package metadata agents can inspect.</text>
         </svg>
       </div>
     </section>
@@ -665,12 +644,12 @@
       <h2 id="workflow-heading">Workflow Explainer</h2>
       <div class="explainer-grid">
         <div class="workflow">
-          <h3>1. Source Generalization Loop</h3>
+          <h3>1. Source Module Contract Loop</h3>
           <ol>
-            <li>A known or unknown source is described by a source recipe: kind, identity, dedupe, permissions, sync behavior, and confidence.</li>
-            <li>Canonical sources such as Gmail and Google Drive are distinguished from mirrors and indexes such as msgvault, Folio tenant corpora, and pgvector.</li>
-            <li>Indexes find candidate evidence, but the system only trusts items that resolve back to stable source refs.</li>
-            <li>Each observation is classified as archive, evidence only, memory candidate, state review trigger, task proposal, approval item, or activation context.</li>
+            <li>A connector type is described by `SourceModuleSpec`: source ref shape, access owner, module modes, preflight, freshness, index ownership, output policy, and gap behavior.</li>
+            <li>`ToolActionContract` maps canonical tool actions to deployment-specific backing tools without hiding mode differences such as live API, local sync, export, or historical cache.</li>
+            <li>`QuestionRouteContract` names required source coverage, tools, answer policy, fallback behavior, and federation requirements before an agent answers.</li>
+            <li>Packages expose these contract refs directly so behavior is visible in schemas and examples, not private prompts.</li>
           </ol>
         </div>
 
@@ -696,13 +675,13 @@
         </div>
 
         <div class="workflow">
-          <h3>4. State Activation Loop</h3>
+          <h3>4. Instance Package Loop</h3>
           <ol>
-            <li>A human or system asks an agent to act from state: “What is going on?” or “What should Laura know?”</li>
-            <li>The system scopes the need to relevant state objects, journals, memory, evidence, recent changes, and governance constraints.</li>
-            <li>The current implemented path creates a persisted agent activation with a goal, expected response type, action boundaries, evidence refs, freshness, and capture policy.</li>
-            <li>The activation renders into agent-facing instructions plus the bounded context package.</li>
-            <li>The static report shows activation goals, action boundaries, captured response, validity window, stale status, and refresh-before-external-action blockers.</li>
+            <li>An instance capability pack declares source connectors, indexes, tool bindings, governance, runtime constraints, and agent/persona surfaces.</li>
+            <li>Preflight and source freshness records prove live access, local sync, historical cache bounds, or explicit planned gaps.</li>
+            <li>The package renderer emits CLI-ready agent context with source module refs, route refs, tool action refs, freshness status, gap refs, and repair guidance.</li>
+            <li>b-state/Samantha and LFW/Caroline render as daily-use packages; Navicyte/Helena and Synthyra/Ingrid render as scaffolded packages with readiness gaps.</li>
+            <li>Activation and report surfaces consume packages as bounded context, not as durable truth.</li>
           </ol>
         </div>
 
@@ -718,26 +697,25 @@
         </div>
 
         <div class="workflow">
-          <h3>6. Company Capability Loop</h3>
+          <h3>6. Capability And Freshness Loop</h3>
           <ol>
-            <li>A company capability pack declares company identity, source connectors, raw corpus, evidence indexes, memory, operating pictures, action surfaces, governance, and runtime constraints.</li>
-            <li>The pack is persisted as runtime State System substrate, not just an example fixture.</li>
-            <li>The pack is capability context, not proof of live access and not authorization to act.</li>
-            <li>PAIA runtime performs connector preflight before exposing tools or corpora to agents.</li>
-            <li>Governance decides whether protected state promotion or external action is allowed.</li>
-            <li>The read command lets PAIA target the same runtime contract without duplicating State System truth.</li>
-            <li>The LFW runtime root is an inspectable real directory at `/Users/braydon/projects/work/lfw/state-system`; the old hidden path is only a compatibility symlink after migration.</li>
+            <li>Capability context does not prove live access and does not authorize action; preflight proves reachability and governance authorizes protected effects.</li>
+            <li>Garmin Connect is exposed as a fresh local-sync source in the personal package.</li>
+            <li>Spotify is exposed as a usable historical cache with a stale live-API gap, not current listening truth.</li>
+            <li>LFW Linear and GitHub are fresh from source-owned watermarks; LFW transcript raw and processed pipelines remain planned gaps.</li>
+            <li>PAIA memory is a generic source module with separate personal connector surfaces for Samantha and owner memory.</li>
+            <li>No private records, raw corpora, credentials, or absolute runtime paths belong in public diagrams or examples.</li>
           </ol>
         </div>
 
         <div class="workflow">
-          <h3>7. Mission Records Loop</h3>
+          <h3>7. Federation Loop</h3>
           <ol>
-            <li>A coordinated work request becomes a `MissionRun` with evidence, trigger, state, and context refs.</li>
-            <li>Each participant becomes a `MissionAgentRun` with role, responsibility, model, cost, and context refs.</li>
-            <li>Append-only mission events record observations, findings, stumbles, artifacts, governance receipts, and commit results.</li>
-            <li>A read model regenerates the operator view without making the UI a new source of truth.</li>
-            <li>PAIA Shell Mission Control should consume that read model only after the generic fixture replay is proven.</li>
+            <li>`InstanceFederationPack` declares governed cross-instance query boundaries and the route, tool action, source module, freshness, and output policies for them.</li>
+            <li>Personal b-state can read LFW interpreted state through an instance read route.</li>
+            <li>LFW can query personal Relationship Substrate through a governed relationship route without materializing raw personal relationship records.</li>
+            <li>Portfolio rollups across Navicyte and Synthyra remain planned until their packages prove readiness.</li>
+            <li>Federated answers carry safe summaries, evidence refs, watermarks, gap refs, and repair guidance rather than raw remote corpora.</li>
           </ol>
         </div>
       </div>
@@ -763,20 +741,25 @@
             <li>Schema-valid app fixture chains now cover six app-substrate flows: Prospect/Outreach/CRM, Meeting, Thoughtforge, Visual Forge, and CRM outcome doctrine.</li>
             <li>Company memory and CRM operating picture now have a first JSON substrate read model with Laura and Patrick package slices.</li>
             <li>Company capability packs now seed runtime State System records for LFW, Synthyra, and Navicyte before PAIA tool wiring.</li>
+            <li>Generic source module, tool action, and question route contracts are schema-backed and tested.</li>
+            <li>Instance agent packages are CLI-ready for b-state/Samantha and LFW/Caroline, with Navicyte/Helena and Synthyra/Ingrid scaffold packages carrying typed readiness gaps.</li>
+            <li>Federation packs declare no-raw-materialization boundaries for personal-to-LFW, LFW-to-Relationship-Substrate, and planned portfolio rollups.</li>
+            <li>Relationship Substrate is represented as a governed source module and federated route, not a b-state-only assumption.</li>
+            <li>PAIA memory is represented as `source_module.paia_memory` with separate b-state connector surfaces for Samantha and owner memory.</li>
             <li>`paia-bootstrap-export` now refreshes the PAIA company capability, preflight, and source freshness read-model artifact layout.</li>
             <li>`source-heartbeat-run` makes State System the active freshness orchestrator, with direct local metadata checks and explicit delegated connector boundaries.</li>
-            <li>`state-root-migrate` moves the canonical runtime root into the visible LFW workspace with copy-not-destructive semantics and a compat symlink from the old dotdir path.</li>
+            <li>`state-root-migrate` moves the canonical runtime root into the visible LFW workspace with copy-not-destructive semantics and a compatibility symlink from the old hidden path.</li>
           </ul>
         </div>
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
-            <li>Have PAIA consume the runtime company capability read model through connector preflight and governance checks instead of app-local company specials.</li>
-            <li>Run the operational loop against real local source fixtures before adding more substrate concepts.</li>
-            <li>Improve the operator summary until it is useful enough to inspect after every run.</li>
-            <li>Promote more scenarios into trace manifests only when operational pressure exposes a gap.</li>
+            <li>Keep Spotify live OAuth repair separate from the historical-cache stale package contract.</li>
+            <li>Repair LFW transcript raw and processed pipelines before any package claims transcript evidence is current.</li>
+            <li>Promote Navicyte/Helena and Synthyra/Ingrid from scaffold to ready only after source-owned preflight, freshness, and index records exist.</li>
+            <li>Have PAIA consume runtime read models through connector preflight and governance checks instead of app-local company specials.</li>
             <li>Keep wiki, dashboard, and report surfaces as projections over JSON substrate, not as durable truth sources.</li>
-            <li>Define Source Generalization and Evidence Access so future sources inherit identity, dedupe, permissions, sync, and evidence rules.</li>
+            <li>Keep package pressure questions as real route-contract checks for source coverage, fallback behavior, federation, and gap visibility.</li>
             <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>
             <li>Extend reporting surfaces for human inspection without making humans direct state-system operators.</li>
             <li>Defer API, database, MCP, live models, and sync workers until the activation and reporting contracts are boring and useful.</li>

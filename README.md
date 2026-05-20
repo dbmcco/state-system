@@ -45,6 +45,13 @@ If you are reviewing State System for the first time, read it in this order:
    `examples/traces/linear-deal-won.trace.json`.
 6. `docs/app-substrate-contract.md` and
    `docs/app-integration-pressure-tests.md` for the app-facing future state.
+7. `docs/runbooks/open-source-onboarding.md` for the end-to-end adopter path:
+   install, scaffold, source module declaration, preflight/freshness, package
+   render, federation pack declaration, and pressure test.
+
+If you are evaluating State System for open-source release readiness, the
+release gate evidence and the remaining private-deployment-only gaps are in
+`docs/reports/2026-05-18-open-source-onboarding-release-gate.md`.
 
 Good feedback targets:
 
@@ -218,6 +225,44 @@ protected effects; governance remains separate.
 Freshness results prove source recency only. They do not prove live access and
 do not authorize protected effects.
 
+Record and export instance-owned connector preflight results for personal,
+project, or other non-company state roots:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-record --preflight-ref preflight.state_instance.braydon_personal.connector.personal.folio --instance-ref state_instance.braydon_personal --connector-ref connector.personal.folio --source-ref folio:tenant:personal --connector-type folio --status passed --checked-at 2026-05-16T19:42:47Z --stale-after 2026-05-16T20:42:47Z --evidence-ref local-path:/Users/braydon/projects/experiments/folio
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-export --output-dir /Users/braydon/projects/personal/b-state/instance-preflight
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-understanding-surface-read --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+```
+
+Instance preflight supports `passed`, `failed`, and `planned`. Only `passed`
+sets `proves_live_access: true`; `planned` keeps the connector visible as a
+declared access gap for the instance understanding surface.
+
+For declared instance connectors, run the non-destructive preflight runner:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-run --instance-ref state_instance.braydon_personal --checked-at 2026-05-17T10:25:00Z --stale-after 2026-05-17T10:40:00Z
+```
+
+In v0 the runner only proves explicit `local_path` connectors mechanically.
+Delegated/source-owned connectors are recorded as `planned` unless a future
+adapter or explicit target metadata is declared. This avoids tenant-name
+heuristics and avoids turning source ownership into State System
+behavior.
+
+Record and export instance source freshness as recency evidence:
+
+```bash
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-source-freshness-record --instance-ref state_instance.braydon_personal --connector-ref connector.personal.msgvault --source-ref msgvault:tenant:personal-email --connector-type msgvault --status unknown --checked-at 2026-05-17T10:15:00Z --source-watermark msgvault.sync_status:unknown --stale-after 2026-05-17T10:30:00Z --evidence-ref paia:freshness:msgvault:unknown --index-ref index.personal.msgvault.email --index-owner source_system --index-backend msgvault_sqlite_vec
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-source-freshness-export --output-dir /Users/braydon/projects/personal/b-state/instance-source-freshness
+python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-understanding-surface-read --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+```
+
+Instance source freshness proves recency only. It does not prove live access and
+does not authorize protected actions. Source-owned indexes can be cited with
+`index_refs` and optional `index_metadata`; State System records the metadata
+but does not become the owner of raw source indexes.
+
 Migrate the canonical runtime root from the old hidden location to the visible
 LFW workspace root:
 
@@ -301,6 +346,7 @@ anonymized.
 - `examples/company-capability/` - LFW, Synthyra, and Navicyte company capability packs for PAIA coordination
 - `examples/traces/` - runnable trace manifests for replaying source-event-to-agent-context flows
 - `examples/app-integrations/` - app integration fixture trace anchors for Prospect Researcher, Outreach Engine, CRM, Meeting Manager, Thoughtforge, and Visual Forge
+- `docs/runbooks/personal-b-state.md` - operator runbook for the personal b-state instance (refresh and read commands, output locations, connector boundaries, verification, troubleshooting)
 
 ## First Personas
 

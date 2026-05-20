@@ -1,0 +1,221 @@
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+import re
+
+from state_system.contracts import JsonObject
+from state_system.instance_capability import InstanceCapabilityRuntime
+from state_system.stores import StateStoreBundle
+
+
+def build_instance_preflight_read_model(stores: StateStoreBundle) -> JsonObject:
+    results = InstancePreflightRuntime(stores).list_results()
+    return {
+        "id": "instance_preflight_result_read_model",
+        "artifact_type": "json_substrate",
+        "generated_at": max((result["checked_at"] for result in results), default=""),
+        "results": results,
+        "latest_by_scope_key": _latest_by_scope_key(results),
+        "latest_by_preflight_ref": _latest_by_preflight_ref(results),
+        "invariant": {
+            "preflight_results_are_live_access_evidence": True,
+            "authorizes_execution": False,
+            "protected_action_authorized_by": "governance",
+        },
+    }
+
+
+class InstancePreflightRuntime:
+    def __init__(self, stores: StateStoreBundle):
+        self.store = stores.instance_preflight_results
+
+    def record(self, result: JsonObject) -> JsonObject:
+        record = _normalize_result(result)
+        path = self.store.path_for(record["id"])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w", encoding="utf-8") as handle:
+            json.dump(record, handle, indent=2, sort_keys=True)
+            handle.write("\n")
+        return record
+
+    def read(self, record_id: str) -> JsonObject:
+        return self.store.read(record_id)
+
+    def list_results(self) -> list[JsonObject]:
+        return sorted(
+            self.store.replay(),
+            key=lambda result: (
+                result["preflight_ref"],
+                result.get("agent_ref") or "",
+                result.get("runner_ref") or "",
+                result["checked_at"],
+            ),
+        )
+
+
+def run_instance_preflight(
+    stores: StateStoreBundle,
+    *,
+    instance_ref: str,
+    checked_at: str,
+    stale_after: str,
+) -> JsonObject:
+    pack = InstanceCapabilityRuntime(stores).read_instance(instance_ref)
+    runtime = InstancePreflightRuntime(stores)
+    results = [
+        runtime.record(
+            _result_for_connector(
+                instance_ref=instance_ref,
+                connector=connector,
+                checked_at=checked_at,
+                stale_after=stale_after,
+            )
+        )
+        for connector in pack.get("source_connectors", [])
+    ]
+    return {
+        "id": "instance_preflight_run",
+        "instance_ref": instance_ref,
+        "checked_at": checked_at,
+        "stale_after": stale_after,
+        "count": len(results),
+        "results": results,
+        "status_counts": _status_counts(results),
+        "invariant": {
+            "runner_is_non_destructive": True,
+            "delegated_connectors_are_planned": True,
+            "authorizes_execution": False,
+            "protected_action_authorized_by": "governance",
+        },
+    }
+
+
+def _normalize_result(result: JsonObject) -> JsonObject:
+    record = dict(result)
+    record.setdefault("scope_key", _scope_key(record))
+    record.setdefault("id", _result_id(record))
+    record.setdefault("evidence_refs", [])
+    record["proves_live_access"] = record["status"] == "passed"
+    record["authorizes_execution"] = False
+    record["protected_action_authorized_by"] = "governance"
+    return record
+
+
+def _result_for_connector(
+    *,
+    instance_ref: str,
+    connector: JsonObject,
+    checked_at: str,
+    stale_after: str,
+) -> JsonObject:
+    connector_ref = connector["id"]
+    connector_type = connector.get("connector_type", "")
+    source_ref = connector.get("source_ref", "")
+    preflight_ref = (
+        connector.get("preflight_ref")
+        or f"preflight.{instance_ref}.{connector_ref}"
+    )
+    result: JsonObject = {
+        "preflight_ref": preflight_ref,
+        "instance_ref": instance_ref,
+        "connector_ref": connector_ref,
+        "source_ref": source_ref,
+        "connector_type": connector_type,
+        "checked_at": checked_at,
+        "stale_after": stale_after,
+        "evidence_refs": [],
+    }
+    if connector_type == "local_path":
+        path = _local_path_from_source_ref(source_ref)
+        result["evidence_refs"] = [source_ref] if source_ref else []
+        if path is not None and path.exists():
+            result["status"] = "passed"
+            result["detail"] = f"local_path exists: {path}"
+        else:
+            result["status"] = "failed"
+            result["detail"] = f"local_path missing: {path or source_ref}"
+            result["error"] = {
+                "code": "local_path_missing",
+                "message": f"Local path does not exist: {path or source_ref}",
+            }
+        return result
+
+    result["status"] = "planned"
+    result["detail"] = (
+        f"{connector_type or 'connector'} preflight is delegated to the source "
+        "owner or an explicit adapter; State System did not infer access."
+    )
+    return result
+
+
+def _local_path_from_source_ref(source_ref: str) -> Path | None:
+    if not source_ref.startswith("local:"):
+        return None
+    path = source_ref.removeprefix("local:")
+    if not path:
+        return None
+    return Path(path)
+
+
+def _status_counts(results: list[JsonObject]) -> JsonObject:
+    counts: dict[str, int] = {}
+    for result in results:
+        status = str(result.get("status", "unknown"))
+        counts[status] = counts.get(status, 0) + 1
+    return dict(sorted(counts.items()))
+
+
+def _result_id(result: JsonObject) -> str:
+    return (
+        f"instance_preflight_result.{_bounded_slug(result['scope_key'])}."
+        f"{_slug(result['checked_at'])}"
+    )
+
+
+def _scope_key(result: JsonObject) -> str:
+    return "|".join(
+        [
+            result["instance_ref"],
+            result.get("connector_ref", ""),
+            result.get("source_ref", ""),
+            result["preflight_ref"],
+            result.get("tool_ref", ""),
+            result.get("action_ref", ""),
+            result.get("agent_ref", ""),
+            result.get("runner_ref", ""),
+        ]
+    )
+
+
+def _latest_by_preflight_ref(results: list[JsonObject]) -> JsonObject:
+    latest: dict[str, JsonObject] = {}
+    for result in results:
+        previous = latest.get(result["preflight_ref"])
+        if previous is None or result["checked_at"] >= previous["checked_at"]:
+            latest[result["preflight_ref"]] = result
+    return latest
+
+
+def _latest_by_scope_key(results: list[JsonObject]) -> JsonObject:
+    latest: dict[str, JsonObject] = {}
+    for result in results:
+        previous = latest.get(result["scope_key"])
+        if previous is None or result["checked_at"] >= previous["checked_at"]:
+            latest[result["scope_key"]] = result
+    return latest
+
+
+def _slug(value: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_.-]+", "-", value).strip("-")
+
+
+def _bounded_slug(value: str, *, max_length: int = 96) -> str:
+    slug = _slug(value)
+    if len(slug) <= max_length:
+        return slug
+
+    digest = hashlib.sha256(value.encode("utf-8")).hexdigest()[:12]
+    prefix_length = max_length - len(digest) - 1
+    return f"{slug[:prefix_length].rstrip('-')}-{digest}"

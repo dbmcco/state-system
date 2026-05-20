@@ -1,0 +1,143 @@
+{
+  "id": "instance_agent_package.lfw.caroline",
+  "package_type": "instance_agent_package",
+  "created_at": "2026-05-17T16:30:00Z",
+  "instance_ref": "state_instance.lfw",
+  "primary_entity_ref": "entity.lfw",
+  "entity_kind": "company",
+  "agent_context": {
+    "agent_ref": "agent.caroline",
+    "persona_ref": "persona.caroline",
+    "summary": "Company-state package for Caroline over the deployed LFW state runtime."
+  },
+  "review_goal": "Review current LFW source readiness and explicit gaps before answering.",
+  "source_context": {
+    "source_readiness": [
+      {
+        "connector_ref": "connector.lfw.folio",
+        "connector_type": "folio",
+        "source_ref": "folio:tenant:lfw",
+        "access_status": "passed",
+        "freshness_status": "fresh",
+        "index_status": "declared",
+        "understanding_status": "ready",
+        "index_refs": ["index.lfw.folio.corpus"],
+        "gap_refs": [],
+        "evidence_refs": ["state-system:instance-preflight:company-proven:connector.lfw.folio"]
+      },
+      {
+        "connector_ref": "connector.lfw.msgvault",
+        "connector_type": "msgvault",
+        "source_ref": "msgvault:tenant:lfw-email",
+        "access_status": "passed",
+        "freshness_status": "failed",
+        "index_status": "declared",
+        "understanding_status": "usable_with_freshness_gap",
+        "index_refs": ["index.lfw.msgvault.email"],
+        "gap_refs": [
+          "gap.state_instance.lfw.connector.lfw.msgvault.freshness_failed"
+        ],
+        "evidence_refs": [
+          "state-system:instance-preflight:company-proven:connector.lfw.msgvault"
+        ]
+      }
+    ],
+    "source_gap_refs": [
+      "gap.state_instance.lfw.connector.lfw.msgvault.freshness_failed"
+    ]
+  },
+  "evidence_context": {
+    "index_refs": [
+      "index.lfw.folio.corpus",
+      "index.lfw.msgvault.email",
+      "index.lfw.state_system.interpreted",
+      "index.federated.braydon_personal.relationship_index"
+    ],
+    "evidence_refs": [
+      "state-system:instance-preflight:company-proven:connector.lfw.folio",
+      "state-system:instance-preflight:company-proven:connector.lfw.msgvault"
+    ],
+    "federated_instance_refs": [
+      "state_instance.braydon_personal"
+    ],
+    "unresolved_evidence_refs": []
+  },
+  "governance_context": {
+    "governance_refs": [
+      "governance.lfw.external_action",
+      "governance.lfw.crm_mutation"
+    ],
+    "constraints": [
+      "Do not include personal b-state sources.",
+      "Do not execute protected company actions from this package."
+    ],
+    "protected_action_authorized_by": "governance"
+  },
+  "available_actions": [
+    "action_surface.lfw.read_folio",
+    "action_surface.lfw.search_msgvault"
+  ],
+  "question_routes": [
+    {
+      "id": "question_route.lfw.federated_relationship_index",
+      "intent": "Use Braydon long-history relationship evidence for LFW relationship and business-development questions when contact context matters.",
+      "applies_to": [
+        "Who does Braydon know at smaller consulting firms who might matter for LFW?",
+        "Find LFW-relevant relationship paths through boutique advisory or professional-services firms.",
+        "Use Caroline to reason over LFW work plus Braydon's governed relationship index."
+      ],
+      "source_order": [
+        "connector.lfw.state_system",
+        "connector.lfw.msgvault",
+        "connector.lfw.folio",
+        "query_surface.federated.relationship_index.search"
+      ],
+      "tool_refs": [
+        "tool.relationship_substrate.search_small_consulting_firm_contacts"
+      ],
+      "capability_refs": [
+        "capability.federated.relationship_index.search_small_consulting_firm_contacts"
+      ],
+      "query_route": {
+        "status": "declared_governed_route",
+        "query_surface_ref": "query_surface.federated.relationship_index.search",
+        "index_ref": "index.federated.braydon_personal.relationship_index",
+        "source_ref": "relationship_index:braydon_long_history",
+        "source_instance_ref": "state_instance.braydon_personal",
+        "local_materialization": false,
+        "boundaries": [
+          "Query on demand; do not copy raw personal relationship records into LFW.",
+          "Use returned evidence as federated relationship context, not deterministic scoring.",
+          "Do not route through personal media, health, fitness, or other non-LFW source surfaces.",
+          "Prefer LFW company evidence first when the question is directly about active LFW work."
+        ]
+      },
+      "required_actions": [
+        "Search ready LFW company surfaces for active obligations and company evidence.",
+        "Use the federated relationship-index route only when relationship history would materially improve the answer.",
+        "For smaller consulting firm questions, call the relationship index with enrichment-backed employee-count and consultant-count filters.",
+        "Cite or summarize returned relationship evidence with source boundaries and explicit gaps."
+      ],
+      "answer_contract": [
+        "Use governed relationship-index evidence only as cited federated context for LFW relationship or business-development questions.",
+        "Declare the relationship-index route unavailable or insufficient when it cannot be queried or does not return relevant evidence.",
+        "Do not materialize raw personal relationship records into LFW runtime state."
+      ]
+    }
+  ],
+  "open_questions": [
+    "LFW msgvault freshness is failed and should be refreshed before relying on email evidence."
+  ],
+  "freshness": {
+    "generated_at": "2026-05-17T16:30:00Z",
+    "requires_refresh_before_external_action": true,
+    "watermark_refs": [
+      "local.read_model_generated_at:2026-05-17T14:23:13Z"
+    ]
+  },
+  "invariant": {
+    "agent_package_executes_retrieval": false,
+    "agent_package_authorizes_execution": false,
+    "source_gaps_are_visible": true
+  }
+}

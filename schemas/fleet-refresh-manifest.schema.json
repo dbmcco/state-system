@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FleetRefreshManifest",
+  "type": "object",
+  "required": ["id", "instances"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "default_ttl_seconds": { "type": "integer", "minimum": 1 },
+    "instances": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/instance" }
+    },
+    "pressure": { "$ref": "#/$defs/pressure" }
+  },
+  "$defs": {
+    "instance": {
+      "type": "object",
+      "required": [
+        "id",
+        "state_root",
+        "instance_ref",
+        "agent_ref",
+        "package_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "state_root": { "type": "string", "minLength": 1 },
+        "instance_ref": { "type": "string", "minLength": 1 },
+        "agent_ref": { "type": "string", "minLength": 1 },
+        "persona_ref": { "type": "string" },
+        "package_id": { "type": "string", "minLength": 1 },
+        "review_goal": { "type": "string" },
+        "preflight_mode": {
+          "type": "string",
+          "enum": ["export_only", "generic_run"],
+          "default": "export_only"
+        },
+        "output_dirs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "instance_preflight": { "type": "string" },
+            "instance_source_freshness": { "type": "string" },
+            "instance_understanding": { "type": "string" },
+            "instance_agent_package": { "type": "string" }
+          }
+        },
+        "adapter_commands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/adapter_command" }
+        }
+      }
+    },
+    "adapter_command": {
+      "type": "object",
+      "required": ["id", "argv"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "cwd": { "type": "string" },
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" }
+        },
+        "required": { "type": "boolean", "default": true },
+        "timeout_seconds": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "pressure": {
+      "type": "object",
+      "required": ["registry"],
+      "additionalProperties": false,
+      "properties": {
+        "registry": { "type": "string", "minLength": 1 },
+        "include_planned": { "type": "boolean" },
+        "packages": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    }
+  }
+}

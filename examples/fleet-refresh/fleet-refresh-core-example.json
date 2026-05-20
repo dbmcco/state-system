@@ -1,0 +1,38 @@
+{
+  "id": "fleet_refresh_manifest.core_example",
+  "description": "Example manifest for refreshing CLI-facing instance packages without copying raw source corpora.",
+  "default_ttl_seconds": 3600,
+  "instances": [
+    {
+      "id": "fleet_instance.example_company",
+      "state_root": "/path/to/example-company/state-system",
+      "instance_ref": "state_instance.example_company",
+      "agent_ref": "agent.example",
+      "persona_ref": "persona.example",
+      "package_id": "instance_agent_package.example_company.example",
+      "review_goal": "Answer from generated package evidence and visible freshness gaps.",
+      "preflight_mode": "export_only",
+      "output_dirs": {
+        "instance_preflight": "instance-preflight",
+        "instance_source_freshness": "instance-source-freshness",
+        "instance_understanding": "instance-understanding",
+        "instance_agent_package": "instance-agent-package"
+      },
+      "adapter_commands": [
+        {
+          "id": "adapter.example.source_owned_refresh",
+          "description": "Optional source-owned adapter that records preflight/freshness evidence before package regeneration.",
+          "cwd": "/path/to/example-company",
+          "argv": ["python3", "scripts/refresh_state_sources.py"],
+          "required": false,
+          "timeout_seconds": 300
+        }
+      ]
+    }
+  ],
+  "pressure": {
+    "registry": "examples/pressure-questions/package-pressure-core-real-questions.json",
+    "include_planned": true,
+    "packages": {}
+  }
+}

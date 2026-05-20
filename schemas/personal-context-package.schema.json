@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/personal-context-package.schema.json",
+  "title": "PersonalContextPackage",
+  "type": "object",
+  "required": [
+    "id",
+    "package_type",
+    "instance_ref",
+    "primary_entity_ref",
+    "entity_kind",
+    "created_at",
+    "synthesis_goal",
+    "source_boundaries",
+    "retrieval_refs",
+    "freshness",
+    "governance",
+    "unresolved_gaps",
+    "non_goals",
+    "invariant"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "package_type": { "type": "string", "enum": ["personal_b_state_synthesis"] },
+    "instance_ref": { "type": "string", "minLength": 1 },
+    "primary_entity_ref": { "type": "string", "minLength": 1 },
+    "entity_kind": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "synthesis_goal": { "type": "string", "minLength": 1 },
+    "primary_agent_refs": { "type": "array", "items": { "type": "string" } },
+    "oversight_agent_refs": { "type": "array", "items": { "type": "string" } },
+    "source_boundaries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "connector_ref",
+          "source_ref",
+          "connector_type",
+          "owner",
+          "access_mode",
+          "understanding_status",
+          "raw_corpus_included"
+        ],
+        "properties": {
+          "connector_ref": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "connector_type": { "type": "string" },
+          "owner": { "type": "string" },
+          "access_mode": { "type": "string" },
+          "understanding_status": { "type": "string" },
+          "raw_corpus_included": { "type": "boolean" },
+          "governance_refs": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "retrieval_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index_ref",
+          "connector_ref",
+          "source_ref",
+          "representation",
+          "query_surface"
+        ],
+        "properties": {
+          "index_ref": { "type": "string" },
+          "connector_ref": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "owner": { "type": "string" },
+          "scope": { "type": "string" },
+          "record_kinds": { "type": "array", "items": { "type": "string" } },
+          "representation": {
+            "type": "string",
+            "enum": ["retrieval_ref", "bounded_excerpt"]
+          },
+          "query_surface": { "type": "object" },
+          "bounded_excerpt": {
+            "type": "object",
+            "required": ["summary", "size_hint", "provenance_ref"],
+            "properties": {
+              "summary": { "type": "string" },
+              "size_hint": { "type": "string" },
+              "provenance_ref": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "required": [
+        "as_of",
+        "valid_until",
+        "watermark_refs",
+        "requires_refresh_before_synthesis"
+      ],
+      "properties": {
+        "as_of": { "type": "string", "format": "date-time" },
+        "valid_until": { "type": "string", "format": "date-time" },
+        "watermark_refs": { "type": "array", "items": { "type": "string" } },
+        "requires_refresh_before_synthesis": { "type": "boolean" },
+        "stale_if_refs_change": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": ["governance_refs", "constraints"],
+      "properties": {
+        "governance_refs": { "type": "array", "items": { "type": "string" } },
+        "constraints": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "unresolved_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "gap_ref",
+          "instance_ref",
+          "connector_ref",
+          "source_ref",
+          "reason"
+        ],
+        "properties": {
+          "gap_ref": { "type": "string" },
+          "instance_ref": { "type": "string" },
+          "connector_ref": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "reason": { "type": "string" },
+          "blocking": { "type": "boolean" }
+        }
+      }
+    },
+    "non_goals": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "declares_synthesis_input",
+        "synthesizes_state",
+        "copies_raw_corpora",
+        "msgvault_excerpts_bounded",
+        "agentmem_excerpts_bounded"
+      ],
+      "properties": {
+        "declares_synthesis_input": { "type": "boolean" },
+        "synthesizes_state": { "type": "boolean" },
+        "copies_raw_corpora": { "type": "boolean" },
+        "msgvault_excerpts_bounded": { "type": "boolean" },
+        "agentmem_excerpts_bounded": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -1,16 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
   <title id="title">State System overview</title>
-  <desc id="desc">A model-mediated state system flow from source evidence to context packages, model proposals, governance, committed state, agent activations, and captured responses.</desc>
+  <desc id="desc">A current architecture overview showing generic source, tool, and route contracts; instance readiness records; CLI-ready agent packages; federation packs without raw materialization; and source freshness status.</desc>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #1f2933; }
     .title { font-size: 34px; font-weight: 700; }
-    .subtitle { font-size: 17px; fill: #526170; }
-    .label { font-size: 19px; font-weight: 700; }
-    .body { font-size: 14px; fill: #445260; }
-    .badge { font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+    .subtitle { font-size: 16px; fill: #526170; }
+    .label { font-size: 18px; font-weight: 700; }
+    .body { font-size: 13px; fill: #445260; }
+    .small { font-size: 12px; fill: #526170; }
+    .badge { font-size: 10px; font-weight: 700; letter-spacing: .08em; }
     .box { stroke-width: 2; rx: 10; }
-    .arrow { fill: none; stroke: #6b7c8f; stroke-width: 2.4; marker-end: url(#arrow); }
-    .soft-arrow { fill: none; stroke: #9aa8b6; stroke-width: 2; stroke-dasharray: 7 7; marker-end: url(#softArrow); }
+    .arrow { fill: none; stroke: #6b7c8f; stroke-width: 2.3; marker-end: url(#arrow); }
+    .soft-arrow { fill: none; stroke: #9aa8b6; stroke-width: 1.9; stroke-dasharray: 7 7; marker-end: url(#softArrow); }
   </style>
   <defs>
     <marker id="arrow" markerWidth="11" markerHeight="8" refX="10" refY="4" orient="auto">
@@ -21,82 +22,81 @@
     </marker>
   </defs>
 
-  <rect width="1280" height="720" fill="#ffffff"/>
-  <text x="44" y="62" class="title">State System</text>
-  <text x="44" y="94" class="subtitle">Durable, evidence-backed organizational state for agent-heavy work systems. As of May 14, 2026.</text>
+  <rect width="1280" height="760" fill="#ffffff"/>
+  <text x="44" y="58" class="title">State System</text>
+  <text x="44" y="88" class="subtitle">Generic model-mediated work-state contracts, deployed instance readiness, CLI-ready packages, and governed federation. As of May 19, 2026.</text>
 
-  <rect x="44" y="145" width="188" height="130" class="box" fill="#eef6ff" stroke="#2f7abf"/>
-  <text x="64" y="178" class="label">Source Evidence</text>
-  <text x="64" y="204" class="body">Linear, Git, email,</text>
-  <text x="64" y="224" class="body">meetings, docs, CRM,</text>
-  <text x="64" y="244" class="body">human review decisions</text>
-  <text x="64" y="262" class="badge" fill="#2f7abf">SOURCE EVENT</text>
+  <rect x="44" y="130" width="256" height="146" class="box" fill="#eef6ff" stroke="#2f7abf"/>
+  <text x="64" y="162" class="label">Generic Contract Layer</text>
+  <text x="64" y="190" class="body">SourceModuleSpec</text>
+  <text x="64" y="211" class="body">ToolActionContract</text>
+  <text x="64" y="232" class="body">QuestionRouteContract</text>
+  <text x="64" y="254" class="badge" fill="#2f7abf">CONNECTOR INTERFACE</text>
 
-  <rect x="292" y="145" width="188" height="130" class="box" fill="#edf8ef" stroke="#2f8a50"/>
-  <text x="312" y="178" class="label">Context Package</text>
-  <text x="312" y="204" class="body">Bounded evidence,</text>
-  <text x="312" y="224" class="body">state, memory,</text>
-  <text x="312" y="244" class="body">freshness, governance</text>
-  <text x="312" y="262" class="badge" fill="#2f8a50">AGENT-READY</text>
+  <rect x="348" y="130" width="256" height="146" class="box" fill="#edf8ef" stroke="#2f8a50"/>
+  <text x="368" y="162" class="label">Instance Readiness</text>
+  <text x="368" y="190" class="body">Capability packs</text>
+  <text x="368" y="211" class="body">Preflight and freshness</text>
+  <text x="368" y="232" class="body">Readiness and typed gaps</text>
+  <text x="368" y="254" class="badge" fill="#2f8a50">ACCESS PROOF</text>
 
-  <rect x="540" y="145" width="188" height="130" class="box" fill="#fff7e8" stroke="#b06b00"/>
-  <text x="560" y="178" class="label">Model Proposal</text>
-  <text x="560" y="204" class="body">Interpret meaning,</text>
-  <text x="560" y="224" class="body">preserve uncertainty,</text>
-  <text x="560" y="244" class="body">propose changes</text>
-  <text x="560" y="262" class="badge" fill="#b06b00">NO HIDDEN RULES</text>
+  <rect x="652" y="130" width="256" height="146" class="box" fill="#fff7e8" stroke="#b06b00"/>
+  <text x="672" y="162" class="label">CLI-Ready Packages</text>
+  <text x="672" y="190" class="body">b-state / Samantha</text>
+  <text x="672" y="211" class="body">LFW / Caroline</text>
+  <text x="672" y="232" class="body">Navicyte / Helena, Synthyra / Ingrid</text>
+  <text x="672" y="254" class="badge" fill="#b06b00">AGENT SURFACE</text>
 
-  <rect x="788" y="145" width="188" height="130" class="box" fill="#fbeeee" stroke="#b33a3a"/>
-  <text x="808" y="178" class="label">Governance</text>
-  <text x="808" y="204" class="body">Approve, reject,</text>
-  <text x="808" y="224" class="body">hold, or commit</text>
-  <text x="808" y="244" class="body">sensitive transitions</text>
-  <text x="808" y="262" class="badge" fill="#b33a3a">CONTROL</text>
+  <rect x="956" y="130" width="256" height="146" class="box" fill="#f3f0ff" stroke="#6f55c9"/>
+  <text x="976" y="162" class="label">Federated Routes</text>
+  <text x="976" y="190" class="body">InstanceFederationPack</text>
+  <text x="976" y="211" class="body">No raw materialization</text>
+  <text x="976" y="232" class="body">Safe summaries and evidence refs</text>
+  <text x="976" y="254" class="badge" fill="#6f55c9">GOVERNED QUERY</text>
 
-  <rect x="1036" y="145" width="188" height="130" class="box" fill="#f3f0ff" stroke="#6f55c9"/>
-  <text x="1056" y="178" class="label">State + Activate</text>
-  <text x="1056" y="204" class="body">Journals, snapshots,</text>
-  <text x="1056" y="224" class="body">activation goals,</text>
-  <text x="1056" y="244" class="body">capture policy</text>
-  <text x="1056" y="262" class="badge" fill="#6f55c9">FUNCTIONAL</text>
+  <path d="M300 203 H348" class="arrow"/>
+  <path d="M604 203 H652" class="arrow"/>
+  <path d="M908 203 H956" class="arrow"/>
 
-  <path d="M232 210 H292" class="arrow"/>
-  <path d="M480 210 H540" class="arrow"/>
-  <path d="M728 210 H788" class="arrow"/>
-  <path d="M976 210 H1036" class="arrow"/>
+  <rect x="44" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="64" y="370" class="label">Reusable Sources</text>
+  <text x="64" y="398" class="body">Relationship Substrate:</text>
+  <text x="64" y="419" class="body">governed source module and</text>
+  <text x="64" y="440" class="body">federated route, not a copy.</text>
+  <text x="64" y="468" class="body">PAIA memory module:</text>
+  <text x="64" y="489" class="body">source_module.paia_memory</text>
 
-  <rect x="80" y="365" width="250" height="148" class="box" fill="#f7fafc" stroke="#93a3b5"/>
-  <text x="104" y="398" class="label">Functional Today</text>
-  <text x="104" y="426" class="body">Trace manifests</text>
-  <text x="104" y="448" class="body">Schemas and validation</text>
-  <text x="104" y="470" class="body">Source-event ingestion</text>
-  <text x="104" y="492" class="body">Commit and materialization</text>
+  <rect x="348" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="368" y="370" class="label">b-state / Samantha</text>
+  <text x="368" y="398" class="body">Garmin Connect: fresh local sync</text>
+  <text x="368" y="419" class="body">Spotify: historical-cache stale</text>
+  <text x="368" y="440" class="body">PAIA memory surfaces:</text>
+  <text x="368" y="461" class="small">connector.personal.paia_memory.samantha</text>
+  <text x="368" y="482" class="small">connector.personal.paia_memory.owner</text>
 
-  <rect x="390" y="365" width="250" height="148" class="box" fill="#f7fafc" stroke="#93a3b5"/>
-  <text x="414" y="398" class="label">Functional Today</text>
-  <text x="414" y="426" class="body">Accepted-state trace</text>
-  <text x="414" y="448" class="body">Approval-gated trace</text>
-  <text x="414" y="470" class="body">Agent activation trace</text>
-  <text x="414" y="492" class="body">Response capture with refs</text>
+  <rect x="652" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="672" y="370" class="label">LFW / Caroline</text>
+  <text x="672" y="398" class="body">Linear: fresh watermark</text>
+  <text x="672" y="419" class="body">GitHub: fresh watermark</text>
+  <text x="672" y="440" class="body">Transcript raw pipeline: planned gap</text>
+  <text x="672" y="461" class="body">Processed transcripts: planned gap</text>
+  <text x="672" y="489" class="body">Federates to personal relationships.</text>
 
-  <rect x="700" y="365" width="250" height="148" class="box" fill="#f7fafc" stroke="#93a3b5"/>
-  <text x="724" y="398" class="label">Contract Fixtures</text>
-  <text x="724" y="426" class="body">Six app chains</text>
-  <text x="724" y="448" class="body">Runtime capability records</text>
-  <text x="724" y="470" class="body">Memory and CRM pictures</text>
-  <text x="724" y="492" class="body">Reports/wiki as projections</text>
+  <rect x="956" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
+  <text x="976" y="370" class="label">Scaffolded Instances</text>
+  <text x="976" y="398" class="body">Navicyte / Helena package scaffold</text>
+  <text x="976" y="419" class="body">Synthyra / Ingrid package scaffold</text>
+  <text x="976" y="440" class="body">Readiness fields and gap refs</text>
+  <text x="976" y="461" class="body">No private corpora in examples</text>
+  <text x="976" y="489" class="badge" fill="#6b7280">PLANNED READINESS</text>
 
-  <rect x="1010" y="365" width="190" height="148" class="box" fill="#fffaf0" stroke="#cc8a1a"/>
-  <text x="1034" y="398" class="label">Share Gate</text>
-  <text x="1034" y="426" class="body">Operational loop</text>
-  <text x="1034" y="448" class="body">Preflight proves access</text>
-  <text x="1034" y="470" class="body">Governance authorizes</text>
-  <text x="1034" y="492" class="body">Operator summary</text>
+  <path d="M172 338 C172 304 476 304 476 276" class="soft-arrow"/>
+  <path d="M476 338 V276" class="soft-arrow"/>
+  <path d="M780 338 V276" class="soft-arrow"/>
+  <path d="M1084 338 V276" class="soft-arrow"/>
 
-  <path d="M1130 275 C1130 320 205 320 205 365" class="soft-arrow"/>
-  <text x="420" y="326" class="body">Committed outcomes become future context for apps and agents; humans enter through agents or reports.</text>
-
-  <rect x="44" y="590" width="1180" height="76" rx="10" fill="#f7fafc" stroke="#d5dde5"/>
-  <text x="68" y="624" class="label">One-command demo</text>
-  <text x="68" y="650" class="body">operational-loop-run proves source to captured response before more substrate concepts are added.</text>
+  <rect x="44" y="590" width="1168" height="92" rx="10" fill="#f7fafc" stroke="#d5dde5"/>
+  <text x="68" y="624" class="label">Boundary rule</text>
+  <text x="68" y="650" class="body">Models interpret state and routing from explicit package context. Code validates contracts, access proof, freshness, gap visibility, persistence, and audit.</text>
+  <text x="68" y="672" class="body">Federation packs authorize remote query routes only; packages carry summaries, refs, watermarks, and repair guidance rather than raw materialization.</text>
 </svg>

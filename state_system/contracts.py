@@ -190,8 +190,26 @@ def validate_trace(
 
 
 def schema_for_example(filename: str) -> str | None:
+    if filename.startswith("fleet-refresh-") and filename.endswith(".json"):
+        return "fleet-refresh-manifest.schema.json"
+    if filename.startswith("package-pressure-") and filename.endswith(".json"):
+        return "package-pressure-question.schema.json"
+    if filename.startswith("instance-federation-pack-") and filename.endswith(".json"):
+        return "instance-federation-pack.schema.json"
+    if filename.startswith("tool-action-") and filename.endswith(".json"):
+        return "tool-action-contract.schema.json"
+    if filename.startswith("question-route-") and filename.endswith(".json"):
+        return "question-route-contract.schema.json"
+    if filename.startswith("source-module-") and filename.endswith(".json"):
+        return "source-module-spec.schema.json"
     if filename.startswith("state-instance-") and filename.endswith(".json"):
         return "state-instance.schema.json"
+    if filename.startswith("instance-agent-package-") and filename.endswith(".json"):
+        return "instance-agent-package.schema.json"
+    if filename.startswith("instance-preflight-") and filename.endswith(".json"):
+        return "instance-preflight-result.schema.json"
+    if filename.startswith("instance-source-freshness-") and filename.endswith(".json"):
+        return "instance-source-freshness-record.schema.json"
     if filename.startswith("instance-") and filename.endswith(".json"):
         return "instance-capability-pack.schema.json"
     if filename.startswith("company-") and filename.endswith(".json"):

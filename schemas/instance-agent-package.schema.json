@@ -1,0 +1,278 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/instance-agent-package.schema.json",
+  "title": "InstanceAgentPackage",
+  "type": "object",
+  "required": [
+    "id",
+    "package_type",
+    "created_at",
+    "instance_ref",
+    "primary_entity_ref",
+    "entity_kind",
+    "agent_context",
+    "review_goal",
+    "source_context",
+    "evidence_context",
+    "governance_context",
+    "available_actions",
+    "open_questions",
+    "freshness",
+    "invariant"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "package_type": {
+      "type": "string",
+      "enum": ["instance_agent_package"]
+    },
+    "created_at": { "type": "string" },
+    "instance_ref": { "type": "string" },
+    "primary_entity_ref": { "type": "string" },
+    "entity_kind": { "type": "string" },
+    "agent_context": {
+      "type": "object",
+      "required": ["agent_ref"],
+      "properties": {
+        "agent_ref": { "type": "string" },
+        "persona_ref": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "review_goal": { "type": "string" },
+    "source_context": {
+      "type": "object",
+      "required": ["source_readiness", "source_gap_refs"],
+      "properties": {
+        "source_readiness": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/source_readiness" }
+        },
+        "source_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "evidence_context": {
+      "type": "object",
+      "required": [
+        "index_refs",
+        "evidence_refs",
+        "federated_instance_refs",
+        "unresolved_evidence_refs"
+      ],
+      "properties": {
+        "index_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "federated_instance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "unresolved_evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "governance_context": {
+      "type": "object",
+      "required": [
+        "governance_refs",
+        "constraints",
+        "protected_action_authorized_by"
+      ],
+      "properties": {
+        "governance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "protected_action_authorized_by": { "type": "string" }
+      }
+    },
+    "available_actions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "federation_packs": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "question_routes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/question_route" }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "freshness": {
+      "type": "object",
+      "required": ["generated_at", "requires_refresh_before_external_action"],
+      "properties": {
+        "generated_at": { "type": "string" },
+        "requires_refresh_before_external_action": { "type": "boolean" },
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "agent_package_executes_retrieval",
+        "agent_package_authorizes_execution",
+        "source_gaps_are_visible"
+      ],
+      "properties": {
+        "agent_package_executes_retrieval": { "type": "boolean" },
+        "agent_package_authorizes_execution": { "type": "boolean" },
+        "source_gaps_are_visible": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "question_route": {
+      "type": "object",
+      "required": ["id", "intent", "source_order", "required_actions", "answer_contract"],
+      "properties": {
+        "id": { "type": "string" },
+        "intent": { "type": "string" },
+        "applies_to": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "source_order": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tool_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tool_action_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "capability_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "route_contract_ref": { "type": "string" },
+        "module_modes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_module_ref": { "type": "string" },
+              "mode": { "type": "string" }
+            }
+          }
+        },
+        "required_source_coverage": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "required_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "optional_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "optional_external_context_tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "federated_query": { "type": "object" },
+        "query_route": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string" },
+            "query_surface_ref": { "type": "string" },
+            "index_ref": { "type": "string" },
+            "source_ref": { "type": "string" },
+            "source_instance_ref": { "type": "string" },
+            "local_materialization": { "type": "boolean" },
+            "boundaries": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "required_actions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "answer_contract": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "answer_contract_policy": { "type": "object" },
+        "fallback_policy": { "type": "object" },
+        "gap_behavior": { "type": "object" }
+      }
+    },
+    "source_readiness": {
+      "type": "object",
+      "required": [
+        "connector_ref",
+        "connector_type",
+        "source_ref",
+        "access_status",
+        "freshness_status",
+        "index_status",
+        "understanding_status",
+        "index_refs",
+        "gap_refs"
+      ],
+      "properties": {
+        "connector_ref": { "type": "string" },
+        "connector_type": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "source_module_ref": { "type": "string" },
+        "module_registry_ref": { "type": "string" },
+        "module_mode": { "type": "string" },
+        "artifact_generated_at": { "type": "string" },
+        "checked_at": { "type": "string" },
+        "source_watermark": { "type": "string" },
+        "stale_after": { "type": "string" },
+        "preflight_contract_ref": { "type": "string" },
+        "freshness_contract_ref": { "type": "string" },
+        "gap_behavior_ref": { "type": "string" },
+        "planned_missing_reason": { "type": "string" },
+        "pipeline_dependency": { "type": "string" },
+        "usable_access_status": { "type": "string" },
+        "access_status": { "type": "string" },
+        "freshness_status": { "type": "string" },
+        "index_status": { "type": "string" },
+        "understanding_status": { "type": "string" },
+        "index_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "federated_instance": { "type": "object" }
+      }
+    }
+  }
+}

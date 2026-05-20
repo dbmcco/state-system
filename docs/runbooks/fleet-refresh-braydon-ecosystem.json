@@ -1,0 +1,77 @@
+{
+  "id": "fleet_refresh_manifest.braydon_ecosystem",
+  "description": "Private ecosystem manifest for refreshing Sam, Caroline, Helena, and Ingrid packages together.",
+  "default_ttl_seconds": 3600,
+  "instances": [
+    {
+      "id": "fleet_instance.braydon_personal.samantha",
+      "state_root": "/Users/braydon/projects/personal/b-state",
+      "instance_ref": "state_instance.braydon_personal",
+      "agent_ref": "agent.samantha",
+      "persona_ref": "persona.samantha",
+      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "review_goal": "Answer personal-state questions using declared source readiness, source-owned evidence, and visible freshness gaps.",
+      "preflight_mode": "export_only",
+      "adapter_commands": [
+        {
+          "id": "adapter.braydon_personal.blog.local_posts",
+          "description": "Record blog preflight and freshness from the local dbmcco.github.io _posts corpus.",
+          "cwd": "/Users/braydon/projects/personal/b-state",
+          "argv": [
+            "/Users/braydon/projects/personal/b-state/fleet-refresh/refresh-blog-source.sh"
+          ],
+          "required": true,
+          "timeout_seconds": 120
+        },
+        {
+          "id": "adapter.braydon_personal.beeper.local_sqlite",
+          "description": "Record Beeper iMessage and WhatsApp preflight/freshness from the local Beeper Desktop SQLite index.",
+          "cwd": "/Users/braydon/projects/personal/b-state",
+          "argv": [
+            "/Users/braydon/projects/personal/b-state/fleet-refresh/refresh-beeper-source.sh"
+          ],
+          "required": true,
+          "timeout_seconds": 120
+        }
+      ]
+    },
+    {
+      "id": "fleet_instance.lfw.caroline",
+      "state_root": "/Users/braydon/projects/work/lfw/state-system",
+      "instance_ref": "state_instance.lfw",
+      "agent_ref": "agent.caroline",
+      "persona_ref": "persona.caroline",
+      "package_id": "instance_agent_package.lfw.caroline",
+      "review_goal": "Answer LFW company-state questions using declared source readiness, source-owned evidence, and governed relationship federation.",
+      "preflight_mode": "export_only",
+      "adapter_commands": []
+    },
+    {
+      "id": "fleet_instance.navicyte.helena",
+      "state_root": "/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system",
+      "instance_ref": "state_instance.navicyte",
+      "agent_ref": "agent.helena",
+      "persona_ref": "persona.helena",
+      "package_id": "instance_agent_package.navicyte.helena",
+      "review_goal": "Answer Navicyte company-state questions using declared source readiness, explicit freshness evidence, and safe interpreted state.",
+      "preflight_mode": "export_only",
+      "adapter_commands": []
+    },
+    {
+      "id": "fleet_instance.synthyra.ingrid",
+      "state_root": "/Users/braydon/projects/work/synth/state-system",
+      "instance_ref": "state_instance.synthyra",
+      "agent_ref": "agent.ingrid",
+      "persona_ref": "persona.ingrid",
+      "package_id": "instance_agent_package.synthyra.ingrid.scaffold.v0",
+      "review_goal": "Answer Synthyra company-state questions using declared source readiness, explicit freshness evidence, and safe interpreted state.",
+      "preflight_mode": "export_only",
+      "adapter_commands": []
+    }
+  ],
+  "pressure": {
+    "registry": "examples/pressure-questions/package-pressure-core-real-questions.json",
+    "include_planned": true,
+    "packages": {}
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "id": "tool_action_registry.core_source_tools",
+  "generated_at": "2026-05-18T16:45:00Z",
+  "description": "Canonical source-module tool actions and known deployment adapters for current personal and company state packages.",
+  "actions": [
+    {
+      "id": "tool_action.msgvault.search",
+      "tool_ref": "tool.paia.msgvault.search",
+      "source_module_ref": "source_module.msgvault",
+      "connector_type": "msgvault",
+      "operation": "search",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["tool.paia.msgvault.search", "tool.msgvault.search"],
+      "params_schema": { "required_fields": ["query"], "optional_fields": ["account_ref", "source_ref", "limit", "since", "until"] },
+      "output_shape": { "required_fields": ["threads", "evidence_refs"], "optional_fields": ["source_watermark", "freshness_status"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return message/thread evidence refs and freshness status with search results." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["query", "source_ref"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.paia.msgvault.search", "backing_tool_refs": ["tool.paia.msgvault.search", "tool.msgvault.search"] }
+      ]
+    },
+    {
+      "id": "tool_action.agentmem.search",
+      "tool_ref": "agentmem:service:local",
+      "source_module_ref": "source_module.agentmem",
+      "connector_type": "agentmem",
+      "operation": "search",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["agentmem:service:local", "tool.agentmem.search"],
+      "params_schema": { "required_fields": ["query"], "optional_fields": ["limit", "memory_kind"] },
+      "output_shape": { "required_fields": ["memories", "evidence_refs"], "optional_fields": ["freshness_status"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return memory ids or source refs for agent-memory context." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["query"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "agentmem:service:local", "backing_tool_refs": ["agentmem:service:local"] }
+      ]
+    },
+    {
+      "id": "tool_action.paia_memory.read",
+      "tool_ref": "tool.paia_memory.semantic_search",
+      "source_module_ref": "source_module.paia_memory",
+      "connector_type": "paia_memory",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync", "export"],
+      "backing_tool_refs": [
+        "tool.paia_memory.retrieve_facets",
+        "tool.paia_memory.retrieve_turns",
+        "tool.paia_memory.retrieve_summary",
+        "tool.paia_memory.semantic_search"
+      ],
+      "params_schema": {
+        "required_fields": ["source_ref"],
+        "optional_fields": ["query", "tenant_id", "facet_key", "layer", "conversation_id", "limit", "max_content_chars"]
+      },
+      "output_shape": {
+        "required_fields": ["results", "evidence_refs"],
+        "optional_fields": ["facets", "turns", "summary", "source_watermark", "freshness_status", "layer", "sensitivity"]
+      },
+      "evidence_ref_policy": {
+        "requires_evidence_refs": true,
+        "policy": "Return PAIA memory evidence refs, source watermarks, and layer/sensitivity metadata for any facet or conversation context used."
+      },
+      "approval_policy": {
+        "requires_external_action_approval": false,
+        "protected_action_authorized_by": "governance"
+      },
+      "audit_policy": {
+        "level": "evidence_required",
+        "required_fields": ["source_ref", "tenant_id"]
+      },
+      "deployment_adapters": [
+        {
+          "module_mode": "local_sync",
+          "runtime_tool_ref": "tool.paia_memory.semantic_search",
+          "backing_tool_refs": [
+            "paia-memory:/retrieve/facets",
+            "paia-memory:/retrieve/turns",
+            "paia-memory:/retrieve/summary",
+            "paia-memory:/retrieve/semantic"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tool_action.paia_workboard.read",
+      "tool_ref": "tool.paia.workboard.read",
+      "source_module_ref": "source_module.paia_workboard",
+      "connector_type": "paia_workboard",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["tool.paia.workboard.read"],
+      "params_schema": { "required_fields": ["source_ref"], "optional_fields": ["status", "limit"] },
+      "output_shape": { "required_fields": ["work_items", "evidence_refs"], "optional_fields": ["source_watermark", "freshness_status"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return task/work item refs for any obligations used in an answer." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.paia.workboard.read", "backing_tool_refs": ["tool.paia.workboard.read"] }
+      ]
+    },
+    {
+      "id": "tool_action.spotify.read",
+      "tool_ref": "tool.spotify.read",
+      "source_module_ref": "source_module.spotify",
+      "connector_type": "spotify",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["historical_cache", "live_api"],
+      "backing_tool_refs": ["tool.postgres.read_spotify_history", "tool.spotify.web_api.read"],
+      "params_schema": { "required_fields": ["source_ref"], "optional_fields": ["since", "until", "limit"] },
+      "output_shape": { "required_fields": ["cache_latest_event_at", "records"], "optional_fields": ["cache_count", "live_sync_blocker", "credential_status"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return cache bounds, latest event watermark, and live sync blocker evidence when live API is unavailable." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref", "module_mode", "watermark"] },
+      "deployment_adapters": [
+        { "module_mode": "historical_cache", "runtime_tool_ref": "tool.postgres.read_spotify_history", "backing_tool_refs": ["tool.postgres.read_spotify_history"], "notes": "b-state historical assistant Postgres cache." },
+        { "module_mode": "live_api", "runtime_tool_ref": "tool.spotify.web_api.read", "backing_tool_refs": ["tool.spotify.web_api.read"], "notes": "Usable only when OAuth refresh preflight passes." }
+      ]
+    },
+    {
+      "id": "tool_action.relationship_substrate.operating_picture",
+      "tool_ref": "tool.relationship_substrate.operating_picture",
+      "source_module_ref": "source_module.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["tool.relationship_substrate.operating_picture"],
+      "params_schema": { "required_fields": ["source_ref"], "optional_fields": ["limit", "include_subject_notes"] },
+      "output_shape": { "required_fields": ["operating_picture", "evidence_refs"], "optional_fields": ["subject_note_context", "freshness_status"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return relationship operating-picture evidence and subject-note context when available." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.relationship_substrate.operating_picture", "backing_tool_refs": ["tool.relationship_substrate.operating_picture"] }
+      ]
+    },
+    {
+      "id": "tool_action.relationship_substrate.search_small_consulting_firm_contacts",
+      "tool_ref": "tool.relationship_substrate.search_small_consulting_firm_contacts",
+      "source_module_ref": "source_module.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "operation": "search",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync", "federated_query"],
+      "backing_tool_refs": ["tool.relationship_substrate.search_history_backed_people"],
+      "params_schema": { "required_fields": ["query"], "optional_fields": ["actual_employee_count", "consultant_count", "organization_type", "limit"] },
+      "output_shape": { "required_fields": ["people", "organizations", "evidence_refs"], "optional_fields": ["subject_note_context", "organization_enrichment", "relationship_operating_picture"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return relationship and organization-enrichment evidence refs; subject notes are contextual corrections." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["query", "source_ref", "evidence_refs"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.relationship_substrate.search_small_consulting_firm_contacts", "backing_tool_refs": ["tool.relationship_substrate.search_history_backed_people"] },
+        { "module_mode": "federated_query", "runtime_tool_ref": "query_surface.federated.relationship_index.search", "backing_tool_refs": ["tool.relationship_substrate.search_small_consulting_firm_contacts"] }
+      ]
+    },
+    {
+      "id": "tool_action.relationship_substrate.search_history_backed_people",
+      "tool_ref": "tool.relationship_substrate.search_history_backed_people",
+      "source_module_ref": "source_module.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "operation": "search",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["tool.relationship_substrate.search_history_backed_people"],
+      "params_schema": { "required_fields": ["query"], "optional_fields": ["actual_employee_count", "consultant_count", "organization_type", "limit"] },
+      "output_shape": { "required_fields": ["people", "organizations", "evidence_refs"], "optional_fields": ["subject_note_context", "organization_enrichment"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return history-backed person search results with enrichment and subject-note context." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["query"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.relationship_substrate.search_history_backed_people", "backing_tool_refs": ["tool.relationship_substrate.search_history_backed_people"] }
+      ]
+    },
+    {
+      "id": "tool_action.relationship_substrate.list_subject_notes",
+      "tool_ref": "tool.relationship_substrate.list_subject_notes",
+      "source_module_ref": "source_module.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync", "federated_query"],
+      "backing_tool_refs": ["tool.relationship_substrate.list_subject_notes"],
+      "params_schema": { "required_fields": ["subject_type"], "optional_fields": ["subject", "note_kind", "limit"] },
+      "output_shape": { "required_fields": ["subject_notes"], "optional_fields": ["subject_note_context"] },
+      "evidence_ref_policy": { "requires_evidence_refs": false, "policy": "Subject notes are source-owned relationship-context corrections and may carry evidence refs when available." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["subject_type"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.relationship_substrate.list_subject_notes", "backing_tool_refs": ["tool.relationship_substrate.list_subject_notes"] },
+        { "module_mode": "federated_query", "runtime_tool_ref": "query_surface.federated.relationship_index.search", "backing_tool_refs": ["tool.relationship_substrate.list_subject_notes"] }
+      ]
+    },
+    {
+      "id": "tool_action.relationship_substrate.record_subject_note",
+      "tool_ref": "tool.relationship_substrate.record_subject_note",
+      "source_module_ref": "source_module.relationship_substrate",
+      "connector_type": "relationship_substrate",
+      "operation": "record",
+      "effect_type": "source_owned_correction_write",
+      "module_modes": ["local_sync"],
+      "backing_tool_refs": ["relationship-substrate record-subject-note"],
+      "params_schema": { "required_fields": ["subject_type", "subject", "note_kind", "note"], "optional_fields": ["applies_to", "source", "source_ref", "evidence_refs", "metadata", "supersedes_id"] },
+      "output_shape": { "required_fields": ["id", "subject_type", "subject_id", "note_kind", "note"], "optional_fields": ["subject_note_context", "supersedes_id", "created_at"] },
+      "evidence_ref_policy": { "requires_evidence_refs": false, "policy": "Accept corrections without evidence when Braydon provides direct relationship judgment; attach evidence refs when available." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "audit_required", "required_fields": ["subject_type", "subject", "note_kind", "source"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.relationship_substrate.record_subject_note", "backing_tool_refs": ["relationship-substrate record-subject-note"] }
+      ]
+    },
+    {
+      "id": "tool_action.state_system_instance.read",
+      "tool_ref": "tool.state_system.federated_search",
+      "source_module_ref": "source_module.state_system_instance",
+      "connector_type": "state_system_instance",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["federated_query"],
+      "backing_tool_refs": ["tool.state_system.instance_read", "tool.state_system.vector_search"],
+      "params_schema": { "required_fields": ["source_instance_ref", "query"], "optional_fields": ["index_ref", "limit"] },
+      "output_shape": { "required_fields": ["results", "evidence_refs"], "optional_fields": ["source_artifact_generated_at", "source_watermark"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return target package/read-model timestamps with every federated result set." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_instance_ref", "query"] },
+      "deployment_adapters": [
+        { "module_mode": "federated_query", "runtime_tool_ref": "tool.state_system.instance_read", "backing_tool_refs": ["tool.state_system.instance_read", "tool.state_system.vector_search"] }
+      ]
+    },
+    {
+      "id": "tool_action.state_system_instance.instance_read",
+      "tool_ref": "tool.state_system.instance_read",
+      "source_module_ref": "source_module.state_system_instance",
+      "connector_type": "state_system_instance",
+      "operation": "read",
+      "effect_type": "read_only",
+      "module_modes": ["federated_query"],
+      "backing_tool_refs": ["tool.state_system.instance_read", "tool.state_system.vector_search"],
+      "params_schema": { "required_fields": ["source_instance_ref"], "optional_fields": ["query", "index_ref", "limit"] },
+      "output_shape": { "required_fields": ["package", "evidence_refs"], "optional_fields": ["source_artifact_generated_at", "source_watermark"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return target package/read-model timestamps when reading another state instance." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_instance_ref"] },
+      "deployment_adapters": [
+        { "module_mode": "federated_query", "runtime_tool_ref": "tool.state_system.instance_read", "backing_tool_refs": ["tool.state_system.instance_read", "tool.state_system.vector_search"] }
+      ]
+    },
+    {
+      "id": "tool_action.beeper_messaging.search",
+      "tool_ref": "tool.beeper.search",
+      "source_module_ref": "source_module.beeper_messaging",
+      "connector_type": "beeper_messaging",
+      "operation": "search",
+      "effect_type": "read_only",
+      "module_modes": ["local_sync", "live_api", "export"],
+      "backing_tool_refs": ["tool.sqlite.read", "tool.beeper.desktop_api"],
+      "params_schema": { "required_fields": ["source_ref", "query"], "optional_fields": ["network", "thread_ref", "participant_ref", "since", "until", "limit", "include_message_excerpt"] },
+      "output_shape": { "required_fields": ["threads", "messages", "evidence_refs"], "optional_fields": ["source_watermark", "freshness_status", "network", "thread_count", "message_count"] },
+      "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return network/thread/message evidence refs, timestamp watermarks, and freshness status; keep message excerpts bounded." },
+      "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
+      "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref", "query", "network"] },
+      "deployment_adapters": [
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.beeper.search", "backing_tool_refs": ["tool.sqlite.read"], "notes": "Local Beeper Desktop SQLite/index cache." },
+        { "module_mode": "live_api", "runtime_tool_ref": "tool.beeper.desktop_api", "backing_tool_refs": ["tool.beeper.desktop_api"], "notes": "Local Beeper Desktop API when authenticated and running." },
+        { "module_mode": "export", "runtime_tool_ref": "tool.beeper.search", "backing_tool_refs": ["tool.beeper.search"], "notes": "Reviewed export-backed search." }
+      ]
+    }
+  ],
+  "invariant": {
+    "canonical_tool_refs_are_stable": true,
+    "deployment_adapters_are_explicit": true,
+    "external_side_effects_require_governance": true
+  }
+}

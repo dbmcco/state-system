@@ -1,0 +1,221 @@
+{
+  "id": "instance_federation_pack_registry.core_examples",
+  "generated_at": "2026-05-18T19:20:00Z",
+  "description": "Synthetic federation pack examples for governed cross-instance query boundaries.",
+  "packs": [
+    {
+      "id": "instance_federation_pack.personal_to_lfw_state",
+      "description": "Personal b-state can read LFW interpreted state through a governed instance route.",
+      "status": "ready",
+      "federation_mode": "instance_read",
+      "local_instance_ref": "state_instance.braydon_personal",
+      "remote_instance_refs": [
+        "state_instance.lfw"
+      ],
+      "route_refs": [
+        "question_route.personal.relationship_follow_up_triage"
+      ],
+      "query_surface_refs": [
+        "query_surface.state_system.instance_read"
+      ],
+      "tool_action_refs": [
+        "tool_action.state_system.instance_read"
+      ],
+      "source_module_refs": [
+        "source_module.state_system_instance"
+      ],
+      "identity_boundary": {
+        "subject_ref_policy": "Use remote state refs as evidence refs; do not rewrite them into personal canonical records.",
+        "entity_ref_policy": "LFW entities remain owned by state_instance.lfw.",
+        "cross_instance_join_policy": "Join only through explicit evidence refs and package route context.",
+        "allowed_subject_types": [
+          "company",
+          "project",
+          "relationship_thread"
+        ]
+      },
+      "materialization_policy": {
+        "local_materialization": false,
+        "allowed_artifact_types": [
+          "safe_summary",
+          "evidence_ref"
+        ],
+        "raw_remote_corpus_policy": "Raw LFW source corpora remain in the LFW instance.",
+        "materialized_summary_policy": "Summaries must cite package/read-model evidence refs."
+      },
+      "freshness_policy": {
+        "checked_at": "2026-05-18T16:42:41Z",
+        "source_watermark": "lfw:instance_agent_package:2026-05-18T16:42:41Z",
+        "stale_after": "PT24H",
+        "freshness_status": "fresh",
+        "gap_refs": []
+      },
+      "subject_note_policy": {
+        "applies": false,
+        "policy": "This pack does not write or materialize subject notes."
+      },
+      "output_policy": {
+        "safe_summary_only": true,
+        "requires_evidence_refs": true,
+        "answer_boundary": "Use LFW state as interpreted work evidence, not as personal source data."
+      },
+      "repair_policy": {
+        "when_unavailable": "Answer from personal sources and state that LFW federation is unavailable.",
+        "when_stale": "Name the stale LFW package watermark before relying on it.",
+        "owner": "state_instance.lfw"
+      },
+      "invariant": {
+        "pack_authorizes_remote_query_only": true,
+        "pack_does_not_copy_raw_remote_data": true,
+        "gaps_must_be_visible_to_agent": true
+      }
+    },
+    {
+      "id": "instance_federation_pack.lfw_to_personal_relationship_substrate",
+      "description": "LFW can query Braydon personal Relationship Substrate for governed relationship context without local materialization.",
+      "status": "ready",
+      "federation_mode": "source_substrate_query",
+      "local_instance_ref": "state_instance.lfw",
+      "remote_instance_refs": [
+        "state_instance.braydon_personal"
+      ],
+      "source_instance_ref": "state_instance.braydon_personal",
+      "route_refs": [
+        "question_route.lfw.federated_relationship_index"
+      ],
+      "query_surface_refs": [
+        "query_surface.federated.relationship_index.search"
+      ],
+      "tool_action_refs": [
+        "tool_action.relationship_substrate.search_small_consulting_firm_contacts"
+      ],
+      "source_module_refs": [
+        "source_module.relationship_substrate"
+      ],
+      "identity_boundary": {
+        "subject_ref_policy": "People and organizations remain source-owned by Relationship Substrate.",
+        "entity_ref_policy": "LFW may cite relationship evidence refs but must not create local canonical person files.",
+        "cross_instance_join_policy": "Join only for the active LFW relationship or business-development question.",
+        "allowed_subject_types": [
+          "person",
+          "organization"
+        ]
+      },
+      "materialization_policy": {
+        "local_materialization": false,
+        "allowed_artifact_types": [
+          "safe_summary",
+          "evidence_ref",
+          "subject_note_ref"
+        ],
+        "raw_remote_corpus_policy": "No raw personal relationship records may be copied into LFW state.",
+        "materialized_summary_policy": "LFW answers may summarize relationship context with evidence refs only."
+      },
+      "freshness_policy": {
+        "checked_at": "2026-05-18T16:42:41Z",
+        "source_watermark": "relationship_substrate:operating_picture:2026-05-18T16:42:41Z",
+        "stale_after": "PT24H",
+        "freshness_status": "fresh",
+        "gap_refs": []
+      },
+      "subject_note_policy": {
+        "applies": true,
+        "policy": "Subject notes demote or explain context for the specific question; they are not hidden broad filters.",
+        "allowed_note_refs": [
+          "subject_note.*"
+        ]
+      },
+      "output_policy": {
+        "safe_summary_only": true,
+        "requires_evidence_refs": true,
+        "answer_boundary": "Use relationship evidence only when it materially helps an LFW relationship, partnership, or follow-up question."
+      },
+      "repair_policy": {
+        "when_unavailable": "Answer from LFW company sources and name the missing relationship federation route.",
+        "when_stale": "State the Relationship Substrate freshness gap and avoid treating old relationship context as current.",
+        "owner": "state_instance.braydon_personal"
+      },
+      "invariant": {
+        "pack_authorizes_remote_query_only": true,
+        "pack_does_not_copy_raw_remote_data": true,
+        "gaps_must_be_visible_to_agent": true
+      }
+    },
+    {
+      "id": "instance_federation_pack.portfolio_to_navicyte_synthyra",
+      "description": "Portfolio-level state can plan rollups across Navicyte and Synthyra once their packages have proved readiness.",
+      "status": "planned",
+      "federation_mode": "portfolio_rollup",
+      "local_instance_ref": "state_instance.portfolio.synthetic",
+      "remote_instance_refs": [
+        "state_instance.navicyte",
+        "state_instance.synthyra"
+      ],
+      "route_refs": [
+        "question_route.portfolio.company_readiness_rollup"
+      ],
+      "query_surface_refs": [
+        "query_surface.state_system.instance_read"
+      ],
+      "tool_action_refs": [
+        "tool_action.state_system.instance_read"
+      ],
+      "source_module_refs": [
+        "source_module.state_system_instance"
+      ],
+      "identity_boundary": {
+        "subject_ref_policy": "Company subjects remain owned by their deployed instance roots.",
+        "entity_ref_policy": "Portfolio rollups cite remote instance refs instead of copying company records.",
+        "cross_instance_join_policy": "Join only on declared portfolio rollup refs and package summaries.",
+        "allowed_subject_types": [
+          "company",
+          "project",
+          "operating_picture"
+        ]
+      },
+      "materialization_policy": {
+        "local_materialization": false,
+        "allowed_artifact_types": [
+          "planned_safe_summary",
+          "gap_ref"
+        ],
+        "raw_remote_corpus_policy": "No Navicyte or Synthyra raw corpora are present in open-source examples.",
+        "materialized_summary_policy": "Planned rollups must remain gap-marked until remote packages prove readiness."
+      },
+      "freshness_policy": {
+        "checked_at": "",
+        "source_watermark": "",
+        "stale_after": "PT24H",
+        "freshness_status": "unknown",
+        "gap_refs": [
+          "gap.state_instance.navicyte.package_readiness_unproved",
+          "gap.state_instance.synthyra.package_readiness_unproved"
+        ]
+      },
+      "subject_note_policy": {
+        "applies": false,
+        "policy": "Portfolio rollup does not read or write relationship subject notes."
+      },
+      "output_policy": {
+        "safe_summary_only": true,
+        "requires_evidence_refs": true,
+        "answer_boundary": "Treat this as planned federation until remote instance packages render with readiness evidence."
+      },
+      "repair_policy": {
+        "when_unavailable": "Report that portfolio federation is planned and list missing instance readiness proofs.",
+        "when_stale": "Regenerate remote package/readiness before producing portfolio rollup answers.",
+        "owner": "state_instance.portfolio.synthetic"
+      },
+      "invariant": {
+        "pack_authorizes_remote_query_only": true,
+        "pack_does_not_copy_raw_remote_data": true,
+        "gaps_must_be_visible_to_agent": true
+      }
+    }
+  ],
+  "invariant": {
+    "federation_declares_query_boundaries": true,
+    "raw_remote_corpora_not_materialized": true,
+    "freshness_and_gap_policy_visible": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "instance_source_freshness.state_instance.braydon_personal-connector.personal.msgvault-msgvault-tenant-personal-email.2026-05-17T10-15-00Z",
+  "scope_key": "state_instance.braydon_personal|connector.personal.msgvault|msgvault:tenant:personal-email",
+  "instance_ref": "state_instance.braydon_personal",
+  "connector_ref": "connector.personal.msgvault",
+  "source_ref": "msgvault:tenant:personal-email",
+  "connector_type": "msgvault",
+  "status": "unknown",
+  "checked_at": "2026-05-17T10:15:00Z",
+  "source_watermark": "msgvault.sync_status:unknown",
+  "stale_after": "2026-05-17T10:30:00Z",
+  "evidence_refs": [
+    "paia:freshness:msgvault:unknown"
+  ],
+  "index_refs": [
+    "index.personal.msgvault.email"
+  ],
+  "index_metadata": {
+    "owner": "source_system",
+    "backend": "msgvault_sqlite_vec",
+    "status": "declared"
+  },
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

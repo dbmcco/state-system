@@ -1,0 +1,129 @@
+{
+  "id": "question_route_registry.core_agent_routes",
+  "generated_at": "2026-05-18T16:45:00Z",
+  "description": "Structured route contracts for the current Sam and Caroline relationship routes.",
+  "routes": [
+    {
+      "route_id": "question_route.personal.relationship_follow_up_triage",
+      "intent": "Find relationship follow-up threads that may deserve action.",
+      "applies_to": ["relationship follow-up", "warm stale loops", "open relationship obligations"],
+      "source_order": ["connector.personal.relationship_substrate", "connector.personal.agentmem", "connector.personal.msgvault", "connector.personal.workboard", "connector.personal.lfw_state_system", "calendar"],
+      "required_source_coverage": [
+        {
+          "coverage_ref": "coverage.personal.relationship_core",
+          "connector_refs": ["connector.personal.relationship_substrate", "connector.personal.msgvault"],
+          "source_module_refs": ["source_module.relationship_substrate", "source_module.msgvault"],
+          "minimum_status": "usable_with_visible_gaps"
+        }
+      ],
+      "required_tools": ["tool.relationship_substrate.operating_picture", "tool.relationship_substrate.list_subject_notes", "tool.paia.msgvault.search"],
+      "optional_tools": ["agentmem:service:local", "tool.paia.workboard.read", "tool.state_system.instance_read"],
+      "optional_external_context_tools": ["calendar"],
+      "fallback_policy": {
+        "policy": "If relationship substrate or msgvault is missing, answer with the missing-source limitation instead of pretending the calendar is enough.",
+        "repair_gate": "Ask for or run source repair when required relationship sources are unavailable.",
+        "external_context_rule": "calendar_is_schedule_context_not_relationship_evidence"
+      },
+      "answer_contract": {
+        "requires_evidence_refs": true,
+        "requires_source_freshness_summary": true,
+        "direct_evidence_vs_interpretation": true,
+        "subject_note_policy": ["subject_note_context_demote_explain_not_hide"],
+        "rules": ["Return ranked follow-up candidates, not just calendar items."]
+      },
+      "gap_behavior": {
+        "when_required_source_missing": "Say the route is undercovered and identify missing relationship/email sources.",
+        "when_source_stale": "Use stale sources only with explicit freshness caveat.",
+        "relevant_gap_refs": []
+      }
+    },
+    {
+      "route_id": "question_route.personal.small_consulting_firm_contacts",
+      "intent": "Find history-backed contacts at smaller consulting, advisory, agency, or specialist operating firms.",
+      "applies_to": ["smaller consulting firms", "boutique advisory firms", "specialist operating firms"],
+      "source_order": ["connector.personal.relationship_substrate", "connector.personal.msgvault", "connector.personal.agentmem", "connector.personal.workboard", "connector.personal.lfw_state_system"],
+      "required_source_coverage": [
+        {
+          "coverage_ref": "coverage.personal.relationship_search",
+          "connector_refs": ["connector.personal.relationship_substrate"],
+          "source_module_refs": ["source_module.relationship_substrate"],
+          "minimum_status": "usable_with_visible_gaps"
+        }
+      ],
+      "required_tools": ["tool.relationship_substrate.search_small_consulting_firm_contacts", "tool.relationship_substrate.list_subject_notes"],
+      "optional_tools": ["tool.relationship_substrate.search_history_backed_people", "tool.paia.msgvault.search", "agentmem:service:local", "tool.paia.workboard.read", "tool.state_system.instance_read"],
+      "fallback_policy": {
+        "policy": "Use search_history_backed_people only as the declared backing surface with enrichment filters.",
+        "repair_gate": "Do not answer from keyword-only email search when enrichment-backed relationship search is unavailable.",
+        "fallback_tool_refs": ["tool.relationship_substrate.search_history_backed_people"]
+      },
+      "answer_contract": {
+        "requires_evidence_refs": true,
+        "requires_source_freshness_summary": true,
+        "direct_evidence_vs_interpretation": true,
+        "subject_note_policy": ["subject_note_context_demote_explain_not_hide"],
+        "rules": ["Return candidates with enrichment fields, relationship evidence, and context-fit caveats."]
+      },
+      "gap_behavior": {
+        "when_required_source_missing": "Say relationship search is unavailable and avoid fabricating candidates.",
+        "when_source_stale": "Name relationship index freshness before ranking candidates.",
+        "relevant_gap_refs": []
+      }
+    },
+    {
+      "route_id": "question_route.lfw.federated_relationship_index",
+      "intent": "Use Braydon long-history relationship evidence for LFW relationship and business-development questions when contact context matters.",
+      "applies_to": ["LFW relationship pathfinding", "smaller consulting firm contacts for LFW", "business-development relationship context"],
+      "module_modes": [
+        { "source_module_ref": "source_module.relationship_substrate", "mode": "federated_query" }
+      ],
+      "source_order": ["connector.lfw.state_system", "connector.lfw.msgvault", "connector.lfw.folio", "query_surface.federated.relationship_index.search"],
+      "required_source_coverage": [
+        {
+          "coverage_ref": "coverage.lfw.company_context",
+          "connector_refs": ["connector.lfw.state_system", "connector.lfw.msgvault", "connector.lfw.folio"],
+          "source_module_refs": ["source_module.state_system_instance", "source_module.msgvault", "source_module.folio"],
+          "minimum_status": "usable_with_visible_gaps"
+        },
+        {
+          "coverage_ref": "coverage.lfw.federated_relationship_context",
+          "connector_refs": ["connector.federated.braydon_personal.relationship_substrate"],
+          "source_module_refs": ["source_module.relationship_substrate"],
+          "minimum_status": "declared_governed_route"
+        }
+      ],
+      "required_tools": ["tool.relationship_substrate.search_small_consulting_firm_contacts"],
+      "federated_query": {
+        "source_instance_ref": "state_instance.braydon_personal",
+        "query_surface_ref": "query_surface.federated.relationship_index.search",
+        "index_ref": "index.federated.braydon_personal.relationship_index",
+        "local_materialization": false,
+        "boundaries": [
+          "Query on demand; do not copy raw personal relationship records into LFW.",
+          "Use subject-note context as context-specific correction evidence, not hidden filters."
+        ]
+      },
+      "fallback_policy": {
+        "policy": "If the federated relationship index is unavailable, answer from LFW company sources and explicitly name the missing relationship route.",
+        "repair_gate": "Do not silently replace federated relationship evidence with personal media, health, or unrelated b-state sources."
+      },
+      "answer_contract": {
+        "requires_evidence_refs": true,
+        "requires_source_freshness_summary": true,
+        "direct_evidence_vs_interpretation": true,
+        "subject_note_policy": ["subject_note_context_demote_explain_not_hide"],
+        "rules": ["Do not materialize raw personal relationship records into LFW runtime state."]
+      },
+      "gap_behavior": {
+        "when_required_source_missing": "Declare the federated route unavailable or insufficient.",
+        "when_source_stale": "Name stale LFW company or federated source freshness before using it.",
+        "relevant_gap_refs": ["gap.state_instance.lfw.connector.lfw.linear.freshness_failed", "gap.state_instance.lfw.connector.lfw.repo.freshness_failed"]
+      }
+    }
+  ],
+  "invariant": {
+    "routes_declare_source_coverage": true,
+    "gap_behavior_is_visible": true,
+    "federated_routes_declare_materialization_boundary": true
+  }
+}

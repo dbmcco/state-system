@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/tool-action-contract.schema.json",
+  "title": "ToolActionContractRegistry",
+  "type": "object",
+  "required": ["id", "generated_at", "actions", "invariant"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^tool_action_registry\\.[a-z0-9_.-]+$"
+    },
+    "generated_at": { "type": "string" },
+    "description": { "type": "string" },
+    "actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/tool_action_contract" }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "canonical_tool_refs_are_stable",
+        "deployment_adapters_are_explicit",
+        "external_side_effects_require_governance"
+      ],
+      "properties": {
+        "canonical_tool_refs_are_stable": { "type": "boolean" },
+        "deployment_adapters_are_explicit": { "type": "boolean" },
+        "external_side_effects_require_governance": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "tool_action_contract": {
+      "type": "object",
+      "required": [
+        "id",
+        "tool_ref",
+        "source_module_ref",
+        "connector_type",
+        "operation",
+        "effect_type",
+        "params_schema",
+        "output_shape",
+        "evidence_ref_policy",
+        "approval_policy",
+        "audit_policy",
+        "deployment_adapters"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^tool_action\\.[a-z0-9_.-]+$"
+        },
+        "tool_ref": { "type": "string" },
+        "source_module_ref": { "type": "string" },
+        "connector_type": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "operation": {
+          "type": "string",
+          "enum": ["read", "search", "record", "update", "external_action"]
+        },
+        "effect_type": {
+          "type": "string",
+          "enum": [
+            "read_only",
+            "source_owned_correction_write",
+            "source_owned_internal_write",
+            "external_side_effect"
+          ]
+        },
+        "module_modes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "backing_tool_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "params_schema": {
+          "type": "object",
+          "required": ["required_fields", "optional_fields"],
+          "properties": {
+            "required_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "optional_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "json_schema_ref": { "type": "string" }
+          }
+        },
+        "output_shape": {
+          "type": "object",
+          "required": ["required_fields", "optional_fields"],
+          "properties": {
+            "required_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "optional_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "json_schema_ref": { "type": "string" }
+          }
+        },
+        "evidence_ref_policy": {
+          "type": "object",
+          "required": ["requires_evidence_refs", "policy"],
+          "properties": {
+            "requires_evidence_refs": { "type": "boolean" },
+            "policy": { "type": "string" }
+          }
+        },
+        "approval_policy": {
+          "type": "object",
+          "required": [
+            "requires_external_action_approval",
+            "protected_action_authorized_by"
+          ],
+          "properties": {
+            "requires_external_action_approval": { "type": "boolean" },
+            "protected_action_authorized_by": { "type": "string" }
+          }
+        },
+        "audit_policy": {
+          "type": "object",
+          "required": ["level", "required_fields"],
+          "properties": {
+            "level": {
+              "type": "string",
+              "enum": ["none", "evidence_required", "audit_required"]
+            },
+            "required_fields": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "deployment_adapters": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["module_mode", "runtime_tool_ref"],
+            "properties": {
+              "module_mode": { "type": "string" },
+              "runtime_tool_ref": { "type": "string" },
+              "backing_tool_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "notes": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/source-module-spec.schema.json",
+  "title": "SourceModuleSpecRegistry",
+  "type": "object",
+  "required": ["id", "generated_at", "modules", "invariant"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^source_module_registry\\.[a-z0-9_.-]+$"
+    },
+    "generated_at": { "type": "string" },
+    "description": { "type": "string" },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/source_module_spec" }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "registry_declares_interfaces_not_live_access",
+        "capability_packs_reference_modules_by_connector_type",
+        "private_runtime_data_excluded"
+      ],
+      "properties": {
+        "registry_declares_interfaces_not_live_access": { "type": "boolean" },
+        "capability_packs_reference_modules_by_connector_type": { "type": "boolean" },
+        "private_runtime_data_excluded": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "source_module_spec": {
+      "type": "object",
+      "required": [
+        "id",
+        "connector_type",
+        "status",
+        "description",
+        "allowed_instance_kinds",
+        "source_ref",
+        "access",
+        "preflight_contract",
+        "freshness_contract",
+        "index_contract",
+        "tool_contract",
+        "governance_defaults",
+        "example_declarations",
+        "invariant"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^source_module\\.[a-z0-9_.-]+$"
+        },
+        "connector_type": {
+          "type": "string",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["stable", "beta", "experimental", "deprecated"]
+        },
+        "description": { "type": "string" },
+        "allowed_instance_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": [
+              "company",
+              "person",
+              "project",
+              "portfolio",
+              "household",
+              "research",
+              "other"
+            ]
+          }
+        },
+        "source_ref": {
+          "type": "object",
+          "required": ["pattern", "examples"],
+          "properties": {
+            "pattern": { "type": "string" },
+            "examples": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "access": {
+          "type": "object",
+          "required": ["mode", "owner", "runtime_dependency"],
+          "properties": {
+            "mode": {
+              "type": "string",
+              "enum": [
+                "api",
+                "database",
+                "federated_state",
+                "filesystem",
+                "generated_read_model",
+                "local_cli",
+                "mcp",
+                "manual"
+              ]
+            },
+            "owner": {
+              "type": "string",
+              "enum": ["state_system", "source_system", "agentmem", "paia_runtime"]
+            },
+            "runtime_dependency": { "type": "string" },
+            "supports_write": { "type": "boolean" }
+          }
+        },
+        "module_modes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["mode", "description"],
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "live_api",
+                  "historical_cache",
+                  "local_sync",
+                  "export",
+                  "federated_query",
+                  "manual"
+                ]
+              },
+              "description": { "type": "string" },
+              "credential_status_ref": { "type": "string" },
+              "cache_bounds_ref": { "type": "string" },
+              "live_sync_blocker_ref": { "type": "string" },
+              "tool_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "backing_tool_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "preflight_contract": {
+          "type": "object",
+          "required": ["required", "result_schema_ref", "checks"],
+          "properties": {
+            "required": { "type": "boolean" },
+            "result_schema_ref": { "type": "string" },
+            "checks": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "freshness_contract": {
+          "type": "object",
+          "required": ["required", "record_schema_ref", "watermark_strategy"],
+          "properties": {
+            "required": { "type": "boolean" },
+            "record_schema_ref": { "type": "string" },
+            "watermark_strategy": { "type": "string" },
+            "suggested_stale_after": { "type": "string" }
+          }
+        },
+        "index_contract": {
+          "type": "object",
+          "required": ["ownership", "index_scopes", "record_kinds"],
+          "properties": {
+            "ownership": {
+              "type": "string",
+              "enum": ["state_system", "source_system", "agentmem", "paia_runtime"]
+            },
+            "index_scopes": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "record_kinds": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "tool_contract": {
+          "type": "object",
+          "required": ["tool_refs", "capability_ref_patterns", "action_ref_patterns"],
+          "properties": {
+            "tool_refs": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "capability_ref_patterns": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "action_ref_patterns": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "read_surfaces": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "write_surfaces": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "correction_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["surface_ref", "effect_type", "audit_policy"],
+            "properties": {
+              "surface_ref": { "type": "string" },
+              "effect_type": {
+                "type": "string",
+                "enum": [
+                  "read_only",
+                  "source_owned_correction_write",
+                  "external_side_effect"
+                ]
+              },
+              "audit_policy": { "type": "string" },
+              "approval_policy": { "type": "string" }
+            }
+          }
+        },
+        "output_policy": {
+          "type": "object",
+          "properties": {
+            "summary_only": { "type": "boolean" },
+            "requires_evidence_refs": { "type": "boolean" },
+            "redaction_policy": { "type": "string" },
+            "answer_behavior": { "type": "string" }
+          }
+        },
+        "gap_behavior": {
+          "type": "object",
+          "properties": {
+            "access_gap": { "type": "string" },
+            "freshness_gap": { "type": "string" },
+            "index_gap": { "type": "string" },
+            "credential_gap": { "type": "string" }
+          }
+        },
+        "governance_defaults": {
+          "type": "object",
+          "required": ["privacy_boundary", "data_classification", "allowed_uses", "prohibited_uses"],
+          "properties": {
+            "privacy_boundary": { "type": "string" },
+            "data_classification": {
+              "type": "string",
+              "enum": ["public_example", "private_instance", "tenant_confidential"]
+            },
+            "allowed_uses": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "type": "string" }
+            },
+            "prohibited_uses": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        "example_declarations": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["instance_kind", "connector"],
+            "properties": {
+              "instance_kind": { "type": "string" },
+              "connector": {
+                "type": "object",
+                "required": ["connector_type", "source_ref", "owner"],
+                "properties": {
+                  "connector_type": { "type": "string" },
+                  "source_ref": { "type": "string" },
+                  "owner": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "invariant": {
+          "type": "object",
+          "required": [
+            "module_declares_interface_not_live_access",
+            "private_data_not_required",
+            "generic_schema_compatible"
+          ],
+          "properties": {
+            "module_declares_interface_not_live_access": { "type": "boolean" },
+            "private_data_not_required": { "type": "boolean" },
+            "generic_schema_compatible": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "id": "instance_agent_package.braydon_personal.samantha",
+  "package_type": "instance_agent_package",
+  "created_at": "2026-05-17T19:49:00Z",
+  "instance_ref": "state_instance.braydon_personal",
+  "primary_entity_ref": "entity.braydon",
+  "entity_kind": "person",
+  "agent_context": {
+    "agent_ref": "agent.samantha",
+    "persona_ref": "persona.samantha",
+    "summary": "Personal-state package for Samantha over Braydon's b-state runtime."
+  },
+  "review_goal": "Review current personal source readiness and explicit gaps before answering.",
+  "source_context": {
+    "source_readiness": [
+      {
+        "connector_ref": "connector.personal.folio",
+        "connector_type": "folio",
+        "source_ref": "folio:tenant:personal",
+        "access_status": "passed",
+        "freshness_status": "fresh",
+        "index_status": "declared",
+        "understanding_status": "ready",
+        "index_refs": ["index.personal.folio.corpus"],
+        "gap_refs": [],
+        "evidence_refs": ["preflight:folio:passed"]
+      },
+      {
+        "connector_ref": "connector.personal.garmin_connect",
+        "connector_type": "garmin_connect",
+        "source_ref": "garmin-connect:account:braydon",
+        "access_status": "passed",
+        "freshness_status": "fresh",
+        "index_status": "declared",
+        "understanding_status": "ready",
+        "index_refs": ["index.personal.garmin_connect.activity"],
+        "gap_refs": [],
+        "evidence_refs": [
+          "garmin:postgres:assistant:2026-05-17T18:23:58Z",
+          "garmin:oauth_tokens:mtime:2026-05-17T18:24:21Z"
+        ]
+      },
+      {
+        "connector_ref": "connector.personal.spotify",
+        "connector_type": "spotify",
+        "source_ref": "spotify:account:braydon",
+        "access_status": "passed",
+        "freshness_status": "stale",
+        "index_status": "declared",
+        "understanding_status": "usable_with_freshness_gap",
+        "index_refs": ["index.personal.spotify.listening"],
+        "gap_refs": [
+          "gap.state_instance.braydon_personal.connector.personal.spotify.freshness_stale"
+        ],
+        "evidence_refs": [
+          "spotify:assistant_postgres:spotify_accounts:2026-02-17T05:00:00Z",
+          "spotify:assistant_postgres:spotify_listening_records:3091",
+          "spotify:assistant_postgres:spotify_listening_records:latest_played_at:2026-02-15T15:09:00Z",
+          "spotify:oauth_refresh:invalid_client:2026-05-17"
+        ]
+      }
+    ],
+    "source_gap_refs": [
+      "gap.state_instance.braydon_personal.connector.personal.spotify.freshness_stale"
+    ]
+  },
+  "evidence_context": {
+    "index_refs": [
+      "index.personal.folio.corpus",
+      "index.personal.garmin_connect.activity",
+      "index.personal.spotify.listening"
+    ],
+    "evidence_refs": [
+      "preflight:folio:passed",
+      "garmin:postgres:assistant:2026-05-17T18:23:58Z",
+      "garmin:oauth_tokens:mtime:2026-05-17T18:24:21Z",
+      "spotify:assistant_postgres:spotify_accounts:2026-02-17T05:00:00Z",
+      "spotify:assistant_postgres:spotify_listening_records:3091",
+      "spotify:assistant_postgres:spotify_listening_records:latest_played_at:2026-02-15T15:09:00Z",
+      "spotify:oauth_refresh:invalid_client:2026-05-17"
+    ],
+    "federated_instance_refs": ["state_instance.lfw"],
+    "unresolved_evidence_refs": []
+  },
+  "governance_context": {
+    "governance_refs": [
+      "governance.braydon.personal_default",
+      "governance.lfw.read_summary"
+    ],
+    "constraints": [
+      "Do not copy raw personal corpora into the package.",
+      "Do not treat stale Spotify history as current listening evidence."
+    ],
+    "protected_action_authorized_by": "governance"
+  },
+  "available_actions": [
+    "action_surface.personal.read_folio",
+    "action_surface.personal.read_lfw_state",
+    "action_surface.personal.read_garmin_connect",
+    "action_surface.personal.read_spotify"
+  ],
+  "open_questions": [
+    "connector.personal.spotify is usable_with_freshness_gap (access=passed, freshness=stale, index=declared)."
+  ],
+  "freshness": {
+    "generated_at": "2026-05-17T19:49:00Z",
+    "requires_refresh_before_external_action": true,
+    "watermark_refs": [
+      "garmin.daily_summary.synced_at:2026-05-17T18:23:58Z",
+      "spotify.assistant_postgres.spotify_listening_records.played_at:2026-02-15T15:09:00Z"
+    ]
+  },
+  "invariant": {
+    "agent_package_executes_retrieval": false,
+    "agent_package_authorizes_execution": false,
+    "source_gaps_are_visible": true
+  }
+}

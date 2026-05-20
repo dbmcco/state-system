@@ -28,6 +28,10 @@ from state_system.company_preflight import (
 from state_system.company_understanding_surface import (
     build_company_understanding_surface_read_model,
 )
+from state_system.fleet_refresh import (
+    run_fleet_refresh,
+    validate_fleet_refresh_manifest,
+)
 from state_system.interpreted_index import (
     build_interpreted_index_read_model,
     search_interpreted_index,
@@ -39,6 +43,30 @@ from state_system.instance_capability import (
     build_instance_capability_read_model,
     build_instance_capability_read_model_from_runtime,
 )
+from state_system.instance_agent_packages import InstanceAgentPackageRuntime
+from state_system.instance_preflight import (
+    InstancePreflightRuntime,
+    build_instance_preflight_read_model,
+    run_instance_preflight,
+)
+from state_system.instance_source_freshness import (
+    InstanceSourceFreshnessRuntime,
+    build_instance_source_freshness_read_model,
+)
+from state_system.instance_scaffold import (
+    InstanceScaffoldError,
+    scaffold_state_instance,
+)
+from state_system.instance_federation_packs import (
+    InstanceFederationPackValidationError,
+    load_instance_federation_pack_registry,
+    render_instance_federation_pack_registry,
+    validate_instance_federation_pack_registry,
+)
+from state_system.context_personal import (
+    PersonalContextPackageValidationError,
+    build_personal_context_package,
+)
 from state_system.instance_understanding_surface import (
     build_instance_understanding_surface_read_model,
 )
@@ -46,6 +74,12 @@ from state_system.mission_records import (
     MissionStoreBundle,
     build_mission_read_model,
     replay_mission_fixture,
+)
+from state_system.package_pressure import (
+    PackagePressureValidationError,
+    load_pressure_registry,
+    run_package_pressure,
+    validate_pressure_registry,
 )
 from state_system.operational_loop import run_operational_loop
 from state_system.paia_bootstrap import (
@@ -89,6 +123,9 @@ COLLECTIONS = {
     "agent-activation": "agent_activations",
     "agent-response": "agent_responses",
     "instance-capability": "instance_capabilities",
+    "instance-agent-package": "instance_agent_packages",
+    "instance-preflight": "instance_preflight_results",
+    "instance-source-freshness": "instance_source_freshness",
     "company-capability": "company_capabilities",
     "company-preflight": "company_preflight_results",
     "source-freshness": "source_freshness",
@@ -537,6 +574,91 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         )
         return 0
 
+    if args.command == "instance-preflight-record":
+        result = InstancePreflightRuntime(stores).record(
+            _instance_preflight_result_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "instance-preflight-result.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "preflight_result": result})
+        return 0
+
+    if args.command == "instance-preflight-list":
+        _write_json(stdout, {"results": InstancePreflightRuntime(stores).list_results()})
+        return 0
+
+    if args.command == "instance-preflight-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_preflight_read_model(stores)
+        read_model_path = output_dir / "instance-preflight-results-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-preflight-run":
+        result = run_instance_preflight(
+            stores,
+            instance_ref=args.instance_ref,
+            checked_at=args.checked_at,
+            stale_after=args.stale_after,
+        )
+        _write_json(stdout, result)
+        return 0
+
+    if args.command == "instance-source-freshness-record":
+        result = InstanceSourceFreshnessRuntime(stores).record(
+            _instance_source_freshness_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "instance-source-freshness-record.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "source_freshness": result})
+        return 0
+
+    if args.command == "instance-source-freshness-list":
+        _write_json(
+            stdout,
+            {"results": InstanceSourceFreshnessRuntime(stores).list_results()},
+        )
+        return 0
+
+    if args.command == "instance-source-freshness-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_instance_source_freshness_read_model(stores)
+        read_model_path = output_dir / "instance-source-freshness-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
     if args.command == "source-freshness-record":
         result = SourceFreshnessRuntime(stores).record(
             _source_freshness_from_args(args)
@@ -660,6 +782,172 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
                 "read_model_path": str(read_model_path),
             },
         )
+        return 0
+
+    if args.command == "personal-context-package-build":
+        schema = load_json(
+            project_root / "schemas" / "personal-context-package.schema.json"
+        )
+        try:
+            package = build_personal_context_package(
+                stores=stores,
+                instance_ref=args.instance_ref,
+                package_id=args.package_id,
+                created_at=args.created_at,
+                synthesis_goal=args.synthesis_goal,
+                valid_until=args.valid_until,
+                schema=schema,
+            )
+        except PersonalContextPackageValidationError as error:
+            _write_json(stdout, {"ok": False, "errors": list(error.errors)})
+            return 1
+        except ValueError as error:
+            _write_json(stdout, {"ok": False, "error": str(error)})
+            return 1
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        package_path = output_dir / f"{package['id']}.json"
+        package_path.write_text(
+            json.dumps(package, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "ok": True,
+                "package_id": package["id"],
+                "package_path": str(package_path),
+            },
+        )
+        return 0
+
+    if args.command == "instance-agent-package-build":
+        schemas = {
+            "instance_agent_package": load_json(
+                project_root / "schemas" / "instance-agent-package.schema.json"
+            )
+        }
+        try:
+            package = InstanceAgentPackageRuntime(stores).build(
+                schemas,
+                instance_ref=args.instance_ref,
+                agent_ref=args.agent_ref,
+                persona_ref=args.persona_ref,
+                created_at=args.created_at,
+                review_goal=args.review_goal,
+                package_id=args.package_id,
+            )
+        except ValueError as error:
+            _write_json(stdout, {"ok": False, "error": str(error)})
+            return 1
+        _write_json(stdout, {"ok": True, "package": package})
+        return 0
+
+    if args.command == "instance-agent-package-list":
+        _write_json(
+            stdout,
+            {"packages": InstanceAgentPackageRuntime(stores).list_packages()},
+        )
+        return 0
+
+    if args.command == "instance-agent-package-export":
+        path = InstanceAgentPackageRuntime(stores).export(Path(args.output_dir))
+        _write_json(stdout, {"read_model_path": str(path)})
+        return 0
+
+    if args.command == "instance-agent-package-render":
+        package = InstanceAgentPackageRuntime(stores).read(args.package_id)
+        stdout.write(render_package_for_agent(package))
+        stdout.write("\n")
+        return 0
+
+    if args.command == "instance-federation-pack-validate":
+        registry = load_instance_federation_pack_registry(Path(args.registry))
+        schema = load_json(project_root / "schemas" / "instance-federation-pack.schema.json")
+        try:
+            validate_instance_federation_pack_registry(registry, schema)
+        except InstanceFederationPackValidationError as error:
+            _write_json(stdout, {"ok": False, "errors": list(error.errors)})
+            return 1
+        _write_json(
+            stdout,
+            {
+                "ok": True,
+                "registry_id": registry.get("id"),
+                "packs": [pack.get("id") for pack in registry.get("packs", [])],
+            },
+        )
+        return 0
+
+    if args.command == "instance-federation-pack-render":
+        registry = load_instance_federation_pack_registry(Path(args.registry))
+        schema = load_json(project_root / "schemas" / "instance-federation-pack.schema.json")
+        try:
+            validate_instance_federation_pack_registry(registry, schema)
+        except InstanceFederationPackValidationError as error:
+            _write_json(stdout, {"ok": False, "errors": list(error.errors)})
+            return 1
+        stdout.write(render_instance_federation_pack_registry(registry))
+        stdout.write("\n")
+        return 0
+
+    if args.command == "package-pressure-run":
+        registry = load_pressure_registry(Path(args.registry))
+        schema = load_json(project_root / "schemas" / "package-pressure-question.schema.json")
+        try:
+            validate_pressure_registry(registry, schema)
+        except PackagePressureValidationError as error:
+            _write_json(stdout, {"ok": False, "errors": list(error.errors)})
+            return 1
+        packages = _load_named_packages(args.package or [])
+        report = run_package_pressure(
+            registry,
+            packages,
+            include_planned=args.include_planned,
+        )
+        _write_json(stdout, report)
+        return 0 if report["ok"] else 1
+
+    if args.command == "fleet-refresh-run":
+        manifest = load_json(Path(args.manifest))
+        errors = validate_fleet_refresh_manifest(
+            manifest,
+            load_json(project_root / "schemas" / "fleet-refresh-manifest.schema.json"),
+        )
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        report = run_fleet_refresh(
+            manifest,
+            project_root=project_root,
+            checked_at=args.checked_at,
+            stale_after=args.stale_after,
+            output_dir=Path(args.output_dir) if args.output_dir else None,
+            dry_run=args.dry_run,
+        )
+        _write_json(stdout, report)
+        return 0 if report["ok"] else 1
+
+    if args.command == "instance-scaffold":
+        try:
+            payload = scaffold_state_instance(
+                project_root=project_root,
+                runtime_root=Path(args.runtime_root),
+                instance_ref=args.instance_ref,
+                kind=args.kind,
+                display_name=args.display_name,
+                primary_entity_ref=args.primary_entity_ref,
+                entity_kind=args.entity_kind,
+                created_at=args.created_at,
+                governance_refs=list(args.governance_ref or []),
+                sensitivity_default=args.sensitivity_default,
+                federates_with=list(args.federates_with or []),
+                connector_types=list(args.connector_type or []),
+            )
+        except InstanceScaffoldError as error:
+            _write_json(stdout, {"ok": False, "errors": list(error.errors)})
+            return 1
+        _write_json(stdout, payload)
         return 0
 
     if args.command == "state-root-migrate":
@@ -914,6 +1202,71 @@ def _parser() -> argparse.ArgumentParser:
     preflight_export = subcommands.add_parser("company-preflight-export")
     preflight_export.add_argument("--output-dir", required=True)
 
+    instance_preflight_record = subcommands.add_parser("instance-preflight-record")
+    instance_preflight_record.add_argument("--preflight-ref", required=True)
+    instance_preflight_record.add_argument("--instance-ref", required=True)
+    instance_preflight_record.add_argument("--connector-ref")
+    instance_preflight_record.add_argument("--source-ref")
+    instance_preflight_record.add_argument("--connector-type")
+    instance_preflight_record.add_argument("--tool-ref")
+    instance_preflight_record.add_argument("--action-ref")
+    instance_preflight_record.add_argument("--agent-ref")
+    instance_preflight_record.add_argument("--runner-ref")
+    instance_preflight_record.add_argument(
+        "--status",
+        choices=["passed", "failed", "planned"],
+        required=True,
+    )
+    instance_preflight_record.add_argument("--checked-at", required=True)
+    instance_preflight_record.add_argument("--stale-after")
+    instance_preflight_record.add_argument("--ttl-seconds", type=int)
+    instance_preflight_record.add_argument("--evidence-ref", action="append")
+    instance_preflight_record.add_argument("--error-code")
+    instance_preflight_record.add_argument("--error-message")
+    instance_preflight_record.add_argument("--detail")
+
+    subcommands.add_parser("instance-preflight-list")
+
+    instance_preflight_export = subcommands.add_parser("instance-preflight-export")
+    instance_preflight_export.add_argument("--output-dir", required=True)
+
+    instance_preflight_run = subcommands.add_parser("instance-preflight-run")
+    instance_preflight_run.add_argument("--instance-ref", required=True)
+    instance_preflight_run.add_argument("--checked-at", required=True)
+    instance_preflight_run.add_argument("--stale-after", required=True)
+
+    instance_freshness_record = subcommands.add_parser(
+        "instance-source-freshness-record"
+    )
+    instance_freshness_record.add_argument("--instance-ref", required=True)
+    instance_freshness_record.add_argument("--connector-ref", required=True)
+    instance_freshness_record.add_argument("--source-ref", required=True)
+    instance_freshness_record.add_argument("--connector-type", required=True)
+    instance_freshness_record.add_argument(
+        "--status",
+        choices=["fresh", "stale", "failed", "unknown"],
+        required=True,
+    )
+    instance_freshness_record.add_argument("--checked-at", required=True)
+    instance_freshness_record.add_argument("--source-watermark", required=True)
+    instance_freshness_record.add_argument("--stale-after", required=True)
+    instance_freshness_record.add_argument("--lag-seconds", type=int)
+    instance_freshness_record.add_argument("--evidence-ref", action="append")
+    instance_freshness_record.add_argument("--index-ref", action="append")
+    instance_freshness_record.add_argument("--index-owner")
+    instance_freshness_record.add_argument("--index-backend")
+    instance_freshness_record.add_argument("--index-status")
+    instance_freshness_record.add_argument("--error-code")
+    instance_freshness_record.add_argument("--error-message")
+    instance_freshness_record.add_argument("--detail")
+
+    subcommands.add_parser("instance-source-freshness-list")
+
+    instance_freshness_export = subcommands.add_parser(
+        "instance-source-freshness-export"
+    )
+    instance_freshness_export.add_argument("--output-dir", required=True)
+
     freshness_record = subcommands.add_parser("source-freshness-record")
     freshness_record.add_argument("--company-ref", required=True)
     freshness_record.add_argument("--connector-ref", required=True)
@@ -963,6 +1316,78 @@ def _parser() -> argparse.ArgumentParser:
         "instance-understanding-surface-read"
     )
     instance_understanding_surface.add_argument("--output-dir", required=True)
+
+    personal_context_package = subcommands.add_parser(
+        "personal-context-package-build"
+    )
+    personal_context_package.add_argument("--instance-ref", required=True)
+    personal_context_package.add_argument("--package-id", required=True)
+    personal_context_package.add_argument("--created-at", required=True)
+    personal_context_package.add_argument("--synthesis-goal", required=True)
+    personal_context_package.add_argument("--valid-until", required=True)
+    personal_context_package.add_argument("--output-dir", required=True)
+
+    instance_agent_package = subcommands.add_parser("instance-agent-package-build")
+    instance_agent_package.add_argument("--instance-ref", required=True)
+    instance_agent_package.add_argument("--agent-ref", required=True)
+    instance_agent_package.add_argument("--persona-ref")
+    instance_agent_package.add_argument("--created-at", required=True)
+    instance_agent_package.add_argument("--review-goal")
+    instance_agent_package.add_argument("--package-id")
+
+    subcommands.add_parser("instance-agent-package-list")
+
+    instance_agent_package_export = subcommands.add_parser(
+        "instance-agent-package-export"
+    )
+    instance_agent_package_export.add_argument("--output-dir", required=True)
+
+    instance_agent_package_render = subcommands.add_parser(
+        "instance-agent-package-render"
+    )
+    instance_agent_package_render.add_argument("package_id")
+
+    instance_federation_validate = subcommands.add_parser(
+        "instance-federation-pack-validate"
+    )
+    instance_federation_validate.add_argument("registry")
+
+    instance_federation_render = subcommands.add_parser(
+        "instance-federation-pack-render"
+    )
+    instance_federation_render.add_argument("registry")
+
+    package_pressure = subcommands.add_parser("package-pressure-run")
+    package_pressure.add_argument("registry")
+    package_pressure.add_argument(
+        "--package",
+        action="append",
+        help="Package mapping in the form package_id=/path/to/package.json",
+    )
+    package_pressure.add_argument("--include-planned", action="store_true")
+
+    fleet_refresh = subcommands.add_parser("fleet-refresh-run")
+    fleet_refresh.add_argument("manifest")
+    fleet_refresh.add_argument("--checked-at")
+    fleet_refresh.add_argument("--stale-after")
+    fleet_refresh.add_argument("--output-dir")
+    fleet_refresh.add_argument("--dry-run", action="store_true")
+
+    instance_scaffold = subcommands.add_parser("instance-scaffold")
+    instance_scaffold.add_argument("--runtime-root", required=True)
+    instance_scaffold.add_argument("--instance-ref", required=True)
+    instance_scaffold.add_argument("--kind", required=True)
+    instance_scaffold.add_argument("--display-name", required=True)
+    instance_scaffold.add_argument("--primary-entity-ref", required=True)
+    instance_scaffold.add_argument("--entity-kind", required=True)
+    instance_scaffold.add_argument("--created-at", required=True)
+    instance_scaffold.add_argument("--governance-ref", action="append")
+    instance_scaffold.add_argument(
+        "--sensitivity-default",
+        default="confidential",
+    )
+    instance_scaffold.add_argument("--federates-with", action="append")
+    instance_scaffold.add_argument("--connector-type", action="append")
 
     migrate = subcommands.add_parser("state-root-migrate")
     migrate.add_argument("--from", dest="from_root", required=True)
@@ -1050,6 +1475,37 @@ def _preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
     return result
 
 
+def _instance_preflight_result_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "preflight_ref": args.preflight_ref,
+        "instance_ref": args.instance_ref,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "evidence_refs": list(args.evidence_ref or []),
+    }
+    for source, target in (
+        ("connector_ref", "connector_ref"),
+        ("source_ref", "source_ref"),
+        ("connector_type", "connector_type"),
+        ("tool_ref", "tool_ref"),
+        ("action_ref", "action_ref"),
+        ("agent_ref", "agent_ref"),
+        ("runner_ref", "runner_ref"),
+        ("stale_after", "stale_after"),
+        ("ttl_seconds", "ttl_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
+
+
 def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
     result: JsonObject = {
         "company_ref": args.company_ref,
@@ -1069,6 +1525,45 @@ def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
         value = getattr(args, source)
         if value is not None:
             result[target] = value
+    if args.error_code or args.error_message:
+        result["error"] = {
+            "code": args.error_code or "",
+            "message": args.error_message or "",
+        }
+    return result
+
+
+def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
+    result: JsonObject = {
+        "instance_ref": args.instance_ref,
+        "connector_ref": args.connector_ref,
+        "source_ref": args.source_ref,
+        "connector_type": args.connector_type,
+        "status": args.status,
+        "checked_at": args.checked_at,
+        "source_watermark": args.source_watermark,
+        "stale_after": args.stale_after,
+        "evidence_refs": list(args.evidence_ref or []),
+        "index_refs": list(args.index_ref or []),
+    }
+    for source, target in (
+        ("lag_seconds", "lag_seconds"),
+        ("detail", "detail"),
+    ):
+        value = getattr(args, source)
+        if value is not None:
+            result[target] = value
+    index_metadata = {
+        key: value
+        for key, value in {
+            "owner": args.index_owner,
+            "backend": args.index_backend,
+            "status": args.index_status,
+        }.items()
+        if value is not None
+    }
+    if index_metadata:
+        result["index_metadata"] = index_metadata
     if args.error_code or args.error_message:
         result["error"] = {
             "code": args.error_code or "",
@@ -1118,6 +1613,17 @@ def _load_list(path: str) -> list[JsonObject]:
     if not isinstance(value, list):
         raise ValueError(f"{path} must contain a JSON list")
     return value
+
+
+def _load_named_packages(values: list[str]) -> dict[str, JsonObject]:
+    packages: dict[str, JsonObject] = {}
+    for value in values:
+        if "=" not in value:
+            raise ValueError("--package must be in the form package_id=/path/to/package.json")
+        package_id, path = value.split("=", 1)
+        package = load_json(Path(path))
+        packages[package_id] = package
+    return packages
 
 
 def _write_json(stdout: TextIO, payload: JsonObject) -> None:

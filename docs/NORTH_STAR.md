@@ -24,6 +24,17 @@ indexes. A deployed company instance should own the runtime substrate needed to
 make that company understandable, including database/vector-index configuration
 and State System-owned semantic indexes as they become operational.
 
+Different deployed instances may need different source surfaces. A personal
+instance can declare health, activity, media, or other personal source-owned
+systems such as Garmin Connect or Spotify; a company instance should not inherit
+those as defaults. Source-specific connectors are admissible only as explicit
+capability-pack declarations with preflight, freshness, index ownership, and
+governance status visible before any model treats them as usable evidence.
+Personal relationship indexes follow the same rule. A company instance such as
+LFW may use Braydon's long-history relationship evidence only through an
+explicit governed federated query route; it must not copy raw personal
+relationship records or silently treat personal sources as company sources.
+
 The system turns scattered signals from meetings, messages, documents, tasks,
 metrics, decisions, rituals, onboarding, and agent reasoning into scoped state
 objects, append-only journals, current snapshots, and rollups that humans and

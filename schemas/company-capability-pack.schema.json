@@ -182,20 +182,12 @@
         "id": { "type": "string" },
         "connector_type": {
           "type": "string",
-          "enum": [
-            "folio",
-            "msgvault",
-            "gws_drive",
-            "gws_account",
-            "linear",
-            "local_path",
-            "zulip",
-            "repo",
-            "crm",
-            "docs"
-          ]
+          "pattern": "^[a-z0-9_]+$"
         },
         "source_ref": { "type": "string" },
+        "source_module_ref": { "type": "string" },
+        "module_registry_ref": { "type": "string" },
+        "module_mode": { "type": "string" },
         "owner": {
           "type": "string",
           "enum": ["state_system", "paia_runtime", "source_system"]
