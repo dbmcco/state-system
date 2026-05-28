@@ -2,13 +2,13 @@
 
 ## Objective
 
-Build `/Users/braydon/projects/personal/b-state` as a first-class personal State System instance for Braydon. The instance should cover personal life and work obligations by federating to source-owned systems instead of copying their raw corpora.
+Build `/path/to/personal-state` as a first-class personal State System instance for Acme User. The instance should cover personal life and work obligations by federating to source-owned systems instead of copying their raw corpora.
 
 ## Core Interpretation
 
-Braydon is a State System entity. LFW, Synthyra, Navicyte, Plum, and future systems are also state instances with their own roots, indexes, governance, and source ownership. Personal b-state should be the coordinating personal abstraction that can ask each owned source for evidence, freshness, and bounded context.
+Acme User is a State System entity. LFW, Synthyra, Navicyte, Plum, and future systems are also state instances with their own roots, indexes, governance, and source ownership. Personal b-state should be the coordinating personal abstraction that can ask each owned source for evidence, freshness, and bounded context.
 
-The system should not model Braydon by forcing him into a company ontology. It should use the generic state-instance contract and let models own salience, synthesis, and attention proposals over explicit evidence packages.
+The system should not model Acme User by forcing him into a company ontology. It should use the generic state-instance contract and let models own salience, synthesis, and attention proposals over explicit evidence packages.
 
 ## Source Boundaries
 
@@ -16,7 +16,7 @@ The system should not model Braydon by forcing him into a company ontology. It s
 - `msgvault`: email archive and email vector retrieval; personal b-state references/query-surfaces this store and does not duplicate email embeddings by default.
 - `agentmem`: agent memory source; personal b-state records readiness/freshness and consumes bounded read outputs.
 - `paia_workboard`: personal and agent task source of truth for workboard tasks.
-- `relationship_substrate`: personal network substrate under `/Users/braydon/projects/experiments/relationship-substrate`.
+- `relationship_substrate`: personal network substrate under `/path/to/relationship-substrate`.
 - `state_system_instance`: federated read surfaces for LFW, Synthyra, Navicyte, Plum, and future work instances.
 - `local_path`: local personal files or project roots when explicitly declared.
 

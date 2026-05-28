@@ -25,33 +25,33 @@ The package layer is implemented and testable for both deployed instances:
 
 ## Agent-Facing Commands
 
-From `/Users/braydon/projects/experiments/state-system`:
+From `/path/to/state-system`:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-render instance_agent_package.braydon_personal.samantha
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-render instance_agent_package.lfw.caroline
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-render instance_agent_package.acme_ops.samantha
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-render instance_agent_package.lfw.caroline
 ```
 
 Package build/list/export commands are also available:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-list
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-list
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-list
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-list
 ```
 
 ## Runtime Artifacts
 
 b-state:
 
-- `/Users/braydon/projects/personal/b-state/state/instance-agent-packages/instance_agent_package.braydon_personal.samantha.json`
-- `/Users/braydon/projects/personal/b-state/state/instance-agent-packages/instance_agent_package.e2e.braydon_personal.samantha.json`
-- `/Users/braydon/projects/personal/b-state/instance-agent-package/instance-agent-packages-read-model.json`
+- `/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json`
+- `/path/to/personal-state/state/instance-agent-packages/instance_agent_package.e2e.acme_ops.samantha.json`
+- `/path/to/personal-state/instance-agent-package/instance-agent-packages-read-model.json`
 
 LFW:
 
-- `/Users/braydon/projects/work/lfw/state-system/state/instance-agent-packages/instance_agent_package.lfw.caroline.json`
-- `/Users/braydon/projects/work/lfw/state-system/state/instance-agent-packages/instance_agent_package.e2e.lfw.caroline.json`
-- `/Users/braydon/projects/work/lfw/state-system/instance-agent-package/instance-agent-packages-read-model.json`
+- `/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json`
+- `/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.e2e.lfw.caroline.json`
+- `/path/to/state-system-runtime/instance-agent-package/instance-agent-packages-read-model.json`
 
 ## Verification
 
@@ -60,9 +60,9 @@ Commands run:
 ```bash
 python3 -m unittest discover -s tests
 python3 -m state_system.cli --project-root . validate
-jq empty /Users/braydon/projects/personal/b-state/instance-agent-package/instance-agent-packages-read-model.json /Users/braydon/projects/work/lfw/state-system/instance-agent-package/instance-agent-packages-read-model.json
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-render instance_agent_package.braydon_personal.samantha
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-render instance_agent_package.lfw.caroline
+jq empty /path/to/personal-state/instance-agent-package/instance-agent-packages-read-model.json /path/to/state-system-runtime/instance-agent-package/instance-agent-packages-read-model.json
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-render instance_agent_package.acme_ops.samantha
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-render instance_agent_package.lfw.caroline
 ```
 
 Results:

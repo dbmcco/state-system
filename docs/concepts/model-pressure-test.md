@@ -35,7 +35,7 @@ The model is strong enough to define contracts when every scenario can answer:
 
 ## Scenario 1: Laura Campaign Audience Clarified
 
-**Trigger:** Braydon clarifies that the primary audience is mid-market operators
+**Trigger:** Acme User clarifies that the primary audience is mid-market operators
 who need bounded back-office business capabilities.
 
 **Expected model decision:**

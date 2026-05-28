@@ -93,7 +93,7 @@ Initial trigger input can be a JSON file:
 {
   "id": "trigger.example",
   "source": "human_edit",
-  "actor_ref": "human.braydon",
+  "actor_ref": "human.acme_user",
   "summary": "Laura's approval boundary was clarified.",
   "evidence_refs": ["conversation.2026-04-28.state-system"],
   "candidate_state_refs": ["persona.laura"]

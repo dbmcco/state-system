@@ -6,8 +6,8 @@ Date: 2026-05-17
 
 Make the deployed agent-facing packages usable for:
 
-- Caroline over the LFW instance at `/Users/braydon/projects/work/lfw/state-system`
-- Samantha over the personal b-state instance at `/Users/braydon/projects/personal/b-state`
+- Caroline over the LFW instance at `/path/to/state-system-runtime`
+- Samantha over the personal b-state instance at `/path/to/personal-state`
 
 ## Changes Recorded
 
@@ -43,7 +43,7 @@ b-state / Samantha:
   Samantha can use enrichment-backed relationship-substrate search for smaller
   consulting/advisory/professional-services firm questions.
 - Added Caroline's governed federated relationship-index route to
-  `state_instance.braydon_personal` with no local LFW source materialization.
+  `state_instance.acme_ops` with no local LFW source materialization.
 
 ## Current Agent Package Status
 
@@ -55,7 +55,7 @@ Caroline package:
 
 Samantha package:
 
-- Package ID: `instance_agent_package.braydon_personal.samantha`
+- Package ID: `instance_agent_package.acme_ops.samantha`
 - Ready sources:
   - `connector.personal.folio`
   - `connector.personal.msgvault`
@@ -72,11 +72,11 @@ Samantha package:
 
 ## Test Commands
 
-From `/Users/braydon/projects/experiments/state-system`:
+From `/path/to/state-system`:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-render instance_agent_package.lfw.caroline
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-render instance_agent_package.braydon_personal.samantha
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-render instance_agent_package.lfw.caroline
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-render instance_agent_package.acme_ops.samantha
 ```
 
 ## Follow-Up

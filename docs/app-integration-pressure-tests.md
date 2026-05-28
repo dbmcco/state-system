@@ -114,7 +114,7 @@ through
 ```text
 coordination update accepted
   -> thoughtforge_author_package
-  -> model decides whether idea fits Braydon/DBMCCO or Sam Ashford corpus
+  -> model decides whether idea fits Acme User/DBMCCO or Sam Ashford corpus
   -> interview prompt or longform candidate proposal
   -> human approval before public publication
   -> published corpus update after release

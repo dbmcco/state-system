@@ -13,7 +13,7 @@ approval boundary, downstream artifacts, and no-hidden-heuristic conformance.
 Add a small app-integration runner and report surface for the fixture chains in
 `examples/app-integrations/`. The runner should validate each chain, check the
 cross-artifact references that matter for app handoff, write a machine-readable
-report, and render a local HTML report that Braydon can open.
+report, and render a local HTML report that Acme User can open.
 
 ## Out Of Scope
 

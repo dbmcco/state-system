@@ -7,7 +7,7 @@ answer operational questions.
 
 ```bash
 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
+  --project-root /path/to/state-system \
   fleet-refresh-run /path/to/fleet-refresh.json \
   --output-dir /tmp/state-system-fleet-refresh
 ```
@@ -16,7 +16,7 @@ For deterministic runs, pass explicit timestamps:
 
 ```bash
 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
+  --project-root /path/to/state-system \
   fleet-refresh-run /path/to/fleet-refresh.json \
   --checked-at 2026-05-19T20:00:00Z \
   --stale-after 2026-05-19T21:00:00Z \

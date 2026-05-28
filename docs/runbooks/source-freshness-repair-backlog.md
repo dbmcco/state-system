@@ -22,7 +22,7 @@ underlying connector or pipeline.
 
 | Gap | Owner | Current Package Behavior | Repair Path | Done When |
 | --- | --- | --- | --- | --- |
-| `gap.state_instance.braydon_personal.connector.personal.spotify.freshness_stale` | b-state | Samantha can use historical Spotify cache with stale caveat. Module mode is `historical_cache`; live API is not fresh. | Restore matching Spotify OAuth client credentials or rerun OAuth, execute a real live sync, record typed credential status and source watermark, then rebuild Sam package. | `connector.personal.spotify` has access passed, freshness fresh, current `source_watermark`, and no stale gap in Sam package. |
+| `gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale` | b-state | Samantha can use historical Spotify cache with stale caveat. Module mode is `historical_cache`; live API is not fresh. | Restore matching Spotify OAuth client credentials or rerun OAuth, execute a real live sync, record typed credential status and source watermark, then rebuild Sam package. | `connector.personal.spotify` has access passed, freshness fresh, current `source_watermark`, and no stale gap in Sam package. |
 | LFW Linear freshness | LFW | Repaired in the Caroline package from source-owned evidence. Current watermark: `linear.latest_updated_at:2026-05-15T19:38:27.710Z`; checked at `2026-05-18T18:31:59Z`. | Keep Linear freshness job running and regenerate Caroline when the watermark changes or expires. | Linear readiness has access passed, freshness fresh, checked_at/source_watermark/stale_after, and no Linear freshness gap in Caroline. |
 | LFW GitHub freshness | LFW | Repaired in the Caroline package from source-owned evidence. Current watermark: `github.pushed_at:2026-05-15T19:35:42Z;repo:draftforge`; checked at `2026-05-18T18:32:00Z`. | Keep GitHub freshness job running and regenerate Caroline when the watermark changes or expires. | GitHub readiness has access passed, freshness fresh, checked_at/source_watermark/stale_after, and no GitHub freshness gap in Caroline. |
 | LFW raw transcripts missing/planned | LFW | Transcript sources are declared as missing or planned and should not be used as proved meeting memory. | Add source-owned local path heartbeat for raw transcript location or mark the source intentionally unavailable with typed reason. | Raw transcript module has a proved access status or an explicit durable unavailable status with reason. |
@@ -72,7 +72,7 @@ After each repair:
 4. Run generic State System validation:
 
 ```bash
-python3 -m state_system.cli --project-root /Users/braydon/projects/experiments/state-system validate
+python3 -m state_system.cli --project-root /path/to/state-system validate
 python3 -m unittest discover -s tests
 ```
 

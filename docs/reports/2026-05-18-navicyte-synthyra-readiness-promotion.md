@@ -18,34 +18,34 @@ routes only.
 
 Navicyte:
 
-- State root: `/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system`
-- Package: `/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json`
-- Read model: `/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system/instance-agent-package/instance-agent-packages-read-model.json`
+- State root: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system`
+- Package: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json`
+- Read model: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/instance-agent-package/instance-agent-packages-read-model.json`
 - Repo-root render:
 
 ```bash
-cd /Users/braydon/projects/work/navicyte
-PYTHONPATH=/Users/braydon/projects/experiments/state-system \
+cd /path/to/user/projects/work/navicyte
+PYTHONPATH=/path/to/state-system \
 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
-  --state-root /Users/braydon/projects/work/navicyte/navicyte-workspace/state-system \
+  --project-root /path/to/state-system \
+  --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system \
   instance-agent-package-render \
   instance_agent_package.navicyte.helena
 ```
 
 Synthyra:
 
-- State root: `/Users/braydon/projects/work/synth/state-system`
-- Package: `/Users/braydon/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json`
-- Read model: `/Users/braydon/projects/work/synth/state-system/instance-agent-package/instance-agent-packages-read-model.json`
+- State root: `/path/to/user/projects/work/synth/state-system`
+- Package: `/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json`
+- Read model: `/path/to/user/projects/work/synth/state-system/instance-agent-package/instance-agent-packages-read-model.json`
 - Repo-root render:
 
 ```bash
-cd /Users/braydon/projects/work/synth
-PYTHONPATH=/Users/braydon/projects/experiments/state-system \
+cd /path/to/user/projects/work/synth
+PYTHONPATH=/path/to/state-system \
 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
-  --state-root /Users/braydon/projects/work/synth/state-system \
+  --project-root /path/to/state-system \
+  --state-root /path/to/user/projects/work/synth/state-system \
   instance-agent-package-render \
   instance_agent_package.synthyra.ingrid.scaffold.v0
 ```
@@ -87,7 +87,7 @@ Commands run:
 ```bash
 python3 -m unittest tests.test_instance_agent_packages
 python3 -m unittest tests.test_package_pressure_questions tests.test_instance_understanding_surface
-python3 /Users/braydon/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
+python3 /path/to/user/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
 python3 -m state_system.cli --project-root . validate
 python3 -m unittest discover -s tests
 git diff --check
@@ -115,8 +115,8 @@ Package pressure:
 Leakage scans:
 
 ```bash
-find /Users/braydon/projects/work/navicyte/navicyte-workspace/state-system -type f -size +1M -print
-find /Users/braydon/projects/work/synth/state-system -type f -size +1M -print
+find /path/to/user/projects/work/navicyte/navicyte-workspace/state-system -type f -size +1M -print
+find /path/to/user/projects/work/synth/state-system -type f -size +1M -print
 rg -n "BEGIN [A-Z ]*PRIVATE KEY|refresh_token|access_token|client_secret|password" . --glob '!runbooks/navicyte-state-instance.md'
 ```
 
@@ -137,7 +137,7 @@ Caroline, Helena, and Ingrid with `--include-planned`.
 Navicyte:
 
 - Runtime instance preflight and freshness records were seeded into
-  `/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system/state`
+  `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state`
   instead of only living as scaffold-side read models.
 - Helena package regenerated at `2026-05-19T19:32:31Z`.
 - `connector.navicyte.local` is access passed, freshness fresh, index planned,
@@ -155,7 +155,7 @@ Synthyra:
 
 - Ingrid package regenerated at `2026-05-19T19:31:34Z`.
 - Local workspace freshness was refreshed from
-  `/Users/braydon/projects/work/synth/sync/state.json`.
+  `/path/to/user/projects/work/synth/sync/state.json`.
 - GitHub repo access is now proven for `Synthyra/atlas`,
   `Synthyra/synthyra-decks`, and `dbmcco/synthyra-ai-org`; all three remain
   stale by their GitHub `pushed_at` watermarks.
@@ -166,10 +166,10 @@ Synthyra:
 Validation on 2026-05-19:
 
 ```bash
-python3 -m state_system.cli --project-root /Users/braydon/projects/experiments/state-system --state-root /Users/braydon/projects/work/navicyte/navicyte-workspace/state-system validate
-python3 -m state_system.cli --project-root /Users/braydon/projects/experiments/state-system --state-root /Users/braydon/projects/work/synth/state-system validate
-python3 /Users/braydon/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
-python3 -m state_system.cli --project-root /Users/braydon/projects/experiments/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json --include-planned --package instance_agent_package.braydon_personal.samantha=/Users/braydon/projects/personal/b-state/state/instance-agent-packages/instance_agent_package.braydon_personal.samantha.json --package instance_agent_package.lfw.caroline=/Users/braydon/projects/work/lfw/state-system/state/instance-agent-packages/instance_agent_package.lfw.caroline.json --package instance_agent_package.navicyte.helena=/Users/braydon/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json --package instance_agent_package.synthyra.ingrid.scaffold.v0=/Users/braydon/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json
+python3 -m state_system.cli --project-root /path/to/state-system --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system validate
+python3 -m state_system.cli --project-root /path/to/state-system --state-root /path/to/user/projects/work/synth/state-system validate
+python3 /path/to/user/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
+python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json --include-planned --package instance_agent_package.acme_ops.samantha=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json --package instance_agent_package.lfw.caroline=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json --package instance_agent_package.navicyte.helena=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json --package instance_agent_package.synthyra.ingrid.scaffold.v0=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json
 python3 -m unittest tests.test_instance_agent_packages tests.test_instance_understanding_surface tests.test_package_pressure_questions
 ```
 

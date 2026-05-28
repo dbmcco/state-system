@@ -14,25 +14,25 @@ connectors to be ready and without executing protected actions.
 python3 -m unittest tests/test_instance_agent_package_e2e.py
 python3 -m unittest discover -s tests
 python3 -m state_system.cli --project-root . validate
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-render instance_agent_package.e2e.braydon_personal.samantha
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-render instance_agent_package.e2e.lfw.caroline
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-render instance_agent_package.e2e.acme_ops.samantha
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-render instance_agent_package.e2e.lfw.caroline
 ```
 
 ## Generated Runtime Packages
 
 b-state:
 
-- `/Users/braydon/projects/personal/b-state/state/instance-agent-packages/instance_agent_package.e2e.braydon_personal.samantha.json`
+- `/path/to/personal-state/state/instance-agent-packages/instance_agent_package.e2e.acme_ops.samantha.json`
 
 LFW:
 
-- `/Users/braydon/projects/work/lfw/state-system/state/instance-agent-packages/instance_agent_package.e2e.lfw.caroline.json`
+- `/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.e2e.lfw.caroline.json`
 
 ## Assertions
 
 b-state package:
 
-- Builds from `/Users/braydon/projects/personal/b-state`.
+- Builds from `/path/to/personal-state`.
 - Renders as a `State System Instance Agent Package`.
 - Includes Garmin Connect and Spotify as planned/unknown source gaps.
 - Includes LFW as an available federated instance metadata surface while keeping
@@ -41,7 +41,7 @@ b-state package:
 
 LFW package:
 
-- Builds from `/Users/braydon/projects/work/lfw/state-system`.
+- Builds from `/path/to/state-system-runtime`.
 - Renders as a `State System Instance Agent Package`.
 - Includes `connector.lfw.msgvault` with `freshness=failed`.
 - Excludes personal Garmin Connect and Spotify sources.

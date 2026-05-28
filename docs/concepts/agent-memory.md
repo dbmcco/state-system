@@ -24,7 +24,7 @@ Memory defines learned experience.
 
 Examples:
 
-- preferences learned from Braydon
+- preferences learned from Acme User
 - successful tactics
 - repeated failure modes
 - domain observations
@@ -91,7 +91,7 @@ Examples:
 
 - `marketing.draft.positioning.bounded-capability-language`
 - `marketing.pattern.audience-proof-before-copy`
-- `relationship.braydon.prefers-direct-strategy-language`
+- `relationship.acme_user.prefers-direct-strategy-language`
 
 ### Agent State
 
@@ -136,7 +136,7 @@ shared state.
 
 ## Draft And Promotion Pattern
 
-The Derek memory model in `/Users/braydon/projects/experiments/paia-agents`
+The Derek memory model in `/path/to/paia-agents`
 uses a useful pattern:
 
 ```text
@@ -232,8 +232,8 @@ and proof are defined.
 ```
 
 ```text
-relationship.braydon.directness:
-Braydon tends to prefer direct strategic language over polished marketing
+relationship.acme_user.directness:
+Acme User tends to prefer direct strategic language over polished marketing
 abstraction when evaluating positioning.
 ```
 

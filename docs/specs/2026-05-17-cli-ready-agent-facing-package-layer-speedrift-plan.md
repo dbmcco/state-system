@@ -8,8 +8,8 @@ Build the agent-facing package layer for State System instances so a CLI can
 produce a bounded, machine-readable and renderable package for an agent from:
 
 - generic State System contracts and runtime commands
-- deployed LFW company state at `/Users/braydon/projects/work/lfw/state-system`
-- deployed personal b-state at `/Users/braydon/projects/personal/b-state`
+- deployed LFW company state at `/path/to/state-system-runtime`
+- deployed personal b-state at `/path/to/personal-state`
 
 The package must include current interpreted state surfaces, source readiness,
 freshness, evidence/index refs, governance/action boundaries, and explicit gaps.

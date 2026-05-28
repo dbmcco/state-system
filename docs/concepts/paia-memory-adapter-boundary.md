@@ -11,7 +11,7 @@ truth.
 
 ## Why Reuse PAIA Memory
 
-`/Users/braydon/projects/experiments/paia-memory` already contains working
+`/path/to/paia-memory` already contains working
 implementations for:
 
 - evidence ingestion and deduplication

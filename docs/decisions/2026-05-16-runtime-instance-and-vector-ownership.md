@@ -7,10 +7,10 @@
 
 Separate the State System product repo from deployed State System instances.
 
-`/Users/braydon/projects/experiments/state-system` is the product/codebase. It
+`/path/to/state-system` is the product/codebase. It
 owns schemas, contracts, migrations, CLI tools, tests, and documentation.
 
-`/Users/braydon/projects/work/lfw/state-system` is the deployed LFW State System
+`/path/to/state-system-runtime` is the deployed LFW State System
 instance. It owns LFW runtime state, read models, source freshness evidence,
 preflight evidence, index manifests, database configuration, and operational
 artifacts.

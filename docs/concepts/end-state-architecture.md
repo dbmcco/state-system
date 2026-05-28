@@ -82,7 +82,7 @@ End-state responsibilities:
 
 Known reusable implementation:
 
-- `/Users/braydon/projects/experiments/paia-memory`
+- `/path/to/paia-memory`
 
 `paia-memory` already owns memory store, context retrieval, embedding interface,
 knowledge persistence, evidence, facets, triplets, digests, and active context.
@@ -172,7 +172,7 @@ Code executes:
 
 Known reusable implementation:
 
-- `/Users/braydon/projects/experiments/paia-agent-runtime`
+- `/path/to/paia-agent-runtime`
 
 `paia-agent-runtime` already has a model-mediated agent state loop with
 evaluation, risk checks, action execution, journals, snapshots, events, and

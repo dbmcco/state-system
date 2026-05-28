@@ -16,7 +16,7 @@ Examples:
 - `state_instance.synthyra`
 - `state_instance.navicyte`
 - `state_instance.plum`
-- `state_instance.braydon_personal`
+- `state_instance.acme_ops`
 
 An instance has an `instance_ref`, `kind`, `display_name`, `runtime_root`,
 `primary_entity_ref`, `entity_kind`, governance refs, sensitivity defaults, and
@@ -28,14 +28,14 @@ Existing company capability packs may remain as a compatibility or
 specialization layer, but new generic contracts must key by `instance_ref` and
 `primary_entity_ref`.
 
-Braydon's personal instance will use:
+Acme User's personal instance will use:
 
 ```json
 {
-  "instance_ref": "state_instance.braydon_personal",
-  "primary_entity_ref": "entity.braydon",
+  "instance_ref": "state_instance.acme_ops",
+  "primary_entity_ref": "entity.acme_user",
   "entity_kind": "person",
-  "runtime_root": "/Users/braydon/projects/personal/b-state"
+  "runtime_root": "/path/to/personal-state"
 }
 ```
 
@@ -72,7 +72,7 @@ Canonical index scopes:
 - `memory_index`: agent or person memory, such as agentmem or paia-memory.
 - `relationship_index`: network evidence and relationship operating pictures,
   such as the personal/professional network substrate in
-  `/Users/braydon/projects/experiments/relationship-substrate`.
+  `/path/to/relationship-substrate`.
 - `interpreted_state_index`: State System-owned semantic index over accepted
   state objects, claims, evidence cards, journals, operating pictures,
   commitments, context packages, and activation artifacts.
@@ -116,7 +116,7 @@ gaps, provenance, governance, and sensitivity.
 
 The model owns synthesis:
 
-- how Braydon is doing
+- how Acme User is doing
 - how a company is doing
 - what matters most now
 - which evidence is salient
@@ -137,5 +137,5 @@ Implementation must proceed in this order:
    `instance_ref`.
 4. Add `state_system_instance`, `agentmem`, `paia_workboard`, and
    `relationship_substrate` connector support as declared surfaces.
-5. Create `/Users/braydon/projects/personal/b-state` only after the generic
+5. Create `/path/to/personal-state` only after the generic
    contracts can represent it directly.

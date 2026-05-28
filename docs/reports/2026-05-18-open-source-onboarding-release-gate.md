@@ -51,35 +51,25 @@ generated-package contract fields. The release gate added:
 
 All three pass without modifying the shipped OSS contract fixtures.
 
-## Remaining Private-Deployment-Only Gaps
+## Private-Deployment-Only Fixture Cleanup
 
-These items are deployment-bound, not product blockers. They are tracked here
-so a clean OSS release can anonymize or relocate them, but the product
-contracts and release gate do not depend on them.
+These items were deployment-bound, not product blockers. They have been
+neutralized in the shipped example fixture surface so a clean OSS release no
+longer exposes local user paths, personal account refs, or real-person display
+names in public JSON examples.
 
 | Artifact | Gap | Path |
 |---|---|---|
-| LFW capability pack | `msgvault:account:braydon@lightforgeworks.com` in `source_connectors[].source_ref` | `examples/company-capability/company-lfw.json` |
-| Synthyra capability pack | `msgvault:account:braydon@synthyra.com` in `source_connectors[].source_ref` | `examples/company-capability/company-synthyra.json` |
-| Personal instance pack | Real name and `/Users/braydon` absolute paths in declared source refs | `examples/instance-capability/instance-braydon-personal.json` |
-| Personal agent package | Generated against the personal pack above; carries the same identifiers | `examples/instance-agent-package/instance-agent-package-braydon-personal-samantha.json` |
-| Core source module registry | `local:/Users/braydon/projects/work/lfw` shown as an illustrative `source_ref` example | `examples/source-modules/source-module-core-connectors.json` |
+| LFW capability pack | Replaced private `msgvault:account:*` preflight account and `/path/to/user` local paths with tenant/local example refs. | `examples/company-capability/company-lfw.json` |
+| Synthyra capability pack | Replaced private `msgvault:account:*` preflight account and local path with tenant/local example refs. | `examples/company-capability/company-synthyra.json` |
+| Personal instance pack | Replaced real-person display text, `entity.acme_user`, private source accounts, and `/path/to/user` paths with neutral example refs. | `examples/instance-capability/instance-acme-ops.json` |
+| Personal agent package | Replaced real-person display text and private wearable/media account refs with neutral example refs. | `examples/instance-agent-package/instance-agent-package-acme-ops-samantha.json` |
+| Core source module registry | Replaced illustrative private account/path examples with neutral example refs. | `examples/source-modules/source-module-core-connectors.json` |
 
-Recommended path before an external OSS-tagged release:
-
-- Move LFW, Synthyra, and personal capability packs out of `examples/` into a
-  deployment-private directory or into runtime state roots, leaving an
-  anonymized `examples/instance-capability/instance-acme.json` and matching
-  generated agent package as the OSS reference fixture.
-- Replace the `/Users/braydon/projects/work/lfw` illustrative path in the
-  source module registry with a neutral placeholder such as
-  `/srv/lfw` or `local:/{absolute_path}`.
-
-None of these gaps block the product gate. The conformance tests above pass
-because they target the OSS-shareable contract fixture surface
-(modules, tools, routes, federation packs, pressure questions, generated
-package contracts) and intentionally exclude deployment-bound capability
-packs.
+The conformance suite now scans all public JSON examples for the private
+deployment markers that caused this gap: `/path/to/user`, `local:/Users/`,
+`local-path:/Users/`, `braydon@`, `msgvault:account:`,
+private source account refs, `entity.acme_user`, and real-person display text.
 
 ## Product Blockers
 
@@ -91,8 +81,6 @@ conformance tests added by this task will fail and surface it before merge.
 
 ## Follow-Ups
 
-- Anonymize the deployment-bound packs listed above before any external OSS
-  release tag (out of scope here; will be a separate workgraph task).
 - Continue tracking unresolved connector freshness issues
   (Spotify OAuth, transcript raw/processed pipeline) under
   `docs/runbooks/source-freshness-repair-backlog.md`; those are deployment

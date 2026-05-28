@@ -11,17 +11,17 @@ needs new state families or sharper boundaries.
 
 Primary LFW sources inspected:
 
-- `/Users/braydon/projects/work/lfw/CLAUDE.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/README.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/pipeline/current-delivery-model.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/pipeline/ops-manager-operating-model.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/pipeline/shy-role-and-focus.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/positioning/category-pov.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/positioning/2026-03-09-the-model-is-not-the-product.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/methodologies/prism-framework.md`
-- `/Users/braydon/projects/work/lfw/lfw-process/methodologies/requirements-clarity.md`
-- `/Users/braydon/projects/work/lfw/lfw-salesforge/CLAUDE.md`
-- `/Users/braydon/projects/work/lfw/lfw-salesforge/PROJECT_STATUS_SUMMARY.md`
+- `/path/to/acme-operations/CLAUDE.md`
+- `/path/to/acme-operations/lfw-process/README.md`
+- `/path/to/acme-operations/lfw-process/pipeline/current-delivery-model.md`
+- `/path/to/acme-operations/lfw-process/pipeline/ops-manager-operating-model.md`
+- `/path/to/acme-operations/lfw-process/pipeline/shy-role-and-focus.md`
+- `/path/to/acme-operations/lfw-process/positioning/category-pov.md`
+- `/path/to/acme-operations/lfw-process/positioning/2026-03-09-the-model-is-not-the-product.md`
+- `/path/to/acme-operations/lfw-process/methodologies/prism-framework.md`
+- `/path/to/acme-operations/lfw-process/methodologies/requirements-clarity.md`
+- `/path/to/acme-operations/lfw-salesforge/CLAUDE.md`
+- `/path/to/acme-operations/lfw-salesforge/PROJECT_STATUS_SUMMARY.md`
 
 ## Thin Vertical Slice
 

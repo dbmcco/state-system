@@ -189,7 +189,7 @@ text.
 
 The shipped registry at
 `examples/pressure-questions/package-pressure-core-real-questions.json` is
-keyed to the Braydon-personal and LFW deployed instances; it is the reference
+keyed to the Acme User-personal and LFW deployed instances; it is the reference
 for case shape, not an OSS adopter's own test set. Adopters typically write a
 registry sibling for their instance with cases that name their own
 `package_id`, expected routes, source coverage refs, tool action refs, and
@@ -213,7 +213,7 @@ required route IDs, source coverage refs, tool action refs, answer policy
 flags, federation pack IDs, and materialization expectations. Cases targeting
 packages the runner cannot resolve report as `failed` with `package not
 supplied`, which is the expected output for an adopter not running the
-Braydon-personal or LFW deployments. Use `--package <id>=<path>` to supply
+Acme User-personal or LFW deployments. Use `--package <id>=<path>` to supply
 the adopter's own rendered package, and `--include-planned` to exercise
 planned-status cases as known gaps.
 

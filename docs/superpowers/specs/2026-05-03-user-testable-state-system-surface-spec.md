@@ -4,7 +4,7 @@
 ## Problem
 
 State System has functional contracts, schemas, trace-run, approval gates, and
-agent activation records, but Braydon needs something he can test as a user
+agent activation records, but Acme User needs something he can test as a user
 without reading raw JSON or implementation files. Humans should inspect and
 judge through agents and reports, while direct mutation remains governed by the
 state-system proposal and commit path.
@@ -36,7 +36,7 @@ proceed externally until the package is refreshed.
 ## Success Criteria
 
 - `trace-run` writes a local HTML report for the activation trace.
-- The demo script runs the activation trace and points Braydon to the generated
+- The demo script runs the activation trace and points Acme User to the generated
   report.
 - The report is generated from actual trace artifacts.
 - Tests assert the report includes status, activation goal, allowed and

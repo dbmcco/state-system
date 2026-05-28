@@ -68,7 +68,7 @@ processed document pipeline emit usable index/freshness records.
 
 Spotify remains open because the repair requires a matching
 `SPOTIFY_CLIENT_ID`/`SPOTIFY_CLIENT_SECRET` pair or a fresh OAuth run. The Sam
-package correctly keeps `gap.state_instance.braydon_personal.connector.personal.spotify.freshness_stale`.
+package correctly keeps `gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale`.
 
 ## Commands Run
 
@@ -76,14 +76,14 @@ Regenerated Caroline read model and package:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
-  --state-root /Users/braydon/projects/work/lfw/state-system \
+  --project-root /path/to/state-system \
+  --state-root /path/to/state-system-runtime \
   instance-understanding-surface-read \
-  --output-dir /Users/braydon/projects/work/lfw/state-system/instance-understanding
+  --output-dir /path/to/state-system-runtime/instance-understanding
 
 PYTHONDONTWRITEBYTECODE=1 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
-  --state-root /Users/braydon/projects/work/lfw/state-system \
+  --project-root /path/to/state-system \
+  --state-root /path/to/state-system-runtime \
   instance-agent-package-build \
   --instance-ref state_instance.lfw \
   --agent-ref agent.caroline \
@@ -92,10 +92,10 @@ PYTHONDONTWRITEBYTECODE=1 python3 -m state_system.cli \
   --package-id instance_agent_package.lfw.caroline
 
 PYTHONDONTWRITEBYTECODE=1 python3 -m state_system.cli \
-  --project-root /Users/braydon/projects/experiments/state-system \
-  --state-root /Users/braydon/projects/work/lfw/state-system \
+  --project-root /path/to/state-system \
+  --state-root /path/to/state-system-runtime \
   instance-agent-package-export \
-  --output-dir /Users/braydon/projects/work/lfw/state-system/instance-agent-package
+  --output-dir /path/to/state-system-runtime/instance-agent-package
 ```
 
 ## Next Commands
@@ -115,7 +115,7 @@ Transcript pipeline:
 
 ```bash
 # In the LFW source runtime:
-# 1. Build or refresh raw transcript ingest for /Users/braydon/projects/work/lfw/transcripts.
+# 1. Build or refresh raw transcript ingest for /path/to/acme-operations/transcripts.
 # 2. Emit index.lfw.transcripts.raw readiness.
 # 3. Build processed transcript read model.
 # 4. Emit index.lfw.transcripts.processed readiness and freshness watermark.

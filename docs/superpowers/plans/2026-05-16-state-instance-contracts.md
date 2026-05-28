@@ -15,7 +15,7 @@
 **Files:**
 - Create: `schemas/state-instance.schema.json`
 - Create: `examples/instances/state-instance-lfw.json`
-- Create: `examples/instances/state-instance-braydon-personal.json`
+- Create: `examples/instances/state-instance-acme-ops.json`
 - Modify: `state_system/contracts.py`
 - Test: `tests/test_state_instance_contract.py`
 
@@ -43,7 +43,7 @@ class StateInstanceContractTests(unittest.TestCase):
 
         for filename in (
             "state-instance-lfw.json",
-            "state-instance-braydon-personal.json",
+            "state-instance-acme-ops.json",
         ):
             with self.subTest(filename=filename):
                 instance = _load_json(ROOT / "examples/instances" / filename)
@@ -52,11 +52,11 @@ class StateInstanceContractTests(unittest.TestCase):
 
     def test_personal_instance_uses_entity_not_company_ref(self):
         instance = _load_json(
-            ROOT / "examples/instances/state-instance-braydon-personal.json"
+            ROOT / "examples/instances/state-instance-acme-ops.json"
         )
 
-        self.assertEqual("state_instance.braydon_personal", instance["instance_ref"])
-        self.assertEqual("entity.braydon", instance["primary_entity_ref"])
+        self.assertEqual("state_instance.acme_ops", instance["instance_ref"])
+        self.assertEqual("entity.acme_user", instance["primary_entity_ref"])
         self.assertEqual("person", instance["entity_kind"])
         self.assertNotIn("company_ref", instance)
 
@@ -142,7 +142,7 @@ Create `examples/instances/state-instance-lfw.json`:
   "instance_ref": "state_instance.lfw",
   "kind": "company",
   "display_name": "Lightforge Works State",
-  "runtime_root": "/Users/braydon/projects/work/lfw/state-system",
+  "runtime_root": "/path/to/state-system-runtime",
   "primary_entity_ref": "entity.lfw",
   "entity_kind": "company",
   "governance_refs": [
@@ -156,19 +156,19 @@ Create `examples/instances/state-instance-lfw.json`:
 }
 ```
 
-Create `examples/instances/state-instance-braydon-personal.json`:
+Create `examples/instances/state-instance-acme-ops.json`:
 
 ```json
 {
-  "id": "state_instance.braydon_personal",
-  "instance_ref": "state_instance.braydon_personal",
+  "id": "state_instance.acme_ops",
+  "instance_ref": "state_instance.acme_ops",
   "kind": "personal",
-  "display_name": "Braydon Personal State",
-  "runtime_root": "/Users/braydon/projects/personal/b-state",
-  "primary_entity_ref": "entity.braydon",
+  "display_name": "Acme User Personal State",
+  "runtime_root": "/path/to/personal-state",
+  "primary_entity_ref": "entity.acme_user",
   "entity_kind": "person",
   "governance_refs": [
-    "governance.braydon.personal_default"
+    "governance.acme_user.personal_default"
   ],
   "sensitivity_default": "private",
   "federates_with": [
@@ -200,7 +200,7 @@ Expected: pass.
 
 **Files:**
 - Create: `schemas/instance-capability-pack.schema.json`
-- Create: `examples/instance-capability/instance-braydon-personal.json`
+- Create: `examples/instance-capability/instance-acme-ops.json`
 - Create: `examples/instance-capability/instance-lfw.json`
 - Test: `tests/test_instance_capability_pack.py`
 
@@ -226,7 +226,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         schema = _load_json(ROOT / "schemas/instance-capability-pack.schema.json")
         validator = Draft202012Validator(schema)
 
-        for filename in ("instance-braydon-personal.json", "instance-lfw.json"):
+        for filename in ("instance-acme-ops.json", "instance-lfw.json"):
             with self.subTest(filename=filename):
                 pack = _load_json(ROOT / "examples/instance-capability" / filename)
                 errors = sorted(validator.iter_errors(pack), key=str)
@@ -234,7 +234,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
 
     def test_personal_pack_declares_workboard_agentmem_relationships_and_federated_work_instances(self):
         pack = _load_json(
-            ROOT / "examples/instance-capability/instance-braydon-personal.json"
+            ROOT / "examples/instance-capability/instance-acme-ops.json"
         )
 
         connector_types = {connector["connector_type"] for connector in pack["source_connectors"]}
@@ -242,13 +242,13 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertIn("agentmem", connector_types)
         self.assertIn("relationship_substrate", connector_types)
         self.assertIn("state_system_instance", connector_types)
-        self.assertEqual("entity.braydon", pack["primary_entity_ref"])
+        self.assertEqual("entity.acme_user", pack["primary_entity_ref"])
         self.assertEqual("person", pack["entity_kind"])
         self.assertNotIn("company_ref", pack)
 
     def test_index_scopes_include_federated_vector_taxonomy(self):
         pack = _load_json(
-            ROOT / "examples/instance-capability/instance-braydon-personal.json"
+            ROOT / "examples/instance-capability/instance-acme-ops.json"
         )
         scopes = {manifest["scope"] for manifest in pack["index_manifests"]}
 
@@ -509,7 +509,7 @@ Add `tests/test_instance_capability_runtime.py` with a test that seeds the LFW a
 
 ```python
 self.assertEqual(
-    ["state_instance.braydon_personal", "state_instance.lfw"],
+    ["state_instance.acme_ops", "state_instance.lfw"],
     [instance["instance_ref"] for instance in read_model["instances"]],
 )
 self.assertIn("index.personal.agentmem.memory", read_model["index_refs"])
@@ -649,7 +649,7 @@ def _instance_summary(pack: JsonObject) -> JsonObject:
 Add an `instance_capabilities` store path to `StateStoreBundle` using the existing store pattern. Add CLI commands mirroring company capability seed/read:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /tmp/state-instance instance-capability-seed examples/instance-capability/instance-lfw.json examples/instance-capability/instance-braydon-personal.json
+python3 -m state_system.cli --project-root . --state-root /tmp/state-instance instance-capability-seed examples/instance-capability/instance-lfw.json examples/instance-capability/instance-acme-ops.json
 python3 -m state_system.cli --project-root . --state-root /tmp/state-instance instance-capability-read --output-dir /tmp/state-instance-read
 ```
 
@@ -676,7 +676,7 @@ Write tests proving the generic surface:
 
 ```python
 self.assertEqual("instance_understanding_surface_read_model", read_model["id"])
-self.assertEqual(["state_instance.braydon_personal"], [i["instance_ref"] for i in read_model["instances"]])
+self.assertEqual(["state_instance.acme_ops"], [i["instance_ref"] for i in read_model["instances"]])
 self.assertIn("index.personal.agentmem.memory", read_model["index_refs"])
 self.assertIn("index.personal.relationship_substrate.network", read_model["index_refs"])
 self.assertIn("state-system-instance:state_instance.lfw", read_model["source_gap_refs"])
@@ -713,7 +713,7 @@ Expected: pass.
 ### Task 5: Personal b-state Baseline
 
 **Files:**
-- Create runtime root: `/Users/braydon/projects/personal/b-state`
+- Create runtime root: `/path/to/personal-state`
 - Create runtime artifacts through CLI only
 - Test: CLI smoke commands
 
@@ -722,7 +722,7 @@ Expected: pass.
 Run:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-capability-seed examples/instance-capability/instance-braydon-personal.json
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-capability-seed examples/instance-capability/instance-acme-ops.json
 ```
 
 Expected: creates the personal instance capability record under the deployed root.
@@ -732,27 +732,27 @@ Expected: creates the personal instance capability record under the deployed roo
 Run:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-capability-read --output-dir /Users/braydon/projects/personal/b-state/instance-capability
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-capability-read --output-dir /path/to/personal-state/instance-capability
 ```
 
-Expected: writes `/Users/braydon/projects/personal/b-state/instance-capability/instance-capability-read-model.json`.
+Expected: writes `/path/to/personal-state/instance-capability/instance-capability-read-model.json`.
 
 - [ ] **Step 3: Generate the personal understanding surface**
 
 Run:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-understanding-surface-read --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-understanding-surface-read --output-dir /path/to/personal-state/instance-understanding
 ```
 
-Expected: writes `/Users/braydon/projects/personal/b-state/instance-understanding/instance-understanding-surface-read-model.json`.
+Expected: writes `/path/to/personal-state/instance-understanding/instance-understanding-surface-read-model.json`.
 
 - [ ] **Step 4: Verify no raw corpus duplication**
 
 Run:
 
 ```bash
-find /Users/braydon/projects/personal/b-state -maxdepth 3 -type f | sort
+find /path/to/personal-state -maxdepth 3 -type f | sort
 ```
 
 Expected: only State System records/read models are present; no msgvault email corpus, agentmem database, relationship-substrate database, or copied work instance corpus.

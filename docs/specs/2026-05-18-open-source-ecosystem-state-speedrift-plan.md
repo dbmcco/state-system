@@ -5,7 +5,7 @@ Date: 2026-05-18
 ## Objective
 
 Move State System from working private deployments toward an open-source,
-CLI-ready, agent-facing package layer that works across Braydon's live
+CLI-ready, agent-facing package layer that works across Acme User's live
 ecosystem: b-state, LFW, Navicyte, Synthyra, and reusable Relationship
 Substrate.
 
@@ -31,7 +31,7 @@ b-state and LFW have proven the contract shape:
   Substrate, subject notes, workboard, msgvault, agentmem, local path, and LFW
   federation.
 - LFW exposes Caroline's package with company state first and a governed
-  federated relationship route into Braydon personal relationship evidence.
+  federated relationship route into Acme User personal relationship evidence.
 - Relationship Substrate owns people, organizations, affiliations,
   interactions, and subject notes. State System declares/federates the module;
   it must not become a second relationship data store.
@@ -89,7 +89,7 @@ Deliver:
 - Garmin Connect remains ready/fresh with typed local-sync status;
 - relationship routes answer real questions from Relationship Substrate,
   msgvault, agentmem, workboard, and LFW federation;
-- `/Users/braydon/projects/personal/b-state` gets repo-local agent guidance if
+- `/path/to/personal-state` gets repo-local agent guidance if
   missing or stale.
 
 ### 4. LFW Daily-Use Readiness

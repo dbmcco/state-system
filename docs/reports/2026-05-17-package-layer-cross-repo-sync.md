@@ -11,7 +11,7 @@ deployed b-state and LFW runtime artifacts.
 
 - Schema: `schemas/instance-agent-package.schema.json`
 - Generic examples:
-  - `examples/instance-agent-package/instance-agent-package-braydon-personal-samantha.json`
+  - `examples/instance-agent-package/instance-agent-package-acme-ops-samantha.json`
   - `examples/instance-agent-package/instance-agent-package-lfw-caroline.json`
 - CLI commands:
   - `instance-agent-package-build`
@@ -24,20 +24,20 @@ deployed b-state and LFW runtime artifacts.
 b-state:
 
 - Package JSON:
-  `/Users/braydon/projects/personal/b-state/state/instance-agent-packages/instance_agent_package.braydon_personal.samantha.json`
+  `/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json`
 - Package read model:
-  `/Users/braydon/projects/personal/b-state/instance-agent-package/instance-agent-packages-read-model.json`
+  `/path/to/personal-state/instance-agent-package/instance-agent-packages-read-model.json`
 - Instance understanding:
-  `/Users/braydon/projects/personal/b-state/instance-understanding/instance-understanding-surface-read-model.json`
+  `/path/to/personal-state/instance-understanding/instance-understanding-surface-read-model.json`
 
 LFW:
 
 - Package JSON:
-  `/Users/braydon/projects/work/lfw/state-system/state/instance-agent-packages/instance_agent_package.lfw.caroline.json`
+  `/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json`
 - Package read model:
-  `/Users/braydon/projects/work/lfw/state-system/instance-agent-package/instance-agent-packages-read-model.json`
+  `/path/to/state-system-runtime/instance-agent-package/instance-agent-packages-read-model.json`
 - Instance understanding:
-  `/Users/braydon/projects/work/lfw/state-system/instance-understanding/instance-understanding-surface-read-model.json`
+  `/path/to/state-system-runtime/instance-understanding/instance-understanding-surface-read-model.json`
 
 ## North-Star Alignment
 
@@ -72,8 +72,8 @@ Commands run:
 ```bash
 python3 -m unittest discover -s tests
 python3 -m state_system.cli --project-root . validate
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-agent-package-render instance_agent_package.braydon_personal.samantha
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system instance-agent-package-render instance_agent_package.lfw.caroline
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-agent-package-render instance_agent_package.acme_ops.samantha
+python3 -m state_system.cli --project-root . --state-root /path/to/state-system-runtime instance-agent-package-render instance_agent_package.lfw.caroline
 ```
 
 Results:

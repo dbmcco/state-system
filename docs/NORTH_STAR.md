@@ -15,7 +15,7 @@ State System has two separable forms:
 - the **State System product repo**, which defines schemas, contracts, runtime
   code, migrations, and documentation
 - a **deployed State System instance**, such as
-  `/Users/braydon/projects/work/lfw/state-system`, which holds a company's
+  `/path/to/state-system-runtime`, which holds a company's
   actual runtime state, read models, freshness evidence, index manifests,
   database configuration, and operational artifacts
 
@@ -31,7 +31,7 @@ those as defaults. Source-specific connectors are admissible only as explicit
 capability-pack declarations with preflight, freshness, index ownership, and
 governance status visible before any model treats them as usable evidence.
 Personal relationship indexes follow the same rule. A company instance such as
-LFW may use Braydon's long-history relationship evidence only through an
+LFW may use Acme User's long-history relationship evidence only through an
 explicit governed federated query route; it must not copy raw personal
 relationship records or silently treat personal sources as company sources.
 
@@ -144,6 +144,34 @@ How does this affect the broader organization?
 
 And receive an answer that is current, grounded, scoped, inspectable, and shaped
 by the right persona.
+
+The product repo now exposes a deterministic read surface for this question set:
+
+```bash
+python3 -m state_system.cli --project-root . north-star-answer \
+  --query "What is the current state?" \
+  --package personal=examples/instance-agent-package/instance-agent-package-acme-ops-samantha.json \
+  --output-dir /tmp/state-system-north-star
+```
+
+The generated `north-star-answer.json` is not the model's final prose answer.
+It is the grounded substrate a model or UI can use to answer the North Star
+questions: current state, why, recent changes, evidence, uncertainty,
+responsibility, next actions, and broader federation effects. It preserves the
+product/instance boundary by summarizing package evidence and gaps without
+copying raw source corpora or authorizing execution.
+
+For a deterministic human-readable view of the same substrate:
+
+```bash
+python3 -m state_system.cli --project-root . north-star-answer-render \
+  /tmp/state-system-north-star/north-star-answer.json \
+  --check \
+  --output-path /tmp/state-system-north-star/north-star-answer.txt
+```
+
+`--check` validates the JSON schema and renderer invariants before writing text.
+The renderer does not fetch sources, authorize actions, or hide uncertainty.
 
 State System is not a task tracker, CRM, notes app, memory store, onboarding app,
 or agent framework by itself. It is the missing state layer between those systems:

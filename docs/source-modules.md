@@ -116,7 +116,7 @@ Run it with package JSON files:
 
 ```bash
 python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json \
-  --package instance_agent_package.braydon_personal.samantha=/path/to/instance_agent_package.braydon_personal.samantha.json \
+  --package instance_agent_package.acme_ops.samantha=/path/to/instance_agent_package.acme_ops.samantha.json \
   --package instance_agent_package.lfw.caroline=/path/to/instance_agent_package.lfw.caroline.json
 ```
 

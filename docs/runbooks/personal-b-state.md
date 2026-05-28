@@ -1,8 +1,8 @@
 # Personal b-state Runbook
 
-Operational runbook for Braydon's personal State System instance
-(`state_instance.braydon_personal`, runtime root
-`/Users/braydon/projects/personal/b-state`).
+Operational runbook for Acme User's personal State System instance
+(`state_instance.acme_ops`, runtime root
+`/path/to/personal-state`).
 
 This document is operator-facing. It is not a design spec. For why the instance
 exists and how it differs from a company instance, read `docs/NORTH_STAR.md` and
@@ -10,15 +10,15 @@ exists and how it differs from a company instance, read `docs/NORTH_STAR.md` and
 
 ## What This Instance Is
 
-`state_instance.braydon_personal` is one deployed State System instance. The
+`state_instance.acme_ops` is one deployed State System instance. The
 product repo (this repo, `experiments/state-system`) ships schemas, contracts,
 and CLI; the personal instance owns the runtime artifacts under
-`/Users/braydon/projects/personal/b-state`. Nothing in this runbook should be
+`/path/to/personal-state`. Nothing in this runbook should be
 read as company state, and nothing in a company runbook should be read as
 personal state.
 
 The declared capability pack lives in
-`examples/instance-capability/instance-braydon-personal.json` and is what every
+`examples/instance-capability/instance-acme-ops.json` and is what every
 command below resolves against.
 
 ## Vector Stores: Source-Owned Indexes Plus Catalog
@@ -60,7 +60,7 @@ Each declared connector is owned by another system. The personal instance
 federates; it does not absorb.
 
 - **`connector.personal.folio` (folio)** — Folio at
-  `/Users/braydon/projects/experiments/folio` owns notes, daily entries, and its
+  `/path/to/folio` owns notes, daily entries, and its
   pgvector corpus. b-state preflight only checks that the folio root exists
   (`local_path` mechanical check); reads happen through `tool.paia.folio.search`
   or the `folio` CLI. Do not write to folio from b-state code paths.
@@ -69,8 +69,8 @@ federates; it does not absorb.
   b-state records freshness only; it never ingests messages. Treat msgvault as
   read-only. Live search uses the `msgvault` MCP server or the CLI documented in
   `experiments/CLAUDE.md`.
-- **`connector.personal.agentmem` (agentmem)** — agentmem owns Braydon's
-  personal agent memory (`agentmem:tenant:braydon`). b-state cites agentmem
+- **`connector.personal.agentmem` (agentmem)** — agentmem owns Acme User's
+  personal agent memory (`agentmem:tenant:acme_user`). b-state cites agentmem
   evidence; it does not store agent memory. Promotion of agent memory into
   durable shared state happens through governed proposals, not by copying memory
   rows.
@@ -94,13 +94,13 @@ federates; it does not absorb.
   corrections and interpret returned subject notes as context-specific
   relationship evidence, not canonical profile facts or broad hidden filters.
 - **`connector.personal.lfw_state_system` (state_system_instance)** — The LFW
-  work instance at `/Users/braydon/projects/work/lfw/state-system` is itself a
+  work instance at `/path/to/state-system-runtime` is itself a
   State System instance. b-state may read its interpreted state (e.g. an
   operating picture) subject to `governance.lfw.read_summary`. Cross-instance
   reads must preserve the source instance's governance. b-state does not
   inherit LFW connectors or LFW-only freshness rules.
 - **`connector.personal.projects` (local_path)** — Bounded read surface over
-  `/Users/braydon/projects/personal`. Used for project-root metadata only.
+  `/path/to/user/projects/personal`. Used for project-root metadata only.
 - **`connector.personal.garmin_connect` (garmin_connect)** — Declared through
   the governed local Garmin Postgres sync. Freshness records carry the latest
   source watermark; do not copy raw activity data into b-state.
@@ -112,8 +112,8 @@ federates; it does not absorb.
 ## Refresh Commands
 
 All commands below are run from this repo
-(`/Users/braydon/projects/experiments/state-system`) and target the personal
-runtime root with `--state-root /Users/braydon/projects/personal/b-state`.
+(`/path/to/state-system`) and target the personal
+runtime root with `--state-root /path/to/personal-state`.
 
 Replace timestamps with the current UTC time; `--stale-after` is typically 15
 minutes to 1 hour after `--checked-at`.
@@ -124,26 +124,26 @@ Record a preflight result for a connector:
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-preflight-record \
-  --preflight-ref preflight.state_instance.braydon_personal.connector.personal.folio \
-  --instance-ref state_instance.braydon_personal \
+  --preflight-ref preflight.state_instance.acme_ops.connector.personal.folio \
+  --instance-ref state_instance.acme_ops \
   --connector-ref connector.personal.folio \
   --source-ref folio:tenant:personal \
   --connector-type folio \
   --status passed \
   --checked-at 2026-05-17T10:25:00Z \
   --stale-after 2026-05-17T10:40:00Z \
-  --evidence-ref local-path:/Users/braydon/projects/experiments/folio
+  --evidence-ref local-path:/path/to/folio
 ```
 
 Run the non-destructive preflight runner across declared connectors:
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-preflight-run \
-  --instance-ref state_instance.braydon_personal \
+  --instance-ref state_instance.acme_ops \
   --checked-at 2026-05-17T10:25:00Z \
   --stale-after 2026-05-17T10:40:00Z
 ```
@@ -159,9 +159,9 @@ access gap.
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-source-freshness-record \
-  --instance-ref state_instance.braydon_personal \
+  --instance-ref state_instance.acme_ops \
   --connector-ref connector.personal.msgvault \
   --source-ref msgvault:tenant:personal-email \
   --connector-type msgvault \
@@ -183,14 +183,14 @@ surface can show "which raw index is behind this evidence".
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-preflight-export \
-  --output-dir /Users/braydon/projects/personal/b-state/instance-preflight
+  --output-dir /path/to/personal-state/instance-preflight
 
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-source-freshness-export \
-  --output-dir /Users/braydon/projects/personal/b-state/instance-source-freshness
+  --output-dir /path/to/personal-state/instance-source-freshness
 ```
 
 ## Read Commands
@@ -202,9 +202,9 @@ federation, and index metadata:
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-understanding-surface-read \
-  --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+  --output-dir /path/to/personal-state/instance-understanding
 ```
 
 Output: `instance-understanding/instance-understanding-surface-read-model.json`.
@@ -215,9 +215,9 @@ Build a persona-bounded package over the instance:
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-agent-package-build \
-  --instance-ref state_instance.braydon_personal \
+  --instance-ref state_instance.acme_ops \
   --agent-ref persona.samantha \
   --created-at 2026-05-17T11:00:00Z \
   --review-goal "Surface current personal commitments and open loops."
@@ -227,21 +227,21 @@ Then export or render:
 
 ```bash
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-agent-package-export \
-  --output-dir /Users/braydon/projects/personal/b-state/instance-agent-package
+  --output-dir /path/to/personal-state/instance-agent-package
 
 python3 -m state_system.cli --project-root . \
-  --state-root /Users/braydon/projects/personal/b-state \
+  --state-root /path/to/personal-state \
   instance-agent-package-render <package_id>
 ```
 
 ## Output Locations
 
-Runtime artifacts live under `/Users/braydon/projects/personal/b-state`:
+Runtime artifacts live under `/path/to/personal-state`:
 
 ```
-/Users/braydon/projects/personal/b-state
+/path/to/personal-state
 ├── state/                                  # File-backed stores (instance-capabilities, instance-preflight-results, instance-source-freshness, instance-agent-packages)
 ├── instance-capability/                    # instance-capability-read-model.json
 ├── instance-preflight/                     # instance-preflight-results-read-model.json
@@ -260,29 +260,29 @@ After a refresh cycle, confirm each acceptance gate:
 1. **Capability pack present**
 
    ```bash
-   jq '.instances[] | select(.instance_ref=="state_instance.braydon_personal") | {id, source_connectors: (.source_connectors|length), index_manifests: (.index_manifests|length)}' \
-     /Users/braydon/projects/personal/b-state/instance-capability/instance-capability-read-model.json
+   jq '.instances[] | select(.instance_ref=="state_instance.acme_ops") | {id, source_connectors: (.source_connectors|length), index_manifests: (.index_manifests|length)}' \
+     /path/to/personal-state/instance-capability/instance-capability-read-model.json
    ```
 
 2. **Preflight has at least one `passed` connector**
 
    ```bash
-   jq '.results[] | select(.instance_ref=="state_instance.braydon_personal") | {connector_ref, status, proves_live_access}' \
-     /Users/braydon/projects/personal/b-state/instance-preflight/instance-preflight-results-read-model.json
+   jq '.results[] | select(.instance_ref=="state_instance.acme_ops") | {connector_ref, status, proves_live_access}' \
+     /path/to/personal-state/instance-preflight/instance-preflight-results-read-model.json
    ```
 
 3. **Freshness records cite an index_ref**
 
    ```bash
    jq '.records[] | {connector_ref, status, index_refs}' \
-     /Users/braydon/projects/personal/b-state/instance-source-freshness/instance-source-freshness-read-model.json
+     /path/to/personal-state/instance-source-freshness/instance-source-freshness-read-model.json
    ```
 
 4. **Understanding surface joins them**
 
    ```bash
    jq '.connectors[] | {connector_ref, preflight_status: .preflight.status, freshness_status: .freshness.status}' \
-     /Users/braydon/projects/personal/b-state/instance-understanding/instance-understanding-surface-read-model.json
+     /path/to/personal-state/instance-understanding/instance-understanding-surface-read-model.json
    ```
 
 5. **Smoke tests pass for the instance surfaces**
@@ -307,7 +307,7 @@ After a refresh cycle, confirm each acceptance gate:
   fabricate a `fresh` watermark.
 - **Understanding surface missing a connector.** It is filtered to the
   capability pack. If a connector is missing, edit
-  `examples/instance-capability/instance-braydon-personal.json` and reseed; do
+  `examples/instance-capability/instance-acme-ops.json` and reseed; do
   not patch the runtime store directly.
 - **Cross-instance read against LFW fails.** b-state honors LFW governance
   (`governance.lfw.read_summary`). If the LFW instance has not declared a
@@ -318,6 +318,6 @@ After a refresh cycle, confirm each acceptance gate:
   copy-not-destructive; the original path becomes a compatibility symlink to the
   new canonical root. Inspect the target path, not the legacy path.
 - **Mixing personal and work runs.** Always set
-  `--state-root /Users/braydon/projects/personal/b-state` for personal commands.
-  LFW commands target `/Users/braydon/projects/work/lfw/state-system`. Wrong
+  `--state-root /path/to/personal-state` for personal commands.
+  LFW commands target `/path/to/state-system-runtime`. Wrong
   root produces silently empty exports.
