@@ -5,15 +5,15 @@
   "status": "evidence_missing",
   "summary": "Merged PR evidence updated capability state, preserved the audit logging review commitment as an obligation, and queued operations rollup.",
   "journal_entry_refs": [
-    "journal.lfw.capability.auditable-workflows.github-merged",
-    "journal.lfw.obligation.audit-logging-before-launch.github-review"
+    "journal.acme.capability.auditable-workflows.github-merged",
+    "journal.acme.obligation.audit-logging-before-launch.github-review"
   ],
   "memory_entry_refs": [
     "memory.patrick.ops.draft.pr-review-commitments"
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
     }
   ],

@@ -1,6 +1,6 @@
 {
-  "id": "company_capability_pack.lfw",
-  "company_ref": "company.lfw",
+  "id": "company_capability_pack.acme",
+  "company_ref": "company.acme",
   "generated_at": "2026-05-14T12:00:00Z",
   "identity": {
     "name": "Lightforge Works",
@@ -14,72 +14,72 @@
   },
   "source_connectors": [
     {
-      "id": "connector.lfw.folio",
+      "id": "connector.acme.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:lfw",
+      "source_ref": "folio:tenant:acme",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.msgvault",
+      "id": "connector.acme.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:lfw-email",
+      "source_ref": "msgvault:tenant:acme-email",
       "owner": "source_system",
       "declared": true,
       "preflight_target": {
         "kind": "msgvault_search",
-        "account_ref": "msgvault:account:braydon@lightforgeworks.com",
+        "tenant_ref": "msgvault:tenant:acme-email",
         "query": "lightforgeworks",
         "limit": 1
       }
     },
     {
-      "id": "connector.lfw.drive",
+      "id": "connector.acme.drive",
       "connector_type": "gws_drive",
-      "source_ref": "gws:lfw:drive:lfw",
+      "source_ref": "gws:acme:drive:acme",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.linear",
+      "id": "connector.acme.linear",
       "connector_type": "linear",
-      "source_ref": "linear:teams:FORGE,INT",
+      "source_ref": "linear:teams:PRODUCT,ENG",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.zulip",
+      "id": "connector.acme.zulip",
       "connector_type": "zulip",
       "source_ref": "zulip:realm:lightforgeworks",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.github_org",
+      "id": "connector.acme.github_org",
       "connector_type": "repo",
       "source_ref": "github:org:LightForge-Works",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.transcripts.raw",
+      "id": "connector.acme.transcripts.raw",
       "connector_type": "local_path",
-      "source_ref": "local:/Users/braydon/projects/work/lfw/transcripts",
+      "source_ref": "local:/srv/examples/acme/transcripts",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.lfw.transcripts.processed",
+      "id": "connector.acme.transcripts.processed",
       "connector_type": "docs",
-      "source_ref": "transcripts:pipeline:lfw",
+      "source_ref": "transcripts:pipeline:acme",
       "owner": "source_system",
       "declared": true,
       "notes": "Placeholder connector only. Processed transcript pipeline health and watermarks are not proven yet."
     },
     {
-      "id": "connector.lfw.local",
+      "id": "connector.acme.local",
       "connector_type": "local_path",
-      "source_ref": "local:/Users/braydon/projects/work/lfw",
+      "source_ref": "local:/srv/examples/acme",
       "owner": "source_system",
       "declared": true
     }
@@ -87,35 +87,35 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:lfw",
-      "msgvault:tenant:lfw-email",
-      "gws:lfw:drive:lfw",
-      "linear:teams:FORGE,INT",
+      "folio:tenant:acme",
+      "msgvault:tenant:acme-email",
+      "gws:acme:drive:acme",
+      "linear:teams:PRODUCT,ENG",
       "zulip:realm:lightforgeworks",
       "github:org:LightForge-Works",
-      "local:/Users/braydon/projects/work/lfw/transcripts",
-      "transcripts:pipeline:lfw",
-      "local:/Users/braydon/projects/work/lfw"
+      "local:/srv/examples/acme/transcripts",
+      "transcripts:pipeline:acme",
+      "local:/srv/examples/acme"
     ]
   },
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:lfw",
-      "msgvault:index:lfw-email",
-      "gws:index:lfw-drive",
+      "folio:index:tenant:acme",
+      "msgvault:index:acme-email",
+      "gws:index:acme-drive",
       "linear:index:teams:FORGE,INT",
       "zulip:index:realm:lightforgeworks",
       "github:index:org:LightForge-Works",
-      "local:index:lfw-workspace",
-      "state-system:index:lfw-company-understanding",
-      "transcripts:index:lfw"
+      "local:index:acme-workspace",
+      "state-system:index:acme-company-understanding",
+      "transcripts:index:acme"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.lfw.folio.corpus",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.folio.corpus",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -125,10 +125,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:lfw"
+        "folio:tenant:acme"
       ],
       "connector_refs": [
-        "connector.lfw.folio"
+        "connector.acme.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -137,8 +137,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.msgvault.email",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.msgvault.email",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -148,10 +148,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:lfw-email"
+        "msgvault:tenant:acme-email"
       ],
       "connector_refs": [
-        "connector.lfw.msgvault"
+        "connector.acme.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -160,8 +160,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.drive.documents",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.drive.documents",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "gws_drive_native",
       "scope": "raw_source_index",
@@ -172,10 +172,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "gws:lfw:drive:lfw"
+        "gws:acme:drive:acme"
       ],
       "connector_refs": [
-        "connector.lfw.drive"
+        "connector.acme.drive"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -184,8 +184,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.linear.issues",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.linear.issues",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "linear_native",
       "scope": "raw_source_index",
@@ -196,10 +196,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "linear:teams:FORGE,INT"
+        "linear:teams:PRODUCT,ENG"
       ],
       "connector_refs": [
-        "connector.lfw.linear"
+        "connector.acme.linear"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -208,8 +208,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.zulip.messages",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.zulip.messages",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "zulip_native",
       "scope": "raw_source_index",
@@ -223,7 +223,7 @@
         "zulip:realm:lightforgeworks"
       ],
       "connector_refs": [
-        "connector.lfw.zulip"
+        "connector.acme.zulip"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -233,8 +233,8 @@
       "notes": "Read surface is live for company understanding. Durable search indexing can still be hardened later."
     },
     {
-      "index_ref": "index.lfw.github_org.repos",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.github_org.repos",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "github_native",
       "scope": "raw_source_index",
@@ -249,7 +249,7 @@
         "github:org:LightForge-Works"
       ],
       "connector_refs": [
-        "connector.lfw.github_org"
+        "connector.acme.github_org"
       ],
       "query_surface": {
         "type": "source_adapter",
@@ -259,8 +259,8 @@
       "notes": "Live repo metadata and commit activity can be read through the PAIA GitHub adapter. Durable indexing can still be hardened later."
     },
     {
-      "index_ref": "index.lfw.local.workspace",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.local.workspace",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "local_filesystem",
       "scope": "raw_source_index",
@@ -270,10 +270,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "local:/Users/braydon/projects/work/lfw"
+        "local:/srv/examples/acme"
       ],
       "connector_refs": [
-        "connector.lfw.local"
+        "connector.acme.local"
       ],
       "query_surface": {
         "type": "source_adapter",
@@ -283,8 +283,8 @@
       "notes": "Read-only local workspace inspection for LFW. Transcript/archive content remains governed by the transcript placeholder connectors until that pipeline is proven."
     },
     {
-      "index_ref": "index.lfw.transcripts.raw",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.transcripts.raw",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "local_filesystem",
       "scope": "raw_source_index",
@@ -293,10 +293,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "local:/Users/braydon/projects/work/lfw/transcripts"
+        "local:/srv/examples/acme/transcripts"
       ],
       "connector_refs": [
-        "connector.lfw.transcripts.raw"
+        "connector.acme.transcripts.raw"
       ],
       "query_surface": {
         "type": "source_adapter",
@@ -306,8 +306,8 @@
       "notes": "Placeholder only. Raw transcript files are declared as source material, but no local transcript index is live yet."
     },
     {
-      "index_ref": "index.lfw.transcripts.processed",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.transcripts.processed",
+      "company_ref": "company.acme",
       "owner": "source_system",
       "backend": "paia_meetings",
       "scope": "raw_source_index",
@@ -318,10 +318,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "transcripts:pipeline:lfw"
+        "transcripts:pipeline:acme"
       ],
       "connector_refs": [
-        "connector.lfw.transcripts.processed"
+        "connector.acme.transcripts.processed"
       ],
       "query_surface": {
         "type": "source_adapter",
@@ -331,8 +331,8 @@
       "notes": "Placeholder only. Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
     },
     {
-      "index_ref": "index.lfw.state_system.company_understanding_surface",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.state_system.company_understanding_surface",
+      "company_ref": "company.acme",
       "owner": "state_system",
       "backend": "json_read_model",
       "scope": "interpreted_state_index",
@@ -343,7 +343,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system:company.lfw"
+        "state-system:company.acme"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -354,8 +354,8 @@
       "notes": "Operational State System read model used by PAIA agents to see source readiness, gaps, and declared retrieval surfaces."
     },
     {
-      "index_ref": "index.lfw.state_system.evidence_cards",
-      "company_ref": "company.lfw",
+      "index_ref": "index.acme.state_system.evidence_cards",
+      "company_ref": "company.acme",
       "owner": "state_system",
       "backend": "state_system_interpreted_index",
       "scope": "interpreted_state_index",
@@ -366,7 +366,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system:company.lfw"
+        "state-system:company.acme"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -378,36 +378,36 @@
     }
   ],
   "company_memory_refs": [
-    "company_memory.lfw"
+    "company_memory.acme"
   ],
   "operating_picture_refs": [
-    "operating_picture.crm.lfw",
-    "operating_picture.deal.lfw"
+    "operating_picture.crm.acme",
+    "operating_picture.deal.acme"
   ],
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.lfw.read_folio",
-      "action_surface.lfw.search_msgvault",
-      "action_surface.lfw.read_drive",
-      "action_surface.lfw.read_linear",
-      "action_surface.lfw.read_zulip",
-      "action_surface.lfw.read_github",
-      "action_surface.lfw.inspect_local_workspace",
-      "action_surface.lfw.propose_crm_update"
+      "action_surface.acme.read_folio",
+      "action_surface.acme.search_msgvault",
+      "action_surface.acme.read_drive",
+      "action_surface.acme.read_linear",
+      "action_surface.acme.read_zulip",
+      "action_surface.acme.read_github",
+      "action_surface.acme.inspect_local_workspace",
+      "action_surface.acme.propose_crm_update"
     ]
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.lfw.folio.search",
-      "capability_ref": "capability.lfw.folio.search",
+      "id": "tool_binding.acme.folio.search",
+      "capability_ref": "capability.acme.folio.search",
       "tool_ref": "tool.paia.folio.search",
-      "action_ref": "action_surface.lfw.read_folio",
+      "action_ref": "action_surface.acme.read_folio",
       "connector_refs": [
-        "connector.lfw.folio"
+        "connector.acme.folio"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.folio"
+        "preflight.acme.folio"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -419,15 +419,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.msgvault.search",
-      "capability_ref": "capability.lfw.msgvault.search",
+      "id": "tool_binding.acme.msgvault.search",
+      "capability_ref": "capability.acme.msgvault.search",
       "tool_ref": "tool.paia.msgvault.search",
-      "action_ref": "action_surface.lfw.search_msgvault",
+      "action_ref": "action_surface.acme.search_msgvault",
       "connector_refs": [
-        "connector.lfw.msgvault"
+        "connector.acme.msgvault"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.msgvault"
+        "preflight.acme.msgvault"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -439,15 +439,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.drive.read",
-      "capability_ref": "capability.lfw.drive.read",
+      "id": "tool_binding.acme.drive.read",
+      "capability_ref": "capability.acme.drive.read",
       "tool_ref": "tool.paia.gws_drive.read",
-      "action_ref": "action_surface.lfw.read_drive",
+      "action_ref": "action_surface.acme.read_drive",
       "connector_refs": [
-        "connector.lfw.drive"
+        "connector.acme.drive"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.drive"
+        "preflight.acme.drive"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -459,15 +459,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.linear.read",
-      "capability_ref": "capability.lfw.linear.read",
+      "id": "tool_binding.acme.linear.read",
+      "capability_ref": "capability.acme.linear.read",
       "tool_ref": "tool.paia.linear.read",
-      "action_ref": "action_surface.lfw.read_linear",
+      "action_ref": "action_surface.acme.read_linear",
       "connector_refs": [
-        "connector.lfw.linear"
+        "connector.acme.linear"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.linear"
+        "preflight.acme.linear"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -479,15 +479,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.zulip.read",
-      "capability_ref": "capability.lfw.zulip.read",
+      "id": "tool_binding.acme.zulip.read",
+      "capability_ref": "capability.acme.zulip.read",
       "tool_ref": "tool.paia.zulip.read",
-      "action_ref": "action_surface.lfw.read_zulip",
+      "action_ref": "action_surface.acme.read_zulip",
       "connector_refs": [
-        "connector.lfw.zulip"
+        "connector.acme.zulip"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.zulip"
+        "preflight.acme.zulip"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -499,15 +499,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.github.read",
-      "capability_ref": "capability.lfw.github.read",
+      "id": "tool_binding.acme.github.read",
+      "capability_ref": "capability.acme.github.read",
       "tool_ref": "tool.paia.github.read",
-      "action_ref": "action_surface.lfw.read_github",
+      "action_ref": "action_surface.acme.read_github",
       "connector_refs": [
-        "connector.lfw.github_org"
+        "connector.acme.github_org"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.github"
+        "preflight.acme.github"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -519,15 +519,15 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.local.inspect",
-      "capability_ref": "capability.lfw.local.inspect",
+      "id": "tool_binding.acme.local.inspect",
+      "capability_ref": "capability.acme.local.inspect",
       "tool_ref": "tool.paia.local_path.inspect",
-      "action_ref": "action_surface.lfw.inspect_local_workspace",
+      "action_ref": "action_surface.acme.inspect_local_workspace",
       "connector_refs": [
-        "connector.lfw.local"
+        "connector.acme.local"
       ],
       "required_preflight_refs": [
-        "preflight.lfw.local"
+        "preflight.acme.local"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
@@ -539,14 +539,14 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.lfw.crm.propose_update",
-      "capability_ref": "capability.lfw.crm.propose_update",
+      "id": "tool_binding.acme.crm.propose_update",
+      "capability_ref": "capability.acme.crm.propose_update",
       "tool_ref": "tool.paia.crm.propose_update",
-      "action_ref": "action_surface.lfw.propose_crm_update",
+      "action_ref": "action_surface.acme.propose_crm_update",
       "connector_refs": [],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.company.lfw.crm_mutation"
+        "governance.company.acme.crm_mutation"
       ],
       "allowed_agent_refs": [
         "persona.caroline",
@@ -560,52 +560,52 @@
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
-      "governance.company.lfw.external_action",
-      "governance.company.lfw.crm_mutation"
+      "governance.company.acme.external_action",
+      "governance.company.acme.crm_mutation"
     ]
   },
   "connector_preflight": {
     "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.lfw.folio",
-        "connector_ref": "connector.lfw.folio",
-        "check": "PAIA runtime can search Folio tenant lfw.",
+        "id": "preflight.acme.folio",
+        "connector_ref": "connector.acme.folio",
+        "check": "PAIA runtime can search Folio tenant acme.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.msgvault",
-        "connector_ref": "connector.lfw.msgvault",
+        "id": "preflight.acme.msgvault",
+        "connector_ref": "connector.acme.msgvault",
         "check": "PAIA runtime can search LFW msgvault email.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.drive",
-        "connector_ref": "connector.lfw.drive",
+        "id": "preflight.acme.drive",
+        "connector_ref": "connector.acme.drive",
         "check": "PAIA runtime can read LFW Drive.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.linear",
-        "connector_ref": "connector.lfw.linear",
+        "id": "preflight.acme.linear",
+        "connector_ref": "connector.acme.linear",
         "check": "PAIA runtime can read Linear FORGE and INT teams.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.zulip",
-        "connector_ref": "connector.lfw.zulip",
+        "id": "preflight.acme.zulip",
+        "connector_ref": "connector.acme.zulip",
         "check": "PAIA runtime can read the LightForge Works Zulip realm.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.github",
-        "connector_ref": "connector.lfw.github_org",
+        "id": "preflight.acme.github",
+        "connector_ref": "connector.acme.github_org",
         "check": "PAIA runtime can read LightForge Works GitHub org repository metadata.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.lfw.local",
-        "connector_ref": "connector.lfw.local",
+        "id": "preflight.acme.local",
+        "connector_ref": "connector.acme.local",
         "check": "PAIA runtime can inspect the local LFW path when locally available.",
         "owner": "paia_runtime"
       }
@@ -623,7 +623,7 @@
     "as_of": "2026-05-14T12:00:00Z",
     "stale_after": "2026-05-21T12:00:00Z",
     "watermark_refs": [
-      "company_capability_pack.lfw@2026-05-14T12:00:00Z"
+      "company_capability_pack.acme@2026-05-14T12:00:00Z"
     ]
   },
   "lineage": {

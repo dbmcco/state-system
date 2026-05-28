@@ -6,7 +6,7 @@
     {
       "id": "package_pressure_question.sam_relationship_follow_up",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "Do I have any relationship follow up threads I should take action on?",
       "intent": "Sam must use relationship substrate, email/msgvault, work/memory context, and visible gaps instead of a calendar-only answer.",
       "assertions": {
@@ -27,15 +27,15 @@
           "requires_source_freshness_summary",
           "direct_evidence_vs_interpretation"
         ],
-        "required_federation_pack_ids": ["instance_federation_pack.personal_to_lfw_state"],
-        "required_remote_instance_refs": ["state_instance.lfw"],
-        "materialization_false_for_pack_ids": ["instance_federation_pack.personal_to_lfw_state"]
+        "required_federation_pack_ids": ["instance_federation_pack.personal_to_acme_state"],
+        "required_remote_instance_refs": ["state_instance.acme"],
+        "materialization_false_for_pack_ids": ["instance_federation_pack.personal_to_acme_state"]
       }
     },
     {
       "id": "package_pressure_question.sam_small_consulting_contacts",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "Who do I know at smaller consulting firms?",
       "intent": "Sam must use enrichment-backed Relationship Substrate search and subject notes rather than keyword-only email filtering.",
       "assertions": {
@@ -59,12 +59,12 @@
     {
       "id": "package_pressure_question.sam_spotify_currentness",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "What does Spotify show recently, and is that current?",
       "intent": "Sam must expose that Spotify is historical-cache usable but stale until live OAuth/API freshness is repaired.",
       "assertions": {
         "required_source_gap_refs": [
-          "gap.state_instance.braydon_personal.connector.personal.spotify.freshness_stale"
+          "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale"
         ],
         "required_open_question_fragments": [
           "connector.personal.spotify",
@@ -83,9 +83,9 @@
     {
       "id": "package_pressure_question.sam_paia_memory_identity_context",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "Can Sam use my PAIA conversations and facets as part of b-state?",
-      "intent": "Sam should see PAIA memory as fresh source-owned identity/context surfaces, separating Samantha continuity from Braydon owner facts and avoiding raw private facet or full-turn materialization.",
+      "intent": "Sam should see PAIA memory as fresh source-owned identity/context surfaces, separating Samantha continuity from example owner facts and avoiding raw private facet or full-turn materialization.",
       "assertions": {
         "required_source_status": [
           {
@@ -113,9 +113,9 @@
     {
       "id": "package_pressure_question.sam_blog_authored_context",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "Can Sam use my blog as part of b-state context?",
-      "intent": "Sam should see Braydon's authored blog as a distinct source-owned corpus, fresh when the local post corpus is readable, and not confuse historical posts with current preferences.",
+      "intent": "Sam should see the example person's authored blog as a distinct source-owned corpus, fresh when the local post corpus is readable, and not confuse historical posts with current preferences.",
       "assertions": {
         "required_source_status": [
           {
@@ -130,7 +130,7 @@
     {
       "id": "package_pressure_question.sam_beeper_messaging_context",
       "status": "ready",
-      "package_id": "instance_agent_package.braydon_personal.samantha",
+      "package_id": "instance_agent_package.acme_ops.samantha",
       "question": "Can Sam use my Beeper iMessage and WhatsApp context?",
       "intent": "Sam should see Beeper-backed iMessage and WhatsApp as source-owned private messaging surfaces with freshness evidence and no raw chat materialization.",
       "assertions": {
@@ -153,64 +153,64 @@
       }
     },
     {
-      "id": "package_pressure_question.caroline_lfw_relationship_follow_up",
+      "id": "package_pressure_question.caroline_acme_relationship_follow_up",
       "status": "ready",
-      "package_id": "instance_agent_package.lfw.caroline",
+      "package_id": "instance_agent_package.acme.caroline",
       "question": "What LFW relationship or BD follow-ups need attention?",
       "intent": "Caroline must use LFW state first and the governed personal relationship federation route only as a no-materialization query boundary.",
       "assertions": {
         "required_route_ids": [
-          "question_route.lfw.relationship_follow_up_triage",
-          "question_route.lfw.federated_relationship_index"
+          "question_route.acme.relationship_follow_up_triage",
+          "question_route.acme.federated_relationship_index"
         ],
         "required_source_coverage_refs": [
-          "coverage.lfw.company_follow_up",
-          "coverage.lfw.federated_relationship_context"
+          "coverage.acme.company_follow_up",
+          "coverage.acme.federated_relationship_context"
         ],
         "required_tool_action_refs": [
           "tool_action.relationship_substrate.search_small_consulting_firm_contacts"
         ],
         "required_federation_pack_ids": [
-          "instance_federation_pack.lfw_to_personal_relationship_substrate"
+          "instance_federation_pack.acme_to_personal_relationship_substrate"
         ],
-        "required_remote_instance_refs": ["state_instance.braydon_personal"],
+        "required_remote_instance_refs": ["state_instance.acme_ops"],
         "materialization_false_for_pack_ids": [
-          "instance_federation_pack.lfw_to_personal_relationship_substrate"
+          "instance_federation_pack.acme_to_personal_relationship_substrate"
         ]
       }
     },
     {
-      "id": "package_pressure_question.caroline_lfw_stale_source_awareness",
+      "id": "package_pressure_question.caroline_acme_stale_source_awareness",
       "status": "planned",
-      "package_id": "instance_agent_package.lfw.caroline",
+      "package_id": "instance_agent_package.acme.caroline",
       "question": "What is Caroline missing or caveating because Linear, GitHub, or transcripts have freshness or pipeline limits?",
       "intent": "Caroline should expose current Linear/GitHub freshness when source-owned watermarks prove it and keep transcript pipeline gaps visible while transcripts remain planned.",
       "assertions": {
         "required_source_gap_refs": [
-          "gap.state_instance.lfw.connector.lfw.transcripts.raw.index_planned",
-          "gap.state_instance.lfw.connector.lfw.transcripts.processed.index_planned"
+          "gap.state_instance.acme.connector.acme.transcripts.raw.index_planned",
+          "gap.state_instance.acme.connector.acme.transcripts.processed.index_planned"
         ],
         "required_source_status": [
           {
-            "connector_ref": "connector.lfw.linear",
+            "connector_ref": "connector.acme.linear",
             "access_status": "passed",
             "freshness_status": "fresh",
             "understanding_status": "ready"
           },
           {
-            "connector_ref": "connector.lfw.github_org",
+            "connector_ref": "connector.acme.github_org",
             "access_status": "passed",
             "freshness_status": "fresh",
             "understanding_status": "ready"
           },
           {
-            "connector_ref": "connector.lfw.transcripts.raw",
+            "connector_ref": "connector.acme.transcripts.raw",
             "access_status": "planned",
             "freshness_status": "fresh",
             "understanding_status": "planned"
           },
           {
-            "connector_ref": "connector.lfw.transcripts.processed",
+            "connector_ref": "connector.acme.transcripts.processed",
             "access_status": "planned",
             "freshness_status": "unknown",
             "understanding_status": "planned"
@@ -226,10 +226,10 @@
       "intent": "Helena should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
       "assertions": {
         "required_federation_pack_ids": [
-          "instance_federation_pack.portfolio_to_navicyte_synthyra"
+          "instance_federation_pack.portfolio_to_demo_co_examplecorp"
         ],
         "materialization_false_for_pack_ids": [
-          "instance_federation_pack.portfolio_to_navicyte_synthyra"
+          "instance_federation_pack.portfolio_to_demo_co_examplecorp"
         ],
         "required_open_question_fragments": ["connector.navicyte"]
       }
@@ -242,10 +242,10 @@
       "intent": "Ingrid should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
       "assertions": {
         "required_federation_pack_ids": [
-          "instance_federation_pack.portfolio_to_navicyte_synthyra"
+          "instance_federation_pack.portfolio_to_demo_co_examplecorp"
         ],
         "materialization_false_for_pack_ids": [
-          "instance_federation_pack.portfolio_to_navicyte_synthyra"
+          "instance_federation_pack.portfolio_to_demo_co_examplecorp"
         ],
         "required_open_question_fragments": ["connector.synthyra"]
       }

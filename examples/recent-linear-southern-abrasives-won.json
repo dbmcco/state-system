@@ -15,12 +15,12 @@
     "trigger.linear.southern-abrasives-won"
   ],
   "affected_state_refs": [
-    "state.lfw.deal.southern-abrasives",
-    "state.lfw.operating_picture.ops",
+    "state.acme.deal.southern-abrasives",
+    "state.acme.operating_picture.ops",
     "state.operating_picture.marketing"
   ],
   "journal_entry_refs": [
-    "journal.lfw.deal.southern-abrasives.won"
+    "journal.acme.deal.southern-abrasives.won"
   ],
   "commit_refs": [
     "commit.linear.southern-abrasives-won"
@@ -62,7 +62,7 @@
   ],
   "freshness": {
     "watermark_refs": [
-      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
       "governance.external-copy-approval"
     ],
     "stale_after": "2026-04-29T16:07:30Z",

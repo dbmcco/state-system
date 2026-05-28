@@ -3,7 +3,7 @@
   "package_type": "crm_outcome_learning_package",
   "created_at": "2026-05-04T17:01:00Z",
   "persona_context": {
-    "persona_ref": "app.lfw-ai-graph-crm",
+    "persona_ref": "app.acme-ai-graph-crm",
     "summary": "CRM packages relationship outcomes as evidence for shared prospecting and outreach doctrine without writing app-local rules.",
     "watched_domains": [
       "relationship",
@@ -24,7 +24,7 @@
         "id": "source.crm.relationship-outcome.006",
         "summary": "CRM outcome shows Streamlinear became valuable through a referral path.",
         "persona_route": [
-          "app.lfw-ai-graph-crm",
+          "app.acme-ai-graph-crm",
           "app.prospect-researcher",
           "app.outreach-engine",
           "persona.laura"

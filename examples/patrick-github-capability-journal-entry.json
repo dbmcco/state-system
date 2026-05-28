@@ -1,6 +1,6 @@
 {
-  "id": "journal.lfw.capability.auditable-workflows.github-merged",
-  "state_object_id": "state.lfw.capability.auditable-workflows",
+  "id": "journal.acme.capability.auditable-workflows.github-merged",
+  "state_object_id": "state.acme.capability.auditable-workflows",
   "created_at": "2026-04-28T15:16:00Z",
   "actor_ref": "persona.patrick",
   "source": "agent_reasoning",
@@ -25,9 +25,9 @@
     ]
   },
   "evidence_refs": [
-    "github:pr:lightforge/lfw-ai-graph-crm#142",
-    "github:commit:lightforge/lfw-ai-graph-crm@abc1234",
-    "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765"
+    "github:pr:lightforge/acme-ai-graph-crm#142",
+    "github:commit:lightforge/acme-ai-graph-crm@abc1234",
+    "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765"
   ],
   "uncertainty": [
     "The merge proves implementation work landed, not launch readiness.",
@@ -36,7 +36,7 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
     }
   ],

@@ -1,6 +1,6 @@
 {
-  "id": "journal.lfw.obligation.audit-logging-before-launch.github-review",
-  "state_object_id": "state.lfw.obligation.audit-logging-before-launch",
+  "id": "journal.acme.obligation.audit-logging-before-launch.github-review",
+  "state_object_id": "state.acme.obligation.audit-logging-before-launch",
   "created_at": "2026-04-28T15:16:00Z",
   "actor_ref": "persona.patrick",
   "source": "agent_reasoning",
@@ -25,8 +25,8 @@
     ]
   },
   "evidence_refs": [
-    "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765",
-    "github:pr:lightforge/lfw-ai-graph-crm#142"
+    "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
+    "github:pr:lightforge/acme-ai-graph-crm#142"
   ],
   "uncertainty": [
     "The comment may represent a launch blocker or a strong recommendation; human or Workgraph evidence must clarify.",
@@ -34,7 +34,7 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
     }
   ],

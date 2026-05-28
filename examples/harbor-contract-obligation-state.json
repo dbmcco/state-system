@@ -1,10 +1,10 @@
 {
-  "id": "state.lfw.contract.harbor",
+  "id": "state.acme.contract.harbor",
   "type": "obligation",
   "primary_family": "work",
   "secondary_families": ["governance", "relationship", "operating"],
   "state_traits": ["dynamic"],
-  "scope": "organization.lfw.contracts.harbor",
+  "scope": "organization.acme.contracts.harbor",
   "owner_refs": ["persona.patrick"],
   "as_of": "2026-04-28T14:05:00Z",
   "summary": "Harbor appears to have an active or recently active contract obligation, but the current owner, stage, next action, and retained Drive source are not explicit in State System fixtures.",
@@ -43,11 +43,11 @@
     }
   ],
   "evidence_refs": [
-    "lfw-process/pipeline/ops-manager-operating-model.md"
+    "acme-process/pipeline/ops-manager-operating-model.md"
   ],
   "parent_state_refs": [
-    "state.lfw.operating_picture.ops"
+    "state.acme.operating_picture.ops"
   ],
   "child_state_refs": [],
-  "latest_journal_entry_id": "journal.lfw.contract.harbor.initial"
+  "latest_journal_entry_id": "journal.acme.contract.harbor.initial"
 }

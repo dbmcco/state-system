@@ -5,14 +5,14 @@
   "status": "evidence_missing",
   "summary": "Harbor obligation state and Patrick memory were updated; operations operating picture should be reviewed because the contract record is stale and missing canonical evidence.",
   "journal_entry_refs": [
-    "journal.lfw.contract.harbor.stale-review"
+    "journal.acme.contract.harbor.stale-review"
   ],
   "memory_entry_refs": [
     "memory.patrick.ops.draft.canonical-source-before-followup"
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
     }
   ],

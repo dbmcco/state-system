@@ -33,7 +33,7 @@
       "risk": "medium",
       "approval_required": true,
       "target": {
-        "app_ref": "app.lfw-ai-graph-crm",
+        "app_ref": "app.acme-ai-graph-crm",
         "artifact_ref": "crm.relationship-update.002"
       },
       "payload": {

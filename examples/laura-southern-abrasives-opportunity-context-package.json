@@ -34,7 +34,7 @@
           "linear:event:southern-abrasives-stage-won-2026-04-28"
         ],
         "affected_state_refs": [
-          "state.lfw.deal.southern-abrasives",
+          "state.acme.deal.southern-abrasives",
           "state.operating_picture.marketing"
         ]
       }
@@ -43,7 +43,7 @@
   "state_context": {
     "snapshots": [
       {
-        "id": "state.lfw.deal.southern-abrasives",
+        "id": "state.acme.deal.southern-abrasives",
         "type": "deal",
         "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
         "status": "won",
@@ -63,8 +63,8 @@
   "journal_context": {
     "recent_entries": [
       {
-        "id": "journal.lfw.deal.southern-abrasives.won",
-        "state_object_id": "state.lfw.deal.southern-abrasives",
+        "id": "journal.acme.deal.southern-abrasives.won",
+        "state_object_id": "state.acme.deal.southern-abrasives",
         "interpretation": "Southern Abrasives moved to won in Linear, creating both operational handoff needs and a possible marketing proof-point opportunity."
       }
     ]
@@ -83,7 +83,7 @@
     "evidence_refs": [
       "linear:deal:southern-abrasives",
       "linear:event:southern-abrasives-stage-won-2026-04-28",
-      "journal.lfw.deal.southern-abrasives.won"
+      "journal.acme.deal.southern-abrasives.won"
     ],
     "resolved_evidence": [
       {
@@ -151,14 +151,14 @@
   ],
   "freshness": {
     "watermark_refs": [
-      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
       "governance.external-copy-approval",
       "recent.linear.southern-abrasives-won"
     ],
     "valid_until": "2026-04-29T16:08:00Z",
     "requires_refresh_before_external_action": true,
     "stale_if_refs_change": [
-      "state.lfw.deal.southern-abrasives",
+      "state.acme.deal.southern-abrasives",
       "governance.external-copy-approval",
       "linear:deal:southern-abrasives.public-announcement-permission"
     ]

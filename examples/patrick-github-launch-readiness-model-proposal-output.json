@@ -9,7 +9,7 @@
   ],
   "state_proposals": [
     {
-      "target_state_object_id": "state.lfw.capability.auditable-workflows",
+      "target_state_object_id": "state.acme.capability.auditable-workflows",
       "update_class": "interpretive",
       "interpretation": "Auditable workflows now have merged implementation evidence, but launch readiness remains blocked by the unresolved audit logging commitment.",
       "state_patch": {
@@ -30,9 +30,9 @@
         ]
       },
       "evidence_refs": [
-        "github:pr:lightforge/lfw-ai-graph-crm#142",
-        "github:commit:lightforge/lfw-ai-graph-crm@abc1234",
-        "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765"
+        "github:pr:lightforge/acme-ai-graph-crm#142",
+        "github:commit:lightforge/acme-ai-graph-crm@abc1234",
+        "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765"
       ],
       "uncertainty": [
         "The merge proves implementation work landed, not launch readiness.",
@@ -42,7 +42,7 @@
       "approval_required": false
     },
     {
-      "target_state_object_id": "state.lfw.obligation.audit-logging-before-launch",
+      "target_state_object_id": "state.acme.obligation.audit-logging-before-launch",
       "update_class": "interpretive",
       "interpretation": "The PR review comment should be preserved as a delivery obligation candidate and treated as launch-blocking until clarified or satisfied.",
       "state_patch": {
@@ -63,8 +63,8 @@
         ]
       },
       "evidence_refs": [
-        "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765",
-        "github:pr:lightforge/lfw-ai-graph-crm#142"
+        "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
+        "github:pr:lightforge/acme-ai-graph-crm#142"
       ],
       "uncertainty": [
         "The comment may represent a launch blocker or a strong recommendation; human or Workgraph evidence must clarify.",
@@ -83,13 +83,13 @@
       "content": "When a PR is merged, review comments and requested-change discussions should be scanned for obligations before launch readiness is updated.",
       "confidence": 0.68,
       "evidence_refs": [
-        "github:pr:lightforge/lfw-ai-graph-crm#142",
-        "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765"
+        "github:pr:lightforge/acme-ai-graph-crm#142",
+        "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765"
       ],
       "related_state_refs": [
-        "state.lfw.capability.auditable-workflows",
-        "state.lfw.obligation.audit-logging-before-launch",
-        "state.lfw.operating_picture.ops"
+        "state.acme.capability.auditable-workflows",
+        "state.acme.obligation.audit-logging-before-launch",
+        "state.acme.operating_picture.ops"
       ],
       "promotion_status": "private",
       "approval_required": false
@@ -108,8 +108,8 @@
         "target_system": "workgraph",
         "suggested_task_id": "audit-logging-before-launch",
         "related_refs": [
-          "github:pr:lightforge/lfw-ai-graph-crm#142",
-          "github:pr-comment:lightforge/lfw-ai-graph-crm#142:98765"
+          "github:pr:lightforge/acme-ai-graph-crm#142",
+          "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765"
         ],
         "external_action_allowed": false
       }
@@ -117,7 +117,7 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
     }
   ],
@@ -143,15 +143,15 @@
     "status": "evidence_missing",
     "summary": "Merged PR evidence should update capability state, preserve the audit logging review commitment as an obligation, and queue operations rollup.",
     "journal_entry_refs": [
-      "journal.lfw.capability.auditable-workflows.github-merged",
-      "journal.lfw.obligation.audit-logging-before-launch.github-review"
+      "journal.acme.capability.auditable-workflows.github-merged",
+      "journal.acme.obligation.audit-logging-before-launch.github-review"
     ],
     "memory_entry_refs": [
       "memory.patrick.ops.draft.pr-review-commitments"
     ],
     "rollup_requests": [
       {
-        "state_object_id": "state.lfw.operating_picture.ops",
+        "state_object_id": "state.acme.operating_picture.ops",
         "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
       }
     ],

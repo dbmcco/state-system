@@ -35,7 +35,7 @@
     {
       "id": "action.org.mission-draft",
       "summary": "Draft an initial mission state packet with evidence references and review ownership.",
-      "owner_ref": "human.braydon",
+      "owner_ref": "human.acme_user",
       "status": "proposed"
     }
   ],

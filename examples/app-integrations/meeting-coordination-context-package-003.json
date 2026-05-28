@@ -27,7 +27,7 @@
         "persona_route": [
           "persona.patrick",
           "persona.laura",
-          "app.lfw-ai-graph-crm",
+          "app.acme-ai-graph-crm",
           "app.prospect-researcher",
           "app.thoughtforge"
         ]

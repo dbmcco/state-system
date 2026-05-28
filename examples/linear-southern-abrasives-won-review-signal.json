@@ -5,12 +5,12 @@
   "status": "rollup_queued",
   "summary": "Southern Abrasives deal state was updated to won; operations and marketing rollups should review downstream effects.",
   "journal_entry_refs": [
-    "journal.lfw.deal.southern-abrasives.won"
+    "journal.acme.deal.southern-abrasives.won"
   ],
   "memory_entry_refs": [],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A won deal creates operational handoff and follow-up risk."
     },
     {

@@ -208,7 +208,7 @@
       "backing_tool_refs": ["relationship-substrate record-subject-note"],
       "params_schema": { "required_fields": ["subject_type", "subject", "note_kind", "note"], "optional_fields": ["applies_to", "source", "source_ref", "evidence_refs", "metadata", "supersedes_id"] },
       "output_shape": { "required_fields": ["id", "subject_type", "subject_id", "note_kind", "note"], "optional_fields": ["subject_note_context", "supersedes_id", "created_at"] },
-      "evidence_ref_policy": { "requires_evidence_refs": false, "policy": "Accept corrections without evidence when Braydon provides direct relationship judgment; attach evidence refs when available." },
+      "evidence_ref_policy": { "requires_evidence_refs": false, "policy": "Accept corrections without evidence when the example user provides direct relationship judgment; attach evidence refs when available." },
       "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
       "audit_policy": { "level": "audit_required", "required_fields": ["subject_type", "subject", "note_kind", "source"] },
       "deployment_adapters": [

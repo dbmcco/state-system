@@ -10,7 +10,7 @@
     },
     {
       "collection": "state",
-      "path": "examples/lfw-ops-operating-picture.json"
+      "path": "examples/acme-ops-operating-picture.json"
     },
     {
       "collection": "state",
@@ -92,7 +92,7 @@
       "marketing_opportunity"
     ],
     "watermark_refs": [
-      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
       "governance.external-copy-approval"
     ],
     "stale_after": "2026-04-29T16:07:30Z",

@@ -1,7 +1,7 @@
 {
-  "id": "instance_capability_pack.lfw",
-  "instance_ref": "state_instance.lfw",
-  "primary_entity_ref": "entity.lfw",
+  "id": "instance_capability_pack.acme",
+  "instance_ref": "state_instance.acme",
+  "primary_entity_ref": "entity.acme",
   "entity_kind": "company",
   "generated_at": "2026-05-16T18:00:00Z",
   "identity": {
@@ -16,25 +16,25 @@
   },
   "source_connectors": [
     {
-      "id": "connector.lfw.folio",
+      "id": "connector.acme.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:lfw",
+      "source_ref": "folio:tenant:acme",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
     },
     {
-      "id": "connector.lfw.msgvault",
+      "id": "connector.acme.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:lfw-email",
+      "source_ref": "msgvault:tenant:acme-email",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
     },
     {
-      "id": "connector.lfw.state_system",
+      "id": "connector.acme.state_system",
       "connector_type": "local_path",
-      "source_ref": "state-system-instance:state_instance.lfw",
+      "source_ref": "state-system-instance:state_instance.acme",
       "owner": "state_system",
       "declared": true,
       "access_mode": "read"
@@ -43,24 +43,24 @@
   "raw_corpus": {
     "definition": "Raw source surfaces remain owned by their source systems.",
     "source_refs": [
-      "folio:tenant:lfw",
-      "msgvault:tenant:lfw-email",
-      "state-system-instance:state_instance.lfw"
+      "folio:tenant:acme",
+      "msgvault:tenant:acme-email",
+      "state-system-instance:state_instance.acme"
     ]
   },
   "evidence_index": {
     "definition": "Federated search surfaces over raw source and interpreted state records.",
     "index_refs": [
-      "index.lfw.folio.corpus",
-      "index.lfw.msgvault.email",
-      "index.lfw.state_system.interpreted"
+      "index.acme.folio.corpus",
+      "index.acme.msgvault.email",
+      "index.acme.state_system.interpreted"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.lfw.folio.corpus",
-      "instance_ref": "state_instance.lfw",
-      "primary_entity_ref": "entity.lfw",
+      "index_ref": "index.acme.folio.corpus",
+      "instance_ref": "state_instance.acme",
+      "primary_entity_ref": "entity.acme",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -70,10 +70,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:lfw"
+        "folio:tenant:acme"
       ],
       "connector_refs": [
-        "connector.lfw.folio"
+        "connector.acme.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -82,9 +82,9 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.msgvault.email",
-      "instance_ref": "state_instance.lfw",
-      "primary_entity_ref": "entity.lfw",
+      "index_ref": "index.acme.msgvault.email",
+      "instance_ref": "state_instance.acme",
+      "primary_entity_ref": "entity.acme",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -94,10 +94,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:lfw-email"
+        "msgvault:tenant:acme-email"
       ],
       "connector_refs": [
-        "connector.lfw.msgvault"
+        "connector.acme.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -106,9 +106,9 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.lfw.state_system.interpreted",
-      "instance_ref": "state_instance.lfw",
-      "primary_entity_ref": "entity.lfw",
+      "index_ref": "index.acme.state_system.interpreted",
+      "instance_ref": "state_instance.acme",
+      "primary_entity_ref": "entity.acme",
       "owner": "state_system",
       "backend": "state_system_interpreted_index",
       "scope": "interpreted_state_index",
@@ -118,10 +118,10 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.lfw"
+        "state-system-instance:state_instance.acme"
       ],
       "connector_refs": [
-        "connector.lfw.state_system"
+        "connector.acme.state_system"
       ],
       "query_surface": {
         "type": "state_system_runtime",
@@ -132,24 +132,24 @@
     }
   ],
   "memory_refs": [
-    "company_memory.lfw"
+    "company_memory.acme"
   ],
   "operating_picture_refs": [
-    "operating_picture.crm.lfw"
+    "operating_picture.crm.acme"
   ],
   "action_surface": {
     "definition": "Actions exposed through governed PAIA tools.",
     "action_refs": [
-      "action_surface.lfw.read_folio",
-      "action_surface.lfw.search_msgvault"
+      "action_surface.acme.read_folio",
+      "action_surface.acme.search_msgvault"
     ]
   },
   "tool_capability_bindings": [],
   "governance": {
     "definition": "LFW protected actions remain governed by LFW policy.",
     "governance_refs": [
-      "governance.lfw.external_action",
-      "governance.lfw.crm_mutation"
+      "governance.acme.external_action",
+      "governance.acme.crm_mutation"
     ]
   },
   "connector_preflight": {

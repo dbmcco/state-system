@@ -27,7 +27,7 @@
     "evidence_refs": [
       "context.laura.southern-abrasives-won-opportunity",
       "recent.linear.southern-abrasives-won",
-      "journal.lfw.deal.southern-abrasives.won"
+      "journal.acme.deal.southern-abrasives.won"
     ],
     "expected_status": "pending_approval",
     "expected_materialized_snapshot_count": 0,

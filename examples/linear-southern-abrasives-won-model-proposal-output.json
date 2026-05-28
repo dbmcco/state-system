@@ -9,7 +9,7 @@
   ],
   "state_proposals": [
     {
-      "target_state_object_id": "state.lfw.deal.southern-abrasives",
+      "target_state_object_id": "state.acme.deal.southern-abrasives",
       "update_class": "direct",
       "interpretation": "Southern Abrasives moved to won in Linear, creating both operational handoff needs and a possible marketing proof-point opportunity.",
       "state_patch": {
@@ -68,7 +68,7 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.lfw.operating_picture.ops",
+      "state_object_id": "state.acme.operating_picture.ops",
       "reason": "A won deal creates operational handoff and follow-up risk."
     },
     {
@@ -98,12 +98,12 @@
     "status": "rollup_queued",
     "summary": "Southern Abrasives deal state should update to won; operations and marketing rollups should review downstream effects.",
     "journal_entry_refs": [
-      "journal.lfw.deal.southern-abrasives.won"
+      "journal.acme.deal.southern-abrasives.won"
     ],
     "memory_entry_refs": [],
     "rollup_requests": [
       {
-        "state_object_id": "state.lfw.operating_picture.ops",
+        "state_object_id": "state.acme.operating_picture.ops",
         "reason": "A won deal creates operational handoff and follow-up risk."
       },
       {

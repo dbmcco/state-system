@@ -1,12 +1,12 @@
 {
-  "id": "company_capability_pack.navicyte",
-  "company_ref": "company.navicyte",
+  "id": "company_capability_pack.synthyra",
+  "company_ref": "company.examplecorp",
   "generated_at": "2026-05-14T12:00:00Z",
   "identity": {
-    "name": "Navicyte",
-    "summary": "Company substrate for Navicyte scientific, regulatory, and investor work.",
+    "name": "ExampleCorp",
+    "summary": "Company substrate for Synthyra product, research, and finance work.",
     "primary_agent_refs": [
-      "persona.helena"
+      "persona.ingrid"
     ],
     "oversight_agent_refs": [
       "persona.samantha"
@@ -14,35 +14,36 @@
   },
   "source_connectors": [
     {
-      "id": "connector.navicyte.folio",
+      "id": "connector.synthyra.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:navicyte",
+      "source_ref": "folio:tenant:synthyra",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.navicyte.drive",
+      "id": "connector.synthyra.drive",
       "connector_type": "gws_drive",
-      "source_ref": "gws:mcco:shared-drive:navicyte-biotechnologies",
+      "source_ref": "gws:example:drive:Examplecorp Shared",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.navicyte.msgvault",
+      "id": "connector.synthyra.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:navicyte-email",
+      "source_ref": "msgvault:tenant:synthyra-email",
       "owner": "source_system",
       "declared": true,
       "preflight_target": {
         "kind": "msgvault_search",
-        "query": "navicyte-email",
+        "tenant_ref": "msgvault:tenant:synthyra-email",
+        "query": "synthyra",
         "limit": 1
       }
     },
     {
-      "id": "connector.navicyte.local",
+      "id": "connector.synthyra.local",
       "connector_type": "local_path",
-      "source_ref": "local:/Users/braydon/projects/work/navicyte",
+      "source_ref": "local:/srv/examples/synthyra",
       "owner": "source_system",
       "declared": true
     }
@@ -50,24 +51,24 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:navicyte",
-      "gws:mcco:shared-drive:navicyte-biotechnologies",
-      "msgvault:tenant:navicyte-email",
-      "local:/Users/braydon/projects/work/navicyte"
+      "folio:tenant:synthyra",
+      "gws:example:drive:Examplecorp Shared",
+      "msgvault:tenant:synthyra-email",
+      "local:/srv/examples/synthyra"
     ]
   },
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:navicyte",
-      "gws:index:mcco:navicyte-biotechnologies",
-      "msgvault:index:navicyte-email"
+      "folio:index:tenant:synthyra",
+      "gws:index:mcco:Examplecorp Shared",
+      "msgvault:index:synthyra-email"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.navicyte.folio.corpus",
-      "company_ref": "company.navicyte",
+      "index_ref": "index.synthyra.folio.corpus",
+      "company_ref": "company.examplecorp",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -77,10 +78,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:navicyte"
+        "folio:tenant:synthyra"
       ],
       "connector_refs": [
-        "connector.navicyte.folio"
+        "connector.synthyra.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -89,8 +90,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.msgvault.email",
-      "company_ref": "company.navicyte",
+      "index_ref": "index.synthyra.msgvault.email",
+      "company_ref": "company.examplecorp",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -100,10 +101,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:navicyte-email"
+        "msgvault:tenant:synthyra-email"
       ],
       "connector_refs": [
-        "connector.navicyte.msgvault"
+        "connector.synthyra.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -112,8 +113,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.drive.corpus",
-      "company_ref": "company.navicyte",
+      "index_ref": "index.synthyra.drive.corpus",
+      "company_ref": "company.examplecorp",
       "owner": "source_system",
       "backend": "gws_drive_native",
       "scope": "raw_source_index",
@@ -123,10 +124,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "gws:mcco:shared-drive:navicyte-biotechnologies"
+        "gws:example:drive:Examplecorp Shared"
       ],
       "connector_refs": [
-        "connector.navicyte.drive"
+        "connector.synthyra.drive"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -135,8 +136,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.state_system.evidence_cards",
-      "company_ref": "company.navicyte",
+      "index_ref": "index.synthyra.state_system.evidence_cards",
+      "company_ref": "company.examplecorp",
       "owner": "state_system",
       "backend": "postgres_pgvector",
       "scope": "interpreted_state_index",
@@ -147,7 +148,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system:company.navicyte"
+        "state-system:company.examplecorp"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -158,37 +159,37 @@
     }
   ],
   "company_memory_refs": [
-    "company_memory.navicyte"
+    "company_memory.synthyra"
   ],
   "operating_picture_refs": [
-    "operating_picture.scientific.navicyte",
-    "operating_picture.regulatory.navicyte",
-    "operating_picture.investor.navicyte"
+    "operating_picture.product.synthyra",
+    "operating_picture.research.synthyra",
+    "operating_picture.finance.synthyra"
   ],
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.navicyte.read_folio",
-      "action_surface.navicyte.read_drive",
-      "action_surface.navicyte.search_msgvault",
-      "action_surface.navicyte.inspect_local_workspace"
+      "action_surface.synthyra.read_folio",
+      "action_surface.synthyra.read_drive",
+      "action_surface.synthyra.search_msgvault",
+      "action_surface.synthyra.inspect_local_workspace"
     ]
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.navicyte.folio.search",
-      "capability_ref": "capability.navicyte.folio.search",
+      "id": "tool_binding.synthyra.folio.search",
+      "capability_ref": "capability.synthyra.folio.search",
       "tool_ref": "tool.paia.folio.search",
-      "action_ref": "action_surface.navicyte.read_folio",
+      "action_ref": "action_surface.synthyra.read_folio",
       "connector_refs": [
-        "connector.navicyte.folio"
+        "connector.synthyra.folio"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.folio"
+        "preflight.synthyra.folio"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -196,19 +197,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.drive.read",
-      "capability_ref": "capability.navicyte.drive.read",
+      "id": "tool_binding.synthyra.drive.read",
+      "capability_ref": "capability.synthyra.drive.read",
       "tool_ref": "tool.paia.gws_drive.read",
-      "action_ref": "action_surface.navicyte.read_drive",
+      "action_ref": "action_surface.synthyra.read_drive",
       "connector_refs": [
-        "connector.navicyte.drive"
+        "connector.synthyra.drive"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.drive"
+        "preflight.synthyra.drive"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -216,19 +217,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.msgvault.search",
-      "capability_ref": "capability.navicyte.msgvault.search",
+      "id": "tool_binding.synthyra.msgvault.search",
+      "capability_ref": "capability.synthyra.msgvault.search",
       "tool_ref": "tool.paia.msgvault.search",
-      "action_ref": "action_surface.navicyte.search_msgvault",
+      "action_ref": "action_surface.synthyra.search_msgvault",
       "connector_refs": [
-        "connector.navicyte.msgvault"
+        "connector.synthyra.msgvault"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.msgvault"
+        "preflight.synthyra.msgvault"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -236,21 +237,20 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.local.inspect",
-      "capability_ref": "capability.navicyte.local.inspect",
+      "id": "tool_binding.synthyra.local.inspect",
+      "capability_ref": "capability.synthyra.local.inspect",
       "tool_ref": "tool.paia.local_path.inspect",
-      "action_ref": "action_surface.navicyte.inspect_local_workspace",
+      "action_ref": "action_surface.synthyra.inspect_local_workspace",
       "connector_refs": [
-        "connector.navicyte.local"
+        "connector.synthyra.local"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.local"
+        "preflight.synthyra.local"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
-        "persona.samantha",
-        "persona.derek"
+        "persona.ingrid",
+        "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -260,35 +260,35 @@
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
-      "governance.company.navicyte.external_action",
-      "governance.company.navicyte.scientific_regulatory_sensitive"
+      "governance.company.examplecorp.external_action",
+      "governance.company.examplecorp.finance_sensitive"
     ]
   },
   "connector_preflight": {
     "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.navicyte.folio",
-        "connector_ref": "connector.navicyte.folio",
-        "check": "PAIA runtime can search Folio tenant navicyte.",
+        "id": "preflight.synthyra.folio",
+        "connector_ref": "connector.synthyra.folio",
+        "check": "PAIA runtime can search Folio tenant synthyra.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.drive",
-        "connector_ref": "connector.navicyte.drive",
-        "check": "PAIA runtime can read Navicyte Biotechnologies shared drive through gws-account mcco.",
+        "id": "preflight.synthyra.drive",
+        "connector_ref": "connector.synthyra.drive",
+        "check": "PAIA runtime can read Examplecorp Shared through gws-account mcco.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.msgvault",
-        "connector_ref": "connector.navicyte.msgvault",
-        "check": "PAIA runtime can search Navicyte msgvault email where applicable.",
+        "id": "preflight.synthyra.msgvault",
+        "connector_ref": "connector.synthyra.msgvault",
+        "check": "PAIA runtime can search Synthyra msgvault email.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.local",
-        "connector_ref": "connector.navicyte.local",
-        "check": "PAIA runtime can inspect the local Navicyte path when locally available.",
+        "id": "preflight.synthyra.local",
+        "connector_ref": "connector.synthyra.local",
+        "check": "PAIA runtime can inspect the local Synthyra path when locally available.",
         "owner": "paia_runtime"
       }
     ]
@@ -296,9 +296,8 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
     "constraints": [
-      "Helena primary for Navicyte.",
+      "Ingrid primary for Synthyra.",
       "Samantha may oversee across company packs.",
-      "Derek technical/repo scope only by default.",
       "No Linear connector is declared unless explicitly added later."
     ]
   },
@@ -306,7 +305,7 @@
     "as_of": "2026-05-14T12:00:00Z",
     "stale_after": "2026-05-21T12:00:00Z",
     "watermark_refs": [
-      "company_capability_pack.navicyte@2026-05-14T12:00:00Z"
+      "company_capability_pack.synthyra@2026-05-14T12:00:00Z"
     ]
   },
   "lineage": {

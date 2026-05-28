@@ -1,8 +1,8 @@
 {
-  "id": "crm_operating_picture.lfw",
-  "subject_ref": "company.lfw",
+  "id": "crm_operating_picture.acme",
+  "subject_ref": "company.acme",
   "generated_at": "2026-05-04T15:00:00Z",
-  "system_of_record_ref": "lfw_ai_graph_crm",
+  "system_of_record_ref": "acme_crm",
   "state_system_role": "state_system_interpretation",
   "relationships": [
     {

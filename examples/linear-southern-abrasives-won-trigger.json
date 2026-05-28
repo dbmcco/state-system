@@ -17,8 +17,8 @@
     "linear:event:southern-abrasives-stage-won-2026-04-28"
   ],
   "candidate_state_refs": [
-    "state.lfw.deal.southern-abrasives",
-    "state.lfw.operating_picture.ops",
+    "state.acme.deal.southern-abrasives",
+    "state.acme.operating_picture.ops",
     "state.operating_picture.marketing"
   ],
   "candidate_memory_refs": [],

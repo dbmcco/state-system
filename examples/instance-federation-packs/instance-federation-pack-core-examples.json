@@ -4,13 +4,13 @@
   "description": "Synthetic federation pack examples for governed cross-instance query boundaries.",
   "packs": [
     {
-      "id": "instance_federation_pack.personal_to_lfw_state",
+      "id": "instance_federation_pack.personal_to_acme_state",
       "description": "Personal b-state can read LFW interpreted state through a governed instance route.",
       "status": "ready",
       "federation_mode": "instance_read",
-      "local_instance_ref": "state_instance.braydon_personal",
+      "local_instance_ref": "state_instance.acme_ops",
       "remote_instance_refs": [
-        "state_instance.lfw"
+        "state_instance.acme"
       ],
       "route_refs": [
         "question_route.personal.relationship_follow_up_triage"
@@ -26,7 +26,7 @@
       ],
       "identity_boundary": {
         "subject_ref_policy": "Use remote state refs as evidence refs; do not rewrite them into personal canonical records.",
-        "entity_ref_policy": "LFW entities remain owned by state_instance.lfw.",
+        "entity_ref_policy": "LFW entities remain owned by state_instance.acme.",
         "cross_instance_join_policy": "Join only through explicit evidence refs and package route context.",
         "allowed_subject_types": [
           "company",
@@ -45,7 +45,7 @@
       },
       "freshness_policy": {
         "checked_at": "2026-05-18T16:42:41Z",
-        "source_watermark": "lfw:instance_agent_package:2026-05-18T16:42:41Z",
+        "source_watermark": "acme:instance_agent_package:2026-05-18T16:42:41Z",
         "stale_after": "PT24H",
         "freshness_status": "fresh",
         "gap_refs": []
@@ -62,7 +62,7 @@
       "repair_policy": {
         "when_unavailable": "Answer from personal sources and state that LFW federation is unavailable.",
         "when_stale": "Name the stale LFW package watermark before relying on it.",
-        "owner": "state_instance.lfw"
+        "owner": "state_instance.acme"
       },
       "invariant": {
         "pack_authorizes_remote_query_only": true,
@@ -71,17 +71,17 @@
       }
     },
     {
-      "id": "instance_federation_pack.lfw_to_personal_relationship_substrate",
-      "description": "LFW can query Braydon personal Relationship Substrate for governed relationship context without local materialization.",
+      "id": "instance_federation_pack.acme_to_personal_relationship_substrate",
+      "description": "LFW can query the example personal Relationship Substrate for governed relationship context without local materialization.",
       "status": "ready",
       "federation_mode": "source_substrate_query",
-      "local_instance_ref": "state_instance.lfw",
+      "local_instance_ref": "state_instance.acme",
       "remote_instance_refs": [
-        "state_instance.braydon_personal"
+        "state_instance.acme_ops"
       ],
-      "source_instance_ref": "state_instance.braydon_personal",
+      "source_instance_ref": "state_instance.acme_ops",
       "route_refs": [
-        "question_route.lfw.federated_relationship_index"
+        "question_route.acme.federated_relationship_index"
       ],
       "query_surface_refs": [
         "query_surface.federated.relationship_index.search"
@@ -133,7 +133,7 @@
       "repair_policy": {
         "when_unavailable": "Answer from LFW company sources and name the missing relationship federation route.",
         "when_stale": "State the Relationship Substrate freshness gap and avoid treating old relationship context as current.",
-        "owner": "state_instance.braydon_personal"
+        "owner": "state_instance.acme_ops"
       },
       "invariant": {
         "pack_authorizes_remote_query_only": true,
@@ -142,14 +142,14 @@
       }
     },
     {
-      "id": "instance_federation_pack.portfolio_to_navicyte_synthyra",
+      "id": "instance_federation_pack.portfolio_to_demo_co_examplecorp",
       "description": "Portfolio-level state can plan rollups across Navicyte and Synthyra once their packages have proved readiness.",
       "status": "planned",
       "federation_mode": "portfolio_rollup",
       "local_instance_ref": "state_instance.portfolio.synthetic",
       "remote_instance_refs": [
-        "state_instance.navicyte",
-        "state_instance.synthyra"
+        "state_instance.demo_co",
+        "state_instance.examplecorp"
       ],
       "route_refs": [
         "question_route.portfolio.company_readiness_rollup"
@@ -188,8 +188,8 @@
         "stale_after": "PT24H",
         "freshness_status": "unknown",
         "gap_refs": [
-          "gap.state_instance.navicyte.package_readiness_unproved",
-          "gap.state_instance.synthyra.package_readiness_unproved"
+          "gap.state_instance.demo_co.package_readiness_unproved",
+          "gap.state_instance.examplecorp.package_readiness_unproved"
         ]
       },
       "subject_note_policy": {

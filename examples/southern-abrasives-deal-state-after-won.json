@@ -1,11 +1,11 @@
 {
-  "id": "state.lfw.deal.southern-abrasives",
+  "id": "state.acme.deal.southern-abrasives",
   "type": "deal",
   "primary_family": "work",
   "secondary_families": ["relationship", "operating", "governance"],
   "state_traits": ["dynamic"],
-  "scope": "organization.lfw.deals.southern-abrasives",
-  "owner_refs": ["human.braydon", "persona.patrick"],
+  "scope": "organization.acme.deals.southern-abrasives",
+  "owner_refs": ["human.acme_user", "persona.patrick"],
   "as_of": "2026-04-28T16:06:00Z",
   "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
   "status": "won",
@@ -48,12 +48,12 @@
   "evidence_refs": [
     "linear:deal:southern-abrasives",
     "linear:event:southern-abrasives-stage-won-2026-04-28",
-    "journal.lfw.deal.southern-abrasives.won"
+    "journal.acme.deal.southern-abrasives.won"
   ],
   "parent_state_refs": [
-    "state.lfw.operating_picture.ops",
+    "state.acme.operating_picture.ops",
     "state.operating_picture.marketing"
   ],
   "child_state_refs": [],
-  "latest_journal_entry_id": "journal.lfw.deal.southern-abrasives.won"
+  "latest_journal_entry_id": "journal.acme.deal.southern-abrasives.won"
 }

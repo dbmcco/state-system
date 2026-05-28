@@ -2,7 +2,7 @@
   "id": "journal.org.mission.initial",
   "state_object_id": "state.org.mission",
   "created_at": "2026-04-28T12:30:00Z",
-  "actor_ref": "human.braydon",
+  "actor_ref": "human.acme_user",
   "source": "human_edit",
   "trigger_ref": "conversation.2026-04-28.north-star",
   "update_class": "direct",

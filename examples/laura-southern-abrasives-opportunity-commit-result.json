@@ -17,7 +17,7 @@
       "proposal_type": "action",
       "summary": "Publish LinkedIn copy or other external-facing copy based on the Southern Abrasives won deal.",
       "reason": "governance.external-copy-approval requires approval before external publication; public naming permission and approved proof point are missing.",
-      "target_ref": "state.lfw.deal.southern-abrasives"
+      "target_ref": "state.acme.deal.southern-abrasives"
     }
   ],
   "rejected_proposals": [],

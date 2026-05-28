@@ -1,0 +1,21 @@
+{
+  "id": "state_instance.acme_ops",
+  "instance_ref": "state_instance.acme_ops",
+  "kind": "personal",
+  "display_name": "Example Personal State",
+  "runtime_root": "/srv/examples/personal-state",
+  "primary_entity_ref": "entity.example_person",
+  "entity_kind": "person",
+  "governance_refs": [
+    "governance.acme_user.personal_default"
+  ],
+  "sensitivity_default": "private",
+  "federates_with": [
+    "state_instance.acme",
+    "state_instance.examplecorp",
+    "state_instance.demo_co",
+    "state_instance.plum"
+  ],
+  "created_at": "2026-05-16T18:00:00Z",
+  "updated_at": "2026-05-16T18:00:00Z"
+}

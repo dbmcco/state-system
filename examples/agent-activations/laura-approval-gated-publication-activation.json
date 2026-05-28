@@ -18,18 +18,18 @@
     "context.laura.southern-abrasives-won-opportunity",
     "linear:deal:southern-abrasives",
     "linear:event:southern-abrasives-stage-won-2026-04-28",
-    "journal.lfw.deal.southern-abrasives.won"
+    "journal.acme.deal.southern-abrasives.won"
   ],
   "freshness": {
     "watermark_refs": [
-      "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+      "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
       "governance.external-copy-approval",
       "recent.linear.southern-abrasives-won"
     ],
     "valid_until": "2026-04-29T16:08:00Z",
     "requires_refresh_before_external_action": true,
     "stale_if_refs_change": [
-      "state.lfw.deal.southern-abrasives",
+      "state.acme.deal.southern-abrasives",
       "governance.external-copy-approval",
       "linear:deal:southern-abrasives.public-announcement-permission"
     ]

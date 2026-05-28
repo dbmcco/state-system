@@ -1,10 +1,10 @@
 {
-  "id": "state.lfw.capability.auditable-workflows",
+  "id": "state.acme.capability.auditable-workflows",
   "type": "capability",
   "primary_family": "work",
   "secondary_families": ["governance", "operating", "knowledge"],
   "state_traits": ["dynamic"],
-  "scope": "organization.lfw.product.auditable-workflows",
+  "scope": "organization.acme.product.auditable-workflows",
   "owner_refs": ["persona.patrick"],
   "as_of": "2026-04-28T15:00:00Z",
   "summary": "Auditable workflows are an emerging LFW capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
@@ -40,14 +40,14 @@
     }
   ],
   "evidence_refs": [
-    "github:repo:lightforge/lfw-ai-graph-crm",
-    "workgraph:repo:lfw-ai-graph-crm:task:ship-auditable-workflows"
+    "github:repo:lightforge/acme-ai-graph-crm",
+    "workgraph:repo:acme-ai-graph-crm:task:ship-auditable-workflows"
   ],
   "parent_state_refs": [
-    "state.lfw.operating_picture.ops"
+    "state.acme.operating_picture.ops"
   ],
   "child_state_refs": [
-    "state.lfw.obligation.audit-logging-before-launch"
+    "state.acme.obligation.audit-logging-before-launch"
   ],
-  "latest_journal_entry_id": "journal.lfw.capability.auditable-workflows.initial"
+  "latest_journal_entry_id": "journal.acme.capability.auditable-workflows.initial"
 }

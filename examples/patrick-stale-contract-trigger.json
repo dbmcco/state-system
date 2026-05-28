@@ -15,12 +15,12 @@
     ]
   },
   "evidence_refs": [
-    "lfw-process/pipeline/ops-manager-operating-model.md",
-    "state.lfw.contract.harbor"
+    "acme-process/pipeline/ops-manager-operating-model.md",
+    "state.acme.contract.harbor"
   ],
   "candidate_state_refs": [
-    "state.lfw.contract.harbor",
-    "state.lfw.operating_picture.ops"
+    "state.acme.contract.harbor",
+    "state.acme.operating_picture.ops"
   ],
   "candidate_memory_refs": [],
   "persona_ref": "persona.patrick",

@@ -1,12 +1,12 @@
 {
-  "id": "instance_capability_pack.braydon_personal",
-  "instance_ref": "state_instance.braydon_personal",
-  "primary_entity_ref": "entity.braydon",
+  "id": "instance_capability_pack.acme_ops",
+  "instance_ref": "state_instance.acme_ops",
+  "primary_entity_ref": "entity.example_person",
   "entity_kind": "person",
   "generated_at": "2026-05-16T18:00:00Z",
   "identity": {
-    "name": "Braydon Personal State",
-    "summary": "Personal state substrate for Braydon's life, commitments, work context, memory, and attention.",
+    "name": "Example Personal State",
+    "summary": "Personal state substrate for the example person's life, commitments, work context, memory, and attention.",
     "primary_agent_refs": [
       "persona.samantha"
     ],
@@ -32,7 +32,7 @@
     {
       "id": "connector.personal.agentmem",
       "connector_type": "agentmem",
-      "source_ref": "agentmem:tenant:braydon",
+      "source_ref": "agentmem:tenant:example-person",
       "owner": "agentmem",
       "declared": true,
       "access_mode": "read"
@@ -56,7 +56,7 @@
     {
       "id": "connector.personal.projects",
       "connector_type": "local_path",
-      "source_ref": "local:/Users/braydon/projects/personal",
+      "source_ref": "local:/srv/examples/personal",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
@@ -64,7 +64,7 @@
     {
       "id": "connector.personal.garmin_connect",
       "connector_type": "garmin_connect",
-      "source_ref": "garmin-connect:account:braydon",
+      "source_ref": "garmin-connect:account:example-person",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
@@ -72,21 +72,21 @@
     {
       "id": "connector.personal.spotify",
       "connector_type": "spotify",
-      "source_ref": "spotify:account:braydon",
+      "source_ref": "spotify:account:example-person",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
     },
     {
-      "id": "connector.personal.lfw_state_system",
+      "id": "connector.personal.acme_state_system",
       "connector_type": "state_system_instance",
-      "source_ref": "state-system-instance:state_instance.lfw",
+      "source_ref": "state-system-instance:state_instance.acme",
       "owner": "state_system",
       "declared": true,
       "access_mode": "read",
-      "runtime_root": "/Users/braydon/projects/work/lfw/state-system",
+      "runtime_root": "/srv/examples/acme/state-system",
       "governance_refs": [
-        "governance.lfw.read_summary"
+        "governance.acme.read_summary"
       ]
     }
   ],
@@ -95,13 +95,13 @@
     "source_refs": [
       "folio:tenant:personal",
       "msgvault:tenant:personal-email",
-      "agentmem:tenant:braydon",
+      "agentmem:tenant:example-person",
       "paia-workboard:default",
       "relationship-substrate:default",
-      "local:/Users/braydon/projects/personal",
-      "garmin-connect:account:braydon",
-      "spotify:account:braydon",
-      "state-system-instance:state_instance.lfw"
+      "local:/srv/examples/personal",
+      "garmin-connect:account:example-person",
+      "spotify:account:example-person",
+      "state-system-instance:state_instance.acme"
     ]
   },
   "evidence_index": {
@@ -116,14 +116,14 @@
       "index.personal.garmin_connect.activity",
       "index.personal.spotify.listening",
       "index.personal.state_system.interpreted",
-      "index.personal.lfw_state_system.interpreted"
+      "index.personal.acme_state_system.interpreted"
     ]
   },
   "index_manifests": [
     {
       "index_ref": "index.personal.folio.corpus",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -146,8 +146,8 @@
     },
     {
       "index_ref": "index.personal.msgvault.email",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "msgvault_sqlite_vec",
       "scope": "raw_source_index",
@@ -171,8 +171,8 @@
     },
     {
       "index_ref": "index.personal.agentmem.memory",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "agentmem",
       "backend": "postgres_pgvector",
       "scope": "memory_index",
@@ -183,7 +183,7 @@
         "semantic_recall"
       ],
       "source_refs": [
-        "agentmem:tenant:braydon"
+        "agentmem:tenant:example-person"
       ],
       "connector_refs": [
         "connector.personal.agentmem"
@@ -196,8 +196,8 @@
     },
     {
       "index_ref": "index.personal.workboard.tasks",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "paia_runtime",
       "backend": "workgraph_jsonl",
       "scope": "operational_index",
@@ -221,8 +221,8 @@
     },
     {
       "index_ref": "index.personal.relationship_substrate.network",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "relationship_index",
@@ -251,8 +251,8 @@
     },
     {
       "index_ref": "index.personal.projects.local_metadata",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "local_path_metadata",
       "scope": "raw_source_index",
@@ -262,7 +262,7 @@
         "source_summary"
       ],
       "source_refs": [
-        "local:/Users/braydon/projects/personal"
+        "local:/srv/examples/personal"
       ],
       "connector_refs": [
         "connector.personal.projects"
@@ -276,8 +276,8 @@
     },
     {
       "index_ref": "index.personal.garmin_connect.activity",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "garmin_postgres",
       "scope": "raw_source_index",
@@ -289,7 +289,7 @@
         "source_summary"
       ],
       "source_refs": [
-        "garmin-connect:account:braydon"
+        "garmin-connect:account:example-person"
       ],
       "connector_refs": [
         "connector.personal.garmin_connect"
@@ -303,8 +303,8 @@
     },
     {
       "index_ref": "index.personal.spotify.listening",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "assistant_postgres_spotify_history",
       "scope": "raw_source_index",
@@ -316,7 +316,7 @@
         "source_summary"
       ],
       "source_refs": [
-        "spotify:account:braydon"
+        "spotify:account:example-person"
       ],
       "connector_refs": [
         "connector.personal.spotify"
@@ -330,8 +330,8 @@
     },
     {
       "index_ref": "index.personal.state_system.interpreted",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "state_system",
       "backend": "postgres_pgvector",
       "scope": "interpreted_state_index",
@@ -342,7 +342,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.braydon_personal"
+        "state-system-instance:state_instance.acme_ops"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -352,9 +352,9 @@
       "status": "planned"
     },
     {
-      "index_ref": "index.personal.lfw_state_system.interpreted",
-      "instance_ref": "state_instance.braydon_personal",
-      "primary_entity_ref": "entity.braydon",
+      "index_ref": "index.personal.acme_state_system.interpreted",
+      "instance_ref": "state_instance.acme_ops",
+      "primary_entity_ref": "entity.example_person",
       "owner": "state_system",
       "backend": "state_system_remote",
       "scope": "interpreted_state_index",
@@ -364,10 +364,10 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.lfw"
+        "state-system-instance:state_instance.acme"
       ],
       "connector_refs": [
-        "connector.personal.lfw_state_system"
+        "connector.personal.acme_state_system"
       ],
       "query_surface": {
         "type": "state_system_runtime",
@@ -377,10 +377,10 @@
     }
   ],
   "memory_refs": [
-    "agentmem:tenant:braydon"
+    "agentmem:tenant:example-person"
   ],
   "operating_picture_refs": [
-    "operating_picture.personal.braydon"
+    "operating_picture.personal.acme_user"
   ],
   "action_surface": {
     "definition": "Personal instance actions are declared; protected effects remain governed separately. Relationship Substrate owns subject-level relationship-context notes used for user corrections.",
@@ -395,7 +395,7 @@
       "action_surface.personal.record_relationship_subject_note",
       "action_surface.personal.read_garmin_connect",
       "action_surface.personal.read_spotify",
-      "action_surface.personal.read_lfw_state"
+      "action_surface.personal.read_acme_state"
     ]
   },
   "tool_capability_bindings": [
@@ -409,7 +409,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.braydon.personal_default"
+        "governance.acme_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -428,7 +428,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.braydon.personal_default"
+        "governance.acme_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -447,7 +447,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.braydon.personal_default"
+        "governance.acme_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -466,7 +466,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.braydon.personal_default"
+        "governance.acme_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -479,8 +479,8 @@
   "governance": {
     "definition": "Personal sources default private; cross-instance reads preserve source instance governance.",
     "governance_refs": [
-      "governance.braydon.personal_default",
-      "governance.lfw.read_summary"
+      "governance.acme_user.personal_default",
+      "governance.acme.read_summary"
     ]
   },
   "connector_preflight": {
