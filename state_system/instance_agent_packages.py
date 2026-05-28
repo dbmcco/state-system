@@ -309,7 +309,7 @@ def _question_routes(
                     "connector.personal.paia_memory.owner",
                     "connector.personal.msgvault",
                     "connector.personal.workboard",
-                    "connector.personal.lfw_state_system",
+                    "connector.personal.acme_state_system",
                 ],
                 "tool_refs": [
                     "tool.relationship_substrate.operating_picture",
@@ -406,7 +406,7 @@ def _question_routes(
                             "connector.personal.paia_memory.samantha",
                             "connector.personal.paia_memory.owner",
                             "connector.personal.workboard",
-                            "connector.personal.lfw_state_system",
+                            "connector.personal.acme_state_system",
                         },
                     ),
                 },
@@ -484,7 +484,7 @@ def _question_routes(
                     "connector.personal.paia_memory.samantha",
                     "connector.personal.paia_memory.owner",
                     "connector.personal.workboard",
-                    "connector.personal.lfw_state_system",
+                    "connector.personal.acme_state_system",
                 ],
                 "tool_refs": [
                     "tool.relationship_substrate.search_small_consulting_firm_contacts",
@@ -580,21 +580,21 @@ def _question_routes(
                             "connector.personal.paia_memory.samantha",
                             "connector.personal.paia_memory.owner",
                             "connector.personal.workboard",
-                            "connector.personal.lfw_state_system",
+                            "connector.personal.acme_state_system",
                         },
                     ),
                 },
             }
         )
-    if instance_ref == "state_instance.lfw":
+    if instance_ref == "state_instance.acme":
         routes.append(
             {
-                "id": "question_route.lfw.relationship_follow_up_triage",
+                "id": "question_route.acme.relationship_follow_up_triage",
                 "intent": "Find LFW relationship-backed work follow-ups.",
                 "source_order": [
-                    "connector.lfw.state_system",
-                    "connector.lfw.msgvault",
-                    "connector.lfw.linear",
+                    "connector.acme.state_system",
+                    "connector.acme.msgvault",
+                    "connector.acme.linear",
                 ],
                 "required_actions": [
                     "Use interpreted LFW state for active obligations and relationship-sensitive work.",
@@ -605,13 +605,13 @@ def _question_routes(
                     "Return work follow-up candidates with owners, evidence refs, and approval boundaries.",
                     "Do not mix in personal b-state sources unless explicitly federated into LFW.",
                 ],
-                "route_contract_ref": "question_route_contract.lfw.relationship_follow_up_triage",
+                "route_contract_ref": "question_route_contract.acme.relationship_follow_up_triage",
                 "required_source_coverage": [
                     {
-                        "coverage_ref": "coverage.lfw.company_follow_up",
+                        "coverage_ref": "coverage.acme.company_follow_up",
                         "connector_refs": [
-                            "connector.lfw.state_system",
-                            "connector.lfw.msgvault",
+                            "connector.acme.state_system",
+                            "connector.acme.msgvault",
                         ],
                         "source_module_refs": [
                             "source_module.state_system_instance",
@@ -640,9 +640,9 @@ def _question_routes(
                     "relevant_gap_refs": _route_gap_refs(
                         sources,
                         {
-                            "connector.lfw.state_system",
-                            "connector.lfw.msgvault",
-                            "connector.lfw.linear",
+                            "connector.acme.state_system",
+                            "connector.acme.msgvault",
+                            "connector.acme.linear",
                         },
                     ),
                 },
@@ -650,7 +650,7 @@ def _question_routes(
         )
         routes.append(
             {
-                "id": "question_route.lfw.federated_relationship_index",
+                "id": "question_route.acme.federated_relationship_index",
                 "intent": "Use Braydon long-history relationship evidence for LFW relationship and business-development questions when contact context matters.",
                 "applies_to": [
                     "Who does Braydon know at smaller consulting firms who might matter for LFW?",
@@ -658,9 +658,9 @@ def _question_routes(
                     "Find LFW-relevant relationship paths through boutique advisory, agency, or specialist operating firms.",
                 ],
                 "source_order": [
-                    "connector.lfw.state_system",
-                    "connector.lfw.msgvault",
-                    "connector.lfw.folio",
+                    "connector.acme.state_system",
+                    "connector.acme.msgvault",
+                    "connector.acme.folio",
                     "query_surface.federated.relationship_index.search",
                 ],
                 "tool_refs": [
@@ -672,7 +672,7 @@ def _question_routes(
                 "capability_refs": [
                     "capability.federated.relationship_index.search_small_consulting_firm_contacts"
                 ],
-                "route_contract_ref": "question_route_contract.lfw.federated_relationship_index",
+                "route_contract_ref": "question_route_contract.acme.federated_relationship_index",
                 "module_modes": [
                     {
                         "source_module_ref": "source_module.relationship_substrate",
@@ -681,11 +681,11 @@ def _question_routes(
                 ],
                 "required_source_coverage": [
                     {
-                        "coverage_ref": "coverage.lfw.company_context",
+                        "coverage_ref": "coverage.acme.company_context",
                         "connector_refs": [
-                            "connector.lfw.state_system",
-                            "connector.lfw.msgvault",
-                            "connector.lfw.folio",
+                            "connector.acme.state_system",
+                            "connector.acme.msgvault",
+                            "connector.acme.folio",
                         ],
                         "source_module_refs": [
                             "source_module.state_system_instance",
@@ -695,9 +695,9 @@ def _question_routes(
                         "minimum_status": "usable_with_visible_gaps",
                     },
                     {
-                        "coverage_ref": "coverage.lfw.federated_relationship_context",
+                        "coverage_ref": "coverage.acme.federated_relationship_context",
                         "connector_refs": [
-                            "connector.federated.braydon_personal.relationship_substrate"
+                            "connector.federated.acme_ops.relationship_substrate"
                         ],
                         "source_module_refs": ["source_module.relationship_substrate"],
                         "minimum_status": "declared_governed_route",
@@ -709,9 +709,9 @@ def _question_routes(
                 "query_route": {
                     "status": "declared_governed_route",
                     "query_surface_ref": "query_surface.federated.relationship_index.search",
-                    "index_ref": "index.federated.braydon_personal.relationship_index",
-                    "source_ref": "relationship_index:braydon_long_history",
-                    "source_instance_ref": "state_instance.braydon_personal",
+                    "index_ref": "index.federated.acme_ops.relationship_index",
+                    "source_ref": "relationship_index:acme_long_history",
+                    "source_instance_ref": "state_instance.acme_ops",
                     "local_materialization": False,
                     "boundaries": [
                     "Query on demand; do not copy raw personal relationship records into LFW.",
@@ -722,9 +722,9 @@ def _question_routes(
                 ],
                 },
                 "federated_query": {
-                    "source_instance_ref": "state_instance.braydon_personal",
+                    "source_instance_ref": "state_instance.acme_ops",
                     "query_surface_ref": "query_surface.federated.relationship_index.search",
-                    "index_ref": "index.federated.braydon_personal.relationship_index",
+                    "index_ref": "index.federated.acme_ops.relationship_index",
                     "local_materialization": False,
                     "boundaries": [
                         "Query on demand; do not copy raw personal relationship records into LFW.",
@@ -763,12 +763,12 @@ def _question_routes(
                     "relevant_gap_refs": _route_gap_refs(
                         sources,
                         {
-                            "connector.lfw.state_system",
-                            "connector.lfw.msgvault",
-                            "connector.lfw.folio",
-                            "connector.lfw.linear",
-                            "connector.lfw.github",
-                            "connector.lfw.repo",
+                            "connector.acme.state_system",
+                            "connector.acme.msgvault",
+                            "connector.acme.folio",
+                            "connector.acme.linear",
+                            "connector.acme.github",
+                            "connector.acme.repo",
                         },
                     ),
                 },
@@ -927,14 +927,14 @@ def _federation_packs(
     connector_refs = {source["connector_ref"] for source in sources}
     packs: list[JsonObject] = []
 
-    if "connector.personal.lfw_state_system" in connector_refs:
+    if "connector.personal.acme_state_system" in connector_refs:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.personal_to_lfw_state",
+                pack_id="instance_federation_pack.personal_to_acme_state",
                 status="ready",
                 mode="instance_read",
                 local_instance_ref=instance_ref,
-                remote_instance_refs=["state_instance.lfw"],
+                remote_instance_refs=["state_instance.acme"],
                 route_refs=[
                     route_id
                     for route_id in (
@@ -952,21 +952,21 @@ def _federation_packs(
                 ),
                 freshness_status=_source_status(
                     sources,
-                    "connector.personal.lfw_state_system",
+                    "connector.personal.acme_state_system",
                     "freshness_status",
                 ),
                 checked_at=_source_status(
                     sources,
-                    "connector.personal.lfw_state_system",
+                    "connector.personal.acme_state_system",
                     "checked_at",
                 ),
                 source_watermark=_source_status(
                     sources,
-                    "connector.personal.lfw_state_system",
+                    "connector.personal.acme_state_system",
                     "source_watermark",
                 ),
-                gap_refs=_source_gap_refs(sources, "connector.personal.lfw_state_system"),
-                repair_owner="state_instance.lfw",
+                gap_refs=_source_gap_refs(sources, "connector.personal.acme_state_system"),
+                repair_owner="state_instance.acme",
                 when_unavailable=(
                     "Answer from personal sources and state that LFW federation is unavailable."
                 ),
@@ -974,15 +974,15 @@ def _federation_packs(
             )
         )
 
-    if "question_route.lfw.federated_relationship_index" in route_ids:
+    if "question_route.acme.federated_relationship_index" in route_ids:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.lfw_to_personal_relationship_substrate",
+                pack_id="instance_federation_pack.acme_to_personal_relationship_substrate",
                 status="ready",
                 mode="source_substrate_query",
                 local_instance_ref=instance_ref,
-                remote_instance_refs=["state_instance.braydon_personal"],
-                route_refs=["question_route.lfw.federated_relationship_index"],
+                remote_instance_refs=["state_instance.acme_ops"],
+                route_refs=["question_route.acme.federated_relationship_index"],
                 query_surface_refs=[
                     "query_surface.federated.relationship_index.search"
                 ],
@@ -998,7 +998,7 @@ def _federation_packs(
                 checked_at="",
                 source_watermark="",
                 gap_refs=[],
-                repair_owner="state_instance.braydon_personal",
+                repair_owner="state_instance.acme_ops",
                 when_unavailable=(
                     "Answer from LFW company sources and name the missing relationship federation route."
                 ),
@@ -1009,16 +1009,16 @@ def _federation_packs(
             )
         )
 
-    if instance_ref in {"state_instance.navicyte", "state_instance.synthyra"}:
+    if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.portfolio_to_navicyte_synthyra",
+                pack_id="instance_federation_pack.portfolio_to_demo_co_examplecorp",
                 status="planned",
                 mode="portfolio_rollup",
                 local_instance_ref=instance_ref,
                 remote_instance_refs=[
-                    "state_instance.navicyte",
-                    "state_instance.synthyra",
+                    "state_instance.demo_co",
+                    "state_instance.examplecorp",
                 ],
                 route_refs=["question_route.portfolio.company_readiness_rollup"],
                 query_surface_refs=["query_surface.state_system.instance_read"],

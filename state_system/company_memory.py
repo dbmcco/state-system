@@ -67,7 +67,7 @@ def build_company_memory_read_model(
 def build_agent_context_packages(read_model: JsonObject) -> dict[str, JsonObject]:
     return {
         "persona.laura.marketing": {
-            "id": "context.company-memory.lfw.laura.generated",
+            "id": "context.company-memory.acme.laura.generated",
             "persona_ref": "persona.laura.marketing",
             "source_read_model_ref": read_model["id"],
             "review_goal": (
@@ -87,7 +87,7 @@ def build_agent_context_packages(read_model: JsonObject) -> dict[str, JsonObject
             ],
         },
         "persona.patrick.operations": {
-            "id": "context.company-memory.lfw.patrick.generated",
+            "id": "context.company-memory.acme.patrick.generated",
             "persona_ref": "persona.patrick.operations",
             "source_read_model_ref": read_model["id"],
             "review_goal": (

@@ -13,7 +13,7 @@ from state_system.source_freshness import build_source_freshness_read_model
 from state_system.stores import StateStoreBundle
 
 
-DEFAULT_PAIA_STATE_ROOT = Path("/Users/braydon/projects/work/lfw/state-system")
+DEFAULT_PAIA_STATE_ROOT = Path(os.environ.get("STATE_SYSTEM_ROOT", ""))
 
 
 def bootstrap_paia_state_system(project_root: Path, state_root: Path) -> JsonObject:
@@ -58,9 +58,9 @@ def bootstrap_paia_state_system(project_root: Path, state_root: Path) -> JsonObj
 def _load_company_capability_packs(project_root: Path) -> list[JsonObject]:
     directory = project_root / "examples" / "company-capability"
     return [
-        load_json(directory / "company-lfw.json"),
-        load_json(directory / "company-synthyra.json"),
-        load_json(directory / "company-navicyte.json"),
+        load_json(directory / "company-acme.json"),
+        load_json(directory / "company-examplecorp.json"),
+        load_json(directory / "company-demo-co.json"),
     ]
 
 
