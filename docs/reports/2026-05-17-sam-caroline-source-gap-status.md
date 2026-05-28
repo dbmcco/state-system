@@ -13,7 +13,7 @@ Make the deployed agent-facing packages usable for:
 
 LFW / Caroline:
 
-- Ran targeted `msgvault sync braydon@lightforgeworks.com`.
+- Ran targeted `msgvault sync user@example.com`.
 - Recorded fresh `connector.lfw.msgvault` source freshness with account last sync
   `2026-05-17T18:35Z`.
 - Mirrored that freshness into the LFW company layer so the company
@@ -23,10 +23,10 @@ LFW / Caroline:
 
 b-state / Samantha:
 
-- Ran targeted `msgvault sync braydonjm@gmail.com`.
+- Ran targeted `msgvault sync user@example.com`.
 - Proved personal `msgvault` access and freshness.
-- Proved `agentmem` access and freshness through `am admin stats --tenant braydon`
-  and `am retrieve context --tenant braydon`.
+- Proved `agentmem` access and freshness through `am admin stats --tenant example`
+  and `am retrieve context --tenant example`.
 - Marked workboard freshness fresh from the local Workgraph status check.
 - Proved Garmin Connect readiness from the local governed Postgres sync:
   163 activities, 275 daily summaries, and latest daily summary sync

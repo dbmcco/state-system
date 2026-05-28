@@ -26,16 +26,16 @@ All personal identifiers get mapped to neutral equivalents:
 |---|---|
 | `braydon`, `acme_ops` | `acme_user`, `acme_ops` |
 | `lfw`, `lightforgeworks` | `acme` |
-| `synthyra` | `examplecorp` |
-| `navicyte` | `demo_co` |
+| `examplecorp` | `examplecorp` |
+| `demo_co` | `demo_co` |
 | `southern-abrasives` | `southern-abrasives` (fictional — keep) |
 | `laura`, `patrick`, `miriam` | Keep (fictional personas) |
 | `/path/to/user/...` | `/path/to/...` or env var |
 | `person.acme_user` | `person.acme_user` |
 | `company.lfw` | `company.acme` |
 | `state_instance.acme_ops` | `state_instance.acme_ops` |
-| `state_instance.synthyra` | `state_instance.examplecorp` |
-| `state_instance.navicyte` | `state_instance.demo_co` |
+| `state_instance.examplecorp` | `state_instance.examplecorp` |
+| `state_instance.demo_co` | `state_instance.demo_co` |
 | `intempio.com`, `mcco.us`, etc. | `acme.com`, `example.com` |
 
 ---
@@ -147,7 +147,7 @@ DEFAULT_PAIA_STATE_ROOT = Path(os.environ.get("STATE_SYSTEM_ROOT", ""))
 
 Replace:
 ```python
-load_json(directory / "company-lfw.json"),
+load_json(directory / "company-acme.json"),
 ```
 With:
 ```python
@@ -156,7 +156,7 @@ load_json(directory / "company-acme.json"),
 
 Replace:
 ```python
-load_json(directory / "company-synthyra.json"),
+load_json(directory / "company-examplecorp.json"),
 ```
 With:
 ```python
@@ -167,16 +167,16 @@ load_json(directory / "company-examplecorp.json"),
 
 The personal refs are in two helper functions:
 - `_sam_package()` — builds a Samantha agent package for `acme_ops`. Rename to `_example_personal_assistant_package()` and replace all `acme_ops` → `acme_ops`, `braydon` → `acme_user`.
-- `_navicyte_synthyta_federation_pack()` — builds a federation pack for synthyra/navicyte. Rename to `_example_portfolio_federation_pack()` and replace `navicyte` → `demo_co`, `synthyra` → `examplecorp`.
-- The `if instance_ref in {"state_instance.navicyte", "state_instance.synthyra"}` guard at line 1012 becomes `if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}`.
+- `_navicyte_synthyta_federation_pack()` — builds a federation pack for examplecorp/demo_co. Rename to `_example_portfolio_federation_pack()` and replace `demo_co` → `demo_co`, `examplecorp` → `examplecorp`.
+- The `if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}` guard at line 1012 becomes `if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}`.
 - All `acme_ops` refs → `acme_ops`.
 
 - [ ] **Step 3: Depersonalize `instance_understanding_surface.py`**
 
 Same pattern as above — 4 personal refs in deployment-specific federation pack logic:
 - `state_instance.acme_ops` → `state_instance.acme_ops`
-- `state_instance.navicyte` → `state_instance.demo_co`
-- `state_instance.synthyra` → `state_instance.examplecorp`
+- `state_instance.demo_co` → `state_instance.demo_co`
+- `state_instance.examplecorp` → `state_instance.examplecorp`
 - `instance_federation_pack.portfolio_to_navicyte_synthyra` → `instance_federation_pack.portfolio_to_demo_co_examplecorp`
 
 - [ ] **Step 4: Run full test suite**
@@ -217,10 +217,10 @@ find tests/ -name "*.py" -exec sed -i '' '
   s/braydon@example\.com/user@example.com/g
   s/person\.braydon/person.acme_user/g
   s/entity\.braydon/entity.acme_user/g
-  s/state_instance\.synthyra/state_instance.examplecorp/g
-  s/state_instance\.navicyte/state_instance.demo_co/g
-  s/company\.synthyra/company.examplecorp/g
-  s/company\.navicyte/company.demo_co/g
+  s/state_instance\.examplecorp/state_instance.examplecorp/g
+  s/state_instance\.demo_co/state_instance.demo_co/g
+  s/company\.examplecorp/company.examplecorp/g
+  s/company\.demo_co/company.demo_co/g
   s/company\.lfw/company.acme/g
   s/connector\.federated\.acme_ops/connector.federated.acme_ops/g
   s/index\.federated\.acme_ops/index.federated.acme_ops/g
@@ -264,13 +264,13 @@ mv examples/instance-preflight/instance-preflight-braydon-personal-folio.json \
 mv examples/instance-capability/instance-acme-ops.json \
    examples/instance-capability/instance-acme-ops.json
 
-mv examples/company-capability/company-lfw.json \
+mv examples/company-capability/company-acme.json \
    examples/company-capability/company-acme.json
 
-mv examples/company-capability/company-synthyra.json \
+mv examples/company-capability/company-examplecorp.json \
    examples/company-capability/company-examplecorp.json
 
-mv examples/company-capability/company-navicyte.json \
+mv examples/company-capability/company-demo-co.json \
    examples/company-capability/company-demo-co.json
 ```
 
@@ -284,12 +284,12 @@ find examples/ -name "*.json" -exec sed -i '' '
   s/entity\.braydon/entity.acme_user/g
   s/company\.lfw/company.acme/g
   s/company-lfw/company-acme/g
-  s/company\.synthyra/company.examplecorp/g
-  s/company-synthyra/company-examplecorp/g
-  s/company\.navicyte/company.demo_co/g
-  s/company-navicyte/company-demo-co/g
-  s/state_instance\.synthyra/state_instance.examplecorp/g
-  s/state_instance\.navicyte/state_instance.demo_co/g
+  s/company\.examplecorp/company.examplecorp/g
+  s/company-examplecorp/company-examplecorp/g
+  s/company\.demo_co/company.demo_co/g
+  s/company-demo_co/company-demo-co/g
+  s/state_instance\.examplecorp/state_instance.examplecorp/g
+  s/state_instance\.demo_co/state_instance.demo_co/g
   s/connector\.federated\.acme_ops/connector.federated.acme_ops/g
   s/index\.federated\.acme_ops/index.federated.acme_ops/g
   s/portfolio_to_navicyte_synthyra/portfolio_to_demo_co_examplecorp/g
@@ -374,14 +374,14 @@ find docs/ -name "*.md" -exec sed -i '' '
   s|/path/to/user/\.paia/state-system|/path/to/state-system-runtime|g
   s|/path/to/user|/path/to/user|g
   s|acme_ops|acme_ops|g
-  s|state_instance\.synthyra|state_instance.examplecorp|g
-  s|state_instance\.navicyte|state_instance.demo_co|g
+  s|state_instance\.examplecorp|state_instance.examplecorp|g
+  s|state_instance\.demo_co|state_instance.demo_co|g
   s|company\.lfw|company.acme|g
-  s|company\.synthyra|company.examplecorp|g
-  s|company\.navicyte|company.demo_co|g
+  s|company\.examplecorp|company.examplecorp|g
+  s|company\.demo_co|company.demo_co|g
   s|company-lfw|company-acme|g
-  s|company-synthyra|company-examplecorp|g
-  s|company-navicyte|company-demo-co|g
+  s|company-examplecorp|company-examplecorp|g
+  s|company-demo_co|company-demo-co|g
 ' {} +
 ```
 
@@ -533,7 +533,7 @@ After all 8 tasks are complete, run this final verification:
 
 - [ ] `grep -r "braydon" state_system/ tests/ examples/ --include="*.py" --include="*.json"` returns 0 hits
 - [ ] `grep -r "/path/to/user" state_system/ tests/ examples/ docs/ README.md` returns 0 hits
-- [ ] `grep -r "intempio\|mcco\.us\|synthyra\|navicyte\|lfw" state_system/ --include="*.py"` returns 0 hits
+- [ ] `grep -r "intempio\|mcco\.us\|examplecorp\|demo_co\|lfw" state_system/ --include="*.py"` returns 0 hits
 - [ ] `python3 -m unittest discover -s tests` passes clean (0 failures)
 - [ ] `python3 -m state_system.cli --project-root . validate` passes
 - [ ] `./scripts/demo_state_system.sh` runs successfully

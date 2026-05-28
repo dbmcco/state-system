@@ -76,7 +76,7 @@ Runtime command surface:
 
 ```bash
 python3 -m state_system.cli --project-root . paia-bootstrap-export
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-acme.json examples/company-capability/company-examplecorp.json examples/company-capability/company-demo-co.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 

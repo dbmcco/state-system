@@ -18,25 +18,25 @@ routes only.
 
 Navicyte:
 
-- State root: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system`
-- Package: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json`
-- Read model: `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/instance-agent-package/instance-agent-packages-read-model.json`
+- State root: `/path/to/user/projects/work/demo_co/demo_co-workspace/state-system`
+- Package: `/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json`
+- Read model: `/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/instance-agent-package/instance-agent-packages-read-model.json`
 - Repo-root render:
 
 ```bash
-cd /path/to/user/projects/work/navicyte
+cd /path/to/user/projects/work/demo_co
 PYTHONPATH=/path/to/state-system \
 python3 -m state_system.cli \
   --project-root /path/to/state-system \
-  --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system \
+  --state-root /path/to/user/projects/work/demo_co/demo_co-workspace/state-system \
   instance-agent-package-render \
-  instance_agent_package.navicyte.helena
+  instance_agent_package.demo_co.helena
 ```
 
 Synthyra:
 
 - State root: `/path/to/user/projects/work/synth/state-system`
-- Package: `/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json`
+- Package: `/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json`
 - Read model: `/path/to/user/projects/work/synth/state-system/instance-agent-package/instance-agent-packages-read-model.json`
 - Repo-root render:
 
@@ -47,7 +47,7 @@ python3 -m state_system.cli \
   --project-root /path/to/state-system \
   --state-root /path/to/user/projects/work/synth/state-system \
   instance-agent-package-render \
-  instance_agent_package.synthyra.ingrid.scaffold.v0
+  instance_agent_package.examplecorp.ingrid.scaffold.v0
 ```
 
 ## Readiness State
@@ -60,8 +60,8 @@ Navicyte package:
 - No `checked_at` is present because no live Navicyte instance preflight or
   freshness records are available yet.
 - Private routes are present:
-  `question_route.navicyte.source_readiness` and
-  `question_route.navicyte.bd_evidence_lookup`.
+  `question_route.demo_co.source_readiness` and
+  `question_route.demo_co.bd_evidence_lookup`.
 
 Synthyra package:
 
@@ -72,12 +72,12 @@ Synthyra package:
 - Every source carries `checked_at`, source watermark, stale policy, status, and
   explicit gap refs.
 - Private routes are present:
-  `question_route.synthyra.company_context_review`,
-  `question_route.synthyra.transcript_and_docs_review`, and
-  `question_route.synthyra.federated_relationship_context`.
+  `question_route.examplecorp.company_context_review`,
+  `question_route.examplecorp.transcript_and_docs_review`, and
+  `question_route.examplecorp.federated_relationship_context`.
 
 Both packages expose
-`instance_federation_pack.portfolio_to_navicyte_synthyra` as planned with
+`instance_federation_pack.portfolio_to_demo_co_examplecorp` as planned with
 `local_materialization=false` and raw corpus replication prohibited.
 
 ## Validation
@@ -87,7 +87,7 @@ Commands run:
 ```bash
 python3 -m unittest tests.test_instance_agent_packages
 python3 -m unittest tests.test_package_pressure_questions tests.test_instance_understanding_surface
-python3 /path/to/user/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
+python3 /path/to/user/projects/work/synth/state-system/tests/validate_examplecorp_scaffold.py
 python3 -m state_system.cli --project-root . validate
 python3 -m unittest discover -s tests
 git diff --check
@@ -115,9 +115,9 @@ Package pressure:
 Leakage scans:
 
 ```bash
-find /path/to/user/projects/work/navicyte/navicyte-workspace/state-system -type f -size +1M -print
+find /path/to/user/projects/work/demo_co/demo_co-workspace/state-system -type f -size +1M -print
 find /path/to/user/projects/work/synth/state-system -type f -size +1M -print
-rg -n "BEGIN [A-Z ]*PRIVATE KEY|refresh_token|access_token|client_secret|password" . --glob '!runbooks/navicyte-state-instance.md'
+rg -n "BEGIN [A-Z ]*PRIVATE KEY|refresh_token|access_token|client_secret|password" . --glob '!runbooks/demo_co-state-instance.md'
 ```
 
 Results:
@@ -137,14 +137,14 @@ Caroline, Helena, and Ingrid with `--include-planned`.
 Navicyte:
 
 - Runtime instance preflight and freshness records were seeded into
-  `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state`
+  `/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state`
   instead of only living as scaffold-side read models.
 - Helena package regenerated at `2026-05-19T19:32:31Z`.
-- `connector.navicyte.local` is access passed, freshness fresh, index planned,
+- `connector.demo_co.local` is access passed, freshness fresh, index planned,
   and usable.
-- `connector.navicyte.repo` is access passed with a stale GitHub `pushed_at`
+- `connector.demo_co.repo` is access passed with a stale GitHub `pushed_at`
   watermark (`2026-05-09T15:25:55Z`) and remains usable with a freshness gap.
-- `connector.navicyte.state_system` is access passed, freshness fresh, index
+- `connector.demo_co.state_system` is access passed, freshness fresh, index
   declared, and ready. The self state-system connector now declares its
   `runtime_root`, so the earlier false federation-missing gap is gone.
 - Folio, Drive, and msgvault remain visible gaps: Folio and Drive are declared
@@ -157,7 +157,7 @@ Synthyra:
 - Local workspace freshness was refreshed from
   `/path/to/user/projects/work/synth/sync/state.json`.
 - GitHub repo access is now proven for `Synthyra/atlas`,
-  `Synthyra/synthyra-decks`, and `dbmcco/synthyra-ai-org`; all three remain
+  `Synthyra/examplecorp-decks`, and `dbmcco/examplecorp-ai-org`; all three remain
   stale by their GitHub `pushed_at` watermarks.
 - Folio, Drive, and msgvault remain failed/unknown because no live source-owned
   checks were run. Docs/transcripts remain planned behind the document
@@ -166,10 +166,10 @@ Synthyra:
 Validation on 2026-05-19:
 
 ```bash
-python3 -m state_system.cli --project-root /path/to/state-system --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system validate
+python3 -m state_system.cli --project-root /path/to/state-system --state-root /path/to/user/projects/work/demo_co/demo_co-workspace/state-system validate
 python3 -m state_system.cli --project-root /path/to/state-system --state-root /path/to/user/projects/work/synth/state-system validate
-python3 /path/to/user/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
-python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json --include-planned --package instance_agent_package.acme_ops.samantha=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json --package instance_agent_package.lfw.caroline=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json --package instance_agent_package.navicyte.helena=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json --package instance_agent_package.synthyra.ingrid.scaffold.v0=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json
+python3 /path/to/user/projects/work/synth/state-system/tests/validate_examplecorp_scaffold.py
+python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json --include-planned --package instance_agent_package.acme_ops.samantha=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json --package instance_agent_package.lfw.caroline=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json --package instance_agent_package.demo_co.helena=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json --package instance_agent_package.examplecorp.ingrid.scaffold.v0=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json
 python3 -m unittest tests.test_instance_agent_packages tests.test_instance_understanding_surface tests.test_package_pressure_questions
 ```
 

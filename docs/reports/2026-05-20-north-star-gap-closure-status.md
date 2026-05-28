@@ -48,7 +48,7 @@ NaviCyte:
 
 Synthyra:
 
-- Drive source ownership was resolved to `gws:mcco:drive:synthyra-corpus-search`.
+- Drive source ownership was resolved to `gws:mcco:drive:examplecorp-corpus-search`.
 - Drive, msgvault, and repo freshness gaps were repaired from source-owned probe
   evidence.
 - Folio remains failed/unknown because localhost Folio timed out.
@@ -59,13 +59,13 @@ Synthyra:
 ```text
 gap.state_instance.acme_ops.connector.personal.beeper.imessage.freshness_unknown
 gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale
-gap.state_instance.navicyte.connector.navicyte.folio.freshness_stale
-gap.state_instance.navicyte.connector.navicyte.repo.freshness_stale
-gap.state_instance.synthyra.connector.synthyra.docs.transcripts.access_planned
-gap.state_instance.synthyra.connector.synthyra.docs.transcripts.freshness_unknown
-gap.state_instance.synthyra.connector.synthyra.docs.transcripts.index_planned
-gap.state_instance.synthyra.connector.synthyra.folio.access_failed
-gap.state_instance.synthyra.connector.synthyra.folio.freshness_unknown
+gap.state_instance.demo_co.connector.demo_co.folio.freshness_stale
+gap.state_instance.demo_co.connector.demo_co.repo.freshness_stale
+gap.state_instance.examplecorp.connector.examplecorp.docs.transcripts.access_planned
+gap.state_instance.examplecorp.connector.examplecorp.docs.transcripts.freshness_unknown
+gap.state_instance.examplecorp.connector.examplecorp.docs.transcripts.index_planned
+gap.state_instance.examplecorp.connector.examplecorp.folio.access_failed
+gap.state_instance.examplecorp.connector.examplecorp.folio.freshness_unknown
 ```
 
 ## Federation Boundary
@@ -93,8 +93,8 @@ python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current cross-instance ecosystem state?" \
   --package bstate=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json \
   --package lfw=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json \
-  --package navicyte=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json \
-  --package synthyra=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json \
+  --package demo_co=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json \
+  --package examplecorp=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json \
   --output-dir /tmp/state-system-north-star-ecosystem
 python3 -m state_system.cli --project-root . north-star-answer-render \
   /tmp/state-system-north-star-ecosystem/north-star-answer.json \

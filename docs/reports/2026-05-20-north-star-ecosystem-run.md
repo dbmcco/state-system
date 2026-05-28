@@ -30,8 +30,8 @@ python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current cross-instance ecosystem state?" \
   --package bstate=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json \
   --package lfw=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json \
-  --package navicyte=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json \
-  --package synthyra=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json \
+  --package demo_co=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json \
+  --package examplecorp=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json \
   --output-dir /tmp/state-system-north-star-ecosystem
 ```
 
@@ -59,8 +59,8 @@ The generated artifact answers the required dimensions as structured substrate:
 |---|---:|---:|---:|---:|---:|
 | `instance_agent_package.acme_ops.samantha` | 14 | 12 | 2 | 0 | 0 |
 | `instance_agent_package.lfw.caroline` | 7 | 5 | 0 | 2 | 0 |
-| `instance_agent_package.navicyte.helena` | 6 | 1 | 0 | 2 | 3 |
-| `instance_agent_package.synthyra.ingrid.scaffold.v0` | 8 | 1 | 3 | 1 | 3 |
+| `instance_agent_package.demo_co.helena` | 6 | 1 | 0 | 2 | 3 |
+| `instance_agent_package.examplecorp.ingrid.scaffold.v0` | 8 | 1 | 3 | 1 | 3 |
 
 ## Federation
 
@@ -68,15 +68,15 @@ The broader-effects section includes federated refs for:
 
 - `state_instance.acme_ops`
 - `state_instance.lfw`
-- `state_instance.navicyte`
-- `state_instance.synthyra`
+- `state_instance.demo_co`
+- `state_instance.examplecorp`
 
 Federated query routes remain non-materializing:
 
 | Route | Source instance | Query surface | Local materialization |
 |---|---|---|---|
 | `question_route.lfw.federated_relationship_index` | `state_instance.acme_ops` | `query_surface.federated.relationship_index.search` | `false` |
-| `question_route.synthyra.federated_relationship_context` | `state_instance.acme_ops` | `query_surface.federated.relationship_index.search` | `false` |
+| `question_route.examplecorp.federated_relationship_context` | `state_instance.acme_ops` | `query_surface.federated.relationship_index.search` | `false` |
 
 ## Operational Finding
 

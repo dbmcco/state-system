@@ -173,8 +173,8 @@ Create `examples/instances/state-instance-acme-ops.json`:
   "sensitivity_default": "private",
   "federates_with": [
     "state_instance.lfw",
-    "state_instance.synthyra",
-    "state_instance.navicyte",
+    "state_instance.examplecorp",
+    "state_instance.demo_co",
     "state_instance.plum"
   ],
   "created_at": "2026-05-16T18:00:00Z",

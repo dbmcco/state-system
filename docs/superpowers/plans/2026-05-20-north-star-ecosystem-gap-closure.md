@@ -36,8 +36,8 @@ Current readiness summary:
 |---|---:|---:|---:|---:|---:|
 | `instance_agent_package.acme_ops.samantha` | 14 | 12 | 2 | 0 | 0 |
 | `instance_agent_package.lfw.caroline` | 7 | 5 | 0 | 2 | 0 |
-| `instance_agent_package.navicyte.helena` | 6 | 1 | 0 | 2 | 3 |
-| `instance_agent_package.synthyra.ingrid.scaffold.v0` | 8 | 1 | 3 | 1 | 3 |
+| `instance_agent_package.demo_co.helena` | 6 | 1 | 0 | 2 | 3 |
+| `instance_agent_package.examplecorp.ingrid.scaffold.v0` | 8 | 1 | 3 | 1 | 3 |
 
 ## Ownership Rules
 
@@ -112,8 +112,8 @@ python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current cross-instance ecosystem state?" \
   --package bstate=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json \
   --package lfw=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json \
-  --package navicyte=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json \
-  --package synthyra=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json \
+  --package demo_co=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json \
+  --package examplecorp=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json \
   --output-dir /tmp/state-system-north-star-ecosystem
 ```
 
@@ -275,17 +275,17 @@ Expected:
 
 **Root:**
 
-- `/path/to/user/projects/work/navicyte/navicyte-workspace/state-system`
+- `/path/to/user/projects/work/demo_co/demo_co-workspace/state-system`
 
 - [ ] **Step 1: Capture dirty status and baseline**
 
 Run:
 
 ```bash
-cd /path/to/user/projects/work/navicyte/navicyte-workspace/state-system
+cd /path/to/user/projects/work/demo_co/demo_co-workspace/state-system
 git status --short --branch
 jq '.source_context.source_readiness[] | {connector_ref, access_status, freshness_status, index_status, understanding_status, gap_refs}' \
-  state/instance-agent-packages/instance_agent_package.navicyte.helena.json
+  state/instance-agent-packages/instance_agent_package.demo_co.helena.json
 ```
 
 Expected:
@@ -298,11 +298,11 @@ Run these probes first; record `passed` or `fresh` only from successful output:
 
 ```bash
 curl -sS http://localhost:3520/health
-curl -sS "http://localhost:3520/api/folio/search?q=Navicyte&tenant_id=navicyte&limit=5" | jq .
+curl -sS "http://localhost:3520/api/folio/search?q=Navicyte&tenant_id=demo_co&limit=5" | jq .
 
 /path/to/gws-profiles/bin/gws-account mcco auth status
 /path/to/gws-profiles/bin/gws-account mcco drive drives list \
-  --params '{"q":"name contains '\''navicyte'\''","pageSize":10}' \
+  --params '{"q":"name contains '\''demo_co'\''","pageSize":10}' \
   --format json | jq .
 
 curl -sS http://127.0.0.1:8080/health
@@ -310,7 +310,7 @@ msgvault list-accounts --json | jq .
 msgvault search "Navicyte" --json --limit 10 | jq .
 
 gh auth status
-gh repo view Navicyte/navicyte-workspace --json nameWithOwner,pushedAt,updatedAt,defaultBranchRef,isPrivate
+gh repo view Navicyte/demo_co-workspace --json nameWithOwner,pushedAt,updatedAt,defaultBranchRef,isPrivate
 ```
 
 Expected:
@@ -322,8 +322,8 @@ Expected:
 Use `instance-preflight-record` and `instance-source-freshness-record` in this root:
 
 ```bash
-python3 -m state_system.cli --project-root "$SS" --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system instance-preflight-record --help
-python3 -m state_system.cli --project-root "$SS" --state-root /path/to/user/projects/work/navicyte/navicyte-workspace/state-system instance-source-freshness-record --help
+python3 -m state_system.cli --project-root "$SS" --state-root /path/to/user/projects/work/demo_co/demo_co-workspace/state-system instance-preflight-record --help
+python3 -m state_system.cli --project-root "$SS" --state-root /path/to/user/projects/work/demo_co/demo_co-workspace/state-system instance-source-freshness-record --help
 ```
 
 Expected:
@@ -336,16 +336,16 @@ Expected:
 Run:
 
 ```bash
-export NAV=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system
+export NAV=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system
 
 python3 -m state_system.cli --project-root "$SS" --state-root "$NAV" instance-preflight-export --output-dir "$NAV/instance-preflight"
 python3 -m state_system.cli --project-root "$SS" --state-root "$NAV" instance-source-freshness-export --output-dir "$NAV/instance-source-freshness"
 python3 -m state_system.cli --project-root "$SS" --state-root "$NAV" instance-understanding-surface-read --output-dir "$NAV/instance-understanding"
 python3 -m state_system.cli --project-root "$SS" --state-root "$NAV" instance-agent-package-build \
-  --instance-ref state_instance.navicyte \
+  --instance-ref state_instance.demo_co \
   --agent-ref agent.helena \
   --persona-ref persona.helena \
-  --package-id instance_agent_package.navicyte.helena \
+  --package-id instance_agent_package.demo_co.helena \
   --created-at "$CHECKED_AT" \
   --review-goal "Answer Navicyte company-state questions using declared source readiness, explicit freshness evidence, and safe interpreted state."
 python3 -m state_system.cli --project-root "$SS" --state-root "$NAV" instance-agent-package-export --output-dir "$NAV/instance-agent-package"
@@ -374,7 +374,7 @@ Run:
 cd /path/to/user/projects/work/synth/state-system
 git status --short --branch
 jq '.source_context.source_readiness[] | {connector_ref, access_status, freshness_status, index_status, understanding_status, source_watermark, gap_refs}' \
-  state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json
+  state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json
 ```
 
 Expected:
@@ -387,12 +387,12 @@ Run:
 
 ```bash
 curl -sS http://localhost:3520/health
-curl -sS "http://localhost:3520/api/folio/search?q=synthyra&limit=5"
+curl -sS "http://localhost:3520/api/folio/search?q=examplecorp&limit=5"
 
-/path/to/gws-profiles/bin/gws-account synthyra auth status
+/path/to/gws-profiles/bin/gws-account examplecorp auth status
 /path/to/gws-profiles/bin/gws-account mcco auth status
 
-/path/to/gws-profiles/bin/gws-account synthyra drive drives list \
+/path/to/gws-profiles/bin/gws-account examplecorp drive drives list \
   --params '{"q":"name contains '\''Synthyra'\''","pageSize":10}' \
   --format json
 /path/to/gws-profiles/bin/gws-account mcco drive drives list \
@@ -401,21 +401,21 @@ curl -sS "http://localhost:3520/api/folio/search?q=synthyra&limit=5"
 
 curl -sS http://127.0.0.1:8080/health
 msgvault list-accounts --json
-msgvault search "synthyra newer_than:30d" --account user@examplecorp.com --json --limit 5
+msgvault search "examplecorp newer_than:30d" --account user@examplecorp.com --json --limit 5
 
-for repo in Synthyra/atlas Synthyra/synthyra-decks Synthyra/synthyra-ai-org; do
+for repo in Synthyra/atlas Synthyra/examplecorp-decks Synthyra/examplecorp-ai-org; do
   gh repo view "$repo" --json nameWithOwner,pushedAt,updatedAt,defaultBranchRef,isPrivate
 done
 ```
 
 Expected:
 
-- determine whether Drive should remain `gws:mcco:shared-drive:Synthyra Shared` or move to a `synthyra` profile source ref
+- determine whether Drive should remain `gws:mcco:shared-drive:ExampleCorp Shared` or move to a `examplecorp` profile source ref
 - prove source-specific access before changing package readiness
 
 - [ ] **Step 3: Keep transcript docs planned until real pipeline exists**
 
-Do not mark `connector.synthyra.docs.transcripts` fresh until these artifacts exist:
+Do not mark `connector.examplecorp.docs.transcripts` fresh until these artifacts exist:
 
 - transcript source location identified
 - generated read model with transcript id/title/date/source ref/processed artifact ref/latest processed timestamp
@@ -436,11 +436,11 @@ python3 -m state_system.cli --project-root "$SS" --state-root "$SYN" instance-pr
 python3 -m state_system.cli --project-root "$SS" --state-root "$SYN" instance-source-freshness-export --output-dir "$SYN/instance-source-freshness"
 python3 -m state_system.cli --project-root "$SS" --state-root "$SYN" instance-understanding-surface-read --output-dir "$SYN/instance-understanding"
 python3 -m state_system.cli --project-root "$SS" --state-root "$SYN" instance-agent-package-build \
-  --instance-ref state_instance.synthyra \
+  --instance-ref state_instance.examplecorp \
   --agent-ref agent.ingrid \
   --persona-ref persona.ingrid \
   --created-at "$CHECKED_AT" \
-  --package-id instance_agent_package.synthyra.ingrid.scaffold.v0 \
+  --package-id instance_agent_package.examplecorp.ingrid.scaffold.v0 \
   --review-goal "Answer Synthyra company-state questions using declared source readiness, explicit freshness evidence, and safe interpreted state."
 python3 -m state_system.cli --project-root "$SS" --state-root "$SYN" instance-agent-package-export --output-dir "$SYN/instance-agent-package"
 ```
@@ -455,7 +455,7 @@ Expected:
 Run:
 
 ```bash
-python3 /path/to/user/projects/work/synth/state-system/tests/validate_synthyra_scaffold.py
+python3 /path/to/user/projects/work/synth/state-system/tests/validate_examplecorp_scaffold.py
 ```
 
 Expected:
@@ -600,8 +600,8 @@ python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current cross-instance ecosystem state?" \
   --package bstate=/path/to/personal-state/state/instance-agent-packages/instance_agent_package.acme_ops.samantha.json \
   --package lfw=/path/to/state-system-runtime/state/instance-agent-packages/instance_agent_package.lfw.caroline.json \
-  --package navicyte=/path/to/user/projects/work/navicyte/navicyte-workspace/state-system/state/instance-agent-packages/instance_agent_package.navicyte.helena.json \
-  --package synthyra=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.synthyra.ingrid.scaffold.v0.json \
+  --package demo_co=/path/to/user/projects/work/demo_co/demo_co-workspace/state-system/state/instance-agent-packages/instance_agent_package.demo_co.helena.json \
+  --package examplecorp=/path/to/user/projects/work/synth/state-system/state/instance-agent-packages/instance_agent_package.examplecorp.ingrid.scaffold.v0.json \
   --output-dir /tmp/state-system-north-star-ecosystem
 ```
 

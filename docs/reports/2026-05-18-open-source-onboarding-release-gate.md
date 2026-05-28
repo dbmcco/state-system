@@ -60,15 +60,15 @@ names in public JSON examples.
 
 | Artifact | Gap | Path |
 |---|---|---|
-| LFW capability pack | Replaced private `msgvault:account:*` preflight account and `/path/to/user` local paths with tenant/local example refs. | `examples/company-capability/company-lfw.json` |
-| Synthyra capability pack | Replaced private `msgvault:account:*` preflight account and local path with tenant/local example refs. | `examples/company-capability/company-synthyra.json` |
+| LFW capability pack | Replaced private `msgvault:account:*` preflight account and `/path/to/user` local paths with tenant/local example refs. | `examples/company-capability/company-acme.json` |
+| Synthyra capability pack | Replaced private `msgvault:account:*` preflight account and local path with tenant/local example refs. | `examples/company-capability/company-examplecorp.json` |
 | Personal instance pack | Replaced real-person display text, `entity.acme_user`, private source accounts, and `/path/to/user` paths with neutral example refs. | `examples/instance-capability/instance-acme-ops.json` |
 | Personal agent package | Replaced real-person display text and private wearable/media account refs with neutral example refs. | `examples/instance-agent-package/instance-agent-package-acme-ops-samantha.json` |
 | Core source module registry | Replaced illustrative private account/path examples with neutral example refs. | `examples/source-modules/source-module-core-connectors.json` |
 
 The conformance suite now scans all public JSON examples for the private
 deployment markers that caused this gap: `/path/to/user`, `local:/Users/`,
-`local-path:/Users/`, `braydon@`, `msgvault:account:`,
+`local-path:/Users/`, `user@`, `msgvault:account:`,
 private source account refs, `entity.acme_user`, and real-person display text.
 
 ## Product Blockers

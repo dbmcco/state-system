@@ -13,8 +13,8 @@ The canonical runtime unit is `StateInstance`.
 Examples:
 
 - `state_instance.lfw`
-- `state_instance.synthyra`
-- `state_instance.navicyte`
+- `state_instance.examplecorp`
+- `state_instance.demo_co`
 - `state_instance.plum`
 - `state_instance.acme_ops`
 

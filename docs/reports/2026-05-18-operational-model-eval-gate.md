@@ -28,8 +28,8 @@ blocked:
 - `state-route-contract-v0`
 - `bstate-daily-use-contract-refresh-v0`
 - `lfw-daily-use-contract-refresh-v0`
-- `navicyte-state-instance-scaffold-v0`
-- `synthyra-state-instance-scaffold-v0`
+- `demo_co-state-instance-scaffold-v0`
+- `examplecorp-state-instance-scaffold-v0`
 - `state-oss-ecosystem-conformance-v0`
 - `ecosystem-freshness-repair-backlog-v0`
 - `state-instance-scaffold-command-v0`
@@ -70,9 +70,9 @@ Manual gate review used task logs and fresh validation:
 - `lfw-daily-use-contract-refresh-v0`: Caroline package/read model exposes
   contracts, federated relationship route, no local personal materialization,
   transcript/Linear/GitHub gap refs, and repo-root render command.
-- `navicyte-state-instance-scaffold-v0`: Helena scaffold has state root,
+- `demo_co-state-instance-scaffold-v0`: Helena scaffold has state root,
   package, typed readiness fields, guidance, and leakage scan clean.
-- `synthyra-state-instance-scaffold-v0`: Ingrid scaffold has baseline source
+- `examplecorp-state-instance-scaffold-v0`: Ingrid scaffold has baseline source
   module registry, package/render guidance, privacy boundary, and validation.
 - `ecosystem-freshness-repair-backlog-v0`: Freshness backlog exists and
   classifies Spotify, LFW Linear/GitHub, transcripts, Navicyte/Synthyra, and
