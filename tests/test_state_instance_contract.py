@@ -11,15 +11,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class StateInstanceContractTests(unittest.TestCase):
-    def test_lfw_and_personal_state_instances_are_schema_valid(self):
+    def test_acme_and_personal_state_instances_are_schema_valid(self):
         schema_path = ROOT / "schemas/state-instance.schema.json"
         self.assertTrue(schema_path.exists())
         schema = _load_json(schema_path)
         validator = Draft202012Validator(schema)
 
         for filename in (
-            "state-instance-lfw.json",
-            "state-instance-braydon-personal.json",
+            "state-instance-acme.json",
+            "state-instance-acme-ops.json",
         ):
             with self.subTest(filename=filename):
                 instance_path = ROOT / "examples/instances" / filename
@@ -29,12 +29,12 @@ class StateInstanceContractTests(unittest.TestCase):
                 self.assertEqual([], [error.message for error in errors])
 
     def test_personal_instance_uses_entity_not_company_ref(self):
-        instance_path = ROOT / "examples/instances/state-instance-braydon-personal.json"
+        instance_path = ROOT / "examples/instances/state-instance-acme-ops.json"
         self.assertTrue(instance_path.exists())
         instance = _load_json(instance_path)
 
-        self.assertEqual("state_instance.braydon_personal", instance["instance_ref"])
-        self.assertEqual("entity.braydon", instance["primary_entity_ref"])
+        self.assertEqual("state_instance.acme_ops", instance["instance_ref"])
+        self.assertEqual("entity.example_person", instance["primary_entity_ref"])
         self.assertEqual("person", instance["entity_kind"])
         self.assertNotIn("company_ref", instance)
 

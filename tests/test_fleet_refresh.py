@@ -112,7 +112,7 @@ class FleetRefreshTests(unittest.TestCase):
                     state_root
                     / "state"
                     / "instance-agent-packages"
-                    / "instance_agent_package.braydon_personal.samantha.json"
+                    / "instance_agent_package.acme_ops.samantha.json"
                 ).exists()
             )
 
@@ -137,7 +137,7 @@ class FleetRefreshTests(unittest.TestCase):
                                 "status": "ready",
                                 "question": "Is Folio ready?",
                                 "intent": "Folio source readiness should survive refresh.",
-                                "package_id": "instance_agent_package.braydon_personal.samantha",
+                                "package_id": "instance_agent_package.acme_ops.samantha",
                                 "assertions": {
                                     "required_source_status": [
                                         {
@@ -179,12 +179,12 @@ class FleetRefreshTests(unittest.TestCase):
 
 def _seed_personal_state(state_root: Path) -> None:
     stores = StateStoreBundle(state_root)
-    pack = load_json(ROOT / "examples" / "instance-capability" / "instance-braydon-personal.json")
+    pack = load_json(ROOT / "examples" / "instance-capability" / "instance-acme-ops.json")
     InstanceCapabilityRuntime(stores).seed([pack])
     InstancePreflightRuntime(stores).record(
         {
-            "preflight_ref": "preflight.state_instance.braydon_personal.connector.personal.folio",
-            "instance_ref": "state_instance.braydon_personal",
+            "preflight_ref": "preflight.state_instance.acme_ops.connector.personal.folio",
+            "instance_ref": "state_instance.acme_ops",
             "connector_ref": "connector.personal.folio",
             "source_ref": "folio:tenant:personal",
             "connector_type": "folio",
@@ -196,7 +196,7 @@ def _seed_personal_state(state_root: Path) -> None:
     )
     InstanceSourceFreshnessRuntime(stores).record(
         {
-            "instance_ref": "state_instance.braydon_personal",
+            "instance_ref": "state_instance.acme_ops",
             "connector_ref": "connector.personal.folio",
             "source_ref": "folio:tenant:personal",
             "connector_type": "folio",
@@ -220,10 +220,10 @@ def _manifest(
             {
                 "id": "fleet_instance.personal",
                 "state_root": str(state_root),
-                "instance_ref": "state_instance.braydon_personal",
+                "instance_ref": "state_instance.acme_ops",
                 "agent_ref": "agent.samantha",
                 "persona_ref": "persona.samantha",
-                "package_id": "instance_agent_package.braydon_personal.samantha",
+                "package_id": "instance_agent_package.acme_ops.samantha",
                 "preflight_mode": "export_only",
                 "adapter_commands": adapter_commands or [],
             }

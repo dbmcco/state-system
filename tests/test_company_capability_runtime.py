@@ -25,41 +25,41 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
 
             result = runtime.seed(
                 [
-                    load_json(PACK_DIR / "company-lfw.json"),
-                    load_json(PACK_DIR / "company-synthyra.json"),
-                    load_json(PACK_DIR / "company-navicyte.json"),
+                    load_json(PACK_DIR / "company-acme.json"),
+                    load_json(PACK_DIR / "company-examplecorp.json"),
+                    load_json(PACK_DIR / "company-demo-co.json"),
                 ]
             )
 
             self.assertEqual(3, len(result["seeded"]))
             self.assertEqual(
-                ["company.lfw", "company.navicyte", "company.synthyra"],
+                ["company.acme", "company.demo_co", "company.examplecorp"],
                 [pack["company_ref"] for pack in runtime.list_packs()],
             )
-            lfw = runtime.read("company_capability_pack.lfw")
-            self.assertEqual("company.lfw", lfw["company_ref"])
-            self.assertFalse(lfw["invariant"]["proves_live_access"])
-            self.assertFalse(lfw["invariant"]["authorizes_execution"])
+            acme_inst = runtime.read("company_capability_pack.acme")
+            self.assertEqual("company.acme", acme_inst["company_ref"])
+            self.assertFalse(acme_inst["invariant"]["proves_live_access"])
+            self.assertFalse(acme_inst["invariant"]["authorizes_execution"])
 
     def test_seed_is_idempotent_and_updates_existing_runtime_record(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             runtime = CompanyCapabilityRuntime(stores)
-            lfw = load_json(PACK_DIR / "company-lfw.json")
-            runtime.seed([lfw])
+            acme_inst = load_json(PACK_DIR / "company-acme.json")
+            runtime.seed([acme_inst])
 
-            updated_lfw = {**lfw, "generated_at": "2026-05-14T18:00:00Z"}
-            updated_lfw["identity"] = {
-                **lfw["identity"],
+            updated_acme = {**acme_inst, "generated_at": "2026-05-14T18:00:00Z"}
+            updated_acme["identity"] = {
+                **acme_inst["identity"],
                 "summary": "Updated runtime declaration for LFW.",
             }
-            result = runtime.seed([updated_lfw])
+            result = runtime.seed([updated_acme])
 
-            self.assertEqual(["company_capability_pack.lfw"], result["updated"])
+            self.assertEqual(["company_capability_pack.acme"], result["updated"])
             self.assertEqual([], result["created"])
             self.assertEqual(
                 "Updated runtime declaration for LFW.",
-                runtime.read("company_capability_pack.lfw")["identity"]["summary"],
+                runtime.read("company_capability_pack.acme")["identity"]["summary"],
             )
 
     def test_read_model_builds_from_runtime_without_example_inputs(self):
@@ -68,9 +68,9 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             runtime = CompanyCapabilityRuntime(stores)
             runtime.seed(
                 [
-                    load_json(PACK_DIR / "company-lfw.json"),
-                    load_json(PACK_DIR / "company-synthyra.json"),
-                    load_json(PACK_DIR / "company-navicyte.json"),
+                    load_json(PACK_DIR / "company-acme.json"),
+                    load_json(PACK_DIR / "company-examplecorp.json"),
+                    load_json(PACK_DIR / "company-demo-co.json"),
                 ]
             )
 
@@ -78,7 +78,7 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
 
             self.assertEqual("company_capability_read_model", read_model["id"])
             self.assertEqual(
-                ["company.lfw", "company.navicyte", "company.synthyra"],
+                ["company.acme", "company.demo_co", "company.examplecorp"],
                 [company["company_ref"] for company in read_model["companies"]],
             )
             self.assertFalse(
@@ -86,7 +86,7 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             )
             self.assertIn(
                 "company_memory.synthyra",
-                _company(read_model, "company.synthyra")["company_memory_refs"],
+                _company(read_model, "company.examplecorp")["company_memory_refs"],
             )
             self.assertIn(
                 "index.synthyra.state_system.evidence_cards",
@@ -96,7 +96,7 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                 "planned",
                 next(
                     manifest
-                    for manifest in _company(read_model, "company.synthyra")[
+                    for manifest in _company(read_model, "company.examplecorp")[
                         "index_manifests"
                     ]
                     if manifest["index_ref"]
@@ -107,12 +107,12 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                 "tool.paia.gws_drive.read",
                 [
                     binding["tool_ref"]
-                    for binding in _company(read_model, "company.navicyte")[
+                    for binding in _company(read_model, "company.demo_co")[
                         "tool_capability_bindings"
                     ]
                 ],
             )
-            navicyte_connectors = _company(read_model, "company.navicyte")[
+            navicyte_connectors = _company(read_model, "company.demo_co")[
                 "source_connectors"
             ]
             self.assertIn(
@@ -136,9 +136,9 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                     "--state-root",
                     directory,
                     "company-capability-seed",
-                    str(PACK_DIR / "company-lfw.json"),
-                    str(PACK_DIR / "company-synthyra.json"),
-                    str(PACK_DIR / "company-navicyte.json"),
+                    str(PACK_DIR / "company-acme.json"),
+                    str(PACK_DIR / "company-examplecorp.json"),
+                    str(PACK_DIR / "company-demo-co.json"),
                 ],
                 stdout=seed_output,
             )
@@ -167,8 +167,8 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             self.assertEqual("company-capability-read-model.json", read_model_path.name)
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(3, len(read_model["companies"]))
-            self.assertIn("folio:tenant:lfw", read_model["source_refs"])
-            self.assertIn("index.lfw.folio.corpus", read_model["index_refs"])
+            self.assertIn("folio:tenant:acme", read_model["source_refs"])
+            self.assertIn("index.acme.folio.corpus", read_model["index_refs"])
 
 
 def _company(read_model, company_ref):

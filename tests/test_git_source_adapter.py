@@ -18,7 +18,7 @@ class GitSourceAdapterTests(unittest.TestCase):
         commit = {
             "sha": "abc123def456",
             "author_name": "Braydon McConnell",
-            "author_email": "braydon@example.com",
+            "author_email": "user@example.com",
             "authored_at": "2026-05-01T17:30:00Z",
             "subject": "feat: add runtime v0 CLI loop",
             "body": "Adds review, commit, recent, and package commands.",
@@ -64,7 +64,7 @@ class GitSourceAdapterTests(unittest.TestCase):
                     {
                         "sha": "fedcba654321",
                         "author_name": "Braydon McConnell",
-                        "author_email": "braydon@example.com",
+                        "author_email": "user@example.com",
                         "authored_at": "2026-05-01T18:00:00Z",
                         "subject": "docs: update runtime v0",
                         "body": "",

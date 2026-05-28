@@ -51,23 +51,23 @@ class InstanceFederationPackTests(unittest.TestCase):
 
         self.assertEqual(
             "instance_read",
-            packs["instance_federation_pack.personal_to_lfw_state"]["federation_mode"],
+            packs["instance_federation_pack.personal_to_acme_state"]["federation_mode"],
         )
         self.assertEqual(
             "source_substrate_query",
             packs[
-                "instance_federation_pack.lfw_to_personal_relationship_substrate"
+                "instance_federation_pack.acme_to_personal_relationship_substrate"
             ]["federation_mode"],
         )
         self.assertEqual(
             "portfolio_rollup",
-            packs["instance_federation_pack.portfolio_to_navicyte_synthyra"][
+            packs["instance_federation_pack.portfolio_to_demo_co_examplecorp"][
                 "federation_mode"
             ],
         )
         self.assertEqual(
-            ["state_instance.navicyte", "state_instance.synthyra"],
-            packs["instance_federation_pack.portfolio_to_navicyte_synthyra"][
+            ["state_instance.demo_co", "state_instance.examplecorp"],
+            packs["instance_federation_pack.portfolio_to_demo_co_examplecorp"][
                 "remote_instance_refs"
             ],
         )
@@ -102,10 +102,10 @@ class InstanceFederationPackTests(unittest.TestCase):
     def test_renderer_surfaces_boundaries_and_gap_policy(self):
         rendered = render_instance_federation_pack_registry(load_json(REGISTRY))
 
-        self.assertIn("instance_federation_pack.lfw_to_personal_relationship_substrate", rendered)
+        self.assertIn("instance_federation_pack.acme_to_personal_relationship_substrate", rendered)
         self.assertIn("Local materialization: False", rendered)
         self.assertIn("No raw personal relationship records may be copied", rendered)
-        self.assertIn("gap.state_instance.navicyte.package_readiness_unproved", rendered)
+        self.assertIn("gap.state_instance.demo_co.package_readiness_unproved", rendered)
 
     def test_cli_validate_and_render(self):
         validate_output = io.StringIO()

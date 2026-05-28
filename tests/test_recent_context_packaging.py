@@ -37,7 +37,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 ],
                 freshness={
                     "watermark_refs": [
-                        "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                        "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
                         "governance.external-copy-approval",
                     ],
                     "stale_after": "2026-04-29T16:07:30Z",
@@ -48,7 +48,7 @@ class RecentContextPackagingTests(unittest.TestCase):
             self.assertEqual("recent.linear.southern-abrasives-won", entry["id"])
             self.assertEqual(["commit.linear.southern-abrasives-won"], entry["commit_refs"])
             self.assertEqual(
-                ["journal.lfw.deal.southern-abrasives.won"],
+                ["journal.acme.deal.southern-abrasives.won"],
                 entry["journal_entry_refs"],
             )
             self.assertEqual(
@@ -82,7 +82,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                     "or approval-gated external publication actions."
                 ),
                 state_refs=[
-                    "state.lfw.deal.southern-abrasives",
+                    "state.acme.deal.southern-abrasives",
                     "state.operating_picture.marketing",
                 ],
                 memory_refs=["memory.laura.marketing.draft.audience-before-copy"],
@@ -144,7 +144,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 ],
                 valid_until="2026-04-29T16:08:00Z",
                 stale_if_refs_change=[
-                    "state.lfw.deal.southern-abrasives",
+                    "state.acme.deal.southern-abrasives",
                     "governance.external-copy-approval",
                 ],
             )
@@ -156,7 +156,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 [entry["id"] for entry in package["recent_change_context"]["entries"]],
             )
             self.assertEqual(
-                ["state.lfw.deal.southern-abrasives", "state.operating_picture.marketing"],
+                ["state.acme.deal.southern-abrasives", "state.operating_picture.marketing"],
                 [snapshot["id"] for snapshot in package["state_context"]["snapshots"]],
             )
             self.assertEqual(
@@ -244,7 +244,7 @@ class RecentContextPackagingTests(unittest.TestCase):
             )
             change["freshness"] = {
                 "watermark_refs": [
-                    "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                    "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
                     "governance.external-copy-approval",
                 ],
                 "stale_after": "2026-04-29T16:07:30Z",
@@ -263,7 +263,7 @@ class RecentContextPackagingTests(unittest.TestCase):
             self.assertTrue(package["freshness"]["requires_refresh_before_external_action"])
             self.assertEqual(
                 [
-                    "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                    "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
                     "governance.external-copy-approval",
                 ],
                 package["freshness"]["watermark_refs"],

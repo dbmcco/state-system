@@ -86,18 +86,18 @@ class PaiaBootstrapExportTests(unittest.TestCase):
             stores = StateStoreBundle(Path(directory))
             CompanyPreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.lfw.local",
-                    "company_ref": "company.lfw",
-                    "connector_ref": "connector.lfw.local",
+                    "preflight_ref": "preflight.acme.local",
+                    "company_ref": "company.acme",
+                    "connector_ref": "connector.acme.local",
                     "tool_ref": "tool.paia.local_path.inspect",
-                    "action_ref": "action_surface.lfw.inspect_local_workspace",
+                    "action_ref": "action_surface.acme.inspect_local_workspace",
                     "agent_ref": "persona.caroline",
                     "runner_ref": "runner.paia.codex",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:55:00Z",
                     "stale_after": "2026-05-14T19:55:00Z",
                     "evidence_refs": [
-                        "paia:preflight:local-path:lfw",
+                        "paia:preflight:local-path:acme",
                     ],
                 }
             )
@@ -128,16 +128,16 @@ class PaiaBootstrapExportTests(unittest.TestCase):
             stores = StateStoreBundle(Path(directory))
             SourceFreshnessRuntime(stores).record(
                 {
-                    "company_ref": "company.lfw",
-                    "connector_ref": "connector.lfw.folio",
-                    "source_ref": "folio:tenant:lfw",
+                    "company_ref": "company.acme",
+                    "connector_ref": "connector.acme.folio",
+                    "source_ref": "folio:tenant:acme",
                     "connector_type": "folio",
                     "status": "fresh",
                     "checked_at": "2026-05-15T12:00:00Z",
                     "source_watermark": "folio.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["paia:freshness:folio:lfw"],
+                    "evidence_refs": ["paia:freshness:folio:acme"],
                 }
             )
 

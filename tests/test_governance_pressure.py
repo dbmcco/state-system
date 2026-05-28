@@ -35,7 +35,7 @@ class GovernancePressureTests(unittest.TestCase):
                 [item["state_object_id"] for item in result["queued_rollup_requests"]],
             )
             self.assertEqual(
-                "state.lfw.deal.southern-abrasives",
+                "state.acme.deal.southern-abrasives",
                 result["pending_approvals"][0]["target_ref"],
             )
 
@@ -55,13 +55,13 @@ class GovernancePressureTests(unittest.TestCase):
                 model_output,
                 created_at="2026-04-28T14:17:00Z",
                 evidence_refs={
-                    "lfw-process/pipeline/ops-manager-operating-model.md",
-                    "state.lfw.contract.harbor",
+                    "acme-process/pipeline/ops-manager-operating-model.md",
+                    "state.acme.contract.harbor",
                 },
             )
 
-            journal = stores.journals.read("journal.lfw.contract.harbor.stale-review")
-            snapshot = stores.state_objects.read("state.lfw.contract.harbor")
+            journal = stores.journals.read("journal.acme.contract.harbor.stale-review")
+            snapshot = stores.state_objects.read("state.acme.contract.harbor")
             self.assertEqual("accepted", result["status"])
             self.assertIn("Current contract stage is not evidenced.", journal["uncertainty"])
             self.assertEqual("waiting_on_internal", snapshot["status"])

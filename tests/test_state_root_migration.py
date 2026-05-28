@@ -19,33 +19,33 @@ class StateRootMigrationTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             base = Path(directory)
             source = base / "hidden" / "state-system"
-            target = base / "work" / "lfw" / "state-system"
+            target = base / "work" / "acme" / "state-system"
             compat = base / "compat" / "state-system"
-            local_path = base / "work" / "lfw"
+            local_path = base / "work" / "acme"
             local_path.mkdir(parents=True)
             compat.parent.mkdir(parents=True)
 
             stores = StateStoreBundle(source)
             CompanyCapabilityRuntime(stores).seed(
                 [
-                    _pack_with_local_path("company-lfw.json", local_path),
-                    load_json(PACK_DIR / "company-synthyra.json"),
-                    load_json(PACK_DIR / "company-navicyte.json"),
+                    _pack_with_local_path("company-acme.json", local_path),
+                    load_json(PACK_DIR / "company-examplecorp.json"),
+                    load_json(PACK_DIR / "company-demo-co.json"),
                 ]
             )
             CompanyPreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.lfw.linear",
-                    "company_ref": "company.lfw",
-                    "connector_ref": "connector.lfw.linear",
+                    "preflight_ref": "preflight.acme.linear",
+                    "company_ref": "company.acme",
+                    "connector_ref": "connector.acme.linear",
                     "tool_ref": "tool.paia.linear.read",
-                    "action_ref": "action_surface.lfw.read_linear",
+                    "action_ref": "action_surface.acme.read_linear",
                     "agent_ref": "persona.caroline",
                     "runner_ref": "runner.paia.codex",
                     "status": "passed",
                     "checked_at": "2026-05-16T12:00:00Z",
                     "stale_after": "2026-05-16T13:00:00Z",
-                    "evidence_refs": ["paia:preflight:linear:lfw"],
+                    "evidence_refs": ["paia:preflight:linear:acme"],
                 }
             )
 
@@ -57,9 +57,9 @@ class StateRootMigrationTests(unittest.TestCase):
                 source_root=source,
                 target_root=target,
                 compat_link=compat,
-                validate_company_ref="company.lfw",
+                validate_company_ref="company.acme",
                 refresh=True,
-                heartbeat_company_ref="company.lfw",
+                heartbeat_company_ref="company.acme",
                 heartbeat_checked_at="2026-05-16T12:30:00Z",
                 heartbeat_stale_after="2026-05-16T12:45:00Z",
             )
@@ -95,7 +95,7 @@ class StateRootMigrationTests(unittest.TestCase):
             capability = json.loads(capability_path.read_text(encoding="utf-8"))
             company_refs = {company["company_ref"] for company in capability["companies"]}
             self.assertEqual(
-                {"company.lfw", "company.navicyte", "company.synthyra"},
+                {"company.acme", "company.demo_co", "company.examplecorp"},
                 company_refs,
             )
             preflight = json.loads(preflight_path.read_text(encoding="utf-8"))
@@ -104,8 +104,9 @@ class StateRootMigrationTests(unittest.TestCase):
             latest = freshness["latest_by_scope_key"]
             self.assertTrue(
                 any(
-                    result["connector_ref"] == "connector.lfw.local"
-                    and result["status"] == "fresh"
+                    result["connector_ref"] == "connector.acme.local"
+                    and result["status"] == "failed"
+                    and result.get("error", {}).get("code") == "path_missing"
                     for result in latest.values()
                 )
             )

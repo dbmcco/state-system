@@ -19,7 +19,7 @@ from state_system.stores import StateStoreBundle
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CAPABILITY_PACK = ROOT / "examples" / "instance-capability" / "instance-braydon-personal.json"
+CAPABILITY_PACK = ROOT / "examples" / "instance-capability" / "instance-acme-ops.json"
 SCHEMA_PATH = ROOT / "schemas" / "personal-context-package.schema.json"
 
 
@@ -28,9 +28,9 @@ def _seed_personal(stores: StateStoreBundle) -> None:
     InstancePreflightRuntime(stores).record(
         {
             "preflight_ref": (
-                "preflight.state_instance.braydon_personal.connector.personal.folio"
+                "preflight.state_instance.acme_ops.connector.personal.folio"
             ),
-            "instance_ref": "state_instance.braydon_personal",
+            "instance_ref": "state_instance.acme_ops",
             "connector_ref": "connector.personal.folio",
             "source_ref": "folio:tenant:personal",
             "connector_type": "folio",
@@ -43,9 +43,9 @@ def _seed_personal(stores: StateStoreBundle) -> None:
     InstancePreflightRuntime(stores).record(
         {
             "preflight_ref": (
-                "preflight.state_instance.braydon_personal.connector.personal.msgvault"
+                "preflight.state_instance.acme_ops.connector.personal.msgvault"
             ),
-            "instance_ref": "state_instance.braydon_personal",
+            "instance_ref": "state_instance.acme_ops",
             "connector_ref": "connector.personal.msgvault",
             "source_ref": "msgvault:tenant:personal-email",
             "connector_type": "msgvault",
@@ -57,7 +57,7 @@ def _seed_personal(stores: StateStoreBundle) -> None:
     )
     InstanceSourceFreshnessRuntime(stores).record(
         {
-            "instance_ref": "state_instance.braydon_personal",
+            "instance_ref": "state_instance.acme_ops",
             "connector_ref": "connector.personal.folio",
             "source_ref": "folio:tenant:personal",
             "connector_type": "folio",
@@ -78,16 +78,16 @@ class PersonalContextPackageTests(unittest.TestCase):
             _seed_personal(stores)
             package = build_personal_context_package(
                 stores=stores,
-                instance_ref="state_instance.braydon_personal",
-                package_id="personal_context_package.braydon.20260517",
+                instance_ref="state_instance.acme_ops",
+                package_id="personal_context_package.acme_user.20260517",
                 created_at="2026-05-17T16:00:00Z",
                 synthesis_goal="Synthesize personal b-state across declared sources.",
                 valid_until="2026-05-17T17:00:00Z",
             )
 
         self.assertEqual("personal_b_state_synthesis", package["package_type"])
-        self.assertEqual("state_instance.braydon_personal", package["instance_ref"])
-        self.assertEqual("entity.braydon", package["primary_entity_ref"])
+        self.assertEqual("state_instance.acme_ops", package["instance_ref"])
+        self.assertEqual("entity.example_person", package["primary_entity_ref"])
         connector_refs = {
             boundary["connector_ref"] for boundary in package["source_boundaries"]
         }
@@ -103,8 +103,8 @@ class PersonalContextPackageTests(unittest.TestCase):
             _seed_personal(stores)
             package = build_personal_context_package(
                 stores=stores,
-                instance_ref="state_instance.braydon_personal",
-                package_id="personal_context_package.braydon.20260517",
+                instance_ref="state_instance.acme_ops",
+                package_id="personal_context_package.acme_user.20260517",
                 created_at="2026-05-17T16:00:00Z",
                 synthesis_goal="Synthesize personal b-state.",
                 valid_until="2026-05-17T17:00:00Z",
@@ -132,8 +132,8 @@ class PersonalContextPackageTests(unittest.TestCase):
             _seed_personal(stores)
             package = build_personal_context_package(
                 stores=stores,
-                instance_ref="state_instance.braydon_personal",
-                package_id="personal_context_package.braydon.20260517",
+                instance_ref="state_instance.acme_ops",
+                package_id="personal_context_package.acme_user.20260517",
                 created_at="2026-05-17T16:00:00Z",
                 synthesis_goal="Synthesize personal b-state.",
                 valid_until="2026-05-17T17:00:00Z",
@@ -146,7 +146,7 @@ class PersonalContextPackageTests(unittest.TestCase):
         self.assertTrue(package["freshness"]["requires_refresh_before_synthesis"])
         self.assertEqual("2026-05-17T17:00:00Z", package["freshness"]["valid_until"])
         self.assertIn(
-            "governance.braydon.personal_default",
+            "governance.acme_user.personal_default",
             package["governance"]["governance_refs"],
         )
         self.assertTrue(
@@ -166,8 +166,8 @@ class PersonalContextPackageTests(unittest.TestCase):
             _seed_personal(stores)
             package = build_personal_context_package(
                 stores=stores,
-                instance_ref="state_instance.braydon_personal",
-                package_id="personal_context_package.braydon.20260517",
+                instance_ref="state_instance.acme_ops",
+                package_id="personal_context_package.acme_user.20260517",
                 created_at="2026-05-17T16:00:00Z",
                 synthesis_goal="Synthesize personal b-state.",
                 valid_until="2026-05-17T17:00:00Z",
@@ -200,8 +200,8 @@ class PersonalContextPackageTests(unittest.TestCase):
             with self.assertRaises(PersonalContextPackageValidationError) as cm:
                 build_personal_context_package(
                     stores=stores,
-                    instance_ref="state_instance.braydon_personal",
-                    package_id="personal_context_package.braydon.invalid",
+                    instance_ref="state_instance.acme_ops",
+                    package_id="personal_context_package.acme_user.invalid",
                     created_at="2026-05-17T16:00:00Z",
                     synthesis_goal="Synthesize personal b-state.",
                     valid_until="2026-05-17T17:00:00Z",
@@ -223,9 +223,9 @@ class PersonalContextPackageTests(unittest.TestCase):
                     directory,
                     "personal-context-package-build",
                     "--instance-ref",
-                    "state_instance.braydon_personal",
+                    "state_instance.acme_ops",
                     "--package-id",
-                    "personal_context_package.braydon.cli",
+                    "personal_context_package.acme_user.cli",
                     "--created-at",
                     "2026-05-17T16:00:00Z",
                     "--synthesis-goal",
@@ -242,7 +242,7 @@ class PersonalContextPackageTests(unittest.TestCase):
             package_path = Path(payload["package_path"])
             self.assertTrue(package_path.exists())
             package = json.loads(package_path.read_text(encoding="utf-8"))
-            self.assertEqual("personal_context_package.braydon.cli", package["id"])
+            self.assertEqual("personal_context_package.acme_user.cli", package["id"])
 
 
 if __name__ == "__main__":

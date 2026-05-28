@@ -24,7 +24,7 @@ class InstanceScaffoldTests(unittest.TestCase):
             result = scaffold_state_instance(
                 project_root=ROOT,
                 runtime_root=runtime_root,
-                instance_ref="state_instance.navicyte",
+                instance_ref="state_instance.demo_co",
                 kind="company",
                 display_name="Navicyte State",
                 primary_entity_ref="entity.navicyte",
@@ -42,7 +42,7 @@ class InstanceScaffoldTests(unittest.TestCase):
 
             instance = json.loads(instance_path.read_text(encoding="utf-8"))
             registry = json.loads(registry_path.read_text(encoding="utf-8"))
-            self.assertEqual("state_instance.navicyte", instance["instance_ref"])
+            self.assertEqual("state_instance.demo_co", instance["instance_ref"])
             self.assertEqual(
                 {"folio", "gws_drive", "msgvault", "local_path"},
                 {module["connector_type"] for module in registry["modules"]},
@@ -63,7 +63,7 @@ class InstanceScaffoldTests(unittest.TestCase):
                     "--runtime-root",
                     str(Path(directory) / "synthyra-state-system"),
                     "--instance-ref",
-                    "state_instance.synthyra",
+                    "state_instance.examplecorp",
                     "--kind",
                     "company",
                     "--display-name",

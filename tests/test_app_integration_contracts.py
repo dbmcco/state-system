@@ -447,7 +447,7 @@ class AppIntegrationContractTests(unittest.TestCase):
             / "conformance-no-sales-score-app-local-doctrine-006.json"
         )
 
-        self.assertEqual("lfw_ai_graph_crm", source["source_system"])
+        self.assertEqual("acme_crm", source["source_system"])
         self.assertEqual("crm_outcome_learning_package", package["package_type"])
         self.assertIn(source["source_refs"][0], package["evidence_context"]["evidence_refs"])
         self.assertEqual("needs_approval", output["decision"])

@@ -25,6 +25,18 @@ OSS_CONTRACT_FIXTURE_DIRS = (
 )
 
 EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+\b")
+PRIVATE_DEPLOYMENT_MARKERS = (
+    "/Users/acme_user",
+    "local:/Users/",
+    "local-path:/Users/",
+    "acme_user@",
+    "msgvault:account:",
+    "agentmem:tenant:acme_user",
+    "garmin-connect:account:acme_user",
+    "spotify:account:acme_user",
+    "entity.acme_user",
+    "Braydon",
+)
 
 
 class OpenSourceEcosystemConformanceTests(unittest.TestCase):
@@ -137,6 +149,20 @@ class OpenSourceEcosystemConformanceTests(unittest.TestCase):
                     offenders.append(f"{path.relative_to(ROOT)}: {match}")
         self.assertEqual([], offenders)
 
+    def test_public_examples_have_no_private_deployment_markers(self):
+        offenders: list[str] = []
+        for path in sorted((ROOT / "examples").rglob("*.json")):
+            text = path.read_text(encoding="utf-8")
+            for marker in PRIVATE_DEPLOYMENT_MARKERS:
+                if marker in text:
+                    offenders.append(f"{path.relative_to(ROOT)}: {marker}")
+        self.assertEqual(
+            [],
+            offenders,
+            "Public examples must use neutral deployment refs; private runtime "
+            "paths, account refs, and personal names belong in state roots.",
+        )
+
     def test_schemas_do_not_lock_in_connector_type_enum(self):
         offenders: list[str] = []
         for path in sorted((ROOT / "schemas").glob("*.json")):
@@ -194,12 +220,12 @@ def _generated_personal_package() -> dict:
     with TemporaryDirectory() as directory:
         stores = StateStoreBundle(Path(directory))
         InstanceCapabilityRuntime(stores).seed(
-            [load_json(ROOT / "examples/instance-capability/instance-braydon-personal.json")]
+            [load_json(ROOT / "examples/instance-capability/instance-acme-ops.json")]
         )
         InstancePreflightRuntime(stores).record(
             {
-                "preflight_ref": "preflight.state_instance.braydon_personal.connector.personal.folio",
-                "instance_ref": "state_instance.braydon_personal",
+                "preflight_ref": "preflight.state_instance.acme_ops.connector.personal.folio",
+                "instance_ref": "state_instance.acme_ops",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -211,7 +237,7 @@ def _generated_personal_package() -> dict:
         )
         InstanceSourceFreshnessRuntime(stores).record(
             {
-                "instance_ref": "state_instance.braydon_personal",
+                "instance_ref": "state_instance.acme_ops",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -228,11 +254,11 @@ def _generated_personal_package() -> dict:
                     ROOT / "schemas/instance-agent-package.schema.json"
                 )
             },
-            instance_ref="state_instance.braydon_personal",
+            instance_ref="state_instance.acme_ops",
             agent_ref="agent.samantha",
             persona_ref="persona.samantha",
             created_at="2026-05-18T16:01:00Z",
-            package_id="instance_agent_package.test.braydon_personal.samantha",
+            package_id="instance_agent_package.test.acme_ops.samantha",
         )
 
 

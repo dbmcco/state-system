@@ -25,7 +25,7 @@ class OperationalLoopTests(unittest.TestCase):
             self.assertEqual("passed", summary["status"])
             self.assertEqual("accepted", summary["commit"]["status"])
             self.assertEqual(
-                ["state.lfw.deal.southern-abrasives"],
+                ["state.acme.deal.southern-abrasives"],
                 summary["accepted_state_refs"],
             )
             self.assertGreaterEqual(len(summary["evidence_refs"]), 2)

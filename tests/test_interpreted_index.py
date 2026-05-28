@@ -23,15 +23,15 @@ PACK_DIR = ROOT / "examples" / "company-capability"
 class InterpretedIndexTests(unittest.TestCase):
     def test_index_materializes_company_readiness_records_without_raw_corpus(self):
         with TemporaryDirectory() as directory:
-            stores = _lfw_runtime(Path(directory))
+            stores = _acme_runtime(Path(directory))
 
             read_model = build_interpreted_index_read_model(
                 stores,
-                company_ref="company.lfw",
+                company_ref="company.acme",
             )
 
             self.assertEqual("state_system_interpreted_index_read_model", read_model["id"])
-            self.assertEqual(["company.lfw"], read_model["company_refs"])
+            self.assertEqual(["company.acme"], read_model["company_refs"])
             self.assertTrue(read_model["records"])
             self.assertTrue(read_model["invariant"]["ingests_raw_source_data"] is False)
             self.assertTrue(read_model["invariant"]["model_owns_synthesis"])
@@ -41,7 +41,7 @@ class InterpretedIndexTests(unittest.TestCase):
             self.assertIn("searchable_surface", kinds)
             self.assertTrue(
                 any(
-                    record["record_ref"] == "source_readiness.company.lfw.connector.lfw.folio"
+                    record["record_ref"] == "source_readiness.company.acme.connector.acme.folio"
                     and "ready" in record["text"]
                     for record in read_model["records"]
                 )
@@ -49,10 +49,10 @@ class InterpretedIndexTests(unittest.TestCase):
 
     def test_search_returns_ranked_interpreted_records_for_query(self):
         with TemporaryDirectory() as directory:
-            stores = _lfw_runtime(Path(directory))
+            stores = _acme_runtime(Path(directory))
             read_model = build_interpreted_index_read_model(
                 stores,
-                company_ref="company.lfw",
+                company_ref="company.acme",
             )
 
             result = search_interpreted_index(
@@ -64,12 +64,12 @@ class InterpretedIndexTests(unittest.TestCase):
             self.assertEqual("state_system_interpreted_search_result", result["id"])
             self.assertEqual("folio ready source", result["query"])
             self.assertGreaterEqual(len(result["records"]), 1)
-            self.assertEqual("company.lfw", result["records"][0]["company_ref"])
+            self.assertEqual("company.acme", result["records"][0]["company_ref"])
             self.assertIn("folio", result["records"][0]["text"])
 
     def test_cli_writes_and_searches_interpreted_index(self):
         with TemporaryDirectory() as directory, TemporaryDirectory() as output_dir:
-            stores = _lfw_runtime(Path(directory))
+            stores = _acme_runtime(Path(directory))
             del stores
 
             read_output = StringIO()
@@ -81,7 +81,7 @@ class InterpretedIndexTests(unittest.TestCase):
                     directory,
                     "state-interpreted-index-read",
                     "--company-ref",
-                    "company.lfw",
+                    "company.acme",
                     "--output-dir",
                     output_dir,
                 ],
@@ -104,7 +104,7 @@ class InterpretedIndexTests(unittest.TestCase):
                     directory,
                     "state-interpreted-search",
                     "--company-ref",
-                    "company.lfw",
+                    "company.acme",
                     "--query",
                     "linear ready",
                     "--limit",
@@ -120,7 +120,7 @@ class InterpretedIndexTests(unittest.TestCase):
 
     def test_cli_require_records_fails_when_live_search_has_no_records(self):
         with TemporaryDirectory() as directory:
-            _lfw_runtime(Path(directory))
+            _acme_runtime(Path(directory))
 
             search_output = StringIO()
             search_code = cli.main(
@@ -131,7 +131,7 @@ class InterpretedIndexTests(unittest.TestCase):
                     directory,
                     "state-interpreted-search",
                     "--company-ref",
-                    "company.lfw",
+                    "company.acme",
                     "--query",
                     "zzzzzzzzzz",
                     "--limit",
@@ -150,35 +150,35 @@ class InterpretedIndexTests(unittest.TestCase):
             )
 
 
-def _lfw_runtime(root: Path) -> StateStoreBundle:
+def _acme_runtime(root: Path) -> StateStoreBundle:
     stores = StateStoreBundle(root)
-    CompanyCapabilityRuntime(stores).seed([load_json(PACK_DIR / "company-lfw.json")])
+    CompanyCapabilityRuntime(stores).seed([load_json(PACK_DIR / "company-acme.json")])
     CompanyPreflightRuntime(stores).record(
         {
-            "preflight_ref": "preflight.lfw.folio",
-            "company_ref": "company.lfw",
-            "connector_ref": "connector.lfw.folio",
+            "preflight_ref": "preflight.acme.folio",
+            "company_ref": "company.acme",
+            "connector_ref": "connector.acme.folio",
             "tool_ref": "tool.paia.folio.search",
-            "action_ref": "action_surface.lfw.read_folio",
+            "action_ref": "action_surface.acme.read_folio",
             "agent_ref": "persona.caroline",
             "runner_ref": "runner.paia.codex",
             "status": "passed",
             "checked_at": "2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:45:00Z",
-            "evidence_refs": ["paia:preflight:folio:lfw"],
+            "evidence_refs": ["paia:preflight:folio:acme"],
         }
     )
     SourceFreshnessRuntime(stores).record(
         {
-            "company_ref": "company.lfw",
-            "connector_ref": "connector.lfw.folio",
-            "source_ref": "folio:tenant:lfw",
+            "company_ref": "company.acme",
+            "connector_ref": "connector.acme.folio",
+            "source_ref": "folio:tenant:acme",
             "connector_type": "folio",
             "status": "fresh",
             "checked_at": "2026-05-16T19:31:00Z",
             "source_watermark": "folio.updated_at:2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:46:00Z",
-            "evidence_refs": ["paia:freshness:folio:lfw"],
+            "evidence_refs": ["paia:freshness:folio:acme"],
         }
     )
     return stores

@@ -24,7 +24,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
     def test_cli_builds_and_renders_instance_agent_package(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
-            personal_pack = load_json(PACK_DIR / "instance-braydon-personal.json")
+            personal_pack = load_json(PACK_DIR / "instance-acme-ops.json")
             folio_connector = next(
                 connector
                 for connector in personal_pack["source_connectors"]
@@ -36,8 +36,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
             InstanceCapabilityRuntime(stores).seed([personal_pack])
             InstancePreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.state_instance.braydon_personal.connector.personal.folio",
-                    "instance_ref": "state_instance.braydon_personal",
+                    "preflight_ref": "preflight.state_instance.acme_ops.connector.personal.folio",
+                    "instance_ref": "state_instance.acme_ops",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -49,7 +49,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
-                    "instance_ref": "state_instance.braydon_personal",
+                    "instance_ref": "state_instance.acme_ops",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -70,7 +70,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     directory,
                     "instance-agent-package-build",
                     "--instance-ref",
-                    "state_instance.braydon_personal",
+                    "state_instance.acme_ops",
                     "--agent-ref",
                     "agent.samantha",
                     "--persona-ref",
@@ -91,7 +91,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 ),
             )
             self.assertIn(
-                "gap.state_instance.braydon_personal.connector.personal.garmin_connect.access_missing",
+                "gap.state_instance.acme_ops.connector.personal.garmin_connect.access_missing",
                 package["source_context"]["source_gap_refs"],
             )
             folio_source = _source(package, "connector.personal.folio")
@@ -158,14 +158,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
             self.assertFalse(package["invariant"]["agent_package_authorizes_execution"])
             federation_pack = _federation_pack(
                 package,
-                "instance_federation_pack.personal_to_lfw_state",
+                "instance_federation_pack.personal_to_acme_state",
             )
             self.assertEqual("instance_read", federation_pack["federation_mode"])
             self.assertFalse(
                 federation_pack["materialization_policy"]["local_materialization"]
             )
             self.assertIn(
-                "state_instance.lfw",
+                "state_instance.acme",
                 federation_pack["remote_instance_refs"],
             )
 
@@ -195,7 +195,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             self.assertIn("Fallback policy:", rendered.getvalue())
             self.assertIn("Federation packs:", rendered.getvalue())
             self.assertIn(
-                "instance_federation_pack.personal_to_lfw_state",
+                "instance_federation_pack.personal_to_acme_state",
                 rendered.getvalue(),
             )
             self.assertIn(
@@ -209,38 +209,38 @@ class InstanceAgentPackageTests(unittest.TestCase):
             ROOT
             / "examples"
             / "instance-agent-package"
-            / "instance-agent-package-braydon-personal-samantha.json"
+            / "instance-agent-package-acme-ops-samantha.json"
         )
         package["source_context"]["source_readiness"][0]["federated_instance"] = {
-            "source_instance_ref": "state_instance.lfw",
+            "source_instance_ref": "state_instance.acme",
             "status": "available",
         }
 
         rendered = render_package_for_agent(package)
 
-        self.assertIn("Federated instance: state_instance.lfw (available)", rendered)
+        self.assertIn("Federated instance: state_instance.acme (available)", rendered)
         self.assertIn("Governance refs:", rendered)
         self.assertIn("Requires refresh before external action.", rendered)
 
-    def test_lfw_route_declares_governed_federated_relationship_index(self):
+    def test_acme_route_declares_governed_federated_relationship_index(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-lfw.json")]
+                [load_json(PACK_DIR / "instance-acme.json")]
             )
             for connector_ref, source_ref, connector_type in (
-                ("connector.lfw.folio", "folio:tenant:lfw", "folio"),
-                ("connector.lfw.msgvault", "msgvault:tenant:lfw-email", "msgvault"),
+                ("connector.acme.folio", "folio:tenant:acme", "folio"),
+                ("connector.acme.msgvault", "msgvault:tenant:acme-email", "msgvault"),
                 (
-                    "connector.lfw.state_system",
-                    "state-system-instance:state_instance.lfw",
+                    "connector.acme.state_system",
+                    "state-system-instance:state_instance.acme",
                     "local_path",
                 ),
             ):
                 InstancePreflightRuntime(stores).record(
                     {
-                        "preflight_ref": f"preflight.state_instance.lfw.{connector_ref}",
-                        "instance_ref": "state_instance.lfw",
+                        "preflight_ref": f"preflight.state_instance.acme.{connector_ref}",
+                        "instance_ref": "state_instance.acme",
                         "connector_ref": connector_ref,
                         "source_ref": source_ref,
                         "connector_type": connector_type,
@@ -252,7 +252,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 )
                 InstanceSourceFreshnessRuntime(stores).record(
                     {
-                        "instance_ref": "state_instance.lfw",
+                        "instance_ref": "state_instance.acme",
                         "connector_ref": connector_ref,
                         "source_ref": source_ref,
                         "connector_type": connector_type,
@@ -270,7 +270,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.lfw",
+                instance_ref="state_instance.acme",
                 agent_ref="agent.caroline",
                 persona_ref="persona.caroline",
                 created_at="2026-05-17T16:41:00Z",
@@ -278,14 +278,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
 
         relationship_route = _route(
             package,
-            "question_route.lfw.federated_relationship_index",
+            "question_route.acme.federated_relationship_index",
         )
         self.assertIn(
-            "state_instance.braydon_personal",
+            "state_instance.acme_ops",
             package["evidence_context"]["federated_instance_refs"],
         )
         self.assertIn(
-            "index.federated.braydon_personal.relationship_index",
+            "index.federated.acme_ops.relationship_index",
             package["evidence_context"]["index_refs"],
         )
         self.assertEqual(
@@ -293,7 +293,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             relationship_route["query_route"]["status"],
         )
         self.assertEqual(
-            "index.federated.braydon_personal.relationship_index",
+            "index.federated.acme_ops.relationship_index",
             relationship_route["query_route"]["index_ref"],
         )
         self.assertFalse(relationship_route["query_route"]["local_materialization"])
@@ -307,7 +307,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
         )
         federation_pack = _federation_pack(
             package,
-            "instance_federation_pack.lfw_to_personal_relationship_substrate",
+            "instance_federation_pack.acme_to_personal_relationship_substrate",
         )
         self.assertEqual("source_substrate_query", federation_pack["federation_mode"])
         self.assertFalse(
@@ -318,20 +318,20 @@ class InstanceAgentPackageTests(unittest.TestCase):
             federation_pack["materialization_policy"]["raw_remote_corpus_policy"],
         )
         rendered = render_package_for_agent(package)
-        self.assertIn("question_route.lfw.federated_relationship_index", rendered)
+        self.assertIn("question_route.acme.federated_relationship_index", rendered)
         self.assertIn("Local materialization: False", rendered)
-        self.assertIn("state_instance.braydon_personal", rendered)
+        self.assertIn("state_instance.acme_ops", rendered)
         self.assertIn(
-            "instance_federation_pack.lfw_to_personal_relationship_substrate",
+            "instance_federation_pack.acme_to_personal_relationship_substrate",
             rendered,
         )
 
     def test_company_scaffold_package_exposes_planned_portfolio_federation(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
-            navicyte_pack = load_json(PACK_DIR / "instance-lfw.json")
+            navicyte_pack = load_json(PACK_DIR / "instance-acme.json")
             navicyte_pack["id"] = "instance_capability_pack.navicyte"
-            navicyte_pack["instance_ref"] = "state_instance.navicyte"
+            navicyte_pack["instance_ref"] = "state_instance.demo_co"
             navicyte_pack["primary_entity_ref"] = "entity.navicyte"
             navicyte_pack["identity"]["name"] = "Navicyte"
             InstanceCapabilityRuntime(stores).seed([navicyte_pack])
@@ -342,7 +342,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.navicyte",
+                instance_ref="state_instance.demo_co",
                 agent_ref="agent.helena",
                 persona_ref="persona.helena",
                 created_at="2026-05-18T19:30:00Z",
@@ -350,14 +350,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
 
         federation_pack = _federation_pack(
             package,
-            "instance_federation_pack.portfolio_to_navicyte_synthyra",
+            "instance_federation_pack.portfolio_to_demo_co_examplecorp",
         )
         self.assertEqual("planned", federation_pack["status"])
         self.assertFalse(
             federation_pack["materialization_policy"]["local_materialization"]
         )
         self.assertIn(
-            "gap.state_instance.navicyte.portfolio_federation.package_readiness_unproved",
+            "gap.state_instance.demo_co.portfolio_federation.package_readiness_unproved",
             federation_pack["freshness_policy"]["gap_refs"],
         )
 
@@ -373,13 +373,13 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         "id": "question_route_registry.private",
                         "routes": [
                             {
-                                "route_id": "question_route.lfw.private_context_review",
+                                "route_id": "question_route.acme.private_context_review",
                                 "intent": "Review private LFW context with visible source gaps.",
-                                "source_order": ["connector.lfw.folio"],
+                                "source_order": ["connector.acme.folio"],
                                 "required_source_coverage": [
                                     {
-                                        "coverage_ref": "coverage.lfw.private_folio",
-                                        "connector_refs": ["connector.lfw.folio"],
+                                        "coverage_ref": "coverage.acme.private_folio",
+                                        "connector_refs": ["connector.acme.folio"],
                                         "source_module_refs": ["source_module.folio"],
                                         "minimum_status": "usable_with_visible_gaps",
                                     }
@@ -428,7 +428,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             )
 
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-lfw.json")]
+                [load_json(PACK_DIR / "instance-acme.json")]
             )
 
             package = InstanceAgentPackageRuntime(stores).build(
@@ -437,15 +437,15 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.lfw",
+                instance_ref="state_instance.acme",
                 agent_ref="agent.caroline",
                 persona_ref="persona.caroline",
                 created_at="2026-05-18T20:10:00Z",
             )
 
-        private_route = _route(package, "question_route.lfw.private_context_review")
+        private_route = _route(package, "question_route.acme.private_context_review")
         self.assertEqual(
-            "question_route_contract.lfw.private_context_review",
+            "question_route_contract.acme.private_context_review",
             private_route["route_contract_ref"],
         )
         self.assertEqual(

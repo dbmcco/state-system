@@ -11,13 +11,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class InstanceCapabilityPackTests(unittest.TestCase):
-    def test_personal_and_lfw_instance_packs_are_schema_valid(self):
+    def test_personal_and_acme_instance_packs_are_schema_valid(self):
         schema_path = ROOT / "schemas/instance-capability-pack.schema.json"
         self.assertTrue(schema_path.exists())
         schema = _load_json(schema_path)
         validator = Draft202012Validator(schema)
 
-        for filename in ("instance-braydon-personal.json", "instance-lfw.json"):
+        for filename in ("instance-acme-ops.json", "instance-acme.json"):
             with self.subTest(filename=filename):
                 pack_path = ROOT / "examples/instance-capability" / filename
                 self.assertTrue(pack_path.exists())
@@ -26,7 +26,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
                 self.assertEqual([], [error.message for error in errors])
 
     def test_personal_pack_declares_workboard_agentmem_relationships_and_federated_work_instances(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
 
@@ -37,12 +37,12 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertIn("agentmem", connector_types)
         self.assertIn("relationship_substrate", connector_types)
         self.assertIn("state_system_instance", connector_types)
-        self.assertEqual("entity.braydon", pack["primary_entity_ref"])
+        self.assertEqual("entity.example_person", pack["primary_entity_ref"])
         self.assertEqual("person", pack["entity_kind"])
         self.assertNotIn("company_ref", pack)
 
     def test_personal_pack_declares_garmin_connect_and_spotify_sources(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
 
@@ -51,8 +51,8 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         }
         self.assertIn("garmin_connect", connector_types)
         self.assertIn("spotify", connector_types)
-        self.assertIn("garmin-connect:account:braydon", pack["raw_corpus"]["source_refs"])
-        self.assertIn("spotify:account:braydon", pack["raw_corpus"]["source_refs"])
+        self.assertIn("garmin-connect:account:example-person", pack["raw_corpus"]["source_refs"])
+        self.assertIn("spotify:account:example-person", pack["raw_corpus"]["source_refs"])
         self.assertIn(
             "index.personal.garmin_connect.activity",
             pack["evidence_index"]["index_refs"],
@@ -86,7 +86,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertEqual(["connector.personal.spotify"], spotify_index["connector_refs"])
 
     def test_index_scopes_include_federated_vector_taxonomy(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
         scopes = {manifest["scope"] for manifest in pack["index_manifests"]}
@@ -106,7 +106,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         )
 
     def test_personal_relationship_substrate_has_tool_binding(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
         binding = _binding(pack, "tool_binding.personal.relationship_substrate.read")
@@ -131,7 +131,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertFalse(binding["authorizes_execution"])
 
     def test_personal_relationship_substrate_has_small_consulting_search_binding(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
         binding = _binding(
@@ -163,7 +163,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertFalse(binding["authorizes_execution"])
 
     def test_personal_relationship_substrate_has_subject_note_bindings(self):
-        pack_path = ROOT / "examples/instance-capability/instance-braydon-personal.json"
+        pack_path = ROOT / "examples/instance-capability/instance-acme-ops.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
         action_refs = pack["action_surface"]["action_refs"]
@@ -214,11 +214,11 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         self.assertFalse(record_binding["proves_live_access"])
         self.assertFalse(record_binding["authorizes_execution"])
 
-    def test_lfw_instance_uses_operational_interpreted_state_search(self):
-        pack_path = ROOT / "examples/instance-capability/instance-lfw.json"
+    def test_acme_instance_uses_operational_interpreted_state_search(self):
+        pack_path = ROOT / "examples/instance-capability/instance-acme.json"
         self.assertTrue(pack_path.exists())
         pack = _load_json(pack_path)
-        interpreted = _index_manifest(pack, "index.lfw.state_system.interpreted")
+        interpreted = _index_manifest(pack, "index.acme.state_system.interpreted")
 
         self.assertEqual("state_system_interpreted_index", interpreted["backend"])
         self.assertEqual("declared", interpreted["status"])

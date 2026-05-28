@@ -78,10 +78,10 @@ class E2EPressureHarnessTests(unittest.TestCase):
                 evidence_refs=source_event["source_refs"],
             )
             self.assertEqual("accepted", commit["status"])
-            materialized = stores.state_objects.read("state.lfw.deal.southern-abrasives")
+            materialized = stores.state_objects.read("state.acme.deal.southern-abrasives")
             self.assertEqual("won", materialized["status"])
             self.assertIn(
-                "journal.lfw.deal.southern-abrasives.won",
+                "journal.acme.deal.southern-abrasives.won",
                 materialized["evidence_refs"],
             )
             self.assertEqual(
@@ -116,7 +116,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                 ],
                 freshness={
                     "watermark_refs": [
-                        "state.lfw.deal.southern-abrasives@journal.lfw.deal.southern-abrasives.won",
+                        "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
                         "governance.external-copy-approval",
                     ],
                     "stale_after": "2026-04-29T16:07:30Z",
@@ -187,7 +187,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = self._seed_southern_abrasives_runtime(Path(directory))
             schemas = self._schemas()
-            before = stores.state_objects.read("state.lfw.deal.southern-abrasives")
+            before = stores.state_objects.read("state.acme.deal.southern-abrasives")
             committer = Committer(stores, schemas)
 
             no_op = self._empty_output(
@@ -233,7 +233,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
         stores = StateStoreBundle(root)
         for example in (
             "southern-abrasives-deal-state.json",
-            "lfw-ops-operating-picture.json",
+            "acme-ops-operating-picture.json",
             "marketing-operating-picture.json",
         ):
             stores.state_objects.create(load_json(ROOT / "examples" / example))
@@ -294,7 +294,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                     "risk": "high",
                     "approval_required": True,
                     "target": {
-                        "state_object_id": "state.lfw.deal.southern-abrasives"
+                        "state_object_id": "state.acme.deal.southern-abrasives"
                     },
                     "payload": {"approval_ref": "approval.laura.external-copy"},
                 }

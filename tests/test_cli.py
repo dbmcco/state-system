@@ -61,13 +61,13 @@ class CliTests(unittest.TestCase):
                     directory,
                     "get",
                     "state",
-                    "state.lfw.deal.southern-abrasives",
+                    "state.acme.deal.southern-abrasives",
                 ],
                 stdout=get_output,
             )
             self.assertEqual(0, get_code)
             self.assertEqual(
-                "state.lfw.deal.southern-abrasives",
+                "state.acme.deal.southern-abrasives",
                 json.loads(get_output.getvalue())["id"],
             )
 

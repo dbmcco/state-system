@@ -6,7 +6,7 @@ from state_system.crm_operating_picture import build_crm_operating_picture_summa
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CRM_FIXTURE = ROOT / "examples" / "company-memory" / "lfw-crm-operating-picture.json"
+CRM_FIXTURE = ROOT / "examples" / "company-memory" / "acme-crm-operating-picture.json"
 
 
 class CrmOperatingPictureTests(unittest.TestCase):
@@ -14,7 +14,7 @@ class CrmOperatingPictureTests(unittest.TestCase):
         picture = load_json(CRM_FIXTURE)
         summary = build_crm_operating_picture_summary(picture)
 
-        self.assertEqual("lfw_ai_graph_crm", summary["system_of_record_ref"])
+        self.assertEqual("acme_crm", summary["system_of_record_ref"])
         self.assertEqual("state_system_interpretation", summary["state_system_role"])
         self.assertEqual(1, summary["active_opportunity_count"])
         self.assertEqual(2, summary["open_loop_count"])

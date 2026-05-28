@@ -24,7 +24,7 @@ class InstanceFederationTests(unittest.TestCase):
                     "id": "instance_understanding_surface_read_model",
                     "generated_at": "2026-05-17T16:20:00Z",
                     "source_gap_refs": [
-                        "gap.state_instance.lfw.connector.lfw.msgvault.freshness_failed"
+                        "gap.state_instance.acme.connector.acme.msgvault.freshness_failed"
                     ],
                 },
             )
@@ -44,30 +44,30 @@ class InstanceFederationTests(unittest.TestCase):
             read_model = build_instance_understanding_surface_read_model(stores)
 
         personal = read_model["instances"][0]
-        lfw = next(
+        acme_inst = next(
             source
             for source in personal["source_readiness"]
-            if source["connector_ref"] == "connector.personal.lfw_state_system"
+            if source["connector_ref"] == "connector.personal.acme_state_system"
         )
-        self.assertEqual("available", lfw["federated_instance"]["status"])
+        self.assertEqual("available", acme_inst["federated_instance"]["status"])
         self.assertEqual(
-            "state_instance.lfw",
-            lfw["federated_instance"]["source_instance_ref"],
+            "state_instance.acme",
+            acme_inst["federated_instance"]["source_instance_ref"],
         )
         self.assertEqual(
             "2026-05-17T16:20:00Z",
-            lfw["federated_instance"]["generated_at"],
+            acme_inst["federated_instance"]["generated_at"],
         )
         self.assertIn(
             "instance-understanding/instance-understanding-surface-read-model.json",
-            lfw["federated_instance"]["read_model_refs"],
+            acme_inst["federated_instance"]["read_model_refs"],
         )
         self.assertIn(
-            "gap.state_instance.lfw.connector.lfw.msgvault.freshness_failed",
-            lfw["federated_instance"]["source_gap_refs"],
+            "gap.state_instance.acme.connector.acme.msgvault.freshness_failed",
+            acme_inst["federated_instance"]["source_gap_refs"],
         )
-        self.assertNotIn("raw_records", lfw["federated_instance"])
-        self.assertEqual("missing", lfw["access_status"])
+        self.assertNotIn("raw_records", acme_inst["federated_instance"])
+        self.assertEqual("missing", acme_inst["access_status"])
 
     def test_missing_state_system_instance_runtime_root_is_a_gap(self):
         with TemporaryDirectory() as directory:
@@ -79,16 +79,16 @@ class InstanceFederationTests(unittest.TestCase):
             read_model = build_instance_understanding_surface_read_model(stores)
 
         self.assertIn(
-            "gap.state_instance.braydon_personal.connector.personal.lfw_state_system.federation_missing",
+            "gap.state_instance.acme_ops.connector.personal.acme_state_system.federation_missing",
             read_model["source_gap_refs"],
         )
 
 
 def _personal_pack_with_federation(runtime_root: str):
     return {
-        "id": "instance_capability_pack.braydon_personal",
-        "instance_ref": "state_instance.braydon_personal",
-        "primary_entity_ref": "entity.braydon",
+        "id": "instance_capability_pack.acme_ops",
+        "instance_ref": "state_instance.acme_ops",
+        "primary_entity_ref": "entity.acme_user",
         "entity_kind": "person",
         "generated_at": "2026-05-17T16:18:00Z",
         "identity": {
@@ -99,9 +99,9 @@ def _personal_pack_with_federation(runtime_root: str):
         },
         "source_connectors": [
             {
-                "id": "connector.personal.lfw_state_system",
+                "id": "connector.personal.acme_state_system",
                 "connector_type": "state_system_instance",
-                "source_ref": "state-system-instance:state_instance.lfw",
+                "source_ref": "state-system-instance:state_instance.acme",
                 "owner": "state_system",
                 "declared": True,
                 "access_mode": "read",
@@ -110,23 +110,23 @@ def _personal_pack_with_federation(runtime_root: str):
         ],
         "raw_corpus": {
             "definition": "Federated instance refs only.",
-            "source_refs": ["state-system-instance:state_instance.lfw"],
+            "source_refs": ["state-system-instance:state_instance.acme"],
         },
         "evidence_index": {
             "definition": "Federated interpreted indexes.",
-            "index_refs": ["index.personal.lfw_state_system.interpreted"],
+            "index_refs": ["index.personal.acme_state_system.interpreted"],
         },
         "index_manifests": [
             {
-                "index_ref": "index.personal.lfw_state_system.interpreted",
-                "instance_ref": "state_instance.braydon_personal",
-                "primary_entity_ref": "entity.braydon",
+                "index_ref": "index.personal.acme_state_system.interpreted",
+                "instance_ref": "state_instance.acme_ops",
+                "primary_entity_ref": "entity.acme_user",
                 "owner": "state_system",
                 "backend": "state_system_remote",
                 "scope": "interpreted_state_index",
                 "record_kinds": ["evidence_card", "claim", "operating_picture"],
-                "source_refs": ["state-system-instance:state_instance.lfw"],
-                "connector_refs": ["connector.personal.lfw_state_system"],
+                "source_refs": ["state-system-instance:state_instance.acme"],
+                "connector_refs": ["connector.personal.acme_state_system"],
                 "query_surface": {
                     "type": "state_system_runtime",
                     "tool_ref": "tool.state_system.instance_read",
@@ -138,12 +138,12 @@ def _personal_pack_with_federation(runtime_root: str):
         "operating_picture_refs": [],
         "action_surface": {
             "definition": "Test actions.",
-            "action_refs": ["action_surface.personal.read_lfw_state"],
+            "action_refs": ["action_surface.personal.read_acme_state"],
         },
         "tool_capability_bindings": [],
         "governance": {
             "definition": "Test governance.",
-            "governance_refs": ["governance.lfw.read_summary"],
+            "governance_refs": ["governance.acme.read_summary"],
         },
         "connector_preflight": {
             "definition": "Preflight proves live access only.",

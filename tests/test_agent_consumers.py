@@ -30,7 +30,7 @@ class AgentConsumerContractTests(unittest.TestCase):
         self.assertIn("Review goal:", text)
         self.assertIn("Southern Abrasives moved from proposal to won", text)
         self.assertIn("Why relevant:", text)
-        self.assertIn("state.lfw.deal.southern-abrasives", text)
+        self.assertIn("state.acme.deal.southern-abrasives", text)
         self.assertIn("linear:event:southern-abrasives-stage-won-2026-04-28", text)
         self.assertIn("governance.external-copy-approval", text)
         self.assertIn("Requires refresh before external action.", text)
