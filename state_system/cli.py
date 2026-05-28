@@ -75,6 +75,11 @@ from state_system.mission_records import (
     build_mission_read_model,
     replay_mission_fixture,
 )
+from state_system.north_star_answer import build_north_star_answer
+from state_system.north_star_renderer import (
+    render_north_star_answer,
+    validate_render_invariants,
+)
 from state_system.package_pressure import (
     PackagePressureValidationError,
     load_pressure_registry,
@@ -908,6 +913,64 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, report)
         return 0 if report["ok"] else 1
 
+    if args.command == "north-star-answer":
+        packages = _load_named_packages(args.package or [])
+        report = build_north_star_answer(packages, query=args.query)
+        schema = load_json(project_root / "schemas" / "north-star-answer.schema.json")
+        errors = list(validate_schema(report, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "schema_valid": False, "errors": errors})
+            return 1
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        answer_path = output_dir / "north-star-answer.json"
+        answer_path.write_text(
+            json.dumps(report, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "answer_id": report["id"],
+                "answer_path": str(answer_path),
+                "answerability": report["answerability"],
+                "schema_valid": True,
+            },
+        )
+        return 0
+
+    if args.command == "north-star-answer-render":
+        report = load_json(Path(args.answer_path))
+        schema = load_json(project_root / "schemas" / "north-star-answer.schema.json")
+        schema_errors = list(validate_schema(report, schema)) if args.check else []
+        render_errors = validate_render_invariants(report) if args.check else []
+        if schema_errors or render_errors:
+            _write_json(
+                stdout,
+                {
+                    "ok": False,
+                    "schema_valid": not schema_errors,
+                    "render_valid": not render_errors,
+                    "schema_errors": schema_errors,
+                    "render_errors": render_errors,
+                },
+            )
+            return 1
+        rendered = render_north_star_answer(report)
+        output_path = Path(args.output_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(rendered, encoding="utf-8")
+        _write_json(
+            stdout,
+            {
+                "ok": True,
+                "output_path": str(output_path),
+                "schema_valid": True,
+                "render_valid": True,
+            },
+        )
+        return 0
+
     if args.command == "fleet-refresh-run":
         manifest = load_json(Path(args.manifest))
         errors = validate_fleet_refresh_manifest(
@@ -1365,6 +1428,21 @@ def _parser() -> argparse.ArgumentParser:
         help="Package mapping in the form package_id=/path/to/package.json",
     )
     package_pressure.add_argument("--include-planned", action="store_true")
+
+    north_star_answer = subcommands.add_parser("north-star-answer")
+    north_star_answer.add_argument("--query", required=True)
+    north_star_answer.add_argument(
+        "--package",
+        action="append",
+        required=True,
+        help="Package mapping in the form package_id=/path/to/package.json",
+    )
+    north_star_answer.add_argument("--output-dir", required=True)
+
+    north_star_render = subcommands.add_parser("north-star-answer-render")
+    north_star_render.add_argument("answer_path")
+    north_star_render.add_argument("--check", action="store_true")
+    north_star_render.add_argument("--output-path", required=True)
 
     fleet_refresh = subcommands.add_parser("fleet-refresh-run")
     fleet_refresh.add_argument("manifest")

@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/north-star-answer.schema.json",
+  "title": "NorthStarAnswer",
+  "type": "object",
+  "required": [
+    "id",
+    "artifact_type",
+    "query",
+    "north_star_questions",
+    "generated_at",
+    "package_refs",
+    "answerability",
+    "current_state",
+    "why_this_state",
+    "what_changed_recently",
+    "evidence",
+    "uncertainty",
+    "responsibility",
+    "next_actions",
+    "broader_effects",
+    "invariant"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "enum": ["state_system_north_star_answer"]
+    },
+    "artifact_type": {
+      "type": "string",
+      "enum": ["json_substrate"]
+    },
+    "query": { "type": "string" },
+    "north_star_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generated_at": { "type": "string" },
+    "package_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "answerability": {
+      "type": "object",
+      "required": ["status", "source_count", "gap_count"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["ready", "usable_with_gaps", "not_ready"]
+        },
+        "source_count": { "type": "integer" },
+        "gap_count": { "type": "integer" }
+      }
+    },
+    "current_state": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "package_ref",
+          "package_type",
+          "created_at",
+          "instance_ref",
+          "primary_entity_ref",
+          "entity_kind",
+          "agent_ref",
+          "persona_ref",
+          "review_goal"
+        ],
+        "properties": {
+          "package_ref": { "type": "string" },
+          "package_type": { "type": "string" },
+          "created_at": { "type": "string" },
+          "instance_ref": { "type": "string" },
+          "primary_entity_ref": { "type": "string" },
+          "entity_kind": { "type": "string" },
+          "agent_ref": { "type": "string" },
+          "persona_ref": { "type": "string" },
+          "review_goal": { "type": "string" }
+        }
+      }
+    },
+    "why_this_state": {
+      "type": "object",
+      "required": [
+        "source_readiness",
+        "route_contract_refs",
+        "answer_contracts"
+      ],
+      "properties": {
+        "source_readiness": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "package_ref",
+              "connector_ref",
+              "connector_type",
+              "source_ref",
+              "access_status",
+              "freshness_status",
+              "index_status",
+              "understanding_status",
+              "index_refs",
+              "gap_refs",
+              "evidence_refs"
+            ],
+            "properties": {
+              "package_ref": { "type": "string" },
+              "connector_ref": { "type": "string" },
+              "connector_type": { "type": "string" },
+              "source_ref": { "type": "string" },
+              "access_status": { "type": "string" },
+              "freshness_status": { "type": "string" },
+              "index_status": { "type": "string" },
+              "understanding_status": { "type": "string" },
+              "index_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "gap_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "route_contract_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "answer_contracts": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "what_changed_recently": {
+      "type": "object",
+      "required": [
+        "package_created_at",
+        "freshness_generated_at",
+        "watermark_refs"
+      ],
+      "properties": {
+        "package_created_at": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "freshness_generated_at": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "watermark_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["index_refs", "evidence_refs", "federated_instance_refs"],
+      "properties": {
+        "index_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "federated_instance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "uncertainty": {
+      "type": "object",
+      "required": [
+        "source_gap_refs",
+        "unresolved_evidence_refs",
+        "open_questions",
+        "not_ready_sources"
+      ],
+      "properties": {
+        "source_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "unresolved_evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "open_questions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "not_ready_sources": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "responsibility": {
+      "type": "object",
+      "required": [
+        "agent_refs",
+        "persona_refs",
+        "governance_refs",
+        "constraints",
+        "protected_action_authorized_by",
+        "available_actions"
+      ],
+      "properties": {
+        "agent_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "persona_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "governance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "protected_action_authorized_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "available_actions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "next_actions": {
+      "type": "object",
+      "required": [
+        "requires_refresh_before_external_action",
+        "repair_gap_refs",
+        "route_required_actions"
+      ],
+      "properties": {
+        "requires_refresh_before_external_action": { "type": "boolean" },
+        "repair_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "route_required_actions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "broader_effects": {
+      "type": "object",
+      "required": [
+        "federation_packs",
+        "federated_instance_refs",
+        "federated_query_routes"
+      ],
+      "properties": {
+        "federation_packs": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "federated_instance_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "federated_query_routes": {
+          "type": "array",
+          "items": { "type": "object" }
+        }
+      }
+    },
+    "invariant": {
+      "type": "object",
+      "required": [
+        "ingests_raw_source_data",
+        "model_owns_synthesis",
+        "authorizes_execution",
+        "requires_evidence_refs",
+        "federated_raw_materialization_forbidden"
+      ],
+      "properties": {
+        "ingests_raw_source_data": { "type": "boolean" },
+        "model_owns_synthesis": { "type": "boolean" },
+        "authorizes_execution": { "type": "boolean" },
+        "requires_evidence_refs": { "type": "boolean" },
+        "federated_raw_materialization_forbidden": { "type": "boolean" }
+      }
+    }
+  }
+}
