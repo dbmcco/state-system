@@ -170,7 +170,7 @@ Seed the runtime company capability records that PAIA should target before local
 connector/tool wiring:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-acme.json examples/company-capability/company-examplecorp.json examples/company-capability/company-demo-co.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 
@@ -193,16 +193,16 @@ evidence:
 
 ```bash
 python3 -m state_system.cli --project-root . paia-bootstrap-export
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system company-preflight-export --output-dir /Users/braydon/projects/work/lfw/state-system/company-preflight
+python3 -m state_system.cli --project-root . --state-root /path/to/user/projects/work/lfw/state-system company-preflight-record --preflight-ref preflight.acme.linear --company-ref company.acme --connector-ref connector.acme.linear --tool-ref tool.acme.linear.read --action-ref action_surface.acme.read_linear --agent-ref persona.caroline --runner-ref runner.acme.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/user/projects/work/lfw/state-system company-preflight-export --output-dir /path/to/user/projects/work/lfw/state-system/company-preflight
 ```
 
 Record and export PAIA-owned source freshness heartbeat results as recency
 evidence:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-freshness-export --output-dir /Users/braydon/projects/work/lfw/state-system/source-freshness
+python3 -m state_system.cli --project-root . --state-root /path/to/user/projects/work/lfw/state-system source-freshness-record --company-ref company.acme --connector-ref connector.acme.linear --source-ref linear:teams:PRODUCT,ENG --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.acme:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/user/projects/work/lfw/state-system source-freshness-export --output-dir /path/to/user/projects/work/lfw/state-system/source-freshness
 ```
 
 Run the active State System heartbeat. In v0 it directly checks `local_path`
@@ -210,16 +210,16 @@ connector metadata and records explicit `unknown` freshness for credentialed
 connectors that still require delegated adapters:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/work/lfw/state-system source-heartbeat-run --company-ref company.lfw --checked-at 2026-05-15T13:00:00Z --stale-after 2026-05-15T13:15:00Z --output-dir /Users/braydon/projects/work/lfw/state-system/source-freshness
+python3 -m state_system.cli --project-root . --state-root /path/to/user/projects/work/lfw/state-system source-heartbeat-run --company-ref company.acme --checked-at 2026-05-15T13:00:00Z --stale-after 2026-05-15T13:15:00Z --output-dir /path/to/user/projects/work/lfw/state-system/source-freshness
 ```
 
 The bootstrap command refreshes the expected PAIA artifact layout under
-`/Users/braydon/projects/work/lfw/state-system`. It writes
-`/Users/braydon/projects/work/lfw/state-system/company-capability/company-capability-read-model.json`
+`/path/to/user/projects/work/lfw/state-system`. It writes
+`/path/to/user/projects/work/lfw/state-system/company-capability/company-capability-read-model.json`
 and
-`/Users/braydon/projects/work/lfw/state-system/company-preflight/company-preflight-results-read-model.json`
+`/path/to/user/projects/work/lfw/state-system/company-preflight/company-preflight-results-read-model.json`
 and
-`/Users/braydon/projects/work/lfw/state-system/source-freshness/source-freshness-read-model.json`.
+`/path/to/user/projects/work/lfw/state-system/source-freshness/source-freshness-read-model.json`.
 Preflight results prove or fail live access only. They do not authorize
 protected effects; governance remains separate.
 Freshness results prove source recency only. They do not prove live access and
@@ -229,9 +229,9 @@ Record and export instance-owned connector preflight results for personal,
 project, or other non-company state roots:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-record --preflight-ref preflight.state_instance.braydon_personal.connector.personal.folio --instance-ref state_instance.braydon_personal --connector-ref connector.personal.folio --source-ref folio:tenant:personal --connector-type folio --status passed --checked-at 2026-05-16T19:42:47Z --stale-after 2026-05-16T20:42:47Z --evidence-ref local-path:/Users/braydon/projects/experiments/folio
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-export --output-dir /Users/braydon/projects/personal/b-state/instance-preflight
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-understanding-surface-read --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-preflight-record --preflight-ref preflight.state_instance.acme_ops.connector.personal.folio --instance-ref state_instance.acme_ops --connector-ref connector.personal.folio --source-ref folio:tenant:personal --connector-type folio --status passed --checked-at 2026-05-16T19:42:47Z --stale-after 2026-05-16T20:42:47Z --evidence-ref local-path:/path/to/folio
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-preflight-export --output-dir /path/to/personal-state/instance-preflight
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-understanding-surface-read --output-dir /path/to/personal-state/instance-understanding
 ```
 
 Instance preflight supports `passed`, `failed`, and `planned`. Only `passed`
@@ -241,7 +241,7 @@ declared access gap for the instance understanding surface.
 For declared instance connectors, run the non-destructive preflight runner:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-preflight-run --instance-ref state_instance.braydon_personal --checked-at 2026-05-17T10:25:00Z --stale-after 2026-05-17T10:40:00Z
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-preflight-run --instance-ref state_instance.acme_ops --checked-at 2026-05-17T10:25:00Z --stale-after 2026-05-17T10:40:00Z
 ```
 
 In v0 the runner only proves explicit `local_path` connectors mechanically.
@@ -253,9 +253,9 @@ behavior.
 Record and export instance source freshness as recency evidence:
 
 ```bash
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-source-freshness-record --instance-ref state_instance.braydon_personal --connector-ref connector.personal.msgvault --source-ref msgvault:tenant:personal-email --connector-type msgvault --status unknown --checked-at 2026-05-17T10:15:00Z --source-watermark msgvault.sync_status:unknown --stale-after 2026-05-17T10:30:00Z --evidence-ref paia:freshness:msgvault:unknown --index-ref index.personal.msgvault.email --index-owner source_system --index-backend msgvault_sqlite_vec
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-source-freshness-export --output-dir /Users/braydon/projects/personal/b-state/instance-source-freshness
-python3 -m state_system.cli --project-root . --state-root /Users/braydon/projects/personal/b-state instance-understanding-surface-read --output-dir /Users/braydon/projects/personal/b-state/instance-understanding
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-source-freshness-record --instance-ref state_instance.acme_ops --connector-ref connector.personal.msgvault --source-ref msgvault:tenant:personal-email --connector-type msgvault --status unknown --checked-at 2026-05-17T10:15:00Z --source-watermark msgvault.sync_status:unknown --stale-after 2026-05-17T10:30:00Z --evidence-ref paia:freshness:msgvault:unknown --index-ref index.personal.msgvault.email --index-owner source_system --index-backend msgvault_sqlite_vec
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-source-freshness-export --output-dir /path/to/personal-state/instance-source-freshness
+python3 -m state_system.cli --project-root . --state-root /path/to/personal-state instance-understanding-surface-read --output-dir /path/to/personal-state/instance-understanding
 ```
 
 Instance source freshness proves recency only. It does not prove live access and
@@ -267,16 +267,16 @@ Migrate the canonical runtime root from the old hidden location to the visible
 LFW workspace root:
 
 ```bash
-python3 -m state_system.cli --project-root . state-root-migrate --from /Users/braydon/.paia/state-system --to /Users/braydon/projects/work/lfw/state-system --compat-link /Users/braydon/.paia/state-system --validate-company-ref company.lfw --refresh --heartbeat-company-ref company.lfw --heartbeat-checked-at 2026-05-16T12:00:00Z --heartbeat-stale-after 2026-05-16T12:15:00Z
+python3 -m state_system.cli --project-root . state-root-migrate --from /path/to/user/.paia/state-system --to /path/to/user/projects/work/lfw/state-system --compat-link /path/to/user/.paia/state-system --validate-company-ref company.acme --refresh --heartbeat-company-ref company.acme --heartbeat-checked-at 2026-05-16T12:00:00Z --heartbeat-stale-after 2026-05-16T12:15:00Z
 ```
 
 `state-root-migrate` is copy-not-destructive. It replaces a target symlink with a
 real directory, copies the source state root into it, validates the migrated
 company capability records, optionally refreshes bootstrap artifacts, optionally
 runs heartbeat, and only then replaces the old compatibility path with a
-symlink. `/Users/braydon/.paia/state-system` is compatibility only after
+symlink. `/path/to/user/.paia/state-system` is compatibility only after
 migration; the canonical inspectable root is
-`/Users/braydon/projects/work/lfw/state-system`.
+`/path/to/user/projects/work/lfw/state-system`.
 
 ## What Is Designed Next
 
@@ -417,11 +417,11 @@ python3 -m state_system.cli --project-root . trace-run examples/traces/laura-app
 python3 -m state_system.cli --project-root . trace-run examples/traces/laura-agent-activation.trace.json --output-dir /tmp/state-system-agent-activation
 python3 -m state_system.cli --state-root /path/to/runtime seed-runtime --repo-ref repo.state-system --created-at 2026-05-01T18:45:00Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime paia-bootstrap-export
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-lfw.json examples/company-capability/company-synthyra.json examples/company-capability/company-navicyte.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-acme.json examples/company-capability/company-examplecorp.json examples/company-capability/company-demo-co.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-record --preflight-ref preflight.lfw.linear --company-ref company.lfw --connector-ref connector.lfw.linear --tool-ref tool.paia.linear.read --action-ref action_surface.lfw.read_linear --agent-ref persona.caroline --runner-ref runner.paia.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-record --preflight-ref preflight.acme.linear --company-ref company.acme --connector-ref connector.acme.linear --tool-ref tool.acme.linear.read --action-ref action_surface.acme.read_linear --agent-ref persona.caroline --runner-ref runner.acme.codex --status passed --checked-at 2026-05-14T18:20:00Z --stale-after 2026-05-14T19:20:00Z --evidence-ref paia:preflight:linear:20260514T182000Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-preflight-export --output-dir /tmp/state-system-company-preflight
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-record --company-ref company.lfw --connector-ref connector.lfw.linear --source-ref linear:teams:FORGE,INT --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.lfw:20260515T120000Z
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-record --company-ref company.acme --connector-ref connector.acme.linear --source-ref linear:teams:PRODUCT,ENG --connector-type linear --status fresh --checked-at 2026-05-15T12:00:00Z --source-watermark linear.latest_updated_at:2026-05-15T11:58:00Z --stale-after 2026-05-15T12:15:00Z --lag-seconds 120 --evidence-ref paia:freshness:linear:company.acme:20260515T120000Z
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime source-freshness-export --output-dir /tmp/state-system-source-freshness
 python3 -m state_system.cli --state-root /path/to/runtime trigger examples/source-linear-southern-abrasives-won.json
 python3 -m state_system.cli --state-root /path/to/runtime git-commit-event /path/to/commit.json --repo-ref repo.state-system --observed-at 2026-05-01T18:01:00Z --candidate-state-ref state.repo.state-system.runtime --ingest
