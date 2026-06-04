@@ -1,20 +1,157 @@
 # State System
 
-State System is a generic model-mediated substrate for tracking organizational
-state.
+![State System hero](docs/assets/state-system-hero.png)
 
-It helps humans and agents maintain durable, scoped records of:
+State System is a generic state substrate for agents and humans operating across
+many source systems.
+
+It solves a practical agent reliability problem: an agent is often asked, "what
+is the current state?" while the relevant evidence is scattered across docs,
+messages, tasks, CRM records, calendars, repositories, memory systems, and local
+runtime artifacts. Some sources are fresh, some are stale, some are unreachable,
+some are only declared, and some are governed by another instance. Without an
+explicit state layer, agents either over-trust whatever context they saw last or
+hide uncertainty in prose.
+
+State System makes that boundary explicit. It records what appears to be true,
+why that view changed, which evidence supports it, which sources are fresh or
+stale, what remains uncertain, which routes/tools are allowed, and which actions
+require governance before execution.
+
+## Core Idea
+
+State is not a note, a prompt, or a transient model context dump.
+
+State is a durable, scoped record of:
 
 - what appears to be true now;
 - why that view changed;
 - which evidence supports it;
-- what remains uncertain or stale;
+- which source systems are reachable and fresh;
+- what is stale, failed, unknown, planned, or federated;
 - what needs attention;
 - which actions have been proposed, approved, blocked, or taken.
 
 The model interprets meaning and proposes state transitions. Code owns schemas,
-evidence references, access policy, freshness checks, persistence, audit, and
-execution boundaries.
+evidence references, source access status, freshness checks, persistence, audit,
+governance boundaries, and execution safety.
+
+## What This Repo Provides
+
+This repository is the product surface. It includes:
+
+- JSON schemas for state records, source modules, freshness, packages, routes,
+  tool actions, federation packs, and agent-facing artifacts;
+- a file-backed Python CLI runtime;
+- source integration contracts for declaring connector behavior;
+- preflight and freshness recorders;
+- instance understanding surfaces and agent package rendering;
+- package pressure tests that check whether a package exposes enough structure
+  for an agent to answer responsibly;
+- public fixtures using neutral example instances.
+
+A deployed state root owns private runtime material: live state records,
+credentials, local paths, source-owned indexes, generated package exports,
+adapter evidence, and operational artifacts. Those do not belong in this repo.
+
+## How It Works
+
+1. **Declare sources.** A source module says what a connector type means:
+   source refs, access mode, preflight contract, freshness contract, index
+   ownership, tools, read/write surfaces, gap behavior, and governance defaults.
+2. **Declare instance capability.** A deployed instance names the connectors,
+   indexes, tools, and governance surfaces it intends to use.
+3. **Prove access with preflight.** Preflight records whether a connector is
+   reachable. `passed` proves live access; `failed` and `planned` remain visible
+   gaps.
+4. **Prove recency with freshness.** Freshness records checked time, source
+   watermark, stale-after, lag where available, and status:
+   `fresh`, `stale`, `failed`, `unknown`, or `planned`.
+5. **Render understanding.** The runtime joins capability, preflight,
+   freshness, indexes, and gaps into an inspectable read model.
+6. **Render agent packages.** Packages expose routes, source readiness, tool
+   action refs, freshness gaps, evidence refs, federation packs, and governance
+   boundaries.
+7. **Pressure test packages.** Operational questions assert that packages expose
+   the routes, sources, gaps, freshness, tools, and federation boundaries an
+   agent needs before answering.
+
+## Integrating Sources
+
+Source integrations are first-class. To add one:
+
+1. Add a module to
+   `examples/source-modules/source-module-core-connectors.json`.
+2. Give it a stable `connector_type`, safe `source_ref` examples, supported
+   instance kinds, module modes, preflight contract, freshness contract, index
+   contract, tool contract, gap behavior, and governance defaults.
+3. Add matching connector declarations to an instance capability pack or a
+   deployed runtime capability record.
+4. Record preflight evidence:
+
+   ```bash
+   python3 -m state_system.cli --project-root . \
+     --state-root /path/to/state-root \
+     instance-preflight-record \
+     --preflight-ref preflight.state_instance.sampleco.connector.sampleco.folio \
+     --instance-ref state_instance.sampleco \
+     --connector-ref connector.sampleco.folio \
+     --source-ref folio:tenant:sampleco \
+     --connector-type folio \
+     --status passed \
+     --checked-at 2026-05-18T12:05:00Z \
+     --stale-after 2026-05-18T13:05:00Z \
+     --evidence-ref local-path:/srv/folio/sampleco
+   ```
+
+5. Record freshness evidence:
+
+   ```bash
+   python3 -m state_system.cli --project-root . \
+     --state-root /path/to/state-root \
+     instance-source-freshness-record \
+     --instance-ref state_instance.sampleco \
+     --connector-ref connector.sampleco.folio \
+     --source-ref folio:tenant:sampleco \
+     --connector-type folio \
+     --status fresh \
+     --checked-at 2026-05-18T12:05:00Z \
+     --source-watermark folio.indexed_at:2026-05-18T12:04:00Z \
+     --stale-after 2026-05-18T13:05:00Z \
+     --evidence-ref freshness:folio:fresh:20260518T120500Z
+   ```
+
+6. Declare source-owned index refs when retrieval exists. State System may cite
+   source indexes without owning raw corpora.
+7. Add adapter commands to a fleet freshness manifest when the source can be
+   refreshed mechanically.
+8. Rebuild/export the instance agent package and add package pressure questions
+   for answer paths affected by the source.
+
+Detailed docs:
+
+- [docs/source-modules.md](docs/source-modules.md)
+- [docs/runbooks/open-source-onboarding.md](docs/runbooks/open-source-onboarding.md)
+- [docs/runbooks/fleet-freshness-runner.md](docs/runbooks/fleet-freshness-runner.md)
+
+## Agent Integration
+
+Agents should consume rendered artifacts, not scrape private runtime roots.
+Start with [AGENTS.md](AGENTS.md) and
+[docs/agent-integration.md](docs/agent-integration.md).
+
+The short contract:
+
+- read rendered `InstanceAgentPackage` artifacts or
+  `instance-agent-packages-read-model.json`;
+- inspect source readiness, preflight, freshness, stale-after expiry, source
+  gaps, route gaps, and federation gaps before answering;
+- use explicit question routes, source module refs, tool action refs, and
+  federation pack refs;
+- do not infer source behavior from connector names;
+- do not materialize raw federated data unless a pack explicitly permits it;
+- treat captured agent output as evidence for review, not accepted truth;
+- keep governance separate from freshness and preflight.
 
 ## Quickstart
 
@@ -31,83 +168,7 @@ reports. The validation command checks shipped schemas and JSON examples; the
 test suite checks runtime, package, freshness, federation, source-module, and
 pressure-test contracts.
 
-## Product Boundary
-
-This repository is the product surface. It owns:
-
-- schemas and examples;
-- the file-backed CLI runtime;
-- source-module, tool-action, question-route, and federation-pack contracts;
-- instance preflight and source freshness records;
-- agent package rendering and pressure tests;
-- public docs and tests.
-
-A deployed state root owns private runtime material:
-
-- live state records;
-- credentials and local paths;
-- source-owned indexes;
-- generated package exports;
-- preflight and freshness evidence from live adapters;
-- operational artifacts.
-
-Do not commit private corpora, credentials, mutable source indexes, generated
-private package exports, or local runtime artifacts to this repo.
-
-## Agent Integration
-
-Agents should start with [AGENTS.md](AGENTS.md) and
-[docs/agent-integration.md](docs/agent-integration.md).
-
-The short contract:
-
-- read rendered `InstanceAgentPackage` artifacts or
-  `instance-agent-packages-read-model.json`;
-- inspect source readiness, preflight, freshness, stale-after expiry, source
-  gaps, route gaps, and federation gaps before answering;
-- use explicit question routes, source module refs, tool action refs, and
-  federation pack refs;
-- do not infer source behavior from connector names;
-- do not materialize raw federated data unless a pack explicitly permits it;
-- treat captured agent output as evidence for review, not accepted truth;
-- keep governance separate from freshness and preflight.
-
-## Integrating Sources
-
-Every source integration follows the same path:
-
-1. Add or update a source module in
-   `examples/source-modules/source-module-core-connectors.json`.
-2. Declare the connector in an instance capability pack or deployed runtime
-   capability record.
-3. Record preflight evidence to prove or fail live access.
-4. Record freshness evidence with checked time, source watermark, stale-after,
-   lag where available, and explicit status.
-5. Declare source-owned index refs when retrieval exists.
-6. Add adapter commands to a fleet freshness manifest when refresh can be run
-   mechanically.
-7. Rebuild/export the instance agent package.
-8. Add or update package pressure questions for affected answer paths.
-
-Detailed docs:
-
-- [docs/source-modules.md](docs/source-modules.md)
-- [docs/runbooks/open-source-onboarding.md](docs/runbooks/open-source-onboarding.md)
-- [docs/runbooks/fleet-freshness-runner.md](docs/runbooks/fleet-freshness-runner.md)
-
 ## Runnable Surfaces
-
-Validate all examples:
-
-```bash
-python3 -m state_system.cli --project-root . validate
-```
-
-Run the report suite:
-
-```bash
-python3 -m state_system.cli --project-root . report-suite-run --output-dir /tmp/state-system-report-suite
-```
 
 Run a trace:
 
