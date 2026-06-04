@@ -69,7 +69,7 @@ Canonical index scopes:
 
 - `raw_source_index`: source-owned raw corpus search, such as msgvault email,
   Folio notes, Drive documents, Linear issues, Zulip messages, or transcripts.
-- `memory_index`: agent or person memory, such as agentmem or paia-memory.
+- `memory_index`: agent or person memory, such as agentmem or agent-memory.
 - `relationship_index`: network evidence and relationship operating pictures,
   such as the personal/professional network substrate in
   `/path/to/relationship-substrate`.
@@ -78,7 +78,7 @@ Canonical index scopes:
   commitments, context packages, and activation artifacts.
 - `artifact_index`: generated or working artifacts, such as workboard artifacts,
   project summaries, reports, or drafts.
-- `operational_index`: operational task/event surfaces, such as PAIA Workboard
+- `operational_index`: operational task/event surfaces, such as Agent Runtime Workboard
   tasks, agent sessions, task logs, and handoff events.
 
 State System owns the interpreted state index for a deployed instance. Raw
@@ -135,7 +135,7 @@ Implementation must proceed in this order:
    while making instance capability canonical for new work.
 3. Generalize understanding surfaces and index manifests to key by
    `instance_ref`.
-4. Add `state_system_instance`, `agentmem`, `paia_workboard`, and
+4. Add `state_system_instance`, `agentmem`, `agent_workboard`, and
    `relationship_substrate` connector support as declared surfaces.
 5. Create `/path/to/personal-state` only after the generic
    contracts can represent it directly.

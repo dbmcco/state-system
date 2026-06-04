@@ -16,8 +16,8 @@
           "minimum_status": "usable_with_visible_gaps"
         }
       ],
-      "required_tools": ["tool.relationship_substrate.operating_picture", "tool.relationship_substrate.list_subject_notes", "tool.paia.msgvault.search"],
-      "optional_tools": ["agentmem:service:local", "tool.paia.workboard.read", "tool.state_system.instance_read"],
+      "required_tools": ["tool.relationship_substrate.operating_picture", "tool.relationship_substrate.list_subject_notes", "tool.agent_runtime.msgvault.search"],
+      "optional_tools": ["agentmem:service:local", "tool.agent_runtime.workboard.read", "tool.state_system.instance_read"],
       "optional_external_context_tools": ["calendar"],
       "fallback_policy": {
         "policy": "If relationship substrate or msgvault is missing, answer with the missing-source limitation instead of pretending the calendar is enough.",
@@ -51,7 +51,7 @@
         }
       ],
       "required_tools": ["tool.relationship_substrate.search_small_consulting_firm_contacts", "tool.relationship_substrate.list_subject_notes"],
-      "optional_tools": ["tool.relationship_substrate.search_history_backed_people", "tool.paia.msgvault.search", "agentmem:service:local", "tool.paia.workboard.read", "tool.state_system.instance_read"],
+      "optional_tools": ["tool.relationship_substrate.search_history_backed_people", "tool.agent_runtime.msgvault.search", "agentmem:service:local", "tool.agent_runtime.workboard.read", "tool.state_system.instance_read"],
       "fallback_policy": {
         "policy": "Use search_history_backed_people only as the declared backing surface with enrichment filters.",
         "repair_gate": "Do not answer from keyword-only email search when enrichment-backed relationship search is unavailable.",

@@ -32,7 +32,7 @@ class SourceFreshnessTests(unittest.TestCase):
                     "source_watermark": "linear.latest_updated_at:2026-05-15T11:58:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 120,
-                    "evidence_refs": ["paia:freshness:linear:company.sampleco:20260515T120000Z"],
+                    "evidence_refs": ["agent-runtime:freshness:linear:company.sampleco:20260515T120000Z"],
                     "detail": "Linear FORGE/INT freshness watermark checked.",
                 }
             )
@@ -63,7 +63,7 @@ class SourceFreshnessTests(unittest.TestCase):
                     "source_watermark": "folio.indexed_at:2026-05-15T09:00:00Z",
                     "stale_after": "2026-05-15T11:15:00Z",
                     "lag_seconds": 7200,
-                    "evidence_refs": ["paia:freshness:folio:stale"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:stale"],
                 }
             )
             runtime.record(
@@ -77,7 +77,7 @@ class SourceFreshnessTests(unittest.TestCase):
                     "source_watermark": "folio.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["paia:freshness:folio:fresh"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
                 }
             )
 
@@ -121,7 +121,7 @@ class SourceFreshnessTests(unittest.TestCase):
                     "--lag-seconds",
                     "60",
                     "--evidence-ref",
-                    "paia:freshness:folio:company.sampleco:20260515T120000Z",
+                    "agent-runtime:freshness:folio:company.sampleco:20260515T120000Z",
                     "--detail",
                     "Folio tenant sampleco freshness checked.",
                 ],

@@ -33,7 +33,7 @@ class InstanceCapabilityPackTests(unittest.TestCase):
         connector_types = {
             connector["connector_type"] for connector in pack["source_connectors"]
         }
-        self.assertIn("paia_workboard", connector_types)
+        self.assertIn("agent_workboard", connector_types)
         self.assertIn("agentmem", connector_types)
         self.assertIn("relationship_substrate", connector_types)
         self.assertIn("state_system_instance", connector_types)

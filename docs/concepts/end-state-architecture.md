@@ -33,7 +33,7 @@ source systems
 ```
 
 These layers can run locally, in a database-backed service, or through existing
-PAIA platform services. The layer boundaries matter more than the first
+agent runtime platform services. The layer boundaries matter more than the first
 deployment shape.
 
 ## 1. Source Systems
@@ -82,9 +82,9 @@ End-state responsibilities:
 
 Known reusable implementation:
 
-- `/path/to/paia-memory`
+- `/path/to/agent-memory`
 
-`paia-memory` already owns memory store, context retrieval, embedding interface,
+`agent-memory` already owns memory store, context retrieval, embedding interface,
 knowledge persistence, evidence, facets, triplets, digests, and active context.
 State System should reuse or adapt those capabilities instead of rebuilding them.
 
@@ -172,12 +172,12 @@ Code executes:
 
 Known reusable implementation:
 
-- `/path/to/paia-agent-runtime`
+- `/path/to/agent-runtime`
 
-`paia-agent-runtime` already has a model-mediated agent state loop with
+`agent-runtime` already has a model-mediated agent state loop with
 evaluation, risk checks, action execution, journals, snapshots, events, and
 memory writes. State System should learn from that implementation and generalize
-the pattern beyond PAIA agents.
+the pattern beyond agent runtime agents.
 
 ## 7. Governance Layer
 
@@ -214,9 +214,9 @@ Examples:
 The first surface can be CLI, but the architecture should assume API/tool access
 as the long-term default for agents.
 
-## Existing PAIA Assets To Leverage
+## Existing agent runtime Assets To Leverage
 
-### `paia-memory`
+### `agent-memory`
 
 Useful for:
 
@@ -229,7 +229,7 @@ Useful for:
 - active context
 - tenant isolation
 
-### `paia-agent-runtime`
+### `agent-runtime`
 
 Useful for:
 
@@ -240,7 +240,7 @@ Useful for:
 - file-backed and in-memory store patterns
 - event publishing
 
-### `paia-contracts`
+### `agent-runtime-contracts`
 
 Useful for:
 
@@ -249,7 +249,7 @@ Useful for:
 - approval states
 - evidence and context atoms
 
-### `paia-agents`
+### `agent-runtime-agents`
 
 Useful for:
 

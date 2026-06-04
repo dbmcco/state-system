@@ -114,21 +114,21 @@ or no-op decisions.
 State System is not the agent runtime. It is the continuity layer shared by
 multiple agent runtimes.
 
-### PAIA Agents
+### agent runtime Agents
 
-PAIA agents are long-lived actors with identity, memory, and recurring work.
+agent runtime agents are long-lived actors with identity, memory, and recurring work.
 
 They should use State System through adapters:
 
 ```text
-PAIA runtime
+agent runtime
   -> request standing/recent/opportunity context package
-  -> act through PAIA tools and memory
+  -> act through agent runtime tools and memory
   -> emit source events, evidence refs, and model proposals
   -> State System reviews, commits, indexes, and packages
 ```
 
-PAIA may keep private and operational memory in `paia-memory`. Promotion from
+Agent runtime may keep private and operational memory in `agent-memory`. Promotion from
 agent memory into shared organizational state must go through State System
 review and governance.
 
@@ -165,7 +165,7 @@ agent asks for context
   -> recent-change and package layers prepare the next context
 ```
 
-This keeps PAIA, Claude Code, Codex, and opencode interoperable without building
+This keeps agent runtime, Claude Code, Codex, and opencode interoperable without building
 a universal agent runtime inside State System.
 
 ## Prompt Boundary

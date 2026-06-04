@@ -38,14 +38,14 @@ class StateRootMigrationTests(unittest.TestCase):
                     "preflight_ref": "preflight.sampleco.linear",
                     "company_ref": "company.sampleco",
                     "connector_ref": "connector.sampleco.linear",
-                    "tool_ref": "tool.paia.linear.read",
+                    "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
-                    "runner_ref": "runner.paia.codex",
+                    "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-16T12:00:00Z",
                     "stale_after": "2026-05-16T13:00:00Z",
-                    "evidence_refs": ["paia:preflight:linear:sampleco"],
+                    "evidence_refs": ["agent-runtime:preflight:linear:sampleco"],
                 }
             )
 

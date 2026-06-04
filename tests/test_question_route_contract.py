@@ -38,7 +38,7 @@ class QuestionRouteContractTests(unittest.TestCase):
         self.assertIn("connector.personal.relationship_substrate", route["required_source_coverage"][0]["connector_refs"])
         self.assertIn("tool.relationship_substrate.list_subject_notes", route["required_tools"])
         self.assertIn("connector.personal.sampleco_state_system", route["source_order"])
-        self.assertIn("tool.paia.workboard.read", route["optional_tools"])
+        self.assertIn("tool.agent_runtime.workboard.read", route["optional_tools"])
         self.assertIn("calendar", route["optional_external_context_tools"])
         self.assertEqual("calendar_is_schedule_context_not_relationship_evidence", route["fallback_policy"]["external_context_rule"])
         self.assertTrue(route["answer_contract"]["requires_source_freshness_summary"])
@@ -65,7 +65,7 @@ class QuestionRouteContractTests(unittest.TestCase):
         route = routes["question_route.personal.small_consulting_firm_contacts"]
 
         self.assertIn("connector.personal.sampleco_state_system", route["source_order"])
-        self.assertIn("tool.paia.workboard.read", route["optional_tools"])
+        self.assertIn("tool.agent_runtime.workboard.read", route["optional_tools"])
         self.assertIn("tool.state_system.instance_read", route["optional_tools"])
 
 

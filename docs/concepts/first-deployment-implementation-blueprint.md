@@ -5,7 +5,7 @@ preserving the end-state architecture.
 
 The first deployment should be small, but it should not be disposable. Every
 module should map to an end-state interface that can later use database,
-service, API, or PAIA adapters.
+service, API, or agent runtime adapters.
 
 ## Objective
 
@@ -78,7 +78,7 @@ Initial adapters:
 End-state adapters:
 
 - database-backed state store
-- `paia-memory` evidence and memory adapter
+- `agent-memory` evidence and memory adapter
 - event-backed rollup queue
 - event-backed recent-change registry
 - generated context package cache
@@ -318,7 +318,7 @@ After code exists, these become automated tests.
    packages.
 10. Add CLI commands.
 11. Replace fixture reviewer with model reviewer.
-12. Add optional `paia-memory` adapter.
+12. Add optional `agent-memory` adapter.
 
 ## Pressure-Test Questions For Each Step
 
@@ -330,7 +330,7 @@ Ask at every step:
 4. Can a no-op pass cleanly?
 5. Can pending approval avoid mutation?
 6. Can the same trigger be replayed without duplicate commits?
-7. Can this later use `paia-memory` or `paia-agent-runtime` without redesign?
+7. Can this later use `agent-memory` or `agent-runtime` without redesign?
 
 ## Current Gaps
 
@@ -346,4 +346,4 @@ Ask at every step:
 - The model reviewer prompt is not defined.
 - File-backed idempotency rules are documented as a contract but not implemented.
 - Promotion proposal persistence needs a pending-approval record shape.
-- The `paia-memory` adapter boundary is not specified in detail.
+- The `agent-memory` adapter boundary is not specified in detail.

@@ -66,7 +66,7 @@ def _seed_personal(stores: StateStoreBundle) -> None:
             "source_watermark": "folio.indexed_at:2026-05-17T10:14:00Z",
             "stale_after": "2026-05-17T11:15:00Z",
             "lag_seconds": 60,
-            "evidence_refs": ["paia:freshness:folio:fresh"],
+            "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
         }
     )
 

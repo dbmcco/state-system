@@ -63,16 +63,16 @@
   <text x="64" y="398" class="body">Relationship Substrate:</text>
   <text x="64" y="419" class="body">governed source module and</text>
   <text x="64" y="440" class="body">federated route, not a copy.</text>
-  <text x="64" y="468" class="body">PAIA memory module:</text>
-  <text x="64" y="489" class="body">source_module.paia_memory</text>
+  <text x="64" y="468" class="body">agent runtime memory module:</text>
+  <text x="64" y="489" class="body">source_module.agent_memory</text>
 
   <rect x="348" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
   <text x="368" y="370" class="label">personal state / Samantha</text>
   <text x="368" y="398" class="body">Garmin Connect: fresh local sync</text>
   <text x="368" y="419" class="body">Spotify: historical-cache stale</text>
-  <text x="368" y="440" class="body">PAIA memory surfaces:</text>
-  <text x="368" y="461" class="small">connector.personal.paia_memory.samantha</text>
-  <text x="368" y="482" class="small">connector.personal.paia_memory.owner</text>
+  <text x="368" y="440" class="body">agent runtime memory surfaces:</text>
+  <text x="368" y="461" class="small">connector.personal.agent_memory.samantha</text>
+  <text x="368" y="482" class="small">connector.personal.agent_memory.owner</text>
 
   <rect x="652" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
   <text x="672" y="370" class="label">SampleCo / Caroline</text>

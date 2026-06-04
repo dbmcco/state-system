@@ -50,7 +50,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "checked_at": "2026-05-17T10:15:00Z",
                     "source_watermark": "msgvault.sync_status:unknown",
                     "stale_after": "2026-05-17T10:30:00Z",
-                    "evidence_refs": ["paia:freshness:msgvault:unknown"],
+                    "evidence_refs": ["agent-runtime:freshness:msgvault:unknown"],
                     "index_refs": ["index.personal.msgvault.email"],
                     "index_metadata": {
                         "owner": "source_system",
@@ -93,7 +93,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "checked_at": "2026-05-17T10:00:00Z",
                     "source_watermark": "folio.indexed_at:2026-05-17T08:00:00Z",
                     "lag_seconds": 7200,
-                    "evidence_refs": ["paia:freshness:folio:stale"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:stale"],
                 }
             )
             runtime.record(
@@ -103,7 +103,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "checked_at": "2026-05-17T10:15:00Z",
                     "source_watermark": "folio.indexed_at:2026-05-17T10:14:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["paia:freshness:folio:fresh"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
                 }
             )
 
@@ -147,7 +147,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "--stale-after",
                     "2026-05-17T10:30:00Z",
                     "--evidence-ref",
-                    "paia:freshness:msgvault:unknown",
+                    "agent-runtime:freshness:msgvault:unknown",
                     "--index-ref",
                     "index.personal.msgvault.email",
                     "--index-owner",

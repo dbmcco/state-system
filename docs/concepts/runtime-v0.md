@@ -90,7 +90,7 @@ Runtime v0 deliberately defers:
 - MCP tools
 - live model provider calls
 - background sync workers
-- PAIA memory adapter implementation
+- agent runtime memory adapter implementation
 - cross-repo federation
 - autonomous source monitoring
 

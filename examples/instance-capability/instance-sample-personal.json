@@ -39,9 +39,9 @@
     },
     {
       "id": "connector.personal.workboard",
-      "connector_type": "paia_workboard",
-      "source_ref": "paia-workboard:default",
-      "owner": "paia_runtime",
+      "connector_type": "agent_workboard",
+      "source_ref": "agent-workboard:default",
+      "owner": "agent_runtime",
       "declared": true,
       "access_mode": "read"
     },
@@ -96,7 +96,7 @@
       "folio:tenant:personal",
       "msgvault:tenant:personal-email",
       "agentmem:tenant:example-person",
-      "paia-workboard:default",
+      "agent-workboard:default",
       "relationship-substrate:default",
       "local:/srv/examples/personal",
       "garmin-connect:account:example-person",
@@ -139,8 +139,8 @@
         "connector.personal.folio"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.folio.search"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.folio.search"
       },
       "status": "declared"
     },
@@ -163,8 +163,8 @@
         "connector.personal.msgvault"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.msgvault.search"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.msgvault.search"
       },
       "status": "declared",
       "notes": "msgvault owns its email corpus and vector index; State System federates instead of copying messages."
@@ -198,7 +198,7 @@
       "index_ref": "index.personal.workboard.tasks",
       "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
-      "owner": "paia_runtime",
+      "owner": "agent_runtime",
       "backend": "workgraph_jsonl",
       "scope": "operational_index",
       "record_kinds": [
@@ -208,14 +208,14 @@
         "artifact"
       ],
       "source_refs": [
-        "paia-workboard:default"
+        "agent-workboard:default"
       ],
       "connector_refs": [
         "connector.personal.workboard"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.workboard.read"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.workboard.read"
       },
       "status": "declared"
     },

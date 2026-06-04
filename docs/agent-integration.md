@@ -81,20 +81,20 @@ materialization. If `materialization_policy.local_materialization` is false, an
 agent must not copy raw remote rows, messages, notes, transcripts, or private
 records into the local instance.
 
-## PAIA Agents
+## agent runtime Agents
 
-For PAIA, State System should be used through runtime packets and tools, not as
+For agent runtime, State System should be used through runtime packets and tools, not as
 free-form prompt memory:
 
-- PAIA agent prompts can include a rendered company or instance scope packet.
-- PAIA tools can expose actions such as refresh, understanding, and search over
+- agent runtime agent prompts can include a rendered company or instance scope packet.
+- agent runtime tools can expose actions such as refresh, understanding, and search over
   State System read models.
 - `AGENTS.md` / `CLAUDE.md` files should point agents to the relevant state
   root and package, but should not duplicate package contents.
 - A skill can teach an agent how to use State System, but the source of truth is
   still the package/read-model contract plus source modules and governance.
 
-This keeps State System as the substrate, PAIA as a consumer/runtime, and source
+This keeps State System as the substrate, agent runtime as a consumer/runtime, and source
 systems as owners of their raw data and indexes.
 
 ## Write Boundary

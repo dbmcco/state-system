@@ -295,7 +295,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     "--agent-ref",
                     "persona.samantha.personal_state_agent.with.long.qualifier",
                     "--runner-ref",
-                    "runner.paia.codex.local_runtime.with.long.qualifier",
+                    "runner.agent_runtime.codex.local_runtime.with.long.qualifier",
                     "--status",
                     "planned",
                     "--checked-at",

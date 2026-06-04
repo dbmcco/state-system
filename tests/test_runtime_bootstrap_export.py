@@ -13,8 +13,8 @@ from state_system.stores import StateStoreBundle
 ROOT = Path(__file__).resolve().parents[1]
 
 
-class PaiaBootstrapExportTests(unittest.TestCase):
-    def test_cli_bootstrap_creates_paia_runtime_artifact_layout(self):
+class AgentRuntimeBootstrapExportTests(unittest.TestCase):
+    def test_cli_bootstrap_creates_agent_runtime_artifact_layout(self):
         with TemporaryDirectory() as directory:
             output = StringIO()
             code = cli.main(
@@ -23,7 +23,7 @@ class PaiaBootstrapExportTests(unittest.TestCase):
                     str(ROOT),
                     "--state-root",
                     directory,
-                    "paia-bootstrap-export",
+                    "runtime-bootstrap-export",
                 ],
                 stdout=output,
             )
@@ -89,15 +89,15 @@ class PaiaBootstrapExportTests(unittest.TestCase):
                     "preflight_ref": "preflight.sampleco.local",
                     "company_ref": "company.sampleco",
                     "connector_ref": "connector.sampleco.local",
-                    "tool_ref": "tool.paia.local_path.inspect",
+                    "tool_ref": "tool.agent_runtime.local_path.inspect",
                     "action_ref": "action_surface.sampleco.inspect_local_workspace",
                     "agent_ref": "persona.caroline",
-                    "runner_ref": "runner.paia.codex",
+                    "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:55:00Z",
                     "stale_after": "2026-05-14T19:55:00Z",
                     "evidence_refs": [
-                        "paia:preflight:local-path:sampleco",
+                        "agent-runtime:preflight:local-path:sampleco",
                     ],
                 }
             )
@@ -108,7 +108,7 @@ class PaiaBootstrapExportTests(unittest.TestCase):
                     str(ROOT),
                     "--state-root",
                     directory,
-                    "paia-bootstrap-export",
+                    "runtime-bootstrap-export",
                 ],
                 stdout=StringIO(),
             )
@@ -137,7 +137,7 @@ class PaiaBootstrapExportTests(unittest.TestCase):
                     "source_watermark": "folio.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["paia:freshness:folio:sampleco"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:sampleco"],
                 }
             )
 
@@ -147,7 +147,7 @@ class PaiaBootstrapExportTests(unittest.TestCase):
                     str(ROOT),
                     "--state-root",
                     directory,
-                    "paia-bootstrap-export",
+                    "runtime-bootstrap-export",
                 ],
                 stdout=StringIO(),
             )

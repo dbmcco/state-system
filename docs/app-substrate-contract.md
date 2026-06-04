@@ -1,7 +1,7 @@
 # Application Substrate Contract
 
 **Status:** Planning contract with six schema-valid app fixture chains
-**Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, PAIA memory, and State System
+**Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, agent runtime memory, and State System
 
 ## Purpose
 
@@ -34,8 +34,8 @@ The contract is intentionally app-facing. It names the shared objects and flows 
 
 ## Company Capability Packs
 
-`CompanyCapabilityPack` is the company-scoped runtime substrate PAIA should
-target before local agent/tool wiring. The example packs are seed inputs; PAIA
+`CompanyCapabilityPack` is the company-scoped runtime substrate Agent runtime should
+target before local agent/tool wiring. The example packs are seed inputs; agent runtime
 should consume the read model emitted from a State System runtime state root.
 
 It declares company identity, source connectors, raw corpus, evidence index,
@@ -48,7 +48,7 @@ The invariant is:
 ```text
 CompanyCapabilityPack declares and packages company capability context.
 It does not prove live access and does not authorize execution.
-PAIA preflight proves live access.
+Agent runtime preflight proves live access.
 Governance authorizes protected action.
 ```
 
@@ -60,7 +60,7 @@ Term boundaries:
 - `operating_picture`: projection/read model over state and evidence.
 - `action_surface`: actions available in principle, not necessarily credentialed.
 - `connector_preflight`: runtime check spec/result boundary.
-- `runtime_constraints`: PAIA execution constraints, separate from governance.
+- `runtime_constraints`: agent runtime execution constraints, separate from governance.
 - `governance`: approval/authority policy for state promotion and actions.
 
 Ownership boundary:
@@ -69,19 +69,19 @@ Ownership boundary:
   source refs, evidence refs, company memory, operating picture projections,
   context packages, freshness, proposal/commit, and audit flow.
 - Source systems own the raw records and canonical access semantics.
-- PAIA runtime owns credentialed connector calls, connector preflight results,
+- agent runtime owns credentialed connector calls, connector preflight results,
   agent dispatch, approval-gated execution, and per-agent tool exposure.
 
 Runtime command surface:
 
 ```bash
-python3 -m state_system.cli --project-root . paia-bootstrap-export
+python3 -m state_system.cli --project-root . runtime-bootstrap-export
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-sampleco.json examples/company-capability/company-researchco.json examples/company-capability/company-portfolio-co.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 
-`paia-bootstrap-export` refreshes the default operational artifact layout under
-`/path/to/state-system-runtime`. PAIA should consume those read
+`runtime-bootstrap-export` refreshes the default operational artifact layout under
+`/path/to/state-system-runtime`. Agent runtime should consume those read
 artifacts, then perform its own connector preflight before exposing tools or
 corpora to any agent.
 
@@ -93,7 +93,7 @@ target symlink with a real directory, copy the prior root, validate the copied
 records, refresh read models, run heartbeat when requested, and only then point
 the compatibility path at the new root.
 
-PAIA tool exposure contract:
+agent runtime tool exposure contract:
 
 - Consume `companies[].tool_capability_bindings[]` from
   `company-capability-read-model.json`.
@@ -110,19 +110,19 @@ PAIA tool exposure contract:
   `connector_refs`, `required_preflight_refs`, `governance_refs`, and
   `allowed_agent_refs`.
 - Hide the tool when the active agent is not listed in `allowed_agent_refs`.
-- Hide the tool until every `required_preflight_ref` has a PAIA-owned passing
+- Hide the tool until every `required_preflight_ref` has a agent-runtime-owned passing
   preflight result.
 - Treat `governance_refs` as protected-effect gates. They do not prove access;
-  they tell PAIA which governance checks must pass before protected execution.
+  they tell agent runtime which governance checks must pass before protected execution.
 - Never infer tool exposure from free-text summaries, connector names, or
   operating-picture names. The binding array and source connector records are
   the mechanical contract.
 - Preserve `proves_live_access: false` and `authorizes_execution: false` on
-  bindings. State System declares the route; PAIA proves access and executes.
+  bindings. State System declares the route; agent runtime proves access and executes.
 
-PAIA preflight result contract:
+Agent runtime preflight result contract:
 
-- PAIA owns the actual check and records the outcome through
+- agent runtime owns the actual check and records the outcome through
   `company-preflight-record`.
 - State System persists the result under the runtime state root and exports
   `company-preflight-results-read-model.json` through
@@ -142,9 +142,9 @@ PAIA preflight result contract:
 - `authorizes_execution` is always false. Governance remains the authority for
   protected effects.
 
-PAIA source freshness result contract:
+Agent runtime source freshness result contract:
 
-- PAIA owns the actual source watermark check and records the outcome through
+- agent runtime owns the actual source watermark check and records the outcome through
   `source-freshness-record`.
 - State System persists the result under the runtime state root and exports
   `source-freshness-read-model.json` through `source-freshness-export`.
@@ -307,7 +307,7 @@ Consumes:
 
 - State System context packages
 - CRM relationship context
-- PAIA memory
+- agent runtime memory
 - Folio notes
 - task/work state
 - contact and project state
@@ -385,7 +385,7 @@ Accepted doctrine can take effect immediately where the relevant app North Star 
 
 The next work should happen in this order:
 
-1. **Consume runtime company capability first.** PAIA should target the runtime `company-capability-read` output before implementing company-scoped tools, corpora, or agent dispatch.
+1. **Consume runtime company capability first.** Agent runtime should target the runtime `company-capability-read` output before implementing company-scoped tools, corpora, or agent dispatch.
 2. **Keep extending the fixture substrate.** The first six app chains exist; continue promoting pressure scenarios into schema-valid traces when they expose new source, state, approval, memory, or doctrine behavior.
 3. **Build substrate read models before app UI.** Company memory and CRM operating picture should be deterministic JSON projections over State System records before any wiki, dashboard, or app screen is treated as product.
 4. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, CRM handoff contracts, and CRM outcome doctrine.
@@ -410,8 +410,8 @@ Before serious app implementation, State System should provide:
 6. Fixture traces for the required scenarios in `docs/app-integration-pressure-tests.md`.
 7. A short conformance checklist proving apps are not bypassing proposal, approval, evidence, or state-commit flows.
 8. Substrate read models for company memory and CRM operating picture before durable app UI is built.
-9. Runtime-backed company capability read model before PAIA implements company-scoped tool/corpus access.
+9. Runtime-backed company capability read model before agent runtime implements company-scoped tool/corpus access.
 
-The apps can build against fixtures first. PAIA company-scoped execution should
+The apps can build against fixtures first. agent runtime company-scoped execution should
 build against the runtime company capability read model rather than app-local
 company special cases.

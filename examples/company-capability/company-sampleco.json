@@ -131,8 +131,8 @@
         "connector.sampleco.folio"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.folio.search"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.folio.search"
       },
       "status": "declared"
     },
@@ -154,8 +154,8 @@
         "connector.sampleco.msgvault"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.msgvault.search"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.msgvault.search"
       },
       "status": "declared"
     },
@@ -178,8 +178,8 @@
         "connector.sampleco.drive"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.gws_drive.read"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.gws_drive.read"
       },
       "status": "declared"
     },
@@ -202,8 +202,8 @@
         "connector.sampleco.linear"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.linear.read"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.linear.read"
       },
       "status": "declared"
     },
@@ -226,8 +226,8 @@
         "connector.sampleco.zulip"
       ],
       "query_surface": {
-        "type": "paia_tool",
-        "tool_ref": "tool.paia.zulip.read"
+        "type": "agent_runtime_tool",
+        "tool_ref": "tool.agent_runtime.zulip.read"
       },
       "status": "declared",
       "notes": "Read surface is live for company understanding. Durable search indexing can still be hardened later."
@@ -253,10 +253,10 @@
       ],
       "query_surface": {
         "type": "source_adapter",
-        "tool_ref": "tool.paia.github.read"
+        "tool_ref": "tool.agent_runtime.github.read"
       },
       "status": "declared",
-      "notes": "Live repo metadata and commit activity can be read through the PAIA GitHub adapter. Durable indexing can still be hardened later."
+      "notes": "Live repo metadata and commit activity can be read through the agent runtime GitHub adapter. Durable indexing can still be hardened later."
     },
     {
       "index_ref": "index.sampleco.local.workspace",
@@ -277,7 +277,7 @@
       ],
       "query_surface": {
         "type": "source_adapter",
-        "tool_ref": "tool.paia.local_path.inspect"
+        "tool_ref": "tool.agent_runtime.local_path.inspect"
       },
       "status": "declared",
       "notes": "Read-only local workspace inspection for SampleCo. Transcript/archive content remains governed by the transcript placeholder connectors until that pipeline is proven."
@@ -300,7 +300,7 @@
       ],
       "query_surface": {
         "type": "source_adapter",
-        "tool_ref": "tool.paia.local_path.inspect"
+        "tool_ref": "tool.agent_runtime.local_path.inspect"
       },
       "status": "planned",
       "notes": "Placeholder only. Raw transcript files are declared as source material, but no local transcript index is live yet."
@@ -309,7 +309,7 @@
       "index_ref": "index.sampleco.transcripts.processed",
       "company_ref": "company.sampleco",
       "owner": "source_system",
-      "backend": "paia_meetings",
+      "backend": "agent_runtime_meetings",
       "scope": "raw_source_index",
       "record_kinds": [
         "transcript",
@@ -325,7 +325,7 @@
       ],
       "query_surface": {
         "type": "source_adapter",
-        "tool_ref": "tool.paia.transcripts.search"
+        "tool_ref": "tool.agent_runtime.transcripts.search"
       },
       "status": "planned",
       "notes": "Placeholder only. Pipeline health is not proven; do not treat processed transcripts as fresh until adapter watermarks exist."
@@ -351,7 +351,7 @@
         "tool_ref": "tool.state_system.company_understanding_read"
       },
       "status": "declared",
-      "notes": "Operational State System read model used by PAIA agents to see source readiness, gaps, and declared retrieval surfaces."
+      "notes": "Operational State System read model used by agent runtime agents to see source readiness, gaps, and declared retrieval surfaces."
     },
     {
       "index_ref": "index.sampleco.state_system.evidence_cards",
@@ -401,7 +401,7 @@
     {
       "id": "tool_binding.sampleco.folio.search",
       "capability_ref": "capability.sampleco.folio.search",
-      "tool_ref": "tool.paia.folio.search",
+      "tool_ref": "tool.agent_runtime.folio.search",
       "action_ref": "action_surface.sampleco.read_folio",
       "connector_refs": [
         "connector.sampleco.folio"
@@ -421,7 +421,7 @@
     {
       "id": "tool_binding.sampleco.msgvault.search",
       "capability_ref": "capability.sampleco.msgvault.search",
-      "tool_ref": "tool.paia.msgvault.search",
+      "tool_ref": "tool.agent_runtime.msgvault.search",
       "action_ref": "action_surface.sampleco.search_msgvault",
       "connector_refs": [
         "connector.sampleco.msgvault"
@@ -441,7 +441,7 @@
     {
       "id": "tool_binding.sampleco.drive.read",
       "capability_ref": "capability.sampleco.drive.read",
-      "tool_ref": "tool.paia.gws_drive.read",
+      "tool_ref": "tool.agent_runtime.gws_drive.read",
       "action_ref": "action_surface.sampleco.read_drive",
       "connector_refs": [
         "connector.sampleco.drive"
@@ -461,7 +461,7 @@
     {
       "id": "tool_binding.sampleco.linear.read",
       "capability_ref": "capability.sampleco.linear.read",
-      "tool_ref": "tool.paia.linear.read",
+      "tool_ref": "tool.agent_runtime.linear.read",
       "action_ref": "action_surface.sampleco.read_linear",
       "connector_refs": [
         "connector.sampleco.linear"
@@ -481,7 +481,7 @@
     {
       "id": "tool_binding.sampleco.zulip.read",
       "capability_ref": "capability.sampleco.zulip.read",
-      "tool_ref": "tool.paia.zulip.read",
+      "tool_ref": "tool.agent_runtime.zulip.read",
       "action_ref": "action_surface.sampleco.read_zulip",
       "connector_refs": [
         "connector.sampleco.zulip"
@@ -501,7 +501,7 @@
     {
       "id": "tool_binding.sampleco.github.read",
       "capability_ref": "capability.sampleco.github.read",
-      "tool_ref": "tool.paia.github.read",
+      "tool_ref": "tool.agent_runtime.github.read",
       "action_ref": "action_surface.sampleco.read_github",
       "connector_refs": [
         "connector.sampleco.github_org"
@@ -521,7 +521,7 @@
     {
       "id": "tool_binding.sampleco.local.inspect",
       "capability_ref": "capability.sampleco.local.inspect",
-      "tool_ref": "tool.paia.local_path.inspect",
+      "tool_ref": "tool.agent_runtime.local_path.inspect",
       "action_ref": "action_surface.sampleco.inspect_local_workspace",
       "connector_refs": [
         "connector.sampleco.local"
@@ -541,7 +541,7 @@
     {
       "id": "tool_binding.sampleco.crm.propose_update",
       "capability_ref": "capability.sampleco.crm.propose_update",
-      "tool_ref": "tool.paia.crm.propose_update",
+      "tool_ref": "tool.agent_runtime.crm.propose_update",
       "action_ref": "action_surface.sampleco.propose_crm_update",
       "connector_refs": [],
       "required_preflight_refs": [],
@@ -565,54 +565,54 @@
     ]
   },
   "connector_preflight": {
-    "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
+    "definition": "connector_preflight is the agent runtime check spec/result boundary.",
     "required_checks": [
       {
         "id": "preflight.sampleco.folio",
         "connector_ref": "connector.sampleco.folio",
-        "check": "PAIA runtime can search Folio tenant sampleco.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can search Folio tenant sampleco.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.msgvault",
         "connector_ref": "connector.sampleco.msgvault",
-        "check": "PAIA runtime can search SampleCo msgvault email.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can search SampleCo msgvault email.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.drive",
         "connector_ref": "connector.sampleco.drive",
-        "check": "PAIA runtime can read SampleCo Drive.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can read SampleCo Drive.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.linear",
         "connector_ref": "connector.sampleco.linear",
-        "check": "PAIA runtime can read Linear FORGE and INT teams.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can read Linear FORGE and INT teams.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.zulip",
         "connector_ref": "connector.sampleco.zulip",
-        "check": "PAIA runtime can read the SampleCo Zulip realm.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can read the SampleCo Zulip realm.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.github",
         "connector_ref": "connector.sampleco.github_org",
-        "check": "PAIA runtime can read SampleCo GitHub org repository metadata.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can read SampleCo GitHub org repository metadata.",
+        "owner": "agent_runtime"
       },
       {
         "id": "preflight.sampleco.local",
         "connector_ref": "connector.sampleco.local",
-        "check": "PAIA runtime can inspect the local SampleCo path when locally available.",
-        "owner": "paia_runtime"
+        "check": "agent runtime can inspect the local SampleCo path when locally available.",
+        "owner": "agent_runtime"
       }
     ]
   },
   "runtime_constraints": {
-    "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
+    "definition": "runtime_constraints are agent runtime execution constraints, separate from governance.",
     "constraints": [
       "Caroline primary for SampleCo.",
       "Samantha may oversee across company packs.",
@@ -628,7 +628,7 @@
   },
   "lineage": {
     "source_refs": [
-      "coordination:paia-company-scoped-access:2026-05-14"
+      "coordination:agent-runtime-company-scoped-access:2026-05-14"
     ],
     "evidence_refs": [
       "docs:state-system:company-capability-baseline"
@@ -638,7 +638,7 @@
     "declares_context": true,
     "proves_live_access": false,
     "authorizes_execution": false,
-    "live_access_proven_by": "paia_connector_preflight",
+    "live_access_proven_by": "agent_runtime_connector_preflight",
     "protected_action_authorized_by": "governance"
   }
 }

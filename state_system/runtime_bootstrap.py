@@ -14,10 +14,10 @@ from state_system.source_freshness import build_source_freshness_read_model
 from state_system.stores import StateStoreBundle
 
 
-DEFAULT_PAIA_STATE_ROOT = Path(os.environ.get("STATE_SYSTEM_ROOT", ""))
+DEFAULT_RUNTIME_STATE_ROOT = Path(os.environ.get("STATE_SYSTEM_ROOT", ""))
 
 
-def bootstrap_paia_state_system(project_root: Path, state_root: Path) -> JsonObject:
+def bootstrap_runtime_state_system(project_root: Path, state_root: Path) -> JsonObject:
     stores = StateStoreBundle(state_root)
     packs = _load_company_capability_packs(project_root)
     _validate_company_capability_packs(project_root, packs)

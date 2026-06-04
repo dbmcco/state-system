@@ -15,7 +15,7 @@
         "required_tool_refs": [
           "tool.relationship_substrate.operating_picture",
           "tool.relationship_substrate.list_subject_notes",
-          "tool.paia.msgvault.search"
+          "tool.agent_runtime.msgvault.search"
         ],
         "required_tool_action_refs": [
           "tool_action.relationship_substrate.operating_picture",
@@ -81,32 +81,32 @@
       }
     },
     {
-      "id": "package_pressure_question.sam_paia_memory_identity_context",
+      "id": "package_pressure_question.sam_agent_memory_identity_context",
       "status": "ready",
       "package_id": "instance_agent_package.sample_personal.samantha",
-      "question": "Can Sam use my PAIA conversations and facets as part of personal state?",
-      "intent": "Sam should see PAIA memory as fresh source-owned identity/context surfaces, separating Samantha continuity from example owner facts and avoiding raw private facet or full-turn materialization.",
+      "question": "Can Sam use my agent runtime conversations and facets as part of personal state?",
+      "intent": "Sam should see agent runtime memory as fresh source-owned identity/context surfaces, separating Samantha continuity from example owner facts and avoiding raw private facet or full-turn materialization.",
       "assertions": {
         "required_source_status": [
           {
-            "connector_ref": "connector.personal.paia_memory.samantha",
+            "connector_ref": "connector.personal.agent_memory.samantha",
             "access_status": "passed",
             "freshness_status": "fresh",
             "understanding_status": "ready"
           },
           {
-            "connector_ref": "connector.personal.paia_memory.owner",
+            "connector_ref": "connector.personal.agent_memory.owner",
             "access_status": "passed",
             "freshness_status": "fresh",
             "understanding_status": "ready"
           }
         ],
         "required_tool_refs": [
-          "tool.paia_memory.retrieve_summary",
-          "tool.paia_memory.retrieve_facets"
+          "tool.agent_memory.retrieve_summary",
+          "tool.agent_memory.retrieve_facets"
         ],
         "required_tool_action_refs": [
-          "tool_action.paia_memory.read"
+          "tool_action.agent_memory.read"
         ]
       }
     },

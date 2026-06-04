@@ -363,7 +363,7 @@
             <text x="52" y="374" class="node-copy">CLI-ready personal package</text>
             <text x="52" y="391" class="node-copy">Garmin Connect: fresh local sync</text>
             <text x="52" y="408" class="node-copy">Spotify: historical-cache stale</text>
-            <text x="52" y="425" class="node-copy">PAIA memory: agent + owner surfaces</text>
+            <text x="52" y="425" class="node-copy">agent runtime memory: agent + owner surfaces</text>
             <text x="52" y="442" class="node-copy">Relationship Substrate usable</text>
             <text x="52" y="470" class="status-label" fill="var(--done)">PACKAGE RENDERS</text>
 
@@ -409,10 +409,10 @@
             <text x="52" y="700" class="status-label" fill="var(--source)">GOVERNED SOURCE</text>
 
             <rect x="362" y="566" width="286" height="156" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
-            <text x="380" y="595" class="node-title">PAIA Memory Module</text>
-            <text x="380" y="618" class="node-copy">source_module.paia_memory</text>
-            <text x="380" y="635" class="node-copy">connector.personal.paia_memory.samantha</text>
-            <text x="380" y="652" class="node-copy">connector.personal.paia_memory.owner</text>
+            <text x="380" y="595" class="node-title">Agent Runtime Memory Module</text>
+            <text x="380" y="618" class="node-copy">source_module.agent_memory</text>
+            <text x="380" y="635" class="node-copy">connector.personal.agent_memory.samantha</text>
+            <text x="380" y="652" class="node-copy">connector.personal.agent_memory.owner</text>
             <text x="380" y="669" class="node-copy">Facets and turns stay source-owned</text>
             <text x="380" y="700" class="status-label" fill="var(--source)">SEPARATE SURFACES</text>
 
@@ -457,7 +457,7 @@
           <title id="app-svg-title">Application substrate map</title>
           <desc id="app-svg-desc">
             A map showing State System as the shared substrate between five application repos,
-            CRM, PAIA memory, Folio, task systems, source systems, and the shared proposal and
+            CRM, agent runtime memory, Folio, task systems, source systems, and the shared proposal and
             approval loop.
           </desc>
 
@@ -563,7 +563,7 @@
       <h2 id="mission-heading">Mission Records Lane</h2>
       <p class="lede">
         The newest design work adds a generic mission-control substrate to State System. It should
-        become a durable record family before any PAIA Shell mission board is built: live operator
+        become a durable record family before any agent runtime shell mission board is built: live operator
         UI becomes a projection over mission records, not a separate truth source.
       </p>
       <div class="diagram-wrap">
@@ -571,7 +571,7 @@
           <title id="mission-svg-title">Mission records implementation lane</title>
           <desc id="mission-svg-desc">
             A flow diagram showing how a mission request becomes mission records, deterministic
-            fixture replay, a regenerated read model, and future PAIA Shell mission control.
+            fixture replay, a regenerated read model, and future agent runtime shell mission control.
           </desc>
 
           <defs>
@@ -589,7 +589,7 @@
             <text x="52" y="134" class="node-title">Design Anchor</text>
             <text x="52" y="158" class="node-copy">state-backed mission</text>
             <text x="52" y="175" class="node-copy">control spec</text>
-            <text x="52" y="197" class="node-copy">generic, PAIA-agnostic</text>
+            <text x="52" y="197" class="node-copy">generic, agent runtime-agnostic</text>
             <text x="52" y="222" class="status-label" fill="var(--done)">COMMITTED</text>
 
             <rect x="274" y="106" width="196" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
@@ -601,7 +601,7 @@
 
             <rect x="514" y="106" width="196" height="132" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
             <text x="532" y="134" class="node-title">Fixture Replay</text>
-            <text x="532" y="158" class="node-copy">PAIA/Speedrift repo audit</text>
+            <text x="532" y="158" class="node-copy">agent-runtime/Speedrift repo audit</text>
             <text x="532" y="175" class="node-copy">deterministic, file-backed</text>
             <text x="532" y="192" class="node-copy">idempotent replay</text>
             <text x="532" y="222" class="status-label" fill="var(--next)">QUEUED</text>
@@ -615,7 +615,7 @@
 
             <rect x="994" y="106" width="196" height="132" rx="8" fill="var(--future-soft)" stroke="var(--future)"></rect>
             <text x="1012" y="134" class="node-title">Mission Board</text>
-            <text x="1012" y="158" class="node-copy">PAIA Shell consumes</text>
+            <text x="1012" y="158" class="node-copy">agent runtime shell consumes</text>
             <text x="1012" y="175" class="node-copy">read model later</text>
             <text x="1012" y="192" class="node-copy">no separate truth source</text>
             <text x="1012" y="222" class="status-label" fill="var(--future)">LATER UI</text>
@@ -703,7 +703,7 @@
             <li>Garmin Connect is exposed as a fresh local-sync source in the personal package.</li>
             <li>Spotify is exposed as a usable historical cache with a stale live-API gap, not current listening truth.</li>
             <li>SampleCo Linear and GitHub are fresh from source-owned watermarks; SampleCo transcript raw and processed pipelines remain planned gaps.</li>
-            <li>PAIA memory is a generic source module with separate personal connector surfaces for Samantha and owner memory.</li>
+            <li>agent runtime memory is a generic source module with separate personal connector surfaces for Samantha and owner memory.</li>
             <li>No private records, raw corpora, credentials, or absolute runtime paths belong in public diagrams or examples.</li>
           </ol>
         </div>
@@ -740,13 +740,13 @@
             <li>The mission-control design is committed and queued as `state-mission-records-v0` behind the app handoff lane.</li>
             <li>Schema-valid app fixture chains now cover six app-substrate flows: Prospect/Outreach/CRM, Meeting, Thoughtforge, Visual Forge, and CRM outcome doctrine.</li>
             <li>Company memory and CRM operating picture now have a first JSON substrate read model with Laura and Patrick package slices.</li>
-            <li>Company capability packs now seed runtime State System records for SampleCo, ResearchCo, and PortfolioCo before PAIA tool wiring.</li>
+            <li>Company capability packs now seed runtime State System records for SampleCo, ResearchCo, and PortfolioCo before agent runtime tool wiring.</li>
             <li>Generic source module, tool action, and question route contracts are schema-backed and tested.</li>
             <li>Instance agent packages are CLI-ready for personal state/Samantha and SampleCo/Caroline, with PortfolioCo/Helena and ResearchCo/Ingrid scaffold packages carrying typed readiness gaps.</li>
             <li>Federation packs declare no-raw-materialization boundaries for personal-to-SampleCo, SampleCo-to-Relationship-Substrate, and planned portfolio rollups.</li>
             <li>Relationship Substrate is represented as a governed source module and federated route, not a personal state-only assumption.</li>
-            <li>PAIA memory is represented as `source_module.paia_memory` with separate personal state connector surfaces for Samantha and owner memory.</li>
-            <li>`paia-bootstrap-export` now refreshes the PAIA company capability, preflight, and source freshness read-model artifact layout.</li>
+            <li>agent runtime memory is represented as `source_module.agent_memory` with separate personal state connector surfaces for Samantha and owner memory.</li>
+            <li>`runtime-bootstrap-export` now refreshes the agent runtime company capability, preflight, and source freshness read-model artifact layout.</li>
             <li>`source-heartbeat-run` makes State System the active freshness orchestrator, with direct local metadata checks and explicit delegated connector boundaries.</li>
             <li>`state-root-migrate` moves the canonical runtime root into the visible SampleCo workspace with copy-not-destructive semantics and a compatibility symlink from the old hidden path.</li>
           </ul>
@@ -757,7 +757,7 @@
             <li>Keep Spotify live OAuth repair separate from the historical-cache stale package contract.</li>
             <li>Repair SampleCo transcript raw and processed pipelines before any package claims transcript evidence is current.</li>
             <li>Promote PortfolioCo/Helena and ResearchCo/Ingrid from scaffold to ready only after source-owned preflight, freshness, and index records exist.</li>
-            <li>Have PAIA consume runtime read models through connector preflight and governance checks instead of app-local company specials.</li>
+            <li>Have agent runtime consume runtime read models through connector preflight and governance checks instead of app-local company specials.</li>
             <li>Keep wiki, dashboard, and report surfaces as projections over JSON substrate, not as durable truth sources.</li>
             <li>Keep package pressure questions as real route-contract checks for source coverage, fallback behavior, federation, and gap visibility.</li>
             <li>Define State Coherence Maintenance so new durable state can reweave affected rollups, packages, identities, and stale records.</li>

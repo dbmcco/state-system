@@ -158,14 +158,14 @@ def _sampleco_runtime(root: Path) -> StateStoreBundle:
             "preflight_ref": "preflight.sampleco.folio",
             "company_ref": "company.sampleco",
             "connector_ref": "connector.sampleco.folio",
-            "tool_ref": "tool.paia.folio.search",
+            "tool_ref": "tool.agent_runtime.folio.search",
             "action_ref": "action_surface.sampleco.read_folio",
             "agent_ref": "persona.caroline",
-            "runner_ref": "runner.paia.codex",
+            "runner_ref": "runner.agent_runtime.codex",
             "status": "passed",
             "checked_at": "2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:45:00Z",
-            "evidence_refs": ["paia:preflight:folio:sampleco"],
+            "evidence_refs": ["agent-runtime:preflight:folio:sampleco"],
         }
     )
     SourceFreshnessRuntime(stores).record(
@@ -178,7 +178,7 @@ def _sampleco_runtime(root: Path) -> StateStoreBundle:
             "checked_at": "2026-05-16T19:31:00Z",
             "source_watermark": "folio.updated_at:2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:46:00Z",
-            "evidence_refs": ["paia:freshness:folio:sampleco"],
+            "evidence_refs": ["agent-runtime:freshness:folio:sampleco"],
         }
     )
     return stores

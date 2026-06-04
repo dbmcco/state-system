@@ -69,7 +69,7 @@ class SourceModuleSpecTests(unittest.TestCase):
             "spotify",
             "garmin_connect",
             "relationship_substrate",
-            "paia_memory",
+            "agent_memory",
             "blog",
             "beeper_messaging",
         ):
@@ -121,19 +121,19 @@ class SourceModuleSpecTests(unittest.TestCase):
             modules["state_system_instance"]["index_contract"]["record_kinds"],
         )
 
-        paia_memory = modules["paia_memory"]
+        agent_memory = modules["agent_memory"]
         self.assertIn(
             "conversation_turn",
-            paia_memory["index_contract"]["record_kinds"],
+            agent_memory["index_contract"]["record_kinds"],
         )
-        self.assertIn("facet_history", paia_memory["index_contract"]["record_kinds"])
-        self.assertIn("tool.paia_memory.retrieve_facets", paia_memory["read_surfaces"])
-        paia_effects = {
+        self.assertIn("facet_history", agent_memory["index_contract"]["record_kinds"])
+        self.assertIn("tool.agent_memory.retrieve_facets", agent_memory["read_surfaces"])
+        agent_memory_effects = {
             surface["effect_type"]
-            for surface in paia_memory["correction_surfaces"]
+            for surface in agent_memory["correction_surfaces"]
         }
-        self.assertIn("source_owned_correction_write", paia_effects)
-        self.assertIn("raw private facets", paia_memory["output_policy"]["redaction_policy"])
+        self.assertIn("source_owned_correction_write", agent_memory_effects)
+        self.assertIn("raw private facets", agent_memory["output_policy"]["redaction_policy"])
 
         blog = modules["blog"]
         self.assertIn("local_sync", {mode["mode"] for mode in blog["module_modes"]})

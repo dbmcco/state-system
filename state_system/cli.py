@@ -88,9 +88,9 @@ from state_system.package_pressure import (
     validate_pressure_registry,
 )
 from state_system.operational_loop import run_operational_loop
-from state_system.paia_bootstrap import (
-    DEFAULT_PAIA_STATE_ROOT,
-    bootstrap_paia_state_system,
+from state_system.runtime_bootstrap import (
+    DEFAULT_RUNTIME_STATE_ROOT,
+    bootstrap_runtime_state_system,
 )
 from state_system.runtime import (
     build_recent_package,
@@ -1030,11 +1030,11 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, result)
         return 0
 
-    if args.command == "paia-bootstrap-export":
+    if args.command == "runtime-bootstrap-export":
         bootstrap_root = (
-            Path(args.state_root) if args.state_root else DEFAULT_PAIA_STATE_ROOT
+            Path(args.state_root) if args.state_root else DEFAULT_RUNTIME_STATE_ROOT
         )
-        result = bootstrap_paia_state_system(project_root, bootstrap_root)
+        result = bootstrap_runtime_state_system(project_root, bootstrap_root)
         _write_json(stdout, result)
         return 0
 
@@ -1483,7 +1483,7 @@ def _parser() -> argparse.ArgumentParser:
     migrate.add_argument("--heartbeat-checked-at")
     migrate.add_argument("--heartbeat-stale-after")
 
-    subcommands.add_parser("paia-bootstrap-export")
+    subcommands.add_parser("runtime-bootstrap-export")
 
     operational_loop = subcommands.add_parser("operational-loop-run")
     operational_loop.add_argument("trace_manifest")

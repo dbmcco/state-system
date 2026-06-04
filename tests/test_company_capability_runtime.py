@@ -104,7 +104,7 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                 )["status"],
             )
             self.assertIn(
-                "tool.paia.gws_drive.read",
+                "tool.agent_runtime.gws_drive.read",
                 [
                     binding["tool_ref"]
                     for binding in _company(read_model, "company.portfolio_co")[

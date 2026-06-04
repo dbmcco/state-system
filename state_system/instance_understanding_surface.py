@@ -225,8 +225,8 @@ def _module_mode(connector: JsonObject, federated_instance: JsonObject) -> str:
     if connector_type in {
         "garmin_connect",
         "relationship_substrate",
-        "paia_memory",
-        "paia_workboard",
+        "agent_memory",
+        "agent_workboard",
     }:
         return "local_sync"
     if connector_type == "docs":

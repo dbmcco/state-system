@@ -38,14 +38,14 @@ The evidence store resolves source references and retrieves relevant source
 records.
 
 Initial local behavior can be simple reference checking. The end-state adapter
-may use `paia-memory` evidence, embeddings, digests, and retrieval.
+may use `agent-memory` evidence, embeddings, digests, and retrieval.
 
 ### 2. Memory Store
 
 The memory store owns agent-specific learned memory.
 
 Initial local behavior can read and write JSON fixtures. The end-state adapter
-may use `paia-memory` facets, triplets, semantic retrieval, and active context.
+may use `agent-memory` facets, triplets, semantic retrieval, and active context.
 
 ### 3. State Store
 

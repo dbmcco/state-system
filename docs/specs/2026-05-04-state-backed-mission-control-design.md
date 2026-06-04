@@ -2,7 +2,7 @@
 
 **Date:** 2026-05-04
 **Status:** Draft
-**Scope:** Generic mission records in State System, with PAIA/Speedrift repo-audit as the first consumer fixture
+**Scope:** Generic mission records in State System, with agent-runtime/Speedrift repo-audit as the first consumer fixture
 
 ## Problem
 
@@ -23,29 +23,29 @@ The desired operator experience is a live mission board where a human can see:
 - what requires approval before action
 
 The live board should not become a separate source of truth. It should be a
-projection over State System records, PAIA/agent-runtime events, Workgraph
+projection over State System records, agent runtime/agent-runtime events, Workgraph
 execution facts, Speedrift findings, and evidence references.
 
 ## Goal
 
 Define a reusable State System substrate for mission-oriented multi-agent work.
 
-The first concrete use case is a PAIA/Speedrift repo-audit mission similar to a
+The first concrete use case is a agent-runtime/Speedrift repo-audit mission similar to a
 multi-agent code audit: a coordinator starts a mission, specialist agents inspect
 different concerns, findings are gathered, stumbles are recorded, follow-up work
 is proposed, and durable state is updated only through journaled, evidenced,
 governed commits.
 
-The generic substrate should also support non-PAIA use cases such as marketing
+The generic substrate should also support non-agent runtime use cases such as marketing
 opportunity review, operations cleanup, launch-readiness review, relationship
 follow-up review, onboarding review, and future organizational state reviews.
 
 ## Non-Goals
 
-- Do not build the PAIA Shell UI in this spec.
-- Do not add live GitHub, Workgraph, Speedrift, or PAIA adapters in the first
+- Do not build the agent runtime shell UI in this spec.
+- Do not add live GitHub, Workgraph, Speedrift, or agent runtime adapters in the first
   State System implementation.
-- Do not make State System depend on Samantha, Derek, PAIA Shell, or PAIA event
+- Do not make State System depend on Samantha, Derek, agent runtime shell, or agent runtime event
   names.
 - Do not treat a mission transcript as durable truth.
 - Do not let source systems or live UI mutate snapshots directly.
@@ -54,7 +54,7 @@ follow-up review, onboarding review, and future organizational state reviews.
 
 ## Design Choice
 
-Use **generic State System mission records first**, with PAIA Shell as the first
+Use **generic State System mission records first**, with agent runtime shell as the first
 consumer.
 
 This keeps the reusable contracts in `state-system`:
@@ -68,8 +68,8 @@ This keeps the reusable contracts in `state-system`:
 - `MissionArtifact`
 - `MissionGovernanceReceipt`
 
-PAIA Shell can then render a Jesse-style live mission board as a projection over
-those records. PAIA-specific agents, surfaces, and execution events become one
+agent runtime shell can then render a Jesse-style live mission board as a projection over
+those records. agent-runtime-specific agents, surfaces, and execution events become one
 adapter family, not the generic model.
 
 ## Model And Code Boundary
@@ -470,7 +470,7 @@ Initial `status` values:
 This record gives the live UI a concise way to show why an action is blocked
 without burying that information inside model output or committer logs.
 
-## First Fixture: PAIA/Speedrift Repo-Audit Mission
+## First Fixture: agent-runtime/Speedrift Repo-Audit Mission
 
 The first fixture should model a repo-audit mission without live adapters.
 
@@ -522,7 +522,7 @@ Expected fixture outputs:
 - one review signal that summarizes follow-up work
 
 The fixture should be deterministic and file-backed. It should not require live
-GitHub, Workgraph, Speedrift, PAIA, or model calls.
+GitHub, Workgraph, Speedrift, agent runtime, or model calls.
 
 ## Runtime Flow
 
@@ -545,14 +545,14 @@ source event or human request
   -> mission summary and final read model
 ```
 
-For live PAIA/Speedrift execution, Workgraph still owns task execution,
-Speedrift still owns drift judgment, and PAIA agent-runtime still owns agent
+For live agent-runtime/Speedrift execution, Workgraph still owns task execution,
+Speedrift still owns drift judgment, and agent runtime agent-runtime still owns agent
 tool execution. State System records the interpreted mission state and provides
 the access-surface read model.
 
-## PAIA Shell Read Model
+## agent runtime shell Read Model
 
-PAIA Shell should consume a compact read model rather than query every raw
+agent runtime shell should consume a compact read model rather than query every raw
 record directly.
 
 Initial read model sections:
@@ -586,20 +586,20 @@ Owns:
 
 Does not own:
 
-- PAIA Shell UI
+- agent runtime shell UI
 - live agent subprocess execution
 - Workgraph task execution
 - Speedrift drift-lane implementation
 - GitHub API adapters in the first slice
 
-### `paia-agent-runtime`
+### `agent-runtime`
 
 Owns:
 
 - emitting agent lifecycle events that can be mapped into mission events
 - tool execution and model loops
 - risk evaluation at action execution boundaries
-- adapter code that can write mission events when running under PAIA
+- adapter code that can write mission events when running under agent runtime
 
 ### `driftdriver` / Speedrift
 
@@ -621,7 +621,7 @@ Owns:
 - validation status
 - worker dispatch state
 
-### `paia-shell`
+### `agent-runtime-shell`
 
 Owns:
 
@@ -652,7 +652,7 @@ memory entries, or review signals.
 
 Mission runs and read models must carry freshness metadata.
 
-Before any high-impact or external action, the committer or PAIA approval layer
+Before any high-impact or external action, the committer or agent runtime approval layer
 must check:
 
 - whether the mission context package is stale
@@ -675,8 +675,8 @@ The first implementation is ready when:
   artifact, governance, commit, journal, memory, and review-signal records
 - replaying the same fixture is idempotent
 - mission read model can be regenerated from records
-- no PAIA-specific names are required by generic schemas
-- PAIA-specific fixture data is isolated to examples or adapters
+- no agent-runtime-specific names are required by generic schemas
+- agent-runtime-specific fixture data is isolated to examples or adapters
 - every finding, journal, memory entry, and approval references evidence
 - stumbles can produce memory proposals without automatically promoting them to
   shared state
@@ -694,8 +694,8 @@ The first implementation is ready when:
 6. Add mission read model generation.
 7. Connect mission findings and stumbles to existing model proposal and commit
    result flows.
-8. Add PAIA/Speedrift adapter design after the generic fixture passes.
-9. Build PAIA Shell Mission Control against the read model.
+8. Add agent-runtime/Speedrift adapter design after the generic fixture passes.
+9. Build agent runtime shell Mission Control against the read model.
 
 ## Design Decisions For First Implementation
 
@@ -719,8 +719,8 @@ These decisions are fixed for the first implementation plan:
 ## Recommendation
 
 Implement first-class mission schemas in State System and keep them generic.
-Use a deterministic PAIA/Speedrift repo-audit fixture as the first pressure
-test. Build PAIA Shell Mission Control only after the read model can be
+Use a deterministic agent-runtime/Speedrift repo-audit fixture as the first pressure
+test. Build agent runtime shell Mission Control only after the read model can be
 generated from durable mission records.
 
 This preserves State System as the reusable substrate while still creating a

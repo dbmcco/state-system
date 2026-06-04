@@ -195,30 +195,30 @@
       "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
     },
     {
-      "id": "source_module.paia_memory",
-      "connector_type": "paia_memory",
+      "id": "source_module.agent_memory",
+      "connector_type": "agent_memory",
       "status": "experimental",
-      "description": "PAIA-owned agent conversation turns, facets, facet history, digests, and identity/context projections.",
+      "description": "agent-runtime-owned agent conversation turns, facets, facet history, digests, and identity/context projections.",
       "allowed_instance_kinds": ["person", "project"],
-      "source_ref": { "pattern": "paia-memory:tenant:{tenant}", "examples": ["paia-memory:tenant:Samantha"] },
-      "access": { "mode": "api", "owner": "paia_runtime", "runtime_dependency": "PAIA memory retrieval API or governed export", "supports_write": true },
+      "source_ref": { "pattern": "agent-memory:tenant:{tenant}", "examples": ["agent-memory:tenant:Samantha"] },
+      "access": { "mode": "api", "owner": "agent_runtime", "runtime_dependency": "agent runtime memory retrieval API or governed export", "supports_write": true },
       "module_modes": [
-        { "mode": "local_sync", "description": "Local PAIA memory service exposes facets, conversation turns, summaries, and semantic retrieval.", "tool_refs": ["tool.paia_memory.retrieve_facets", "tool.paia_memory.retrieve_turns", "tool.paia_memory.retrieve_summary", "tool.paia_memory.semantic_search"], "backing_tool_refs": ["paia-memory:/retrieve/facets", "paia-memory:/retrieve/turns", "paia-memory:/retrieve/summary", "paia-memory:/retrieve/semantic"] },
-        { "mode": "export", "description": "Reviewed PAIA memory export mode for deployments without a live PAIA memory service." }
+        { "mode": "local_sync", "description": "Local agent runtime memory service exposes facets, conversation turns, summaries, and semantic retrieval.", "tool_refs": ["tool.agent_memory.retrieve_facets", "tool.agent_memory.retrieve_turns", "tool.agent_memory.retrieve_summary", "tool.agent_memory.semantic_search"], "backing_tool_refs": ["agent-memory:/retrieve/facets", "agent-memory:/retrieve/turns", "agent-memory:/retrieve/summary", "agent-memory:/retrieve/semantic"] },
+        { "mode": "export", "description": "Reviewed agent runtime memory export mode for deployments without a live agent runtime memory service." }
       ],
       "preflight_contract": { "required": true, "result_schema_ref": "schemas/instance-preflight-result.schema.json", "checks": ["service_reachable", "tenant_resolves", "facets_read", "recent_turns_read"] },
       "freshness_contract": { "required": true, "record_schema_ref": "schemas/instance-source-freshness-record.schema.json", "watermark_strategy": "latest conversation turn or facet update timestamp", "suggested_stale_after": "P2D" },
-      "index_contract": { "ownership": "paia_runtime", "index_scopes": ["memory_index"], "record_kinds": ["facet", "facet_history", "conversation_turn", "conversation_summary", "digest", "identity_projection", "semantic_recall", "source_summary"] },
-      "tool_contract": { "tool_refs": ["tool.paia_memory.retrieve_facets", "tool.paia_memory.retrieve_turns", "tool.paia_memory.retrieve_summary", "tool.paia_memory.semantic_search", "tool.paia_memory.ingest_facet"], "capability_ref_patterns": ["capability.{scope}.paia_memory.read", "capability.{scope}.paia_memory.ingest_facet"], "action_ref_patterns": ["action_surface.{scope}.read_paia_memory", "action_surface.{scope}.record_paia_facet"] },
-      "read_surfaces": ["tool.paia_memory.retrieve_facets", "tool.paia_memory.retrieve_turns", "tool.paia_memory.retrieve_summary", "tool.paia_memory.semantic_search"],
-      "write_surfaces": ["tool.paia_memory.ingest_facet"],
+      "index_contract": { "ownership": "agent_runtime", "index_scopes": ["memory_index"], "record_kinds": ["facet", "facet_history", "conversation_turn", "conversation_summary", "digest", "identity_projection", "semantic_recall", "source_summary"] },
+      "tool_contract": { "tool_refs": ["tool.agent_memory.retrieve_facets", "tool.agent_memory.retrieve_turns", "tool.agent_memory.retrieve_summary", "tool.agent_memory.semantic_search", "tool.agent_memory.ingest_facet"], "capability_ref_patterns": ["capability.{scope}.agent_memory.read", "capability.{scope}.agent_memory.ingest_facet"], "action_ref_patterns": ["action_surface.{scope}.read_agent_memory", "action_surface.{scope}.record_agent_facet"] },
+      "read_surfaces": ["tool.agent_memory.retrieve_facets", "tool.agent_memory.retrieve_turns", "tool.agent_memory.retrieve_summary", "tool.agent_memory.semantic_search"],
+      "write_surfaces": ["tool.agent_memory.ingest_facet"],
       "correction_surfaces": [
-        { "surface_ref": "tool.paia_memory.ingest_facet", "effect_type": "source_owned_correction_write", "audit_policy": "Record tenant, key, layer, sensitivity, source_ref, confidence, version, and reindex result through PAIA memory.", "approval_policy": "Allowed only for explicit user corrections or validated identity-evolution proposals; external effects remain unauthorized." }
+        { "surface_ref": "tool.agent_memory.ingest_facet", "effect_type": "source_owned_correction_write", "audit_policy": "Record tenant, key, layer, sensitivity, source_ref, confidence, version, and reindex result through agent runtime memory.", "approval_policy": "Allowed only for explicit user corrections or validated identity-evolution proposals; external effects remain unauthorized." }
       ],
       "output_policy": { "summary_only": false, "requires_evidence_refs": true, "redaction_policy": "Do not embed raw private facets or full conversation turns in packages; expose retrieval surfaces, summaries, layers, counts, watermarks, and evidence refs.", "answer_behavior": "Use facets as source-owned identity/context state with layer and sensitivity boundaries; use conversation turns as evidence or recency context, not automatic canonical facts." },
-      "gap_behavior": { "access_gap": "Say PAIA memory is unavailable before using agent conversation or facet context.", "freshness_gap": "State the latest conversation/facet watermark before using PAIA memory.", "index_gap": "Use direct facet or turn retrieval when semantic index coverage is unavailable.", "credential_gap": "Report service/auth failure without exposing secrets." },
-      "governance_defaults": { "privacy_boundary": "PAIA memory owns raw facets, private identity layers, and conversation turns; state packages cite governed retrieval surfaces and summaries rather than copying raw private content.", "data_classification": "private_instance", "allowed_uses": ["agent continuity", "identity/context retrieval", "conversation evidence", "source-owned facet corrections"], "prohibited_uses": ["raw private facet materialization in packages", "unreviewed promotion of conversation turns to canonical state", "cross-agent leakage of private layers"] },
-      "example_declarations": [{ "instance_kind": "person", "connector": { "connector_type": "paia_memory", "source_ref": "paia-memory:tenant:agent", "owner": "paia_runtime" } }],
+      "gap_behavior": { "access_gap": "Say agent runtime memory is unavailable before using agent conversation or facet context.", "freshness_gap": "State the latest conversation/facet watermark before using agent runtime memory.", "index_gap": "Use direct facet or turn retrieval when semantic index coverage is unavailable.", "credential_gap": "Report service/auth failure without exposing secrets." },
+      "governance_defaults": { "privacy_boundary": "agent runtime memory owns raw facets, private identity layers, and conversation turns; state packages cite governed retrieval surfaces and summaries rather than copying raw private content.", "data_classification": "private_instance", "allowed_uses": ["agent continuity", "identity/context retrieval", "conversation evidence", "source-owned facet corrections"], "prohibited_uses": ["raw private facet materialization in packages", "unreviewed promotion of conversation turns to canonical state", "cross-agent leakage of private layers"] },
+      "example_declarations": [{ "instance_kind": "person", "connector": { "connector_type": "agent_memory", "source_ref": "agent-memory:tenant:agent", "owner": "agent_runtime" } }],
       "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
     },
     {
@@ -245,19 +245,19 @@
       "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
     },
     {
-      "id": "source_module.paia_workboard",
-      "connector_type": "paia_workboard",
+      "id": "source_module.agent_workboard",
+      "connector_type": "agent_workboard",
       "status": "experimental",
       "description": "Personal workboard task and commitment state.",
       "allowed_instance_kinds": ["person", "project"],
-      "source_ref": { "pattern": "paia-workboard:{board}", "examples": ["paia-workboard:default"] },
-      "access": { "mode": "local_cli", "owner": "paia_runtime", "runtime_dependency": "paia workboard CLI", "supports_write": true },
+      "source_ref": { "pattern": "agent-workboard:{board}", "examples": ["agent-workboard:default"] },
+      "access": { "mode": "local_cli", "owner": "agent_runtime", "runtime_dependency": "agent workboard CLI", "supports_write": true },
       "preflight_contract": { "required": true, "result_schema_ref": "schemas/instance-preflight-result.schema.json", "checks": ["board_resolves", "read_open_tasks"] },
       "freshness_contract": { "required": true, "record_schema_ref": "schemas/instance-source-freshness-record.schema.json", "watermark_strategy": "latest task update timestamp", "suggested_stale_after": "P1D" },
-      "index_contract": { "ownership": "paia_runtime", "index_scopes": ["operational_index"], "record_kinds": ["task", "work_item"] },
-      "tool_contract": { "tool_refs": ["tool.paia_workboard.read"], "capability_ref_patterns": ["capability.personal.paia_workboard.read"], "action_ref_patterns": ["action_surface.personal.read_workboard"] },
+      "index_contract": { "ownership": "agent_runtime", "index_scopes": ["operational_index"], "record_kinds": ["task", "work_item"] },
+      "tool_contract": { "tool_refs": ["tool.agent_workboard.read"], "capability_ref_patterns": ["capability.personal.agent_workboard.read"], "action_ref_patterns": ["action_surface.personal.read_workboard"] },
       "governance_defaults": { "privacy_boundary": "Workboard records remain in personal runtime unless explicitly federated.", "data_classification": "private_instance", "allowed_uses": ["personal task context"], "prohibited_uses": ["silent company-state import"] },
-      "example_declarations": [{ "instance_kind": "person", "connector": { "connector_type": "paia_workboard", "source_ref": "paia-workboard:default", "owner": "paia_runtime" } }],
+      "example_declarations": [{ "instance_kind": "person", "connector": { "connector_type": "agent_workboard", "source_ref": "agent-workboard:default", "owner": "agent_runtime" } }],
       "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
     },
     {

@@ -6,7 +6,7 @@ import shutil
 from state_system.company_capability import CompanyCapabilityRuntime
 from state_system.contracts import JsonObject
 from state_system.heartbeat import run_source_heartbeat
-from state_system.paia_bootstrap import bootstrap_paia_state_system
+from state_system.runtime_bootstrap import bootstrap_runtime_state_system
 from state_system.stores import StateStoreBundle
 
 
@@ -38,7 +38,7 @@ def migrate_state_root(
     validation = _validate_target(target_root, validate_company_ref)
     refresh_result: JsonObject | None = None
     if refresh:
-        refresh_result = bootstrap_paia_state_system(project_root, target_root)
+        refresh_result = bootstrap_runtime_state_system(project_root, target_root)
 
     heartbeat_result: JsonObject | None = None
     if heartbeat_company_ref:

@@ -10,7 +10,7 @@
   "source_watermark": "msgvault.sync_status:unknown",
   "stale_after": "2026-05-17T10:30:00Z",
   "evidence_refs": [
-    "paia:freshness:msgvault:unknown"
+    "agent-runtime:freshness:msgvault:unknown"
   ],
   "index_refs": [
     "index.personal.msgvault.email"

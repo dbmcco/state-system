@@ -125,13 +125,13 @@ def _sam_package() -> dict:
                     "understanding_status": "usable_with_freshness_gap",
                 },
                 {
-                    "connector_ref": "connector.personal.paia_memory.samantha",
+                    "connector_ref": "connector.personal.agent_memory.samantha",
                     "access_status": "passed",
                     "freshness_status": "fresh",
                     "understanding_status": "ready",
                 },
                 {
-                    "connector_ref": "connector.personal.paia_memory.owner",
+                    "connector_ref": "connector.personal.agent_memory.owner",
                     "access_status": "passed",
                     "freshness_status": "fresh",
                     "understanding_status": "ready",
@@ -178,15 +178,15 @@ def _sam_package() -> dict:
                 "tool_refs": [
                     "tool.relationship_substrate.operating_picture",
                     "tool.relationship_substrate.list_subject_notes",
-                    "tool.paia.msgvault.search",
-                    "tool.paia_memory.retrieve_summary",
-                    "tool.paia_memory.retrieve_facets",
+                    "tool.agent_runtime.msgvault.search",
+                    "tool.agent_memory.retrieve_summary",
+                    "tool.agent_memory.retrieve_facets",
                 ],
                 "tool_action_refs": [
                     "tool_action.relationship_substrate.operating_picture",
                     "tool_action.relationship_substrate.list_subject_notes",
                     "tool_action.msgvault.search",
-                    "tool_action.paia_memory.read",
+                    "tool_action.agent_memory.read",
                 ],
                 "required_source_coverage": [
                     {"coverage_ref": "coverage.personal.relationship_core"}

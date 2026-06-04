@@ -1,7 +1,7 @@
 # Application Integration Pressure Tests
 
 **Status:** Planning contract with first fixture gates
-**Scope:** State System, Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, PAIA memory, Folio, and task/work systems
+**Scope:** State System, Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, agent runtime memory, Folio, and task/work systems
 
 ## Purpose
 

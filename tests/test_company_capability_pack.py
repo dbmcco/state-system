@@ -41,7 +41,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
             invariant = pack["invariant"]
             self.assertFalse(invariant["proves_live_access"])
             self.assertFalse(invariant["authorizes_execution"])
-            self.assertEqual("paia_connector_preflight", invariant["live_access_proven_by"])
+            self.assertEqual("agent_runtime_connector_preflight", invariant["live_access_proven_by"])
             self.assertEqual("governance", invariant["protected_action_authorized_by"])
             self.assertIn("runtime_constraints", pack)
             self.assertIn("governance", pack)
@@ -172,7 +172,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual("raw_source_index", sampleco_folio_index["scope"])
         self.assertEqual("declared", sampleco_folio_index["status"])
         self.assertEqual(
-            {"type": "paia_tool", "tool_ref": "tool.paia.folio.search"},
+            {"type": "agent_runtime_tool", "tool_ref": "tool.agent_runtime.folio.search"},
             sampleco_folio_index["query_surface"],
         )
         sampleco_state_index = _index_manifest(sampleco_inst, "index.sampleco.state_system.evidence_cards")
@@ -227,7 +227,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         sampleco_inst = _company(read_model, "company.sampleco")
         binding = _binding(sampleco_inst, "capability.sampleco.linear.read")
 
-        self.assertEqual("tool.paia.linear.read", binding["tool_ref"])
+        self.assertEqual("tool.agent_runtime.linear.read", binding["tool_ref"])
         self.assertEqual("action_surface.sampleco.read_linear", binding["action_ref"])
         self.assertEqual(["connector.sampleco.linear"], binding["connector_refs"])
         self.assertEqual(["preflight.sampleco.linear"], binding["required_preflight_refs"])
@@ -238,7 +238,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(binding["authorizes_execution"])
 
         zulip_binding = _binding(sampleco_inst, "capability.sampleco.zulip.read")
-        self.assertEqual("tool.paia.zulip.read", zulip_binding["tool_ref"])
+        self.assertEqual("tool.agent_runtime.zulip.read", zulip_binding["tool_ref"])
         self.assertEqual("action_surface.sampleco.read_zulip", zulip_binding["action_ref"])
         self.assertEqual(["connector.sampleco.zulip"], zulip_binding["connector_refs"])
         self.assertEqual(["preflight.sampleco.zulip"], zulip_binding["required_preflight_refs"])
@@ -251,7 +251,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(zulip_binding["authorizes_execution"])
 
         github_binding = _binding(sampleco_inst, "capability.sampleco.github.read")
-        self.assertEqual("tool.paia.github.read", github_binding["tool_ref"])
+        self.assertEqual("tool.agent_runtime.github.read", github_binding["tool_ref"])
         self.assertEqual("action_surface.sampleco.read_github", github_binding["action_ref"])
         self.assertEqual(["connector.sampleco.github_org"], github_binding["connector_refs"])
         self.assertEqual(["preflight.sampleco.github"], github_binding["required_preflight_refs"])
@@ -264,7 +264,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(github_binding["authorizes_execution"])
 
         local_binding = _binding(sampleco_inst, "capability.sampleco.local.inspect")
-        self.assertEqual("tool.paia.local_path.inspect", local_binding["tool_ref"])
+        self.assertEqual("tool.agent_runtime.local_path.inspect", local_binding["tool_ref"])
         self.assertEqual(
             "action_surface.sampleco.inspect_local_workspace",
             local_binding["action_ref"],

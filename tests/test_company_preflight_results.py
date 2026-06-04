@@ -26,23 +26,23 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "preflight_ref": "preflight.sampleco.linear",
                     "company_ref": "company.sampleco",
                     "connector_ref": "connector.sampleco.linear",
-                    "tool_ref": "tool.paia.linear.read",
+                    "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
-                    "runner_ref": "runner.paia.codex",
+                    "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:20:00Z",
                     "stale_after": "2026-05-14T19:20:00Z",
                     "ttl_seconds": 3600,
-                    "evidence_refs": ["paia:preflight:linear:20260514T182000Z"],
+                    "evidence_refs": ["agent-runtime:preflight:linear:20260514T182000Z"],
                     "detail": "Linear read preflight passed for FORGE/INT teams.",
                 }
             )
 
             self.assertEqual(
                 "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
-                "tool.paia.linear.read|action_surface.sampleco.read_linear|"
-                "persona.caroline|runner.paia.codex",
+                "tool.agent_runtime.linear.read|action_surface.sampleco.read_linear|"
+                "persona.caroline|runner.agent_runtime.codex",
                 record["scope_key"],
             )
             self.assertTrue(
@@ -60,13 +60,13 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "preflight_ref": "preflight.sampleco.linear",
                     "company_ref": "company.sampleco",
                     "connector_ref": "connector.sampleco.linear",
-                    "tool_ref": "tool.paia.linear.read",
+                    "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
                     "status": "failed",
                     "checked_at": "2026-05-14T18:00:00Z",
                     "stale_after": "2026-05-14T19:00:00Z",
-                    "evidence_refs": ["paia:preflight:linear:failed"],
+                    "evidence_refs": ["agent-runtime:preflight:linear:failed"],
                     "error": {"code": "missing_token", "message": "Linear token missing."},
                 }
             )
@@ -75,13 +75,13 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "preflight_ref": "preflight.sampleco.linear",
                     "company_ref": "company.sampleco",
                     "connector_ref": "connector.sampleco.linear",
-                    "tool_ref": "tool.paia.linear.read",
+                    "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:15:00Z",
                     "stale_after": "2026-05-14T19:15:00Z",
-                    "evidence_refs": ["paia:preflight:linear:passed"],
+                    "evidence_refs": ["agent-runtime:preflight:linear:passed"],
                 }
             )
 
@@ -90,7 +90,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
             self.assertEqual("company_preflight_result_read_model", read_model["id"])
             scope_key = (
                 "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
-                "tool.paia.linear.read|action_surface.sampleco.read_linear|"
+                "tool.agent_runtime.linear.read|action_surface.sampleco.read_linear|"
                 "persona.caroline|"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
@@ -119,13 +119,13 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "--connector-ref",
                     "connector.sampleco.linear",
                     "--tool-ref",
-                    "tool.paia.linear.read",
+                    "tool.agent_runtime.linear.read",
                     "--action-ref",
                     "action_surface.sampleco.read_linear",
                     "--agent-ref",
                     "persona.caroline",
                     "--runner-ref",
-                    "runner.paia.codex",
+                    "runner.agent_runtime.codex",
                     "--status",
                     "passed",
                     "--checked-at",
@@ -133,7 +133,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "--stale-after",
                     "2026-05-14T19:20:00Z",
                     "--evidence-ref",
-                    "paia:preflight:linear:20260514T182000Z",
+                    "agent-runtime:preflight:linear:20260514T182000Z",
                     "--detail",
                     "Linear read preflight passed.",
                 ],

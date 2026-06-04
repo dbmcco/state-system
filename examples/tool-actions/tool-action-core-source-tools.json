@@ -5,20 +5,20 @@
   "actions": [
     {
       "id": "tool_action.msgvault.search",
-      "tool_ref": "tool.paia.msgvault.search",
+      "tool_ref": "tool.agent_runtime.msgvault.search",
       "source_module_ref": "source_module.msgvault",
       "connector_type": "msgvault",
       "operation": "search",
       "effect_type": "read_only",
       "module_modes": ["local_sync"],
-      "backing_tool_refs": ["tool.paia.msgvault.search", "tool.msgvault.search"],
+      "backing_tool_refs": ["tool.agent_runtime.msgvault.search", "tool.msgvault.search"],
       "params_schema": { "required_fields": ["query"], "optional_fields": ["account_ref", "source_ref", "limit", "since", "until"] },
       "output_shape": { "required_fields": ["threads", "evidence_refs"], "optional_fields": ["source_watermark", "freshness_status"] },
       "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return message/thread evidence refs and freshness status with search results." },
       "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
       "audit_policy": { "level": "evidence_required", "required_fields": ["query", "source_ref"] },
       "deployment_adapters": [
-        { "module_mode": "local_sync", "runtime_tool_ref": "tool.paia.msgvault.search", "backing_tool_refs": ["tool.paia.msgvault.search", "tool.msgvault.search"] }
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.agent_runtime.msgvault.search", "backing_tool_refs": ["tool.agent_runtime.msgvault.search", "tool.msgvault.search"] }
       ]
     },
     {
@@ -40,18 +40,18 @@
       ]
     },
     {
-      "id": "tool_action.paia_memory.read",
-      "tool_ref": "tool.paia_memory.semantic_search",
-      "source_module_ref": "source_module.paia_memory",
-      "connector_type": "paia_memory",
+      "id": "tool_action.agent_memory.read",
+      "tool_ref": "tool.agent_memory.semantic_search",
+      "source_module_ref": "source_module.agent_memory",
+      "connector_type": "agent_memory",
       "operation": "read",
       "effect_type": "read_only",
       "module_modes": ["local_sync", "export"],
       "backing_tool_refs": [
-        "tool.paia_memory.retrieve_facets",
-        "tool.paia_memory.retrieve_turns",
-        "tool.paia_memory.retrieve_summary",
-        "tool.paia_memory.semantic_search"
+        "tool.agent_memory.retrieve_facets",
+        "tool.agent_memory.retrieve_turns",
+        "tool.agent_memory.retrieve_summary",
+        "tool.agent_memory.semantic_search"
       ],
       "params_schema": {
         "required_fields": ["source_ref"],
@@ -63,7 +63,7 @@
       },
       "evidence_ref_policy": {
         "requires_evidence_refs": true,
-        "policy": "Return PAIA memory evidence refs, source watermarks, and layer/sensitivity metadata for any facet or conversation context used."
+        "policy": "Return agent runtime memory evidence refs, source watermarks, and layer/sensitivity metadata for any facet or conversation context used."
       },
       "approval_policy": {
         "requires_external_action_approval": false,
@@ -76,32 +76,32 @@
       "deployment_adapters": [
         {
           "module_mode": "local_sync",
-          "runtime_tool_ref": "tool.paia_memory.semantic_search",
+          "runtime_tool_ref": "tool.agent_memory.semantic_search",
           "backing_tool_refs": [
-            "paia-memory:/retrieve/facets",
-            "paia-memory:/retrieve/turns",
-            "paia-memory:/retrieve/summary",
-            "paia-memory:/retrieve/semantic"
+            "agent-memory:/retrieve/facets",
+            "agent-memory:/retrieve/turns",
+            "agent-memory:/retrieve/summary",
+            "agent-memory:/retrieve/semantic"
           ]
         }
       ]
     },
     {
-      "id": "tool_action.paia_workboard.read",
-      "tool_ref": "tool.paia.workboard.read",
-      "source_module_ref": "source_module.paia_workboard",
-      "connector_type": "paia_workboard",
+      "id": "tool_action.agent_workboard.read",
+      "tool_ref": "tool.agent_runtime.workboard.read",
+      "source_module_ref": "source_module.agent_workboard",
+      "connector_type": "agent_workboard",
       "operation": "read",
       "effect_type": "read_only",
       "module_modes": ["local_sync"],
-      "backing_tool_refs": ["tool.paia.workboard.read"],
+      "backing_tool_refs": ["tool.agent_runtime.workboard.read"],
       "params_schema": { "required_fields": ["source_ref"], "optional_fields": ["status", "limit"] },
       "output_shape": { "required_fields": ["work_items", "evidence_refs"], "optional_fields": ["source_watermark", "freshness_status"] },
       "evidence_ref_policy": { "requires_evidence_refs": true, "policy": "Return task/work item refs for any obligations used in an answer." },
       "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
       "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref"] },
       "deployment_adapters": [
-        { "module_mode": "local_sync", "runtime_tool_ref": "tool.paia.workboard.read", "backing_tool_refs": ["tool.paia.workboard.read"] }
+        { "module_mode": "local_sync", "runtime_tool_ref": "tool.agent_runtime.workboard.read", "backing_tool_refs": ["tool.agent_runtime.workboard.read"] }
       ]
     },
     {

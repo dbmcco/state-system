@@ -20,7 +20,7 @@ We are testing whether the architecture can handle:
 - governance gates
 - rollups
 - promotion from agent memory to shared state
-- reusable PAIA memory/runtime assets
+- reusable agent runtime memory/runtime assets
 
 ## Pass Criteria
 
@@ -172,10 +172,10 @@ record.
 **Contract implication:** model output needs a way to classify evidence gaps.
 Code must verify evidence refs where possible.
 
-## Scenario 9: PAIA Memory Backend Adapter
+## Scenario 9: Agent Runtime Memory Backend Adapter
 
 **Trigger:** Laura searches memory for prior positioning patterns through a
-`paia-memory` adapter.
+`agent-memory` adapter.
 
 **Expected model decision:**
 

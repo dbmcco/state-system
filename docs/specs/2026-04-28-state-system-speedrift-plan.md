@@ -21,12 +21,12 @@ to end:
 
 The first deployment should prove the runtime shape, not finish the whole
 platform. Every module should be small enough to inspect and shaped so it can
-later move behind database, service, `paia-memory`, or `paia-agent-runtime`
+later move behind database, service, `agent-memory`, or `agent-runtime`
 adapters without redesign.
 
 ## Non-Goals
 
-- Do not build live Linear, GitHub, Workgraph, Speedrift, or PAIA adapters yet.
+- Do not build live Linear, GitHub, Workgraph, Speedrift, or agent runtime adapters yet.
 - Do not turn Laura or Patrick into special-case runtime logic.
 - Do not encode business salience as hardcoded rules.
 - Do not skip fixture consistency in order to reach live model calls sooner.
@@ -251,7 +251,7 @@ Every task in the lane should answer these before completion:
 4. Can a no-op pass cleanly?
 5. Can pending approval avoid mutation?
 6. Can the same trigger or source event be replayed without duplicate commits?
-7. Can this later use `paia-memory` or `paia-agent-runtime` without redesign?
+7. Can this later use `agent-memory` or `agent-runtime` without redesign?
 
 ## Workgraph Lane
 
@@ -281,7 +281,7 @@ Adjacent boundary tasks:
 
 ```text
 ss-runner-fixture-reviewer -> ss-model-reviewer-boundary
-ss-recent-context-packaging -> ss-paia-memory-adapter
+ss-recent-context-packaging -> ss-agent-memory-adapter
 ```
 
 ## Completion Definition

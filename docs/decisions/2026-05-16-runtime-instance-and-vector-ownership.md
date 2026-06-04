@@ -36,7 +36,7 @@ Raw corpora remain owned by their source systems or specialized evidence
 indexes until adapters promote summaries, evidence cards, claims, or accepted
 state into the deployed instance.
 
-Folio, msgvault, paia-memory, Drive, Linear, Zulip, GitHub, transcripts, and
+Folio, msgvault, agent-memory, Drive, Linear, Zulip, GitHub, transcripts, and
 other systems may retain their own raw/source indexes. State System records the
 source declarations, freshness, access evidence, provenance, and gaps, and can
 federate to those indexes for drill-down.
@@ -79,6 +79,6 @@ The next State System production slices should build toward:
    source freshness, access evidence, and gaps without synthesizing the answer
    in deterministic code.
 
-PAIA should consume that surface and call the relevant retrieval backends, then
+Agent runtime should consume that surface and call the relevant retrieval backends, then
 let the model synthesize answers such as "How is SampleCo doing?" with evidence and
 freshness warnings.

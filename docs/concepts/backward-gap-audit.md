@@ -82,7 +82,7 @@ These are real concerns, but the current graph already has a place for them.
 - Recent-change routing and package redaction: covered by
   `ss-recent-context-packaging` and `ss-pressure-routing-freshness`.
 - CLI inspection: covered by `ss-cli`.
-- Optional `paia-memory` boundary: covered by `ss-paia-memory-adapter`.
+- Optional `agent-memory` boundary: covered by `ss-agent-memory-adapter`.
 
 ## Follow-Up Later
 

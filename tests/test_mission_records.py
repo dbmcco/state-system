@@ -40,13 +40,13 @@ class MissionRecordContractTests(unittest.TestCase):
 
         self.assertEqual([], failures)
 
-    def test_mission_run_schema_is_generic_not_paia_specific(self):
+    def test_mission_run_schema_is_generic_not_agent_runtime_specific(self):
         schema = load_json(ROOT / "schemas" / "mission-run.schema.json")
         mission_types = schema["properties"]["mission_type"]["enum"]
 
         self.assertIn("repo_audit", mission_types)
         self.assertIn("marketing_opportunity_review", mission_types)
-        self.assertNotIn("paia_repo_audit", mission_types)
+        self.assertNotIn("agent_runtime_repo_audit", mission_types)
 
 
 if __name__ == "__main__":

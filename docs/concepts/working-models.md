@@ -20,7 +20,7 @@ Working models:
   bounded projections over the substrate for a purpose
 
 Consumers:
-  PAIA packets, CLI agents, apps, reports, wiki views, CRM views, model reviewers
+  agent runtime packets, CLI agents, apps, reports, wiki views, CRM views, model reviewers
 ```
 
 This keeps State System from growing separate architectures for CRM, wiki,
@@ -66,7 +66,7 @@ Use narrow names so working context does not collapse into state:
 | `runtime_constraints` | Execution limits owned by a runtime, not governance policy |
 | `visible_control_refs` | Workboard, task, approval, schedule, or user-control surfaces |
 | `artifact_refs` | Outputs, files, drafts, reports, generated media, transcripts |
-| `packet_refs` | PAIA or other runtime packet lineage |
+| `packet_refs` | agent runtime or other runtime packet lineage |
 
 The important narrowing is `state_refs`: it should not mean "anything relevant."
 It means accepted working interpretation.
@@ -78,8 +78,8 @@ It means accepted working interpretation.
 | `ContextPackage` | State System | Persona/app scoped context projection |
 | `ModelReviewPacket` | State System | Interpretation input that may produce durable proposals |
 | `AgentActivation` | State System | Audited invocation boundary using a package |
-| `PacketEnvelope` | PAIA | Runtime/workboard wire envelope over substrate refs |
-| `ArcPacket` | PAIA | Working context for ongoing human/agent arcs |
+| `PacketEnvelope` | agent runtime | Runtime/workboard wire envelope over substrate refs |
+| `ArcPacket` | agent runtime | Working context for ongoing human/agent arcs |
 | Company Memory read model | State System | Organizational operating projection |
 | CRM Operating Picture | State System | Relationship/opportunity projection, not CRM replacement |
 | Wiki/report/dashboard page | Surface/app | Human-readable projection over a working model |
@@ -89,9 +89,9 @@ schema.
 
 ## Packet Boundary
 
-PAIA packets are a working-model implementation.
+agent runtime packets are a working-model implementation.
 
-`PacketEnvelope` should remain a PAIA wire/runtime envelope, not a State System
+`PacketEnvelope` should remain a agent runtime wire/runtime envelope, not a State System
 record type.
 
 Packet ids, lineage, source refs, evidence refs, artifacts, and emitted events
@@ -100,13 +100,13 @@ treated as durable truth unless reviewed and committed through State System.
 
 ## Compile Matrix
 
-PAIA packets and other working models should compile to State System primitives
+agent runtime packets and other working models should compile to State System primitives
 only when the intent requires it:
 
 | Path | Use when |
 | --- | --- |
-| `PacketEnvelope -> ContextPackage` | PAIA needs bounded state/evidence/memory context from State System |
-| `ContextPackage -> PacketEnvelope` | PAIA runtime wraps State System context with runtime and Workboard controls |
+| `PacketEnvelope -> ContextPackage` | agent runtime needs bounded state/evidence/memory context from State System |
+| `ContextPackage -> PacketEnvelope` | agent runtime wraps State System context with runtime and Workboard controls |
 | `PacketEnvelope -> ModelReviewPacket` | The packet asks a model to interpret something that may create durable state, memory, approval, action, or review signal |
 | `PacketEnvelope -> AgentActivation` | State System must audit the invocation boundary |
 | `PacketEnvelope -> SourceEvent` | Packet input/output should enter durable review as evidence or a trigger |
@@ -150,4 +150,4 @@ become accepted state after evidence and governance review.
 
 The next corrective implementation lane should add object and claim substrate
 records, then map existing company memory, CRM operating picture, app fixtures,
-and PAIA packet lineage onto them.
+and agent runtime packet lineage onto them.

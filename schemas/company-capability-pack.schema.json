@@ -190,7 +190,7 @@
         "module_mode": { "type": "string" },
         "owner": {
           "type": "string",
-          "enum": ["state_system", "paia_runtime", "source_system"]
+          "enum": ["state_system", "agent_runtime", "source_system"]
         },
         "declared": { "type": "boolean" },
         "preflight_target": { "$ref": "#/$defs/preflight_target" }
@@ -245,7 +245,7 @@
         "company_ref": { "type": "string" },
         "owner": {
           "type": "string",
-          "enum": ["state_system", "source_system", "paia_runtime"]
+          "enum": ["state_system", "source_system", "agent_runtime"]
         },
         "backend": { "type": "string" },
         "scope": {
@@ -274,7 +274,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": ["paia_tool", "state_system_runtime", "source_adapter"]
+              "enum": ["agent_runtime_tool", "state_system_runtime", "source_adapter"]
             },
             "tool_ref": { "type": "string" },
             "endpoint_ref": { "type": "string" }
@@ -344,7 +344,7 @@
         "check": { "type": "string" },
         "owner": {
           "type": "string",
-          "enum": ["paia_runtime", "state_system"]
+          "enum": ["agent_runtime", "state_system"]
         }
       }
     }

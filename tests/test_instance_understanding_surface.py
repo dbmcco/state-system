@@ -126,7 +126,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                     "source_watermark": "folio.indexed_at:2026-05-17T10:14:00Z",
                     "stale_after": "2026-05-17T10:30:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["paia:freshness:folio:fresh"],
+                    "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
                 }
             )
 
@@ -141,7 +141,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         self.assertEqual("fresh", folio["freshness_status"])
         self.assertEqual("ready", folio["understanding_status"])
         self.assertEqual(
-            "paia:freshness:folio:fresh",
+            "agent-runtime:freshness:folio:fresh",
             folio["freshness_record"]["evidence_refs"][0],
         )
 

@@ -43,7 +43,7 @@ def build_company_capability_read_model(packs: list[JsonObject]) -> JsonObject:
             "company_capability_pack_declares_context": True,
             "company_capability_pack_proves_live_access": False,
             "company_capability_pack_authorizes_execution": False,
-            "live_access_proven_by": "paia_connector_preflight",
+            "live_access_proven_by": "agent_runtime_connector_preflight",
             "protected_action_authorized_by": "governance",
         },
     }

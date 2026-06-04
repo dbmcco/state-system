@@ -110,7 +110,7 @@
             },
             "owner": {
               "type": "string",
-              "enum": ["state_system", "source_system", "agentmem", "paia_runtime"]
+              "enum": ["state_system", "source_system", "agentmem", "agent_runtime"]
             },
             "runtime_dependency": { "type": "string" },
             "supports_write": { "type": "boolean" }
@@ -176,7 +176,7 @@
           "properties": {
             "ownership": {
               "type": "string",
-              "enum": ["state_system", "source_system", "agentmem", "paia_runtime"]
+              "enum": ["state_system", "source_system", "agentmem", "agent_runtime"]
             },
             "index_scopes": {
               "type": "array",

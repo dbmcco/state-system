@@ -37,7 +37,7 @@ The system should support:
 
 ## Non-Goals
 
-- Do not migrate PAIA directly into this repo.
+- Do not migrate agent runtime directly into this repo.
 - Do not create a one-file global state dump.
 - Do not encode business judgment as hardcoded thresholds or routing rules.
 - Do not require every state update to be manually authored.

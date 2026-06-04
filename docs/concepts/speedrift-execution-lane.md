@@ -42,7 +42,7 @@ ss-runner-fixture-reviewer
   -> ss-model-reviewer-boundary
 
 ss-recent-context-packaging
-  -> ss-paia-memory-adapter
+  -> ss-agent-memory-adapter
 ```
 
 ## Step-By-Step Pressure Tests
