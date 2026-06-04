@@ -1,10 +1,10 @@
 {
-  "id": "state.acme.contract.harbor",
+  "id": "state.sampleco.contract.harbor",
   "type": "obligation",
   "primary_family": "work",
   "secondary_families": ["governance", "relationship", "operating"],
   "state_traits": ["dynamic"],
-  "scope": "organization.acme.contracts.harbor",
+  "scope": "organization.sampleco.contracts.harbor",
   "owner_refs": ["persona.patrick"],
   "as_of": "2026-04-28T14:16:00Z",
   "summary": "Harbor remains an operational contract obligation under internal clarification; owner, stage, next action, and canonical Drive archive need confirmation before any external follow-up is proposed.",
@@ -43,13 +43,13 @@
     }
   ],
   "evidence_refs": [
-    "acme-process/pipeline/ops-manager-operating-model.md",
-    "state.acme.contract.harbor",
-    "journal.acme.contract.harbor.stale-review"
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor",
+    "journal.sampleco.contract.harbor.stale-review"
   ],
   "parent_state_refs": [
-    "state.acme.operating_picture.ops"
+    "state.sampleco.operating_picture.ops"
   ],
   "child_state_refs": [],
-  "latest_journal_entry_id": "journal.acme.contract.harbor.stale-review"
+  "latest_journal_entry_id": "journal.sampleco.contract.harbor.stale-review"
 }

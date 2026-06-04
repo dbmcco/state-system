@@ -262,8 +262,8 @@
       connector contracts, and instance readiness records into CLI-ready agent packages and
       governed federation routes. This diagram shows the system as of May 19, 2026, including
       the generic SourceModuleSpec, ToolActionContract, and QuestionRouteContract layer;
-      instance capability, preflight, freshness, and readiness records; b-state/Samantha and
-      LFW/Caroline packages; Navicyte/Helena and Synthyra/Ingrid scaffolds; and federation
+      instance capability, preflight, freshness, and readiness records; personal state/Samantha and
+      SampleCo/Caroline packages; PortfolioCo/Helena and ResearchCo/Ingrid scaffolds; and federation
       packs that do not materialize raw remote data.
     </p>
 
@@ -359,7 +359,7 @@
           <text x="34" y="304" class="layer-label">Instance Capability, Readiness, Preflight, Freshness</text>
           <g filter="url(#shadow)">
             <rect x="34" y="322" width="286" height="166" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="52" y="351" class="node-title">b-state / Samantha</text>
+            <text x="52" y="351" class="node-title">personal state / Samantha</text>
             <text x="52" y="374" class="node-copy">CLI-ready personal package</text>
             <text x="52" y="391" class="node-copy">Garmin Connect: fresh local sync</text>
             <text x="52" y="408" class="node-copy">Spotify: historical-cache stale</text>
@@ -368,7 +368,7 @@
             <text x="52" y="470" class="status-label" fill="var(--done)">PACKAGE RENDERS</text>
 
             <rect x="362" y="322" width="286" height="166" rx="8" fill="var(--done-soft)" stroke="var(--done)"></rect>
-            <text x="380" y="351" class="node-title">LFW / Caroline</text>
+            <text x="380" y="351" class="node-title">SampleCo / Caroline</text>
             <text x="380" y="374" class="node-copy">CLI-ready company package</text>
             <text x="380" y="391" class="node-copy">Linear: fresh source watermark</text>
             <text x="380" y="408" class="node-copy">GitHub: fresh source watermark</text>
@@ -377,7 +377,7 @@
             <text x="380" y="470" class="status-label" fill="var(--done)">PACKAGE RENDERS</text>
 
             <rect x="690" y="322" width="286" height="166" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="708" y="351" class="node-title">Navicyte / Helena</text>
+            <text x="708" y="351" class="node-title">PortfolioCo / Helena</text>
             <text x="708" y="374" class="node-copy">Instance agent package scaffold</text>
             <text x="708" y="391" class="node-copy">Capability and readiness fields</text>
             <text x="708" y="408" class="node-copy">Source module registry subset</text>
@@ -385,7 +385,7 @@
             <text x="708" y="470" class="status-label" fill="var(--next)">SCAFFOLD</text>
 
             <rect x="1018" y="322" width="250" height="166" rx="8" fill="var(--next-soft)" stroke="var(--next)"></rect>
-            <text x="1036" y="351" class="node-title">Synthyra / Ingrid</text>
+            <text x="1036" y="351" class="node-title">ResearchCo / Ingrid</text>
             <text x="1036" y="374" class="node-copy">Instance agent package scaffold</text>
             <text x="1036" y="391" class="node-copy">Baseline registry and guidance</text>
             <text x="1036" y="408" class="node-copy">Docs/transcripts planned through</text>
@@ -405,7 +405,7 @@
             <text x="52" y="618" class="node-copy">source_module.relationship_substrate</text>
             <text x="52" y="635" class="node-copy">People, orgs, affiliations, notes</text>
             <text x="52" y="652" class="node-copy">Source-owned correction writes</text>
-            <text x="52" y="669" class="node-copy">LFW federated route, no local copy</text>
+            <text x="52" y="669" class="node-copy">SampleCo federated route, no local copy</text>
             <text x="52" y="700" class="status-label" fill="var(--source)">GOVERNED SOURCE</text>
 
             <rect x="362" y="566" width="286" height="156" rx="8" fill="var(--source-soft)" stroke="var(--source)"></rect>
@@ -418,9 +418,9 @@
 
             <rect x="690" y="566" width="286" height="156" rx="8" fill="var(--partial-soft)" stroke="var(--partial)"></rect>
             <text x="708" y="595" class="node-title">InstanceFederationPack</text>
-            <text x="708" y="618" class="node-copy">Personal -> LFW interpreted state</text>
-            <text x="708" y="635" class="node-copy">LFW -> personal relationship route</text>
-            <text x="708" y="652" class="node-copy">Portfolio -> Navicyte/Synthyra planned</text>
+            <text x="708" y="618" class="node-copy">Personal -> SampleCo interpreted state</text>
+            <text x="708" y="635" class="node-copy">SampleCo -> personal relationship route</text>
+            <text x="708" y="652" class="node-copy">Portfolio -> PortfolioCo/ResearchCo planned</text>
             <text x="708" y="669" class="node-copy">local_materialization=false</text>
             <text x="708" y="700" class="status-label" fill="var(--partial)">SAFE SUMMARY ONLY</text>
 
@@ -554,7 +554,7 @@
           <path d="M1158 358 C1158 314 446 314 446 250" class="soft-arrow" marker-end="url(#app-arrowhead-soft)"></path>
 
           <text x="34" y="522" class="node-copy">Current trace coverage: accepted update, approval-gated action, agent activation, static HTML report, and stale-context refresh boundary.</text>
-          <text x="34" y="542" class="node-copy">Current app coverage: six fixture chains plus runtime-backed company capability for LFW, Synthyra, and Navicyte.</text>
+          <text x="34" y="542" class="node-copy">Current app coverage: six fixture chains plus runtime-backed company capability for SampleCo, ResearchCo, and PortfolioCo.</text>
         </svg>
       </div>
     </section>
@@ -680,7 +680,7 @@
             <li>An instance capability pack declares source connectors, indexes, tool bindings, governance, runtime constraints, and agent/persona surfaces.</li>
             <li>Preflight and source freshness records prove live access, local sync, historical cache bounds, or explicit planned gaps.</li>
             <li>The package renderer emits CLI-ready agent context with source module refs, route refs, tool action refs, freshness status, gap refs, and repair guidance.</li>
-            <li>b-state/Samantha and LFW/Caroline render as daily-use packages; Navicyte/Helena and Synthyra/Ingrid render as scaffolded packages with readiness gaps.</li>
+            <li>personal state/Samantha and SampleCo/Caroline render as daily-use packages; PortfolioCo/Helena and ResearchCo/Ingrid render as scaffolded packages with readiness gaps.</li>
             <li>Activation and report surfaces consume packages as bounded context, not as durable truth.</li>
           </ol>
         </div>
@@ -702,7 +702,7 @@
             <li>Capability context does not prove live access and does not authorize action; preflight proves reachability and governance authorizes protected effects.</li>
             <li>Garmin Connect is exposed as a fresh local-sync source in the personal package.</li>
             <li>Spotify is exposed as a usable historical cache with a stale live-API gap, not current listening truth.</li>
-            <li>LFW Linear and GitHub are fresh from source-owned watermarks; LFW transcript raw and processed pipelines remain planned gaps.</li>
+            <li>SampleCo Linear and GitHub are fresh from source-owned watermarks; SampleCo transcript raw and processed pipelines remain planned gaps.</li>
             <li>PAIA memory is a generic source module with separate personal connector surfaces for Samantha and owner memory.</li>
             <li>No private records, raw corpora, credentials, or absolute runtime paths belong in public diagrams or examples.</li>
           </ol>
@@ -712,9 +712,9 @@
           <h3>7. Federation Loop</h3>
           <ol>
             <li>`InstanceFederationPack` declares governed cross-instance query boundaries and the route, tool action, source module, freshness, and output policies for them.</li>
-            <li>Personal b-state can read LFW interpreted state through an instance read route.</li>
-            <li>LFW can query personal Relationship Substrate through a governed relationship route without materializing raw personal relationship records.</li>
-            <li>Portfolio rollups across Navicyte and Synthyra remain planned until their packages prove readiness.</li>
+            <li>Personal personal state can read SampleCo interpreted state through an instance read route.</li>
+            <li>SampleCo can query personal Relationship Substrate through a governed relationship route without materializing raw personal relationship records.</li>
+            <li>Portfolio rollups across PortfolioCo and ResearchCo remain planned until their packages prove readiness.</li>
             <li>Federated answers carry safe summaries, evidence refs, watermarks, gap refs, and repair guidance rather than raw remote corpora.</li>
           </ol>
         </div>
@@ -740,23 +740,23 @@
             <li>The mission-control design is committed and queued as `state-mission-records-v0` behind the app handoff lane.</li>
             <li>Schema-valid app fixture chains now cover six app-substrate flows: Prospect/Outreach/CRM, Meeting, Thoughtforge, Visual Forge, and CRM outcome doctrine.</li>
             <li>Company memory and CRM operating picture now have a first JSON substrate read model with Laura and Patrick package slices.</li>
-            <li>Company capability packs now seed runtime State System records for LFW, Synthyra, and Navicyte before PAIA tool wiring.</li>
+            <li>Company capability packs now seed runtime State System records for SampleCo, ResearchCo, and PortfolioCo before PAIA tool wiring.</li>
             <li>Generic source module, tool action, and question route contracts are schema-backed and tested.</li>
-            <li>Instance agent packages are CLI-ready for b-state/Samantha and LFW/Caroline, with Navicyte/Helena and Synthyra/Ingrid scaffold packages carrying typed readiness gaps.</li>
-            <li>Federation packs declare no-raw-materialization boundaries for personal-to-LFW, LFW-to-Relationship-Substrate, and planned portfolio rollups.</li>
-            <li>Relationship Substrate is represented as a governed source module and federated route, not a b-state-only assumption.</li>
-            <li>PAIA memory is represented as `source_module.paia_memory` with separate b-state connector surfaces for Samantha and owner memory.</li>
+            <li>Instance agent packages are CLI-ready for personal state/Samantha and SampleCo/Caroline, with PortfolioCo/Helena and ResearchCo/Ingrid scaffold packages carrying typed readiness gaps.</li>
+            <li>Federation packs declare no-raw-materialization boundaries for personal-to-SampleCo, SampleCo-to-Relationship-Substrate, and planned portfolio rollups.</li>
+            <li>Relationship Substrate is represented as a governed source module and federated route, not a personal state-only assumption.</li>
+            <li>PAIA memory is represented as `source_module.paia_memory` with separate personal state connector surfaces for Samantha and owner memory.</li>
             <li>`paia-bootstrap-export` now refreshes the PAIA company capability, preflight, and source freshness read-model artifact layout.</li>
             <li>`source-heartbeat-run` makes State System the active freshness orchestrator, with direct local metadata checks and explicit delegated connector boundaries.</li>
-            <li>`state-root-migrate` moves the canonical runtime root into the visible LFW workspace with copy-not-destructive semantics and a compatibility symlink from the old hidden path.</li>
+            <li>`state-root-migrate` moves the canonical runtime root into the visible SampleCo workspace with copy-not-destructive semantics and a compatibility symlink from the old hidden path.</li>
           </ul>
         </div>
         <div>
           <h3>Next clarity move</h3>
           <ul class="list">
             <li>Keep Spotify live OAuth repair separate from the historical-cache stale package contract.</li>
-            <li>Repair LFW transcript raw and processed pipelines before any package claims transcript evidence is current.</li>
-            <li>Promote Navicyte/Helena and Synthyra/Ingrid from scaffold to ready only after source-owned preflight, freshness, and index records exist.</li>
+            <li>Repair SampleCo transcript raw and processed pipelines before any package claims transcript evidence is current.</li>
+            <li>Promote PortfolioCo/Helena and ResearchCo/Ingrid from scaffold to ready only after source-owned preflight, freshness, and index records exist.</li>
             <li>Have PAIA consume runtime read models through connector preflight and governance checks instead of app-local company specials.</li>
             <li>Keep wiki, dashboard, and report surfaces as projections over JSON substrate, not as durable truth sources.</li>
             <li>Keep package pressure questions as real route-contract checks for source coverage, fallback behavior, federation, and gap visibility.</li>

@@ -261,7 +261,7 @@ This lets us test the boundary before we bind to real APIs.
 
 ## Pressure-Test Scenario
 
-A GitHub PR is merged for an LFW capability, but the PR review includes a
+A GitHub PR is merged for an SampleCo capability, but the PR review includes a
 comment: "Add audit logging before launch."
 
 Expected State System behavior:

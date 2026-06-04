@@ -1,10 +1,10 @@
 {
-  "id": "state.acme.obligation.audit-logging-before-launch",
+  "id": "state.sampleco.obligation.audit-logging-before-launch",
   "type": "obligation",
   "primary_family": "governance",
   "secondary_families": ["work", "operating"],
   "state_traits": ["dynamic"],
-  "scope": "organization.acme.product.auditable-workflows.launch",
+  "scope": "organization.sampleco.product.auditable-workflows.launch",
   "owner_refs": ["persona.patrick"],
   "as_of": "2026-04-28T15:16:00Z",
   "summary": "Audit logging before launch is a delivery obligation candidate from GitHub review evidence and should remain open until linked to a Workgraph task or satisfied by implementation evidence.",
@@ -40,13 +40,13 @@
     }
   ],
   "evidence_refs": [
-    "github:pr:lightforge/acme-ai-graph-crm#142",
-    "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
-    "journal.acme.obligation.audit-logging-before-launch.github-review"
+    "github:pr:lightforge/sampleco-ai-graph-crm#142",
+    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
+    "journal.sampleco.obligation.audit-logging-before-launch.github-review"
   ],
   "parent_state_refs": [
-    "state.acme.capability.auditable-workflows"
+    "state.sampleco.capability.auditable-workflows"
   ],
   "child_state_refs": [],
-  "latest_journal_entry_id": "journal.acme.obligation.audit-logging-before-launch.github-review"
+  "latest_journal_entry_id": "journal.sampleco.obligation.audit-logging-before-launch.github-review"
 }

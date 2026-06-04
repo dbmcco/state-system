@@ -7,7 +7,7 @@
   "model_output_ref": "model_output.outreach-reply-routing.002",
   "commit_result_ref": "commit.outreach-reply-crm-secondary-contacts.002",
   "target_app_refs": [
-    "app.acme-ai-graph-crm"
+    "app.sampleco-ai-graph-crm"
   ],
   "evidence_refs": [
     "source.outreach.email-reply.002",

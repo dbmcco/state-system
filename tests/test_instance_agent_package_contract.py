@@ -25,15 +25,15 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
 
     def test_personal_package_keeps_spotify_freshness_gap_visible(self):
         package = load_json(
-            EXAMPLE_DIR / "instance-agent-package-acme-ops-samantha.json"
+            EXAMPLE_DIR / "instance-agent-package-sample-personal-samantha.json"
         )
 
         self.assertNotIn(
-            "gap.state_instance.acme_ops.connector.personal.garmin_connect.access_planned",
+            "gap.state_instance.sample_personal.connector.personal.garmin_connect.access_planned",
             package["source_context"]["source_gap_refs"],
         )
         self.assertIn(
-            "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale",
+            "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale",
             package["source_context"]["source_gap_refs"],
         )
         self.assertTrue(
@@ -42,20 +42,20 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
         self.assertTrue(package["invariant"]["source_gaps_are_visible"])
         self.assertFalse(package["invariant"]["agent_package_authorizes_execution"])
 
-    def test_acme_package_excludes_personal_sources(self):
-        package = load_json(EXAMPLE_DIR / "instance-agent-package-acme-caroline.json")
+    def test_sampleco_package_excludes_personal_sources(self):
+        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-caroline.json")
         encoded = str(package)
 
         self.assertNotIn("garmin", encoded.lower())
         self.assertNotIn("spotify", encoded.lower())
         self.assertIn(
-            "gap.state_instance.acme.connector.acme.msgvault.freshness_failed",
+            "gap.state_instance.sampleco.connector.sampleco.msgvault.freshness_failed",
             package["source_context"]["source_gap_refs"],
         )
 
-    def test_acme_package_includes_governed_relationship_index_route_without_personal_materialization(self):
-        package = load_json(EXAMPLE_DIR / "instance-agent-package-acme-caroline.json")
-        route = _route(package, "question_route.acme.federated_relationship_index")
+    def test_sampleco_package_includes_governed_relationship_index_route_without_personal_materialization(self):
+        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-caroline.json")
+        route = _route(package, "question_route.sampleco.federated_relationship_index")
 
         self.assertEqual(
             "declared_governed_route",
@@ -63,19 +63,19 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
         )
         self.assertFalse(route["query_route"]["local_materialization"])
         self.assertEqual(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             route["query_route"]["source_instance_ref"],
         )
         self.assertEqual(
-            "index.federated.acme_ops.relationship_index",
+            "index.federated.sample_personal.relationship_index",
             route["query_route"]["index_ref"],
         )
         self.assertIn(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             package["evidence_context"]["federated_instance_refs"],
         )
         self.assertIn(
-            "index.federated.acme_ops.relationship_index",
+            "index.federated.sample_personal.relationship_index",
             package["evidence_context"]["index_refs"],
         )
         self.assertIn(

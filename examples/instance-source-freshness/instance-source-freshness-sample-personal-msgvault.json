@@ -1,7 +1,7 @@
 {
-  "id": "instance_source_freshness.state_instance.acme_ops-connector.personal.msgvault-msgvault-tenant-personal-email.2026-05-17T10-15-00Z",
-  "scope_key": "state_instance.acme_ops|connector.personal.msgvault|msgvault:tenant:personal-email",
-  "instance_ref": "state_instance.acme_ops",
+  "id": "instance_source_freshness.state_instance.sample_personal-connector.personal.msgvault-msgvault-tenant-personal-email.2026-05-17T10-15-00Z",
+  "scope_key": "state_instance.sample_personal|connector.personal.msgvault|msgvault:tenant:personal-email",
+  "instance_ref": "state_instance.sample_personal",
   "connector_ref": "connector.personal.msgvault",
   "source_ref": "msgvault:tenant:personal-email",
   "connector_type": "msgvault",

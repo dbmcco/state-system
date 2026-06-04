@@ -84,7 +84,7 @@ row; this runbook is the State System-side gate.
 | `ASK_NETWORK_CONTRACT.md` describes demote/explain/not-hide behavior for subject-note context | upstream docs | in place |
 | `search_history_backed_people` emits `subject_note_context` with `subject_notes`/`person_notes` aliases | upstream search surface | in place |
 | Tests prove subject-note context is surfaced as evidence, not as a hard filter | upstream tests | in place |
-| No Acme User-specific defaults, local absolute paths, private emails, or provider env in OSS surface | upstream config and docs | required, audit on each release |
+| No Example User-specific defaults, local absolute paths, private emails, or provider env in OSS surface | upstream config and docs | required, audit on each release |
 
 The last row is a release-time audit, not a one-time gate. New defaults,
 example paths, or env vars added to the upstream repo must be checked for

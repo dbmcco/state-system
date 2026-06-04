@@ -17,7 +17,7 @@ class GitSourceAdapterTests(unittest.TestCase):
     def test_git_commit_metadata_becomes_valid_source_event(self):
         commit = {
             "sha": "abc123def456",
-            "author_name": "Braydon McConnell",
+            "author_name": "Example User",
             "author_email": "user@example.com",
             "authored_at": "2026-05-01T17:30:00Z",
             "subject": "feat: add runtime v0 CLI loop",
@@ -63,7 +63,7 @@ class GitSourceAdapterTests(unittest.TestCase):
                 json.dumps(
                     {
                         "sha": "fedcba654321",
-                        "author_name": "Braydon McConnell",
+                        "author_name": "Example User",
                         "author_email": "user@example.com",
                         "authored_at": "2026-05-01T18:00:00Z",
                         "subject": "docs: update runtime v0",

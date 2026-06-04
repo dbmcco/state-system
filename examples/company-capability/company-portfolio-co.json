@@ -1,12 +1,12 @@
 {
-  "id": "company_capability_pack.synthyra",
-  "company_ref": "company.examplecorp",
+  "id": "company_capability_pack.portfolio_co",
+  "company_ref": "company.portfolio_co",
   "generated_at": "2026-05-14T12:00:00Z",
   "identity": {
-    "name": "ExampleCorp",
-    "summary": "Company substrate for Synthyra product, research, and finance work.",
+    "name": "PortfolioCo",
+    "summary": "Company substrate for PortfolioCo scientific, regulatory, and investor work.",
     "primary_agent_refs": [
-      "persona.ingrid"
+      "persona.helena"
     ],
     "oversight_agent_refs": [
       "persona.samantha"
@@ -14,36 +14,35 @@
   },
   "source_connectors": [
     {
-      "id": "connector.synthyra.folio",
+      "id": "connector.portfolio_co.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:synthyra",
+      "source_ref": "folio:tenant:portfolio_co",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.synthyra.drive",
+      "id": "connector.portfolio_co.drive",
       "connector_type": "gws_drive",
-      "source_ref": "gws:example:drive:Examplecorp Shared",
+      "source_ref": "gws:example:shared-drive:demo-co",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.synthyra.msgvault",
+      "id": "connector.portfolio_co.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:synthyra-email",
+      "source_ref": "msgvault:tenant:portfolio_co-email",
       "owner": "source_system",
       "declared": true,
       "preflight_target": {
         "kind": "msgvault_search",
-        "tenant_ref": "msgvault:tenant:synthyra-email",
-        "query": "synthyra",
+        "query": "portfolio_co-email",
         "limit": 1
       }
     },
     {
-      "id": "connector.synthyra.local",
+      "id": "connector.portfolio_co.local",
       "connector_type": "local_path",
-      "source_ref": "local:/srv/examples/synthyra",
+      "source_ref": "local:/srv/examples/portfolio_co",
       "owner": "source_system",
       "declared": true
     }
@@ -51,24 +50,24 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:synthyra",
-      "gws:example:drive:Examplecorp Shared",
-      "msgvault:tenant:synthyra-email",
-      "local:/srv/examples/synthyra"
+      "folio:tenant:portfolio_co",
+      "gws:example:shared-drive:demo-co",
+      "msgvault:tenant:portfolio_co-email",
+      "local:/srv/examples/portfolio_co"
     ]
   },
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:synthyra",
-      "gws:index:mcco:Examplecorp Shared",
-      "msgvault:index:synthyra-email"
+      "folio:index:tenant:portfolio_co",
+      "gws:index:mcco:demo-co",
+      "msgvault:index:portfolio_co-email"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.synthyra.folio.corpus",
-      "company_ref": "company.examplecorp",
+      "index_ref": "index.portfolio_co.folio.corpus",
+      "company_ref": "company.portfolio_co",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -78,10 +77,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:synthyra"
+        "folio:tenant:portfolio_co"
       ],
       "connector_refs": [
-        "connector.synthyra.folio"
+        "connector.portfolio_co.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -90,8 +89,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.synthyra.msgvault.email",
-      "company_ref": "company.examplecorp",
+      "index_ref": "index.portfolio_co.msgvault.email",
+      "company_ref": "company.portfolio_co",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -101,10 +100,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:synthyra-email"
+        "msgvault:tenant:portfolio_co-email"
       ],
       "connector_refs": [
-        "connector.synthyra.msgvault"
+        "connector.portfolio_co.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -113,8 +112,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.synthyra.drive.corpus",
-      "company_ref": "company.examplecorp",
+      "index_ref": "index.portfolio_co.drive.corpus",
+      "company_ref": "company.portfolio_co",
       "owner": "source_system",
       "backend": "gws_drive_native",
       "scope": "raw_source_index",
@@ -124,10 +123,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "gws:example:drive:Examplecorp Shared"
+        "gws:example:shared-drive:demo-co"
       ],
       "connector_refs": [
-        "connector.synthyra.drive"
+        "connector.portfolio_co.drive"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -136,8 +135,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.synthyra.state_system.evidence_cards",
-      "company_ref": "company.examplecorp",
+      "index_ref": "index.portfolio_co.state_system.evidence_cards",
+      "company_ref": "company.portfolio_co",
       "owner": "state_system",
       "backend": "postgres_pgvector",
       "scope": "interpreted_state_index",
@@ -148,7 +147,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system:company.examplecorp"
+        "state-system:company.portfolio_co"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -159,37 +158,37 @@
     }
   ],
   "company_memory_refs": [
-    "company_memory.synthyra"
+    "company_memory.portfolio_co"
   ],
   "operating_picture_refs": [
-    "operating_picture.product.synthyra",
-    "operating_picture.research.synthyra",
-    "operating_picture.finance.synthyra"
+    "operating_picture.scientific.portfolio_co",
+    "operating_picture.regulatory.portfolio_co",
+    "operating_picture.investor.portfolio_co"
   ],
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.synthyra.read_folio",
-      "action_surface.synthyra.read_drive",
-      "action_surface.synthyra.search_msgvault",
-      "action_surface.synthyra.inspect_local_workspace"
+      "action_surface.portfolio_co.read_folio",
+      "action_surface.portfolio_co.read_drive",
+      "action_surface.portfolio_co.search_msgvault",
+      "action_surface.portfolio_co.inspect_local_workspace"
     ]
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.synthyra.folio.search",
-      "capability_ref": "capability.synthyra.folio.search",
+      "id": "tool_binding.portfolio_co.folio.search",
+      "capability_ref": "capability.portfolio_co.folio.search",
       "tool_ref": "tool.paia.folio.search",
-      "action_ref": "action_surface.synthyra.read_folio",
+      "action_ref": "action_surface.portfolio_co.read_folio",
       "connector_refs": [
-        "connector.synthyra.folio"
+        "connector.portfolio_co.folio"
       ],
       "required_preflight_refs": [
-        "preflight.synthyra.folio"
+        "preflight.portfolio_co.folio"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
+        "persona.helena",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -197,19 +196,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.synthyra.drive.read",
-      "capability_ref": "capability.synthyra.drive.read",
+      "id": "tool_binding.portfolio_co.drive.read",
+      "capability_ref": "capability.portfolio_co.drive.read",
       "tool_ref": "tool.paia.gws_drive.read",
-      "action_ref": "action_surface.synthyra.read_drive",
+      "action_ref": "action_surface.portfolio_co.read_drive",
       "connector_refs": [
-        "connector.synthyra.drive"
+        "connector.portfolio_co.drive"
       ],
       "required_preflight_refs": [
-        "preflight.synthyra.drive"
+        "preflight.portfolio_co.drive"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
+        "persona.helena",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -217,19 +216,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.synthyra.msgvault.search",
-      "capability_ref": "capability.synthyra.msgvault.search",
+      "id": "tool_binding.portfolio_co.msgvault.search",
+      "capability_ref": "capability.portfolio_co.msgvault.search",
       "tool_ref": "tool.paia.msgvault.search",
-      "action_ref": "action_surface.synthyra.search_msgvault",
+      "action_ref": "action_surface.portfolio_co.search_msgvault",
       "connector_refs": [
-        "connector.synthyra.msgvault"
+        "connector.portfolio_co.msgvault"
       ],
       "required_preflight_refs": [
-        "preflight.synthyra.msgvault"
+        "preflight.portfolio_co.msgvault"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
+        "persona.helena",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -237,20 +236,21 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.synthyra.local.inspect",
-      "capability_ref": "capability.synthyra.local.inspect",
+      "id": "tool_binding.portfolio_co.local.inspect",
+      "capability_ref": "capability.portfolio_co.local.inspect",
       "tool_ref": "tool.paia.local_path.inspect",
-      "action_ref": "action_surface.synthyra.inspect_local_workspace",
+      "action_ref": "action_surface.portfolio_co.inspect_local_workspace",
       "connector_refs": [
-        "connector.synthyra.local"
+        "connector.portfolio_co.local"
       ],
       "required_preflight_refs": [
-        "preflight.synthyra.local"
+        "preflight.portfolio_co.local"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
-        "persona.samantha"
+        "persona.helena",
+        "persona.samantha",
+        "persona.derek"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -260,35 +260,35 @@
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
-      "governance.company.examplecorp.external_action",
-      "governance.company.examplecorp.finance_sensitive"
+      "governance.company.portfolio_co.external_action",
+      "governance.company.portfolio_co.scientific_regulatory_sensitive"
     ]
   },
   "connector_preflight": {
     "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.synthyra.folio",
-        "connector_ref": "connector.synthyra.folio",
-        "check": "PAIA runtime can search Folio tenant synthyra.",
+        "id": "preflight.portfolio_co.folio",
+        "connector_ref": "connector.portfolio_co.folio",
+        "check": "PAIA runtime can search Folio tenant portfolio_co.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.synthyra.drive",
-        "connector_ref": "connector.synthyra.drive",
-        "check": "PAIA runtime can read Examplecorp Shared through gws-account mcco.",
+        "id": "preflight.portfolio_co.drive",
+        "connector_ref": "connector.portfolio_co.drive",
+        "check": "PAIA runtime can read PortfolioCo Biotechnologies shared drive through gws-account mcco.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.synthyra.msgvault",
-        "connector_ref": "connector.synthyra.msgvault",
-        "check": "PAIA runtime can search Synthyra msgvault email.",
+        "id": "preflight.portfolio_co.msgvault",
+        "connector_ref": "connector.portfolio_co.msgvault",
+        "check": "PAIA runtime can search PortfolioCo msgvault email where applicable.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.synthyra.local",
-        "connector_ref": "connector.synthyra.local",
-        "check": "PAIA runtime can inspect the local Synthyra path when locally available.",
+        "id": "preflight.portfolio_co.local",
+        "connector_ref": "connector.portfolio_co.local",
+        "check": "PAIA runtime can inspect the local PortfolioCo path when locally available.",
         "owner": "paia_runtime"
       }
     ]
@@ -296,8 +296,9 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
     "constraints": [
-      "Ingrid primary for Synthyra.",
+      "Helena primary for PortfolioCo.",
       "Samantha may oversee across company packs.",
+      "Derek technical/repo scope only by default.",
       "No Linear connector is declared unless explicitly added later."
     ]
   },
@@ -305,7 +306,7 @@
     "as_of": "2026-05-14T12:00:00Z",
     "stale_after": "2026-05-21T12:00:00Z",
     "watermark_refs": [
-      "company_capability_pack.synthyra@2026-05-14T12:00:00Z"
+      "company_capability_pack.portfolio_co@2026-05-14T12:00:00Z"
     ]
   },
   "lineage": {

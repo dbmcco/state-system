@@ -1,11 +1,11 @@
 {
   "id": "crm:relationship:southern-abrasives",
-  "source_system": "acme_crm",
+  "source_system": "sample_crm",
   "source_event": "relationship_outcome",
   "source_event_id": "crm.relationship.southern-abrasives.outcome",
   "occurred_at": "2026-05-01T15:00:00Z",
   "observed_at": "2026-05-04T14:00:00Z",
-  "actor_ref": "crm.system.acme-ai-graph-crm",
+  "actor_ref": "crm.system.sampleco-ai-graph-crm",
   "summary": "Southern Abrasives relationship moved from initial outreach into a qualified conversation after a referral path emerged.",
   "source_refs": [
     "crm:relationship:southern-abrasives",
@@ -17,8 +17,8 @@
     "payload_summary": "Relationship outcome should inform future company memory and CRM operating picture without becoming a sales score."
   },
   "candidate_state_refs": [
-    "company_memory.acme",
-    "crm_operating_picture.acme"
+    "company_memory.sampleco",
+    "crm_operating_picture.sampleco"
   ],
   "candidate_persona_refs": [
     "persona.laura.marketing",
@@ -32,7 +32,7 @@
     "dedupe_strategy": "source_event_id"
   },
   "sync_context": {
-    "sync_id": "sync.acme-ai-graph-crm.2026-05-04",
+    "sync_id": "sync.sampleco-ai-graph-crm.2026-05-04",
     "source_watermark": "crm.watermark.2026-05-04T14:00:00Z",
     "partial": false,
     "confidence": "high"

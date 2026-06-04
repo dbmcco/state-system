@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import sys
@@ -915,7 +916,8 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
 
     if args.command == "north-star-answer":
         packages = _load_named_packages(args.package or [])
-        report = build_north_star_answer(packages, query=args.query)
+        as_of = args.as_of or datetime.now(timezone.utc).isoformat()
+        report = build_north_star_answer(packages, query=args.query, as_of=as_of)
         schema = load_json(project_root / "schemas" / "north-star-answer.schema.json")
         errors = list(validate_schema(report, schema))
         if errors:
@@ -1436,6 +1438,10 @@ def _parser() -> argparse.ArgumentParser:
         action="append",
         required=True,
         help="Package mapping in the form package_id=/path/to/package.json",
+    )
+    north_star_answer.add_argument(
+        "--as-of",
+        help="Freshness audit timestamp. Defaults to current UTC time.",
     )
     north_star_answer.add_argument("--output-dir", required=True)
 

@@ -1,6 +1,6 @@
 {
-  "id": "journal.acme.deal.southern-abrasives.won",
-  "state_object_id": "state.acme.deal.southern-abrasives",
+  "id": "journal.sampleco.deal.southern-abrasives.won",
+  "state_object_id": "state.sampleco.deal.southern-abrasives",
   "created_at": "2026-04-28T16:06:00Z",
   "actor_ref": "persona.patrick",
   "source": "agent_reasoning",
@@ -41,7 +41,7 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.acme.operating_picture.ops",
+      "state_object_id": "state.sampleco.operating_picture.ops",
       "reason": "A won deal creates operational handoff and follow-up risk."
     },
     {

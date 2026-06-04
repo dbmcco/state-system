@@ -24,20 +24,20 @@ class CompanyCapabilityPackTests(unittest.TestCase):
 
         self.assertEqual(
             {
-                "company-acme.json",
-                "company-examplecorp.json",
-                "company-demo-co.json",
+                "company-sampleco.json",
+                "company-researchco.json",
+                "company-portfolio-co.json",
             },
             {result.path.name for result in pack_results},
         )
         self.assertEqual([], [result for result in pack_results if not result.ok])
 
     def test_packs_preserve_runtime_and_governance_boundary(self):
-        acme_inst = load_json(PACK_DIR / "company-acme.json")
-        synthyra = load_json(PACK_DIR / "company-examplecorp.json")
-        navicyte = load_json(PACK_DIR / "company-demo-co.json")
+        sampleco_inst = load_json(PACK_DIR / "company-sampleco.json")
+        researchco = load_json(PACK_DIR / "company-researchco.json")
+        portfolio_co = load_json(PACK_DIR / "company-portfolio-co.json")
 
-        for pack in (acme_inst, synthyra, navicyte):
+        for pack in (sampleco_inst, researchco, portfolio_co):
             invariant = pack["invariant"]
             self.assertFalse(invariant["proves_live_access"])
             self.assertFalse(invariant["authorizes_execution"])
@@ -47,13 +47,13 @@ class CompanyCapabilityPackTests(unittest.TestCase):
             self.assertIn("governance", pack)
 
         self.assertTrue(
-            any(connector["connector_type"] == "linear" for connector in acme_inst["source_connectors"])
+            any(connector["connector_type"] == "linear" for connector in sampleco_inst["source_connectors"])
         )
         self.assertFalse(
-            any(connector["connector_type"] == "linear" for connector in synthyra["source_connectors"])
+            any(connector["connector_type"] == "linear" for connector in researchco["source_connectors"])
         )
         self.assertFalse(
-            any(connector["connector_type"] == "linear" for connector in navicyte["source_connectors"])
+            any(connector["connector_type"] == "linear" for connector in portfolio_co["source_connectors"])
         )
 
     def test_tool_capability_bindings_reference_declared_pack_parts(self):
@@ -110,7 +110,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
                 self.assertEqual(4, len(source_ref_parts), connector)
                 system, profile, resource_kind, lookup_key = source_ref_parts
                 self.assertEqual("gws", system)
-                self.assertIn(profile, {"acme", "example", "demo"})
+                self.assertIn(profile, {"sampleco", "example", "demo"})
                 self.assertIn(resource_kind, {"drive", "shared-drive"})
                 self.assertTrue(lookup_key)
 
@@ -138,110 +138,110 @@ class CompanyCapabilityPackTests(unittest.TestCase):
     def test_read_model_rolls_up_company_capability_packs(self):
         read_model = build_company_capability_read_model(
             [
-                load_json(PACK_DIR / "company-acme.json"),
-                load_json(PACK_DIR / "company-examplecorp.json"),
-                load_json(PACK_DIR / "company-demo-co.json"),
+                load_json(PACK_DIR / "company-sampleco.json"),
+                load_json(PACK_DIR / "company-researchco.json"),
+                load_json(PACK_DIR / "company-portfolio-co.json"),
             ]
         )
 
         self.assertEqual("company_capability_read_model", read_model["id"])
         self.assertEqual("json_substrate", read_model["artifact_type"])
         self.assertEqual(
-            ["company.acme", "company.demo_co", "company.examplecorp"],
+            ["company.portfolio_co", "company.researchco", "company.sampleco"],
             [company["company_ref"] for company in read_model["companies"]],
         )
-        acme_inst = _company(read_model, "company.acme")
-        synthyra = _company(read_model, "company.examplecorp")
-        navicyte = _company(read_model, "company.demo_co")
+        sampleco_inst = _company(read_model, "company.sampleco")
+        researchco = _company(read_model, "company.researchco")
+        portfolio_co = _company(read_model, "company.portfolio_co")
 
-        self.assertIn("company_memory.acme", acme_inst["company_memory_refs"])
-        self.assertIn("operating_picture.crm.acme", acme_inst["operating_picture_refs"])
-        self.assertIn("operating_picture.finance.synthyra", synthyra["operating_picture_refs"])
-        self.assertIn("operating_picture.regulatory.navicyte", navicyte["operating_picture_refs"])
-        self.assertIn("folio:tenant:acme", read_model["source_refs"])
+        self.assertIn("company_memory.sampleco", sampleco_inst["company_memory_refs"])
+        self.assertIn("operating_picture.crm.sampleco", sampleco_inst["operating_picture_refs"])
+        self.assertIn("operating_picture.finance.researchco", researchco["operating_picture_refs"])
+        self.assertIn("operating_picture.regulatory.portfolio_co", portfolio_co["operating_picture_refs"])
+        self.assertIn("folio:tenant:sampleco", read_model["source_refs"])
         self.assertIn("gws:example:shared-drive:demo-co", read_model["source_refs"])
-        self.assertIn("index.acme.folio.corpus", read_model["index_refs"])
-        self.assertIn("index.acme.state_system.evidence_cards", read_model["index_refs"])
+        self.assertIn("index.sampleco.folio.corpus", read_model["index_refs"])
+        self.assertIn("index.sampleco.state_system.evidence_cards", read_model["index_refs"])
 
-        acme_folio = _connector(acme_inst, "connector.acme.folio")
-        self.assertEqual("folio", acme_folio["connector_type"])
-        self.assertEqual("folio:tenant:acme", acme_folio["source_ref"])
-        self.assertEqual("source_system", acme_folio["owner"])
-        acme_folio_index = _index_manifest(acme_inst, "index.acme.folio.corpus")
-        self.assertEqual("postgres_pgvector", acme_folio_index["backend"])
-        self.assertEqual("raw_source_index", acme_folio_index["scope"])
-        self.assertEqual("declared", acme_folio_index["status"])
+        sampleco_folio = _connector(sampleco_inst, "connector.sampleco.folio")
+        self.assertEqual("folio", sampleco_folio["connector_type"])
+        self.assertEqual("folio:tenant:sampleco", sampleco_folio["source_ref"])
+        self.assertEqual("source_system", sampleco_folio["owner"])
+        sampleco_folio_index = _index_manifest(sampleco_inst, "index.sampleco.folio.corpus")
+        self.assertEqual("postgres_pgvector", sampleco_folio_index["backend"])
+        self.assertEqual("raw_source_index", sampleco_folio_index["scope"])
+        self.assertEqual("declared", sampleco_folio_index["status"])
         self.assertEqual(
             {"type": "paia_tool", "tool_ref": "tool.paia.folio.search"},
-            acme_folio_index["query_surface"],
+            sampleco_folio_index["query_surface"],
         )
-        acme_state_index = _index_manifest(acme_inst, "index.acme.state_system.evidence_cards")
-        self.assertEqual("state_system", acme_state_index["owner"])
-        self.assertEqual("interpreted_state_index", acme_state_index["scope"])
-        self.assertEqual("state_system_interpreted_index", acme_state_index["backend"])
-        self.assertEqual("declared", acme_state_index["status"])
+        sampleco_state_index = _index_manifest(sampleco_inst, "index.sampleco.state_system.evidence_cards")
+        self.assertEqual("state_system", sampleco_state_index["owner"])
+        self.assertEqual("interpreted_state_index", sampleco_state_index["scope"])
+        self.assertEqual("state_system_interpreted_index", sampleco_state_index["backend"])
+        self.assertEqual("declared", sampleco_state_index["status"])
         self.assertEqual(
             {
                 "type": "state_system_runtime",
                 "tool_ref": "tool.state_system.interpreted_search",
             },
-            acme_state_index["query_surface"],
+            sampleco_state_index["query_surface"],
         )
-        acme_understanding_index = _index_manifest(
-            acme_inst,
-            "index.acme.state_system.company_understanding_surface",
+        sampleco_understanding_index = _index_manifest(
+            sampleco_inst,
+            "index.sampleco.state_system.company_understanding_surface",
         )
-        self.assertEqual("state_system", acme_understanding_index["owner"])
-        self.assertEqual("json_read_model", acme_understanding_index["backend"])
-        self.assertEqual("interpreted_state_index", acme_understanding_index["scope"])
-        self.assertEqual("declared", acme_understanding_index["status"])
+        self.assertEqual("state_system", sampleco_understanding_index["owner"])
+        self.assertEqual("json_read_model", sampleco_understanding_index["backend"])
+        self.assertEqual("interpreted_state_index", sampleco_understanding_index["scope"])
+        self.assertEqual("declared", sampleco_understanding_index["status"])
         self.assertEqual(
             {
                 "type": "state_system_runtime",
                 "tool_ref": "tool.state_system.company_understanding_read",
             },
-            acme_understanding_index["query_surface"],
+            sampleco_understanding_index["query_surface"],
         )
-        acme_github_index = _index_manifest(acme_inst, "index.acme.github_org.repos")
-        self.assertEqual("github_native", acme_github_index["backend"])
-        self.assertEqual("raw_source_index", acme_github_index["scope"])
-        self.assertEqual("declared", acme_github_index["status"])
-        acme_local_index = _index_manifest(acme_inst, "index.acme.local.workspace")
-        self.assertEqual("local_filesystem", acme_local_index["backend"])
-        self.assertEqual("raw_source_index", acme_local_index["scope"])
-        self.assertEqual("declared", acme_local_index["status"])
-        self.assertEqual(["connector.acme.local"], acme_local_index["connector_refs"])
-        acme_transcript_index = _index_manifest(acme_inst, "index.acme.transcripts.processed")
-        self.assertEqual("planned", acme_transcript_index["status"])
-        self.assertIn("Placeholder only", acme_transcript_index["notes"])
+        sampleco_github_index = _index_manifest(sampleco_inst, "index.sampleco.github_org.repos")
+        self.assertEqual("github_native", sampleco_github_index["backend"])
+        self.assertEqual("raw_source_index", sampleco_github_index["scope"])
+        self.assertEqual("declared", sampleco_github_index["status"])
+        sampleco_local_index = _index_manifest(sampleco_inst, "index.sampleco.local.workspace")
+        self.assertEqual("local_filesystem", sampleco_local_index["backend"])
+        self.assertEqual("raw_source_index", sampleco_local_index["scope"])
+        self.assertEqual("declared", sampleco_local_index["status"])
+        self.assertEqual(["connector.sampleco.local"], sampleco_local_index["connector_refs"])
+        sampleco_transcript_index = _index_manifest(sampleco_inst, "index.sampleco.transcripts.processed")
+        self.assertEqual("planned", sampleco_transcript_index["status"])
+        self.assertIn("Placeholder only", sampleco_transcript_index["notes"])
 
     def test_read_model_exposes_mechanical_tool_capability_bindings(self):
         read_model = build_company_capability_read_model(
             [
-                load_json(PACK_DIR / "company-acme.json"),
-                load_json(PACK_DIR / "company-examplecorp.json"),
-                load_json(PACK_DIR / "company-demo-co.json"),
+                load_json(PACK_DIR / "company-sampleco.json"),
+                load_json(PACK_DIR / "company-researchco.json"),
+                load_json(PACK_DIR / "company-portfolio-co.json"),
             ]
         )
 
-        acme_inst = _company(read_model, "company.acme")
-        binding = _binding(acme_inst, "capability.acme.linear.read")
+        sampleco_inst = _company(read_model, "company.sampleco")
+        binding = _binding(sampleco_inst, "capability.sampleco.linear.read")
 
         self.assertEqual("tool.paia.linear.read", binding["tool_ref"])
-        self.assertEqual("action_surface.acme.read_linear", binding["action_ref"])
-        self.assertEqual(["connector.acme.linear"], binding["connector_refs"])
-        self.assertEqual(["preflight.acme.linear"], binding["required_preflight_refs"])
+        self.assertEqual("action_surface.sampleco.read_linear", binding["action_ref"])
+        self.assertEqual(["connector.sampleco.linear"], binding["connector_refs"])
+        self.assertEqual(["preflight.sampleco.linear"], binding["required_preflight_refs"])
         self.assertEqual([], binding["governance_refs"])
         self.assertEqual(["persona.caroline", "persona.samantha"], binding["allowed_agent_refs"])
         self.assertEqual("hide_until_preflight_passes", binding["exposure_policy"])
         self.assertFalse(binding["proves_live_access"])
         self.assertFalse(binding["authorizes_execution"])
 
-        zulip_binding = _binding(acme_inst, "capability.acme.zulip.read")
+        zulip_binding = _binding(sampleco_inst, "capability.sampleco.zulip.read")
         self.assertEqual("tool.paia.zulip.read", zulip_binding["tool_ref"])
-        self.assertEqual("action_surface.acme.read_zulip", zulip_binding["action_ref"])
-        self.assertEqual(["connector.acme.zulip"], zulip_binding["connector_refs"])
-        self.assertEqual(["preflight.acme.zulip"], zulip_binding["required_preflight_refs"])
+        self.assertEqual("action_surface.sampleco.read_zulip", zulip_binding["action_ref"])
+        self.assertEqual(["connector.sampleco.zulip"], zulip_binding["connector_refs"])
+        self.assertEqual(["preflight.sampleco.zulip"], zulip_binding["required_preflight_refs"])
         self.assertEqual([], zulip_binding["governance_refs"])
         self.assertEqual(
             ["persona.caroline", "persona.samantha"],
@@ -250,11 +250,11 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(zulip_binding["proves_live_access"])
         self.assertFalse(zulip_binding["authorizes_execution"])
 
-        github_binding = _binding(acme_inst, "capability.acme.github.read")
+        github_binding = _binding(sampleco_inst, "capability.sampleco.github.read")
         self.assertEqual("tool.paia.github.read", github_binding["tool_ref"])
-        self.assertEqual("action_surface.acme.read_github", github_binding["action_ref"])
-        self.assertEqual(["connector.acme.github_org"], github_binding["connector_refs"])
-        self.assertEqual(["preflight.acme.github"], github_binding["required_preflight_refs"])
+        self.assertEqual("action_surface.sampleco.read_github", github_binding["action_ref"])
+        self.assertEqual(["connector.sampleco.github_org"], github_binding["connector_refs"])
+        self.assertEqual(["preflight.sampleco.github"], github_binding["required_preflight_refs"])
         self.assertEqual([], github_binding["governance_refs"])
         self.assertEqual(
             ["persona.caroline", "persona.samantha"],
@@ -263,14 +263,14 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(github_binding["proves_live_access"])
         self.assertFalse(github_binding["authorizes_execution"])
 
-        local_binding = _binding(acme_inst, "capability.acme.local.inspect")
+        local_binding = _binding(sampleco_inst, "capability.sampleco.local.inspect")
         self.assertEqual("tool.paia.local_path.inspect", local_binding["tool_ref"])
         self.assertEqual(
-            "action_surface.acme.inspect_local_workspace",
+            "action_surface.sampleco.inspect_local_workspace",
             local_binding["action_ref"],
         )
-        self.assertEqual(["connector.acme.local"], local_binding["connector_refs"])
-        self.assertEqual(["preflight.acme.local"], local_binding["required_preflight_refs"])
+        self.assertEqual(["connector.sampleco.local"], local_binding["connector_refs"])
+        self.assertEqual(["preflight.sampleco.local"], local_binding["required_preflight_refs"])
         self.assertEqual([], local_binding["governance_refs"])
         self.assertEqual(
             ["persona.caroline", "persona.samantha"],
@@ -279,11 +279,11 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertFalse(local_binding["proves_live_access"])
         self.assertFalse(local_binding["authorizes_execution"])
 
-        synthyra = _company(read_model, "company.examplecorp")
+        researchco = _company(read_model, "company.researchco")
         self.assertFalse(
             any(
                 "linear" in binding["tool_ref"]
-                for binding in synthyra["tool_capability_bindings"]
+                for binding in researchco["tool_capability_bindings"]
             )
         )
 
@@ -295,9 +295,9 @@ class CompanyCapabilityPackTests(unittest.TestCase):
                     "--project-root",
                     str(ROOT),
                     "company-capability-build",
-                    str(PACK_DIR / "company-acme.json"),
-                    str(PACK_DIR / "company-examplecorp.json"),
-                    str(PACK_DIR / "company-demo-co.json"),
+                    str(PACK_DIR / "company-sampleco.json"),
+                    str(PACK_DIR / "company-researchco.json"),
+                    str(PACK_DIR / "company-portfolio-co.json"),
                     "--output-dir",
                     directory,
                 ],

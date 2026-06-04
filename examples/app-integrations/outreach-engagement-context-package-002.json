@@ -26,7 +26,7 @@
         "persona_route": [
           "persona.laura",
           "persona.patrick",
-          "app.acme-ai-graph-crm",
+          "app.sampleco-ai-graph-crm",
           "app.prospect-researcher"
         ]
       }

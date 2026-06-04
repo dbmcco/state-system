@@ -57,7 +57,7 @@ Examples:
 
 ```text
 linear-event-southern-abrasives-stage-won-2026-04-28
-github:pr:lightforge/lfw-ai-graph-crm#142:merged@abc1234
+github:pr:lightforge/sampleco-ai-graph-crm#142:merged@abc1234
 workgraph:repo:state-system:task:launch-copy-review:done@2026-04-28T16:00:00Z
 ```
 

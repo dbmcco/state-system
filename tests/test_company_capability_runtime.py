@@ -25,41 +25,41 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
 
             result = runtime.seed(
                 [
-                    load_json(PACK_DIR / "company-acme.json"),
-                    load_json(PACK_DIR / "company-examplecorp.json"),
-                    load_json(PACK_DIR / "company-demo-co.json"),
+                    load_json(PACK_DIR / "company-sampleco.json"),
+                    load_json(PACK_DIR / "company-researchco.json"),
+                    load_json(PACK_DIR / "company-portfolio-co.json"),
                 ]
             )
 
             self.assertEqual(3, len(result["seeded"]))
             self.assertEqual(
-                ["company.acme", "company.demo_co", "company.examplecorp"],
+                ["company.portfolio_co", "company.researchco", "company.sampleco"],
                 [pack["company_ref"] for pack in runtime.list_packs()],
             )
-            acme_inst = runtime.read("company_capability_pack.acme")
-            self.assertEqual("company.acme", acme_inst["company_ref"])
-            self.assertFalse(acme_inst["invariant"]["proves_live_access"])
-            self.assertFalse(acme_inst["invariant"]["authorizes_execution"])
+            sampleco_inst = runtime.read("company_capability_pack.sampleco")
+            self.assertEqual("company.sampleco", sampleco_inst["company_ref"])
+            self.assertFalse(sampleco_inst["invariant"]["proves_live_access"])
+            self.assertFalse(sampleco_inst["invariant"]["authorizes_execution"])
 
     def test_seed_is_idempotent_and_updates_existing_runtime_record(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             runtime = CompanyCapabilityRuntime(stores)
-            acme_inst = load_json(PACK_DIR / "company-acme.json")
-            runtime.seed([acme_inst])
+            sampleco_inst = load_json(PACK_DIR / "company-sampleco.json")
+            runtime.seed([sampleco_inst])
 
-            updated_acme = {**acme_inst, "generated_at": "2026-05-14T18:00:00Z"}
-            updated_acme["identity"] = {
-                **acme_inst["identity"],
-                "summary": "Updated runtime declaration for LFW.",
+            updated_sampleco = {**sampleco_inst, "generated_at": "2026-05-14T18:00:00Z"}
+            updated_sampleco["identity"] = {
+                **sampleco_inst["identity"],
+                "summary": "Updated runtime declaration for SampleCo.",
             }
-            result = runtime.seed([updated_acme])
+            result = runtime.seed([updated_sampleco])
 
-            self.assertEqual(["company_capability_pack.acme"], result["updated"])
+            self.assertEqual(["company_capability_pack.sampleco"], result["updated"])
             self.assertEqual([], result["created"])
             self.assertEqual(
-                "Updated runtime declaration for LFW.",
-                runtime.read("company_capability_pack.acme")["identity"]["summary"],
+                "Updated runtime declaration for SampleCo.",
+                runtime.read("company_capability_pack.sampleco")["identity"]["summary"],
             )
 
     def test_read_model_builds_from_runtime_without_example_inputs(self):
@@ -68,9 +68,9 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             runtime = CompanyCapabilityRuntime(stores)
             runtime.seed(
                 [
-                    load_json(PACK_DIR / "company-acme.json"),
-                    load_json(PACK_DIR / "company-examplecorp.json"),
-                    load_json(PACK_DIR / "company-demo-co.json"),
+                    load_json(PACK_DIR / "company-sampleco.json"),
+                    load_json(PACK_DIR / "company-researchco.json"),
+                    load_json(PACK_DIR / "company-portfolio-co.json"),
                 ]
             )
 
@@ -78,52 +78,52 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
 
             self.assertEqual("company_capability_read_model", read_model["id"])
             self.assertEqual(
-                ["company.acme", "company.demo_co", "company.examplecorp"],
+                ["company.portfolio_co", "company.researchco", "company.sampleco"],
                 [company["company_ref"] for company in read_model["companies"]],
             )
             self.assertFalse(
                 read_model["invariant"]["company_capability_pack_proves_live_access"]
             )
             self.assertIn(
-                "company_memory.synthyra",
-                _company(read_model, "company.examplecorp")["company_memory_refs"],
+                "company_memory.researchco",
+                _company(read_model, "company.researchco")["company_memory_refs"],
             )
             self.assertIn(
-                "index.synthyra.state_system.evidence_cards",
+                "index.researchco.state_system.evidence_cards",
                 read_model["index_refs"],
             )
             self.assertEqual(
                 "planned",
                 next(
                     manifest
-                    for manifest in _company(read_model, "company.examplecorp")[
+                    for manifest in _company(read_model, "company.researchco")[
                         "index_manifests"
                     ]
                     if manifest["index_ref"]
-                    == "index.synthyra.state_system.evidence_cards"
+                    == "index.researchco.state_system.evidence_cards"
                 )["status"],
             )
             self.assertIn(
                 "tool.paia.gws_drive.read",
                 [
                     binding["tool_ref"]
-                    for binding in _company(read_model, "company.demo_co")[
+                    for binding in _company(read_model, "company.portfolio_co")[
                         "tool_capability_bindings"
                     ]
                 ],
             )
-            navicyte_connectors = _company(read_model, "company.demo_co")[
+            portfolio_co_connectors = _company(read_model, "company.portfolio_co")[
                 "source_connectors"
             ]
             self.assertIn(
                 {
-                    "id": "connector.navicyte.folio",
+                    "id": "connector.portfolio_co.folio",
                     "connector_type": "folio",
-                    "source_ref": "folio:tenant:navicyte",
+                    "source_ref": "folio:tenant:portfolio_co",
                     "owner": "source_system",
                     "declared": True,
                 },
-                navicyte_connectors,
+                portfolio_co_connectors,
             )
 
     def test_cli_seeds_and_reads_company_capability_from_state_root(self):
@@ -136,9 +136,9 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
                     "--state-root",
                     directory,
                     "company-capability-seed",
-                    str(PACK_DIR / "company-acme.json"),
-                    str(PACK_DIR / "company-examplecorp.json"),
-                    str(PACK_DIR / "company-demo-co.json"),
+                    str(PACK_DIR / "company-sampleco.json"),
+                    str(PACK_DIR / "company-researchco.json"),
+                    str(PACK_DIR / "company-portfolio-co.json"),
                 ],
                 stdout=seed_output,
             )
@@ -167,8 +167,8 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             self.assertEqual("company-capability-read-model.json", read_model_path.name)
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(3, len(read_model["companies"]))
-            self.assertIn("folio:tenant:acme", read_model["source_refs"])
-            self.assertIn("index.acme.folio.corpus", read_model["index_refs"])
+            self.assertIn("folio:tenant:sampleco", read_model["source_refs"])
+            self.assertIn("index.sampleco.folio.corpus", read_model["index_refs"])
 
 
 def _company(read_model, company_ref):

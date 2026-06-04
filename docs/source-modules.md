@@ -11,6 +11,11 @@ freshness contract, index ownership, tool bindings, and governance defaults.
 The current registry example is
 `examples/source-modules/source-module-core-connectors.json`.
 
+Public examples may use synthetic names such as `SampleCo`, `ResearchCo`, and
+`PortfolioCo`. Those names are fixtures for schema and contract shape; deployed
+instances should use their own instance refs, connector refs, source refs, and
+package IDs.
+
 ## Contract
 
 Each module declares:
@@ -70,9 +75,9 @@ queries. It does not sync raw data. It declares that one local instance can use 
 remote instance or source substrate through named routes, query surfaces, tool
 actions, source modules, freshness policy, output policy, and repair behavior.
 
-Use federation packs for b-state reading LFW interpreted state, LFW querying
+Use federation packs for personal state reading SampleCo interpreted state, SampleCo querying
 personal Relationship Substrate without materializing personal records, and
-portfolio rollups across company instances such as Navicyte and Synthyra.
+portfolio rollups across company instances such as PortfolioCo and ResearchCo.
 
 Required policies:
 
@@ -116,18 +121,18 @@ Run it with package JSON files:
 
 ```bash
 python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json \
-  --package instance_agent_package.acme_ops.samantha=/path/to/instance_agent_package.acme_ops.samantha.json \
-  --package instance_agent_package.lfw.caroline=/path/to/instance_agent_package.lfw.caroline.json
+  --package <personal_package_id>=/path/to/personal-package.json \
+  --package instance_agent_package.sampleco.caroline=/path/to/instance_agent_package.sampleco.caroline.json
 ```
 
 Use `--include-planned` when checking scaffolded Helena/Ingrid readiness or
-known planned gaps such as LFW Linear/GitHub/transcript coverage. Planned cases
+known planned gaps such as SampleCo Linear/GitHub/transcript coverage. Planned cases
 are still executable, but the default run focuses on ready daily-use package
 contracts.
 
 ## Relationship Substrate
 
-Relationship Substrate is a source module, not a b-state-only assumption. Its
+Relationship Substrate is a source module, not a personal state-only assumption. Its
 open-source capability should cover people, organizations, affiliations,
 interactions, and subject-level notes. Subject notes are contextual relationship
 evidence: they can demote or explain a candidate, but they must not become

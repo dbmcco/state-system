@@ -31,7 +31,7 @@ those as defaults. Source-specific connectors are admissible only as explicit
 capability-pack declarations with preflight, freshness, index ownership, and
 governance status visible before any model treats them as usable evidence.
 Personal relationship indexes follow the same rule. A company instance such as
-LFW may use Acme User's long-history relationship evidence only through an
+SampleCo may use Example User's long-history relationship evidence only through an
 explicit governed federated query route; it must not copy raw personal
 relationship records or silently treat personal sources as company sources.
 
@@ -150,7 +150,7 @@ The product repo now exposes a deterministic read surface for this question set:
 ```bash
 python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current state?" \
-  --package personal=examples/instance-agent-package/instance-agent-package-acme-ops-samantha.json \
+  --package personal=examples/instance-agent-package/instance-agent-package-sample-personal-samantha.json \
   --output-dir /tmp/state-system-north-star
 ```
 

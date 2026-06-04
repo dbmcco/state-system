@@ -1,6 +1,6 @@
 {
-  "id": "instance_capability_pack.acme_ops",
-  "instance_ref": "state_instance.acme_ops",
+  "id": "instance_capability_pack.sample_personal",
+  "instance_ref": "state_instance.sample_personal",
   "primary_entity_ref": "entity.example_person",
   "entity_kind": "person",
   "generated_at": "2026-05-16T18:00:00Z",
@@ -78,15 +78,15 @@
       "access_mode": "read"
     },
     {
-      "id": "connector.personal.acme_state_system",
+      "id": "connector.personal.sampleco_state_system",
       "connector_type": "state_system_instance",
-      "source_ref": "state-system-instance:state_instance.acme",
+      "source_ref": "state-system-instance:state_instance.sampleco",
       "owner": "state_system",
       "declared": true,
       "access_mode": "read",
-      "runtime_root": "/srv/examples/acme/state-system",
+      "runtime_root": "/srv/examples/sampleco/state-system",
       "governance_refs": [
-        "governance.acme.read_summary"
+        "governance.sampleco.read_summary"
       ]
     }
   ],
@@ -101,7 +101,7 @@
       "local:/srv/examples/personal",
       "garmin-connect:account:example-person",
       "spotify:account:example-person",
-      "state-system-instance:state_instance.acme"
+      "state-system-instance:state_instance.sampleco"
     ]
   },
   "evidence_index": {
@@ -116,13 +116,13 @@
       "index.personal.garmin_connect.activity",
       "index.personal.spotify.listening",
       "index.personal.state_system.interpreted",
-      "index.personal.acme_state_system.interpreted"
+      "index.personal.sampleco_state_system.interpreted"
     ]
   },
   "index_manifests": [
     {
       "index_ref": "index.personal.folio.corpus",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "postgres_pgvector",
@@ -146,7 +146,7 @@
     },
     {
       "index_ref": "index.personal.msgvault.email",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "msgvault_sqlite_vec",
@@ -171,7 +171,7 @@
     },
     {
       "index_ref": "index.personal.agentmem.memory",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "agentmem",
       "backend": "postgres_pgvector",
@@ -196,7 +196,7 @@
     },
     {
       "index_ref": "index.personal.workboard.tasks",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "paia_runtime",
       "backend": "workgraph_jsonl",
@@ -221,7 +221,7 @@
     },
     {
       "index_ref": "index.personal.relationship_substrate.network",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "postgres_pgvector",
@@ -251,7 +251,7 @@
     },
     {
       "index_ref": "index.personal.projects.local_metadata",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "local_path_metadata",
@@ -276,7 +276,7 @@
     },
     {
       "index_ref": "index.personal.garmin_connect.activity",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "garmin_postgres",
@@ -299,11 +299,11 @@
         "tool_ref": "tool.garmin_connect.read"
       },
       "status": "declared",
-      "notes": "Garmin Connect owns health and activity telemetry; b-state cites summarized evidence from the governed local Garmin Postgres sync after freshness is recorded."
+      "notes": "Garmin Connect owns health and activity telemetry; personal state cites summarized evidence from the governed local Garmin Postgres sync after freshness is recorded."
     },
     {
       "index_ref": "index.personal.spotify.listening",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
       "backend": "assistant_postgres_spotify_history",
@@ -330,7 +330,7 @@
     },
     {
       "index_ref": "index.personal.state_system.interpreted",
-      "instance_ref": "state_instance.acme_ops",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "state_system",
       "backend": "postgres_pgvector",
@@ -342,7 +342,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.acme_ops"
+        "state-system-instance:state_instance.sample_personal"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -352,8 +352,8 @@
       "status": "planned"
     },
     {
-      "index_ref": "index.personal.acme_state_system.interpreted",
-      "instance_ref": "state_instance.acme_ops",
+      "index_ref": "index.personal.sampleco_state_system.interpreted",
+      "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "state_system",
       "backend": "state_system_remote",
@@ -364,10 +364,10 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.acme"
+        "state-system-instance:state_instance.sampleco"
       ],
       "connector_refs": [
-        "connector.personal.acme_state_system"
+        "connector.personal.sampleco_state_system"
       ],
       "query_surface": {
         "type": "state_system_runtime",
@@ -380,7 +380,7 @@
     "agentmem:tenant:example-person"
   ],
   "operating_picture_refs": [
-    "operating_picture.personal.acme_user"
+    "operating_picture.personal.example_user"
   ],
   "action_surface": {
     "definition": "Personal instance actions are declared; protected effects remain governed separately. Relationship Substrate owns subject-level relationship-context notes used for user corrections.",
@@ -395,7 +395,7 @@
       "action_surface.personal.record_relationship_subject_note",
       "action_surface.personal.read_garmin_connect",
       "action_surface.personal.read_spotify",
-      "action_surface.personal.read_acme_state"
+      "action_surface.personal.read_sampleco_state"
     ]
   },
   "tool_capability_bindings": [
@@ -409,7 +409,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.acme_user.personal_default"
+        "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -428,7 +428,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.acme_user.personal_default"
+        "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -447,7 +447,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.acme_user.personal_default"
+        "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -466,7 +466,7 @@
       ],
       "required_preflight_refs": [],
       "governance_refs": [
-        "governance.acme_user.personal_default"
+        "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
         "agent.samantha"
@@ -479,8 +479,8 @@
   "governance": {
     "definition": "Personal sources default private; cross-instance reads preserve source instance governance.",
     "governance_refs": [
-      "governance.acme_user.personal_default",
-      "governance.acme.read_summary"
+      "governance.example_user.personal_default",
+      "governance.sampleco.read_summary"
     ]
   },
   "connector_preflight": {
@@ -490,8 +490,8 @@
   "runtime_constraints": {
     "definition": "Runtime constraints for the deployed personal instance.",
     "constraints": [
-      "Do not copy raw email, agent memory, or work instance corpora into b-state.",
-      "Do not copy raw Garmin Connect or Spotify telemetry into b-state.",
+      "Do not copy raw email, agent memory, or work instance corpora into personal state.",
+      "Do not copy raw Garmin Connect or Spotify telemetry into personal state.",
       "Do not synthesize life state in deterministic code.",
       "Respect governance on federated work instances."
     ]

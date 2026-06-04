@@ -23,11 +23,11 @@ class CompanyPreflightResultTests(unittest.TestCase):
 
             record = runtime.record(
                 {
-                    "preflight_ref": "preflight.acme.linear",
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.linear",
+                    "preflight_ref": "preflight.sampleco.linear",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.paia.linear.read",
-                    "action_ref": "action_surface.acme.read_linear",
+                    "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
                     "runner_ref": "runner.paia.codex",
                     "status": "passed",
@@ -40,13 +40,13 @@ class CompanyPreflightResultTests(unittest.TestCase):
             )
 
             self.assertEqual(
-                "preflight.acme.linear|company.acme|connector.acme.linear|"
-                "tool.paia.linear.read|action_surface.acme.read_linear|"
+                "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
+                "tool.paia.linear.read|action_surface.sampleco.read_linear|"
                 "persona.caroline|runner.paia.codex",
                 record["scope_key"],
             )
             self.assertTrue(
-                record["id"].startswith("preflight_result.preflight.acme.linear")
+                record["id"].startswith("preflight_result.preflight.sampleco.linear")
             )
             self.assertFalse(record["authorizes_execution"])
             self.assertEqual(record, runtime.read(record["id"]))
@@ -57,11 +57,11 @@ class CompanyPreflightResultTests(unittest.TestCase):
             runtime = CompanyPreflightRuntime(stores)
             runtime.record(
                 {
-                    "preflight_ref": "preflight.acme.linear",
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.linear",
+                    "preflight_ref": "preflight.sampleco.linear",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.paia.linear.read",
-                    "action_ref": "action_surface.acme.read_linear",
+                    "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
                     "status": "failed",
                     "checked_at": "2026-05-14T18:00:00Z",
@@ -72,11 +72,11 @@ class CompanyPreflightResultTests(unittest.TestCase):
             )
             runtime.record(
                 {
-                    "preflight_ref": "preflight.acme.linear",
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.linear",
+                    "preflight_ref": "preflight.sampleco.linear",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.paia.linear.read",
-                    "action_ref": "action_surface.acme.read_linear",
+                    "action_ref": "action_surface.sampleco.read_linear",
                     "agent_ref": "persona.caroline",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:15:00Z",
@@ -89,8 +89,8 @@ class CompanyPreflightResultTests(unittest.TestCase):
 
             self.assertEqual("company_preflight_result_read_model", read_model["id"])
             scope_key = (
-                "preflight.acme.linear|company.acme|connector.acme.linear|"
-                "tool.paia.linear.read|action_surface.acme.read_linear|"
+                "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
+                "tool.paia.linear.read|action_surface.sampleco.read_linear|"
                 "persona.caroline|"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
@@ -113,15 +113,15 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     directory,
                     "company-preflight-record",
                     "--preflight-ref",
-                    "preflight.acme.linear",
+                    "preflight.sampleco.linear",
                     "--company-ref",
-                    "company.acme",
+                    "company.sampleco",
                     "--connector-ref",
-                    "connector.acme.linear",
+                    "connector.sampleco.linear",
                     "--tool-ref",
                     "tool.paia.linear.read",
                     "--action-ref",
-                    "action_surface.acme.read_linear",
+                    "action_surface.sampleco.read_linear",
                     "--agent-ref",
                     "persona.caroline",
                     "--runner-ref",

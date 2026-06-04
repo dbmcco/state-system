@@ -13,8 +13,8 @@ from state_system.contracts import load_json, validate_all_examples
 
 
 ROOT = Path(__file__).resolve().parents[1]
-COMPANY_FIXTURE = ROOT / "examples" / "company-memory" / "acme-company-memory.json"
-CRM_FIXTURE = ROOT / "examples" / "company-memory" / "acme-crm-operating-picture.json"
+COMPANY_FIXTURE = ROOT / "examples" / "company-memory" / "sampleco-company-memory.json"
+CRM_FIXTURE = ROOT / "examples" / "company-memory" / "sampleco-crm-operating-picture.json"
 
 
 class CompanyMemoryTests(unittest.TestCase):
@@ -35,9 +35,9 @@ class CompanyMemoryTests(unittest.TestCase):
             load_json(CRM_FIXTURE),
         )
 
-        self.assertEqual("company_memory_read_model.acme", read_model["id"])
+        self.assertEqual("company_memory_read_model.sampleco", read_model["id"])
         self.assertEqual("json_substrate", read_model["artifact_type"])
-        self.assertEqual("acme_crm", read_model["crm"]["system_of_record_ref"])
+        self.assertEqual("sample_crm", read_model["crm"]["system_of_record_ref"])
         self.assertEqual("state_system_interpretation", read_model["crm"]["state_system_role"])
         self.assertGreaterEqual(len(read_model["crm"]["relationships"]), 2)
         self.assertGreaterEqual(len(read_model["crm"]["opportunities"]), 1)
@@ -84,7 +84,7 @@ class CompanyMemoryTests(unittest.TestCase):
             self.assertTrue(read_model_path.exists())
             self.assertEqual("company-memory-read-model.json", read_model_path.name)
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
-            self.assertEqual("company_memory_read_model.acme", read_model["id"])
+            self.assertEqual("company_memory_read_model.sampleco", read_model["id"])
 
 
 if __name__ == "__main__":

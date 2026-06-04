@@ -115,7 +115,7 @@ class CliRuntimeTests(unittest.TestCase):
             self.assertEqual("accepted", commit["status"])
             self.assertEqual(
                 "won",
-                stores.state_objects.read("state.acme.deal.southern-abrasives")["status"],
+                stores.state_objects.read("state.sampleco.deal.southern-abrasives")["status"],
             )
 
             routes_path = self._write_json(state_root / "routes.json", self._routes())
@@ -139,7 +139,7 @@ class CliRuntimeTests(unittest.TestCase):
                     "--opportunity-class-hint",
                     "marketing_opportunity",
                     "--watermark-ref",
-                    "state.acme.deal.southern-abrasives@journal.acme.deal.southern-abrasives.won",
+                    "state.sampleco.deal.southern-abrasives@journal.sampleco.deal.southern-abrasives.won",
                     "--watermark-ref",
                     "governance.external-copy-approval",
                     "--stale-after",
@@ -206,7 +206,7 @@ class CliRuntimeTests(unittest.TestCase):
         stores = StateStoreBundle(root)
         for example in (
             "southern-abrasives-deal-state.json",
-            "acme-ops-operating-picture.json",
+            "sample-personal-operating-picture.json",
             "marketing-operating-picture.json",
         ):
             stores.state_objects.create(load_json(ROOT / "examples" / example))

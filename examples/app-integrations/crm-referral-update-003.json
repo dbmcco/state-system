@@ -7,7 +7,7 @@
   "model_output_ref": "model_output.meeting-coordination.003",
   "commit_result_ref": "commit.meeting-coordination.003",
   "target_app_refs": [
-    "app.acme-ai-graph-crm"
+    "app.sampleco-ai-graph-crm"
   ],
   "evidence_refs": [
     "source.meeting.coordination.003",

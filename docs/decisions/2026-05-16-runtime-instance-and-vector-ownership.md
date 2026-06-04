@@ -10,8 +10,8 @@ Separate the State System product repo from deployed State System instances.
 `/path/to/state-system` is the product/codebase. It
 owns schemas, contracts, migrations, CLI tools, tests, and documentation.
 
-`/path/to/state-system-runtime` is the deployed LFW State System
-instance. It owns LFW runtime state, read models, source freshness evidence,
+`/path/to/state-system-runtime` is the deployed SampleCo State System
+instance. It owns SampleCo runtime state, read models, source freshness evidence,
 preflight evidence, index manifests, database configuration, and operational
 artifacts.
 
@@ -80,5 +80,5 @@ The next State System production slices should build toward:
    in deterministic code.
 
 PAIA should consume that surface and call the relevant retrieval backends, then
-let the model synthesize answers such as "How is LFW doing?" with evidence and
+let the model synthesize answers such as "How is SampleCo doing?" with evidence and
 freshness warnings.

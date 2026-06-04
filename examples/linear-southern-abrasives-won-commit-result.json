@@ -4,15 +4,15 @@
   "created_at": "2026-04-28T16:07:00Z",
   "status": "accepted",
   "accepted_journal_entry_refs": [
-    "journal.acme.deal.southern-abrasives.won"
+    "journal.sampleco.deal.southern-abrasives.won"
   ],
   "accepted_memory_entry_refs": [],
   "materialized_snapshot_refs": [
-    "state.acme.deal.southern-abrasives"
+    "state.sampleco.deal.southern-abrasives"
   ],
   "queued_rollup_requests": [
     {
-      "state_object_id": "state.acme.operating_picture.ops",
+      "state_object_id": "state.sampleco.operating_picture.ops",
       "reason": "A won deal creates operational handoff and follow-up risk."
     },
     {
@@ -29,12 +29,12 @@
     "status": "rollup_queued",
     "summary": "Southern Abrasives deal state was updated to won; operations and marketing rollups should review downstream effects.",
     "journal_entry_refs": [
-      "journal.acme.deal.southern-abrasives.won"
+      "journal.sampleco.deal.southern-abrasives.won"
     ],
     "memory_entry_refs": [],
     "rollup_requests": [
       {
-        "state_object_id": "state.acme.operating_picture.ops",
+        "state_object_id": "state.sampleco.operating_picture.ops",
         "reason": "A won deal creates operational handoff and follow-up risk."
       },
       {

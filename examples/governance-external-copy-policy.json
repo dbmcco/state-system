@@ -12,7 +12,7 @@
     "persona.laura"
   ],
   "approver_refs": [
-    "human.acme_user"
+    "human.example_user"
   ],
   "evidence_requirements": [
     "target campaign state",

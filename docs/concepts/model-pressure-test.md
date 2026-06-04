@@ -35,7 +35,7 @@ The model is strong enough to define contracts when every scenario can answer:
 
 ## Scenario 1: Laura Campaign Audience Clarified
 
-**Trigger:** Acme User clarifies that the primary audience is mid-market operators
+**Trigger:** Example User clarifies that the primary audience is mid-market operators
 who need bounded back-office business capabilities.
 
 **Expected model decision:**
@@ -68,7 +68,7 @@ committer should not treat "no proposals" as failure.
 
 ## Scenario 3: Contradictory Evidence
 
-**Trigger:** A later LFW positioning note says public language should emphasize
+**Trigger:** A later SampleCo positioning note says public language should emphasize
 "configured AI capabilities," contradicting earlier "bounded business
 capabilities" language.
 
@@ -88,7 +88,7 @@ snapshot, so the model can see what it may be contradicting.
 
 ## Scenario 4: Agent Memory Promotion
 
-**Trigger:** Laura has accumulated repeated memory entries showing that LFW
+**Trigger:** Laura has accumulated repeated memory entries showing that SampleCo
 messaging performs better when framed as bounded business capability.
 
 **Expected model decision:**
@@ -144,7 +144,7 @@ Output needs to target specific state objects, not broad families.
 
 **Expected model decision:**
 
-- synthesize the marketing or LFW operating picture
+- synthesize the marketing or SampleCo operating picture
 - preserve child refs
 - avoid copying every child detail into the rollup
 - identify active tensions and follow-ups
@@ -211,7 +211,7 @@ The first schema has `confidence` and `review_notes`, but we may also need
 
 ## Scenario 11: Mission Change With Broad Effects
 
-**Trigger:** leadership changes LFW mission language.
+**Trigger:** leadership changes SampleCo mission language.
 
 **Expected model decision:**
 
@@ -269,7 +269,7 @@ notices and what it refuses to do.
 
 ## Scenario 14: GitHub Commit Versus Commitment
 
-**Trigger:** GitHub reports that PR 142 merged for an LFW auditable workflows
+**Trigger:** GitHub reports that PR 142 merged for an SampleCo auditable workflows
 capability, but a PR review comment says audit logging must be added before
 launch.
 

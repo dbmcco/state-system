@@ -10,22 +10,22 @@
     "payload": {
       "source_system": "github",
       "source_event": "pull_request.merged",
-      "repo": "lightforge/acme-ai-graph-crm",
+      "repo": "lightforge/sampleco-ai-graph-crm",
       "pull_request": 142,
       "merge_commit": "abc1234",
       "review_commitment_comment": "98765",
       "commitment_text": "Add audit logging before launch."
     },
     "evidence_refs": [
-      "github:pr:lightforge/acme-ai-graph-crm#142",
-      "github:commit:lightforge/acme-ai-graph-crm@abc1234",
-      "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
-      "workgraph:repo:acme-ai-graph-crm:task:ship-auditable-workflows"
+      "github:pr:lightforge/sampleco-ai-graph-crm#142",
+      "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
+      "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
+      "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows"
     ],
     "candidate_state_refs": [
-      "state.acme.capability.auditable-workflows",
-      "state.acme.obligation.audit-logging-before-launch",
-      "state.acme.operating_picture.ops"
+      "state.sampleco.capability.auditable-workflows",
+      "state.sampleco.obligation.audit-logging-before-launch",
+      "state.sampleco.operating_picture.ops"
     ],
     "candidate_memory_refs": [
       "memory.patrick.ops.draft.pr-review-commitments"
@@ -38,42 +38,42 @@
   },
   "evidence_packet": {
     "evidence_refs": [
-      "github:pr:lightforge/acme-ai-graph-crm#142",
-      "github:commit:lightforge/acme-ai-graph-crm@abc1234",
-      "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
-      "workgraph:repo:acme-ai-graph-crm:task:ship-auditable-workflows"
+      "github:pr:lightforge/sampleco-ai-graph-crm#142",
+      "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
+      "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
+      "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows"
     ],
     "resolved_evidence": [
       {
-        "ref": "github:pr:lightforge/acme-ai-graph-crm#142",
+        "ref": "github:pr:lightforge/sampleco-ai-graph-crm#142",
         "summary": "PR 142 for auditable workflows was merged.",
         "source_type": "github_pull_request",
         "observed_at": "2026-04-28T15:10:00Z"
       },
       {
-        "ref": "github:commit:lightforge/acme-ai-graph-crm@abc1234",
+        "ref": "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
         "summary": "Merge commit abc1234 landed implementation work for the auditable workflows capability.",
         "source_type": "github_commit",
         "observed_at": "2026-04-28T15:10:00Z"
       },
       {
-        "ref": "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
+        "ref": "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
         "summary": "A PR review comment says audit logging should be added before launch.",
         "source_type": "github_pr_comment",
         "observed_at": "2026-04-28T15:10:00Z"
       }
     ],
     "unresolved_evidence_refs": [
-      "workgraph:repo:acme-ai-graph-crm:task:audit-logging-before-launch",
-      "github:check:lightforge/acme-ai-graph-crm@abc1234:audit-logging"
+      "workgraph:repo:sampleco-ai-graph-crm:task:audit-logging-before-launch",
+      "github:check:lightforge/sampleco-ai-graph-crm@abc1234:audit-logging"
     ]
   },
   "state_context": {
     "snapshots": [
       {
-        "id": "state.acme.capability.auditable-workflows",
+        "id": "state.sampleco.capability.auditable-workflows",
         "type": "capability",
-        "summary": "Auditable workflows are an emerging LFW capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
+        "summary": "Auditable workflows are an emerging SampleCo capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
         "status": "implementation_in_progress",
         "open_questions": [
           "Has audit logging been implemented and verified?",
@@ -81,11 +81,11 @@
           "What evidence establishes launch readiness?"
         ],
         "child_state_refs": [
-          "state.acme.obligation.audit-logging-before-launch"
+          "state.sampleco.obligation.audit-logging-before-launch"
         ]
       },
       {
-        "id": "state.acme.obligation.audit-logging-before-launch",
+        "id": "state.sampleco.obligation.audit-logging-before-launch",
         "type": "obligation",
         "summary": "Audit logging before launch is a possible delivery obligation inferred from GitHub review discussion and needs explicit ownership and verification evidence.",
         "status": "candidate",
@@ -95,16 +95,16 @@
           "Which commit, PR, check, or task proves the obligation is satisfied?"
         ],
         "parent_state_refs": [
-          "state.acme.capability.auditable-workflows"
+          "state.sampleco.capability.auditable-workflows"
         ]
       },
       {
-        "id": "state.acme.operating_picture.ops",
+        "id": "state.sampleco.operating_picture.ops",
         "type": "operating_picture",
-        "summary": "LFW operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
+        "summary": "SampleCo operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
         "child_state_refs": [
-          "state.acme.contract.harbor",
-          "state.acme.capability.auditable-workflows"
+          "state.sampleco.contract.harbor",
+          "state.sampleco.capability.auditable-workflows"
         ]
       }
     ]
@@ -112,13 +112,13 @@
   "journal_context": {
     "recent_entries": [
       {
-        "id": "journal.acme.capability.auditable-workflows.initial",
-        "state_object_id": "state.acme.capability.auditable-workflows",
+        "id": "journal.sampleco.capability.auditable-workflows.initial",
+        "state_object_id": "state.sampleco.capability.auditable-workflows",
         "interpretation": "Auditable workflows should distinguish implementation progress from launch readiness."
       },
       {
-        "id": "journal.acme.obligation.audit-logging-before-launch.initial",
-        "state_object_id": "state.acme.obligation.audit-logging-before-launch",
+        "id": "journal.sampleco.obligation.audit-logging-before-launch.initial",
+        "state_object_id": "state.sampleco.obligation.audit-logging-before-launch",
         "interpretation": "Audit logging before launch is a candidate obligation until GitHub and Workgraph evidence clarify status."
       }
     ]

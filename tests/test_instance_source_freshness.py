@@ -20,7 +20,7 @@ EXAMPLE = (
     ROOT
     / "examples"
     / "instance-source-freshness"
-    / "instance-source-freshness-acme-ops-msgvault.json"
+    / "instance-source-freshness-sample-personal-msgvault.json"
 )
 
 
@@ -42,7 +42,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
 
             record = runtime.record(
                 {
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.msgvault",
                     "source_ref": "msgvault:tenant:personal-email",
                     "connector_type": "msgvault",
@@ -60,13 +60,13 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             )
 
             self.assertEqual(
-                "state_instance.acme_ops|connector.personal.msgvault|"
+                "state_instance.sample_personal|connector.personal.msgvault|"
                 "msgvault:tenant:personal-email",
                 record["scope_key"],
             )
             self.assertTrue(
                 record["id"].startswith(
-                    "instance_source_freshness.state_instance.acme_ops"
+                    "instance_source_freshness.state_instance.sample_personal"
                 )
             )
             self.assertTrue(record["freshness_is_recency_evidence"])
@@ -80,7 +80,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             stores = StateStoreBundle(Path(directory))
             runtime = InstanceSourceFreshnessRuntime(stores)
             base = {
-                "instance_ref": "state_instance.acme_ops",
+                "instance_ref": "state_instance.sample_personal",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -111,7 +111,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
 
             self.assertEqual("instance_source_freshness_read_model", read_model["id"])
             scope_key = (
-                "state_instance.acme_ops|connector.personal.folio|"
+                "state_instance.sample_personal|connector.personal.folio|"
                 "folio:tenant:personal"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
@@ -131,7 +131,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     directory,
                     "instance-source-freshness-record",
                     "--instance-ref",
-                    "state_instance.acme_ops",
+                    "state_instance.sample_personal",
                     "--connector-ref",
                     "connector.personal.msgvault",
                     "--source-ref",

@@ -11,6 +11,7 @@
     "generated_at",
     "package_refs",
     "answerability",
+    "freshness_audit",
     "current_state",
     "why_this_state",
     "what_changed_recently",
@@ -50,6 +51,17 @@
         },
         "source_count": { "type": "integer" },
         "gap_count": { "type": "integer" }
+      }
+    },
+    "freshness_audit": {
+      "type": "object",
+      "required": ["as_of", "expired_freshness_refs"],
+      "properties": {
+        "as_of": { "type": "string" },
+        "expired_freshness_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
       }
     },
     "current_state": {
@@ -189,6 +201,10 @@
       ],
       "properties": {
         "source_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "expired_freshness_refs": {
           "type": "array",
           "items": { "type": "string" }
         },

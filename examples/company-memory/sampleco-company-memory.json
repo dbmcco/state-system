@@ -1,6 +1,6 @@
 {
-  "id": "company_memory.acme",
-  "subject_ref": "company.acme",
+  "id": "company_memory.sampleco",
+  "subject_ref": "company.sampleco",
   "generated_at": "2026-05-04T15:00:00Z",
   "mission": {
     "summary": "Lightforge Works helps organizations turn AI capability into bounded, useful business systems.",
@@ -35,8 +35,8 @@
     "memory.patrick.ops.draft.canonical-source-before-followup"
   ],
   "organizational_state_refs": [
-    "state.acme.strategy.ai-capability-systems",
-    "state.acme.doctrine.relationship-backed-proof"
+    "state.sampleco.strategy.ai-capability-systems",
+    "state.sampleco.doctrine.relationship-backed-proof"
   ],
   "evidence_refs": [
     "source.meeting.coordination.003",

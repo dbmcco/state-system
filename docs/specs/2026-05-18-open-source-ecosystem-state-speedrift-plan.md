@@ -5,8 +5,8 @@ Date: 2026-05-18
 ## Objective
 
 Move State System from working private deployments toward an open-source,
-CLI-ready, agent-facing package layer that works across Acme User's live
-ecosystem: b-state, LFW, Navicyte, Synthyra, and reusable Relationship
+CLI-ready, agent-facing package layer that works across Example User's live
+ecosystem: personal state, SampleCo, PortfolioCo, ResearchCo, and reusable Relationship
 Substrate.
 
 The target is not a demo. A fresh Codex or Claude session should be able to
@@ -25,13 +25,13 @@ State System now has generic contracts for:
 - instance understanding surfaces
 - instance agent packages
 
-b-state and LFW have proven the contract shape:
+personal state and SampleCo have proven the contract shape:
 
-- b-state exposes Sam's package with Spotify, Garmin Connect, Relationship
-  Substrate, subject notes, workboard, msgvault, agentmem, local path, and LFW
+- personal state exposes Sam's package with Spotify, Garmin Connect, Relationship
+  Substrate, subject notes, workboard, msgvault, agentmem, local path, and SampleCo
   federation.
-- LFW exposes Caroline's package with company state first and a governed
-  federated relationship route into Acme User personal relationship evidence.
+- SampleCo exposes Caroline's package with company state first and a governed
+  federated relationship route into Example User personal relationship evidence.
 - Relationship Substrate owns people, organizations, affiliations,
   interactions, and subject notes. State System declares/federates the module;
   it must not become a second relationship data store.
@@ -78,7 +78,7 @@ Deliver:
 - tests proving subject notes demote/explain, not hide;
 - clear boundary: source-owned correction writes are not external side effects.
 
-### 3. b-state Daily-Use Readiness
+### 3. personal state Daily-Use Readiness
 
 Owner: `state:3.1`
 
@@ -88,23 +88,23 @@ Deliver:
 - Spotify historical cache remains usable with typed stale/live OAuth gap;
 - Garmin Connect remains ready/fresh with typed local-sync status;
 - relationship routes answer real questions from Relationship Substrate,
-  msgvault, agentmem, workboard, and LFW federation;
+  msgvault, agentmem, workboard, and SampleCo federation;
 - `/path/to/personal-state` gets repo-local agent guidance if
   missing or stale.
 
-### 4. LFW Daily-Use Readiness
+### 4. SampleCo Daily-Use Readiness
 
 Owner: `state:2.1`
 
 Deliver:
 
 - Caroline package/read model stays contract-aligned;
-- root `AGENTS.md` and `CLAUDE.md` explain LFW state usage and the governed
+- root `AGENTS.md` and `CLAUDE.md` explain SampleCo state usage and the governed
   relationship route;
 - Linear/GitHub/transcript gaps stay visible and typed;
-- package answers preserve LFW-first, no-personal-materialization behavior.
+- package answers preserve SampleCo-first, no-personal-materialization behavior.
 
-### 5. Navicyte Instance Scaffold
+### 5. PortfolioCo Instance Scaffold
 
 Owner: `state:4.1`
 
@@ -117,7 +117,7 @@ Deliver:
 - repo-local agent guidance;
 - validation commands and runbook.
 
-### 6. Synthyra Instance Scaffold
+### 6. ResearchCo Instance Scaffold
 
 Owner: `state:5.1`
 
@@ -135,11 +135,11 @@ Deliver:
 The current execution wave is done when:
 
 - State System validation and tests pass;
-- b-state and LFW deployed validations pass;
-- Navicyte and Synthyra have minimally usable state roots and first packages;
+- personal state and SampleCo deployed validations pass;
+- PortfolioCo and ResearchCo have minimally usable state roots and first packages;
 - Relationship Substrate has OSS-readiness contracts/docs/fixtures planned or
   implemented with tests;
-- fresh Codex/Claude sessions in LFW and b-state know how to use their state
+- fresh Codex/Claude sessions in SampleCo and personal state know how to use their state
   systems from repo-local guidance;
 - Workgraph has follow-up tasks for unresolved connector freshness and OSS
   packaging gaps.

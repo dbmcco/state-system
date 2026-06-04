@@ -1,6 +1,6 @@
 {
-  "id": "journal.acme.contract.harbor.stale-review",
-  "state_object_id": "state.acme.contract.harbor",
+  "id": "journal.sampleco.contract.harbor.stale-review",
+  "state_object_id": "state.sampleco.contract.harbor",
   "created_at": "2026-04-28T14:16:00Z",
   "actor_ref": "persona.patrick",
   "source": "agent_reasoning",
@@ -26,8 +26,8 @@
     ]
   },
   "evidence_refs": [
-    "acme-process/pipeline/ops-manager-operating-model.md",
-    "state.acme.contract.harbor"
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor"
   ],
   "uncertainty": [
     "Current contract stage is not evidenced.",
@@ -36,8 +36,8 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.acme.operating_picture.ops",
-      "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A stale contract obligation affects SampleCo operational follow-through risk and should be visible in the operations operating picture."
     }
   ],
   "approval_status": "not_required",

@@ -9,7 +9,7 @@
   ],
   "state_proposals": [
     {
-      "target_state_object_id": "state.acme.contract.harbor",
+      "target_state_object_id": "state.sampleco.contract.harbor",
       "update_class": "interpretive",
       "interpretation": "Harbor should remain in waiting-on-internal status until the owner, stage, next action, and canonical Drive archive are confirmed from source records.",
       "state_patch": {
@@ -31,8 +31,8 @@
         ]
       },
       "evidence_refs": [
-        "acme-process/pipeline/ops-manager-operating-model.md",
-        "state.acme.contract.harbor"
+        "sampleco-process/pipeline/ops-manager-operating-model.md",
+        "state.sampleco.contract.harbor"
       ],
       "uncertainty": [
         "Current contract stage is not evidenced.",
@@ -52,12 +52,12 @@
       "content": "When contract records are stale, operational cleanup should first identify owner, stage, next action, and retained source document before proposing external follow-up.",
       "confidence": 0.7,
       "evidence_refs": [
-        "acme-process/pipeline/ops-manager-operating-model.md",
-        "state.acme.contract.harbor"
+        "sampleco-process/pipeline/ops-manager-operating-model.md",
+        "state.sampleco.contract.harbor"
       ],
       "related_state_refs": [
-        "state.acme.contract.harbor",
-        "state.acme.operating_picture.ops"
+        "state.sampleco.contract.harbor",
+        "state.sampleco.operating_picture.ops"
       ],
       "promotion_status": "private",
       "approval_required": false
@@ -80,8 +80,8 @@
   ],
   "rollup_requests": [
     {
-      "state_object_id": "state.acme.operating_picture.ops",
-      "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A stale contract obligation affects SampleCo operational follow-through risk and should be visible in the operations operating picture."
     }
   ],
   "uncertainty": [
@@ -106,15 +106,15 @@
     "status": "evidence_missing",
     "summary": "Harbor obligation state and Patrick memory should be updated; operations operating picture should be reviewed because the contract record is stale and missing canonical evidence.",
     "journal_entry_refs": [
-      "journal.acme.contract.harbor.stale-review"
+      "journal.sampleco.contract.harbor.stale-review"
     ],
     "memory_entry_refs": [
       "memory.patrick.ops.draft.canonical-source-before-followup"
     ],
     "rollup_requests": [
       {
-        "state_object_id": "state.acme.operating_picture.ops",
-        "reason": "A stale contract obligation affects LFW operational follow-through risk and should be visible in the operations operating picture."
+        "state_object_id": "state.sampleco.operating_picture.ops",
+        "reason": "A stale contract obligation affects SampleCo operational follow-through risk and should be visible in the operations operating picture."
       }
     ],
     "follow_up_refs": [

@@ -31,7 +31,7 @@ State System now has five layers:
    surfaces.
 
 3. **Deployed instance roots**
-   Runtime state roots such as b-state, LFW, Navicyte, and Synthyra. These own
+   Runtime state roots such as personal state, SampleCo, PortfolioCo, and ResearchCo. These own
    actual package artifacts, preflight records, freshness evidence, readiness
    records, local indexes, gap records, and repo-local agent guidance.
 
@@ -43,8 +43,8 @@ State System now has five layers:
 5. **Federation packs**
    A typed declaration that one instance can query another instance or source
    substrate without copying raw data. Federation packs are the boundary object
-   for b-state to LFW, LFW to personal Relationship Substrate, and future
-   portfolio-level state across Navicyte and Synthyra.
+   for personal state to SampleCo, SampleCo to personal Relationship Substrate, and future
+   portfolio-level state across PortfolioCo and ResearchCo.
 
 ## Source Lifecycle
 
@@ -121,7 +121,7 @@ The package layer should be tested against real questions:
 - Sam: "Do I have any relationship follow-up threads I should take action on?"
 - Sam: "Who do I know at smaller consulting or advisory firms?"
 - Sam: "What does Spotify show recently, and is that current?"
-- Caroline: "What LFW relationship or BD follow-ups need attention?"
+- Caroline: "What SampleCo relationship or BD follow-ups need attention?"
 - Caroline: "What is Caroline missing because Linear, GitHub, or transcripts
   are stale?"
 - Helena/Ingrid: "What can this agent know about the company today, and what is
@@ -137,13 +137,13 @@ state surfaces exist.
 ### Phase 0: Eval Gate
 
 Run the pending FLIP/evaluator tasks for the recently completed contracts,
-freshness backlog, b-state, LFW, Navicyte, and Synthyra. Convert findings into
+freshness backlog, personal state, SampleCo, PortfolioCo, and ResearchCo. Convert findings into
 follow-up tasks before changing contracts again.
 
 ### Phase 1: Federation Packs
 
-Define and validate `InstanceFederationPack` so b-state, LFW, Navicyte,
-Synthyra, and Relationship Substrate can describe governed cross-instance query
+Define and validate `InstanceFederationPack` so personal state, SampleCo, PortfolioCo,
+ResearchCo, and Relationship Substrate can describe governed cross-instance query
 routes without raw materialization.
 
 ### Phase 2: Connector Module Kit
@@ -154,14 +154,14 @@ syncs, live API gaps, correction writes, and no-materialization federation.
 
 ### Phase 3: Instance Readiness Promotion
 
-Move Navicyte and Synthyra from scaffolded roots to package-ready first
+Move PortfolioCo and ResearchCo from scaffolded roots to package-ready first
 instances with declared source gaps, preflight/freshness evidence, and rendered
 agent packages.
 
 ### Phase 4: Freshness Repair Loops
 
-Repair the highest-value live gaps: Spotify live OAuth, LFW Linear/GitHub, and
-LFW transcript pipelines. Each repair must update readiness records and package
+Repair the highest-value live gaps: Spotify live OAuth, SampleCo Linear/GitHub, and
+SampleCo transcript pipelines. Each repair must update readiness records and package
 output rather than only changing private connector behavior.
 
 ### Phase 5: Pressure Harness
@@ -175,9 +175,9 @@ and materialization boundaries rather than brittle answer text.
 This model is complete enough for the next release when:
 
 - `InstanceFederationPack` schema, examples, docs, and tests exist.
-- Existing b-state and LFW federation routes are represented as federation
+- Existing personal state and SampleCo federation routes are represented as federation
   packs.
-- Navicyte and Synthyra have first packages that render from their repo roots.
+- PortfolioCo and ResearchCo have first packages that render from their repo roots.
 - Connector module kit docs explain how to add Spotify-like, Garmin-like, and
   Relationship-Substrate-like modules without core schema edits.
 - Real-question pressure tests pass for Sam and Caroline and have scaffolded

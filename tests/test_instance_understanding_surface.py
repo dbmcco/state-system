@@ -26,7 +26,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme-ops.json")]
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
             )
 
             read_model = build_instance_understanding_surface_read_model(stores)
@@ -39,16 +39,16 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             read_model["index_refs"],
         )
         self.assertIn(
-            "gap.state_instance.acme_ops.connector.personal.acme_state_system.access_missing",
+            "gap.state_instance.sample_personal.connector.personal.sampleco_state_system.access_missing",
             read_model["source_gap_refs"],
         )
         personal = read_model["instances"][0]
-        self.assertEqual("state_instance.acme_ops", personal["instance_ref"])
+        self.assertEqual("state_instance.sample_personal", personal["instance_ref"])
         self.assertEqual("entity.example_person", personal["primary_entity_ref"])
         self.assertEqual("person", personal["entity_kind"])
         federation_pack = _federation_pack(
             personal,
-            "instance_federation_pack.personal_to_acme_state",
+            "instance_federation_pack.personal_to_sampleco_state",
         )
         self.assertEqual("instance_read", federation_pack["federation_mode"])
         self.assertFalse(
@@ -59,15 +59,15 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme-ops.json")]
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
             )
             InstancePreflightRuntime(stores).record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.folio"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -97,15 +97,15 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme-ops.json")]
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
             )
             InstancePreflightRuntime(stores).record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.folio"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -117,7 +117,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -149,15 +149,15 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme-ops.json")]
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
             )
             InstancePreflightRuntime(stores).record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.agentmem"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.agentmem",
                     "source_ref": "agentmem:tenant:example-person",
                     "connector_type": "agentmem",
@@ -178,7 +178,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         )
         self.assertEqual("planned", agentmem["access_status"])
         self.assertIn(
-            "gap.state_instance.acme_ops.connector.personal.agentmem.access_planned",
+            "gap.state_instance.sample_personal.connector.personal.agentmem.access_planned",
             read_model["source_gap_refs"],
         )
 
@@ -186,15 +186,15 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme-ops.json")]
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
             )
             InstancePreflightRuntime(stores).record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.garmin_connect"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.garmin_connect",
                     "source_ref": "garmin-connect:account:example-person",
                     "connector_type": "garmin_connect",
@@ -206,7 +206,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.garmin_connect",
                     "source_ref": "garmin-connect:account:example-person",
                     "connector_type": "garmin_connect",
@@ -223,10 +223,10 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             InstancePreflightRuntime(stores).record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.spotify"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.spotify",
                     "source_ref": "spotify:account:example-person",
                     "connector_type": "spotify",
@@ -238,7 +238,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.spotify",
                     "source_ref": "spotify:account:example-person",
                     "connector_type": "spotify",
@@ -288,11 +288,11 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         )
         self.assertEqual("usable_with_freshness_gap", spotify["usable_access_status"])
         self.assertNotIn(
-            "gap.state_instance.acme_ops.connector.personal.garmin_connect.access_planned",
+            "gap.state_instance.sample_personal.connector.personal.garmin_connect.access_planned",
             read_model["source_gap_refs"],
         )
         self.assertIn(
-            "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale",
+            "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale",
             read_model["source_gap_refs"],
         )
 
@@ -306,7 +306,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                     "--state-root",
                     directory,
                     "instance-capability-seed",
-                    str(PACK_DIR / "instance-acme-ops.json"),
+                    str(PACK_DIR / "instance-sample-personal.json"),
                 ],
                 stdout=seed_output,
             )
@@ -336,7 +336,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual("instance_understanding_surface_read_model", read_model["id"])
             self.assertEqual(
-                ["state_instance.acme_ops"],
+                ["state_instance.sample_personal"],
                 [instance["instance_ref"] for instance in read_model["instances"]],
             )
             folio = next(

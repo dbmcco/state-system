@@ -23,8 +23,8 @@ class SourceFreshnessTests(unittest.TestCase):
 
             record = runtime.record(
                 {
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.linear",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.linear",
                     "source_ref": "linear:teams:FORGE,INT",
                     "connector_type": "linear",
                     "status": "fresh",
@@ -32,17 +32,17 @@ class SourceFreshnessTests(unittest.TestCase):
                     "source_watermark": "linear.latest_updated_at:2026-05-15T11:58:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 120,
-                    "evidence_refs": ["paia:freshness:linear:company.acme:20260515T120000Z"],
+                    "evidence_refs": ["paia:freshness:linear:company.sampleco:20260515T120000Z"],
                     "detail": "Linear FORGE/INT freshness watermark checked.",
                 }
             )
 
             self.assertEqual(
-                "company.acme|connector.acme.linear|linear:teams:FORGE,INT",
+                "company.sampleco|connector.sampleco.linear|linear:teams:FORGE,INT",
                 record["scope_key"],
             )
             self.assertTrue(
-                record["id"].startswith("source_freshness.company.acme")
+                record["id"].startswith("source_freshness.company.sampleco")
             )
             self.assertFalse(record["proves_live_access"])
             self.assertFalse(record["authorizes_execution"])
@@ -54,9 +54,9 @@ class SourceFreshnessTests(unittest.TestCase):
             runtime = SourceFreshnessRuntime(stores)
             runtime.record(
                 {
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.folio",
-                    "source_ref": "folio:tenant:acme",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.folio",
+                    "source_ref": "folio:tenant:sampleco",
                     "connector_type": "folio",
                     "status": "stale",
                     "checked_at": "2026-05-15T11:00:00Z",
@@ -68,9 +68,9 @@ class SourceFreshnessTests(unittest.TestCase):
             )
             runtime.record(
                 {
-                    "company_ref": "company.acme",
-                    "connector_ref": "connector.acme.folio",
-                    "source_ref": "folio:tenant:acme",
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.folio",
+                    "source_ref": "folio:tenant:sampleco",
                     "connector_type": "folio",
                     "status": "fresh",
                     "checked_at": "2026-05-15T12:00:00Z",
@@ -84,7 +84,7 @@ class SourceFreshnessTests(unittest.TestCase):
             read_model = build_source_freshness_read_model(stores)
 
             self.assertEqual("source_freshness_read_model", read_model["id"])
-            scope_key = "company.acme|connector.acme.folio|folio:tenant:acme"
+            scope_key = "company.sampleco|connector.sampleco.folio|folio:tenant:sampleco"
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("fresh", latest["status"])
             self.assertEqual("2026-05-15T12:00:00Z", latest["checked_at"])
@@ -103,11 +103,11 @@ class SourceFreshnessTests(unittest.TestCase):
                     directory,
                     "source-freshness-record",
                     "--company-ref",
-                    "company.acme",
+                    "company.sampleco",
                     "--connector-ref",
-                    "connector.acme.folio",
+                    "connector.sampleco.folio",
                     "--source-ref",
-                    "folio:tenant:acme",
+                    "folio:tenant:sampleco",
                     "--connector-type",
                     "folio",
                     "--status",
@@ -121,9 +121,9 @@ class SourceFreshnessTests(unittest.TestCase):
                     "--lag-seconds",
                     "60",
                     "--evidence-ref",
-                    "paia:freshness:folio:company.acme:20260515T120000Z",
+                    "paia:freshness:folio:company.sampleco:20260515T120000Z",
                     "--detail",
-                    "Folio tenant acme freshness checked.",
+                    "Folio tenant sampleco freshness checked.",
                 ],
                 stdout=output,
             )

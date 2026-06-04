@@ -25,6 +25,19 @@ class PackagePressureQuestionTests(unittest.TestCase):
 
         self.assertEqual([], [error.message for error in errors])
 
+    def test_pressure_registry_targets_real_implemented_state_ids(self):
+        registry = load_json(REGISTRY)
+        package_ids = {case["package_id"] for case in registry["cases"]}
+
+        self.assertEqual(
+            {
+                "instance_agent_package.sample_personal.samantha",
+                "instance_agent_package.sampleco.caroline",
+                "instance_agent_package.portfolio_co.helena",
+                "instance_agent_package.researchco.ingrid.scaffold.v0",
+            },
+            package_ids,
+        )
     def test_validate_all_examples_includes_pressure_registry(self):
         results = validate_all_examples(ROOT)
         pressure_results = [
@@ -43,25 +56,25 @@ class PackagePressureQuestionTests(unittest.TestCase):
         report = run_package_pressure(
             load_json(REGISTRY),
             {
-                "instance_agent_package.acme_ops.samantha": _sam_package(),
-                "instance_agent_package.acme.caroline": _caroline_package(),
+                "instance_agent_package.sample_personal.samantha": _sam_package(),
+                "instance_agent_package.sampleco.caroline": _caroline_package(),
             },
         )
 
         self.assertTrue(report["ok"], report)
-        self.assertEqual(7, report["case_count"])
+        self.assertEqual(8, report["case_count"])
 
     def test_include_planned_cases_checks_scaffolded_packages(self):
         report = run_package_pressure(
             load_json(REGISTRY),
             {
-                "instance_agent_package.acme_ops.samantha": _sam_package(),
-                "instance_agent_package.acme.caroline": _caroline_package(with_stale_gaps=True),
-                "instance_agent_package.navicyte.helena": _scaffold_package("navicyte", "helena"),
-                "instance_agent_package.synthyra.ingrid.scaffold.v0": _scaffold_package(
-                    "synthyra",
+                "instance_agent_package.sample_personal.samantha": _sam_package(),
+                "instance_agent_package.sampleco.caroline": _caroline_package(),
+                "instance_agent_package.portfolio_co.helena": _scaffold_package("portfolio_co", "helena"),
+                "instance_agent_package.researchco.ingrid.scaffold.v0": _scaffold_package(
+                    "researchco",
                     "ingrid",
-                    package_id="instance_agent_package.synthyra.ingrid.scaffold.v0",
+                    package_id="instance_agent_package.researchco.ingrid.scaffold.v0",
                 ),
             },
             include_planned=True,
@@ -85,9 +98,9 @@ class PackagePressureQuestionTests(unittest.TestCase):
                     "package-pressure-run",
                     str(REGISTRY),
                     "--package",
-                    f"instance_agent_package.acme_ops.samantha={sam_path}",
+                    f"instance_agent_package.sample_personal.samantha={sam_path}",
                     "--package",
-                    f"instance_agent_package.acme.caroline={caroline_path}",
+                    f"instance_agent_package.sampleco.caroline={caroline_path}",
                 ],
                 stdout=output,
             )
@@ -99,10 +112,10 @@ class PackagePressureQuestionTests(unittest.TestCase):
 
 def _sam_package() -> dict:
     return {
-        "id": "instance_agent_package.acme_ops.samantha",
+        "id": "instance_agent_package.sample_personal.samantha",
         "source_context": {
             "source_gap_refs": [
-                "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale"
+                "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale"
             ],
             "source_readiness": [
                 {
@@ -145,8 +158,8 @@ def _sam_package() -> dict:
         },
         "federation_packs": [
             {
-                "id": "instance_federation_pack.personal_to_acme_state",
-                "remote_instance_refs": ["state_instance.acme"],
+                "id": "instance_federation_pack.personal_to_sampleco_state",
+                "remote_instance_refs": ["state_instance.sampleco"],
                 "materialization_policy": {"local_materialization": False},
             }
         ],
@@ -210,67 +223,60 @@ def _sam_package() -> dict:
     }
 
 
-def _caroline_package(*, with_stale_gaps: bool = False) -> dict:
-    gap_refs = []
-    source_readiness = []
-    if with_stale_gaps:
-        gap_refs = [
-            "gap.state_instance.acme.connector.acme.transcripts.raw.index_planned",
-            "gap.state_instance.acme.connector.acme.transcripts.processed.index_planned",
-        ]
-        source_readiness = [
-            {
-                "connector_ref": "connector.acme.linear",
-                "access_status": "passed",
-                "freshness_status": "fresh",
-                "understanding_status": "ready",
-            },
-            {
-                "connector_ref": "connector.acme.github_org",
-                "access_status": "passed",
-                "freshness_status": "fresh",
-                "understanding_status": "ready",
-            },
-            {
-                "connector_ref": "connector.acme.transcripts.raw",
-                "access_status": "planned",
-                "freshness_status": "fresh",
-                "understanding_status": "planned",
-            },
-            {
-                "connector_ref": "connector.acme.transcripts.processed",
-                "access_status": "planned",
-                "freshness_status": "unknown",
-                "understanding_status": "planned",
-            },
-        ]
+def _caroline_package() -> dict:
+    source_readiness = [
+        {
+            "connector_ref": "connector.sampleco.linear",
+            "access_status": "passed",
+            "freshness_status": "fresh",
+            "understanding_status": "ready",
+        },
+        {
+            "connector_ref": "connector.sampleco.github_org",
+            "access_status": "passed",
+            "freshness_status": "fresh",
+            "understanding_status": "ready",
+        },
+        {
+            "connector_ref": "connector.sampleco.transcripts.raw",
+            "access_status": "passed",
+            "freshness_status": "fresh",
+            "understanding_status": "ready",
+        },
+        {
+            "connector_ref": "connector.sampleco.transcripts.processed",
+            "access_status": "passed",
+            "freshness_status": "fresh",
+            "understanding_status": "ready",
+        },
+    ]
     return {
-        "id": "instance_agent_package.acme.caroline",
+        "id": "instance_agent_package.sampleco.caroline",
         "source_context": {
-            "source_gap_refs": gap_refs,
+            "source_gap_refs": [],
             "source_readiness": source_readiness,
         },
         "federation_packs": [
             {
-                "id": "instance_federation_pack.acme_to_personal_relationship_substrate",
-                "remote_instance_refs": ["state_instance.acme_ops"],
+                "id": "instance_federation_pack.sampleco_to_personal_relationship_substrate",
+                "remote_instance_refs": ["state_instance.sample_personal"],
                 "materialization_policy": {"local_materialization": False},
             }
         ],
         "question_routes": [
             {
-                "id": "question_route.acme.relationship_follow_up_triage",
+                "id": "question_route.sampleco.relationship_follow_up_triage",
                 "required_source_coverage": [
-                    {"coverage_ref": "coverage.acme.company_follow_up"}
+                    {"coverage_ref": "coverage.sampleco.company_follow_up"}
                 ],
             },
             {
-                "id": "question_route.acme.federated_relationship_index",
+                "id": "question_route.sampleco.federated_relationship_index",
                 "tool_action_refs": [
                     "tool_action.relationship_substrate.search_small_consulting_firm_contacts"
                 ],
                 "required_source_coverage": [
-                    {"coverage_ref": "coverage.acme.federated_relationship_context"}
+                    {"coverage_ref": "coverage.sampleco.federated_relationship_context"}
                 ],
             },
         ],
@@ -284,10 +290,10 @@ def _scaffold_package(slug: str, agent: str, package_id: str | None = None) -> d
         "source_context": {"source_gap_refs": [], "source_readiness": []},
         "federation_packs": [
             {
-                "id": "instance_federation_pack.portfolio_to_demo_co_examplecorp",
+                "id": "instance_federation_pack.portfolio_to_portfolio_co_researchco",
                 "remote_instance_refs": [
-                    "state_instance.demo_co",
-                    "state_instance.examplecorp",
+                    "state_instance.portfolio_co",
+                    "state_instance.researchco",
                 ],
                 "materialization_policy": {"local_materialization": False},
             }

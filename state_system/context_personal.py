@@ -12,7 +12,7 @@ from state_system.stores import StateStoreBundle
 
 DEFAULT_NON_GOALS = (
     "Do not synthesize life state in deterministic code.",
-    "Do not copy raw email, agent memory, or work instance corpora into b-state.",
+    "Do not copy raw email, agent memory, or work instance corpora into personal state.",
     "Do not bypass governance on federated work instances.",
 )
 

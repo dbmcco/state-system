@@ -1,14 +1,14 @@
 {
-  "id": "instance_agent_package.acme_ops.samantha",
+  "id": "instance_agent_package.sample_personal.samantha",
   "package_type": "instance_agent_package",
   "created_at": "2026-05-17T19:49:00Z",
-  "instance_ref": "state_instance.acme_ops",
+  "instance_ref": "state_instance.sample_personal",
   "primary_entity_ref": "entity.example_person",
   "entity_kind": "person",
   "agent_context": {
     "agent_ref": "agent.samantha",
     "persona_ref": "persona.samantha",
-    "summary": "Personal-state package for Samantha over the example person's b-state runtime."
+    "summary": "Personal-state package for Samantha over the example person's personal state runtime."
   },
   "review_goal": "Review current personal source readiness and explicit gaps before answering.",
   "source_context": {
@@ -50,7 +50,7 @@
         "understanding_status": "usable_with_freshness_gap",
         "index_refs": ["index.personal.spotify.listening"],
         "gap_refs": [
-          "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale"
+          "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale"
         ],
         "evidence_refs": [
           "spotify:assistant_postgres:spotify_accounts:2026-02-17T05:00:00Z",
@@ -61,7 +61,7 @@
       }
     ],
     "source_gap_refs": [
-      "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale"
+      "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale"
     ]
   },
   "evidence_context": {
@@ -79,13 +79,13 @@
       "spotify:assistant_postgres:spotify_listening_records:latest_played_at:2026-02-15T15:09:00Z",
       "spotify:oauth_refresh:invalid_client:2026-05-17"
     ],
-    "federated_instance_refs": ["state_instance.acme"],
+    "federated_instance_refs": ["state_instance.sampleco"],
     "unresolved_evidence_refs": []
   },
   "governance_context": {
     "governance_refs": [
-      "governance.acme_user.personal_default",
-      "governance.acme.read_summary"
+      "governance.example_user.personal_default",
+      "governance.sampleco.read_summary"
     ],
     "constraints": [
       "Do not copy raw personal corpora into the package.",
@@ -95,7 +95,7 @@
   },
   "available_actions": [
     "action_surface.personal.read_folio",
-    "action_surface.personal.read_acme_state",
+    "action_surface.personal.read_sampleco_state",
     "action_surface.personal.read_garmin_connect",
     "action_surface.personal.read_spotify"
   ],

@@ -125,6 +125,10 @@
         "watermark_refs": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "expired_freshness_refs": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },

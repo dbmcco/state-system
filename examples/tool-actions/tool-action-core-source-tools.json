@@ -119,7 +119,7 @@
       "approval_policy": { "requires_external_action_approval": false, "protected_action_authorized_by": "governance" },
       "audit_policy": { "level": "evidence_required", "required_fields": ["source_ref", "module_mode", "watermark"] },
       "deployment_adapters": [
-        { "module_mode": "historical_cache", "runtime_tool_ref": "tool.postgres.read_spotify_history", "backing_tool_refs": ["tool.postgres.read_spotify_history"], "notes": "b-state historical assistant Postgres cache." },
+        { "module_mode": "historical_cache", "runtime_tool_ref": "tool.postgres.read_spotify_history", "backing_tool_refs": ["tool.postgres.read_spotify_history"], "notes": "personal state historical assistant Postgres cache." },
         { "module_mode": "live_api", "runtime_tool_ref": "tool.spotify.web_api.read", "backing_tool_refs": ["tool.spotify.web_api.read"], "notes": "Usable only when OAuth refresh preflight passes." }
       ]
     },

@@ -1,5 +1,5 @@
 {
-  "id": "context.acme.company-memory.patrick",
+  "id": "context.sampleco.company-memory.patrick",
   "package_type": "deep_dive",
   "created_at": "2026-05-04T15:10:00Z",
   "persona_context": {
@@ -26,11 +26,11 @@
   "state_context": {
     "snapshots": [
       {
-        "id": "company_memory.acme",
+        "id": "company_memory.sampleco",
         "summary": "Company memory substrate for Lightforge Works."
       },
       {
-        "id": "crm_operating_picture.acme",
+        "id": "crm_operating_picture.sampleco",
         "summary": "CRM operating picture interpreted from relationship and opportunity evidence."
       }
     ]
@@ -80,7 +80,7 @@
     "valid_until": "2026-05-11T15:10:00Z",
     "requires_refresh_before_external_action": true,
     "stale_if_refs_change": [
-      "crm_operating_picture.acme"
+      "crm_operating_picture.sampleco"
     ]
   }
 }

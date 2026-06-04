@@ -5,7 +5,7 @@ Date: 2026-05-19
 ## Goal
 
 Keep multiple state instances package-ready through one manifest-driven refresh
-loop. The first fleet is b-state, LFW, Navicyte, and Synthyra, but the contract
+loop. The first fleet is personal state, SampleCo, PortfolioCo, and ResearchCo, but the contract
 must be generic enough for future company or personal state roots.
 
 ## Design

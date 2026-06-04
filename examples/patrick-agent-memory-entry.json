@@ -9,12 +9,12 @@
   "content": "When contract records are stale, operational cleanup should first identify owner, stage, next action, and retained source document before proposing external follow-up.",
   "confidence": 0.7,
   "evidence_refs": [
-    "acme-process/pipeline/ops-manager-operating-model.md",
-    "state.acme.contract.harbor"
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor"
   ],
   "related_state_refs": [
-    "state.acme.contract.harbor",
-    "state.acme.operating_picture.ops"
+    "state.sampleco.contract.harbor",
+    "state.sampleco.operating_picture.ops"
   ],
   "promotion_status": "private",
   "status": "draft",

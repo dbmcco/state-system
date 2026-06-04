@@ -37,34 +37,34 @@ class QuestionRouteContractTests(unittest.TestCase):
 
         self.assertIn("connector.personal.relationship_substrate", route["required_source_coverage"][0]["connector_refs"])
         self.assertIn("tool.relationship_substrate.list_subject_notes", route["required_tools"])
-        self.assertIn("connector.personal.acme_state_system", route["source_order"])
+        self.assertIn("connector.personal.sampleco_state_system", route["source_order"])
         self.assertIn("tool.paia.workboard.read", route["optional_tools"])
         self.assertIn("calendar", route["optional_external_context_tools"])
         self.assertEqual("calendar_is_schedule_context_not_relationship_evidence", route["fallback_policy"]["external_context_rule"])
         self.assertTrue(route["answer_contract"]["requires_source_freshness_summary"])
         self.assertEqual([], route["gap_behavior"]["relevant_gap_refs"])
 
-    def test_acme_federated_relationship_route_preserves_no_materialization_boundary(self):
+    def test_sampleco_federated_relationship_route_preserves_no_materialization_boundary(self):
         routes = _routes_by_id(load_json(REGISTRY))
-        route = routes["question_route.acme.federated_relationship_index"]
+        route = routes["question_route.sampleco.federated_relationship_index"]
 
         self.assertEqual("federated_query", route["module_modes"][0]["mode"])
         self.assertFalse(route["federated_query"]["local_materialization"])
         self.assertEqual(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             route["federated_query"]["source_instance_ref"],
         )
         self.assertIn(
             "subject_note_context_demote_explain_not_hide",
             route["answer_contract"]["subject_note_policy"],
         )
-        self.assertIn("gap.state_instance.acme.connector.acme.linear.freshness_failed", route["gap_behavior"]["relevant_gap_refs"])
+        self.assertIn("gap.state_instance.sampleco.connector.sampleco.linear.freshness_failed", route["gap_behavior"]["relevant_gap_refs"])
 
-    def test_small_consulting_route_keeps_workboard_and_acme_context_optional(self):
+    def test_small_consulting_route_keeps_workboard_and_sampleco_context_optional(self):
         routes = _routes_by_id(load_json(REGISTRY))
         route = routes["question_route.personal.small_consulting_firm_contacts"]
 
-        self.assertIn("connector.personal.acme_state_system", route["source_order"])
+        self.assertIn("connector.personal.sampleco_state_system", route["source_order"])
         self.assertIn("tool.paia.workboard.read", route["optional_tools"])
         self.assertIn("tool.state_system.instance_read", route["optional_tools"])
 

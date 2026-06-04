@@ -20,8 +20,8 @@
     "payload_summary": "Southern Abrasives deal stage changed from proposal to won."
   },
   "candidate_state_refs": [
-    "state.acme.deal.southern-abrasives",
-    "state.acme.operating_picture.ops",
+    "state.sampleco.deal.southern-abrasives",
+    "state.sampleco.operating_picture.ops",
     "state.operating_picture.marketing"
   ],
   "candidate_persona_refs": [

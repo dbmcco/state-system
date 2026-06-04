@@ -166,8 +166,8 @@ Examples:
 The ontology should support multiple parent references and multiple rollup
 paths.
 
-See `docs/concepts/lfw-ontology-pressure-test.md` for a concrete pressure test
-using LightForge Works source material. That example suggests support for
+See `docs/concepts/sampleco-ontology-pressure-test.md` for a concrete pressure test
+using SampleCo source material. That example suggests support for
 primary and secondary state families, mission/strategy parent references,
 developmental onboarding state, and operating-picture rollups.
 

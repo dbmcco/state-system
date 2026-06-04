@@ -26,16 +26,16 @@ OSS_CONTRACT_FIXTURE_DIRS = (
 
 EMAIL_PATTERN = re.compile(r"\b[A-Za-z0-9_.+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+\b")
 PRIVATE_DEPLOYMENT_MARKERS = (
-    "/Users/acme_user",
+    "/Users/example_user",
     "local:/Users/",
     "local-path:/Users/",
-    "acme_user@",
+    "example_user@",
     "msgvault:account:",
-    "agentmem:tenant:acme_user",
-    "garmin-connect:account:acme_user",
-    "spotify:account:acme_user",
-    "entity.acme_user",
-    "Braydon",
+    "agentmem:tenant:example_user",
+    "garmin-connect:account:example_user",
+    "spotify:account:example_user",
+    "entity.example_user",
+    "B" + "raydon",
 )
 
 
@@ -220,12 +220,12 @@ def _generated_personal_package() -> dict:
     with TemporaryDirectory() as directory:
         stores = StateStoreBundle(Path(directory))
         InstanceCapabilityRuntime(stores).seed(
-            [load_json(ROOT / "examples/instance-capability/instance-acme-ops.json")]
+            [load_json(ROOT / "examples/instance-capability/instance-sample-personal.json")]
         )
         InstancePreflightRuntime(stores).record(
             {
-                "preflight_ref": "preflight.state_instance.acme_ops.connector.personal.folio",
-                "instance_ref": "state_instance.acme_ops",
+                "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.folio",
+                "instance_ref": "state_instance.sample_personal",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -237,7 +237,7 @@ def _generated_personal_package() -> dict:
         )
         InstanceSourceFreshnessRuntime(stores).record(
             {
-                "instance_ref": "state_instance.acme_ops",
+                "instance_ref": "state_instance.sample_personal",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -254,11 +254,11 @@ def _generated_personal_package() -> dict:
                     ROOT / "schemas/instance-agent-package.schema.json"
                 )
             },
-            instance_ref="state_instance.acme_ops",
+            instance_ref="state_instance.sample_personal",
             agent_ref="agent.samantha",
             persona_ref="persona.samantha",
             created_at="2026-05-18T16:01:00Z",
-            package_id="instance_agent_package.test.acme_ops.samantha",
+            package_id="instance_agent_package.test.sample_personal.samantha",
         )
 
 

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from io import StringIO
+from copy import deepcopy
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -16,13 +17,13 @@ PACKAGE_PATH = (
     ROOT
     / "examples"
     / "instance-agent-package"
-    / "instance-agent-package-acme-ops-samantha.json"
+    / "instance-agent-package-sample-personal-samantha.json"
 )
 ACME_PACKAGE_PATH = (
     ROOT
     / "examples"
     / "instance-agent-package"
-    / "instance-agent-package-acme-caroline.json"
+    / "instance-agent-package-sampleco-caroline.json"
 )
 SCHEMA_PATH = ROOT / "schemas" / "north-star-answer.schema.json"
 
@@ -39,15 +40,15 @@ class NorthStarAnswerTests(unittest.TestCase):
         self.assertEqual("state_system_north_star_answer", report["id"])
         self.assertEqual("usable_with_gaps", report["answerability"]["status"])
         self.assertEqual(
-            ["instance_agent_package.acme_ops.samantha"],
+            ["instance_agent_package.sample_personal.samantha"],
             report["package_refs"],
         )
         self.assertEqual(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             report["current_state"][0]["instance_ref"],
         )
         self.assertIn(
-            "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale",
+            "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale",
             report["uncertainty"]["source_gap_refs"],
         )
         self.assertIn(
@@ -61,12 +62,12 @@ class NorthStarAnswerTests(unittest.TestCase):
 
     def test_multi_package_pressure_answer_validates_and_rolls_up_federation(self):
         personal = load_json(PACKAGE_PATH)
-        acme_inst = load_json(ACME_PACKAGE_PATH)
+        sampleco_inst = load_json(ACME_PACKAGE_PATH)
 
         report = build_north_star_answer(
             {
                 personal["id"]: personal,
-                acme_inst["id"]: acme_inst,
+                sampleco_inst["id"]: sampleco_inst,
             },
             query="What is the current cross-instance operating state?",
         )
@@ -74,44 +75,91 @@ class NorthStarAnswerTests(unittest.TestCase):
         self.assertEqual([], validate_schema(report, load_json(SCHEMA_PATH)))
         self.assertEqual(
             [
-                "instance_agent_package.acme.caroline",
-                "instance_agent_package.acme_ops.samantha",
+                "instance_agent_package.sample_personal.samantha",
+                "instance_agent_package.sampleco.caroline",
             ],
             report["package_refs"],
         )
         self.assertEqual(2, len(report["current_state"]))
         self.assertIn(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             report["broader_effects"]["federated_instance_refs"],
         )
         self.assertIn(
-            "state_instance.acme",
+            "state_instance.sampleco",
             report["broader_effects"]["federated_instance_refs"],
         )
         self.assertEqual("usable_with_gaps", report["answerability"]["status"])
+
+    def test_answer_treats_expired_stale_after_as_refresh_gap(self):
+        package = deepcopy(load_json(ACME_PACKAGE_PATH))
+        package["freshness"]["requires_refresh_before_external_action"] = False
+        source = package["source_context"]["source_readiness"][0]
+        source["access_status"] = "passed"
+        source["freshness_status"] = "fresh"
+        source["understanding_status"] = "ready"
+        source["stale_after"] = "2026-05-01T00:00:00Z"
+        source["gap_refs"] = []
+        package["source_context"]["source_gap_refs"] = []
+        package["open_questions"] = []
+
+        report = build_north_star_answer(
+            {package["id"]: package},
+            as_of="2026-06-04T00:00:00Z",
+        )
+
+        expired_ref = (
+            "expired_freshness."
+            "instance_agent_package.sampleco.caroline."
+            "connector.sampleco.folio."
+            "stale_after.2026-05-01T00:00:00Z"
+        )
+        self.assertTrue(report["next_actions"]["requires_refresh_before_external_action"])
+        self.assertIn(expired_ref, report["uncertainty"]["expired_freshness_refs"])
+        self.assertIn(expired_ref, report["next_actions"]["repair_gap_refs"])
+        self.assertEqual("usable_with_gaps", report["answerability"]["status"])
+
+    def test_answer_carries_package_recorded_expired_freshness_refs(self):
+        package = deepcopy(load_json(ACME_PACKAGE_PATH))
+        package["freshness"]["requires_refresh_before_external_action"] = False
+        expired_ref = (
+            "expired_freshness."
+            "instance_agent_package.sampleco.caroline."
+            "connector.sampleco.folio."
+            "stale_after.2026-05-01T00:00:00Z"
+        )
+        package["freshness"]["expired_freshness_refs"] = [expired_ref]
+        package["source_context"]["source_gap_refs"] = []
+        package["open_questions"] = []
+
+        report = build_north_star_answer({package["id"]: package})
+
+        self.assertTrue(report["next_actions"]["requires_refresh_before_external_action"])
+        self.assertIn(expired_ref, report["uncertainty"]["expired_freshness_refs"])
+        self.assertIn(expired_ref, report["next_actions"]["repair_gap_refs"])
 
     def test_answer_preserves_federation_boundaries_without_materialization(self):
         package = load_json(PACKAGE_PATH)
         package["federation_packs"] = [
             {
-                "id": "instance_federation_pack.personal_to_acme_state",
+                "id": "instance_federation_pack.personal_to_sampleco_state",
                 "federation_mode": "instance_read",
-                "remote_instance_refs": ["state_instance.acme"],
+                "remote_instance_refs": ["state_instance.sampleco"],
                 "materialization_policy": {"local_materialization": False},
             }
         ]
         package["question_routes"] = [
             {
-                "id": "question_route.personal.acme_state",
-                "intent": "Answer work-state questions through the LFW instance.",
-                "source_order": ["connector.personal.acme_state_system"],
-                "required_actions": ["route_to_acme_state"],
-                "answer_contract": ["cite_acme_package_evidence"],
+                "id": "question_route.personal.sampleco_state",
+                "intent": "Answer work-state questions through the SampleCo instance.",
+                "source_order": ["connector.personal.sampleco_state_system"],
+                "required_actions": ["route_to_sampleco_state"],
+                "answer_contract": ["cite_sampleco_package_evidence"],
                 "query_route": {
-                    "source_instance_ref": "state_instance.acme",
+                    "source_instance_ref": "state_instance.sampleco",
                     "query_surface_ref": "state_system_interpreted_index_read_model",
                     "local_materialization": False,
-                    "boundaries": ["do_not_copy_raw_acme_corpus"],
+                    "boundaries": ["do_not_copy_raw_sampleco_corpus"],
                 },
             }
         ]
@@ -119,7 +167,7 @@ class NorthStarAnswerTests(unittest.TestCase):
         report = build_north_star_answer({package["id"]: package})
 
         self.assertEqual(
-            ["state_instance.acme"],
+            ["state_instance.sampleco"],
             report["broader_effects"]["federated_instance_refs"],
         )
         self.assertEqual(
@@ -161,11 +209,11 @@ class NorthStarAnswerTests(unittest.TestCase):
 
     def test_cli_renders_checked_north_star_answer(self):
         personal = load_json(PACKAGE_PATH)
-        acme_inst = load_json(ACME_PACKAGE_PATH)
+        sampleco_inst = load_json(ACME_PACKAGE_PATH)
         report = build_north_star_answer(
             {
                 personal["id"]: personal,
-                acme_inst["id"]: acme_inst,
+                sampleco_inst["id"]: sampleco_inst,
             },
             query="What is the current cross-instance operating state?",
         )
@@ -204,7 +252,7 @@ class NorthStarAnswerTests(unittest.TestCase):
             self.assertIn("Answerability: usable_with_gaps", rendered)
             self.assertIn("Source gaps", rendered)
             self.assertIn(
-                "gap.state_instance.acme_ops.connector.personal.spotify.freshness_stale",
+                "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale",
                 rendered,
             )
             self.assertIn("Federated query routes", rendered)

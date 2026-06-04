@@ -18,12 +18,12 @@
       ]
     },
     "evidence_refs": [
-      "acme-process/pipeline/ops-manager-operating-model.md",
-      "state.acme.contract.harbor"
+      "sampleco-process/pipeline/ops-manager-operating-model.md",
+      "state.sampleco.contract.harbor"
     ],
     "candidate_state_refs": [
-      "state.acme.contract.harbor",
-      "state.acme.operating_picture.ops"
+      "state.sampleco.contract.harbor",
+      "state.sampleco.operating_picture.ops"
     ],
     "candidate_memory_refs": [],
     "persona_ref": "persona.patrick",
@@ -34,32 +34,32 @@
   },
   "evidence_packet": {
     "evidence_refs": [
-      "acme-process/pipeline/ops-manager-operating-model.md",
-      "state.acme.contract.harbor"
+      "sampleco-process/pipeline/ops-manager-operating-model.md",
+      "state.sampleco.contract.harbor"
     ],
     "resolved_evidence": [
       {
-        "ref": "acme-process/pipeline/ops-manager-operating-model.md",
+        "ref": "sampleco-process/pipeline/ops-manager-operating-model.md",
         "summary": "The ops manager role centralizes operational discipline, follow-up, document control, weekly summaries, and source-of-truth hygiene while avoiding legal, sales, finance, and delivery authority.",
         "source_type": "local_doc",
         "observed_at": "2026-04-28T14:00:00Z"
       },
       {
-        "ref": "state.acme.contract.harbor",
+        "ref": "state.sampleco.contract.harbor",
         "summary": "The Harbor obligation state exists but lacks evidenced owner, current contract stage, next action, and retained Drive archive reference.",
         "source_type": "state_snapshot",
         "observed_at": "2026-04-28T14:05:00Z"
       }
     ],
     "unresolved_evidence_refs": [
-      "drive.acme.contracts.harbor.current",
-      "linear.acme.harbor-contract-owner"
+      "drive.sampleco.contracts.harbor.current",
+      "linear.sampleco.harbor-contract-owner"
     ]
   },
   "state_context": {
     "snapshots": [
       {
-        "id": "state.acme.contract.harbor",
+        "id": "state.sampleco.contract.harbor",
         "type": "obligation",
         "summary": "Harbor appears to have an active or recently active contract obligation, but the current owner, stage, next action, and retained Drive source are not explicit in State System fixtures.",
         "status": "waiting_on_internal",
@@ -70,15 +70,15 @@
           "Does any next action require legal, sales, or leadership approval?"
         ],
         "parent_state_refs": [
-          "state.acme.operating_picture.ops"
+          "state.sampleco.operating_picture.ops"
         ]
       },
       {
-        "id": "state.acme.operating_picture.ops",
+        "id": "state.sampleco.operating_picture.ops",
         "type": "operating_picture",
-        "summary": "LFW operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
+        "summary": "SampleCo operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
         "child_state_refs": [
-          "state.acme.contract.harbor"
+          "state.sampleco.contract.harbor"
         ]
       }
     ]
@@ -86,8 +86,8 @@
   "journal_context": {
     "recent_entries": [
       {
-        "id": "journal.acme.contract.harbor.initial",
-        "state_object_id": "state.acme.contract.harbor",
+        "id": "journal.sampleco.contract.harbor.initial",
+        "state_object_id": "state.sampleco.contract.harbor",
         "interpretation": "Harbor should be treated as an operational obligation candidate until owner, stage, source document, and approval boundary are clarified."
       }
     ]

@@ -5,7 +5,7 @@
     "id": "trigger.laura.campaign-audience-clarified",
     "source": "human_edit",
     "created_at": "2026-04-28T13:00:00Z",
-    "actor_ref": "human.acme_user",
+    "actor_ref": "human.example_user",
     "summary": "The primary audience for the launch positioning campaign was clarified as mid-market operators who need bounded back-office business capabilities.",
     "payload": {
       "audience": "mid-market operators",
@@ -23,7 +23,7 @@
     ],
     "persona_ref": "persona.laura",
     "governance_refs": [
-      "state.acme.principle.boundaries-before-features"
+      "state.sampleco.principle.boundaries-before-features"
     ]
   },
   "evidence_packet": {

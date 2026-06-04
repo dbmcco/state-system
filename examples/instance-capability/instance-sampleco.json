@@ -1,7 +1,7 @@
 {
-  "id": "instance_capability_pack.acme",
-  "instance_ref": "state_instance.acme",
-  "primary_entity_ref": "entity.acme",
+  "id": "instance_capability_pack.sampleco",
+  "instance_ref": "state_instance.sampleco",
+  "primary_entity_ref": "entity.sampleco",
   "entity_kind": "company",
   "generated_at": "2026-05-16T18:00:00Z",
   "identity": {
@@ -16,25 +16,25 @@
   },
   "source_connectors": [
     {
-      "id": "connector.acme.folio",
+      "id": "connector.sampleco.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:acme",
+      "source_ref": "folio:tenant:sampleco",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
     },
     {
-      "id": "connector.acme.msgvault",
+      "id": "connector.sampleco.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:acme-email",
+      "source_ref": "msgvault:tenant:sampleco-email",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
     },
     {
-      "id": "connector.acme.state_system",
+      "id": "connector.sampleco.state_system",
       "connector_type": "local_path",
-      "source_ref": "state-system-instance:state_instance.acme",
+      "source_ref": "state-system-instance:state_instance.sampleco",
       "owner": "state_system",
       "declared": true,
       "access_mode": "read"
@@ -43,24 +43,24 @@
   "raw_corpus": {
     "definition": "Raw source surfaces remain owned by their source systems.",
     "source_refs": [
-      "folio:tenant:acme",
-      "msgvault:tenant:acme-email",
-      "state-system-instance:state_instance.acme"
+      "folio:tenant:sampleco",
+      "msgvault:tenant:sampleco-email",
+      "state-system-instance:state_instance.sampleco"
     ]
   },
   "evidence_index": {
     "definition": "Federated search surfaces over raw source and interpreted state records.",
     "index_refs": [
-      "index.acme.folio.corpus",
-      "index.acme.msgvault.email",
-      "index.acme.state_system.interpreted"
+      "index.sampleco.folio.corpus",
+      "index.sampleco.msgvault.email",
+      "index.sampleco.state_system.interpreted"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.acme.folio.corpus",
-      "instance_ref": "state_instance.acme",
-      "primary_entity_ref": "entity.acme",
+      "index_ref": "index.sampleco.folio.corpus",
+      "instance_ref": "state_instance.sampleco",
+      "primary_entity_ref": "entity.sampleco",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -70,10 +70,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:acme"
+        "folio:tenant:sampleco"
       ],
       "connector_refs": [
-        "connector.acme.folio"
+        "connector.sampleco.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -82,9 +82,9 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.acme.msgvault.email",
-      "instance_ref": "state_instance.acme",
-      "primary_entity_ref": "entity.acme",
+      "index_ref": "index.sampleco.msgvault.email",
+      "instance_ref": "state_instance.sampleco",
+      "primary_entity_ref": "entity.sampleco",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -94,10 +94,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:acme-email"
+        "msgvault:tenant:sampleco-email"
       ],
       "connector_refs": [
-        "connector.acme.msgvault"
+        "connector.sampleco.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -106,9 +106,9 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.acme.state_system.interpreted",
-      "instance_ref": "state_instance.acme",
-      "primary_entity_ref": "entity.acme",
+      "index_ref": "index.sampleco.state_system.interpreted",
+      "instance_ref": "state_instance.sampleco",
+      "primary_entity_ref": "entity.sampleco",
       "owner": "state_system",
       "backend": "state_system_interpreted_index",
       "scope": "interpreted_state_index",
@@ -118,10 +118,10 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system-instance:state_instance.acme"
+        "state-system-instance:state_instance.sampleco"
       ],
       "connector_refs": [
-        "connector.acme.state_system"
+        "connector.sampleco.state_system"
       ],
       "query_surface": {
         "type": "state_system_runtime",
@@ -132,24 +132,24 @@
     }
   ],
   "memory_refs": [
-    "company_memory.acme"
+    "company_memory.sampleco"
   ],
   "operating_picture_refs": [
-    "operating_picture.crm.acme"
+    "operating_picture.crm.sampleco"
   ],
   "action_surface": {
     "definition": "Actions exposed through governed PAIA tools.",
     "action_refs": [
-      "action_surface.acme.read_folio",
-      "action_surface.acme.search_msgvault"
+      "action_surface.sampleco.read_folio",
+      "action_surface.sampleco.search_msgvault"
     ]
   },
   "tool_capability_bindings": [],
   "governance": {
-    "definition": "LFW protected actions remain governed by LFW policy.",
+    "definition": "SampleCo protected actions remain governed by SampleCo policy.",
     "governance_refs": [
-      "governance.acme.external_action",
-      "governance.acme.crm_mutation"
+      "governance.sampleco.external_action",
+      "governance.sampleco.crm_mutation"
     ]
   },
   "connector_preflight": {
@@ -157,7 +157,7 @@
     "required_checks": []
   },
   "runtime_constraints": {
-    "definition": "Runtime constraints for the deployed LFW instance.",
+    "definition": "Runtime constraints for the deployed SampleCo instance.",
     "constraints": [
       "Do not treat declared context as live access.",
       "Do not synthesize company health in deterministic code."

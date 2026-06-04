@@ -1,7 +1,7 @@
 # Application Substrate Contract
 
 **Status:** Planning contract with six schema-valid app fixture chains
-**Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, LFW AI Graph CRM, PAIA memory, and State System
+**Scope:** Outreach Engine, Prospect Researcher, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, PAIA memory, and State System
 
 ## Purpose
 
@@ -76,7 +76,7 @@ Runtime command surface:
 
 ```bash
 python3 -m state_system.cli --project-root . paia-bootstrap-export
-python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-acme.json examples/company-capability/company-examplecorp.json examples/company-capability/company-demo-co.json
+python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-seed examples/company-capability/company-sampleco.json examples/company-capability/company-researchco.json examples/company-capability/company-portfolio-co.json
 python3 -m state_system.cli --project-root . --state-root /path/to/runtime company-capability-read --output-dir /tmp/state-system-company-capability
 ```
 
@@ -85,7 +85,7 @@ python3 -m state_system.cli --project-root . --state-root /path/to/runtime compa
 artifacts, then perform its own connector preflight before exposing tools or
 corpora to any agent.
 
-State System owns migration of the runtime root. The LFW canonical root is the
+State System owns migration of the runtime root. The SampleCo canonical root is the
 visible directory `/path/to/state-system-runtime`; the old
 `/path/to/state-system-runtime` path is a compatibility symlink after
 `state-root-migrate` succeeds. Migration is copy-not-destructive: replace any
@@ -348,7 +348,7 @@ Consumes:
 - qualitative review decisions
 - provider execution artifacts
 
-### LFW AI Graph CRM
+### SampleCo AI Graph CRM
 
 Produces:
 
@@ -389,7 +389,7 @@ The next work should happen in this order:
 2. **Keep extending the fixture substrate.** The first six app chains exist; continue promoting pressure scenarios into schema-valid traces when they expose new source, state, approval, memory, or doctrine behavior.
 3. **Build substrate read models before app UI.** Company memory and CRM operating picture should be deterministic JSON projections over State System records before any wiki, dashboard, or app screen is treated as product.
 4. **Plan Prospect Researcher and Outreach Engine together.** They share campaign state, contact state, Prospect Opportunity Packages, Engagement Intelligence, CRM handoff contracts, and CRM outcome doctrine.
-5. **Plan the CRM/contact intelligence substrate.** LFW AI Graph CRM remains the relationship system of record, while State System owns interpreted relationship/opportunity state, evidence refs, freshness, open loops, and agent packaging.
+5. **Plan the CRM/contact intelligence substrate.** SampleCo AI Graph CRM remains the relationship system of record, while State System owns interpreted relationship/opportunity state, evidence refs, freshness, open loops, and agent packaging.
 6. **Plan Meeting Manager, Thoughtforge, and Visual Forge from the proven pattern.** Meeting Manager feeds coordination updates into shared state; Thoughtforge builds on author/idea/corpus state; Visual Forge builds on qualitative visual workspace and corpus-memory state.
 7. **Move into implementation slices only when the substrate contract is boring.** Each app slice should use source evidence, a bounded context package, model interpretation, proposal/approval, commit result, and a visible app outcome without inventing local state.
 

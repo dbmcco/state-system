@@ -12,11 +12,11 @@ The canonical runtime unit is `StateInstance`.
 
 Examples:
 
-- `state_instance.lfw`
-- `state_instance.examplecorp`
-- `state_instance.demo_co`
+- `state_instance.sampleco`
+- `state_instance.researchco`
+- `state_instance.portfolio_co`
 - `state_instance.plum`
-- `state_instance.acme_ops`
+- `state_instance.sample_personal`
 
 An instance has an `instance_ref`, `kind`, `display_name`, `runtime_root`,
 `primary_entity_ref`, `entity_kind`, governance refs, sensitivity defaults, and
@@ -28,12 +28,12 @@ Existing company capability packs may remain as a compatibility or
 specialization layer, but new generic contracts must key by `instance_ref` and
 `primary_entity_ref`.
 
-Acme User's personal instance will use:
+Example User's personal instance will use:
 
 ```json
 {
-  "instance_ref": "state_instance.acme_ops",
-  "primary_entity_ref": "entity.acme_user",
+  "instance_ref": "state_instance.sample_personal",
+  "primary_entity_ref": "entity.example_user",
   "entity_kind": "person",
   "runtime_root": "/path/to/personal-state"
 }
@@ -43,7 +43,7 @@ Personal state must not be represented as a company for implementation speed.
 
 ## Why
 
-The deployed LFW root proved that State System needs an inspectable runtime
+The deployed SampleCo root proved that State System needs an inspectable runtime
 root separate from the product repo. The next deployed roots include companies
 and a personal "entire life" instance. Forcing all of these through
 `company_ref` would leak the first deployment's ontology into the generic
@@ -90,24 +90,24 @@ every message, memory blob, or network record into its own vector store.
 
 ## Cross-Instance Federation
 
-Personal `b-state` should reference work instances instead of copying their
+Personal `personal state` should reference work instances instead of copying their
 state.
 
 Example connector shape:
 
 ```json
 {
-  "id": "connector.personal.lfw_state_system",
+  "id": "connector.personal.sampleco_state_system",
   "connector_type": "state_system_instance",
-  "source_ref": "state-system-instance:state_instance.lfw",
+  "source_ref": "state-system-instance:state_instance.sampleco",
   "owner": "state_system",
   "access_mode": "read",
-  "governance_refs": ["governance.lfw.read_summary"]
+  "governance_refs": ["governance.sampleco.read_summary"]
 }
 ```
 
 This allows a personal understanding surface to include work context without
-bypassing the governance of the LFW, Synthyra, Navicyte, or Plum instances.
+bypassing the governance of the SampleCo, ResearchCo, PortfolioCo, or Plum instances.
 
 ## Model Boundary
 
@@ -116,7 +116,7 @@ gaps, provenance, governance, and sensitivity.
 
 The model owns synthesis:
 
-- how Acme User is doing
+- how Example User is doing
 - how a company is doing
 - what matters most now
 - which evidence is salient

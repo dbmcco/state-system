@@ -14,10 +14,10 @@
     "evidence_refs": [
       "context.laura.southern-abrasives-won-opportunity",
       "recent.linear.southern-abrasives-won",
-      "journal.acme.deal.southern-abrasives.won"
+      "journal.sampleco.deal.southern-abrasives.won"
     ],
     "candidate_state_refs": [
-      "state.acme.deal.southern-abrasives",
+      "state.sampleco.deal.southern-abrasives",
       "state.operating_picture.marketing"
     ],
     "candidate_memory_refs": [
@@ -32,7 +32,7 @@
     "evidence_refs": [
       "context.laura.southern-abrasives-won-opportunity",
       "recent.linear.southern-abrasives-won",
-      "journal.acme.deal.southern-abrasives.won"
+      "journal.sampleco.deal.southern-abrasives.won"
     ],
     "resolved_evidence": [
       {
@@ -50,7 +50,7 @@
   "state_context": {
     "snapshots": [
       {
-        "id": "state.acme.deal.southern-abrasives",
+        "id": "state.sampleco.deal.southern-abrasives",
         "type": "deal",
         "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
         "status": "won"
@@ -65,8 +65,8 @@
   "journal_context": {
     "recent_entries": [
       {
-        "id": "journal.acme.deal.southern-abrasives.won",
-        "state_object_id": "state.acme.deal.southern-abrasives",
+        "id": "journal.sampleco.deal.southern-abrasives.won",
+        "state_object_id": "state.sampleco.deal.southern-abrasives",
         "interpretation": "Southern Abrasives moved to won in Linear, creating both operational handoff needs and a possible marketing proof-point opportunity."
       }
     ]

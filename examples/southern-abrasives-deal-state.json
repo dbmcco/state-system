@@ -1,11 +1,11 @@
 {
-  "id": "state.acme.deal.southern-abrasives",
+  "id": "state.sampleco.deal.southern-abrasives",
   "type": "deal",
   "primary_family": "work",
   "secondary_families": ["relationship", "operating", "governance"],
   "state_traits": ["dynamic"],
-  "scope": "organization.acme.deals.southern-abrasives",
-  "owner_refs": ["human.acme_user", "persona.patrick"],
+  "scope": "organization.sampleco.deals.southern-abrasives",
+  "owner_refs": ["human.example_user", "persona.patrick"],
   "as_of": "2026-04-28T16:00:00Z",
   "summary": "Southern Abrasives is an active deal in proposal review with commercial potential, but announcement and delivery readiness are not yet established.",
   "status": "proposal",
@@ -43,9 +43,9 @@
     "linear:deal:southern-abrasives"
   ],
   "parent_state_refs": [
-    "state.acme.operating_picture.ops",
+    "state.sampleco.operating_picture.ops",
     "state.operating_picture.marketing"
   ],
   "child_state_refs": [],
-  "latest_journal_entry_id": "journal.acme.deal.southern-abrasives.initial"
+  "latest_journal_entry_id": "journal.sampleco.deal.southern-abrasives.initial"
 }

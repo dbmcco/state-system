@@ -29,7 +29,7 @@
       "approval_required": true,
       "target": {
         "owner_ref": "persona.laura",
-        "target_ref": "state.acme.deal.southern-abrasives"
+        "target_ref": "state.sampleco.deal.southern-abrasives"
       },
       "payload": {
         "action_ref": "action.laura.southern-abrasives-linkedin-draft",

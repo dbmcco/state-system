@@ -1,11 +1,11 @@
 {
   "id": "source.crm.relationship-outcome.006",
-  "source_system": "acme_crm",
+  "source_system": "sample_crm",
   "source_event": "crm.relationship_outcome_recorded",
   "source_event_id": "crm-relationship-outcome-006",
   "occurred_at": "2026-05-04T17:00:00Z",
   "observed_at": "2026-05-04T17:00:30Z",
-  "actor_ref": "app.acme-ai-graph-crm",
+  "actor_ref": "app.sampleco-ai-graph-crm",
   "summary": "CRM recorded that Streamlinear became a valuable relationship after a referral path, not the original cold outreach path.",
   "source_refs": [
     "crm:relationship:streamlinear:outcome-006",
@@ -35,7 +35,7 @@
     "dedupe_strategy": "source_event_id"
   },
   "sync_context": {
-    "sync_id": "sync.acme-ai-graph-crm.2026-05-04",
+    "sync_id": "sync.sampleco-ai-graph-crm.2026-05-04",
     "source_watermark": "crm-relationship-outcome-006",
     "partial": false,
     "confidence": "high"

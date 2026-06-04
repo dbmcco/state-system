@@ -24,15 +24,15 @@ class InstanceCapabilityRuntimeTests(unittest.TestCase):
 
             result = runtime.seed(
                 [
-                    load_json(PACK_DIR / "instance-acme.json"),
-                    load_json(PACK_DIR / "instance-acme-ops.json"),
+                    load_json(PACK_DIR / "instance-sampleco.json"),
+                    load_json(PACK_DIR / "instance-sample-personal.json"),
                 ]
             )
             read_model = build_instance_capability_read_model(runtime.list_packs())
 
         self.assertEqual(2, result["count"])
         self.assertEqual(
-            ["state_instance.acme", "state_instance.acme_ops"],
+            ["state_instance.sample_personal", "state_instance.sampleco"],
             [instance["instance_ref"] for instance in read_model["instances"]],
         )
         self.assertIn("index.personal.agentmem.memory", read_model["index_refs"])
@@ -41,7 +41,7 @@ class InstanceCapabilityRuntimeTests(unittest.TestCase):
             read_model["index_refs"],
         )
         self.assertIn(
-            "state-system-instance:state_instance.acme",
+            "state-system-instance:state_instance.sampleco",
             read_model["source_refs"],
         )
 

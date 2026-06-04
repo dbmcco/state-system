@@ -239,40 +239,40 @@ def _module_mode(connector: JsonObject, federated_instance: JsonObject) -> str:
 def _federation_packs(instance_ref: str, sources: list[JsonObject]) -> list[JsonObject]:
     connector_refs = {source["connector_ref"] for source in sources}
     packs: list[JsonObject] = []
-    if "connector.personal.acme_state_system" in connector_refs:
-        acme_state = _source_by_ref(sources, "connector.personal.acme_state_system")
+    if "connector.personal.sampleco_state_system" in connector_refs:
+        sampleco_state = _source_by_ref(sources, "connector.personal.sampleco_state_system")
         packs.append(
             _federation_pack_summary(
-                pack_id="instance_federation_pack.personal_to_acme_state",
+                pack_id="instance_federation_pack.personal_to_sampleco_state",
                 status="ready",
                 mode="instance_read",
-                remote_instance_refs=["state_instance.acme"],
+                remote_instance_refs=["state_instance.sampleco"],
                 local_materialization=False,
-                freshness_status=acme_state.get("freshness_status", "unknown"),
-                gap_refs=[gap["gap_ref"] for gap in acme_state.get("gaps", [])],
+                freshness_status=sampleco_state.get("freshness_status", "unknown"),
+                gap_refs=[gap["gap_ref"] for gap in sampleco_state.get("gaps", [])],
             )
         )
-    if instance_ref == "state_instance.acme":
+    if instance_ref == "state_instance.sampleco":
         packs.append(
             _federation_pack_summary(
-                pack_id="instance_federation_pack.acme_to_personal_relationship_substrate",
+                pack_id="instance_federation_pack.sampleco_to_personal_relationship_substrate",
                 status="ready",
                 mode="source_substrate_query",
-                remote_instance_refs=["state_instance.acme_ops"],
+                remote_instance_refs=["state_instance.sample_personal"],
                 local_materialization=False,
                 freshness_status="fresh",
                 gap_refs=[],
             )
         )
-    if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}:
+    if instance_ref in {"state_instance.portfolio_co", "state_instance.researchco"}:
         packs.append(
             _federation_pack_summary(
-                pack_id="instance_federation_pack.portfolio_to_demo_co_examplecorp",
+                pack_id="instance_federation_pack.portfolio_to_portfolio_co_researchco",
                 status="planned",
                 mode="portfolio_rollup",
                 remote_instance_refs=[
-                    "state_instance.demo_co",
-                    "state_instance.examplecorp",
+                    "state_instance.portfolio_co",
+                    "state_instance.researchco",
                 ],
                 local_materialization=False,
                 freshness_status="unknown",

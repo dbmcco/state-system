@@ -214,9 +214,9 @@ def schema_for_example(filename: str) -> str | None:
         return "instance-capability-pack.schema.json"
     if filename.startswith("company-") and filename.endswith(".json"):
         return "company-capability-pack.schema.json"
-    if filename == "acme-company-memory.json":
+    if filename == "sampleco-company-memory.json":
         return "company-memory.schema.json"
-    if filename == "acme-crm-operating-picture.json":
+    if filename == "sampleco-crm-operating-picture.json":
         return "crm-operating-picture.schema.json"
     if filename.endswith(".trace.json"):
         return "trace-manifest.schema.json"

@@ -9,13 +9,13 @@
   "content": "When a PR is merged, review comments and requested-change discussions should be scanned for obligations before launch readiness is updated.",
   "confidence": 0.68,
   "evidence_refs": [
-    "github:pr:lightforge/acme-ai-graph-crm#142",
-    "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765"
+    "github:pr:lightforge/sampleco-ai-graph-crm#142",
+    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
   ],
   "related_state_refs": [
-    "state.acme.capability.auditable-workflows",
-    "state.acme.obligation.audit-logging-before-launch",
-    "state.acme.operating_picture.ops"
+    "state.sampleco.capability.auditable-workflows",
+    "state.sampleco.obligation.audit-logging-before-launch",
+    "state.sampleco.operating_picture.ops"
   ],
   "promotion_status": "private",
   "status": "draft",

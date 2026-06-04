@@ -1,7 +1,7 @@
 # Company Instance Scaffolding
 
-Use this runbook when creating a new company state instance such as LFW,
-Navicyte, or Synthyra.
+Use this runbook when creating a new company state instance such as SampleCo,
+PortfolioCo, or ResearchCo.
 
 The scaffold proves shape, not live access. A connector may be declared before
 it is fresh or reachable, but gaps must be explicit.
@@ -78,10 +78,10 @@ source substrate. Do not copy remote raw data into the local instance.
 
 Required package behavior:
 
-- LFW relationship routes should expose the Relationship Substrate federation
+- SampleCo relationship routes should expose the Relationship Substrate federation
   pack with `local_materialization=false`.
-- Personal b-state routes that use LFW context should expose the LFW instance
-  read pack and name LFW freshness/gap policy.
-- Navicyte and Synthyra scaffolds may expose portfolio federation as `planned`,
+- Personal personal state routes that use SampleCo context should expose the SampleCo instance
+  read pack and name SampleCo freshness/gap policy.
+- PortfolioCo and ResearchCo scaffolds may expose portfolio federation as `planned`,
   but must keep readiness gaps visible until package renders prove access,
   freshness, and index status.

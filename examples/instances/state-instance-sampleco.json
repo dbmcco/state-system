@@ -1,14 +1,14 @@
 {
-  "id": "state_instance.acme",
-  "instance_ref": "state_instance.acme",
+  "id": "state_instance.sampleco",
+  "instance_ref": "state_instance.sampleco",
   "kind": "company",
   "display_name": "Lightforge Works State",
-  "runtime_root": "/srv/examples/acme/state-system",
-  "primary_entity_ref": "entity.acme",
+  "runtime_root": "/srv/examples/sampleco/state-system",
+  "primary_entity_ref": "entity.sampleco",
   "entity_kind": "company",
   "governance_refs": [
-    "governance.acme.external_action",
-    "governance.acme.crm_mutation"
+    "governance.sampleco.external_action",
+    "governance.sampleco.crm_mutation"
   ],
   "sensitivity_default": "confidential",
   "federates_with": [],

@@ -19,18 +19,18 @@ ROOT = Path(__file__).resolve().parents[1]
 class InstanceScaffoldTests(unittest.TestCase):
     def test_scaffold_creates_state_instance_and_module_registry_subset(self):
         with TemporaryDirectory() as directory:
-            runtime_root = Path(directory) / "navicyte-state-system"
+            runtime_root = Path(directory) / "portfolio_co-state-system"
 
             result = scaffold_state_instance(
                 project_root=ROOT,
                 runtime_root=runtime_root,
-                instance_ref="state_instance.demo_co",
+                instance_ref="state_instance.portfolio_co",
                 kind="company",
-                display_name="Navicyte State",
-                primary_entity_ref="entity.navicyte",
+                display_name="PortfolioCo State",
+                primary_entity_ref="entity.portfolio_co",
                 entity_kind="company",
                 created_at="2026-05-18T17:20:00Z",
-                governance_refs=["governance.navicyte.default"],
+                governance_refs=["governance.portfolio_co.default"],
                 connector_types=["folio", "gws_drive", "msgvault", "local_path"],
             )
 
@@ -42,7 +42,7 @@ class InstanceScaffoldTests(unittest.TestCase):
 
             instance = json.loads(instance_path.read_text(encoding="utf-8"))
             registry = json.loads(registry_path.read_text(encoding="utf-8"))
-            self.assertEqual("state_instance.demo_co", instance["instance_ref"])
+            self.assertEqual("state_instance.portfolio_co", instance["instance_ref"])
             self.assertEqual(
                 {"folio", "gws_drive", "msgvault", "local_path"},
                 {module["connector_type"] for module in registry["modules"]},
@@ -61,21 +61,21 @@ class InstanceScaffoldTests(unittest.TestCase):
                     str(ROOT),
                     "instance-scaffold",
                     "--runtime-root",
-                    str(Path(directory) / "synthyra-state-system"),
+                    str(Path(directory) / "researchco-state-system"),
                     "--instance-ref",
-                    "state_instance.examplecorp",
+                    "state_instance.researchco",
                     "--kind",
                     "company",
                     "--display-name",
-                    "Synthyra State",
+                    "ResearchCo State",
                     "--primary-entity-ref",
-                    "entity.synthyra",
+                    "entity.researchco",
                     "--entity-kind",
                     "company",
                     "--created-at",
                     "2026-05-18T17:20:00Z",
                     "--governance-ref",
-                    "governance.synthyra.default",
+                    "governance.researchco.default",
                     "--connector-type",
                     "folio",
                     "--connector-type",

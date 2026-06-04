@@ -41,7 +41,7 @@ source event
    scores or app-local behavior mutation.
 
 These traces are the first build gate because Prospect Researcher, Outreach
-Engine, Meeting Manager, Thoughtforge, work/task systems, and LFW AI Graph CRM
+Engine, Meeting Manager, Thoughtforge, work/task systems, and SampleCo AI Graph CRM
 share the same contact, campaign, relationship, content, and doctrine spine.
 
 Schema-valid fixture chains:

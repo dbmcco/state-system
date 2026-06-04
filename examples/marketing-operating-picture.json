@@ -34,7 +34,7 @@
     {
       "id": "action.state-system.design-review",
       "summary": "Review the initial state-system design before implementing runtime plumbing.",
-      "owner_ref": "human.acme_user",
+      "owner_ref": "human.example_user",
       "status": "active"
     }
   ],

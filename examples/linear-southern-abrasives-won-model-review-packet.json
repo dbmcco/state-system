@@ -20,8 +20,8 @@
       "linear:event:southern-abrasives-stage-won-2026-04-28"
     ],
     "candidate_state_refs": [
-      "state.acme.deal.southern-abrasives",
-      "state.acme.operating_picture.ops",
+      "state.sampleco.deal.southern-abrasives",
+      "state.sampleco.operating_picture.ops",
       "state.operating_picture.marketing"
     ],
     "candidate_memory_refs": [],
@@ -52,7 +52,7 @@
   "state_context": {
     "snapshots": [
       {
-        "id": "state.acme.deal.southern-abrasives",
+        "id": "state.sampleco.deal.southern-abrasives",
         "type": "deal",
         "summary": "Southern Abrasives is an active deal in proposal review with commercial potential, but announcement and delivery readiness are not yet established.",
         "status": "proposal",
@@ -63,9 +63,9 @@
         ]
       },
       {
-        "id": "state.acme.operating_picture.ops",
+        "id": "state.sampleco.operating_picture.ops",
         "type": "operating_picture",
-        "summary": "LFW operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks."
+        "summary": "SampleCo operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks."
       },
       {
         "id": "state.operating_picture.marketing",
@@ -77,8 +77,8 @@
   "journal_context": {
     "recent_entries": [
       {
-        "id": "journal.acme.deal.southern-abrasives.initial",
-        "state_object_id": "state.acme.deal.southern-abrasives",
+        "id": "journal.sampleco.deal.southern-abrasives.initial",
+        "state_object_id": "state.sampleco.deal.southern-abrasives",
         "interpretation": "Southern Abrasives should remain in proposal stage until source evidence confirms a won-stage transition."
       }
     ]

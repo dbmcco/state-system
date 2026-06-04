@@ -1,10 +1,10 @@
 {
-  "id": "state.acme.capability.auditable-workflows",
+  "id": "state.sampleco.capability.auditable-workflows",
   "type": "capability",
   "primary_family": "work",
   "secondary_families": ["governance", "operating", "knowledge"],
   "state_traits": ["dynamic"],
-  "scope": "organization.acme.product.auditable-workflows",
+  "scope": "organization.sampleco.product.auditable-workflows",
   "owner_refs": ["persona.patrick"],
   "as_of": "2026-04-28T15:16:00Z",
   "summary": "Auditable workflows have merged implementation evidence from PR 142, but launch readiness is not established because audit logging before launch remains unresolved.",
@@ -40,18 +40,18 @@
     }
   ],
   "evidence_refs": [
-    "github:repo:lightforge/acme-ai-graph-crm",
-    "workgraph:repo:acme-ai-graph-crm:task:ship-auditable-workflows",
-    "github:pr:lightforge/acme-ai-graph-crm#142",
-    "github:commit:lightforge/acme-ai-graph-crm@abc1234",
-    "github:pr-comment:lightforge/acme-ai-graph-crm#142:98765",
-    "journal.acme.capability.auditable-workflows.github-merged"
+    "github:repo:lightforge/sampleco-ai-graph-crm",
+    "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows",
+    "github:pr:lightforge/sampleco-ai-graph-crm#142",
+    "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
+    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
+    "journal.sampleco.capability.auditable-workflows.github-merged"
   ],
   "parent_state_refs": [
-    "state.acme.operating_picture.ops"
+    "state.sampleco.operating_picture.ops"
   ],
   "child_state_refs": [
-    "state.acme.obligation.audit-logging-before-launch"
+    "state.sampleco.obligation.audit-logging-before-launch"
   ],
-  "latest_journal_entry_id": "journal.acme.capability.auditable-workflows.github-merged"
+  "latest_journal_entry_id": "journal.sampleco.capability.auditable-workflows.github-merged"
 }

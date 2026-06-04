@@ -15,12 +15,12 @@
     ]
   },
   "evidence_refs": [
-    "acme-process/pipeline/ops-manager-operating-model.md",
-    "state.acme.contract.harbor"
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor"
   ],
   "candidate_state_refs": [
-    "state.acme.contract.harbor",
-    "state.acme.operating_picture.ops"
+    "state.sampleco.contract.harbor",
+    "state.sampleco.operating_picture.ops"
   ],
   "candidate_memory_refs": [],
   "persona_ref": "persona.patrick",

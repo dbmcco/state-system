@@ -107,7 +107,7 @@ Expected Patrick behavior:
 3. Request evidence for the current contract stage and canonical Drive record.
 4. Create an internal follow-up action for Patrick to resolve owner, stage, and
    archive link.
-5. Queue a rollup of the LFW operations operating picture.
+5. Queue a rollup of the SampleCo operations operating picture.
 6. Write private draft memory that contract follow-up should start with the
    canonical source before outreach.
 7. Avoid approving, sending, or externally committing anything.

@@ -1,12 +1,12 @@
 {
-  "id": "company_capability_pack.navicyte",
-  "company_ref": "company.demo_co",
+  "id": "company_capability_pack.researchco",
+  "company_ref": "company.researchco",
   "generated_at": "2026-05-14T12:00:00Z",
   "identity": {
-    "name": "Navicyte",
-    "summary": "Company substrate for Navicyte scientific, regulatory, and investor work.",
+    "name": "ResearchCo",
+    "summary": "Company substrate for ResearchCo product, research, and finance work.",
     "primary_agent_refs": [
-      "persona.helena"
+      "persona.ingrid"
     ],
     "oversight_agent_refs": [
       "persona.samantha"
@@ -14,35 +14,36 @@
   },
   "source_connectors": [
     {
-      "id": "connector.navicyte.folio",
+      "id": "connector.researchco.folio",
       "connector_type": "folio",
-      "source_ref": "folio:tenant:navicyte",
+      "source_ref": "folio:tenant:researchco",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.navicyte.drive",
+      "id": "connector.researchco.drive",
       "connector_type": "gws_drive",
-      "source_ref": "gws:example:shared-drive:demo-co",
+      "source_ref": "gws:example:drive:ResearchCo Shared",
       "owner": "source_system",
       "declared": true
     },
     {
-      "id": "connector.navicyte.msgvault",
+      "id": "connector.researchco.msgvault",
       "connector_type": "msgvault",
-      "source_ref": "msgvault:tenant:navicyte-email",
+      "source_ref": "msgvault:tenant:researchco-email",
       "owner": "source_system",
       "declared": true,
       "preflight_target": {
         "kind": "msgvault_search",
-        "query": "navicyte-email",
+        "tenant_ref": "msgvault:tenant:researchco-email",
+        "query": "researchco",
         "limit": 1
       }
     },
     {
-      "id": "connector.navicyte.local",
+      "id": "connector.researchco.local",
       "connector_type": "local_path",
-      "source_ref": "local:/srv/examples/navicyte",
+      "source_ref": "local:/srv/examples/researchco",
       "owner": "source_system",
       "declared": true
     }
@@ -50,24 +51,24 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:navicyte",
-      "gws:example:shared-drive:demo-co",
-      "msgvault:tenant:navicyte-email",
-      "local:/srv/examples/navicyte"
+      "folio:tenant:researchco",
+      "gws:example:drive:ResearchCo Shared",
+      "msgvault:tenant:researchco-email",
+      "local:/srv/examples/researchco"
     ]
   },
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:navicyte",
-      "gws:index:mcco:demo-co",
-      "msgvault:index:navicyte-email"
+      "folio:index:tenant:researchco",
+      "gws:index:mcco:ResearchCo Shared",
+      "msgvault:index:researchco-email"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.navicyte.folio.corpus",
-      "company_ref": "company.demo_co",
+      "index_ref": "index.researchco.folio.corpus",
+      "company_ref": "company.researchco",
       "owner": "source_system",
       "backend": "postgres_pgvector",
       "scope": "raw_source_index",
@@ -77,10 +78,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:navicyte"
+        "folio:tenant:researchco"
       ],
       "connector_refs": [
-        "connector.navicyte.folio"
+        "connector.researchco.folio"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -89,8 +90,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.msgvault.email",
-      "company_ref": "company.demo_co",
+      "index_ref": "index.researchco.msgvault.email",
+      "company_ref": "company.researchco",
       "owner": "source_system",
       "backend": "msgvault_native",
       "scope": "raw_source_index",
@@ -100,10 +101,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "msgvault:tenant:navicyte-email"
+        "msgvault:tenant:researchco-email"
       ],
       "connector_refs": [
-        "connector.navicyte.msgvault"
+        "connector.researchco.msgvault"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -112,8 +113,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.drive.corpus",
-      "company_ref": "company.demo_co",
+      "index_ref": "index.researchco.drive.corpus",
+      "company_ref": "company.researchco",
       "owner": "source_system",
       "backend": "gws_drive_native",
       "scope": "raw_source_index",
@@ -123,10 +124,10 @@
         "source_summary"
       ],
       "source_refs": [
-        "gws:example:shared-drive:demo-co"
+        "gws:example:drive:ResearchCo Shared"
       ],
       "connector_refs": [
-        "connector.navicyte.drive"
+        "connector.researchco.drive"
       ],
       "query_surface": {
         "type": "paia_tool",
@@ -135,8 +136,8 @@
       "status": "declared"
     },
     {
-      "index_ref": "index.navicyte.state_system.evidence_cards",
-      "company_ref": "company.demo_co",
+      "index_ref": "index.researchco.state_system.evidence_cards",
+      "company_ref": "company.researchco",
       "owner": "state_system",
       "backend": "postgres_pgvector",
       "scope": "interpreted_state_index",
@@ -147,7 +148,7 @@
         "operating_picture"
       ],
       "source_refs": [
-        "state-system:company.demo_co"
+        "state-system:company.researchco"
       ],
       "connector_refs": [],
       "query_surface": {
@@ -158,37 +159,37 @@
     }
   ],
   "company_memory_refs": [
-    "company_memory.navicyte"
+    "company_memory.researchco"
   ],
   "operating_picture_refs": [
-    "operating_picture.scientific.navicyte",
-    "operating_picture.regulatory.navicyte",
-    "operating_picture.investor.navicyte"
+    "operating_picture.product.researchco",
+    "operating_picture.research.researchco",
+    "operating_picture.finance.researchco"
   ],
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.navicyte.read_folio",
-      "action_surface.navicyte.read_drive",
-      "action_surface.navicyte.search_msgvault",
-      "action_surface.navicyte.inspect_local_workspace"
+      "action_surface.researchco.read_folio",
+      "action_surface.researchco.read_drive",
+      "action_surface.researchco.search_msgvault",
+      "action_surface.researchco.inspect_local_workspace"
     ]
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.navicyte.folio.search",
-      "capability_ref": "capability.navicyte.folio.search",
+      "id": "tool_binding.researchco.folio.search",
+      "capability_ref": "capability.researchco.folio.search",
       "tool_ref": "tool.paia.folio.search",
-      "action_ref": "action_surface.navicyte.read_folio",
+      "action_ref": "action_surface.researchco.read_folio",
       "connector_refs": [
-        "connector.navicyte.folio"
+        "connector.researchco.folio"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.folio"
+        "preflight.researchco.folio"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -196,19 +197,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.drive.read",
-      "capability_ref": "capability.navicyte.drive.read",
+      "id": "tool_binding.researchco.drive.read",
+      "capability_ref": "capability.researchco.drive.read",
       "tool_ref": "tool.paia.gws_drive.read",
-      "action_ref": "action_surface.navicyte.read_drive",
+      "action_ref": "action_surface.researchco.read_drive",
       "connector_refs": [
-        "connector.navicyte.drive"
+        "connector.researchco.drive"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.drive"
+        "preflight.researchco.drive"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -216,19 +217,19 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.msgvault.search",
-      "capability_ref": "capability.navicyte.msgvault.search",
+      "id": "tool_binding.researchco.msgvault.search",
+      "capability_ref": "capability.researchco.msgvault.search",
       "tool_ref": "tool.paia.msgvault.search",
-      "action_ref": "action_surface.navicyte.search_msgvault",
+      "action_ref": "action_surface.researchco.search_msgvault",
       "connector_refs": [
-        "connector.navicyte.msgvault"
+        "connector.researchco.msgvault"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.msgvault"
+        "preflight.researchco.msgvault"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.ingrid",
         "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -236,21 +237,20 @@
       "authorizes_execution": false
     },
     {
-      "id": "tool_binding.navicyte.local.inspect",
-      "capability_ref": "capability.navicyte.local.inspect",
+      "id": "tool_binding.researchco.local.inspect",
+      "capability_ref": "capability.researchco.local.inspect",
       "tool_ref": "tool.paia.local_path.inspect",
-      "action_ref": "action_surface.navicyte.inspect_local_workspace",
+      "action_ref": "action_surface.researchco.inspect_local_workspace",
       "connector_refs": [
-        "connector.navicyte.local"
+        "connector.researchco.local"
       ],
       "required_preflight_refs": [
-        "preflight.navicyte.local"
+        "preflight.researchco.local"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
-        "persona.samantha",
-        "persona.derek"
+        "persona.ingrid",
+        "persona.samantha"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -260,35 +260,35 @@
   "governance": {
     "definition": "governance is approval and authority policy for state promotion and protected actions.",
     "governance_refs": [
-      "governance.company.demo_co.external_action",
-      "governance.company.demo_co.scientific_regulatory_sensitive"
+      "governance.company.researchco.external_action",
+      "governance.company.researchco.finance_sensitive"
     ]
   },
   "connector_preflight": {
     "definition": "connector_preflight is the PAIA runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.navicyte.folio",
-        "connector_ref": "connector.navicyte.folio",
-        "check": "PAIA runtime can search Folio tenant navicyte.",
+        "id": "preflight.researchco.folio",
+        "connector_ref": "connector.researchco.folio",
+        "check": "PAIA runtime can search Folio tenant researchco.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.drive",
-        "connector_ref": "connector.navicyte.drive",
-        "check": "PAIA runtime can read Navicyte Biotechnologies shared drive through gws-account mcco.",
+        "id": "preflight.researchco.drive",
+        "connector_ref": "connector.researchco.drive",
+        "check": "PAIA runtime can read ResearchCo Shared through gws-account mcco.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.msgvault",
-        "connector_ref": "connector.navicyte.msgvault",
-        "check": "PAIA runtime can search Navicyte msgvault email where applicable.",
+        "id": "preflight.researchco.msgvault",
+        "connector_ref": "connector.researchco.msgvault",
+        "check": "PAIA runtime can search ResearchCo msgvault email.",
         "owner": "paia_runtime"
       },
       {
-        "id": "preflight.navicyte.local",
-        "connector_ref": "connector.navicyte.local",
-        "check": "PAIA runtime can inspect the local Navicyte path when locally available.",
+        "id": "preflight.researchco.local",
+        "connector_ref": "connector.researchco.local",
+        "check": "PAIA runtime can inspect the local ResearchCo path when locally available.",
         "owner": "paia_runtime"
       }
     ]
@@ -296,9 +296,8 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are PAIA execution constraints, separate from governance.",
     "constraints": [
-      "Helena primary for Navicyte.",
+      "Ingrid primary for ResearchCo.",
       "Samantha may oversee across company packs.",
-      "Derek technical/repo scope only by default.",
       "No Linear connector is declared unless explicitly added later."
     ]
   },
@@ -306,7 +305,7 @@
     "as_of": "2026-05-14T12:00:00Z",
     "stale_after": "2026-05-21T12:00:00Z",
     "watermark_refs": [
-      "company_capability_pack.navicyte@2026-05-14T12:00:00Z"
+      "company_capability_pack.researchco@2026-05-14T12:00:00Z"
     ]
   },
   "lineage": {

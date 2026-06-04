@@ -42,9 +42,9 @@
 
   <rect x="652" y="130" width="256" height="146" class="box" fill="#fff7e8" stroke="#b06b00"/>
   <text x="672" y="162" class="label">CLI-Ready Packages</text>
-  <text x="672" y="190" class="body">b-state / Samantha</text>
-  <text x="672" y="211" class="body">LFW / Caroline</text>
-  <text x="672" y="232" class="body">Navicyte / Helena, Synthyra / Ingrid</text>
+  <text x="672" y="190" class="body">personal state / Samantha</text>
+  <text x="672" y="211" class="body">SampleCo / Caroline</text>
+  <text x="672" y="232" class="body">PortfolioCo / Helena, ResearchCo / Ingrid</text>
   <text x="672" y="254" class="badge" fill="#b06b00">AGENT SURFACE</text>
 
   <rect x="956" y="130" width="256" height="146" class="box" fill="#f3f0ff" stroke="#6f55c9"/>
@@ -67,7 +67,7 @@
   <text x="64" y="489" class="body">source_module.paia_memory</text>
 
   <rect x="348" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
-  <text x="368" y="370" class="label">b-state / Samantha</text>
+  <text x="368" y="370" class="label">personal state / Samantha</text>
   <text x="368" y="398" class="body">Garmin Connect: fresh local sync</text>
   <text x="368" y="419" class="body">Spotify: historical-cache stale</text>
   <text x="368" y="440" class="body">PAIA memory surfaces:</text>
@@ -75,7 +75,7 @@
   <text x="368" y="482" class="small">connector.personal.paia_memory.owner</text>
 
   <rect x="652" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
-  <text x="672" y="370" class="label">LFW / Caroline</text>
+  <text x="672" y="370" class="label">SampleCo / Caroline</text>
   <text x="672" y="398" class="body">Linear: fresh watermark</text>
   <text x="672" y="419" class="body">GitHub: fresh watermark</text>
   <text x="672" y="440" class="body">Transcript raw pipeline: planned gap</text>
@@ -84,8 +84,8 @@
 
   <rect x="956" y="338" width="256" height="176" class="box" fill="#f7fafc" stroke="#93a3b5"/>
   <text x="976" y="370" class="label">Scaffolded Instances</text>
-  <text x="976" y="398" class="body">Navicyte / Helena package scaffold</text>
-  <text x="976" y="419" class="body">Synthyra / Ingrid package scaffold</text>
+  <text x="976" y="398" class="body">PortfolioCo / Helena package scaffold</text>
+  <text x="976" y="419" class="body">ResearchCo / Ingrid package scaffold</text>
   <text x="976" y="440" class="body">Readiness fields and gap refs</text>
   <text x="976" y="461" class="body">No private corpora in examples</text>
   <text x="976" y="489" class="badge" fill="#6b7280">PLANNED READINESS</text>

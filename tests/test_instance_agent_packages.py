@@ -24,7 +24,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
     def test_cli_builds_and_renders_instance_agent_package(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
-            personal_pack = load_json(PACK_DIR / "instance-acme-ops.json")
+            personal_pack = load_json(PACK_DIR / "instance-sample-personal.json")
             folio_connector = next(
                 connector
                 for connector in personal_pack["source_connectors"]
@@ -36,8 +36,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
             InstanceCapabilityRuntime(stores).seed([personal_pack])
             InstancePreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.state_instance.acme_ops.connector.personal.folio",
-                    "instance_ref": "state_instance.acme_ops",
+                    "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.folio",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -49,7 +49,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -70,7 +70,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     directory,
                     "instance-agent-package-build",
                     "--instance-ref",
-                    "state_instance.acme_ops",
+                    "state_instance.sample_personal",
                     "--agent-ref",
                     "agent.samantha",
                     "--persona-ref",
@@ -91,7 +91,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 ),
             )
             self.assertIn(
-                "gap.state_instance.acme_ops.connector.personal.garmin_connect.access_missing",
+                "gap.state_instance.sample_personal.connector.personal.garmin_connect.access_missing",
                 package["source_context"]["source_gap_refs"],
             )
             folio_source = _source(package, "connector.personal.folio")
@@ -158,14 +158,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
             self.assertFalse(package["invariant"]["agent_package_authorizes_execution"])
             federation_pack = _federation_pack(
                 package,
-                "instance_federation_pack.personal_to_acme_state",
+                "instance_federation_pack.personal_to_sampleco_state",
             )
             self.assertEqual("instance_read", federation_pack["federation_mode"])
             self.assertFalse(
                 federation_pack["materialization_policy"]["local_materialization"]
             )
             self.assertIn(
-                "state_instance.acme",
+                "state_instance.sampleco",
                 federation_pack["remote_instance_refs"],
             )
 
@@ -195,7 +195,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             self.assertIn("Fallback policy:", rendered.getvalue())
             self.assertIn("Federation packs:", rendered.getvalue())
             self.assertIn(
-                "instance_federation_pack.personal_to_acme_state",
+                "instance_federation_pack.personal_to_sampleco_state",
                 rendered.getvalue(),
             )
             self.assertIn(
@@ -209,38 +209,91 @@ class InstanceAgentPackageTests(unittest.TestCase):
             ROOT
             / "examples"
             / "instance-agent-package"
-            / "instance-agent-package-acme-ops-samantha.json"
+            / "instance-agent-package-sample-personal-samantha.json"
         )
         package["source_context"]["source_readiness"][0]["federated_instance"] = {
-            "source_instance_ref": "state_instance.acme",
+            "source_instance_ref": "state_instance.sampleco",
             "status": "available",
         }
 
         rendered = render_package_for_agent(package)
 
-        self.assertIn("Federated instance: state_instance.acme (available)", rendered)
+        self.assertIn("Federated instance: state_instance.sampleco (available)", rendered)
         self.assertIn("Governance refs:", rendered)
         self.assertIn("Requires refresh before external action.", rendered)
 
-    def test_acme_route_declares_governed_federated_relationship_index(self):
+    def test_build_marks_fresh_source_expired_when_stale_after_precedes_created_at(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme.json")]
+                [load_json(PACK_DIR / "instance-sampleco.json")]
+            )
+            InstancePreflightRuntime(stores).record(
+                {
+                    "preflight_ref": "preflight.state_instance.sampleco.connector.sampleco.folio",
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.folio",
+                    "source_ref": "folio:tenant:sampleco",
+                    "connector_type": "folio",
+                    "status": "passed",
+                    "checked_at": "2026-05-17T16:40:00Z",
+                    "stale_after": "2026-05-17T17:40:00Z",
+                    "evidence_refs": ["preflight:folio:passed"],
+                }
+            )
+            InstanceSourceFreshnessRuntime(stores).record(
+                {
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.folio",
+                    "source_ref": "folio:tenant:sampleco",
+                    "connector_type": "folio",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T16:40:00Z",
+                    "source_watermark": "folio.indexed_at:2026-05-17T16:39:00Z",
+                    "stale_after": "2026-05-17T17:40:00Z",
+                    "evidence_refs": ["freshness:folio:fresh"],
+                }
+            )
+
+            package = InstanceAgentPackageRuntime(stores).build(
+                {
+                    "instance_agent_package": load_json(
+                        ROOT / "schemas" / "instance-agent-package.schema.json"
+                    )
+                },
+                instance_ref="state_instance.sampleco",
+                agent_ref="agent.caroline",
+                persona_ref="persona.caroline",
+                created_at="2026-05-17T18:00:00Z",
+            )
+
+        self.assertTrue(
+            package["freshness"]["requires_refresh_before_external_action"]
+        )
+        expired_refs = package["freshness"]["expired_freshness_refs"]
+        self.assertEqual(1, len(expired_refs))
+        self.assertIn("connector.sampleco.folio", expired_refs[0])
+        self.assertIn("stale_after.2026-05-17T17:40:00Z", expired_refs[0])
+
+    def test_sampleco_route_declares_governed_federated_relationship_index(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            InstanceCapabilityRuntime(stores).seed(
+                [load_json(PACK_DIR / "instance-sampleco.json")]
             )
             for connector_ref, source_ref, connector_type in (
-                ("connector.acme.folio", "folio:tenant:acme", "folio"),
-                ("connector.acme.msgvault", "msgvault:tenant:acme-email", "msgvault"),
+                ("connector.sampleco.folio", "folio:tenant:sampleco", "folio"),
+                ("connector.sampleco.msgvault", "msgvault:tenant:sampleco-email", "msgvault"),
                 (
-                    "connector.acme.state_system",
-                    "state-system-instance:state_instance.acme",
+                    "connector.sampleco.state_system",
+                    "state-system-instance:state_instance.sampleco",
                     "local_path",
                 ),
             ):
                 InstancePreflightRuntime(stores).record(
                     {
-                        "preflight_ref": f"preflight.state_instance.acme.{connector_ref}",
-                        "instance_ref": "state_instance.acme",
+                        "preflight_ref": f"preflight.state_instance.sampleco.{connector_ref}",
+                        "instance_ref": "state_instance.sampleco",
                         "connector_ref": connector_ref,
                         "source_ref": source_ref,
                         "connector_type": connector_type,
@@ -252,7 +305,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 )
                 InstanceSourceFreshnessRuntime(stores).record(
                     {
-                        "instance_ref": "state_instance.acme",
+                        "instance_ref": "state_instance.sampleco",
                         "connector_ref": connector_ref,
                         "source_ref": source_ref,
                         "connector_type": connector_type,
@@ -270,7 +323,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.acme",
+                instance_ref="state_instance.sampleco",
                 agent_ref="agent.caroline",
                 persona_ref="persona.caroline",
                 created_at="2026-05-17T16:41:00Z",
@@ -278,14 +331,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
 
         relationship_route = _route(
             package,
-            "question_route.acme.federated_relationship_index",
+            "question_route.sampleco.federated_relationship_index",
         )
         self.assertIn(
-            "state_instance.acme_ops",
+            "state_instance.sample_personal",
             package["evidence_context"]["federated_instance_refs"],
         )
         self.assertIn(
-            "index.federated.acme_ops.relationship_index",
+            "index.federated.sample_personal.relationship_index",
             package["evidence_context"]["index_refs"],
         )
         self.assertEqual(
@@ -293,7 +346,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             relationship_route["query_route"]["status"],
         )
         self.assertEqual(
-            "index.federated.acme_ops.relationship_index",
+            "index.federated.sample_personal.relationship_index",
             relationship_route["query_route"]["index_ref"],
         )
         self.assertFalse(relationship_route["query_route"]["local_materialization"])
@@ -307,7 +360,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
         )
         federation_pack = _federation_pack(
             package,
-            "instance_federation_pack.acme_to_personal_relationship_substrate",
+            "instance_federation_pack.sampleco_to_personal_relationship_substrate",
         )
         self.assertEqual("source_substrate_query", federation_pack["federation_mode"])
         self.assertFalse(
@@ -318,23 +371,23 @@ class InstanceAgentPackageTests(unittest.TestCase):
             federation_pack["materialization_policy"]["raw_remote_corpus_policy"],
         )
         rendered = render_package_for_agent(package)
-        self.assertIn("question_route.acme.federated_relationship_index", rendered)
+        self.assertIn("question_route.sampleco.federated_relationship_index", rendered)
         self.assertIn("Local materialization: False", rendered)
-        self.assertIn("state_instance.acme_ops", rendered)
+        self.assertIn("state_instance.sample_personal", rendered)
         self.assertIn(
-            "instance_federation_pack.acme_to_personal_relationship_substrate",
+            "instance_federation_pack.sampleco_to_personal_relationship_substrate",
             rendered,
         )
 
     def test_company_scaffold_package_exposes_planned_portfolio_federation(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
-            navicyte_pack = load_json(PACK_DIR / "instance-acme.json")
-            navicyte_pack["id"] = "instance_capability_pack.navicyte"
-            navicyte_pack["instance_ref"] = "state_instance.demo_co"
-            navicyte_pack["primary_entity_ref"] = "entity.navicyte"
-            navicyte_pack["identity"]["name"] = "Navicyte"
-            InstanceCapabilityRuntime(stores).seed([navicyte_pack])
+            portfolio_co_pack = load_json(PACK_DIR / "instance-sampleco.json")
+            portfolio_co_pack["id"] = "instance_capability_pack.portfolio_co"
+            portfolio_co_pack["instance_ref"] = "state_instance.portfolio_co"
+            portfolio_co_pack["primary_entity_ref"] = "entity.portfolio_co"
+            portfolio_co_pack["identity"]["name"] = "PortfolioCo"
+            InstanceCapabilityRuntime(stores).seed([portfolio_co_pack])
 
             package = InstanceAgentPackageRuntime(stores).build(
                 {
@@ -342,7 +395,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.demo_co",
+                instance_ref="state_instance.portfolio_co",
                 agent_ref="agent.helena",
                 persona_ref="persona.helena",
                 created_at="2026-05-18T19:30:00Z",
@@ -350,14 +403,14 @@ class InstanceAgentPackageTests(unittest.TestCase):
 
         federation_pack = _federation_pack(
             package,
-            "instance_federation_pack.portfolio_to_demo_co_examplecorp",
+            "instance_federation_pack.portfolio_to_portfolio_co_researchco",
         )
         self.assertEqual("planned", federation_pack["status"])
         self.assertFalse(
             federation_pack["materialization_policy"]["local_materialization"]
         )
         self.assertIn(
-            "gap.state_instance.demo_co.portfolio_federation.package_readiness_unproved",
+            "gap.state_instance.portfolio_co.portfolio_federation.package_readiness_unproved",
             federation_pack["freshness_policy"]["gap_refs"],
         )
 
@@ -373,13 +426,13 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         "id": "question_route_registry.private",
                         "routes": [
                             {
-                                "route_id": "question_route.acme.private_context_review",
-                                "intent": "Review private LFW context with visible source gaps.",
-                                "source_order": ["connector.acme.folio"],
+                                "route_id": "question_route.sampleco.private_context_review",
+                                "intent": "Review private SampleCo context with visible source gaps.",
+                                "source_order": ["connector.sampleco.folio"],
                                 "required_source_coverage": [
                                     {
-                                        "coverage_ref": "coverage.acme.private_folio",
-                                        "connector_refs": ["connector.acme.folio"],
+                                        "coverage_ref": "coverage.sampleco.private_folio",
+                                        "connector_refs": ["connector.sampleco.folio"],
                                         "source_module_refs": ["source_module.folio"],
                                         "minimum_status": "usable_with_visible_gaps",
                                     }
@@ -428,7 +481,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             )
 
             InstanceCapabilityRuntime(stores).seed(
-                [load_json(PACK_DIR / "instance-acme.json")]
+                [load_json(PACK_DIR / "instance-sampleco.json")]
             )
 
             package = InstanceAgentPackageRuntime(stores).build(
@@ -437,15 +490,15 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         ROOT / "schemas" / "instance-agent-package.schema.json"
                     )
                 },
-                instance_ref="state_instance.acme",
+                instance_ref="state_instance.sampleco",
                 agent_ref="agent.caroline",
                 persona_ref="persona.caroline",
                 created_at="2026-05-18T20:10:00Z",
             )
 
-        private_route = _route(package, "question_route.acme.private_context_review")
+        private_route = _route(package, "question_route.sampleco.private_context_review")
         self.assertEqual(
-            "question_route_contract.acme.private_context_review",
+            "question_route_contract.sampleco.private_context_review",
             private_route["route_contract_ref"],
         )
         self.assertEqual(

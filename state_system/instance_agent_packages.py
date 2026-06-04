@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 
@@ -126,13 +127,19 @@ def _package_from_instance(
     index_refs.update(_question_route_index_refs(question_routes))
     federated_refs = sorted(federated_refs)
     index_refs = sorted(index_refs)
+    resolved_package_id = package_id or _package_id(instance["instance_ref"], agent_ref)
+    expired_freshness_refs = _expired_freshness_refs(
+        package_id=resolved_package_id,
+        sources=sources,
+        as_of=created_at,
+    )
     requires_refresh = any(
         source["freshness_status"] != "fresh" or source["access_status"] != "passed"
         for source in sources
-    )
+    ) or bool(expired_freshness_refs)
     selected_persona_ref = persona_ref or _first(capability["identity"].get("primary_agent_refs"))
     return {
-        "id": package_id or _package_id(instance["instance_ref"], agent_ref),
+        "id": resolved_package_id,
         "package_type": "instance_agent_package",
         "created_at": created_at,
         "instance_ref": instance["instance_ref"],
@@ -170,6 +177,7 @@ def _package_from_instance(
             "generated_at": created_at,
             "requires_refresh_before_external_action": requires_refresh,
             "watermark_refs": _watermark_refs(instance["source_readiness"]),
+            "expired_freshness_refs": expired_freshness_refs,
         },
         "invariant": {
             "agent_package_executes_retrieval": False,
@@ -281,6 +289,53 @@ def _source_evidence_refs(source: JsonObject) -> list[str]:
     return sorted(refs)
 
 
+def _expired_freshness_refs(
+    *,
+    package_id: str,
+    sources: list[JsonObject],
+    as_of: str,
+) -> list[str]:
+    return sorted(
+        {
+            _expired_freshness_ref(package_id, source)
+            for source in sources
+            if _is_expired(source.get("stale_after", ""), as_of)
+        }
+    )
+
+
+def _expired_freshness_ref(package_id: str, source: JsonObject) -> str:
+    return ".".join(
+        [
+            "expired_freshness",
+            package_id,
+            str(source.get("connector_ref", "")),
+            "stale_after",
+            str(source.get("stale_after", "")),
+        ]
+    )
+
+
+def _is_expired(stale_after: object, as_of: str | None) -> bool:
+    if not stale_after or not as_of:
+        return False
+    stale_after_dt = _parse_timestamp(str(stale_after))
+    as_of_dt = _parse_timestamp(as_of)
+    if stale_after_dt is None or as_of_dt is None:
+        return False
+    return stale_after_dt < as_of_dt
+
+
+def _parse_timestamp(value: str) -> datetime | None:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed
+
+
 def _question_routes(
     *,
     instance_ref: str,
@@ -309,7 +364,7 @@ def _question_routes(
                     "connector.personal.paia_memory.owner",
                     "connector.personal.msgvault",
                     "connector.personal.workboard",
-                    "connector.personal.acme_state_system",
+                    "connector.personal.sampleco_state_system",
                 ],
                 "tool_refs": [
                     "tool.relationship_substrate.operating_picture",
@@ -362,13 +417,13 @@ def _question_routes(
                 "optional_external_context_tools": ["calendar"],
                 "required_actions": [
                     "Start with relationship_substrate operating_picture for people, organizations, interaction freshness, and operating-picture context.",
-                    "Use subject-level relationship notes as Braydon's explicit relationship corrections when they are available.",
+                    "Use subject-level relationship notes as example owner's explicit relationship corrections when they are available.",
                     "Use memory_search or agentmem relationship context when available before deciding a follow-up is missing or important.",
-                    "Use PAIA memory Samantha conversation summaries, facets, and recent turns for Sam continuity context, and use Braydon owner facets as separate owner context with tenant labels preserved.",
+                    "Use PAIA memory Samantha conversation summaries, facets, and recent turns for Sam continuity context, and use example owner facets as separate owner context with tenant labels preserved.",
                     "Use msgvault for concrete thread evidence; cite message/thread evidence refs and avoid broad keyword-only conclusions.",
                     "Check workboard for existing follow-up tasks or agent-owned obligations before proposing a new action.",
                     "Use calendar only as schedule context; it must not be the sole relationship follow-up evidence source when broader sources are available.",
-                    "Include federated LFW state when the relationship or obligation is work-related.",
+                    "Include federated SampleCo state when the relationship or obligation is work-related.",
                 ],
                 "answer_contract": [
                     "Return ranked follow-up candidates, not just calendar items.",
@@ -406,7 +461,7 @@ def _question_routes(
                             "connector.personal.paia_memory.samantha",
                             "connector.personal.paia_memory.owner",
                             "connector.personal.workboard",
-                            "connector.personal.acme_state_system",
+                            "connector.personal.sampleco_state_system",
                         },
                     ),
                 },
@@ -484,7 +539,7 @@ def _question_routes(
                     "connector.personal.paia_memory.samantha",
                     "connector.personal.paia_memory.owner",
                     "connector.personal.workboard",
-                    "connector.personal.acme_state_system",
+                    "connector.personal.sampleco_state_system",
                 ],
                 "tool_refs": [
                     "tool.relationship_substrate.search_small_consulting_firm_contacts",
@@ -542,7 +597,7 @@ def _question_routes(
                     "Use memory_search or agentmem for known relationship context when available.",
                     "Use PAIA memory Samantha facets and owner facets as separately labeled context without promoting private facets or raw turns to relationship facts.",
                     "Check workboard for existing outreach tasks or constraints before suggesting next steps.",
-                    "Use LFW state only to verify a specific obligation or work context after candidates are found.",
+                    "Use SampleCo state only to verify a specific obligation or work context after candidates are found.",
                 ],
                 "answer_contract": [
                     "Return contacts with person, organization, enrichment fields used, relationship evidence, and source freshness.",
@@ -580,38 +635,38 @@ def _question_routes(
                             "connector.personal.paia_memory.samantha",
                             "connector.personal.paia_memory.owner",
                             "connector.personal.workboard",
-                            "connector.personal.acme_state_system",
+                            "connector.personal.sampleco_state_system",
                         },
                     ),
                 },
             }
         )
-    if instance_ref == "state_instance.acme":
+    if instance_ref == "state_instance.sampleco":
         routes.append(
             {
-                "id": "question_route.acme.relationship_follow_up_triage",
-                "intent": "Find LFW relationship-backed work follow-ups.",
+                "id": "question_route.sampleco.relationship_follow_up_triage",
+                "intent": "Find SampleCo relationship-backed work follow-ups.",
                 "source_order": [
-                    "connector.acme.state_system",
-                    "connector.acme.msgvault",
-                    "connector.acme.linear",
+                    "connector.sampleco.state_system",
+                    "connector.sampleco.msgvault",
+                    "connector.sampleco.linear",
                 ],
                 "required_actions": [
-                    "Use interpreted LFW state for active obligations and relationship-sensitive work.",
+                    "Use interpreted SampleCo state for active obligations and relationship-sensitive work.",
                     "Use msgvault only as cited thread evidence, respecting freshness status.",
                     "Use Linear or Workgraph task state for owned internal follow-ups.",
                 ],
                 "answer_contract": [
                     "Return work follow-up candidates with owners, evidence refs, and approval boundaries.",
-                    "Do not mix in personal b-state sources unless explicitly federated into LFW.",
+                    "Do not mix in personal personal state sources unless explicitly federated into SampleCo.",
                 ],
-                "route_contract_ref": "question_route_contract.acme.relationship_follow_up_triage",
+                "route_contract_ref": "question_route_contract.sampleco.relationship_follow_up_triage",
                 "required_source_coverage": [
                     {
-                        "coverage_ref": "coverage.acme.company_follow_up",
+                        "coverage_ref": "coverage.sampleco.company_follow_up",
                         "connector_refs": [
-                            "connector.acme.state_system",
-                            "connector.acme.msgvault",
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
                         ],
                         "source_module_refs": [
                             "source_module.state_system_instance",
@@ -622,8 +677,9 @@ def _question_routes(
                 ],
                 "required_tools": ["tool.state_system.instance_read"],
                 "optional_tools": ["tool.paia.msgvault.search", "tool.linear.search"],
+                "tool_action_refs": ["tool_action.state_system_instance.read"],
                 "fallback_policy": {
-                    "policy": "If LFW interpreted state is stale or missing, answer with company source gap caveats.",
+                    "policy": "If SampleCo interpreted state is stale or missing, answer with company source gap caveats.",
                     "repair_gate": "Do not use personal sources unless an explicit federated route applies.",
                 },
                 "answer_contract_policy": {
@@ -635,14 +691,14 @@ def _question_routes(
                     ],
                 },
                 "gap_behavior": {
-                    "when_required_source_missing": "Declare LFW follow-up route undercovered.",
+                    "when_required_source_missing": "Declare SampleCo follow-up route undercovered.",
                     "when_source_stale": "Name stale company source before recommending action.",
                     "relevant_gap_refs": _route_gap_refs(
                         sources,
                         {
-                            "connector.acme.state_system",
-                            "connector.acme.msgvault",
-                            "connector.acme.linear",
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.linear",
                         },
                     ),
                 },
@@ -650,17 +706,12 @@ def _question_routes(
         )
         routes.append(
             {
-                "id": "question_route.acme.federated_relationship_index",
-                "intent": "Use Braydon long-history relationship evidence for LFW relationship and business-development questions when contact context matters.",
-                "applies_to": [
-                    "Who does Braydon know at smaller consulting firms who might matter for LFW?",
-                    "Does Braydon already have relationships at boutique consulting or advisory firms relevant to LFW?",
-                    "Find LFW-relevant relationship paths through boutique advisory, agency, or specialist operating firms.",
-                ],
+                "id": "question_route.sampleco.federated_relationship_index",
+                "intent": "Use example owner long-history relationship evidence for SampleCo relationship and business-development questions when contact context matters.",
                 "source_order": [
-                    "connector.acme.state_system",
-                    "connector.acme.msgvault",
-                    "connector.acme.folio",
+                    "connector.sampleco.state_system",
+                    "connector.sampleco.msgvault",
+                    "connector.sampleco.folio",
                     "query_surface.federated.relationship_index.search",
                 ],
                 "tool_refs": [
@@ -672,7 +723,7 @@ def _question_routes(
                 "capability_refs": [
                     "capability.federated.relationship_index.search_small_consulting_firm_contacts"
                 ],
-                "route_contract_ref": "question_route_contract.acme.federated_relationship_index",
+                "route_contract_ref": "question_route_contract.sampleco.federated_relationship_index",
                 "module_modes": [
                     {
                         "source_module_ref": "source_module.relationship_substrate",
@@ -681,11 +732,11 @@ def _question_routes(
                 ],
                 "required_source_coverage": [
                     {
-                        "coverage_ref": "coverage.acme.company_context",
+                        "coverage_ref": "coverage.sampleco.company_context",
                         "connector_refs": [
-                            "connector.acme.state_system",
-                            "connector.acme.msgvault",
-                            "connector.acme.folio",
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.folio",
                         ],
                         "source_module_refs": [
                             "source_module.state_system_instance",
@@ -695,9 +746,9 @@ def _question_routes(
                         "minimum_status": "usable_with_visible_gaps",
                     },
                     {
-                        "coverage_ref": "coverage.acme.federated_relationship_context",
+                        "coverage_ref": "coverage.sampleco.federated_relationship_context",
                         "connector_refs": [
-                            "connector.federated.acme_ops.relationship_substrate"
+                            "connector.federated.sample_personal.relationship_substrate"
                         ],
                         "source_module_refs": ["source_module.relationship_substrate"],
                         "minimum_status": "declared_governed_route",
@@ -709,38 +760,38 @@ def _question_routes(
                 "query_route": {
                     "status": "declared_governed_route",
                     "query_surface_ref": "query_surface.federated.relationship_index.search",
-                    "index_ref": "index.federated.acme_ops.relationship_index",
-                    "source_ref": "relationship_index:acme_long_history",
-                    "source_instance_ref": "state_instance.acme_ops",
+                    "index_ref": "index.federated.sample_personal.relationship_index",
+                    "source_ref": "relationship_index:sample_personal_long_history",
+                    "source_instance_ref": "state_instance.sample_personal",
                     "local_materialization": False,
                     "boundaries": [
-                    "Query on demand; do not copy raw personal relationship records into LFW.",
-                    "Use returned evidence as federated relationship context, not deterministic scoring.",
-                    "Use subject-level relationship notes for context-specific corrections; do not apply broad hidden category exclusions or treat them as canonical profile facts.",
-                    "Do not route through personal media, health, fitness, or other non-LFW source surfaces.",
-                    "Prefer LFW company evidence first when the question is directly about active LFW work.",
-                ],
+                        "Query on demand; do not copy raw personal relationship records into SampleCo.",
+                        "Use returned evidence as federated relationship context, not deterministic scoring.",
+                        "Use subject-level relationship notes for context-specific corrections; do not apply broad hidden category exclusions or treat them as canonical profile facts.",
+                        "Do not route through personal media, health, fitness, or other non-SampleCo source surfaces.",
+                        "Prefer SampleCo company evidence first when the question is directly about active SampleCo work.",
+                    ],
                 },
                 "federated_query": {
-                    "source_instance_ref": "state_instance.acme_ops",
+                    "source_instance_ref": "state_instance.sample_personal",
                     "query_surface_ref": "query_surface.federated.relationship_index.search",
-                    "index_ref": "index.federated.acme_ops.relationship_index",
+                    "index_ref": "index.federated.sample_personal.relationship_index",
                     "local_materialization": False,
                     "boundaries": [
-                        "Query on demand; do not copy raw personal relationship records into LFW.",
+                        "Query on demand; do not copy raw personal relationship records into SampleCo.",
                         "Use subject-note context as context-specific correction evidence, not hidden filters.",
                     ],
                 },
                 "required_actions": [
-                    "Search ready LFW company surfaces for active obligations and company evidence.",
+                    "Search ready SampleCo company surfaces for active obligations and company evidence.",
                     "Use the federated relationship-index route only when relationship history would materially improve the answer.",
                     "For smaller consulting firm questions, call the relationship index with enrichment-backed employee-count and consultant-count filters.",
                     "Cite or summarize returned relationship evidence with source boundaries and explicit gaps.",
                 ],
                 "answer_contract": [
-                    "Use governed relationship-index evidence only as cited federated context for LFW relationship or business-development questions.",
+                    "Use governed relationship-index evidence only as cited federated context for SampleCo relationship or business-development questions.",
                     "Declare the relationship-index route unavailable or insufficient when it cannot be queried or does not return relevant evidence.",
-                    "Do not materialize raw personal relationship records into LFW runtime state.",
+                    "Do not materialize raw personal relationship records into SampleCo runtime state.",
                 ],
                 "answer_contract_policy": {
                     "requires_evidence_refs": True,
@@ -750,25 +801,212 @@ def _question_routes(
                         "subject_note_context_demote_explain_not_hide"
                     ],
                     "rules": [
-                        "Do not materialize raw personal relationship records into LFW runtime state."
+                        "Do not materialize raw personal relationship records into SampleCo runtime state."
                     ],
                 },
                 "fallback_policy": {
-                    "policy": "If the federated relationship index is unavailable, answer from LFW company sources and explicitly name the missing relationship route.",
-                    "repair_gate": "Do not silently replace federated relationship evidence with personal media, health, or unrelated b-state sources.",
+                    "policy": "If the federated relationship index is unavailable, answer from SampleCo company sources and explicitly name the missing relationship route.",
+                    "repair_gate": "Do not silently replace federated relationship evidence with personal media, health, or unrelated personal state sources.",
                 },
                 "gap_behavior": {
                     "when_required_source_missing": "Declare the federated route unavailable or insufficient.",
-                    "when_source_stale": "Name stale LFW company or federated source freshness before using it.",
+                    "when_source_stale": "Name stale SampleCo company or federated source freshness before using it.",
                     "relevant_gap_refs": _route_gap_refs(
                         sources,
                         {
-                            "connector.acme.state_system",
-                            "connector.acme.msgvault",
-                            "connector.acme.folio",
-                            "connector.acme.linear",
-                            "connector.acme.github",
-                            "connector.acme.repo",
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.folio",
+                            "connector.sampleco.linear",
+                            "connector.sampleco.github_org",
+                        },
+                    ),
+                },
+            }
+        )
+    if instance_ref == "state_instance.sampleco":
+        routes.append(
+            {
+                "id": "question_route.sampleco.relationship_follow_up_triage",
+                "intent": "Find SampleCo relationship-backed work follow-ups.",
+                "source_order": [
+                    "connector.sampleco.state_system",
+                    "connector.sampleco.msgvault",
+                    "connector.sampleco.linear",
+                ],
+                "required_actions": [
+                    "Use interpreted SampleCo state for active obligations and relationship-sensitive work.",
+                    "Use msgvault only as cited thread evidence, respecting freshness status.",
+                    "Use Linear or Workgraph task state for owned internal follow-ups.",
+                ],
+                "answer_contract": [
+                    "Return work follow-up candidates with owners, evidence refs, and approval boundaries.",
+                    "Do not mix in personal personal state sources unless explicitly federated into SampleCo.",
+                ],
+                "route_contract_ref": "question_route_contract.sampleco.relationship_follow_up_triage",
+                "required_source_coverage": [
+                    {
+                        "coverage_ref": "coverage.sampleco.company_follow_up",
+                        "connector_refs": [
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                        ],
+                        "source_module_refs": [
+                            "source_module.state_system_instance",
+                            "source_module.msgvault",
+                        ],
+                        "minimum_status": "usable_with_visible_gaps",
+                    }
+                ],
+                "required_tools": ["tool.state_system.instance_read"],
+                "optional_tools": ["tool.paia.msgvault.search", "tool.linear.search"],
+                "fallback_policy": {
+                    "policy": "If SampleCo interpreted state is stale or missing, answer with company source gap caveats.",
+                    "repair_gate": "Do not use personal sources unless an explicit federated route applies.",
+                },
+                "answer_contract_policy": {
+                    "requires_evidence_refs": True,
+                    "requires_source_freshness_summary": True,
+                    "direct_evidence_vs_interpretation": True,
+                    "rules": [
+                        "Return work follow-up candidates with owners, evidence refs, and approval boundaries."
+                    ],
+                },
+                "gap_behavior": {
+                    "when_required_source_missing": "Declare SampleCo follow-up route undercovered.",
+                    "when_source_stale": "Name stale company source before recommending action.",
+                    "relevant_gap_refs": _route_gap_refs(
+                        sources,
+                        {
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.linear",
+                        },
+                    ),
+                },
+            }
+        )
+        routes.append(
+            {
+                "id": "question_route.sampleco.federated_relationship_index",
+                "intent": "Use example owner long-history relationship evidence for SampleCo relationship and business-development questions when contact context matters.",
+                "applies_to": [
+                    "Who does example owner know at smaller consulting firms who might matter for SampleCo?",
+                    "Does example owner already have relationships at boutique consulting or advisory firms relevant to SampleCo?",
+                    "Find SampleCo-relevant relationship paths through boutique advisory, agency, or specialist operating firms.",
+                ],
+                "source_order": [
+                    "connector.sampleco.state_system",
+                    "connector.sampleco.msgvault",
+                    "connector.sampleco.folio",
+                    "query_surface.federated.relationship_index.search",
+                ],
+                "tool_refs": [
+                    "tool.relationship_substrate.search_small_consulting_firm_contacts"
+                ],
+                "tool_action_refs": [
+                    "tool_action.relationship_substrate.search_small_consulting_firm_contacts"
+                ],
+                "capability_refs": [
+                    "capability.federated.relationship_index.search_small_consulting_firm_contacts"
+                ],
+                "route_contract_ref": "question_route_contract.sampleco.federated_relationship_index",
+                "module_modes": [
+                    {
+                        "source_module_ref": "source_module.relationship_substrate",
+                        "mode": "federated_query",
+                    }
+                ],
+                "required_source_coverage": [
+                    {
+                        "coverage_ref": "coverage.sampleco.company_context",
+                        "connector_refs": [
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.folio",
+                        ],
+                        "source_module_refs": [
+                            "source_module.state_system_instance",
+                            "source_module.msgvault",
+                            "source_module.folio",
+                        ],
+                        "minimum_status": "usable_with_visible_gaps",
+                    },
+                    {
+                        "coverage_ref": "coverage.sampleco.federated_relationship_context",
+                        "connector_refs": [
+                            "connector.federated.sample_personal.relationship_substrate"
+                        ],
+                        "source_module_refs": ["source_module.relationship_substrate"],
+                        "minimum_status": "declared_governed_route",
+                    },
+                ],
+                "required_tools": [
+                    "tool.relationship_substrate.search_small_consulting_firm_contacts"
+                ],
+                "query_route": {
+                    "status": "declared_governed_route",
+                    "query_surface_ref": "query_surface.federated.relationship_index.search",
+                    "index_ref": "index.federated.sample_personal.relationship_index",
+                    "source_ref": "relationship_index:sample_long_history",
+                    "source_instance_ref": "state_instance.sample_personal",
+                    "local_materialization": False,
+                    "boundaries": [
+                    "Query on demand; do not copy raw personal relationship records into SampleCo.",
+                    "Use returned evidence as federated relationship context, not deterministic scoring.",
+                    "Use subject-level relationship notes for context-specific corrections; do not apply broad hidden category exclusions or treat them as canonical profile facts.",
+                    "Do not route through personal media, health, fitness, or other non-SampleCo source surfaces.",
+                    "Prefer SampleCo company evidence first when the question is directly about active SampleCo work.",
+                ],
+                },
+                "federated_query": {
+                    "source_instance_ref": "state_instance.sample_personal",
+                    "query_surface_ref": "query_surface.federated.relationship_index.search",
+                    "index_ref": "index.federated.sample_personal.relationship_index",
+                    "local_materialization": False,
+                    "boundaries": [
+                        "Query on demand; do not copy raw personal relationship records into SampleCo.",
+                        "Use subject-note context as context-specific correction evidence, not hidden filters.",
+                    ],
+                },
+                "required_actions": [
+                    "Search ready SampleCo company surfaces for active obligations and company evidence.",
+                    "Use the federated relationship-index route only when relationship history would materially improve the answer.",
+                    "For smaller consulting firm questions, call the relationship index with enrichment-backed employee-count and consultant-count filters.",
+                    "Cite or summarize returned relationship evidence with source boundaries and explicit gaps.",
+                ],
+                "answer_contract": [
+                    "Use governed relationship-index evidence only as cited federated context for SampleCo relationship or business-development questions.",
+                    "Declare the relationship-index route unavailable or insufficient when it cannot be queried or does not return relevant evidence.",
+                    "Do not materialize raw personal relationship records into SampleCo runtime state.",
+                ],
+                "answer_contract_policy": {
+                    "requires_evidence_refs": True,
+                    "requires_source_freshness_summary": True,
+                    "direct_evidence_vs_interpretation": True,
+                    "subject_note_policy": [
+                        "subject_note_context_demote_explain_not_hide"
+                    ],
+                    "rules": [
+                        "Do not materialize raw personal relationship records into SampleCo runtime state."
+                    ],
+                },
+                "fallback_policy": {
+                    "policy": "If the federated relationship index is unavailable, answer from SampleCo company sources and explicitly name the missing relationship route.",
+                    "repair_gate": "Do not silently replace federated relationship evidence with personal media, health, or unrelated personal state sources.",
+                },
+                "gap_behavior": {
+                    "when_required_source_missing": "Declare the federated route unavailable or insufficient.",
+                    "when_source_stale": "Name stale SampleCo company or federated source freshness before using it.",
+                    "relevant_gap_refs": _route_gap_refs(
+                        sources,
+                        {
+                            "connector.sampleco.state_system",
+                            "connector.sampleco.msgvault",
+                            "connector.sampleco.folio",
+                            "connector.sampleco.linear",
+                            "connector.sampleco.github",
+                            "connector.sampleco.repo",
                         },
                     ),
                 },
@@ -927,14 +1165,19 @@ def _federation_packs(
     connector_refs = {source["connector_ref"] for source in sources}
     packs: list[JsonObject] = []
 
-    if "connector.personal.acme_state_system" in connector_refs:
+    personal_state_connector = (
+        "connector.personal.sampleco_state_system"
+        if "connector.personal.sampleco_state_system" in connector_refs
+        else ""
+    )
+    if personal_state_connector:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.personal_to_acme_state",
+                pack_id="instance_federation_pack.personal_to_sampleco_state",
                 status="ready",
                 mode="instance_read",
                 local_instance_ref=instance_ref,
-                remote_instance_refs=["state_instance.acme"],
+                remote_instance_refs=["state_instance.sampleco"],
                 route_refs=[
                     route_id
                     for route_id in (
@@ -948,41 +1191,41 @@ def _federation_packs(
                 source_module_refs=["source_module.state_system_instance"],
                 local_materialization=False,
                 raw_remote_corpus_policy=(
-                    "Raw LFW source corpora remain in the LFW instance."
+                    "Raw SampleCo source corpora remain in the SampleCo instance."
                 ),
                 freshness_status=_source_status(
                     sources,
-                    "connector.personal.acme_state_system",
+                    personal_state_connector,
                     "freshness_status",
                 ),
                 checked_at=_source_status(
                     sources,
-                    "connector.personal.acme_state_system",
+                    personal_state_connector,
                     "checked_at",
                 ),
                 source_watermark=_source_status(
                     sources,
-                    "connector.personal.acme_state_system",
+                    personal_state_connector,
                     "source_watermark",
                 ),
-                gap_refs=_source_gap_refs(sources, "connector.personal.acme_state_system"),
-                repair_owner="state_instance.acme",
+                gap_refs=_source_gap_refs(sources, personal_state_connector),
+                repair_owner="state_instance.sampleco",
                 when_unavailable=(
-                    "Answer from personal sources and state that LFW federation is unavailable."
+                    "Answer from personal sources and state that SampleCo federation is unavailable."
                 ),
-                when_stale="Name the stale LFW package watermark before relying on it.",
+                when_stale="Name the stale SampleCo package watermark before relying on it.",
             )
         )
 
-    if "question_route.acme.federated_relationship_index" in route_ids:
+    if "question_route.sampleco.federated_relationship_index" in route_ids:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.acme_to_personal_relationship_substrate",
+                pack_id="instance_federation_pack.sampleco_to_personal_relationship_substrate",
                 status="ready",
                 mode="source_substrate_query",
                 local_instance_ref=instance_ref,
-                remote_instance_refs=["state_instance.acme_ops"],
-                route_refs=["question_route.acme.federated_relationship_index"],
+                remote_instance_refs=["state_instance.sample_personal"],
+                route_refs=["question_route.sampleco.federated_relationship_index"],
                 query_surface_refs=[
                     "query_surface.federated.relationship_index.search"
                 ],
@@ -992,15 +1235,15 @@ def _federation_packs(
                 source_module_refs=["source_module.relationship_substrate"],
                 local_materialization=False,
                 raw_remote_corpus_policy=(
-                    "No raw personal relationship records may be copied into LFW state."
+                    "No raw personal relationship records may be copied into SampleCo state."
                 ),
                 freshness_status="fresh",
                 checked_at="",
                 source_watermark="",
                 gap_refs=[],
-                repair_owner="state_instance.acme_ops",
+                repair_owner="state_instance.sample_personal",
                 when_unavailable=(
-                    "Answer from LFW company sources and name the missing relationship federation route."
+                    "Answer from SampleCo company sources and name the missing relationship federation route."
                 ),
                 when_stale=(
                     "State the Relationship Substrate freshness gap before using old relationship context."
@@ -1009,16 +1252,16 @@ def _federation_packs(
             )
         )
 
-    if instance_ref in {"state_instance.demo_co", "state_instance.examplecorp"}:
+    if instance_ref in {"state_instance.portfolio_co", "state_instance.researchco"}:
         packs.append(
             _federation_pack(
-                pack_id="instance_federation_pack.portfolio_to_demo_co_examplecorp",
+                pack_id="instance_federation_pack.portfolio_to_portfolio_co_researchco",
                 status="planned",
                 mode="portfolio_rollup",
                 local_instance_ref=instance_ref,
                 remote_instance_refs=[
-                    "state_instance.demo_co",
-                    "state_instance.examplecorp",
+                    "state_instance.portfolio_co",
+                    "state_instance.researchco",
                 ],
                 route_refs=["question_route.portfolio.company_readiness_rollup"],
                 query_surface_refs=["query_surface.state_system.instance_read"],

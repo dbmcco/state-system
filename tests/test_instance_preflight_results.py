@@ -22,7 +22,7 @@ EXAMPLE = (
     ROOT
     / "examples"
     / "instance-preflight"
-    / "instance-preflight-acme-ops-folio.json"
+    / "instance-preflight-sample-personal-folio.json"
 )
 
 
@@ -45,10 +45,10 @@ class InstancePreflightResultTests(unittest.TestCase):
             record = runtime.record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.folio"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.folio",
                     "source_ref": "folio:tenant:personal",
                     "connector_type": "folio",
@@ -63,14 +63,14 @@ class InstancePreflightResultTests(unittest.TestCase):
             )
 
             self.assertEqual(
-                "state_instance.acme_ops|connector.personal.folio|"
-                "folio:tenant:personal|preflight.state_instance.acme_ops."
+                "state_instance.sample_personal|connector.personal.folio|"
+                "folio:tenant:personal|preflight.state_instance.sample_personal."
                 "connector.personal.folio||||",
                 record["scope_key"],
             )
             self.assertTrue(
                 record["id"].startswith(
-                    "instance_preflight_result.state_instance.acme_ops"
+                    "instance_preflight_result.state_instance.sample_personal"
                 )
             )
             self.assertTrue(record["proves_live_access"])
@@ -83,10 +83,10 @@ class InstancePreflightResultTests(unittest.TestCase):
             runtime = InstancePreflightRuntime(stores)
             base = {
                 "preflight_ref": (
-                    "preflight.state_instance.acme_ops."
+                    "preflight.state_instance.sample_personal."
                     "connector.personal.folio"
                 ),
-                "instance_ref": "state_instance.acme_ops",
+                "instance_ref": "state_instance.sample_personal",
                 "connector_ref": "connector.personal.folio",
                 "source_ref": "folio:tenant:personal",
                 "connector_type": "folio",
@@ -125,12 +125,12 @@ class InstancePreflightResultTests(unittest.TestCase):
             record = runtime.record(
                 {
                     "preflight_ref": (
-                        "preflight.state_instance.acme_ops."
+                        "preflight.state_instance.sample_personal."
                         "connector.personal.agentmem"
                     ),
-                    "instance_ref": "state_instance.acme_ops",
+                    "instance_ref": "state_instance.sample_personal",
                     "connector_ref": "connector.personal.agentmem",
-                    "source_ref": "agentmem:tenant:acme_user",
+                    "source_ref": "agentmem:tenant:example_user",
                     "connector_type": "agentmem",
                     "status": "planned",
                     "checked_at": "2026-05-16T19:42:47Z",
@@ -171,7 +171,7 @@ class InstancePreflightResultTests(unittest.TestCase):
 
             summary = run_instance_preflight(
                 stores,
-                instance_ref="state_instance.acme_ops",
+                instance_ref="state_instance.sample_personal",
                 checked_at="2026-05-17T10:25:00Z",
                 stale_after="2026-05-17T10:40:00Z",
             )
@@ -209,9 +209,9 @@ class InstancePreflightResultTests(unittest.TestCase):
                     directory,
                     "instance-preflight-record",
                     "--preflight-ref",
-                    "preflight.state_instance.acme_ops.connector.personal.folio",
+                    "preflight.state_instance.sample_personal.connector.personal.folio",
                     "--instance-ref",
-                    "state_instance.acme_ops",
+                    "state_instance.sample_personal",
                     "--connector-ref",
                     "connector.personal.folio",
                     "--source-ref",
@@ -279,13 +279,13 @@ class InstancePreflightResultTests(unittest.TestCase):
                     directory,
                     "instance-preflight-record",
                     "--preflight-ref",
-                    "preflight.state_instance.acme_ops.connector.personal.garmin_connect",
+                    "preflight.state_instance.sample_personal.connector.personal.garmin_connect",
                     "--instance-ref",
-                    "state_instance.acme_ops",
+                    "state_instance.sample_personal",
                     "--connector-ref",
                     "connector.personal.garmin_connect",
                     "--source-ref",
-                    "garmin-connect:account:acme_user",
+                    "garmin-connect:account:example_user",
                     "--connector-type",
                     "garmin_connect",
                     "--tool-ref",
@@ -303,7 +303,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     "--stale-after",
                     "2026-05-17T16:16:52Z",
                     "--evidence-ref",
-                    "capability-pack:acme_user-personal:garmin-connect:planned",
+                    "capability-pack:example_user-personal:garmin-connect:planned",
                 ],
                 stdout=output,
             )
@@ -351,7 +351,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     directory,
                     "instance-preflight-run",
                     "--instance-ref",
-                    "state_instance.acme_ops",
+                    "state_instance.sample_personal",
                     "--checked-at",
                     "2026-05-17T10:25:00Z",
                     "--stale-after",
@@ -369,13 +369,13 @@ class InstancePreflightResultTests(unittest.TestCase):
 def _instance_pack(*, source_root: str, connectors: list[dict]):
     source_refs = [connector["source_ref"] for connector in connectors]
     return {
-        "id": "instance_capability_pack.acme_ops",
-        "instance_ref": "state_instance.acme_ops",
-        "primary_entity_ref": "entity.acme_user",
+        "id": "instance_capability_pack.sample_personal",
+        "instance_ref": "state_instance.sample_personal",
+        "primary_entity_ref": "entity.example_user",
         "entity_kind": "person",
         "generated_at": "2026-05-17T10:20:00Z",
         "identity": {
-            "name": "Braydon Personal State",
+            "name": "Sample Personal State",
             "summary": "Test fixture.",
             "primary_agent_refs": [],
             "oversight_agent_refs": [],

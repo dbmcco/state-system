@@ -24,7 +24,7 @@ Memory defines learned experience.
 
 Examples:
 
-- preferences learned from Acme User
+- preferences learned from Example User
 - successful tactics
 - repeated failure modes
 - domain observations
@@ -54,7 +54,7 @@ Agent memory is individual learning.
 
 Example:
 
-Laura may learn that LightForge Works messaging becomes stronger when it frames
+Laura may learn that SampleCo messaging becomes stronger when it frames
 AI work as bounded business capability rather than generic AI application
 development. That is initially Laura's learned memory. It becomes organizational
 state only if it is promoted, evidenced, and accepted.
@@ -91,7 +91,7 @@ Examples:
 
 - `marketing.draft.positioning.bounded-capability-language`
 - `marketing.pattern.audience-proof-before-copy`
-- `relationship.acme_user.prefers-direct-strategy-language`
+- `relationship.example_user.prefers-direct-strategy-language`
 
 ### Agent State
 
@@ -153,7 +153,7 @@ For Laura:
 marketing.draft.positioning.bounded-capability-language
   -> reviewed and consolidated
   -> marketing.pattern.bounded-capability-language
-  -> optional promotion to state.lfw.marketing_narrative
+  -> optional promotion to state.sampleco.marketing_narrative
 ```
 
 The draft layer lets agents learn without immediately converting observations
@@ -220,7 +220,7 @@ Candidate Laura memory families:
 - `marketing.pattern.*`: campaign and positioning patterns
 - `marketing.draft.*`: unreviewed observations
 - `relationship.*`: collaborator-specific communication context
-- `lfw.narrative.*`: learned LightForge Works narrative patterns
+- `sampleco.narrative.*`: learned SampleCo narrative patterns
 - `tooling.*`: learned tool capabilities and limitations
 
 Examples:
@@ -232,14 +232,14 @@ and proof are defined.
 ```
 
 ```text
-relationship.acme_user.directness:
-Acme User tends to prefer direct strategic language over polished marketing
+relationship.example_user.directness:
+Example User tends to prefer direct strategic language over polished marketing
 abstraction when evaluating positioning.
 ```
 
 ```text
-lfw.narrative.bounded-business-capability:
-LFW messaging appears stronger when framed as bounded business capability rather
+sampleco.narrative.bounded-business-capability:
+SampleCo messaging appears stronger when framed as bounded business capability rather
 than generic AI app development.
 ```
 

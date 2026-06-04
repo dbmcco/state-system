@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from typing import Any
 
 from state_system.stores import JsonObject
@@ -21,6 +22,7 @@ def build_north_star_answer(
     packages: dict[str, JsonObject],
     *,
     query: str | None = None,
+    as_of: str | None = None,
 ) -> JsonObject:
     package_items = [
         (package_ref, package)
@@ -28,10 +30,11 @@ def build_north_star_answer(
     ]
     package_values = [package for _, package in package_items]
     source_readiness = [
-        _source_summary(package, source)
+        _source_summary(package, source, as_of=as_of)
         for package in package_values
         for source in package.get("source_context", {}).get("source_readiness", [])
     ]
+    expired_freshness_refs = _expired_freshness_refs(package_values, as_of=as_of)
     source_gap_refs = _unique(
         gap_ref
         for package in package_values
@@ -50,7 +53,8 @@ def build_north_star_answer(
     requires_refresh = any(
         package.get("freshness", {}).get("requires_refresh_before_external_action")
         for package in package_values
-    )
+    ) or bool(expired_freshness_refs)
+    repair_gap_refs = source_gap_refs + unresolved_evidence_refs + expired_freshness_refs
 
     return {
         "id": "state_system_north_star_answer",
@@ -62,13 +66,17 @@ def build_north_star_answer(
         "answerability": {
             "status": _answerability_status(
                 source_readiness,
-                source_gap_refs=source_gap_refs,
+                source_gap_refs=source_gap_refs + expired_freshness_refs,
                 unresolved_evidence_refs=unresolved_evidence_refs,
                 open_questions=open_questions,
                 requires_refresh=requires_refresh,
             ),
             "source_count": len(source_readiness),
-            "gap_count": len(source_gap_refs) + len(unresolved_evidence_refs),
+            "gap_count": len(repair_gap_refs),
+        },
+        "freshness_audit": {
+            "as_of": as_of or "",
+            "expired_freshness_refs": expired_freshness_refs,
         },
         "current_state": [_current_state(package) for package in package_values],
         "why_this_state": {
@@ -116,6 +124,7 @@ def build_north_star_answer(
         },
         "uncertainty": {
             "source_gap_refs": source_gap_refs,
+            "expired_freshness_refs": expired_freshness_refs,
             "unresolved_evidence_refs": unresolved_evidence_refs,
             "open_questions": open_questions,
             "not_ready_sources": [
@@ -157,7 +166,7 @@ def build_north_star_answer(
         },
         "next_actions": {
             "requires_refresh_before_external_action": requires_refresh,
-            "repair_gap_refs": source_gap_refs + unresolved_evidence_refs,
+            "repair_gap_refs": repair_gap_refs,
             "route_required_actions": _unique(
                 action
                 for package in package_values
@@ -208,7 +217,13 @@ def _current_state(package: JsonObject) -> JsonObject:
     }
 
 
-def _source_summary(package: JsonObject, source: JsonObject) -> JsonObject:
+def _source_summary(
+    package: JsonObject,
+    source: JsonObject,
+    *,
+    as_of: str | None,
+) -> JsonObject:
+    stale_after = source.get("stale_after", "")
     return {
         "package_ref": package.get("id", ""),
         "connector_ref": source.get("connector_ref", ""),
@@ -216,12 +231,65 @@ def _source_summary(package: JsonObject, source: JsonObject) -> JsonObject:
         "source_ref": source.get("source_ref", ""),
         "access_status": source.get("access_status", ""),
         "freshness_status": source.get("freshness_status", ""),
+        "stale_after": stale_after,
+        "freshness_expired": _is_expired(stale_after, as_of),
         "index_status": source.get("index_status", ""),
         "understanding_status": source.get("understanding_status", ""),
         "index_refs": list(source.get("index_refs", [])),
         "gap_refs": list(source.get("gap_refs", [])),
         "evidence_refs": list(source.get("evidence_refs", [])),
     }
+
+
+def _expired_freshness_refs(
+    packages: list[JsonObject],
+    *,
+    as_of: str | None,
+) -> list[str]:
+    recorded_refs = (
+        ref
+        for package in packages
+        for ref in package.get("freshness", {}).get("expired_freshness_refs", [])
+    )
+    computed_refs = (
+        _expired_freshness_ref(package, source)
+        for package in packages
+        for source in package.get("source_context", {}).get("source_readiness", [])
+        if _is_expired(source.get("stale_after", ""), as_of)
+    )
+    return _unique([*recorded_refs, *computed_refs])
+
+
+def _expired_freshness_ref(package: JsonObject, source: JsonObject) -> str:
+    return ".".join(
+        [
+            "expired_freshness",
+            str(package.get("id", "")),
+            str(source.get("connector_ref", "")),
+            "stale_after",
+            str(source.get("stale_after", "")),
+        ]
+    )
+
+
+def _is_expired(stale_after: object, as_of: str | None) -> bool:
+    if not stale_after or not as_of:
+        return False
+    stale_after_dt = _parse_timestamp(str(stale_after))
+    as_of_dt = _parse_timestamp(as_of)
+    if stale_after_dt is None or as_of_dt is None:
+        return False
+    return stale_after_dt < as_of_dt
+
+
+def _parse_timestamp(value: str) -> datetime | None:
+    try:
+        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return parsed.replace(tzinfo=timezone.utc)
+    return parsed
 
 
 def _federation_pack_summary(pack: JsonObject) -> JsonObject:

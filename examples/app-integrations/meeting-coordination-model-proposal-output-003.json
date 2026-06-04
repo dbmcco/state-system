@@ -47,7 +47,7 @@
       "risk": "medium",
       "approval_required": true,
       "target": {
-        "app_ref": "app.acme-ai-graph-crm",
+        "app_ref": "app.sampleco-ai-graph-crm",
         "artifact_ref": "crm.referral-update.003"
       },
       "payload": {

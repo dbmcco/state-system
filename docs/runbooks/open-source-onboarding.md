@@ -7,6 +7,9 @@ pack declaration, and a pressure test against the rendered package.
 
 Throughout, paths shown for `--runtime-root` and `--state-root` are illustrative.
 Replace them with the local runtime root for the instance you are building.
+`SampleCo`, `ResearchCo`, and `PortfolioCo` are synthetic fixture names used by public
+examples. They are not required deployment names and do not refer to the
+personal state, SampleCo, PortfolioCo, or ResearchCo runtime roots.
 
 ## 1. Install
 
@@ -33,21 +36,21 @@ mkdir -p /tmp/state-system-onboarding
 python3 -m state_system.cli --project-root . \
   instance-scaffold \
   --runtime-root /tmp/state-system-onboarding \
-  --instance-ref state_instance.acme \
+  --instance-ref state_instance.sampleco \
   --kind company \
-  --display-name "Acme Operations" \
-  --primary-entity-ref entity.acme \
+  --display-name "SampleCo Operations" \
+  --primary-entity-ref entity.sampleco \
   --entity-kind organization \
   --created-at 2026-05-18T12:00:00Z \
-  --governance-ref governance.acme.default \
+  --governance-ref governance.sampleco.default \
   --connector-type folio \
   --connector-type local_path
 ```
 
 The scaffold writes:
 
-- `state/instances/state-instance-acme.json` — the durable instance record
-- `state/source-modules/source-module-registry-acme.json` — a subset of the
+- `state/instances/state-instance-sampleco.json` — the durable instance record
+- `state/source-modules/source-module-registry-sampleco.json` — a subset of the
   generic module registry filtered to the declared `--connector-type` values
 - `README.md` (in the runtime root) if one is not already present
 
@@ -88,22 +91,22 @@ protected action — that remains governance's job.
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-preflight-record \
-  --preflight-ref preflight.state_instance.acme.connector.acme.folio \
-  --instance-ref state_instance.acme \
-  --connector-ref connector.acme.folio \
-  --source-ref folio:tenant:acme \
+  --preflight-ref preflight.state_instance.sampleco.connector.sampleco.folio \
+  --instance-ref state_instance.sampleco \
+  --connector-ref connector.sampleco.folio \
+  --source-ref folio:tenant:sampleco \
   --connector-type folio \
   --status passed \
   --checked-at 2026-05-18T12:05:00Z \
   --stale-after 2026-05-18T13:05:00Z \
-  --evidence-ref local-path:/srv/folio/acme
+  --evidence-ref local-path:/srv/folio/sampleco
 
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-source-freshness-record \
-  --instance-ref state_instance.acme \
-  --connector-ref connector.acme.folio \
-  --source-ref folio:tenant:acme \
+  --instance-ref state_instance.sampleco \
+  --connector-ref connector.sampleco.folio \
+  --source-ref folio:tenant:sampleco \
   --connector-type folio \
   --status fresh \
   --checked-at 2026-05-18T12:05:00Z \
@@ -135,15 +138,15 @@ agent-facing artifact:
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-agent-package-build \
-  --instance-ref state_instance.acme \
-  --agent-ref agent.acme.operator \
-  --persona-ref persona.acme.operator \
+  --instance-ref state_instance.sampleco \
+  --agent-ref agent.sampleco.operator \
+  --persona-ref persona.sampleco.operator \
   --created-at 2026-05-18T12:10:00Z
 
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-agent-package-render \
-  instance_agent_package.acme.acme.operator
+  instance_agent_package.sampleco.sampleco.operator
 ```
 
 The rendered output exposes source readiness, freshness, gaps, question
@@ -159,8 +162,8 @@ remote rows into the local instance.
 
 The canonical registry at
 `examples/instance-federation-packs/instance-federation-pack-core-examples.json`
-holds three reference packs: personal-to-LFW state, LFW-to-personal Relationship
-Substrate, and a portfolio-to-Navicyte-Synthyra example. To add a pack for a
+holds three reference packs: personal-to-SampleCo state, SampleCo-to-personal Relationship
+Substrate, and a portfolio-to-PortfolioCo-ResearchCo example. To add a pack for a
 new instance:
 
 1. Append an entry under `packs[]` with `local_instance_ref`,
@@ -182,16 +185,18 @@ gap, and governance fields.
 
 ## 7. Pressure Test the Package
 
-`package-pressure-run` evaluates a rendered package against real operational
+`package-pressure-run` evaluates a rendered package against operational
 questions from a pressure-question registry. Assertions inspect package
 contracts, gaps, routes, and federation boundaries rather than exact answer
 text.
 
 The shipped registry at
 `examples/pressure-questions/package-pressure-core-real-questions.json` is
-keyed to the Acme User-personal and LFW deployed instances; it is the reference
-for case shape, not an OSS adopter's own test set. Adopters typically write a
-registry sibling for their instance with cases that name their own
+keyed to the maintained personal state, SampleCo, PortfolioCo, and ResearchCo package contracts;
+it is the reference for case shape, not an OSS adopter's own test set. Some
+older public example package files still use synthetic SampleCo fixture IDs.
+Adopters typically write a registry sibling for their instance with cases that
+name their own
 `package_id`, expected routes, source coverage refs, tool action refs, and
 federation packs.
 
@@ -212,9 +217,9 @@ The pressure harness emits a JSON summary listing each case's status, the
 required route IDs, source coverage refs, tool action refs, answer policy
 flags, federation pack IDs, and materialization expectations. Cases targeting
 packages the runner cannot resolve report as `failed` with `package not
-supplied`, which is the expected output for an adopter not running the
-Acme User-personal or LFW deployments. Use `--package <id>=<path>` to supply
-the adopter's own rendered package, and `--include-planned` to exercise
+supplied`, which is the expected output for an adopter not supplying the
+referenced deployment packages. Use `--package <id>=<path>` to supply the
+adopter's own rendered package, and `--include-planned` to exercise
 planned-status cases as known gaps.
 
 ## 8. Verify the Release Gate
@@ -242,5 +247,5 @@ supplied via `--package`. They confirm contracts, registries,
 federation packs, and pressure expectations remain green for the OSS surface
 without depending on private deployment artifacts.
 
-For deployment-specific gaps and follow-ups, see
-`docs/reports/2026-05-18-open-source-onboarding-release-gate.md`.
+For the current publishing gate, run the commands in `README.md` under
+"Development Gates".

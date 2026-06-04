@@ -4,13 +4,13 @@
   "description": "Synthetic federation pack examples for governed cross-instance query boundaries.",
   "packs": [
     {
-      "id": "instance_federation_pack.personal_to_acme_state",
-      "description": "Personal b-state can read LFW interpreted state through a governed instance route.",
+      "id": "instance_federation_pack.personal_to_sampleco_state",
+      "description": "Personal personal state can read SampleCo interpreted state through a governed instance route.",
       "status": "ready",
       "federation_mode": "instance_read",
-      "local_instance_ref": "state_instance.acme_ops",
+      "local_instance_ref": "state_instance.sample_personal",
       "remote_instance_refs": [
-        "state_instance.acme"
+        "state_instance.sampleco"
       ],
       "route_refs": [
         "question_route.personal.relationship_follow_up_triage"
@@ -26,7 +26,7 @@
       ],
       "identity_boundary": {
         "subject_ref_policy": "Use remote state refs as evidence refs; do not rewrite them into personal canonical records.",
-        "entity_ref_policy": "LFW entities remain owned by state_instance.acme.",
+        "entity_ref_policy": "SampleCo entities remain owned by state_instance.sampleco.",
         "cross_instance_join_policy": "Join only through explicit evidence refs and package route context.",
         "allowed_subject_types": [
           "company",
@@ -40,12 +40,12 @@
           "safe_summary",
           "evidence_ref"
         ],
-        "raw_remote_corpus_policy": "Raw LFW source corpora remain in the LFW instance.",
+        "raw_remote_corpus_policy": "Raw SampleCo source corpora remain in the SampleCo instance.",
         "materialized_summary_policy": "Summaries must cite package/read-model evidence refs."
       },
       "freshness_policy": {
         "checked_at": "2026-05-18T16:42:41Z",
-        "source_watermark": "acme:instance_agent_package:2026-05-18T16:42:41Z",
+        "source_watermark": "sampleco:instance_agent_package:2026-05-18T16:42:41Z",
         "stale_after": "PT24H",
         "freshness_status": "fresh",
         "gap_refs": []
@@ -57,12 +57,12 @@
       "output_policy": {
         "safe_summary_only": true,
         "requires_evidence_refs": true,
-        "answer_boundary": "Use LFW state as interpreted work evidence, not as personal source data."
+        "answer_boundary": "Use SampleCo state as interpreted work evidence, not as personal source data."
       },
       "repair_policy": {
-        "when_unavailable": "Answer from personal sources and state that LFW federation is unavailable.",
-        "when_stale": "Name the stale LFW package watermark before relying on it.",
-        "owner": "state_instance.acme"
+        "when_unavailable": "Answer from personal sources and state that SampleCo federation is unavailable.",
+        "when_stale": "Name the stale SampleCo package watermark before relying on it.",
+        "owner": "state_instance.sampleco"
       },
       "invariant": {
         "pack_authorizes_remote_query_only": true,
@@ -71,17 +71,17 @@
       }
     },
     {
-      "id": "instance_federation_pack.acme_to_personal_relationship_substrate",
-      "description": "LFW can query the example personal Relationship Substrate for governed relationship context without local materialization.",
+      "id": "instance_federation_pack.sampleco_to_personal_relationship_substrate",
+      "description": "SampleCo can query the example personal Relationship Substrate for governed relationship context without local materialization.",
       "status": "ready",
       "federation_mode": "source_substrate_query",
-      "local_instance_ref": "state_instance.acme",
+      "local_instance_ref": "state_instance.sampleco",
       "remote_instance_refs": [
-        "state_instance.acme_ops"
+        "state_instance.sample_personal"
       ],
-      "source_instance_ref": "state_instance.acme_ops",
+      "source_instance_ref": "state_instance.sample_personal",
       "route_refs": [
-        "question_route.acme.federated_relationship_index"
+        "question_route.sampleco.federated_relationship_index"
       ],
       "query_surface_refs": [
         "query_surface.federated.relationship_index.search"
@@ -94,8 +94,8 @@
       ],
       "identity_boundary": {
         "subject_ref_policy": "People and organizations remain source-owned by Relationship Substrate.",
-        "entity_ref_policy": "LFW may cite relationship evidence refs but must not create local canonical person files.",
-        "cross_instance_join_policy": "Join only for the active LFW relationship or business-development question.",
+        "entity_ref_policy": "SampleCo may cite relationship evidence refs but must not create local canonical person files.",
+        "cross_instance_join_policy": "Join only for the active SampleCo relationship or business-development question.",
         "allowed_subject_types": [
           "person",
           "organization"
@@ -108,8 +108,8 @@
           "evidence_ref",
           "subject_note_ref"
         ],
-        "raw_remote_corpus_policy": "No raw personal relationship records may be copied into LFW state.",
-        "materialized_summary_policy": "LFW answers may summarize relationship context with evidence refs only."
+        "raw_remote_corpus_policy": "No raw personal relationship records may be copied into SampleCo state.",
+        "materialized_summary_policy": "SampleCo answers may summarize relationship context with evidence refs only."
       },
       "freshness_policy": {
         "checked_at": "2026-05-18T16:42:41Z",
@@ -128,12 +128,12 @@
       "output_policy": {
         "safe_summary_only": true,
         "requires_evidence_refs": true,
-        "answer_boundary": "Use relationship evidence only when it materially helps an LFW relationship, partnership, or follow-up question."
+        "answer_boundary": "Use relationship evidence only when it materially helps an SampleCo relationship, partnership, or follow-up question."
       },
       "repair_policy": {
-        "when_unavailable": "Answer from LFW company sources and name the missing relationship federation route.",
+        "when_unavailable": "Answer from SampleCo company sources and name the missing relationship federation route.",
         "when_stale": "State the Relationship Substrate freshness gap and avoid treating old relationship context as current.",
-        "owner": "state_instance.acme_ops"
+        "owner": "state_instance.sample_personal"
       },
       "invariant": {
         "pack_authorizes_remote_query_only": true,
@@ -142,14 +142,14 @@
       }
     },
     {
-      "id": "instance_federation_pack.portfolio_to_demo_co_examplecorp",
-      "description": "Portfolio-level state can plan rollups across Navicyte and Synthyra once their packages have proved readiness.",
+      "id": "instance_federation_pack.portfolio_to_portfolio_co_researchco",
+      "description": "Portfolio-level state can plan rollups across PortfolioCo and ResearchCo once their packages have proved readiness.",
       "status": "planned",
       "federation_mode": "portfolio_rollup",
       "local_instance_ref": "state_instance.portfolio.synthetic",
       "remote_instance_refs": [
-        "state_instance.demo_co",
-        "state_instance.examplecorp"
+        "state_instance.portfolio_co",
+        "state_instance.researchco"
       ],
       "route_refs": [
         "question_route.portfolio.company_readiness_rollup"
@@ -179,7 +179,7 @@
           "planned_safe_summary",
           "gap_ref"
         ],
-        "raw_remote_corpus_policy": "No Navicyte or Synthyra raw corpora are present in open-source examples.",
+        "raw_remote_corpus_policy": "No PortfolioCo or ResearchCo raw corpora are present in open-source examples.",
         "materialized_summary_policy": "Planned rollups must remain gap-marked until remote packages prove readiness."
       },
       "freshness_policy": {
@@ -188,8 +188,8 @@
         "stale_after": "PT24H",
         "freshness_status": "unknown",
         "gap_refs": [
-          "gap.state_instance.demo_co.package_readiness_unproved",
-          "gap.state_instance.examplecorp.package_readiness_unproved"
+          "gap.state_instance.portfolio_co.package_readiness_unproved",
+          "gap.state_instance.researchco.package_readiness_unproved"
         ]
       },
       "subject_note_policy": {
