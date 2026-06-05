@@ -1,29 +1,29 @@
 {
-  "id": "instance_agent_package.sampleco.caroline",
+  "id": "instance_agent_package.sampleco.iris",
   "package_type": "instance_agent_package",
   "created_at": "2026-05-17T16:30:00Z",
   "instance_ref": "state_instance.sampleco",
   "primary_entity_ref": "entity.sampleco",
   "entity_kind": "company",
   "agent_context": {
-    "agent_ref": "agent.caroline",
-    "persona_ref": "persona.caroline",
-    "summary": "Company-state package for Caroline over the deployed SampleCo state runtime."
+    "agent_ref": "agent.iris",
+    "persona_ref": "persona.iris",
+    "summary": "Company-state package for Iris over the deployed SampleCo state runtime."
   },
   "review_goal": "Review current SampleCo source readiness and explicit gaps before answering.",
   "source_context": {
     "source_readiness": [
       {
-        "connector_ref": "connector.sampleco.folio",
-        "connector_type": "folio",
-        "source_ref": "folio:tenant:sampleco",
+        "connector_ref": "connector.sampleco.kb",
+        "connector_type": "kb",
+        "source_ref": "kb:tenant:sampleco",
         "access_status": "passed",
         "freshness_status": "fresh",
         "index_status": "declared",
         "understanding_status": "ready",
-        "index_refs": ["index.sampleco.folio.corpus"],
+        "index_refs": ["index.sampleco.kb.corpus"],
         "gap_refs": [],
-        "evidence_refs": ["state-system:instance-preflight:company-proven:connector.sampleco.folio"]
+        "evidence_refs": ["state-system:instance-preflight:company-proven:connector.sampleco.kb"]
       },
       {
         "connector_ref": "connector.sampleco.msgvault",
@@ -48,13 +48,13 @@
   },
   "evidence_context": {
     "index_refs": [
-      "index.sampleco.folio.corpus",
+      "index.sampleco.kb.corpus",
       "index.sampleco.msgvault.email",
       "index.sampleco.state_system.interpreted",
       "index.federated.sample_personal.relationship_index"
     ],
     "evidence_refs": [
-      "state-system:instance-preflight:company-proven:connector.sampleco.folio",
+      "state-system:instance-preflight:company-proven:connector.sampleco.kb",
       "state-system:instance-preflight:company-proven:connector.sampleco.msgvault"
     ],
     "federated_instance_refs": [
@@ -74,7 +74,7 @@
     "protected_action_authorized_by": "governance"
   },
   "available_actions": [
-    "action_surface.sampleco.read_folio",
+    "action_surface.sampleco.read_knowledge_store",
     "action_surface.sampleco.search_msgvault"
   ],
   "question_routes": [
@@ -84,12 +84,12 @@
       "applies_to": [
         "Who does the example founder know at smaller consulting firms who might matter for SampleCo?",
         "Find SampleCo-relevant relationship paths through boutique advisory or professional-services firms.",
-        "Use Caroline to reason over SampleCo work plus the example founder's governed relationship index."
+        "Use Iris to reason over SampleCo work plus the example founder's governed relationship index."
       ],
       "source_order": [
         "connector.sampleco.state_system",
         "connector.sampleco.msgvault",
-        "connector.sampleco.folio",
+        "connector.sampleco.kb",
         "query_surface.federated.relationship_index.search"
       ],
       "tool_refs": [

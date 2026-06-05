@@ -28,7 +28,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
-                    "agent_ref": "persona.caroline",
+                    "agent_ref": "persona.iris",
                     "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:20:00Z",
@@ -42,7 +42,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
             self.assertEqual(
                 "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
                 "tool.agent_runtime.linear.read|action_surface.sampleco.read_linear|"
-                "persona.caroline|runner.agent_runtime.codex",
+                "persona.iris|runner.agent_runtime.codex",
                 record["scope_key"],
             )
             self.assertTrue(
@@ -62,7 +62,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
-                    "agent_ref": "persona.caroline",
+                    "agent_ref": "persona.iris",
                     "status": "failed",
                     "checked_at": "2026-05-14T18:00:00Z",
                     "stale_after": "2026-05-14T19:00:00Z",
@@ -77,7 +77,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
-                    "agent_ref": "persona.caroline",
+                    "agent_ref": "persona.iris",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:15:00Z",
                     "stale_after": "2026-05-14T19:15:00Z",
@@ -91,7 +91,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
             scope_key = (
                 "preflight.sampleco.linear|company.sampleco|connector.sampleco.linear|"
                 "tool.agent_runtime.linear.read|action_surface.sampleco.read_linear|"
-                "persona.caroline|"
+                "persona.iris|"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("passed", latest["status"])
@@ -123,7 +123,7 @@ class CompanyPreflightResultTests(unittest.TestCase):
                     "--action-ref",
                     "action_surface.sampleco.read_linear",
                     "--agent-ref",
-                    "persona.caroline",
+                    "persona.iris",
                     "--runner-ref",
                     "runner.agent_runtime.codex",
                     "--status",

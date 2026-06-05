@@ -40,7 +40,7 @@ class StateRootMigrationTests(unittest.TestCase):
                     "connector_ref": "connector.sampleco.linear",
                     "tool_ref": "tool.agent_runtime.linear.read",
                     "action_ref": "action_surface.sampleco.read_linear",
-                    "agent_ref": "persona.caroline",
+                    "agent_ref": "persona.iris",
                     "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-16T12:00:00Z",

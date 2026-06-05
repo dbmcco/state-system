@@ -1,7 +1,7 @@
 {
   "id": "question_route_registry.core_agent_routes",
   "generated_at": "2026-05-18T16:45:00Z",
-  "description": "Structured route contracts for the current Sam and Caroline relationship routes.",
+  "description": "Structured route contracts for the current Sam and Iris relationship routes.",
   "routes": [
     {
       "route_id": "question_route.personal.relationship_follow_up_triage",
@@ -77,12 +77,12 @@
       "module_modes": [
         { "source_module_ref": "source_module.relationship_substrate", "mode": "federated_query" }
       ],
-      "source_order": ["connector.sampleco.state_system", "connector.sampleco.msgvault", "connector.sampleco.folio", "query_surface.federated.relationship_index.search"],
+      "source_order": ["connector.sampleco.state_system", "connector.sampleco.msgvault", "connector.sampleco.kb", "query_surface.federated.relationship_index.search"],
       "required_source_coverage": [
         {
           "coverage_ref": "coverage.sampleco.company_context",
-          "connector_refs": ["connector.sampleco.state_system", "connector.sampleco.msgvault", "connector.sampleco.folio"],
-          "source_module_refs": ["source_module.state_system_instance", "source_module.msgvault", "source_module.folio"],
+          "connector_refs": ["connector.sampleco.state_system", "connector.sampleco.msgvault", "connector.sampleco.kb"],
+          "source_module_refs": ["source_module.state_system_instance", "source_module.msgvault", "source_module.kb"],
           "minimum_status": "usable_with_visible_gaps"
         },
         {

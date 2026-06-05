@@ -150,7 +150,7 @@ The product repo now exposes a deterministic read surface for this question set:
 ```bash
 python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current state?" \
-  --package personal=examples/instance-agent-package/instance-agent-package-sample-personal-samantha.json \
+  --package personal=examples/instance-agent-package/instance-agent-package-sample-personal-nova.json \
   --output-dir /tmp/state-system-north-star
 ```
 

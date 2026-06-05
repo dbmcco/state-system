@@ -136,7 +136,7 @@ shared state.
 
 ## Draft And Promotion Pattern
 
-The Derek memory model in `/path/to/agent-runtime-agents`
+The Atlas memory model in `/path/to/agent-runtime-agents`
 uses a useful pattern:
 
 ```text

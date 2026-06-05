@@ -254,8 +254,8 @@ Useful for:
 Useful for:
 
 - named agent memory patterns
-- Derek's architectural memory staging and promotion pattern
-- Samantha's identity/facet and conversational continuity patterns
+- Atlas's architectural memory staging and promotion pattern
+- Nova's identity/facet and conversational continuity patterns
 
 ## Architectural Direction
 

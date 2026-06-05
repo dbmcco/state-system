@@ -94,7 +94,7 @@ def _personal_pack_with_federation(runtime_root: str):
         "identity": {
             "name": "Sample Personal State",
             "summary": "Test fixture.",
-            "primary_agent_refs": ["persona.samantha"],
+            "primary_agent_refs": ["persona.nova"],
             "oversight_agent_refs": [],
         },
         "source_connectors": [

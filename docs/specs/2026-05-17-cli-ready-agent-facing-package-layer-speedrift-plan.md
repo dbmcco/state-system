@@ -41,8 +41,8 @@ This wave is working when:
 - Rendered output is suitable to hand to a CLI agent without extra hidden
   context.
 - SampleCo and personal state runtime roots have generated package artifacts.
-- Samantha's package exposes relationship follow-up and smaller-consulting-firm
-  relationship routes. Caroline's package exposes the governed SampleCo federated
+- Nova's package exposes relationship follow-up and smaller-consulting-firm
+  relationship routes. Iris's package exposes the governed SampleCo federated
   relationship-index route for SampleCo-relevant contact questions.
 - Cross-repo sync checks prove the generated artifacts agree with the generic
   contracts and each instance north star.
@@ -59,7 +59,7 @@ This wave is done when:
 
 1. Generic contract lane: harden instance record IDs, finish federation, define
    the instance agent package schema, and add CLI build/render commands.
-2. personal state lane: keep Garmin/Spotify planned but visible, generate Samantha
+2. personal state lane: keep Garmin/Spotify planned but visible, generate Nova
    package artifacts, and validate no raw corpora are copied.
 3. SampleCo lane: improve deployed instance readiness/freshness, generate an SampleCo
    agent package, and validate personal sources stay excluded.

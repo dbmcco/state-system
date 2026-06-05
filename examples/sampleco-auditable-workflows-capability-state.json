@@ -40,7 +40,7 @@
     }
   ],
   "evidence_refs": [
-    "github:repo:lightforge/sampleco-ai-graph-crm",
+    "github:repo:sampleco/sampleco-ai-graph-crm",
     "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows"
   ],
   "parent_state_refs": [

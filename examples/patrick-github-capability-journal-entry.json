@@ -25,9 +25,9 @@
     ]
   },
   "evidence_refs": [
-    "github:pr:lightforge/sampleco-ai-graph-crm#142",
-    "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
-    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
+    "github:pr:sampleco/sampleco-ai-graph-crm#142",
+    "github:commit:sampleco/sampleco-ai-graph-crm@abc1234",
+    "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
   ],
   "uncertainty": [
     "The merge proves implementation work landed, not launch readiness.",

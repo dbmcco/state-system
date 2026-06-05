@@ -25,9 +25,9 @@ class InstanceAgentPackageE2ETests(unittest.TestCase):
         bstate_package = self._build_package(
             state_root=BSTATE_ROOT,
             instance_ref="state_instance.sample_personal",
-            agent_ref="agent.samantha",
-            persona_ref="persona.samantha",
-            package_id="instance_agent_package.e2e.sample_personal.samantha",
+            agent_ref="agent.nova",
+            persona_ref="persona.nova",
+            package_id="instance_agent_package.e2e.sample_personal.nova",
             review_goal=(
                 "E2E pressure test: review personal state readiness, freshness, "
                 "federated SampleCo metadata, and gaps."
@@ -36,9 +36,9 @@ class InstanceAgentPackageE2ETests(unittest.TestCase):
         sampleco_package = self._build_package(
             state_root=ACME_ROOT,
             instance_ref="state_instance.sampleco",
-            agent_ref="agent.caroline",
-            persona_ref="persona.caroline",
-            package_id="instance_agent_package.e2e.sampleco.caroline",
+            agent_ref="agent.iris",
+            persona_ref="persona.iris",
+            package_id="instance_agent_package.e2e.sampleco.iris",
             review_goal=(
                 "E2E pressure test: review SampleCo readiness, freshness, interpreted "
                 "state, and gaps."
@@ -91,11 +91,11 @@ class InstanceAgentPackageE2ETests(unittest.TestCase):
 
         bstate_rendered = self._render_package(
             BSTATE_ROOT,
-            "instance_agent_package.e2e.sample_personal.samantha",
+            "instance_agent_package.e2e.sample_personal.nova",
         )
         sampleco_rendered = self._render_package(
             ACME_ROOT,
-            "instance_agent_package.e2e.sampleco.caroline",
+            "instance_agent_package.e2e.sampleco.iris",
         )
 
         self.assertIn("State System Instance Agent Package", bstate_rendered)

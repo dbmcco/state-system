@@ -30,9 +30,9 @@
         ]
       },
       "evidence_refs": [
-        "github:pr:lightforge/sampleco-ai-graph-crm#142",
-        "github:commit:lightforge/sampleco-ai-graph-crm@abc1234",
-        "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
+        "github:pr:sampleco/sampleco-ai-graph-crm#142",
+        "github:commit:sampleco/sampleco-ai-graph-crm@abc1234",
+        "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
       ],
       "uncertainty": [
         "The merge proves implementation work landed, not launch readiness.",
@@ -63,8 +63,8 @@
         ]
       },
       "evidence_refs": [
-        "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
-        "github:pr:lightforge/sampleco-ai-graph-crm#142"
+        "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
+        "github:pr:sampleco/sampleco-ai-graph-crm#142"
       ],
       "uncertainty": [
         "The comment may represent a launch blocker or a strong recommendation; human or Workgraph evidence must clarify.",
@@ -83,8 +83,8 @@
       "content": "When a PR is merged, review comments and requested-change discussions should be scanned for obligations before launch readiness is updated.",
       "confidence": 0.68,
       "evidence_refs": [
-        "github:pr:lightforge/sampleco-ai-graph-crm#142",
-        "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
+        "github:pr:sampleco/sampleco-ai-graph-crm#142",
+        "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
       ],
       "related_state_refs": [
         "state.sampleco.capability.auditable-workflows",
@@ -108,8 +108,8 @@
         "target_system": "workgraph",
         "suggested_task_id": "audit-logging-before-launch",
         "related_refs": [
-          "github:pr:lightforge/sampleco-ai-graph-crm#142",
-          "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
+          "github:pr:sampleco/sampleco-ai-graph-crm#142",
+          "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
         ],
         "external_action_allowed": false
       }

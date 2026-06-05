@@ -9,8 +9,8 @@
   "content": "When a PR is merged, review comments and requested-change discussions should be scanned for obligations before launch readiness is updated.",
   "confidence": 0.68,
   "evidence_refs": [
-    "github:pr:lightforge/sampleco-ai-graph-crm#142",
-    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765"
+    "github:pr:sampleco/sampleco-ai-graph-crm#142",
+    "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
   ],
   "related_state_refs": [
     "state.sampleco.capability.auditable-workflows",

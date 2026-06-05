@@ -25,39 +25,39 @@ class InstanceAgentPackageTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             personal_pack = load_json(PACK_DIR / "instance-sample-personal.json")
-            folio_connector = next(
+            ks_connector = next(
                 connector
                 for connector in personal_pack["source_connectors"]
-                if connector["id"] == "connector.personal.folio"
+                if connector["id"] == "connector.personal.kb"
             )
-            folio_connector["source_module_ref"] = "source_module.folio"
-            folio_connector["module_registry_ref"] = "source_module_registry.core_connectors"
-            folio_connector["module_mode"] = "source_owned_query"
+            ks_connector["source_module_ref"] = "source_module.kb"
+            ks_connector["module_registry_ref"] = "source_module_registry.core_connectors"
+            ks_connector["module_mode"] = "source_owned_query"
             InstanceCapabilityRuntime(stores).seed([personal_pack])
             InstancePreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.folio",
+                    "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.kb",
                     "instance_ref": "state_instance.sample_personal",
-                    "connector_ref": "connector.personal.folio",
-                    "source_ref": "folio:tenant:personal",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
                     "status": "passed",
                     "checked_at": "2026-05-17T16:40:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
-                    "evidence_refs": ["preflight:folio:passed"],
+                    "evidence_refs": ["preflight:kb:passed"],
                 }
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
                     "instance_ref": "state_instance.sample_personal",
-                    "connector_ref": "connector.personal.folio",
-                    "source_ref": "folio:tenant:personal",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
                     "status": "fresh",
                     "checked_at": "2026-05-17T16:40:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-17T16:39:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-17T16:39:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
-                    "evidence_refs": ["freshness:folio:fresh"],
+                    "evidence_refs": ["freshness:kb:fresh"],
                 }
             )
 
@@ -72,9 +72,9 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     "--instance-ref",
                     "state_instance.sample_personal",
                     "--agent-ref",
-                    "agent.samantha",
+                    "agent.nova",
                     "--persona-ref",
-                    "persona.samantha",
+                    "persona.nova",
                     "--created-at",
                     "2026-05-17T16:41:00Z",
                 ],
@@ -94,21 +94,21 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 "gap.state_instance.sample_personal.connector.personal.garmin_connect.access_missing",
                 package["source_context"]["source_gap_refs"],
             )
-            folio_source = _source(package, "connector.personal.folio")
-            self.assertEqual("source_module.folio", folio_source["source_module_ref"])
+            ks_source = _source(package, "connector.personal.kb")
+            self.assertEqual("source_module.kb", ks_source["source_module_ref"])
             self.assertEqual(
                 "source_module_registry.core_connectors",
-                folio_source["module_registry_ref"],
+                ks_source["module_registry_ref"],
             )
-            self.assertEqual("source_owned_query", folio_source["module_mode"])
-            self.assertEqual("2026-05-17T16:40:00Z", folio_source["checked_at"])
+            self.assertEqual("source_owned_query", ks_source["module_mode"])
+            self.assertEqual("2026-05-17T16:40:00Z", ks_source["checked_at"])
             self.assertEqual(
-                "folio.indexed_at:2026-05-17T16:39:00Z",
-                folio_source["source_watermark"],
+                "kb.indexed_at:2026-05-17T16:39:00Z",
+                ks_source["source_watermark"],
             )
-            self.assertEqual("2026-05-17T17:40:00Z", folio_source["stale_after"])
-            self.assertEqual("source_module.folio.gap_behavior", folio_source["gap_behavior_ref"])
-            self.assertIn("preflight:folio:passed", package["evidence_context"]["evidence_refs"])
+            self.assertEqual("2026-05-17T17:40:00Z", ks_source["stale_after"])
+            self.assertEqual("source_module.kb.gap_behavior", ks_source["gap_behavior_ref"])
+            self.assertIn("preflight:kb:passed", package["evidence_context"]["evidence_refs"])
             self.assertEqual(
                 "question_route.personal.relationship_follow_up_triage",
                 package["question_routes"][0]["id"],
@@ -186,7 +186,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             self.assertIn("State System Instance Agent Package", rendered.getvalue())
             self.assertIn("Source readiness:", rendered.getvalue())
             self.assertIn("connector.personal.garmin_connect", rendered.getvalue())
-            self.assertIn("Module: source_module.folio", rendered.getvalue())
+            self.assertIn("Module: source_module.kb", rendered.getvalue())
             self.assertIn("mode=source_owned_query", rendered.getvalue())
             self.assertIn("Route contract: question_route_contract.personal.relationship_follow_up_triage", rendered.getvalue())
             self.assertIn("Required source coverage:", rendered.getvalue())
@@ -209,7 +209,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
             ROOT
             / "examples"
             / "instance-agent-package"
-            / "instance-agent-package-sample-personal-samantha.json"
+            / "instance-agent-package-sample-personal-nova.json"
         )
         package["source_context"]["source_readiness"][0]["federated_instance"] = {
             "source_instance_ref": "state_instance.sampleco",
@@ -230,28 +230,28 @@ class InstanceAgentPackageTests(unittest.TestCase):
             )
             InstancePreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.state_instance.sampleco.connector.sampleco.folio",
+                    "preflight_ref": "preflight.state_instance.sampleco.connector.sampleco.kb",
                     "instance_ref": "state_instance.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "passed",
                     "checked_at": "2026-05-17T16:40:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
-                    "evidence_refs": ["preflight:folio:passed"],
+                    "evidence_refs": ["preflight:kb:passed"],
                 }
             )
             InstanceSourceFreshnessRuntime(stores).record(
                 {
                     "instance_ref": "state_instance.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "fresh",
                     "checked_at": "2026-05-17T16:40:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-17T16:39:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-17T16:39:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
-                    "evidence_refs": ["freshness:folio:fresh"],
+                    "evidence_refs": ["freshness:kb:fresh"],
                 }
             )
 
@@ -262,8 +262,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     )
                 },
                 instance_ref="state_instance.sampleco",
-                agent_ref="agent.caroline",
-                persona_ref="persona.caroline",
+                agent_ref="agent.iris",
+                persona_ref="persona.iris",
                 created_at="2026-05-17T18:00:00Z",
             )
 
@@ -272,7 +272,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
         )
         expired_refs = package["freshness"]["expired_freshness_refs"]
         self.assertEqual(1, len(expired_refs))
-        self.assertIn("connector.sampleco.folio", expired_refs[0])
+        self.assertIn("connector.sampleco.kb", expired_refs[0])
         self.assertIn("stale_after.2026-05-17T17:40:00Z", expired_refs[0])
 
     def test_sampleco_route_declares_governed_federated_relationship_index(self):
@@ -282,7 +282,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
                 [load_json(PACK_DIR / "instance-sampleco.json")]
             )
             for connector_ref, source_ref, connector_type in (
-                ("connector.sampleco.folio", "folio:tenant:sampleco", "folio"),
+                ("connector.sampleco.kb", "kb:tenant:sampleco", "kb"),
                 ("connector.sampleco.msgvault", "msgvault:tenant:sampleco-email", "msgvault"),
                 (
                     "connector.sampleco.state_system",
@@ -324,8 +324,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     )
                 },
                 instance_ref="state_instance.sampleco",
-                agent_ref="agent.caroline",
-                persona_ref="persona.caroline",
+                agent_ref="agent.iris",
+                persona_ref="persona.iris",
                 created_at="2026-05-17T16:41:00Z",
             )
 
@@ -428,16 +428,16 @@ class InstanceAgentPackageTests(unittest.TestCase):
                             {
                                 "route_id": "question_route.sampleco.private_context_review",
                                 "intent": "Review private SampleCo context with visible source gaps.",
-                                "source_order": ["connector.sampleco.folio"],
+                                "source_order": ["connector.sampleco.kb"],
                                 "required_source_coverage": [
                                     {
-                                        "coverage_ref": "coverage.sampleco.private_folio",
-                                        "connector_refs": ["connector.sampleco.folio"],
-                                        "source_module_refs": ["source_module.folio"],
+                                        "coverage_ref": "coverage.sampleco.private_knowledge_store",
+                                        "connector_refs": ["connector.sampleco.kb"],
+                                        "source_module_refs": ["source_module.kb"],
                                         "minimum_status": "usable_with_visible_gaps",
                                     }
                                 ],
-                                "required_tools": ["tool.folio.search"],
+                                "required_tools": ["tool.kb.search"],
                                 "answer_contract": {
                                     "requires_evidence_refs": True,
                                     "requires_source_freshness_summary": True,
@@ -447,11 +447,11 @@ class InstanceAgentPackageTests(unittest.TestCase):
                                     ],
                                 },
                                 "fallback_policy": {
-                                    "policy": "Name the missing Folio source gap."
+                                    "policy": "Name the missing Knowledge Store source gap."
                                 },
                                 "gap_behavior": {
                                     "when_required_source_missing": "Declare route undercovered.",
-                                    "when_source_stale": "Name stale Folio freshness.",
+                                    "when_source_stale": "Name stale Knowledge Store freshness.",
                                     "relevant_gap_refs": [],
                                 },
                             }
@@ -469,9 +469,9 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         "id": "tool_action_registry.private",
                         "actions": [
                             {
-                                "id": "tool_action.private.folio.search",
-                                "tool_ref": "tool.folio.search",
-                                "connector_type": "folio",
+                                "id": "tool_action.private.kb.search",
+                                "tool_ref": "tool.kb.search",
+                                "connector_type": "kb",
                             }
                         ],
                     },
@@ -491,8 +491,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     )
                 },
                 instance_ref="state_instance.sampleco",
-                agent_ref="agent.caroline",
-                persona_ref="persona.caroline",
+                agent_ref="agent.iris",
+                persona_ref="persona.iris",
                 created_at="2026-05-18T20:10:00Z",
             )
 
@@ -508,9 +508,9 @@ class InstanceAgentPackageTests(unittest.TestCase):
         self.assertTrue(
             private_route["answer_contract_policy"]["requires_evidence_refs"]
         )
-        self.assertIn("tool.folio.search", private_route["tool_refs"])
+        self.assertIn("tool.kb.search", private_route["tool_refs"])
         self.assertIn(
-            "tool_action.private.folio.search",
+            "tool_action.private.kb.search",
             private_route["tool_action_refs"],
         )
 

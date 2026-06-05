@@ -20,7 +20,7 @@
   "approval_status": "not_required",
   "payload": {
     "prompt": "Where do small teams first feel the pain of missing audit trails, and what state should exist before automation scales?",
-    "candidate_author_ref": "author.dbmcco",
+    "candidate_author_ref": "author.example_author",
     "source_refs": [
       "gdrive:doc:meeting-streamlinear-strategy-003",
       "thoughtforge.idea-candidate.003"

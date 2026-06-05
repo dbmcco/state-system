@@ -67,7 +67,7 @@
     ],
     "unresolved_evidence_refs": [
       "content:idea:audit-trails-small-teams.publication-approval",
-      "author:dbmcco.fit-review.approval"
+      "author:example_author.fit-review.approval"
     ]
   },
   "governance_context": {
@@ -106,7 +106,7 @@
     }
   ],
   "open_questions": [
-    "Does this idea fit DBMCCO, Sam Ashford, or another author context?",
+    "Does this idea fit ExampleAuthor, Sam Ashford, or another author context?",
     "Can private meeting source material be used publicly after redaction?"
   ],
   "freshness": {

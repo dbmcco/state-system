@@ -31,7 +31,7 @@ class InstanceScaffoldTests(unittest.TestCase):
                 entity_kind="company",
                 created_at="2026-05-18T17:20:00Z",
                 governance_refs=["governance.portfolio_co.default"],
-                connector_types=["folio", "gws_drive", "msgvault", "local_path"],
+                connector_types=["kb", "gws_drive", "msgvault", "local_path"],
             )
 
             self.assertTrue(result["ok"])
@@ -44,7 +44,7 @@ class InstanceScaffoldTests(unittest.TestCase):
             registry = json.loads(registry_path.read_text(encoding="utf-8"))
             self.assertEqual("state_instance.portfolio_co", instance["instance_ref"])
             self.assertEqual(
-                {"folio", "gws_drive", "msgvault", "local_path"},
+                {"kb", "gws_drive", "msgvault", "local_path"},
                 {module["connector_type"] for module in registry["modules"]},
             )
 
@@ -77,7 +77,7 @@ class InstanceScaffoldTests(unittest.TestCase):
                     "--governance-ref",
                     "governance.researchco.default",
                     "--connector-type",
-                    "folio",
+                    "kb",
                     "--connector-type",
                     "local_path",
                 ],

@@ -17,13 +17,13 @@ PACKAGE_PATH = (
     ROOT
     / "examples"
     / "instance-agent-package"
-    / "instance-agent-package-sample-personal-samantha.json"
+    / "instance-agent-package-sample-personal-nova.json"
 )
 ACME_PACKAGE_PATH = (
     ROOT
     / "examples"
     / "instance-agent-package"
-    / "instance-agent-package-sampleco-caroline.json"
+    / "instance-agent-package-sampleco-iris.json"
 )
 SCHEMA_PATH = ROOT / "schemas" / "north-star-answer.schema.json"
 
@@ -40,7 +40,7 @@ class NorthStarAnswerTests(unittest.TestCase):
         self.assertEqual("state_system_north_star_answer", report["id"])
         self.assertEqual("usable_with_gaps", report["answerability"]["status"])
         self.assertEqual(
-            ["instance_agent_package.sample_personal.samantha"],
+            ["instance_agent_package.sample_personal.nova"],
             report["package_refs"],
         )
         self.assertEqual(
@@ -75,8 +75,8 @@ class NorthStarAnswerTests(unittest.TestCase):
         self.assertEqual([], validate_schema(report, load_json(SCHEMA_PATH)))
         self.assertEqual(
             [
-                "instance_agent_package.sample_personal.samantha",
-                "instance_agent_package.sampleco.caroline",
+                "instance_agent_package.sample_personal.nova",
+                "instance_agent_package.sampleco.iris",
             ],
             report["package_refs"],
         )
@@ -110,8 +110,8 @@ class NorthStarAnswerTests(unittest.TestCase):
 
         expired_ref = (
             "expired_freshness."
-            "instance_agent_package.sampleco.caroline."
-            "connector.sampleco.folio."
+            "instance_agent_package.sampleco.iris."
+            "connector.sampleco.kb."
             "stale_after.2026-05-01T00:00:00Z"
         )
         self.assertTrue(report["next_actions"]["requires_refresh_before_external_action"])
@@ -124,8 +124,8 @@ class NorthStarAnswerTests(unittest.TestCase):
         package["freshness"]["requires_refresh_before_external_action"] = False
         expired_ref = (
             "expired_freshness."
-            "instance_agent_package.sampleco.caroline."
-            "connector.sampleco.folio."
+            "instance_agent_package.sampleco.iris."
+            "connector.sampleco.kb."
             "stale_after.2026-05-01T00:00:00Z"
         )
         package["freshness"]["expired_freshness_refs"] = [expired_ref]

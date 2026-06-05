@@ -48,9 +48,9 @@ class FleetRefreshTests(unittest.TestCase):
             )
             self.assertTrue((state_root / "fleet-refresh" / "fleet-refresh-report.json").exists())
             package = load_json(Path(instance["package_path"]))
-            folio = _source(package, "connector.personal.folio")
-            self.assertEqual("fresh", folio["freshness_status"])
-            self.assertEqual("ready", folio["understanding_status"])
+            kb = _source(package, "connector.personal.kb")
+            self.assertEqual("fresh", kb["freshness_status"])
+            self.assertEqual("ready", kb["understanding_status"])
 
     def test_required_adapter_failure_fails_instance_without_shell(self):
         with TemporaryDirectory() as directory:
@@ -112,7 +112,7 @@ class FleetRefreshTests(unittest.TestCase):
                     state_root
                     / "state"
                     / "instance-agent-packages"
-                    / "instance_agent_package.sample_personal.samantha.json"
+                    / "instance_agent_package.sample_personal.nova.json"
                 ).exists()
             )
 
@@ -133,15 +133,15 @@ class FleetRefreshTests(unittest.TestCase):
                         },
                         "cases": [
                             {
-                                "id": "package_pressure_question.fleet_folio_ready",
+                                "id": "package_pressure_question.fleet_knowledge_store_ready",
                                 "status": "ready",
-                                "question": "Is Folio ready?",
-                                "intent": "Folio source readiness should survive refresh.",
-                                "package_id": "instance_agent_package.sample_personal.samantha",
+                                "question": "Is Knowledge Store ready?",
+                                "intent": "Knowledge Store source readiness should survive refresh.",
+                                "package_id": "instance_agent_package.sample_personal.nova",
                                 "assertions": {
                                     "required_source_status": [
                                         {
-                                            "connector_ref": "connector.personal.folio",
+                                            "connector_ref": "connector.personal.kb",
                                             "freshness_status": "fresh",
                                             "understanding_status": "ready"
                                         }
@@ -183,28 +183,28 @@ def _seed_personal_state(state_root: Path) -> None:
     InstanceCapabilityRuntime(stores).seed([pack])
     InstancePreflightRuntime(stores).record(
         {
-            "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.folio",
+            "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.kb",
             "instance_ref": "state_instance.sample_personal",
-            "connector_ref": "connector.personal.folio",
-            "source_ref": "folio:tenant:personal",
-            "connector_type": "folio",
+            "connector_ref": "connector.personal.kb",
+            "source_ref": "kb:tenant:personal",
+            "connector_type": "kb",
             "status": "passed",
             "checked_at": "2026-05-19T19:59:00Z",
             "stale_after": "2026-05-19T21:00:00Z",
-            "evidence_refs": ["preflight:folio:passed"],
+            "evidence_refs": ["preflight:kb:passed"],
         }
     )
     InstanceSourceFreshnessRuntime(stores).record(
         {
             "instance_ref": "state_instance.sample_personal",
-            "connector_ref": "connector.personal.folio",
-            "source_ref": "folio:tenant:personal",
-            "connector_type": "folio",
+            "connector_ref": "connector.personal.kb",
+            "source_ref": "kb:tenant:personal",
+            "connector_type": "kb",
             "status": "fresh",
             "checked_at": "2026-05-19T19:59:00Z",
-            "source_watermark": "folio.indexed_at:2026-05-19T19:58:00Z",
+            "source_watermark": "kb.indexed_at:2026-05-19T19:58:00Z",
             "stale_after": "2026-05-19T21:00:00Z",
-            "evidence_refs": ["freshness:folio:fresh"],
+            "evidence_refs": ["freshness:kb:fresh"],
         }
     )
 
@@ -221,9 +221,9 @@ def _manifest(
                 "id": "fleet_instance.personal",
                 "state_root": str(state_root),
                 "instance_ref": "state_instance.sample_personal",
-                "agent_ref": "agent.samantha",
-                "persona_ref": "persona.samantha",
-                "package_id": "instance_agent_package.sample_personal.samantha",
+                "agent_ref": "agent.nova",
+                "persona_ref": "persona.nova",
+                "package_id": "instance_agent_package.sample_personal.nova",
                 "preflight_mode": "export_only",
                 "adapter_commands": adapter_commands or [],
             }

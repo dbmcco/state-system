@@ -158,22 +158,22 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertIn("operating_picture.crm.sampleco", sampleco_inst["operating_picture_refs"])
         self.assertIn("operating_picture.finance.researchco", researchco["operating_picture_refs"])
         self.assertIn("operating_picture.regulatory.portfolio_co", portfolio_co["operating_picture_refs"])
-        self.assertIn("folio:tenant:sampleco", read_model["source_refs"])
+        self.assertIn("kb:tenant:sampleco", read_model["source_refs"])
         self.assertIn("gws:example:shared-drive:demo-co", read_model["source_refs"])
-        self.assertIn("index.sampleco.folio.corpus", read_model["index_refs"])
+        self.assertIn("index.sampleco.kb.corpus", read_model["index_refs"])
         self.assertIn("index.sampleco.state_system.evidence_cards", read_model["index_refs"])
 
-        sampleco_folio = _connector(sampleco_inst, "connector.sampleco.folio")
-        self.assertEqual("folio", sampleco_folio["connector_type"])
-        self.assertEqual("folio:tenant:sampleco", sampleco_folio["source_ref"])
-        self.assertEqual("source_system", sampleco_folio["owner"])
-        sampleco_folio_index = _index_manifest(sampleco_inst, "index.sampleco.folio.corpus")
-        self.assertEqual("postgres_pgvector", sampleco_folio_index["backend"])
-        self.assertEqual("raw_source_index", sampleco_folio_index["scope"])
-        self.assertEqual("declared", sampleco_folio_index["status"])
+        sampleco_ks = _connector(sampleco_inst, "connector.sampleco.kb")
+        self.assertEqual("kb", sampleco_ks["connector_type"])
+        self.assertEqual("kb:tenant:sampleco", sampleco_ks["source_ref"])
+        self.assertEqual("source_system", sampleco_ks["owner"])
+        sampleco_ks_index = _index_manifest(sampleco_inst, "index.sampleco.kb.corpus")
+        self.assertEqual("postgres_pgvector", sampleco_ks_index["backend"])
+        self.assertEqual("raw_source_index", sampleco_ks_index["scope"])
+        self.assertEqual("declared", sampleco_ks_index["status"])
         self.assertEqual(
-            {"type": "agent_runtime_tool", "tool_ref": "tool.agent_runtime.folio.search"},
-            sampleco_folio_index["query_surface"],
+            {"type": "agent_runtime_tool", "tool_ref": "tool.agent_runtime.kb.search"},
+            sampleco_ks_index["query_surface"],
         )
         sampleco_state_index = _index_manifest(sampleco_inst, "index.sampleco.state_system.evidence_cards")
         self.assertEqual("state_system", sampleco_state_index["owner"])
@@ -232,7 +232,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual(["connector.sampleco.linear"], binding["connector_refs"])
         self.assertEqual(["preflight.sampleco.linear"], binding["required_preflight_refs"])
         self.assertEqual([], binding["governance_refs"])
-        self.assertEqual(["persona.caroline", "persona.samantha"], binding["allowed_agent_refs"])
+        self.assertEqual(["persona.iris", "persona.nova"], binding["allowed_agent_refs"])
         self.assertEqual("hide_until_preflight_passes", binding["exposure_policy"])
         self.assertFalse(binding["proves_live_access"])
         self.assertFalse(binding["authorizes_execution"])
@@ -244,7 +244,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual(["preflight.sampleco.zulip"], zulip_binding["required_preflight_refs"])
         self.assertEqual([], zulip_binding["governance_refs"])
         self.assertEqual(
-            ["persona.caroline", "persona.samantha"],
+            ["persona.iris", "persona.nova"],
             zulip_binding["allowed_agent_refs"],
         )
         self.assertFalse(zulip_binding["proves_live_access"])
@@ -257,7 +257,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual(["preflight.sampleco.github"], github_binding["required_preflight_refs"])
         self.assertEqual([], github_binding["governance_refs"])
         self.assertEqual(
-            ["persona.caroline", "persona.samantha"],
+            ["persona.iris", "persona.nova"],
             github_binding["allowed_agent_refs"],
         )
         self.assertFalse(github_binding["proves_live_access"])
@@ -273,7 +273,7 @@ class CompanyCapabilityPackTests(unittest.TestCase):
         self.assertEqual(["preflight.sampleco.local"], local_binding["required_preflight_refs"])
         self.assertEqual([], local_binding["governance_refs"])
         self.assertEqual(
-            ["persona.caroline", "persona.samantha"],
+            ["persona.iris", "persona.nova"],
             local_binding["allowed_agent_refs"],
         )
         self.assertFalse(local_binding["proves_live_access"])

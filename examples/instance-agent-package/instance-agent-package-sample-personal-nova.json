@@ -1,29 +1,29 @@
 {
-  "id": "instance_agent_package.sample_personal.samantha",
+  "id": "instance_agent_package.sample_personal.nova",
   "package_type": "instance_agent_package",
   "created_at": "2026-05-17T19:49:00Z",
   "instance_ref": "state_instance.sample_personal",
   "primary_entity_ref": "entity.example_person",
   "entity_kind": "person",
   "agent_context": {
-    "agent_ref": "agent.samantha",
-    "persona_ref": "persona.samantha",
-    "summary": "Personal-state package for Samantha over the example person's personal state runtime."
+    "agent_ref": "agent.nova",
+    "persona_ref": "persona.nova",
+    "summary": "Personal-state package for Nova over the example person's personal state runtime."
   },
   "review_goal": "Review current personal source readiness and explicit gaps before answering.",
   "source_context": {
     "source_readiness": [
       {
-        "connector_ref": "connector.personal.folio",
-        "connector_type": "folio",
-        "source_ref": "folio:tenant:personal",
+        "connector_ref": "connector.personal.kb",
+        "connector_type": "kb",
+        "source_ref": "kb:tenant:personal",
         "access_status": "passed",
         "freshness_status": "fresh",
         "index_status": "declared",
         "understanding_status": "ready",
-        "index_refs": ["index.personal.folio.corpus"],
+        "index_refs": ["index.personal.kb.corpus"],
         "gap_refs": [],
-        "evidence_refs": ["preflight:folio:passed"]
+        "evidence_refs": ["preflight:kb:passed"]
       },
       {
         "connector_ref": "connector.personal.garmin_connect",
@@ -66,12 +66,12 @@
   },
   "evidence_context": {
     "index_refs": [
-      "index.personal.folio.corpus",
+      "index.personal.kb.corpus",
       "index.personal.garmin_connect.activity",
       "index.personal.spotify.listening"
     ],
     "evidence_refs": [
-      "preflight:folio:passed",
+      "preflight:kb:passed",
       "garmin:postgres:assistant:2026-05-17T18:23:58Z",
       "garmin:oauth_tokens:mtime:2026-05-17T18:24:21Z",
       "spotify:assistant_postgres:spotify_accounts:2026-02-17T05:00:00Z",
@@ -94,7 +94,7 @@
     "protected_action_authorized_by": "governance"
   },
   "available_actions": [
-    "action_surface.personal.read_folio",
+    "action_surface.personal.read_knowledge_store",
     "action_surface.personal.read_sampleco_state",
     "action_surface.personal.read_garmin_connect",
     "action_surface.personal.read_spotify"

@@ -25,7 +25,7 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
 
     def test_personal_package_keeps_spotify_freshness_gap_visible(self):
         package = load_json(
-            EXAMPLE_DIR / "instance-agent-package-sample-personal-samantha.json"
+            EXAMPLE_DIR / "instance-agent-package-sample-personal-nova.json"
         )
 
         self.assertNotIn(
@@ -43,7 +43,7 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
         self.assertFalse(package["invariant"]["agent_package_authorizes_execution"])
 
     def test_sampleco_package_excludes_personal_sources(self):
-        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-caroline.json")
+        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-iris.json")
         encoded = str(package)
 
         self.assertNotIn("garmin", encoded.lower())
@@ -54,7 +54,7 @@ class InstanceAgentPackageContractTests(unittest.TestCase):
         )
 
     def test_sampleco_package_includes_governed_relationship_index_route_without_personal_materialization(self):
-        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-caroline.json")
+        package = load_json(EXAMPLE_DIR / "instance-agent-package-sampleco-iris.json")
         route = _route(package, "question_route.sampleco.federated_relationship_index")
 
         self.assertEqual(

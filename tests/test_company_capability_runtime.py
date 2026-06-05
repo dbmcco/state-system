@@ -117,9 +117,9 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             ]
             self.assertIn(
                 {
-                    "id": "connector.portfolio_co.folio",
-                    "connector_type": "folio",
-                    "source_ref": "folio:tenant:portfolio_co",
+                    "id": "connector.portfolio_co.kb",
+                    "connector_type": "kb",
+                    "source_ref": "kb:tenant:portfolio_co",
                     "owner": "source_system",
                     "declared": True,
                 },
@@ -167,8 +167,8 @@ class CompanyCapabilityRuntimeTests(unittest.TestCase):
             self.assertEqual("company-capability-read-model.json", read_model_path.name)
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(3, len(read_model["companies"]))
-            self.assertIn("folio:tenant:sampleco", read_model["source_refs"])
-            self.assertIn("index.sampleco.folio.corpus", read_model["index_refs"])
+            self.assertIn("kb:tenant:sampleco", read_model["source_refs"])
+            self.assertIn("index.sampleco.kb.corpus", read_model["index_refs"])
 
 
 def _company(read_model, company_ref):

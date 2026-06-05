@@ -1,7 +1,7 @@
 # Application Integration Pressure Tests
 
 **Status:** Planning contract with first fixture gates
-**Scope:** State System, Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, agent runtime memory, Folio, and task/work systems
+**Scope:** State System, Prospect Researcher, Outreach Engine, Meeting Manager, Thoughtforge, Visual Forge, SampleCo AI Graph CRM, agent runtime memory, Knowledge Store, and task/work systems
 
 ## Purpose
 
@@ -114,7 +114,7 @@ through
 ```text
 coordination update accepted
   -> thoughtforge_author_package
-  -> model decides whether idea fits Example User/DBMCCO or Sam Ashford corpus
+  -> model decides whether idea fits Example User/ExampleAuthor or Sam Ashford corpus
   -> interview prompt or longform candidate proposal
   -> human approval before public publication
   -> published corpus update after release

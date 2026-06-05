@@ -45,21 +45,21 @@ class ActiveHeartbeatTests(unittest.TestCase):
             self.assertIn("local.mtime_ns:", local["source_watermark"])
             self.assertFalse(local["proves_live_access"])
 
-            folio = _latest(read_model, "connector.sampleco.folio")
-            self.assertEqual("unknown", folio["status"])
-            self.assertEqual("delegated:not_checked", folio["source_watermark"])
-            self.assertEqual("delegated_connector", folio["error"]["code"])
+            kb = _latest(read_model, "connector.sampleco.kb")
+            self.assertEqual("unknown", kb["status"])
+            self.assertEqual("delegated:not_checked", kb["source_watermark"])
+            self.assertEqual("delegated_connector", kb["error"]["code"])
 
             zulip = _latest(read_model, "connector.sampleco.zulip")
             self.assertEqual("unknown", zulip["status"])
             self.assertEqual("zulip", zulip["connector_type"])
-            self.assertEqual("zulip:realm:lightforgeworks", zulip["source_ref"])
+            self.assertEqual("zulip:realm:sampleco", zulip["source_ref"])
             self.assertEqual("delegated_connector", zulip["error"]["code"])
 
             github = _latest(read_model, "connector.sampleco.github_org")
             self.assertEqual("unknown", github["status"])
             self.assertEqual("repo", github["connector_type"])
-            self.assertEqual("github:org:LightForge-Works", github["source_ref"])
+            self.assertEqual("github:org:SampleCo-Org", github["source_ref"])
             self.assertEqual("delegated_connector", github["error"]["code"])
 
             transcripts_raw = _latest(read_model, "connector.sampleco.transcripts.raw")

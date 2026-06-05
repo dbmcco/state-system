@@ -22,7 +22,7 @@ EXAMPLE = (
     ROOT
     / "examples"
     / "instance-preflight"
-    / "instance-preflight-sample-personal-folio.json"
+    / "instance-preflight-sample-personal-kb.json"
 )
 
 
@@ -46,26 +46,26 @@ class InstancePreflightResultTests(unittest.TestCase):
                 {
                     "preflight_ref": (
                         "preflight.state_instance.sample_personal."
-                        "connector.personal.folio"
+                        "connector.personal.kb"
                     ),
                     "instance_ref": "state_instance.sample_personal",
-                    "connector_ref": "connector.personal.folio",
-                    "source_ref": "folio:tenant:personal",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
                     "status": "passed",
                     "checked_at": "2026-05-16T19:42:47Z",
                     "stale_after": "2026-05-16T20:42:47Z",
                     "evidence_refs": [
-                        "local-path:/home/user/state-system/folio"
+                        "local-path:/home/user/state-system/kb"
                     ],
-                    "detail": "folio_root exists.",
+                    "detail": "knowledge_store_root exists.",
                 }
             )
 
             self.assertEqual(
-                "state_instance.sample_personal|connector.personal.folio|"
-                "folio:tenant:personal|preflight.state_instance.sample_personal."
-                "connector.personal.folio||||",
+                "state_instance.sample_personal|connector.personal.kb|"
+                "kb:tenant:personal|preflight.state_instance.sample_personal."
+                "connector.personal.kb||||",
                 record["scope_key"],
             )
             self.assertTrue(
@@ -84,12 +84,12 @@ class InstancePreflightResultTests(unittest.TestCase):
             base = {
                 "preflight_ref": (
                     "preflight.state_instance.sample_personal."
-                    "connector.personal.folio"
+                    "connector.personal.kb"
                 ),
                 "instance_ref": "state_instance.sample_personal",
-                "connector_ref": "connector.personal.folio",
-                "source_ref": "folio:tenant:personal",
-                "connector_type": "folio",
+                "connector_ref": "connector.personal.kb",
+                "source_ref": "kb:tenant:personal",
+                "connector_type": "kb",
                 "stale_after": "2026-05-16T20:42:47Z",
             }
             runtime.record(
@@ -97,8 +97,8 @@ class InstancePreflightResultTests(unittest.TestCase):
                     **base,
                     "status": "failed",
                     "checked_at": "2026-05-16T19:00:00Z",
-                    "evidence_refs": ["preflight:folio:failed"],
-                    "error": {"code": "missing_root", "message": "Folio root missing."},
+                    "evidence_refs": ["preflight:kb:failed"],
+                    "error": {"code": "missing_root", "message": "Knowledge Store root missing."},
                 }
             )
             runtime.record(
@@ -106,7 +106,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     **base,
                     "status": "passed",
                     "checked_at": "2026-05-16T19:42:47Z",
-                    "evidence_refs": ["preflight:folio:passed"],
+                    "evidence_refs": ["preflight:kb:passed"],
                 }
             )
 
@@ -209,15 +209,15 @@ class InstancePreflightResultTests(unittest.TestCase):
                     directory,
                     "instance-preflight-record",
                     "--preflight-ref",
-                    "preflight.state_instance.sample_personal.connector.personal.folio",
+                    "preflight.state_instance.sample_personal.connector.personal.kb",
                     "--instance-ref",
                     "state_instance.sample_personal",
                     "--connector-ref",
-                    "connector.personal.folio",
+                    "connector.personal.kb",
                     "--source-ref",
-                    "folio:tenant:personal",
+                    "kb:tenant:personal",
                     "--connector-type",
-                    "folio",
+                    "kb",
                     "--status",
                     "passed",
                     "--checked-at",
@@ -225,7 +225,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     "--stale-after",
                     "2026-05-16T20:42:47Z",
                     "--evidence-ref",
-                    "preflight:folio:passed",
+                    "preflight:kb:passed",
                 ],
                 stdout=output,
             )
@@ -293,7 +293,7 @@ class InstancePreflightResultTests(unittest.TestCase):
                     "--action-ref",
                     "action_surface.personal.read_garmin_connect.with.extra.scope",
                     "--agent-ref",
-                    "persona.samantha.personal_state_agent.with.long.qualifier",
+                    "persona.nova.personal_state_agent.with.long.qualifier",
                     "--runner-ref",
                     "runner.agent_runtime.codex.local_runtime.with.long.qualifier",
                     "--status",

@@ -1,0 +1,19 @@
+{
+  "id": "instance_preflight_result.state_instance.sample_personal-connector.personal.kb-kb-tenant-personal-preflight.state_instance.sample_personal.connector.personal.kb.2026-05-16T19-42-47Z",
+  "scope_key": "state_instance.sample_personal|connector.personal.kb|kb:tenant:personal|preflight.state_instance.sample_personal.connector.personal.kb||||",
+  "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.kb",
+  "instance_ref": "state_instance.sample_personal",
+  "connector_ref": "connector.personal.kb",
+  "source_ref": "kb:tenant:personal",
+  "connector_type": "kb",
+  "status": "passed",
+  "checked_at": "2026-05-16T19:42:47Z",
+  "stale_after": "2026-05-16T20:42:47Z",
+  "evidence_refs": [
+    "local-path:/srv/examples/kb"
+  ],
+  "detail": "knowledge_store_root exists: /srv/examples/kb",
+  "proves_live_access": true,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

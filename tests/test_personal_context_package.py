@@ -28,16 +28,16 @@ def _seed_personal(stores: StateStoreBundle) -> None:
     InstancePreflightRuntime(stores).record(
         {
             "preflight_ref": (
-                "preflight.state_instance.sample_personal.connector.personal.folio"
+                "preflight.state_instance.sample_personal.connector.personal.kb"
             ),
             "instance_ref": "state_instance.sample_personal",
-            "connector_ref": "connector.personal.folio",
-            "source_ref": "folio:tenant:personal",
-            "connector_type": "folio",
+            "connector_ref": "connector.personal.kb",
+            "source_ref": "kb:tenant:personal",
+            "connector_type": "kb",
             "status": "passed",
             "checked_at": "2026-05-17T10:15:00Z",
             "stale_after": "2026-05-17T11:15:00Z",
-            "evidence_refs": ["preflight:folio:passed"],
+            "evidence_refs": ["preflight:kb:passed"],
         }
     )
     InstancePreflightRuntime(stores).record(
@@ -58,15 +58,15 @@ def _seed_personal(stores: StateStoreBundle) -> None:
     InstanceSourceFreshnessRuntime(stores).record(
         {
             "instance_ref": "state_instance.sample_personal",
-            "connector_ref": "connector.personal.folio",
-            "source_ref": "folio:tenant:personal",
-            "connector_type": "folio",
+            "connector_ref": "connector.personal.kb",
+            "source_ref": "kb:tenant:personal",
+            "connector_type": "kb",
             "status": "fresh",
             "checked_at": "2026-05-17T10:15:00Z",
-            "source_watermark": "folio.indexed_at:2026-05-17T10:14:00Z",
+            "source_watermark": "kb.indexed_at:2026-05-17T10:14:00Z",
             "stale_after": "2026-05-17T11:15:00Z",
             "lag_seconds": 60,
-            "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
+            "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
         }
     )
 
@@ -91,7 +91,7 @@ class PersonalContextPackageTests(unittest.TestCase):
         connector_refs = {
             boundary["connector_ref"] for boundary in package["source_boundaries"]
         }
-        self.assertIn("connector.personal.folio", connector_refs)
+        self.assertIn("connector.personal.kb", connector_refs)
         self.assertIn("connector.personal.msgvault", connector_refs)
         self.assertIn("connector.personal.agentmem", connector_refs)
         gap_reasons = {gap["reason"] for gap in package["unresolved_gaps"]}
@@ -140,7 +140,7 @@ class PersonalContextPackageTests(unittest.TestCase):
             )
 
         self.assertIn(
-            "folio.indexed_at:2026-05-17T10:14:00Z",
+            "kb.indexed_at:2026-05-17T10:14:00Z",
             package["freshness"]["watermark_refs"],
         )
         self.assertTrue(package["freshness"]["requires_refresh_before_synthesis"])

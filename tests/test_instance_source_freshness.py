@@ -81,9 +81,9 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             runtime = InstanceSourceFreshnessRuntime(stores)
             base = {
                 "instance_ref": "state_instance.sample_personal",
-                "connector_ref": "connector.personal.folio",
-                "source_ref": "folio:tenant:personal",
-                "connector_type": "folio",
+                "connector_ref": "connector.personal.kb",
+                "source_ref": "kb:tenant:personal",
+                "connector_type": "kb",
                 "stale_after": "2026-05-17T10:30:00Z",
             }
             runtime.record(
@@ -91,9 +91,9 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     **base,
                     "status": "stale",
                     "checked_at": "2026-05-17T10:00:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-17T08:00:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-17T08:00:00Z",
                     "lag_seconds": 7200,
-                    "evidence_refs": ["agent-runtime:freshness:folio:stale"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:stale"],
                 }
             )
             runtime.record(
@@ -101,9 +101,9 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     **base,
                     "status": "fresh",
                     "checked_at": "2026-05-17T10:15:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-17T10:14:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-17T10:14:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
                 }
             )
 
@@ -111,8 +111,8 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
 
             self.assertEqual("instance_source_freshness_read_model", read_model["id"])
             scope_key = (
-                "state_instance.sample_personal|connector.personal.folio|"
-                "folio:tenant:personal"
+                "state_instance.sample_personal|connector.personal.kb|"
+                "kb:tenant:personal"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("fresh", latest["status"])

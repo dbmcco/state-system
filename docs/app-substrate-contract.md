@@ -169,7 +169,7 @@ State System active heartbeat contract:
 - State System owns heartbeat orchestration through `source-heartbeat-run`.
 - State System may directly check safe local metadata such as `local_path`
   existence and mtime.
-- Credentialed or source-specific connector families such as Folio, msgvault,
+- Credentialed or source-specific connector families such as Knowledge Store, msgvault,
   GWS Drive, Linear, calendars, and Zulip remain delegated until explicit State
   System adapters exist.
 - Delegated connectors are recorded as `status: unknown` with
@@ -308,7 +308,7 @@ Consumes:
 - State System context packages
 - CRM relationship context
 - agent runtime memory
-- Folio notes
+- Knowledge Store notes
 - task/work state
 - contact and project state
 
@@ -326,7 +326,7 @@ Consumes:
 
 - author state
 - private and published corpus state
-- Folio notes and transcripts
+- Knowledge Store notes and transcripts
 - meeting-derived idea candidates
 - personal dossier and voice evidence
 

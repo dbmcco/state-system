@@ -6,17 +6,17 @@
     "name": "ResearchCo",
     "summary": "Company substrate for ResearchCo product, research, and finance work.",
     "primary_agent_refs": [
-      "persona.ingrid"
+      "persona.scout"
     ],
     "oversight_agent_refs": [
-      "persona.samantha"
+      "persona.nova"
     ]
   },
   "source_connectors": [
     {
-      "id": "connector.researchco.folio",
-      "connector_type": "folio",
-      "source_ref": "folio:tenant:researchco",
+      "id": "connector.researchco.kb",
+      "connector_type": "kb",
+      "source_ref": "kb:tenant:researchco",
       "owner": "source_system",
       "declared": true
     },
@@ -51,7 +51,7 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:researchco",
+      "kb:tenant:researchco",
       "gws:example:drive:ResearchCo Shared",
       "msgvault:tenant:researchco-email",
       "local:/srv/examples/researchco"
@@ -60,14 +60,14 @@
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:researchco",
-      "gws:index:mcco:ResearchCo Shared",
+      "kb:index:tenant:researchco",
+      "gws:index:shared:ResearchCo Shared",
       "msgvault:index:researchco-email"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.researchco.folio.corpus",
+      "index_ref": "index.researchco.kb.corpus",
       "company_ref": "company.researchco",
       "owner": "source_system",
       "backend": "postgres_pgvector",
@@ -78,14 +78,14 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:researchco"
+        "kb:tenant:researchco"
       ],
       "connector_refs": [
-        "connector.researchco.folio"
+        "connector.researchco.kb"
       ],
       "query_surface": {
         "type": "agent_runtime_tool",
-        "tool_ref": "tool.agent_runtime.folio.search"
+        "tool_ref": "tool.agent_runtime.kb.search"
       },
       "status": "declared"
     },
@@ -169,7 +169,7 @@
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.researchco.read_folio",
+      "action_surface.researchco.read_knowledge_store",
       "action_surface.researchco.read_drive",
       "action_surface.researchco.search_msgvault",
       "action_surface.researchco.inspect_local_workspace"
@@ -177,20 +177,20 @@
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.researchco.folio.search",
-      "capability_ref": "capability.researchco.folio.search",
-      "tool_ref": "tool.agent_runtime.folio.search",
-      "action_ref": "action_surface.researchco.read_folio",
+      "id": "tool_binding.researchco.kb.search",
+      "capability_ref": "capability.researchco.kb.search",
+      "tool_ref": "tool.agent_runtime.kb.search",
+      "action_ref": "action_surface.researchco.read_knowledge_store",
       "connector_refs": [
-        "connector.researchco.folio"
+        "connector.researchco.kb"
       ],
       "required_preflight_refs": [
-        "preflight.researchco.folio"
+        "preflight.researchco.kb"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
-        "persona.samantha"
+        "persona.scout",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -209,8 +209,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
-        "persona.samantha"
+        "persona.scout",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -229,8 +229,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
-        "persona.samantha"
+        "persona.scout",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -249,8 +249,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.ingrid",
-        "persona.samantha"
+        "persona.scout",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -268,15 +268,15 @@
     "definition": "connector_preflight is the agent runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.researchco.folio",
-        "connector_ref": "connector.researchco.folio",
-        "check": "agent runtime can search Folio tenant researchco.",
+        "id": "preflight.researchco.kb",
+        "connector_ref": "connector.researchco.kb",
+        "check": "agent runtime can search Knowledge Store tenant researchco.",
         "owner": "agent_runtime"
       },
       {
         "id": "preflight.researchco.drive",
         "connector_ref": "connector.researchco.drive",
-        "check": "agent runtime can read ResearchCo Shared through gws-account mcco.",
+        "check": "agent runtime can read ResearchCo Shared through gws-account shared.",
         "owner": "agent_runtime"
       },
       {
@@ -296,8 +296,8 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are agent runtime execution constraints, separate from governance.",
     "constraints": [
-      "Ingrid primary for ResearchCo.",
-      "Samantha may oversee across company packs.",
+      "Scout primary for ResearchCo.",
+      "Nova may oversee across company packs.",
       "No Linear connector is declared unless explicitly added later."
     ]
   },

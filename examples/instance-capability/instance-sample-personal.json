@@ -8,15 +8,15 @@
     "name": "Example Personal State",
     "summary": "Personal state substrate for the example person's life, commitments, work context, memory, and attention.",
     "primary_agent_refs": [
-      "persona.samantha"
+      "persona.nova"
     ],
     "oversight_agent_refs": []
   },
   "source_connectors": [
     {
-      "id": "connector.personal.folio",
-      "connector_type": "folio",
-      "source_ref": "folio:tenant:personal",
+      "id": "connector.personal.kb",
+      "connector_type": "kb",
+      "source_ref": "kb:tenant:personal",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
@@ -93,7 +93,7 @@
   "raw_corpus": {
     "definition": "Raw personal source surfaces remain owned by source systems and federated instances.",
     "source_refs": [
-      "folio:tenant:personal",
+      "kb:tenant:personal",
       "msgvault:tenant:personal-email",
       "agentmem:tenant:example-person",
       "agent-workboard:default",
@@ -107,7 +107,7 @@
   "evidence_index": {
     "definition": "Federated search surfaces for personal sources, agent memory, operational tasks, and interpreted state.",
     "index_refs": [
-      "index.personal.folio.corpus",
+      "index.personal.kb.corpus",
       "index.personal.msgvault.email",
       "index.personal.agentmem.memory",
       "index.personal.workboard.tasks",
@@ -121,7 +121,7 @@
   },
   "index_manifests": [
     {
-      "index_ref": "index.personal.folio.corpus",
+      "index_ref": "index.personal.kb.corpus",
       "instance_ref": "state_instance.sample_personal",
       "primary_entity_ref": "entity.example_person",
       "owner": "source_system",
@@ -133,14 +133,14 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:personal"
+        "kb:tenant:personal"
       ],
       "connector_refs": [
-        "connector.personal.folio"
+        "connector.personal.kb"
       ],
       "query_surface": {
         "type": "agent_runtime_tool",
-        "tool_ref": "tool.agent_runtime.folio.search"
+        "tool_ref": "tool.agent_runtime.kb.search"
       },
       "status": "declared"
     },
@@ -385,7 +385,7 @@
   "action_surface": {
     "definition": "Personal instance actions are declared; protected effects remain governed separately. Relationship Substrate owns subject-level relationship-context notes used for user corrections.",
     "action_refs": [
-      "action_surface.personal.read_folio",
+      "action_surface.personal.read_knowledge_store",
       "action_surface.personal.search_msgvault",
       "action_surface.personal.read_agentmem",
       "action_surface.personal.read_workboard",
@@ -412,7 +412,7 @@
         "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
-        "agent.samantha"
+        "agent.nova"
       ],
       "exposure_policy": "read_only_relationship_operating_picture_for_personal_state_questions",
       "proves_live_access": false,
@@ -431,7 +431,7 @@
         "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
-        "agent.samantha"
+        "agent.nova"
       ],
       "exposure_policy": "read_only_enrichment_backed_relationship_candidate_search",
       "proves_live_access": false,
@@ -450,7 +450,7 @@
         "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
-        "agent.samantha"
+        "agent.nova"
       ],
       "exposure_policy": "read_only_subject_level_context_notes_for_relationship_state_questions",
       "proves_live_access": false,
@@ -469,7 +469,7 @@
         "governance.example_user.personal_default"
       ],
       "allowed_agent_refs": [
-        "agent.samantha"
+        "agent.nova"
       ],
       "exposure_policy": "durable_user_correction_subject_note_for_relationship_context",
       "proves_live_access": false,

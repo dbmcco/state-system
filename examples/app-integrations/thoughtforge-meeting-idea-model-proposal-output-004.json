@@ -11,9 +11,9 @@
     {
       "target_state_object_id": "state.content.idea.audit-trails-small-teams",
       "update_class": "interpretive",
-      "interpretation": "The idea may fit DBMCCO thought leadership after redaction and author-fit review.",
+      "interpretation": "The idea may fit ExampleAuthor thought leadership after redaction and author-fit review.",
       "state_patch": {
-        "candidate_author_ref": "author.dbmcco",
+        "candidate_author_ref": "author.example_author",
         "idea_status": "longform_candidate_pending_approval"
       },
       "evidence_refs": [
@@ -69,7 +69,7 @@
   "missing_evidence": [
     {
       "summary": "Author-fit approval",
-      "needed_ref_or_source": "author:dbmcco.fit-review.approval"
+      "needed_ref_or_source": "author:example_author.fit-review.approval"
     },
     {
       "summary": "Permission to use meeting-derived idea publicly",

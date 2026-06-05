@@ -33,7 +33,7 @@ It can optionally run package pressure against the refreshed package set.
 ## Source Boundary
 
 The runner does not make source-specific freshness claims for delegated systems
-by itself. Folio, Drive, msgvault, Linear, GitHub, Garmin, Spotify, relationship
+by itself. Knowledge Store, Drive, msgvault, Linear, GitHub, Garmin, Spotify, relationship
 substrate, and similar systems must either:
 
 - already have recorded preflight/freshness evidence in the state root, or

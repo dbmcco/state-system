@@ -26,30 +26,30 @@ class CompanyUnderstandingSurfaceTests(unittest.TestCase):
             CompanyCapabilityRuntime(stores).seed([load_json(PACK_DIR / "company-sampleco.json")])
             CompanyPreflightRuntime(stores).record(
                 {
-                    "preflight_ref": "preflight.sampleco.folio",
+                    "preflight_ref": "preflight.sampleco.kb",
                     "company_ref": "company.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "tool_ref": "tool.agent_runtime.folio.search",
-                    "action_ref": "action_surface.sampleco.read_folio",
-                    "agent_ref": "persona.caroline",
+                    "connector_ref": "connector.sampleco.kb",
+                    "tool_ref": "tool.agent_runtime.kb.search",
+                    "action_ref": "action_surface.sampleco.read_knowledge_store",
+                    "agent_ref": "persona.iris",
                     "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-15T18:00:00Z",
                     "stale_after": "2026-05-15T18:15:00Z",
-                    "evidence_refs": ["agent-runtime:preflight:folio:sampleco"],
+                    "evidence_refs": ["agent-runtime:preflight:kb:sampleco"],
                 }
             )
             SourceFreshnessRuntime(stores).record(
                 {
                     "company_ref": "company.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "fresh",
                     "checked_at": "2026-05-15T18:01:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-15T18:00:30Z",
+                    "source_watermark": "kb.indexed_at:2026-05-15T18:00:30Z",
                     "stale_after": "2026-05-15T18:16:00Z",
-                    "evidence_refs": ["agent-runtime:freshness:folio:sampleco"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
                 }
             )
 
@@ -57,14 +57,14 @@ class CompanyUnderstandingSurfaceTests(unittest.TestCase):
 
             self.assertEqual("company_understanding_surface_read_model", read_model["id"])
             self.assertFalse(read_model["invariant"]["surface_executes_retrieval"])
-            self.assertIn("index.sampleco.folio.corpus", read_model["index_refs"])
+            self.assertIn("index.sampleco.kb.corpus", read_model["index_refs"])
             sampleco_inst = read_model["companies"][0]
-            folio = _source(sampleco_inst, "connector.sampleco.folio")
-            self.assertEqual("passed", folio["access_status"])
-            self.assertEqual("fresh", folio["freshness_status"])
-            self.assertEqual("declared", folio["index_status"])
-            self.assertEqual("ready", folio["understanding_status"])
-            self.assertEqual(["index.sampleco.folio.corpus"], folio["index_refs"])
+            kb = _source(sampleco_inst, "connector.sampleco.kb")
+            self.assertEqual("passed", kb["access_status"])
+            self.assertEqual("fresh", kb["freshness_status"])
+            self.assertEqual("declared", kb["index_status"])
+            self.assertEqual("ready", kb["understanding_status"])
+            self.assertEqual(["index.sampleco.kb.corpus"], kb["index_refs"])
 
             zulip = _source(sampleco_inst, "connector.sampleco.zulip")
             self.assertEqual("missing", zulip["access_status"])

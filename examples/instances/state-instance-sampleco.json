@@ -2,7 +2,7 @@
   "id": "state_instance.sampleco",
   "instance_ref": "state_instance.sampleco",
   "kind": "company",
-  "display_name": "Lightforge Works State",
+  "display_name": "SampleCo Works State",
   "runtime_root": "/srv/examples/sampleco/state-system",
   "primary_entity_ref": "entity.sampleco",
   "entity_kind": "company",

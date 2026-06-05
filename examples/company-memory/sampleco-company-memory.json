@@ -3,7 +3,7 @@
   "subject_ref": "company.sampleco",
   "generated_at": "2026-05-04T15:00:00Z",
   "mission": {
-    "summary": "Lightforge Works helps organizations turn AI capability into bounded, useful business systems.",
+    "summary": "SampleCo Works helps organizations turn AI capability into bounded, useful business systems.",
     "evidence_refs": [
       "source.meeting.coordination.003",
       "crm:relationship:southern-abrasives"

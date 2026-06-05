@@ -30,7 +30,7 @@ personal state and SampleCo have proven the contract shape:
 - personal state exposes Sam's package with Spotify, Garmin Connect, Relationship
   Substrate, subject notes, workboard, msgvault, agentmem, local path, and SampleCo
   federation.
-- SampleCo exposes Caroline's package with company state first and a governed
+- SampleCo exposes Iris's package with company state first and a governed
   federated relationship route into Example User personal relationship evidence.
 - Relationship Substrate owns people, organizations, affiliations,
   interactions, and subject notes. State System declares/federates the module;
@@ -44,7 +44,7 @@ State System succeeds when:
 - another agent can scaffold a new company/person/project state instance;
 - packages expose source readiness, freshness, gaps, routes, tools, governance,
   and no-materialization boundaries in typed fields;
-- Sam, Caroline, and future agents can answer real questions from package JSON
+- Sam, Iris, and future agents can answer real questions from package JSON
   and rendered CLI output;
 - private source data stays in deployed instances;
 - open-source examples remain synthetic and safe;
@@ -98,7 +98,7 @@ Owner: `state:2.1`
 
 Deliver:
 
-- Caroline package/read model stays contract-aligned;
+- Iris package/read model stays contract-aligned;
 - root `AGENTS.md` and `CLAUDE.md` explain SampleCo state usage and the governed
   relationship route;
 - Linear/GitHub/transcript gaps stay visible and typed;

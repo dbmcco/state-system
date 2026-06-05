@@ -93,15 +93,15 @@ Source integrations are first-class. To add one:
    python3 -m state_system.cli --project-root . \
      --state-root /path/to/state-root \
      instance-preflight-record \
-     --preflight-ref preflight.state_instance.sampleco.connector.sampleco.folio \
+     --preflight-ref preflight.state_instance.sampleco.connector.sampleco.kb \
      --instance-ref state_instance.sampleco \
-     --connector-ref connector.sampleco.folio \
-     --source-ref folio:tenant:sampleco \
-     --connector-type folio \
+     --connector-ref connector.sampleco.kb \
+     --source-ref kb:tenant:sampleco \
+     --connector-type kb \
      --status passed \
      --checked-at 2026-05-18T12:05:00Z \
      --stale-after 2026-05-18T13:05:00Z \
-     --evidence-ref local-path:/srv/folio/sampleco
+     --evidence-ref local-path:/srv/kb/sampleco
    ```
 
 5. Record freshness evidence:
@@ -111,14 +111,14 @@ Source integrations are first-class. To add one:
      --state-root /path/to/state-root \
      instance-source-freshness-record \
      --instance-ref state_instance.sampleco \
-     --connector-ref connector.sampleco.folio \
-     --source-ref folio:tenant:sampleco \
-     --connector-type folio \
+     --connector-ref connector.sampleco.kb \
+     --source-ref kb:tenant:sampleco \
+     --connector-type kb \
      --status fresh \
      --checked-at 2026-05-18T12:05:00Z \
-     --source-watermark folio.indexed_at:2026-05-18T12:04:00Z \
+     --source-watermark kb.indexed_at:2026-05-18T12:04:00Z \
      --stale-after 2026-05-18T13:05:00Z \
-     --evidence-ref freshness:folio:fresh:20260518T120500Z
+     --evidence-ref freshness:kb:fresh:20260518T120500Z
    ```
 
 6. Declare source-owned index refs when retrieval exists. State System may cite
@@ -181,7 +181,7 @@ Build a North Star answer substrate from packages:
 ```bash
 python3 -m state_system.cli --project-root . north-star-answer \
   --query "What is the current state?" \
-  --package sample=examples/instance-agent-package/instance-agent-package-sample-personal-samantha.json \
+  --package sample=examples/instance-agent-package/instance-agent-package-sample-personal-nova.json \
   --output-dir /tmp/state-system-north-star
 ```
 

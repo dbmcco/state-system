@@ -24,7 +24,7 @@ State System now has five layers:
    `state-system` repo.
 
 2. **Source modules**
-   Explicit declarations of source-owned systems such as msgvault, Folio,
+   Explicit declarations of source-owned systems such as msgvault, Knowledge Store,
    Relationship Substrate, Garmin Connect, Spotify, Drive, GitHub, Linear,
    docs, and local paths. A source module owns access, freshness, index
    manifests, record kinds, safe output policy, and read/write/correction
@@ -121,10 +121,10 @@ The package layer should be tested against real questions:
 - Sam: "Do I have any relationship follow-up threads I should take action on?"
 - Sam: "Who do I know at smaller consulting or advisory firms?"
 - Sam: "What does Spotify show recently, and is that current?"
-- Caroline: "What SampleCo relationship or BD follow-ups need attention?"
-- Caroline: "What is Caroline missing because Linear, GitHub, or transcripts
+- Iris: "What SampleCo relationship or BD follow-ups need attention?"
+- Iris: "What is Iris missing because Linear, GitHub, or transcripts
   are stale?"
-- Helena/Ingrid: "What can this agent know about the company today, and what is
+- Helena/Scout: "What can this agent know about the company today, and what is
   still only declared?"
 
 The expected behavior is not a fixed answer. The expected behavior is that the
@@ -166,7 +166,7 @@ output rather than only changing private connector behavior.
 
 ### Phase 5: Pressure Harness
 
-Add real-question package pressure tests for Sam, Caroline, Helena, and Ingrid.
+Add real-question package pressure tests for Sam, Iris, Helena, and Scout.
 These tests should assert source coverage, gap naming, route/tool visibility,
 and materialization boundaries rather than brittle answer text.
 
@@ -180,8 +180,8 @@ This model is complete enough for the next release when:
 - PortfolioCo and ResearchCo have first packages that render from their repo roots.
 - Connector module kit docs explain how to add Spotify-like, Garmin-like, and
   Relationship-Substrate-like modules without core schema edits.
-- Real-question pressure tests pass for Sam and Caroline and have scaffolded
-  cases for Helena/Ingrid.
+- Real-question pressure tests pass for Sam and Iris and have scaffolded
+  cases for Helena/Scout.
 - All generic validation and focused tests pass.
 - Open-source examples contain no private corpora, names, account data, tokens,
   listening history, health records, or private relationship records.

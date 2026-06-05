@@ -122,10 +122,10 @@ Run it with package JSON files:
 ```bash
 python3 -m state_system.cli --project-root /path/to/state-system package-pressure-run examples/pressure-questions/package-pressure-core-real-questions.json \
   --package <personal_package_id>=/path/to/personal-package.json \
-  --package instance_agent_package.sampleco.caroline=/path/to/instance_agent_package.sampleco.caroline.json
+  --package instance_agent_package.sampleco.iris=/path/to/instance_agent_package.sampleco.iris.json
 ```
 
-Use `--include-planned` when checking scaffolded Helena/Ingrid readiness or
+Use `--include-planned` when checking scaffolded Helena/Scout readiness or
 known planned gaps such as SampleCo Linear/GitHub/transcript coverage. Planned cases
 are still executable, but the default run focuses on ready daily-use package
 contracts.

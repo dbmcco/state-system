@@ -91,7 +91,7 @@ class AgentRuntimeBootstrapExportTests(unittest.TestCase):
                     "connector_ref": "connector.sampleco.local",
                     "tool_ref": "tool.agent_runtime.local_path.inspect",
                     "action_ref": "action_surface.sampleco.inspect_local_workspace",
-                    "agent_ref": "persona.caroline",
+                    "agent_ref": "persona.iris",
                     "runner_ref": "runner.agent_runtime.codex",
                     "status": "passed",
                     "checked_at": "2026-05-14T18:55:00Z",
@@ -129,15 +129,15 @@ class AgentRuntimeBootstrapExportTests(unittest.TestCase):
             SourceFreshnessRuntime(stores).record(
                 {
                     "company_ref": "company.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "fresh",
                     "checked_at": "2026-05-15T12:00:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-15T11:59:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["agent-runtime:freshness:folio:sampleco"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
                 }
             )
 

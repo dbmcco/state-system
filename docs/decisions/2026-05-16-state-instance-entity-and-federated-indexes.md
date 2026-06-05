@@ -68,7 +68,7 @@ it does not copy raw corpora by default.
 Canonical index scopes:
 
 - `raw_source_index`: source-owned raw corpus search, such as msgvault email,
-  Folio notes, Drive documents, Linear issues, Zulip messages, or transcripts.
+  Knowledge Store notes, Drive documents, Linear issues, Zulip messages, or transcripts.
 - `memory_index`: agent or person memory, such as agentmem or agent-memory.
 - `relationship_index`: network evidence and relationship operating pictures,
   such as the personal/professional network substrate in

@@ -6,7 +6,7 @@
     {
       "id": "package_pressure_question.sam_relationship_follow_up",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "Do I have any relationship follow up threads I should take action on?",
       "intent": "Sam must use relationship substrate, email/msgvault, work/memory context, and visible gaps instead of a calendar-only answer.",
       "assertions": {
@@ -35,7 +35,7 @@
     {
       "id": "package_pressure_question.sam_small_consulting_contacts",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "Who do I know at smaller consulting firms?",
       "intent": "Sam must use enrichment-backed Relationship Substrate search and subject notes rather than keyword-only email filtering.",
       "assertions": {
@@ -59,7 +59,7 @@
     {
       "id": "package_pressure_question.sam_spotify_currentness",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "What does Spotify show recently, and is that current?",
       "intent": "Sam must expose that Spotify is historical-cache usable but stale until live OAuth/API freshness is repaired.",
       "assertions": {
@@ -83,13 +83,13 @@
     {
       "id": "package_pressure_question.sam_agent_memory_identity_context",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "Can Sam use my agent runtime conversations and facets as part of personal state?",
-      "intent": "Sam should see agent runtime memory as fresh source-owned identity/context surfaces, separating Samantha continuity from example owner facts and avoiding raw private facet or full-turn materialization.",
+      "intent": "Sam should see agent runtime memory as fresh source-owned identity/context surfaces, separating Nova continuity from example owner facts and avoiding raw private facet or full-turn materialization.",
       "assertions": {
         "required_source_status": [
           {
-            "connector_ref": "connector.personal.agent_memory.samantha",
+            "connector_ref": "connector.personal.agent_memory.nova",
             "access_status": "passed",
             "freshness_status": "fresh",
             "understanding_status": "ready"
@@ -113,7 +113,7 @@
     {
       "id": "package_pressure_question.sam_blog_authored_context",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "Can Sam use my blog as part of personal state context?",
       "intent": "Sam should see the example person's authored blog as a distinct source-owned corpus, fresh when the local post corpus is readable, and not confuse historical posts with current preferences.",
       "assertions": {
@@ -130,7 +130,7 @@
     {
       "id": "package_pressure_question.sam_beeper_messaging_context",
       "status": "ready",
-      "package_id": "instance_agent_package.sample_personal.samantha",
+      "package_id": "instance_agent_package.sample_personal.nova",
       "question": "Can Sam use my Beeper iMessage and WhatsApp context?",
       "intent": "Sam should see Beeper-backed iMessage and WhatsApp as source-owned private messaging surfaces with freshness evidence and no raw chat materialization.",
       "assertions": {
@@ -153,11 +153,11 @@
       }
     },
     {
-      "id": "package_pressure_question.caroline_sampleco_relationship_follow_up",
+      "id": "package_pressure_question.iris_sampleco_relationship_follow_up",
       "status": "ready",
-      "package_id": "instance_agent_package.sampleco.caroline",
+      "package_id": "instance_agent_package.sampleco.iris",
       "question": "What SampleCo relationship or BD follow-ups need attention?",
-      "intent": "Caroline must use SampleCo state first and the governed personal relationship federation route only as a no-materialization query boundary.",
+      "intent": "Iris must use SampleCo state first and the governed personal relationship federation route only as a no-materialization query boundary.",
       "assertions": {
         "required_route_ids": [
           "question_route.sampleco.relationship_follow_up_triage",
@@ -180,11 +180,11 @@
       }
     },
     {
-      "id": "package_pressure_question.caroline_sampleco_source_awareness",
+      "id": "package_pressure_question.iris_sampleco_source_awareness",
       "status": "ready",
-      "package_id": "instance_agent_package.sampleco.caroline",
-      "question": "What can Caroline trust from Linear, GitHub, and transcripts, and what freshness caveats remain?",
-      "intent": "Caroline should expose current Linear, GitHub, raw transcript, and processed transcript readiness from source-owned evidence.",
+      "package_id": "instance_agent_package.sampleco.iris",
+      "question": "What can Iris trust from Linear, GitHub, and transcripts, and what freshness caveats remain?",
+      "intent": "Iris should expose current Linear, GitHub, raw transcript, and processed transcript readiness from source-owned evidence.",
       "assertions": {
         "required_source_status": [
           {
@@ -231,11 +231,11 @@
       }
     },
     {
-      "id": "package_pressure_question.ingrid_researchco_readiness",
+      "id": "package_pressure_question.scout_researchco_readiness",
       "status": "planned",
-      "package_id": "instance_agent_package.researchco.ingrid.scaffold.v0",
-      "question": "What can Ingrid know about ResearchCo today, and what is still only declared?",
-      "intent": "Ingrid should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
+      "package_id": "instance_agent_package.researchco.scout.scaffold.v0",
+      "question": "What can Scout know about ResearchCo today, and what is still only declared?",
+      "intent": "Scout should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
       "assertions": {
         "required_federation_pack_ids": [
           "instance_federation_pack.portfolio_to_portfolio_co_researchco"

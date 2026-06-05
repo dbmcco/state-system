@@ -25,7 +25,7 @@ module registry or in an instance-local module registry.
 
 Common company connectors:
 
-- `folio`
+- `kb`
 - `gws_drive`
 - `msgvault`
 - `local_path`

@@ -45,7 +45,7 @@ follow-up review, onboarding review, and future organizational state reviews.
 - Do not build the agent runtime shell UI in this spec.
 - Do not add live GitHub, Workgraph, Speedrift, or agent runtime adapters in the first
   State System implementation.
-- Do not make State System depend on Samantha, Derek, agent runtime shell, or agent runtime event
+- Do not make State System depend on Nova, Atlas, agent runtime shell, or agent runtime event
   names.
 - Do not treat a mission transcript as durable truth.
 - Do not let source systems or live UI mutate snapshots directly.

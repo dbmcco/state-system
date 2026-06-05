@@ -31,10 +31,10 @@ class PackagePressureQuestionTests(unittest.TestCase):
 
         self.assertEqual(
             {
-                "instance_agent_package.sample_personal.samantha",
-                "instance_agent_package.sampleco.caroline",
+                "instance_agent_package.sample_personal.nova",
+                "instance_agent_package.sampleco.iris",
                 "instance_agent_package.portfolio_co.helena",
-                "instance_agent_package.researchco.ingrid.scaffold.v0",
+                "instance_agent_package.researchco.scout.scaffold.v0",
             },
             package_ids,
         )
@@ -56,8 +56,8 @@ class PackagePressureQuestionTests(unittest.TestCase):
         report = run_package_pressure(
             load_json(REGISTRY),
             {
-                "instance_agent_package.sample_personal.samantha": _sam_package(),
-                "instance_agent_package.sampleco.caroline": _caroline_package(),
+                "instance_agent_package.sample_personal.nova": _sam_package(),
+                "instance_agent_package.sampleco.iris": _iris_package(),
             },
         )
 
@@ -68,13 +68,13 @@ class PackagePressureQuestionTests(unittest.TestCase):
         report = run_package_pressure(
             load_json(REGISTRY),
             {
-                "instance_agent_package.sample_personal.samantha": _sam_package(),
-                "instance_agent_package.sampleco.caroline": _caroline_package(),
+                "instance_agent_package.sample_personal.nova": _sam_package(),
+                "instance_agent_package.sampleco.iris": _iris_package(),
                 "instance_agent_package.portfolio_co.helena": _scaffold_package("portfolio_co", "helena"),
-                "instance_agent_package.researchco.ingrid.scaffold.v0": _scaffold_package(
+                "instance_agent_package.researchco.scout.scaffold.v0": _scaffold_package(
                     "researchco",
-                    "ingrid",
-                    package_id="instance_agent_package.researchco.ingrid.scaffold.v0",
+                    "scout",
+                    package_id="instance_agent_package.researchco.scout.scaffold.v0",
                 ),
             },
             include_planned=True,
@@ -86,9 +86,9 @@ class PackagePressureQuestionTests(unittest.TestCase):
     def test_cli_runs_pressure_harness(self):
         with TemporaryDirectory() as directory:
             sam_path = Path(directory) / "sam.json"
-            caroline_path = Path(directory) / "caroline.json"
+            iris_path = Path(directory) / "iris.json"
             sam_path.write_text(json.dumps(_sam_package()), encoding="utf-8")
-            caroline_path.write_text(json.dumps(_caroline_package()), encoding="utf-8")
+            iris_path.write_text(json.dumps(_iris_package()), encoding="utf-8")
 
             output = io.StringIO()
             code = cli.main(
@@ -98,9 +98,9 @@ class PackagePressureQuestionTests(unittest.TestCase):
                     "package-pressure-run",
                     str(REGISTRY),
                     "--package",
-                    f"instance_agent_package.sample_personal.samantha={sam_path}",
+                    f"instance_agent_package.sample_personal.nova={sam_path}",
                     "--package",
-                    f"instance_agent_package.sampleco.caroline={caroline_path}",
+                    f"instance_agent_package.sampleco.iris={iris_path}",
                 ],
                 stdout=output,
             )
@@ -112,7 +112,7 @@ class PackagePressureQuestionTests(unittest.TestCase):
 
 def _sam_package() -> dict:
     return {
-        "id": "instance_agent_package.sample_personal.samantha",
+        "id": "instance_agent_package.sample_personal.nova",
         "source_context": {
             "source_gap_refs": [
                 "gap.state_instance.sample_personal.connector.personal.spotify.freshness_stale"
@@ -125,7 +125,7 @@ def _sam_package() -> dict:
                     "understanding_status": "usable_with_freshness_gap",
                 },
                 {
-                    "connector_ref": "connector.personal.agent_memory.samantha",
+                    "connector_ref": "connector.personal.agent_memory.nova",
                     "access_status": "passed",
                     "freshness_status": "fresh",
                     "understanding_status": "ready",
@@ -223,7 +223,7 @@ def _sam_package() -> dict:
     }
 
 
-def _caroline_package() -> dict:
+def _iris_package() -> dict:
     source_readiness = [
         {
             "connector_ref": "connector.sampleco.linear",
@@ -251,7 +251,7 @@ def _caroline_package() -> dict:
         },
     ]
     return {
-        "id": "instance_agent_package.sampleco.caroline",
+        "id": "instance_agent_package.sampleco.iris",
         "source_context": {
             "source_gap_refs": [],
             "source_readiness": source_readiness,

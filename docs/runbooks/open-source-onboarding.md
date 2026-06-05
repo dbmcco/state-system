@@ -43,7 +43,7 @@ python3 -m state_system.cli --project-root . \
   --entity-kind organization \
   --created-at 2026-05-18T12:00:00Z \
   --governance-ref governance.sampleco.default \
-  --connector-type folio \
+  --connector-type kb \
   --connector-type local_path
 ```
 
@@ -91,28 +91,28 @@ protected action — that remains governance's job.
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-preflight-record \
-  --preflight-ref preflight.state_instance.sampleco.connector.sampleco.folio \
+  --preflight-ref preflight.state_instance.sampleco.connector.sampleco.kb \
   --instance-ref state_instance.sampleco \
-  --connector-ref connector.sampleco.folio \
-  --source-ref folio:tenant:sampleco \
-  --connector-type folio \
+  --connector-ref connector.sampleco.kb \
+  --source-ref kb:tenant:sampleco \
+  --connector-type kb \
   --status passed \
   --checked-at 2026-05-18T12:05:00Z \
   --stale-after 2026-05-18T13:05:00Z \
-  --evidence-ref local-path:/srv/folio/sampleco
+  --evidence-ref local-path:/srv/kb/sampleco
 
 python3 -m state_system.cli --project-root . \
   --state-root /tmp/state-system-onboarding \
   instance-source-freshness-record \
   --instance-ref state_instance.sampleco \
-  --connector-ref connector.sampleco.folio \
-  --source-ref folio:tenant:sampleco \
-  --connector-type folio \
+  --connector-ref connector.sampleco.kb \
+  --source-ref kb:tenant:sampleco \
+  --connector-type kb \
   --status fresh \
   --checked-at 2026-05-18T12:05:00Z \
-  --source-watermark folio.indexed_at:2026-05-18T12:04:00Z \
+  --source-watermark kb.indexed_at:2026-05-18T12:04:00Z \
   --stale-after 2026-05-18T13:05:00Z \
-  --evidence-ref freshness:folio:fresh:20260518T120500Z
+  --evidence-ref freshness:kb:fresh:20260518T120500Z
 ```
 
 `--status` for preflight is `passed`, `failed`, or `planned`. Only `passed`

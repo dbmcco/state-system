@@ -15,7 +15,7 @@
   "pending_approvals": [
     {
       "proposal_type": "state",
-      "summary": "Approve DBMCCO author fit for the meeting-derived idea.",
+      "summary": "Approve ExampleAuthor author fit for the meeting-derived idea.",
       "reason": "Author assignment is a qualitative judgment, not a topic-map rule.",
       "target_ref": "thoughtforge.longform-candidate.004"
     },

@@ -40,8 +40,8 @@
     }
   ],
   "evidence_refs": [
-    "github:pr:lightforge/sampleco-ai-graph-crm#142",
-    "github:pr-comment:lightforge/sampleco-ai-graph-crm#142:98765",
+    "github:pr:sampleco/sampleco-ai-graph-crm#142",
+    "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
     "journal.sampleco.obligation.audit-logging-before-launch.github-review"
   ],
   "parent_state_refs": [

@@ -224,28 +224,28 @@ def _generated_personal_package() -> dict:
         )
         InstancePreflightRuntime(stores).record(
             {
-                "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.folio",
+                "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.kb",
                 "instance_ref": "state_instance.sample_personal",
-                "connector_ref": "connector.personal.folio",
-                "source_ref": "folio:tenant:personal",
-                "connector_type": "folio",
+                "connector_ref": "connector.personal.kb",
+                "source_ref": "kb:tenant:personal",
+                "connector_type": "kb",
                 "status": "passed",
                 "checked_at": "2026-05-18T16:00:00Z",
                 "stale_after": "2026-05-18T17:00:00Z",
-                "evidence_refs": ["preflight:folio:passed"],
+                "evidence_refs": ["preflight:kb:passed"],
             }
         )
         InstanceSourceFreshnessRuntime(stores).record(
             {
                 "instance_ref": "state_instance.sample_personal",
-                "connector_ref": "connector.personal.folio",
-                "source_ref": "folio:tenant:personal",
-                "connector_type": "folio",
+                "connector_ref": "connector.personal.kb",
+                "source_ref": "kb:tenant:personal",
+                "connector_type": "kb",
                 "status": "fresh",
                 "checked_at": "2026-05-18T16:00:00Z",
-                "source_watermark": "folio.indexed_at:2026-05-18T15:59:00Z",
+                "source_watermark": "kb.indexed_at:2026-05-18T15:59:00Z",
                 "stale_after": "2026-05-18T17:00:00Z",
-                "evidence_refs": ["freshness:folio:fresh"],
+                "evidence_refs": ["freshness:kb:fresh"],
             }
         )
         return InstanceAgentPackageRuntime(stores).build(
@@ -255,10 +255,10 @@ def _generated_personal_package() -> dict:
                 )
             },
             instance_ref="state_instance.sample_personal",
-            agent_ref="agent.samantha",
-            persona_ref="persona.samantha",
+            agent_ref="agent.nova",
+            persona_ref="persona.nova",
             created_at="2026-05-18T16:01:00Z",
-            package_id="instance_agent_package.test.sample_personal.samantha",
+            package_id="instance_agent_package.test.sample_personal.nova",
         )
 
 

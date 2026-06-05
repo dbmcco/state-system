@@ -3,20 +3,20 @@
   "company_ref": "company.sampleco",
   "generated_at": "2026-05-14T12:00:00Z",
   "identity": {
-    "name": "Lightforge Works",
+    "name": "SampleCo Works",
     "summary": "Work company substrate for relationship-backed AI operating systems.",
     "primary_agent_refs": [
-      "persona.caroline"
+      "persona.iris"
     ],
     "oversight_agent_refs": [
-      "persona.samantha"
+      "persona.nova"
     ]
   },
   "source_connectors": [
     {
-      "id": "connector.sampleco.folio",
-      "connector_type": "folio",
-      "source_ref": "folio:tenant:sampleco",
+      "id": "connector.sampleco.kb",
+      "connector_type": "kb",
+      "source_ref": "kb:tenant:sampleco",
       "owner": "source_system",
       "declared": true
     },
@@ -29,7 +29,7 @@
       "preflight_target": {
         "kind": "msgvault_search",
         "tenant_ref": "msgvault:tenant:sampleco-email",
-        "query": "lightforgeworks",
+        "query": "sampleco",
         "limit": 1
       }
     },
@@ -50,14 +50,14 @@
     {
       "id": "connector.sampleco.zulip",
       "connector_type": "zulip",
-      "source_ref": "zulip:realm:lightforgeworks",
+      "source_ref": "zulip:realm:sampleco",
       "owner": "source_system",
       "declared": true
     },
     {
       "id": "connector.sampleco.github_org",
       "connector_type": "repo",
-      "source_ref": "github:org:LightForge-Works",
+      "source_ref": "github:org:SampleCo-Org",
       "owner": "source_system",
       "declared": true
     },
@@ -87,12 +87,12 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:sampleco",
+      "kb:tenant:sampleco",
       "msgvault:tenant:sampleco-email",
       "gws:sampleco:drive:sampleco",
       "linear:teams:PRODUCT,ENG",
-      "zulip:realm:lightforgeworks",
-      "github:org:LightForge-Works",
+      "zulip:realm:sampleco",
+      "github:org:SampleCo-Org",
       "local:/srv/examples/sampleco/transcripts",
       "transcripts:pipeline:sampleco",
       "local:/srv/examples/sampleco"
@@ -101,12 +101,12 @@
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:sampleco",
+      "kb:index:tenant:sampleco",
       "msgvault:index:sampleco-email",
       "gws:index:sampleco-drive",
       "linear:index:teams:FORGE,INT",
-      "zulip:index:realm:lightforgeworks",
-      "github:index:org:LightForge-Works",
+      "zulip:index:realm:sampleco",
+      "github:index:org:SampleCo-Org",
       "local:index:sampleco-workspace",
       "state-system:index:sampleco-company-understanding",
       "transcripts:index:sampleco"
@@ -114,7 +114,7 @@
   },
   "index_manifests": [
     {
-      "index_ref": "index.sampleco.folio.corpus",
+      "index_ref": "index.sampleco.kb.corpus",
       "company_ref": "company.sampleco",
       "owner": "source_system",
       "backend": "postgres_pgvector",
@@ -125,14 +125,14 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:sampleco"
+        "kb:tenant:sampleco"
       ],
       "connector_refs": [
-        "connector.sampleco.folio"
+        "connector.sampleco.kb"
       ],
       "query_surface": {
         "type": "agent_runtime_tool",
-        "tool_ref": "tool.agent_runtime.folio.search"
+        "tool_ref": "tool.agent_runtime.kb.search"
       },
       "status": "declared"
     },
@@ -220,7 +220,7 @@
         "source_summary"
       ],
       "source_refs": [
-        "zulip:realm:lightforgeworks"
+        "zulip:realm:sampleco"
       ],
       "connector_refs": [
         "connector.sampleco.zulip"
@@ -246,7 +246,7 @@
         "source_summary"
       ],
       "source_refs": [
-        "github:org:LightForge-Works"
+        "github:org:SampleCo-Org"
       ],
       "connector_refs": [
         "connector.sampleco.github_org"
@@ -387,7 +387,7 @@
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.sampleco.read_folio",
+      "action_surface.sampleco.read_knowledge_store",
       "action_surface.sampleco.search_msgvault",
       "action_surface.sampleco.read_drive",
       "action_surface.sampleco.read_linear",
@@ -399,20 +399,20 @@
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.sampleco.folio.search",
-      "capability_ref": "capability.sampleco.folio.search",
-      "tool_ref": "tool.agent_runtime.folio.search",
-      "action_ref": "action_surface.sampleco.read_folio",
+      "id": "tool_binding.sampleco.kb.search",
+      "capability_ref": "capability.sampleco.kb.search",
+      "tool_ref": "tool.agent_runtime.kb.search",
+      "action_ref": "action_surface.sampleco.read_knowledge_store",
       "connector_refs": [
-        "connector.sampleco.folio"
+        "connector.sampleco.kb"
       ],
       "required_preflight_refs": [
-        "preflight.sampleco.folio"
+        "preflight.sampleco.kb"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -431,8 +431,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -451,8 +451,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -471,8 +471,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -491,8 +491,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -511,8 +511,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -531,8 +531,8 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -549,8 +549,8 @@
         "governance.company.sampleco.crm_mutation"
       ],
       "allowed_agent_refs": [
-        "persona.caroline",
-        "persona.samantha"
+        "persona.iris",
+        "persona.nova"
       ],
       "exposure_policy": "require_governance_before_execution",
       "proves_live_access": false,
@@ -568,9 +568,9 @@
     "definition": "connector_preflight is the agent runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.sampleco.folio",
-        "connector_ref": "connector.sampleco.folio",
-        "check": "agent runtime can search Folio tenant sampleco.",
+        "id": "preflight.sampleco.kb",
+        "connector_ref": "connector.sampleco.kb",
+        "check": "agent runtime can search Knowledge Store tenant sampleco.",
         "owner": "agent_runtime"
       },
       {
@@ -614,9 +614,9 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are agent runtime execution constraints, separate from governance.",
     "constraints": [
-      "Caroline primary for SampleCo.",
-      "Samantha may oversee across company packs.",
-      "Derek technical/repo scope only by default."
+      "Iris primary for SampleCo.",
+      "Nova may oversee across company packs.",
+      "Atlas technical/repo scope only by default."
     ]
   },
   "freshness": {

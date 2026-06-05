@@ -55,36 +55,36 @@ class SourceFreshnessTests(unittest.TestCase):
             runtime.record(
                 {
                     "company_ref": "company.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "stale",
                     "checked_at": "2026-05-15T11:00:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-15T09:00:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-15T09:00:00Z",
                     "stale_after": "2026-05-15T11:15:00Z",
                     "lag_seconds": 7200,
-                    "evidence_refs": ["agent-runtime:freshness:folio:stale"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:stale"],
                 }
             )
             runtime.record(
                 {
                     "company_ref": "company.sampleco",
-                    "connector_ref": "connector.sampleco.folio",
-                    "source_ref": "folio:tenant:sampleco",
-                    "connector_type": "folio",
+                    "connector_ref": "connector.sampleco.kb",
+                    "source_ref": "kb:tenant:sampleco",
+                    "connector_type": "kb",
                     "status": "fresh",
                     "checked_at": "2026-05-15T12:00:00Z",
-                    "source_watermark": "folio.indexed_at:2026-05-15T11:59:00Z",
+                    "source_watermark": "kb.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
                     "lag_seconds": 60,
-                    "evidence_refs": ["agent-runtime:freshness:folio:fresh"],
+                    "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
                 }
             )
 
             read_model = build_source_freshness_read_model(stores)
 
             self.assertEqual("source_freshness_read_model", read_model["id"])
-            scope_key = "company.sampleco|connector.sampleco.folio|folio:tenant:sampleco"
+            scope_key = "company.sampleco|connector.sampleco.kb|kb:tenant:sampleco"
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("fresh", latest["status"])
             self.assertEqual("2026-05-15T12:00:00Z", latest["checked_at"])
@@ -105,25 +105,25 @@ class SourceFreshnessTests(unittest.TestCase):
                     "--company-ref",
                     "company.sampleco",
                     "--connector-ref",
-                    "connector.sampleco.folio",
+                    "connector.sampleco.kb",
                     "--source-ref",
-                    "folio:tenant:sampleco",
+                    "kb:tenant:sampleco",
                     "--connector-type",
-                    "folio",
+                    "kb",
                     "--status",
                     "fresh",
                     "--checked-at",
                     "2026-05-15T12:00:00Z",
                     "--source-watermark",
-                    "folio.indexed_at:2026-05-15T11:59:00Z",
+                    "kb.indexed_at:2026-05-15T11:59:00Z",
                     "--stale-after",
                     "2026-05-15T12:15:00Z",
                     "--lag-seconds",
                     "60",
                     "--evidence-ref",
-                    "agent-runtime:freshness:folio:company.sampleco:20260515T120000Z",
+                    "agent-runtime:freshness:kb:company.sampleco:20260515T120000Z",
                     "--detail",
-                    "Folio tenant sampleco freshness checked.",
+                    "Knowledge Store tenant sampleco freshness checked.",
                 ],
                 stdout=output,
             )

@@ -18,7 +18,7 @@
     "payload_summary": "Aurora Mills appears to have multi-site compliance workflows and an operations leader who may care about auditability."
   },
   "candidate_state_refs": [
-    "state.company.lightforge-works",
+    "state.company.sampleco-works",
     "state.campaign.auditable-workflows",
     "state.contact.aurora-mills.morgan-chen"
   ],

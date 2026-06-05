@@ -19,7 +19,7 @@
   "handoff_basis": "model_interpretation",
   "approval_status": "pending_approval",
   "payload": {
-    "candidate_author_ref": "author.dbmcco",
+    "candidate_author_ref": "author.example_author",
     "editorial_direction": "Explain why audit trails are operational state, not overhead, for small teams adopting automation.",
     "source_refs": [
       "gdrive:doc:meeting-streamlinear-strategy-003",

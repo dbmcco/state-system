@@ -32,8 +32,8 @@
   "state_context": {
     "snapshots": [
       {
-        "state_ref": "state.company.lightforge-works",
-        "summary": "Lightforge Works is prioritizing auditable, model-mediated workflow systems for work operations."
+        "state_ref": "state.company.sampleco-works",
+        "summary": "SampleCo Works is prioritizing auditable, model-mediated workflow systems for work operations."
       },
       {
         "state_ref": "state.campaign.auditable-workflows",

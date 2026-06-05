@@ -5,20 +5,20 @@
   "entity_kind": "company",
   "generated_at": "2026-05-16T18:00:00Z",
   "identity": {
-    "name": "Lightforge Works",
+    "name": "SampleCo Works",
     "summary": "Work instance substrate for relationship-backed AI operating systems.",
     "primary_agent_refs": [
-      "persona.caroline"
+      "persona.iris"
     ],
     "oversight_agent_refs": [
-      "persona.samantha"
+      "persona.nova"
     ]
   },
   "source_connectors": [
     {
-      "id": "connector.sampleco.folio",
-      "connector_type": "folio",
-      "source_ref": "folio:tenant:sampleco",
+      "id": "connector.sampleco.kb",
+      "connector_type": "kb",
+      "source_ref": "kb:tenant:sampleco",
       "owner": "source_system",
       "declared": true,
       "access_mode": "read"
@@ -43,7 +43,7 @@
   "raw_corpus": {
     "definition": "Raw source surfaces remain owned by their source systems.",
     "source_refs": [
-      "folio:tenant:sampleco",
+      "kb:tenant:sampleco",
       "msgvault:tenant:sampleco-email",
       "state-system-instance:state_instance.sampleco"
     ]
@@ -51,14 +51,14 @@
   "evidence_index": {
     "definition": "Federated search surfaces over raw source and interpreted state records.",
     "index_refs": [
-      "index.sampleco.folio.corpus",
+      "index.sampleco.kb.corpus",
       "index.sampleco.msgvault.email",
       "index.sampleco.state_system.interpreted"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.sampleco.folio.corpus",
+      "index_ref": "index.sampleco.kb.corpus",
       "instance_ref": "state_instance.sampleco",
       "primary_entity_ref": "entity.sampleco",
       "owner": "source_system",
@@ -70,14 +70,14 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:sampleco"
+        "kb:tenant:sampleco"
       ],
       "connector_refs": [
-        "connector.sampleco.folio"
+        "connector.sampleco.kb"
       ],
       "query_surface": {
         "type": "agent_runtime_tool",
-        "tool_ref": "tool.agent_runtime.folio.search"
+        "tool_ref": "tool.agent_runtime.kb.search"
       },
       "status": "declared"
     },
@@ -140,7 +140,7 @@
   "action_surface": {
     "definition": "Actions exposed through governed agent runtime tools.",
     "action_refs": [
-      "action_surface.sampleco.read_folio",
+      "action_surface.sampleco.read_knowledge_store",
       "action_surface.sampleco.search_msgvault"
     ]
   },

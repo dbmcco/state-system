@@ -13,7 +13,7 @@ from state_system.stores import StateStoreBundle
 
 
 DELEGATED_CONNECTOR_TYPES = {
-    "folio",
+    "kb",
     "gws_drive",
     "gws_account",
     "linear",

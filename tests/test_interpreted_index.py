@@ -41,7 +41,7 @@ class InterpretedIndexTests(unittest.TestCase):
             self.assertIn("searchable_surface", kinds)
             self.assertTrue(
                 any(
-                    record["record_ref"] == "source_readiness.company.sampleco.connector.sampleco.folio"
+                    record["record_ref"] == "source_readiness.company.sampleco.connector.sampleco.kb"
                     and "ready" in record["text"]
                     for record in read_model["records"]
                 )
@@ -57,15 +57,15 @@ class InterpretedIndexTests(unittest.TestCase):
 
             result = search_interpreted_index(
                 read_model,
-                query="folio ready source",
+                query="kb ready source",
                 limit=3,
             )
 
             self.assertEqual("state_system_interpreted_search_result", result["id"])
-            self.assertEqual("folio ready source", result["query"])
+            self.assertEqual("kb ready source", result["query"])
             self.assertGreaterEqual(len(result["records"]), 1)
             self.assertEqual("company.sampleco", result["records"][0]["company_ref"])
-            self.assertIn("folio", result["records"][0]["text"])
+            self.assertIn("kb", result["records"][0]["text"])
 
     def test_cli_writes_and_searches_interpreted_index(self):
         with TemporaryDirectory() as directory, TemporaryDirectory() as output_dir:
@@ -155,30 +155,30 @@ def _sampleco_runtime(root: Path) -> StateStoreBundle:
     CompanyCapabilityRuntime(stores).seed([load_json(PACK_DIR / "company-sampleco.json")])
     CompanyPreflightRuntime(stores).record(
         {
-            "preflight_ref": "preflight.sampleco.folio",
+            "preflight_ref": "preflight.sampleco.kb",
             "company_ref": "company.sampleco",
-            "connector_ref": "connector.sampleco.folio",
-            "tool_ref": "tool.agent_runtime.folio.search",
-            "action_ref": "action_surface.sampleco.read_folio",
-            "agent_ref": "persona.caroline",
+            "connector_ref": "connector.sampleco.kb",
+            "tool_ref": "tool.agent_runtime.kb.search",
+            "action_ref": "action_surface.sampleco.read_knowledge_store",
+            "agent_ref": "persona.iris",
             "runner_ref": "runner.agent_runtime.codex",
             "status": "passed",
             "checked_at": "2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:45:00Z",
-            "evidence_refs": ["agent-runtime:preflight:folio:sampleco"],
+            "evidence_refs": ["agent-runtime:preflight:kb:sampleco"],
         }
     )
     SourceFreshnessRuntime(stores).record(
         {
             "company_ref": "company.sampleco",
-            "connector_ref": "connector.sampleco.folio",
-            "source_ref": "folio:tenant:sampleco",
-            "connector_type": "folio",
+            "connector_ref": "connector.sampleco.kb",
+            "source_ref": "kb:tenant:sampleco",
+            "connector_type": "kb",
             "status": "fresh",
             "checked_at": "2026-05-16T19:31:00Z",
-            "source_watermark": "folio.updated_at:2026-05-16T19:30:00Z",
+            "source_watermark": "kb.updated_at:2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:46:00Z",
-            "evidence_refs": ["agent-runtime:freshness:folio:sampleco"],
+            "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
         }
     )
     return stores

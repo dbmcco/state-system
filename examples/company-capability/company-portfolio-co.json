@@ -9,14 +9,14 @@
       "persona.helena"
     ],
     "oversight_agent_refs": [
-      "persona.samantha"
+      "persona.nova"
     ]
   },
   "source_connectors": [
     {
-      "id": "connector.portfolio_co.folio",
-      "connector_type": "folio",
-      "source_ref": "folio:tenant:portfolio_co",
+      "id": "connector.portfolio_co.kb",
+      "connector_type": "kb",
+      "source_ref": "kb:tenant:portfolio_co",
       "owner": "source_system",
       "declared": true
     },
@@ -50,7 +50,7 @@
   "raw_corpus": {
     "definition": "raw_corpus is the searchable source set still owned by source systems.",
     "source_refs": [
-      "folio:tenant:portfolio_co",
+      "kb:tenant:portfolio_co",
       "gws:example:shared-drive:demo-co",
       "msgvault:tenant:portfolio_co-email",
       "local:/srv/examples/portfolio_co"
@@ -59,14 +59,14 @@
   "evidence_index": {
     "definition": "evidence_index contains search/index refs over raw_corpus and is not truth.",
     "index_refs": [
-      "folio:index:tenant:portfolio_co",
-      "gws:index:mcco:demo-co",
+      "kb:index:tenant:portfolio_co",
+      "gws:index:shared:demo-co",
       "msgvault:index:portfolio_co-email"
     ]
   },
   "index_manifests": [
     {
-      "index_ref": "index.portfolio_co.folio.corpus",
+      "index_ref": "index.portfolio_co.kb.corpus",
       "company_ref": "company.portfolio_co",
       "owner": "source_system",
       "backend": "postgres_pgvector",
@@ -77,14 +77,14 @@
         "source_summary"
       ],
       "source_refs": [
-        "folio:tenant:portfolio_co"
+        "kb:tenant:portfolio_co"
       ],
       "connector_refs": [
-        "connector.portfolio_co.folio"
+        "connector.portfolio_co.kb"
       ],
       "query_surface": {
         "type": "agent_runtime_tool",
-        "tool_ref": "tool.agent_runtime.folio.search"
+        "tool_ref": "tool.agent_runtime.kb.search"
       },
       "status": "declared"
     },
@@ -168,7 +168,7 @@
   "action_surface": {
     "definition": "action_surface lists actions available in principle, not necessarily credentialed.",
     "action_refs": [
-      "action_surface.portfolio_co.read_folio",
+      "action_surface.portfolio_co.read_knowledge_store",
       "action_surface.portfolio_co.read_drive",
       "action_surface.portfolio_co.search_msgvault",
       "action_surface.portfolio_co.inspect_local_workspace"
@@ -176,20 +176,20 @@
   },
   "tool_capability_bindings": [
     {
-      "id": "tool_binding.portfolio_co.folio.search",
-      "capability_ref": "capability.portfolio_co.folio.search",
-      "tool_ref": "tool.agent_runtime.folio.search",
-      "action_ref": "action_surface.portfolio_co.read_folio",
+      "id": "tool_binding.portfolio_co.kb.search",
+      "capability_ref": "capability.portfolio_co.kb.search",
+      "tool_ref": "tool.agent_runtime.kb.search",
+      "action_ref": "action_surface.portfolio_co.read_knowledge_store",
       "connector_refs": [
-        "connector.portfolio_co.folio"
+        "connector.portfolio_co.kb"
       ],
       "required_preflight_refs": [
-        "preflight.portfolio_co.folio"
+        "preflight.portfolio_co.kb"
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
         "persona.helena",
-        "persona.samantha"
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -209,7 +209,7 @@
       "governance_refs": [],
       "allowed_agent_refs": [
         "persona.helena",
-        "persona.samantha"
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -229,7 +229,7 @@
       "governance_refs": [],
       "allowed_agent_refs": [
         "persona.helena",
-        "persona.samantha"
+        "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -249,8 +249,8 @@
       "governance_refs": [],
       "allowed_agent_refs": [
         "persona.helena",
-        "persona.samantha",
-        "persona.derek"
+        "persona.nova",
+        "persona.atlas"
       ],
       "exposure_policy": "hide_until_preflight_passes",
       "proves_live_access": false,
@@ -268,15 +268,15 @@
     "definition": "connector_preflight is the agent runtime check spec/result boundary.",
     "required_checks": [
       {
-        "id": "preflight.portfolio_co.folio",
-        "connector_ref": "connector.portfolio_co.folio",
-        "check": "agent runtime can search Folio tenant portfolio_co.",
+        "id": "preflight.portfolio_co.kb",
+        "connector_ref": "connector.portfolio_co.kb",
+        "check": "agent runtime can search Knowledge Store tenant portfolio_co.",
         "owner": "agent_runtime"
       },
       {
         "id": "preflight.portfolio_co.drive",
         "connector_ref": "connector.portfolio_co.drive",
-        "check": "agent runtime can read PortfolioCo Biotechnologies shared drive through gws-account mcco.",
+        "check": "agent runtime can read PortfolioCo Biotechnologies shared drive through gws-account shared.",
         "owner": "agent_runtime"
       },
       {
@@ -297,8 +297,8 @@
     "definition": "runtime_constraints are agent runtime execution constraints, separate from governance.",
     "constraints": [
       "Helena primary for PortfolioCo.",
-      "Samantha may oversee across company packs.",
-      "Derek technical/repo scope only by default.",
+      "Nova may oversee across company packs.",
+      "Atlas technical/repo scope only by default.",
       "No Linear connector is declared unless explicitly added later."
     ]
   },
