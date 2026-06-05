@@ -105,7 +105,7 @@ the materializer should be able to regenerate the same current snapshot.
 If compaction or materialization logic improves later, replay can regenerate
 snapshots without changing the journal.
 
-## Laura Pressure Test
+## Maya Pressure Test
 
 Input snapshot:
 

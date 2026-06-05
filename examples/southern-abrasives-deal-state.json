@@ -5,7 +5,7 @@
   "secondary_families": ["relationship", "operating", "governance"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.deals.southern-abrasives",
-  "owner_refs": ["human.example_user", "persona.patrick"],
+  "owner_refs": ["human.example_user", "persona.alex"],
   "as_of": "2026-04-28T16:00:00Z",
   "summary": "Southern Abrasives is an active deal in proposal review with commercial potential, but announcement and delivery readiness are not yet established.",
   "status": "proposal",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.southern-abrasives-stage-check",
+      "id": "action.alex.southern-abrasives-stage-check",
       "summary": "Confirm Southern Abrasives deal stage and operational handoff needs.",
-      "owner_ref": "persona.patrick",
+      "owner_ref": "persona.alex",
       "status": "proposed"
     }
   ],

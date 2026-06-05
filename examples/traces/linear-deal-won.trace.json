@@ -24,7 +24,7 @@
     "source_event_id": "source.linear.southern-abrasives-won",
     "packet_id": "review_packet.linear.southern-abrasives-won",
     "created_at": "2026-04-28T16:05:30Z",
-    "persona_path": "examples/patrick-persona.json",
+    "persona_path": "examples/alex-persona.json",
     "resolved_evidence": [
       {
         "ref": "linear:deal:southern-abrasives",
@@ -66,7 +66,7 @@
     "summary": "Southern Abrasives moved from proposal to won.",
     "routes": [
       {
-        "persona_ref": "persona.patrick",
+        "persona_ref": "persona.alex",
         "relevance_tier": "primary",
         "routing_reason": "Won deal creates operational handoff.",
         "included": true,
@@ -75,7 +75,7 @@
         ]
       },
       {
-        "persona_ref": "persona.laura",
+        "persona_ref": "persona.maya",
         "relevance_tier": "secondary",
         "routing_reason": "Won deal may become a marketing proof point.",
         "included": true,
@@ -96,17 +96,17 @@
     "requires_refresh_before_external_action": true
   },
   "context_package": {
-    "persona_path": "examples/laura-persona.json",
-    "package_id": "context.laura.demo-recent",
+    "persona_path": "examples/maya-persona.json",
+    "package_id": "context.maya.demo-recent",
     "created_at": "2026-04-28T16:08:00Z",
-    "review_goal": "Review Laura-relevant recent changes.",
+    "review_goal": "Review Maya-relevant recent changes.",
     "valid_until": "2026-04-29T16:08:00Z"
   },
   "render_package": {
-    "package_id": "context.laura.demo-recent"
+    "package_id": "context.maya.demo-recent"
   },
   "capture_response": {
-    "package_id": "context.laura.demo-recent",
+    "package_id": "context.maya.demo-recent",
     "consumer_ref": "consumer.demo",
     "created_at": "2026-04-28T16:09:00Z",
     "response_text": "Draft an internal proof-point note. Hold external publication until public naming and external copy approvals exist.\n"

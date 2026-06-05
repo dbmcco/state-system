@@ -51,16 +51,16 @@ class CompanyMemoryTests(unittest.TestCase):
         )
         packages = build_agent_context_packages(read_model)
 
-        laura = packages["persona.laura.marketing"]
-        patrick = packages["persona.patrick.operations"]
+        maya = packages["persona.maya.marketing"]
+        alex = packages["persona.alex.operations"]
 
-        self.assertEqual(read_model["id"], laura["source_read_model_ref"])
-        self.assertEqual(read_model["id"], patrick["source_read_model_ref"])
-        self.assertIn("marketable proof", laura["review_goal"])
-        self.assertIn("open loops", patrick["review_goal"])
-        self.assertIn("relationship_story", laura["included_slices"])
-        self.assertIn("crm_open_loop", patrick["included_slices"])
-        self.assertNotEqual(laura["included_slices"], patrick["included_slices"])
+        self.assertEqual(read_model["id"], maya["source_read_model_ref"])
+        self.assertEqual(read_model["id"], alex["source_read_model_ref"])
+        self.assertIn("marketable proof", maya["review_goal"])
+        self.assertIn("open loops", alex["review_goal"])
+        self.assertIn("relationship_story", maya["included_slices"])
+        self.assertIn("crm_open_loop", alex["included_slices"])
+        self.assertNotEqual(maya["included_slices"], alex["included_slices"])
 
     def test_cli_writes_json_read_model(self):
         with TemporaryDirectory() as directory:

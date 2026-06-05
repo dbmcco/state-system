@@ -396,8 +396,8 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     )
                 },
                 instance_ref="state_instance.portfolio_co",
-                agent_ref="agent.helena",
-                persona_ref="persona.helena",
+                agent_ref="agent.chloe",
+                persona_ref="persona.chloe",
                 created_at="2026-05-18T19:30:00Z",
             )
 

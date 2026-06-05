@@ -59,7 +59,7 @@ When context is excluded from a package, the package should say so.
 Example:
 
 ```text
-Delivery handoff details were excluded from Laura's package. Patrick owns
+Delivery handoff details were excluded from Maya's package. Alex owns
 operational follow-up unless the detail becomes campaign, proof, launch, or
 relationship-message relevant.
 ```
@@ -114,10 +114,10 @@ refresh request.
 The Southern Abrasives fixture exercises these rules:
 
 - Linear deal moved to won
-- recent-change entry routes to Patrick as `primary`
-- recent-change entry routes to Laura as `secondary`
-- Laura context package excludes operational handoff detail
-- Laura can draft internal material
+- recent-change entry routes to Alex as `primary`
+- recent-change entry routes to Maya as `secondary`
+- Maya context package excludes operational handoff detail
+- Maya can draft internal material
 - external LinkedIn publication stays pending approval
 - package requires refresh before external action
 - stale activation surfaces the expired validity window before external action

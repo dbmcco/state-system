@@ -43,7 +43,7 @@
     {
       "id": "loop.southern-abrasives.follow-up",
       "summary": "Confirm next useful follow-up after referral-backed discovery conversation.",
-      "owner_ref": "persona.patrick.operations",
+      "owner_ref": "persona.alex.operations",
       "status": "open",
       "evidence_refs": [
         "crm:relationship:southern-abrasives"
@@ -52,7 +52,7 @@
     {
       "id": "loop.southern-abrasives.marketable-proof",
       "summary": "Decide whether anonymized relationship outcome can inform marketing proof.",
-      "owner_ref": "persona.laura.marketing",
+      "owner_ref": "persona.maya.marketing",
       "status": "needs_approval",
       "evidence_refs": [
         "crm:relationship:southern-abrasives",

@@ -25,8 +25,8 @@
         "id": "source.meeting.coordination.003",
         "summary": "Meeting transcript includes a checklist commitment, referral to Jon Reeves, and essay idea about audit trails for small teams.",
         "persona_route": [
-          "persona.patrick",
-          "persona.laura",
+          "persona.alex",
+          "persona.maya",
           "app.sampleco-ai-graph-crm",
           "app.prospect-researcher",
           "app.thoughtforge"

@@ -1,0 +1,122 @@
+{
+  "id": "review_packet.maya.campaign-audience-clarified",
+  "created_at": "2026-04-28T13:01:00Z",
+  "trigger": {
+    "id": "trigger.maya.campaign-audience-clarified",
+    "source": "human_edit",
+    "created_at": "2026-04-28T13:00:00Z",
+    "actor_ref": "human.example_user",
+    "summary": "The primary audience for the launch positioning campaign was clarified as mid-market operators who need bounded back-office business capabilities.",
+    "payload": {
+      "audience": "mid-market operators",
+      "positioning_language": "bounded back-office business capabilities"
+    },
+    "evidence_refs": [
+      "conversation.2026-04-28.state-system"
+    ],
+    "candidate_state_refs": [
+      "state.campaign.launch-positioning-v1",
+      "state.operating_picture.marketing"
+    ],
+    "candidate_memory_refs": [
+      "memory.maya.marketing.draft.audience-before-copy"
+    ],
+    "persona_ref": "persona.maya",
+    "governance_refs": [
+      "state.sampleco.principle.boundaries-before-features"
+    ]
+  },
+  "evidence_packet": {
+    "evidence_refs": [
+      "conversation.2026-04-28.state-system"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "conversation.2026-04-28.state-system",
+        "summary": "The example operator clarified the campaign audience as mid-market operators and the positioning language as bounded back-office business capabilities.",
+        "source_type": "conversation",
+        "observed_at": "2026-04-28T13:00:00Z"
+      }
+    ],
+    "unresolved_evidence_refs": []
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "id": "state.campaign.launch-positioning-v1",
+        "type": "campaign",
+        "summary": "Early positioning campaign exists as an idea, but audience, proof points, and success criteria are not yet tight enough for external copy.",
+        "open_questions": [
+          "Who is the highest-value audience for the first campaign iteration?",
+          "What proof point makes the offer credible?"
+        ],
+        "parent_state_refs": [
+          "state.operating_picture.marketing"
+        ]
+      },
+      {
+        "id": "state.operating_picture.marketing",
+        "type": "operating_picture",
+        "summary": "Marketing state is in early formation.",
+        "child_state_refs": [
+          "state.campaign.launch-positioning-v1"
+        ]
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": [
+      {
+        "id": "journal.campaign.launch-positioning-v1.initial",
+        "state_object_id": "state.campaign.launch-positioning-v1",
+        "interpretation": "The campaign idea is promising but not ready for external execution because audience, proof, and success criteria are still underspecified."
+      }
+    ]
+  },
+  "memory_context": {
+    "entries": [
+      {
+        "id": "memory.maya.marketing.draft.audience-before-copy",
+        "memory_key": "marketing.draft.audience-before-copy",
+        "summary": "Maya is noticing that campaign quality depends on defining audience and proof before copy.",
+        "confidence": 0.65,
+        "status": "draft"
+      }
+    ]
+  },
+  "persona_context": {
+    "persona": {
+      "id": "persona.maya",
+      "name": "Maya",
+      "role": "Marketing agent",
+      "watched_domains": [
+        "campaign",
+        "relationship",
+        "operating_picture"
+      ],
+      "authority_boundaries": [
+        "May propose campaign state changes and internal next actions autonomously.",
+        "Requires approval before publishing external-facing copy."
+      ]
+    }
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "governance.external-copy-approval",
+        "summary": "External-facing campaign copy requires approval before publication.",
+        "approval_required": true
+      }
+    ]
+  },
+  "allowed_outputs": [
+    "no_op",
+    "state_proposal",
+    "memory_proposal",
+    "promotion_proposal",
+    "action_proposal",
+    "rollup_request",
+    "missing_evidence",
+    "review_signal"
+  ]
+}

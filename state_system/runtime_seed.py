@@ -34,7 +34,7 @@ def _repo_runtime_state(repo_ref: str, created_at: str) -> JsonObject:
         "secondary_families": ["operating"],
         "state_traits": ["dynamic"],
         "scope": repo_ref,
-        "owner_refs": ["persona.patrick"],
+        "owner_refs": ["persona.alex"],
         "as_of": created_at,
         "summary": f"{repo_ref} runtime state is seeded for live Git source-event trials.",
         "status": "seeded",
@@ -54,14 +54,14 @@ def _repo_runtime_state(repo_ref: str, created_at: str) -> JsonObject:
         ],
         "blockers": [],
         "open_questions": [
-            "Which real commits should become Patrick operational context?",
-            "Which real commits are market-facing enough for Laura?",
+            "Which real commits should become Alex operational context?",
+            "Which real commits are market-facing enough for Maya?",
         ],
         "next_actions": [
             {
                 "id": f"action.{slug}.ingest-live-git-commit",
                 "summary": "Ingest one real Git commit and inspect persona packages.",
-                "owner_ref": "persona.patrick",
+                "owner_ref": "persona.alex",
                 "status": "active",
             }
         ],

@@ -1,0 +1,22 @@
+{
+  "id": "review.alex.harbor-contract-stale",
+  "trigger_id": "trigger.alex.harbor-contract-stale",
+  "created_at": "2026-04-28T14:16:00Z",
+  "status": "evidence_missing",
+  "summary": "Harbor obligation state and Alex memory were updated; operations operating picture should be reviewed because the contract record is stale and missing canonical evidence.",
+  "journal_entry_refs": [
+    "journal.sampleco.contract.harbor.stale-review"
+  ],
+  "memory_entry_refs": [
+    "memory.alex.ops.draft.canonical-source-before-followup"
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A stale contract obligation affects SampleCo operational follow-through risk and should be visible in the operations operating picture."
+    }
+  ],
+  "follow_up_refs": [
+    "action.alex.harbor-contract-clarify"
+  ]
+}

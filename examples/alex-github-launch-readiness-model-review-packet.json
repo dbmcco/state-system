@@ -1,0 +1,175 @@
+{
+  "id": "review_packet.alex.github-launch-readiness",
+  "created_at": "2026-04-28T15:11:00Z",
+  "trigger": {
+    "id": "trigger.alex.github-launch-readiness",
+    "source": "tool_result",
+    "created_at": "2026-04-28T15:10:00Z",
+    "actor_ref": "system.github-webhook",
+    "summary": "GitHub reported PR 142 merged for auditable workflows, but a PR review comment says audit logging must be added before launch.",
+    "payload": {
+      "source_system": "github",
+      "source_event": "pull_request.merged",
+      "repo": "sampleco/sampleco-ai-graph-crm",
+      "pull_request": 142,
+      "merge_commit": "abc1234",
+      "review_commitment_comment": "98765",
+      "commitment_text": "Add audit logging before launch."
+    },
+    "evidence_refs": [
+      "github:pr:sampleco/sampleco-ai-graph-crm#142",
+      "github:commit:sampleco/sampleco-ai-graph-crm@abc1234",
+      "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
+      "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows"
+    ],
+    "candidate_state_refs": [
+      "state.sampleco.capability.auditable-workflows",
+      "state.sampleco.obligation.audit-logging-before-launch",
+      "state.sampleco.operating_picture.ops"
+    ],
+    "candidate_memory_refs": [
+      "memory.alex.ops.draft.pr-review-commitments"
+    ],
+    "persona_ref": "persona.alex",
+    "governance_refs": [
+      "governance.source-of-truth-discipline",
+      "governance.launch-readiness-approval"
+    ]
+  },
+  "evidence_packet": {
+    "evidence_refs": [
+      "github:pr:sampleco/sampleco-ai-graph-crm#142",
+      "github:commit:sampleco/sampleco-ai-graph-crm@abc1234",
+      "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
+      "workgraph:repo:sampleco-ai-graph-crm:task:ship-auditable-workflows"
+    ],
+    "resolved_evidence": [
+      {
+        "ref": "github:pr:sampleco/sampleco-ai-graph-crm#142",
+        "summary": "PR 142 for auditable workflows was merged.",
+        "source_type": "github_pull_request",
+        "observed_at": "2026-04-28T15:10:00Z"
+      },
+      {
+        "ref": "github:commit:sampleco/sampleco-ai-graph-crm@abc1234",
+        "summary": "Merge commit abc1234 landed implementation work for the auditable workflows capability.",
+        "source_type": "github_commit",
+        "observed_at": "2026-04-28T15:10:00Z"
+      },
+      {
+        "ref": "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
+        "summary": "A PR review comment says audit logging should be added before launch.",
+        "source_type": "github_pr_comment",
+        "observed_at": "2026-04-28T15:10:00Z"
+      }
+    ],
+    "unresolved_evidence_refs": [
+      "workgraph:repo:sampleco-ai-graph-crm:task:audit-logging-before-launch",
+      "github:check:sampleco/sampleco-ai-graph-crm@abc1234:audit-logging"
+    ]
+  },
+  "state_context": {
+    "snapshots": [
+      {
+        "id": "state.sampleco.capability.auditable-workflows",
+        "type": "capability",
+        "summary": "Auditable workflows are an emerging SampleCo capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
+        "status": "implementation_in_progress",
+        "open_questions": [
+          "Has audit logging been implemented and verified?",
+          "Which Workgraph task owns the audit logging follow-up?",
+          "What evidence establishes launch readiness?"
+        ],
+        "child_state_refs": [
+          "state.sampleco.obligation.audit-logging-before-launch"
+        ]
+      },
+      {
+        "id": "state.sampleco.obligation.audit-logging-before-launch",
+        "type": "obligation",
+        "summary": "Audit logging before launch is a possible delivery obligation inferred from GitHub review discussion and needs explicit ownership and verification evidence.",
+        "status": "candidate",
+        "open_questions": [
+          "Is audit logging a launch blocker or a post-launch follow-up?",
+          "Who owns the audit logging follow-up?",
+          "Which commit, PR, check, or task proves the obligation is satisfied?"
+        ],
+        "parent_state_refs": [
+          "state.sampleco.capability.auditable-workflows"
+        ]
+      },
+      {
+        "id": "state.sampleco.operating_picture.ops",
+        "type": "operating_picture",
+        "summary": "SampleCo operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
+        "child_state_refs": [
+          "state.sampleco.contract.harbor",
+          "state.sampleco.capability.auditable-workflows"
+        ]
+      }
+    ]
+  },
+  "journal_context": {
+    "recent_entries": [
+      {
+        "id": "journal.sampleco.capability.auditable-workflows.initial",
+        "state_object_id": "state.sampleco.capability.auditable-workflows",
+        "interpretation": "Auditable workflows should distinguish implementation progress from launch readiness."
+      },
+      {
+        "id": "journal.sampleco.obligation.audit-logging-before-launch.initial",
+        "state_object_id": "state.sampleco.obligation.audit-logging-before-launch",
+        "interpretation": "Audit logging before launch is a candidate obligation until GitHub and Workgraph evidence clarify status."
+      }
+    ]
+  },
+  "memory_context": {
+    "entries": []
+  },
+  "persona_context": {
+    "persona": {
+      "id": "persona.alex",
+      "name": "Alex",
+      "role": "Operations manager agent",
+      "watched_domains": [
+        "operating_picture",
+        "obligation",
+        "project",
+        "deal",
+        "relationship",
+        "onboarding",
+        "governance",
+        "contract_document_control"
+      ],
+      "authority_boundaries": [
+        "May propose operational state changes and internal follow-up actions autonomously.",
+        "May request missing evidence and canonical source references autonomously.",
+        "Requires approval before creating external commitments or changing legal, accounting, sales, or delivery decisions."
+      ]
+    }
+  },
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "governance.source-of-truth-discipline",
+        "summary": "Operational records should cite the canonical system before being treated as actionable fact.",
+        "approval_required": false
+      },
+      {
+        "id": "governance.launch-readiness-approval",
+        "summary": "Launch readiness and external availability claims require explicit human approval or accepted release evidence.",
+        "approval_required": true
+      }
+    ]
+  },
+  "allowed_outputs": [
+    "no_op",
+    "state_proposal",
+    "memory_proposal",
+    "promotion_proposal",
+    "action_proposal",
+    "rollup_request",
+    "missing_evidence",
+    "review_signal"
+  ]
+}

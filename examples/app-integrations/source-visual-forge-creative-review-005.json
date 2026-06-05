@@ -22,7 +22,7 @@
     "state.campaign.auditable-workflows"
   ],
   "candidate_persona_refs": [
-    "persona.laura"
+    "persona.maya"
   ],
   "governance_refs": [
     "governance.human-review.creative-corpus-update"

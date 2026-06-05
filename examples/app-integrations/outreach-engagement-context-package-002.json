@@ -24,8 +24,8 @@
         "id": "source.outreach.email-reply.002",
         "summary": "Morgan replied and copied Priya Shah and Eli Roberts.",
         "persona_route": [
-          "persona.laura",
-          "persona.patrick",
+          "persona.maya",
+          "persona.alex",
           "app.sampleco-ai-graph-crm",
           "app.prospect-researcher"
         ]
@@ -110,7 +110,7 @@
   ],
   "excluded_context_summary": [
     {
-      "reason": "No unrelated operations tasks were included because Laura and Outreach Engine do not need implementation-task detail for this reply."
+      "reason": "No unrelated operations tasks were included because Maya and Outreach Engine do not need implementation-task detail for this reply."
     }
   ],
   "open_questions": [

@@ -125,7 +125,7 @@ python3 -m state_system.cli --project-root /path/to/state-system package-pressur
   --package instance_agent_package.sampleco.iris=/path/to/instance_agent_package.sampleco.iris.json
 ```
 
-Use `--include-planned` when checking scaffolded Helena/Scout readiness or
+Use `--include-planned` when checking scaffolded Chloe/Scout readiness or
 known planned gaps such as SampleCo Linear/GitHub/transcript coverage. Planned cases
 are still executable, but the default run focuses on ready daily-use package
 contracts.

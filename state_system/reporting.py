@@ -27,7 +27,7 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
             project_root
             / "examples"
             / "traces"
-            / "laura-agent-activation.trace.json"
+            / "maya-agent-activation.trace.json"
         ),
         output_dir=trace_dir,
     )
@@ -62,7 +62,7 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
             "title": "Agent Activation Trace",
             "status": trace_report["status"],
             "report_path": str(trace_dir / "index.html"),
-            "summary": "Trace-run report for Laura activation, action boundaries, freshness, and captured response.",
+            "summary": "Trace-run report for Maya activation, action boundaries, freshness, and captured response.",
         },
         {
             "id": "app-integrations",

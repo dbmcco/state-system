@@ -25,7 +25,7 @@ class CommitterMaterializerTests(unittest.TestCase):
         self.assertEqual(expected, materialize_snapshot(before, journal))
 
     def test_committer_accepts_supported_state_and_memory_proposals(self):
-        model_output = load_json(ROOT / "examples" / "laura-model-proposal-output.json")
+        model_output = load_json(ROOT / "examples" / "maya-model-proposal-output.json")
         expected_snapshot = load_json(
             ROOT / "examples" / "marketing-campaign-state-after-audience.json"
         )
@@ -47,7 +47,7 @@ class CommitterMaterializerTests(unittest.TestCase):
                 result["accepted_journal_entry_refs"],
             )
             self.assertEqual(
-                ["memory.laura.marketing.draft.audience-before-copy"],
+                ["memory.maya.marketing.draft.audience-before-copy"],
                 result["accepted_memory_entry_refs"],
             )
             self.assertEqual(
@@ -84,7 +84,7 @@ class CommitterMaterializerTests(unittest.TestCase):
             self.assertEqual("action", result["pending_approvals"][0]["proposal_type"])
 
     def test_committer_rejects_state_proposal_with_unresolved_evidence(self):
-        model_output = load_json(ROOT / "examples" / "laura-model-proposal-output.json")
+        model_output = load_json(ROOT / "examples" / "maya-model-proposal-output.json")
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
@@ -107,7 +107,7 @@ class CommitterMaterializerTests(unittest.TestCase):
             self.assertEqual("rejected", result["review_signal"]["status"])
 
     def test_committer_rejects_protected_snapshot_patch_before_journaling(self):
-        model_output = load_json(ROOT / "examples" / "laura-model-proposal-output.json")
+        model_output = load_json(ROOT / "examples" / "maya-model-proposal-output.json")
         model_output["state_proposals"][0]["state_patch"]["as_of"] = (
             "2026-04-28T13:06:00Z"
         )
@@ -172,7 +172,7 @@ class CommitterMaterializerTests(unittest.TestCase):
             self.assertEqual("no_update_warranted", result["review_signal"]["status"])
 
     def test_committer_duplicate_model_output_returns_existing_commit(self):
-        model_output = load_json(ROOT / "examples" / "laura-model-proposal-output.json")
+        model_output = load_json(ROOT / "examples" / "maya-model-proposal-output.json")
         evidence_refs = {
             "conversation.2026-04-28.state-system",
             "state.campaign.launch-positioning-v1",
@@ -199,7 +199,7 @@ class CommitterMaterializerTests(unittest.TestCase):
                 stores.journals.list_ids(),
             )
             self.assertEqual(
-                ["memory.laura.marketing.draft.audience-before-copy"],
+                ["memory.maya.marketing.draft.audience-before-copy"],
                 stores.memory.list_ids(),
             )
 
@@ -222,8 +222,8 @@ class CommitterMaterializerTests(unittest.TestCase):
 
     def _approval_required_action_output(self):
         return {
-            "id": "model_output.laura.external-copy-review",
-            "review_packet_id": "review_packet.laura.external-copy-review",
+            "id": "model_output.maya.external-copy-review",
+            "review_packet_id": "review_packet.maya.external-copy-review",
             "decision": "needs_approval",
             "observations": ["External publication requires approval."],
             "state_proposals": [],
@@ -237,22 +237,22 @@ class CommitterMaterializerTests(unittest.TestCase):
                     "target": {
                         "state_object_id": "state.campaign.launch-positioning-v1"
                     },
-                    "payload": {"approval_ref": "approval.laura.external-copy"},
+                    "payload": {"approval_ref": "approval.maya.external-copy"},
                 }
             ],
             "rollup_requests": [],
             "uncertainty": [],
             "missing_evidence": [],
             "review_signal": {
-                "id": "review.laura.external-copy-pending",
-                "trigger_id": "trigger.laura.external-copy-review",
+                "id": "review.maya.external-copy-pending",
+                "trigger_id": "trigger.maya.external-copy-review",
                 "created_at": "2026-04-28T13:20:00Z",
                 "status": "pending_approval",
                 "summary": "External-facing campaign copy proposal is pending human approval.",
                 "journal_entry_refs": [],
                 "memory_entry_refs": [],
                 "rollup_requests": [],
-                "follow_up_refs": ["approval.laura.external-copy"],
+                "follow_up_refs": ["approval.maya.external-copy"],
             },
         }
 

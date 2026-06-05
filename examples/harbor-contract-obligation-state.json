@@ -5,7 +5,7 @@
   "secondary_families": ["governance", "relationship", "operating"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.contracts.harbor",
-  "owner_refs": ["persona.patrick"],
+  "owner_refs": ["persona.alex"],
   "as_of": "2026-04-28T14:05:00Z",
   "summary": "Harbor appears to have an active or recently active contract obligation, but the current owner, stage, next action, and retained Drive source are not explicit in State System fixtures.",
   "status": "waiting_on_internal",
@@ -36,9 +36,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.harbor-contract-clarify",
-      "summary": "Patrick should identify the owner, current stage, next action, and canonical Drive reference before any external follow-up is proposed.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.harbor-contract-clarify",
+      "summary": "Alex should identify the owner, current stage, next action, and canonical Drive reference before any external follow-up is proposed.",
+      "owner_ref": "persona.alex",
       "status": "proposed"
     }
   ],

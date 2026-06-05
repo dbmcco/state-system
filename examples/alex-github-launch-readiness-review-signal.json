@@ -1,0 +1,24 @@
+{
+  "id": "review.alex.github-launch-readiness",
+  "trigger_id": "trigger.alex.github-launch-readiness",
+  "created_at": "2026-04-28T15:16:00Z",
+  "status": "evidence_missing",
+  "summary": "Merged PR evidence updated capability state, preserved the audit logging review commitment as an obligation, and queued operations rollup.",
+  "journal_entry_refs": [
+    "journal.sampleco.capability.auditable-workflows.github-merged",
+    "journal.sampleco.obligation.audit-logging-before-launch.github-review"
+  ],
+  "memory_entry_refs": [
+    "memory.alex.ops.draft.pr-review-commitments"
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
+    }
+  ],
+  "follow_up_refs": [
+    "action.alex.link-audit-logging-task",
+    "action.alex.audit-logging-follow-up"
+  ]
+}

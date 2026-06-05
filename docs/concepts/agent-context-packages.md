@@ -32,8 +32,8 @@ Without context packages, agents face two bad options:
 1. Search too broadly and waste attention on irrelevant operational noise.
 2. Search too narrowly and miss important state, memory, or governance context.
 
-Laura should not need to inspect every software task to find marketing
-opportunities. Patrick should not need to inspect every campaign draft to keep
+Maya should not need to inspect every software task to find marketing
+opportunities. Alex should not need to inspect every campaign draft to keep
 operations clean. Each agent should receive a working package shaped by persona,
 watched domains, recent-change routing, current state, memory, and governance.
 
@@ -79,8 +79,8 @@ Includes:
 - high-confidence memory and active draft memory
 - governance policies for likely actions
 
-Example: Laura's standing package includes marketing operating picture, active
-campaigns, relevant deals and relationships, external-copy policy, and Laura's
+Example: Maya's standing package includes marketing operating picture, active
+campaigns, relevant deals and relationships, external-copy policy, and Maya's
 private marketing memories.
 
 ### Recent-Change Package
@@ -96,7 +96,7 @@ Includes:
 - review signals and commit results
 - unresolved follow-ups or approvals
 
-Example: Laura gets recent deal, relationship, campaign, proof-point, launch,
+Example: Maya gets recent deal, relationship, campaign, proof-point, launch,
 and market-facing capability changes. Low-level software tasks are excluded or
 ambient unless they become marketing-relevant.
 
@@ -115,7 +115,7 @@ Includes:
 - prior similar memory
 - allowed output types
 
-Example: a deal moves to won. Laura receives an opportunity package asking
+Example: a deal moves to won. Maya receives an opportunity package asking
 whether to propose a LinkedIn draft, internal proof-point note, customer story
 draft, or no-op.
 
@@ -187,9 +187,9 @@ Those are model decisions.
 
 The package gives the model the right inputs and the right available actions.
 
-## Laura Example
+## Maya Example
 
-Laura's recent-change package should include:
+Maya's recent-change package should include:
 
 - recent campaign state changes
 - deal stage changes with marketing or relationship relevance
@@ -198,7 +198,7 @@ Laura's recent-change package should include:
 - customer proof or metric changes
 - marketing operating-picture rollups
 - external-copy governance policy
-- Laura's relevant private memory
+- Maya's relevant private memory
 
 It should usually exclude:
 
@@ -208,12 +208,12 @@ It should usually exclude:
 - low-level delivery chores
 - source-of-truth cleanup records
 
-Those excluded items can still reach Laura through escalation if they become
+Those excluded items can still reach Maya through escalation if they become
 marketing-relevant.
 
-## Patrick Example
+## Alex Example
 
-Patrick's recent-change package should include:
+Alex's recent-change package should include:
 
 - operational tasks and stage changes
 - obligations and contracts
@@ -231,7 +231,7 @@ It should usually exclude:
 - broad narrative experiments
 - marketing creative variants
 
-Those can still reach Patrick if they create commitments, approvals, delivery
+Those can still reach Alex if they create commitments, approvals, delivery
 handoffs, or operational follow-up.
 
 ## First Implementation Implication
@@ -253,23 +253,23 @@ The first fixture extends the Linear deal-won scenario:
 Linear deal stage changed to won
   -> source event captured and deduped
   -> deal state updated
-  -> recent-change entry routed to Laura
-  -> Laura opportunity context package
+  -> recent-change entry routed to Maya
+  -> Maya opportunity context package
   -> model reviews package
   -> LinkedIn draft action proposal pending approval, or no-op
 ```
 
-That would test whether packaging can give Laura enough context to act without
+That would test whether packaging can give Maya enough context to act without
 making her scan unrelated operations.
 
 The first fixture version is:
 
 ```text
 examples/recent-linear-southern-abrasives-won.json
-  -> examples/laura-southern-abrasives-opportunity-context-package.json
-  -> examples/laura-southern-abrasives-opportunity-review-packet.json
-  -> examples/laura-southern-abrasives-opportunity-model-output.json
-  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+  -> examples/maya-southern-abrasives-opportunity-context-package.json
+  -> examples/maya-southern-abrasives-opportunity-review-packet.json
+  -> examples/maya-southern-abrasives-opportunity-model-output.json
+  -> examples/maya-southern-abrasives-opportunity-commit-result.json
 ```
 
 ## Design Rule

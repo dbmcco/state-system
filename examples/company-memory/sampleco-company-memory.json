@@ -31,8 +31,8 @@
     }
   ],
   "agent_memory_refs": [
-    "memory.laura.marketing.draft.audience-before-copy",
-    "memory.patrick.ops.draft.canonical-source-before-followup"
+    "memory.maya.marketing.draft.audience-before-copy",
+    "memory.alex.ops.draft.canonical-source-before-followup"
   ],
   "organizational_state_refs": [
     "state.sampleco.strategy.ai-capability-systems",

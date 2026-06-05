@@ -5,7 +5,7 @@
   "secondary_families": ["organizational_identity", "relationship", "knowledge"],
   "state_traits": ["dynamic"],
   "scope": "work.marketing",
-  "owner_refs": ["persona.laura"],
+  "owner_refs": ["persona.maya"],
   "as_of": "2026-04-28T13:06:00Z",
   "summary": "The launch positioning campaign now has a clarified primary audience of mid-market operators, but proof points and success criteria still need definition before external copy.",
   "status": "planning",
@@ -32,9 +32,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.laura.campaign-brief",
-      "summary": "Laura should draft an internal campaign brief that separates audience, offer, proof, and success metric.",
-      "owner_ref": "persona.laura",
+      "id": "action.maya.campaign-brief",
+      "summary": "Maya should draft an internal campaign brief that separates audience, offer, proof, and success metric.",
+      "owner_ref": "persona.maya",
       "status": "proposed"
     }
   ],

@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class GovernancePressureTests(unittest.TestCase):
     def test_external_publication_opportunity_is_pending_and_cites_target_state(self):
         model_output = load_json(
-            ROOT / "examples" / "laura-southern-abrasives-opportunity-model-output.json"
+            ROOT / "examples" / "maya-southern-abrasives-opportunity-model-output.json"
         )
 
         with TemporaryDirectory() as directory:
@@ -40,9 +40,9 @@ class GovernancePressureTests(unittest.TestCase):
             )
 
     def test_missing_contract_evidence_records_uncertainty_without_fabricating_truth(self):
-        model_output = load_json(ROOT / "examples" / "patrick-model-proposal-output.json")
+        model_output = load_json(ROOT / "examples" / "alex-model-proposal-output.json")
         expected_snapshot = load_json(
-            ROOT / "examples" / "harbor-contract-obligation-state-after-patrick.json"
+            ROOT / "examples" / "harbor-contract-obligation-state-after-alex.json"
         )
 
         with TemporaryDirectory() as directory:
@@ -75,7 +75,7 @@ class GovernancePressureTests(unittest.TestCase):
             )
 
     def test_corrective_update_appends_later_journal_without_editing_original(self):
-        first_output = load_json(ROOT / "examples" / "laura-model-proposal-output.json")
+        first_output = load_json(ROOT / "examples" / "maya-model-proposal-output.json")
         second_output = self._corrective_campaign_output()
 
         with TemporaryDirectory() as directory:
@@ -139,8 +139,8 @@ class GovernancePressureTests(unittest.TestCase):
 
     def _corrective_campaign_output(self):
         return {
-            "id": "model_output.laura.campaign-proof-gap-correction",
-            "review_packet_id": "review_packet.laura.campaign-proof-gap-correction",
+            "id": "model_output.maya.campaign-proof-gap-correction",
+            "review_packet_id": "review_packet.maya.campaign-proof-gap-correction",
             "decision": "propose_updates",
             "observations": ["The proof point gap should be reflected as the next blocker."],
             "state_proposals": [
@@ -169,8 +169,8 @@ class GovernancePressureTests(unittest.TestCase):
             "uncertainty": ["The proof point has still not been selected."],
             "missing_evidence": [],
             "review_signal": {
-                "id": "review.laura.campaign-proof-gap-correction",
-                "trigger_id": "trigger.laura.campaign-proof-gap-correction",
+                "id": "review.maya.campaign-proof-gap-correction",
+                "trigger_id": "trigger.maya.campaign-proof-gap-correction",
                 "created_at": "2026-04-28T13:31:00Z",
                 "status": "committed",
                 "summary": "Campaign proof gap correction should append after audience clarification.",

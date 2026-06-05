@@ -21,8 +21,8 @@
     "crm_operating_picture.sampleco"
   ],
   "candidate_persona_refs": [
-    "persona.laura.marketing",
-    "persona.patrick.operations"
+    "persona.maya.marketing",
+    "persona.alex.operations"
   ],
   "governance_refs": [
     "governance.crm.relationship-outcome.approval"

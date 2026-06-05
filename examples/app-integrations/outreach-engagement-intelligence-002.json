@@ -27,8 +27,8 @@
     "engagement_interpretation": "The reply is stronger than mechanical engagement and should inform future context packages.",
     "external_action_boundary": "Any reply or LinkedIn-style promotion remains separately approval gated.",
     "routing_notes": [
-      "Laura may care about campaign language resonance.",
-      "Patrick may care about follow-up ownership and CRM approval."
+      "Maya may care about campaign language resonance.",
+      "Alex may care about follow-up ownership and CRM approval."
     ]
   }
 }

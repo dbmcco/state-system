@@ -19,7 +19,7 @@ class TraceReportingTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             report = run_trace_manifest(
                 project_root=ROOT,
-                manifest_path=ROOT / "examples" / "traces" / "laura-agent-activation.trace.json",
+                manifest_path=ROOT / "examples" / "traces" / "maya-agent-activation.trace.json",
                 output_dir=Path(directory),
             )
 
@@ -29,14 +29,14 @@ class TraceReportingTests(unittest.TestCase):
             self.assertTrue(report_path.exists())
             html = report_path.read_text(encoding="utf-8")
             self.assertIn("State System User Test Report", html)
-            self.assertIn("trace.laura-agent-activation", html)
+            self.assertIn("trace.maya-agent-activation", html)
             self.assertIn("Draft internal material and identify what requires approval.", html)
             self.assertIn("Expected response type", html)
             self.assertIn("proposal", html)
             self.assertIn("Allowed Actions", html)
-            self.assertIn("action.laura.southern-abrasives-internal-proof-note", html)
+            self.assertIn("action.maya.southern-abrasives-internal-proof-note", html)
             self.assertIn("Prohibited Actions", html)
-            self.assertIn("action.laura.southern-abrasives-linkedin-publish", html)
+            self.assertIn("action.maya.southern-abrasives-linkedin-publish", html)
             self.assertIn("Requires refresh before external action", html)
             self.assertIn("Captured Agent Response", html)
             self.assertIn("I can draft an internal proof-point note", html)
@@ -49,7 +49,7 @@ class TraceReportingTests(unittest.TestCase):
                     ROOT
                     / "examples"
                     / "traces"
-                    / "laura-stale-context-refresh.trace.json"
+                    / "maya-stale-context-refresh.trace.json"
                 ),
                 output_dir=Path(directory),
             )
@@ -58,7 +58,7 @@ class TraceReportingTests(unittest.TestCase):
 
             self.assertEqual("passed", report["status"])
             html = report_path.read_text(encoding="utf-8")
-            self.assertIn("trace.laura-stale-context-refresh", html)
+            self.assertIn("trace.maya-stale-context-refresh", html)
             self.assertIn("Package stale at activation", html)
             self.assertIn("2026-04-29T16:08:00Z", html)
             self.assertIn("Requires refresh before external action", html)
@@ -66,7 +66,7 @@ class TraceReportingTests(unittest.TestCase):
                 "Refresh the package before any external-facing action.",
                 html,
             )
-            self.assertIn("action.laura.southern-abrasives-linkedin-publish", html)
+            self.assertIn("action.maya.southern-abrasives-linkedin-publish", html)
 
     def test_demo_script_runs_report_suite_and_prints_report_path(self):
         with TemporaryDirectory() as directory:

@@ -33,7 +33,7 @@ The model is strong enough to define contracts when every scenario can answer:
 5. What should not be persisted?
 6. What rollup, follow-up, or approval is needed?
 
-## Scenario 1: Laura Campaign Audience Clarified
+## Scenario 1: Maya Campaign Audience Clarified
 
 **Trigger:** Example User clarifies that the primary audience is mid-market operators
 who need bounded back-office business capabilities.
@@ -41,14 +41,14 @@ who need bounded back-office business capabilities.
 **Expected model decision:**
 
 - update campaign state as an interpretive update
-- possibly write Laura memory about audience-before-copy
+- possibly write Maya memory about audience-before-copy
 - queue marketing operating-picture rollup
 - avoid external publishing action
 
 **Pressure result:** passes.
 
-**Contract implication:** model input needs trigger, campaign snapshot, Laura
-persona, Laura memory candidates, recent journal entries, and governance around
+**Contract implication:** model input needs trigger, campaign snapshot, Maya
+persona, Maya memory candidates, recent journal entries, and governance around
 external copy. Output needs both state proposals and memory proposals.
 
 ## Scenario 2: No Durable Update Warranted
@@ -78,7 +78,7 @@ capabilities" language.
 - create a corrective or interpretive journal proposal that records tension
 - mark uncertainty
 - possibly ask for human review
-- keep Laura memory as a working theory, not promoted state
+- keep Maya memory as a working theory, not promoted state
 
 **Pressure result:** passes if uncertainty and correction are first-class.
 
@@ -88,12 +88,12 @@ snapshot, so the model can see what it may be contradicting.
 
 ## Scenario 4: Agent Memory Promotion
 
-**Trigger:** Laura has accumulated repeated memory entries showing that SampleCo
+**Trigger:** Maya has accumulated repeated memory entries showing that SampleCo
 messaging performs better when framed as bounded business capability.
 
 **Expected model decision:**
 
-- propose promoting Laura private memory into shared marketing narrative state
+- propose promoting Maya private memory into shared marketing narrative state
 - cite all evidence refs
 - require approval if the narrative is protected or externally significant
 - leave private memory intact even after promotion
@@ -106,7 +106,7 @@ authority and target state.
 
 ## Scenario 5: Governance Blocks External Action
 
-**Trigger:** Laura reviews a campaign and proposes publishing external copy.
+**Trigger:** Maya reviews a campaign and proposes publishing external copy.
 
 **Expected model decision:**
 
@@ -174,7 +174,7 @@ Code must verify evidence refs where possible.
 
 ## Scenario 9: Agent Runtime Memory Backend Adapter
 
-**Trigger:** Laura searches memory for prior positioning patterns through a
+**Trigger:** Maya searches memory for prior positioning patterns through a
 `agent-memory` adapter.
 
 **Expected model decision:**
@@ -192,7 +192,7 @@ one blob would lose important provenance.
 
 ## Scenario 10: Agent Memory Becomes Stale
 
-**Trigger:** Laura has an old memory saying "audience-first copy always works,"
+**Trigger:** Maya has an old memory saying "audience-first copy always works,"
 but recent evidence shows technical buyers respond better to prototype-first
 proof.
 
@@ -217,7 +217,7 @@ The first schema has `confidence` and `review_notes`, but we may also need
 
 - treat as protected organizational identity state
 - require approval or leadership actor authority
-- queue rollups or reviews for strategy, Laura persona behavior, onboarding,
+- queue rollups or reviews for strategy, Maya persona behavior, onboarding,
   marketing narrative, and active work
 - avoid immediately rewriting every child snapshot
 
@@ -243,9 +243,9 @@ metadata.
 **Contract implication:** trigger packet should carry stable ids and source refs.
 Committer should be idempotent around journal append.
 
-## Scenario 13: Patrick Contract Record Stale
+## Scenario 13: Alex Contract Record Stale
 
-**Trigger:** Patrick's scheduled operations review finds that the Harbor
+**Trigger:** Alex's scheduled operations review finds that the Harbor
 contract record lacks an explicit owner, current stage, next action, and
 canonical Drive archive reference.
 
@@ -254,14 +254,14 @@ canonical Drive archive reference.
 - keep the Harbor obligation active as waiting on internal clarification
 - propose an interpretive state update, not a resolved direct update
 - request missing evidence for the current stage and canonical source
-- write Patrick private draft memory about confirming canonical source before
+- write Alex private draft memory about confirming canonical source before
   external follow-up
 - queue an operations operating-picture rollup
 - avoid approving, sending, signing, or externally committing anything
 
 **Pressure result:** passes.
 
-**Contract implication:** the same contracts used for Laura can handle a more
+**Contract implication:** the same contracts used for Maya can handle a more
 operational agent, but the review packet must preserve governance constraints
 and missing evidence separately from state patches. A second persona also
 confirms that professional facets are not just tone; they change what the model
@@ -280,7 +280,7 @@ launch.
 - preserve the PR review comment as a delivery obligation candidate
 - request evidence for audit logging implementation and launch readiness
 - propose a Workgraph follow-up action rather than directly mutating Workgraph
-- write Patrick private memory about scanning merged PRs for unresolved review
+- write Alex private memory about scanning merged PRs for unresolved review
   commitments
 - queue the operations operating-picture rollup
 

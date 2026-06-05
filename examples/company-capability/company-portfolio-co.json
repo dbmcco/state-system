@@ -6,7 +6,7 @@
     "name": "PortfolioCo",
     "summary": "Company substrate for PortfolioCo scientific, regulatory, and investor work.",
     "primary_agent_refs": [
-      "persona.helena"
+      "persona.chloe"
     ],
     "oversight_agent_refs": [
       "persona.nova"
@@ -188,7 +188,7 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.chloe",
         "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -208,7 +208,7 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.chloe",
         "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -228,7 +228,7 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.chloe",
         "persona.nova"
       ],
       "exposure_policy": "hide_until_preflight_passes",
@@ -248,7 +248,7 @@
       ],
       "governance_refs": [],
       "allowed_agent_refs": [
-        "persona.helena",
+        "persona.chloe",
         "persona.nova",
         "persona.atlas"
       ],
@@ -296,7 +296,7 @@
   "runtime_constraints": {
     "definition": "runtime_constraints are agent runtime execution constraints, separate from governance.",
     "constraints": [
-      "Helena primary for PortfolioCo.",
+      "Chloe primary for PortfolioCo.",
       "Nova may oversee across company packs.",
       "Atlas technical/repo scope only by default.",
       "No Linear connector is declared unless explicitly added later."

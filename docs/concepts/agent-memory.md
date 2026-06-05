@@ -54,9 +54,9 @@ Agent memory is individual learning.
 
 Example:
 
-Laura may learn that SampleCo messaging becomes stronger when it frames
+Maya may learn that SampleCo messaging becomes stronger when it frames
 AI work as bounded business capability rather than generic AI application
-development. That is initially Laura's learned memory. It becomes organizational
+development. That is initially Maya's learned memory. It becomes organizational
 state only if it is promoted, evidenced, and accepted.
 
 ## Memory Planes
@@ -147,7 +147,7 @@ arch.draft.*
 
 State System should generalize that pattern.
 
-For Laura:
+For Maya:
 
 ```text
 marketing.draft.positioning.bounded-capability-language
@@ -212,11 +212,11 @@ adding promotion fields needed by State System:
 - `superseded_by_ref`
 - `last_reviewed_at`
 
-## Laura Memory Examples
+## Maya Memory Examples
 
-Candidate Laura memory families:
+Candidate Maya memory families:
 
-- `identity.*`: durable Laura self-model and professional posture
+- `identity.*`: durable Maya self-model and professional posture
 - `marketing.pattern.*`: campaign and positioning patterns
 - `marketing.draft.*`: unreviewed observations
 - `relationship.*`: collaborator-specific communication context
@@ -227,7 +227,7 @@ Examples:
 
 ```text
 marketing.draft.audience-before-copy:
-Laura has repeatedly found campaign work weaker when copy starts before audience
+Maya has repeatedly found campaign work weaker when copy starts before audience
 and proof are defined.
 ```
 

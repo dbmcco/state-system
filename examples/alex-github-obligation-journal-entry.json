@@ -1,0 +1,49 @@
+{
+  "id": "journal.sampleco.obligation.audit-logging-before-launch.github-review",
+  "state_object_id": "state.sampleco.obligation.audit-logging-before-launch",
+  "created_at": "2026-04-28T15:16:00Z",
+  "actor_ref": "persona.alex",
+  "source": "agent_reasoning",
+  "trigger_ref": "trigger.alex.github-launch-readiness",
+  "update_class": "interpretive",
+  "interpretation": "The PR review comment should be preserved as a delivery obligation candidate and treated as launch-blocking until clarified or satisfied.",
+  "state_patch": {
+    "summary": "Audit logging before launch is a delivery obligation candidate from GitHub review evidence and should remain open until linked to a Workgraph task or satisfied by implementation evidence.",
+    "status": "open_needs_owner",
+    "open_questions": [
+      "Is audit logging a launch blocker or a post-launch follow-up?",
+      "Who owns the audit logging follow-up?",
+      "Which commit, PR, check, or task proves the obligation is satisfied?"
+    ],
+    "next_actions": [
+      {
+        "id": "action.alex.audit-logging-follow-up",
+        "summary": "Alex should confirm or create the Workgraph follow-up for audit logging before launch.",
+        "owner_ref": "persona.alex",
+        "status": "active"
+      }
+    ]
+  },
+  "evidence_refs": [
+    "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765",
+    "github:pr:sampleco/sampleco-ai-graph-crm#142"
+  ],
+  "uncertainty": [
+    "The comment may represent a launch blocker or a strong recommendation; human or Workgraph evidence must clarify.",
+    "The owner and due point are not explicit."
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A merged capability with an unresolved launch obligation affects operational readiness and follow-through risk."
+    }
+  ],
+  "approval_status": "not_required",
+  "proposed_actions": [
+    {
+      "summary": "Create or link a Workgraph follow-up task for audit logging before launch.",
+      "risk": "low",
+      "approval_required": false
+    }
+  ]
+}

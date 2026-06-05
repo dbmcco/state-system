@@ -30,7 +30,7 @@ class OperationalLoopTests(unittest.TestCase):
             )
             self.assertGreaterEqual(len(summary["evidence_refs"]), 2)
             self.assertEqual(
-                "context.laura.operational-loop",
+                "context.maya.operational-loop",
                 summary["working_model"]["context_package_id"],
             )
             self.assertTrue(summary["working_model"]["requires_refresh_before_external_action"])

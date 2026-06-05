@@ -34,7 +34,7 @@ def _operator_summary(report: JsonObject) -> JsonObject:
     review_packet = _step_payload(report, "review-packet")
     commit = _step_payload(report, "commit")
     recent_change = _step_payload(report, "recent-change")
-    context_package = _step_payload(report, "laura-package")
+    context_package = _step_payload(report, "maya-package")
     activation = _step_payload(report, "agent-activation")
     response = _step_payload(report, "agent-response")
 

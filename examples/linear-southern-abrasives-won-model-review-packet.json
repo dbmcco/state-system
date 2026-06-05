@@ -25,7 +25,7 @@
       "state.operating_picture.marketing"
     ],
     "candidate_memory_refs": [],
-    "persona_ref": "persona.patrick",
+    "persona_ref": "persona.alex",
     "governance_refs": [
       "governance.source-of-truth-discipline",
       "governance.external-copy-approval"
@@ -88,8 +88,8 @@
   },
   "persona_context": {
     "persona": {
-      "id": "persona.patrick",
-      "name": "Patrick",
+      "id": "persona.alex",
+      "name": "Alex",
       "role": "Operations manager agent",
       "watched_domains": [
         "operating_picture",

@@ -24,7 +24,7 @@
     "source_event_id": "source.linear.southern-abrasives-won",
     "packet_id": "review_packet.operational-loop.southern-abrasives",
     "created_at": "2026-04-28T16:05:30Z",
-    "persona_path": "examples/patrick-persona.json",
+    "persona_path": "examples/alex-persona.json",
     "resolved_evidence": [
       {
         "ref": "linear:deal:southern-abrasives",
@@ -69,7 +69,7 @@
     "summary": "Southern Abrasives moved from proposal to won, creating operational handoff work and a possible marketing proof-point opportunity.",
     "routes": [
       {
-        "persona_ref": "persona.patrick",
+        "persona_ref": "persona.alex",
         "relevance_tier": "primary",
         "routing_reason": "Won deal creates operational handoff.",
         "included": true,
@@ -78,7 +78,7 @@
         ]
       },
       {
-        "persona_ref": "persona.laura",
+        "persona_ref": "persona.maya",
         "relevance_tier": "secondary",
         "routing_reason": "Won deal may become a marketing proof point.",
         "included": true,
@@ -99,17 +99,17 @@
     "requires_refresh_before_external_action": true
   },
   "context_package": {
-    "persona_path": "examples/laura-persona.json",
-    "package_id": "context.laura.operational-loop",
+    "persona_path": "examples/maya-persona.json",
+    "package_id": "context.maya.operational-loop",
     "created_at": "2026-04-28T16:08:00Z",
-    "review_goal": "Review Laura-relevant recent changes and propose only approval-safe internal next steps.",
+    "review_goal": "Review Maya-relevant recent changes and propose only approval-safe internal next steps.",
     "valid_until": "2026-04-29T16:08:00Z"
   },
   "render_package": {
-    "package_id": "context.laura.operational-loop"
+    "package_id": "context.maya.operational-loop"
   },
   "agent_activation": {
-    "package_id": "context.laura.operational-loop",
+    "package_id": "context.maya.operational-loop",
     "consumer_ref": "consumer.operational-loop",
     "created_at": "2026-04-28T16:09:00Z",
     "activation_goal": "Draft an internal proof-point note and identify what requires approval.",
@@ -117,7 +117,7 @@
   },
   "render_activation": {},
   "capture_response": {
-    "package_id": "context.laura.operational-loop",
+    "package_id": "context.maya.operational-loop",
     "consumer_ref": "consumer.operational-loop",
     "created_at": "2026-04-28T16:10:00Z",
     "response_text": "I can draft an internal proof-point note from the won deal and flag external publication as approval-gated. I will not treat this response as state or publish externally without a later approved activation.\n"

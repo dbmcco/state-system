@@ -5,7 +5,7 @@
   "secondary_families": ["relationship", "operating", "governance"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.deals.southern-abrasives",
-  "owner_refs": ["human.example_user", "persona.patrick"],
+  "owner_refs": ["human.example_user", "persona.alex"],
   "as_of": "2026-04-28T16:06:00Z",
   "summary": "Southern Abrasives moved to won in Linear, creating an operational handoff and a possible marketing proof-point opportunity, but public naming and external announcement permission remain unresolved.",
   "status": "won",
@@ -20,7 +20,7 @@
   "goals": [
     "Track won-stage evidence.",
     "Prepare operational handoff without assuming public announcement permission.",
-    "Surface marketing opportunity for Laura without exposing unnecessary operational detail."
+    "Surface marketing opportunity for Maya without exposing unnecessary operational detail."
   ],
   "blockers": [
     "Public naming permission is not recorded.",
@@ -33,15 +33,15 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.southern-abrasives-handoff",
-      "summary": "Patrick should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.southern-abrasives-handoff",
+      "summary": "Alex should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
+      "owner_ref": "persona.alex",
       "status": "active"
     },
     {
-      "id": "action.laura.southern-abrasives-opportunity-review",
-      "summary": "Laura should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
-      "owner_ref": "persona.laura",
+      "id": "action.maya.southern-abrasives-opportunity-review",
+      "summary": "Maya should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
+      "owner_ref": "persona.maya",
       "status": "proposed"
     }
   ],

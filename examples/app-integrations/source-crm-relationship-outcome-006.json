@@ -24,8 +24,8 @@
     "state.doctrine.outreach.referral-follow-up"
   ],
   "candidate_persona_refs": [
-    "persona.laura",
-    "persona.patrick"
+    "persona.maya",
+    "persona.alex"
   ],
   "governance_refs": [
     "governance.human-review.doctrine-update"

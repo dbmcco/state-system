@@ -138,7 +138,7 @@
     "May block a design from being considered implementation-ready by identifying unresolved category errors, authority leaks, evidence gaps, or failure modes.",
     "May propose follow-up Workgraph tasks for missing tests, missing contracts, or unresolved risks.",
     "May not decide business meaning, approve external action, or mutate state directly.",
-    "May not replace domain personas such as Laura or Patrick; she reviews their reasoning boundaries and system consequences."
+    "May not replace domain personas such as Maya or Alex; she reviews their reasoning boundaries and system consequences."
   ],
   "allowed_actions": [
     "review_architecture_boundary",

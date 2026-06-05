@@ -73,8 +73,8 @@ CLI and coding agents should consume packages, not global state.
 
 Examples:
 
-- Patrick asks for recent operational changes for a repo or deal.
-- Laura asks for recent marketing-relevant changes.
+- Alex asks for recent operational changes for a repo or deal.
+- Maya asks for recent marketing-relevant changes.
 - Codex asks for the package attached to the current task.
 - Claude Code or opencode asks for the same package through the same contract.
 

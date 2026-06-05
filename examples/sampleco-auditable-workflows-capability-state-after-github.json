@@ -5,7 +5,7 @@
   "secondary_families": ["governance", "operating", "knowledge"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.product.auditable-workflows",
-  "owner_refs": ["persona.patrick"],
+  "owner_refs": ["persona.alex"],
   "as_of": "2026-04-28T15:16:00Z",
   "summary": "Auditable workflows have merged implementation evidence from PR 142, but launch readiness is not established because audit logging before launch remains unresolved.",
   "status": "implemented_not_launch_ready",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.link-audit-logging-task",
-      "summary": "Patrick should create or link the Workgraph task that owns audit logging before launch.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.link-audit-logging-task",
+      "summary": "Alex should create or link the Workgraph task that owns audit logging before launch.",
+      "owner_ref": "persona.alex",
       "status": "active"
     }
   ],

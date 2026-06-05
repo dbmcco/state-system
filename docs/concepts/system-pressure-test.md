@@ -35,19 +35,19 @@ The system is strong enough to start implementation when it can answer:
 7. How do we handle stale packages, duplicate events, and conflicting agents?
 8. How do we keep external actions approval-gated?
 
-## Scenario 1: Laura Is Flooded By Software Tasks
+## Scenario 1: Maya Is Flooded By Software Tasks
 
 **Trigger:** ten Linear software tasks are completed in one day.
 
-**Failure mode:** Laura receives all ten because they are recent work changes.
+**Failure mode:** Maya receives all ten because they are recent work changes.
 
 **Expected behavior:**
 
-- route low-level software tasks to Patrick or a technical/project agent first
-- mark Laura relevance as `excluded` or `ambient` unless a task affects launch,
+- route low-level software tasks to Alex or a technical/project agent first
+- mark Maya relevance as `excluded` or `ambient` unless a task affects launch,
   proof, relationship, campaign, public claim, or market-facing capability
-- include an excluded-context summary in Laura's package
-- allow explicit escalation if Patrick or a human sees marketing relevance
+- include an excluded-context summary in Maya's package
+- allow explicit escalation if Alex or a human sees marketing relevance
 
 **Pressure result:** passes with the recent-change routing model.
 
@@ -55,19 +55,19 @@ The system is strong enough to start implementation when it can answer:
 persona refs, routing reason, relevance tier, and excluded-context support. The
 first implementation still needs automated validation around those fields.
 
-## Scenario 2: Laura Misses A Marketable Capability
+## Scenario 2: Maya Misses A Marketable Capability
 
 **Trigger:** a GitHub PR merges a customer-facing capability, but it is recorded
 as a software task completion.
 
-**Failure mode:** routing excludes Laura because the source event looks
+**Failure mode:** routing excludes Maya because the source event looks
 technical.
 
 **Expected behavior:**
 
 - package logic should consider affected state refs and parent rollups, not only
   source-system event type
-- if the task updates a market-facing capability, Laura can receive it as
+- if the task updates a market-facing capability, Maya can receive it as
   `secondary` or `escalated`
 - model decides whether the capability is actually marketable
 - publication remains approval-gated
@@ -75,7 +75,7 @@ technical.
 **Pressure result:** partially passes.
 
 **Gap:** routing needs inspectable reasons and periodic audit. If a source event
-is excluded from Laura, the package should say why and which crossing condition
+is excluded from Maya, the package should say why and which crossing condition
 would make it visible.
 
 ## Scenario 3: Deal Moves To Won
@@ -86,16 +86,16 @@ would make it visible.
 
 - update deal state as a source-backed work/relationship state change
 - queue operating-picture rollups for revenue, relationship, and operations
-- create recent-change entry visible to Patrick and Laura
-- Patrick receives operational handoff context
-- Laura receives opportunity context, not all operational task detail
-- Laura may propose internal LinkedIn draft, customer story draft, or no-op
+- create recent-change entry visible to Alex and Maya
+- Alex receives operational handoff context
+- Maya receives opportunity context, not all operational task detail
+- Maya may propose internal LinkedIn draft, customer story draft, or no-op
 - external publication is pending approval
 
 **Pressure result:** passes as a first fixture trace.
 
 **Fixture:** `examples/source-linear-southern-abrasives-won.json` through
-`examples/laura-southern-abrasives-opportunity-commit-result.json` exercises the
+`examples/maya-southern-abrasives-opportunity-commit-result.json` exercises the
 recent-change registry, context package, opportunity review, and governance in
 one chain.
 
@@ -123,10 +123,10 @@ this urgent because duplicates can become duplicate agent opportunities.
 
 ## Scenario 5: Context Package Goes Stale
 
-**Trigger:** Laura receives an opportunity package for a deal win, but the deal
-is later marked private before Laura reviews the package.
+**Trigger:** Maya receives an opportunity package for a deal win, but the deal
+is later marked private before Maya reviews the package.
 
-**Failure mode:** Laura drafts external copy from stale package context.
+**Failure mode:** Maya drafts external copy from stale package context.
 
 **Expected behavior:**
 
@@ -143,12 +143,12 @@ is later marked private before Laura reviews the package.
 **Gap:** context packages need freshness/watermark semantics before they are
 used for action proposals with external consequences.
 
-## Scenario 6: Patrick And Laura Disagree
+## Scenario 6: Alex And Maya Disagree
 
-**Trigger:** Laura sees a deal win as a marketing opportunity. Patrick sees the
+**Trigger:** Maya sees a deal win as a marketing opportunity. Alex sees the
 same deal as operationally incomplete because contract paperwork is missing.
 
-**Failure mode:** Laura proposes external announcement while Patrick's state
+**Failure mode:** Maya proposes external announcement while Alex's state
 shows the relationship is not ready.
 
 **Expected behavior:**
@@ -167,9 +167,9 @@ uncertainty and pending approval are enough for fixture work.
 ## Scenario 7: Sensitive Relationship Data Enters A Marketing Package
 
 **Trigger:** relationship state contains private negotiation context. A deal
-stage change routes to Laura.
+stage change routes to Maya.
 
-**Failure mode:** Laura's context package includes sensitive operational detail
+**Failure mode:** Maya's context package includes sensitive operational detail
 that should not be used in marketing copy.
 
 **Expected behavior:**
@@ -188,7 +188,7 @@ redaction and package-level read permissions are not yet defined.
 
 ## Scenario 8: Agent Memory Pollutes Shared State
 
-**Trigger:** Laura repeatedly sees deal wins followed by LinkedIn drafts and
+**Trigger:** Maya repeatedly sees deal wins followed by LinkedIn drafts and
 forms a memory that "deal wins should be posted."
 
 **Failure mode:** private memory becomes a hard rule or shared organizational
@@ -196,7 +196,7 @@ truth without enough evidence or approval.
 
 **Expected behavior:**
 
-- Laura memory remains private/draft until promotion is explicit
+- Maya memory remains private/draft until promotion is explicit
 - model can use memory as a hypothesis, not policy
 - promotion to shared marketing or governance state requires evidence and
   approval
@@ -325,7 +325,7 @@ It must also constrain:
 - which actions can be executed
 - what publication requires approval
 
-### Finding 7: Next Fixture Should Be Linear Deal Won To Laura Package
+### Finding 7: Next Fixture Should Be Linear Deal Won To Maya Package
 
 The next trace now exercises the whole new chain:
 
@@ -333,8 +333,8 @@ The next trace now exercises the whole new chain:
 Linear deal stage changed to won
   -> deal state update
   -> recent-change registry entry
-  -> routing to Laura and Patrick
-  -> Laura opportunity context package
+  -> routing to Maya and Alex
+  -> Maya opportunity context package
   -> model review
   -> internal LinkedIn draft proposal
   -> pending approval for external publication

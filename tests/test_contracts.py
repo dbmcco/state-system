@@ -26,32 +26,32 @@ class ContractHarnessTests(unittest.TestCase):
 
         traces = [
             [
-                "examples/laura-campaign-audience-trigger.json",
-                "examples/laura-model-review-packet.json",
-                "examples/laura-model-proposal-output.json",
-                "examples/laura-commit-result.json",
+                "examples/maya-campaign-audience-trigger.json",
+                "examples/maya-model-review-packet.json",
+                "examples/maya-model-proposal-output.json",
+                "examples/maya-commit-result.json",
                 "examples/marketing-campaign-audience-journal-entry.json",
-                "examples/laura-agent-memory-entry.json",
-                "examples/laura-review-signal.json",
+                "examples/maya-agent-memory-entry.json",
+                "examples/maya-review-signal.json",
             ],
             [
-                "examples/patrick-stale-contract-trigger.json",
-                "examples/patrick-model-review-packet.json",
-                "examples/patrick-model-proposal-output.json",
-                "examples/patrick-commit-result.json",
-                "examples/patrick-contract-journal-entry.json",
-                "examples/patrick-agent-memory-entry.json",
-                "examples/patrick-review-signal.json",
+                "examples/alex-stale-contract-trigger.json",
+                "examples/alex-model-review-packet.json",
+                "examples/alex-model-proposal-output.json",
+                "examples/alex-commit-result.json",
+                "examples/alex-contract-journal-entry.json",
+                "examples/alex-agent-memory-entry.json",
+                "examples/alex-review-signal.json",
             ],
             [
-                "examples/patrick-github-launch-readiness-trigger.json",
-                "examples/patrick-github-launch-readiness-model-review-packet.json",
-                "examples/patrick-github-launch-readiness-model-proposal-output.json",
-                "examples/patrick-github-launch-readiness-commit-result.json",
-                "examples/patrick-github-capability-journal-entry.json",
-                "examples/patrick-github-obligation-journal-entry.json",
-                "examples/patrick-github-launch-readiness-agent-memory-entry.json",
-                "examples/patrick-github-launch-readiness-review-signal.json",
+                "examples/alex-github-launch-readiness-trigger.json",
+                "examples/alex-github-launch-readiness-model-review-packet.json",
+                "examples/alex-github-launch-readiness-model-proposal-output.json",
+                "examples/alex-github-launch-readiness-commit-result.json",
+                "examples/alex-github-capability-journal-entry.json",
+                "examples/alex-github-obligation-journal-entry.json",
+                "examples/alex-github-launch-readiness-agent-memory-entry.json",
+                "examples/alex-github-launch-readiness-review-signal.json",
             ],
             [
                 "examples/source-linear-southern-abrasives-won.json",
@@ -60,10 +60,10 @@ class ContractHarnessTests(unittest.TestCase):
                 "examples/linear-southern-abrasives-won-model-proposal-output.json",
                 "examples/linear-southern-abrasives-won-commit-result.json",
                 "examples/recent-linear-southern-abrasives-won.json",
-                "examples/laura-southern-abrasives-opportunity-context-package.json",
-                "examples/laura-southern-abrasives-opportunity-review-packet.json",
-                "examples/laura-southern-abrasives-opportunity-model-output.json",
-                "examples/laura-southern-abrasives-opportunity-commit-result.json",
+                "examples/maya-southern-abrasives-opportunity-context-package.json",
+                "examples/maya-southern-abrasives-opportunity-review-packet.json",
+                "examples/maya-southern-abrasives-opportunity-model-output.json",
+                "examples/maya-southern-abrasives-opportunity-commit-result.json",
             ],
             [
                 "examples/source-model-mediated-intent-routing-violation.json",
@@ -81,7 +81,7 @@ class ContractHarnessTests(unittest.TestCase):
 
     def test_commit_refs_resolve_without_interpreting_business_meaning(self):
         index = ExampleIndex.load(ROOT / "examples")
-        commit = index.by_id["commit.patrick.github-launch-readiness"]
+        commit = index.by_id["commit.alex.github-launch-readiness"]
 
         refs = (
             commit["accepted_journal_entry_refs"]
@@ -97,8 +97,8 @@ class ContractHarnessTests(unittest.TestCase):
 
         model_schema = load_schema("model-proposal-output.schema.json")
         commit_schema = load_schema("commit-result.schema.json")
-        github_output = index.by_id["model_output.patrick.github-launch-readiness"]
-        opportunity_commit = index.by_id["commit.laura.southern-abrasives-opportunity"]
+        github_output = index.by_id["model_output.alex.github-launch-readiness"]
+        opportunity_commit = index.by_id["commit.maya.southern-abrasives-opportunity"]
 
         self.assertIn("no_op", model_schema["properties"]["decision"]["enum"])
         self.assertIn("no_op", commit_schema["properties"]["status"]["enum"])

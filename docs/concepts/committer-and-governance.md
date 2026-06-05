@@ -29,7 +29,7 @@ The committer may produce:
 - final review signal
 
 The committer should not decide whether the campaign is good, whether a market
-belief is strategically important, or whether Laura's interpretation is sharp.
+belief is strategically important, or whether Maya's interpretation is sharp.
 Those are model judgments.
 
 ## Governance Checks

@@ -22,7 +22,7 @@
     "state.operating_picture.marketing"
   ],
   "candidate_memory_refs": [],
-  "persona_ref": "persona.patrick",
+  "persona_ref": "persona.alex",
   "governance_refs": [
     "governance.source-of-truth-discipline",
     "governance.external-copy-approval"

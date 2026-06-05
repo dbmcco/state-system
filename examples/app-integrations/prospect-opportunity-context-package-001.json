@@ -23,7 +23,7 @@
         "id": "source.prospect.campaign-research.001",
         "summary": "Prospect Researcher found possible campaign fit evidence for Aurora Mills.",
         "persona_route": [
-          "persona.laura",
+          "persona.maya",
           "app.outreach-engine"
         ]
       }

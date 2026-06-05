@@ -1,0 +1,25 @@
+{
+  "id": "memory.alex.ops.draft.canonical-source-before-followup",
+  "agent_ref": "persona.alex",
+  "created_at": "2026-04-28T14:15:00Z",
+  "memory_key": "ops.draft.canonical-source-before-followup",
+  "layer": "draft",
+  "memory_type": "pattern",
+  "summary": "Alex is noticing that contract follow-up should start by confirming the canonical source before outreach.",
+  "content": "When contract records are stale, operational cleanup should first identify owner, stage, next action, and retained source document before proposing external follow-up.",
+  "confidence": 0.7,
+  "evidence_refs": [
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor"
+  ],
+  "related_state_refs": [
+    "state.sampleco.contract.harbor",
+    "state.sampleco.operating_picture.ops"
+  ],
+  "promotion_status": "private",
+  "status": "draft",
+  "review_notes": [
+    "Keep as Alex private memory until multiple contract cleanup traces confirm the pattern."
+  ],
+  "last_reviewed_at": "2026-04-28T14:15:00Z"
+}

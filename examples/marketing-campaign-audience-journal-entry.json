@@ -2,9 +2,9 @@
   "id": "journal.campaign.launch-positioning-v1.audience-clarified",
   "state_object_id": "state.campaign.launch-positioning-v1",
   "created_at": "2026-04-28T13:06:00Z",
-  "actor_ref": "persona.laura",
+  "actor_ref": "persona.maya",
   "source": "agent_reasoning",
-  "trigger_ref": "trigger.laura.campaign-audience-clarified",
+  "trigger_ref": "trigger.maya.campaign-audience-clarified",
   "update_class": "interpretive",
   "interpretation": "The campaign now has a clearer primary audience, improving readiness for internal brief work while leaving proof and success criteria open.",
   "state_patch": {

@@ -223,7 +223,7 @@ weak.
 
 ## Agent Behavior Examples
 
-Patrick can watch Workgraph, Speedrift, and GitHub for operational clarity:
+Alex can watch Workgraph, Speedrift, and GitHub for operational clarity:
 
 - stale Workgraph tasks
 - PRs merged without linked tasks
@@ -232,7 +232,7 @@ Patrick can watch Workgraph, Speedrift, and GitHub for operational clarity:
 - issues with no owner or next action
 - Speedrift findings that recur across work streams
 
-Laura can watch GitHub and Workgraph when technical delivery affects marketing:
+Maya can watch GitHub and Workgraph when technical delivery affects marketing:
 
 - a capability merged but not yet externally describable
 - release notes that imply market-facing claims
@@ -270,7 +270,7 @@ Expected State System behavior:
 - treat the review comment as a possible delivery obligation
 - avoid marking the capability launch-ready until audit logging evidence exists
 - create or link a Workgraph follow-up task
-- update Patrick's operating picture if launch readiness changed
+- update Alex's operating picture if launch readiness changed
 - possibly update agent memory if an agent repeatedly misses review commitments
 
 This scenario would test the difference between code completion, delivery
@@ -279,12 +279,12 @@ commitment, launch readiness, and agent learning.
 The first fixture version of this scenario lives in:
 
 ```text
-examples/patrick-github-launch-readiness-trigger.json
-  -> examples/patrick-github-launch-readiness-model-review-packet.json
-  -> examples/patrick-github-launch-readiness-model-proposal-output.json
-  -> examples/patrick-github-launch-readiness-commit-result.json
-  -> examples/patrick-github-capability-journal-entry.json
-  -> examples/patrick-github-obligation-journal-entry.json
-  -> examples/patrick-github-launch-readiness-agent-memory-entry.json
-  -> examples/patrick-github-launch-readiness-review-signal.json
+examples/alex-github-launch-readiness-trigger.json
+  -> examples/alex-github-launch-readiness-model-review-packet.json
+  -> examples/alex-github-launch-readiness-model-proposal-output.json
+  -> examples/alex-github-launch-readiness-commit-result.json
+  -> examples/alex-github-capability-journal-entry.json
+  -> examples/alex-github-obligation-journal-entry.json
+  -> examples/alex-github-launch-readiness-agent-memory-entry.json
+  -> examples/alex-github-launch-readiness-review-signal.json
 ```

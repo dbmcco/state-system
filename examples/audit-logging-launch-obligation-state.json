@@ -5,7 +5,7 @@
   "secondary_families": ["work", "operating"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.product.auditable-workflows.launch",
-  "owner_refs": ["persona.patrick"],
+  "owner_refs": ["persona.alex"],
   "as_of": "2026-04-28T15:02:00Z",
   "summary": "Audit logging before launch is a possible delivery obligation inferred from GitHub review discussion and needs explicit ownership and verification evidence.",
   "status": "candidate",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.audit-logging-follow-up",
-      "summary": "Patrick should confirm or create the Workgraph follow-up for audit logging before launch.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.audit-logging-follow-up",
+      "summary": "Alex should confirm or create the Workgraph follow-up for audit logging before launch.",
+      "owner_ref": "persona.alex",
       "status": "proposed"
     }
   ],

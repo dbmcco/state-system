@@ -75,7 +75,7 @@ class CliRuntimeTests(unittest.TestCase):
                     "--created-at",
                     "2026-04-28T16:05:30Z",
                     "--persona",
-                    str(ROOT / "examples" / "patrick-persona.json"),
+                    str(ROOT / "examples" / "alex-persona.json"),
                     "--resolved-evidence",
                     str(evidence_path),
                     "--governance-constraints",
@@ -149,49 +149,49 @@ class CliRuntimeTests(unittest.TestCase):
             )
             self.assertEqual("recent.linear.southern-abrasives-won", recent["id"])
 
-            laura_package = self._run_cli(
+            maya_package = self._run_cli(
                 [
                     "--state-root",
                     directory,
                     "build-package",
-                    str(ROOT / "examples" / "laura-persona.json"),
-                    "context.laura.recent-runtime",
+                    str(ROOT / "examples" / "maya-persona.json"),
+                    "context.maya.recent-runtime",
                     "--created-at",
                     "2026-04-28T16:08:00Z",
                     "--review-goal",
-                    "Review Laura-relevant recent changes.",
+                    "Review Maya-relevant recent changes.",
                     "--valid-until",
                     "2026-04-29T16:08:00Z",
                 ]
             )
-            patrick_package = self._run_cli(
+            alex_package = self._run_cli(
                 [
                     "--state-root",
                     directory,
                     "build-package",
-                    str(ROOT / "examples" / "patrick-persona.json"),
-                    "context.patrick.recent-runtime",
+                    str(ROOT / "examples" / "alex-persona.json"),
+                    "context.alex.recent-runtime",
                     "--created-at",
                     "2026-04-28T16:08:00Z",
                     "--review-goal",
-                    "Review Patrick-relevant recent changes.",
+                    "Review Alex-relevant recent changes.",
                     "--valid-until",
                     "2026-04-29T16:08:00Z",
                 ]
             )
 
             self.assertTrue(
-                laura_package["freshness"]["requires_refresh_before_external_action"]
+                maya_package["freshness"]["requires_refresh_before_external_action"]
             )
             self.assertEqual(
                 "secondary",
-                laura_package["recent_change_context"]["entries"][0]["persona_route"][
+                maya_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
             self.assertEqual(
                 "primary",
-                patrick_package["recent_change_context"]["entries"][0]["persona_route"][
+                alex_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
@@ -221,14 +221,14 @@ class CliRuntimeTests(unittest.TestCase):
     def _routes(self):
         return [
             {
-                "persona_ref": "persona.patrick",
+                "persona_ref": "persona.alex",
                 "relevance_tier": "primary",
                 "routing_reason": "Won deal creates operational handoff.",
                 "included": True,
                 "opportunity_class_hints": ["operational_handoff"],
             },
             {
-                "persona_ref": "persona.laura",
+                "persona_ref": "persona.maya",
                 "relevance_tier": "secondary",
                 "routing_reason": "Won deal may become a marketing proof point.",
                 "included": True,

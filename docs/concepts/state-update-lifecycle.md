@@ -275,9 +275,9 @@ truth. The registry is an access surface that helps humans and agents ask:
 - which agents or personas might care?
 - what opportunities or follow-ups might need review?
 
-This is especially important for agents. Laura may watch recent deal,
+This is especially important for agents. Maya may watch recent deal,
 relationship, campaign, capability, or operating-picture changes for marketing
-opportunities. Patrick may watch recent task, obligation, contract, project, and
+opportunities. Alex may watch recent task, obligation, contract, project, and
 GitHub changes for operational follow-up.
 
 The registry should surface candidate changes. The model decides whether any
@@ -290,13 +290,13 @@ or approval-gated external publication.
 
 A direct update changes one state object from one trigger.
 
-Example: a human clarifies Laura's authority boundary.
+Example: a human clarifies Maya's authority boundary.
 
 ### Interpretive Update
 
 An interpretive update records model judgment over ambiguous evidence.
 
-Example: Laura judges that a campaign is not ready for external publication
+Example: Maya judges that a campaign is not ready for external publication
 because the audience and proof are underspecified.
 
 ### Corrective Update

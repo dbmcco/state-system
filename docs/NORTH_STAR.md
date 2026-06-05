@@ -82,7 +82,7 @@ Personas are first-class.
 A persona is not a prompt style. It is an interpretive lens with responsibilities,
 facets, watched domains, authority boundaries, and anti-patterns.
 
-Laura, as a marketing agent, should notice different things in the same state
+Maya, as a marketing agent, should notice different things in the same state
 than an operations, finance, delivery, onboarding, or strategy agent would.
 
 Personality matters only when it changes professional judgment: what the agent

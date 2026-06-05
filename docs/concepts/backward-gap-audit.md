@@ -91,7 +91,7 @@ tested before end-to-end confidence.
 
 ### Conflict Semantics
 
-Laura and Patrick can disagree about the same underlying change. For now,
+Maya and Alex can disagree about the same underlying change. For now,
 uncertainty, pending approval, and separate review signals are enough. Later,
 conflict records may be useful if coordination becomes hard to inspect.
 

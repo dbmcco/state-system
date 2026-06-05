@@ -124,7 +124,7 @@ The package layer should be tested against real questions:
 - Iris: "What SampleCo relationship or BD follow-ups need attention?"
 - Iris: "What is Iris missing because Linear, GitHub, or transcripts
   are stale?"
-- Helena/Scout: "What can this agent know about the company today, and what is
+- Chloe/Scout: "What can this agent know about the company today, and what is
   still only declared?"
 
 The expected behavior is not a fixed answer. The expected behavior is that the
@@ -166,7 +166,7 @@ output rather than only changing private connector behavior.
 
 ### Phase 5: Pressure Harness
 
-Add real-question package pressure tests for Sam, Iris, Helena, and Scout.
+Add real-question package pressure tests for Sam, Iris, Chloe, and Scout.
 These tests should assert source coverage, gap naming, route/tool visibility,
 and materialization boundaries rather than brittle answer text.
 
@@ -181,7 +181,7 @@ This model is complete enough for the next release when:
 - Connector module kit docs explain how to add Spotify-like, Garmin-like, and
   Relationship-Substrate-like modules without core schema edits.
 - Real-question pressure tests pass for Sam and Iris and have scaffolded
-  cases for Helena/Scout.
+  cases for Chloe/Scout.
 - All generic validation and focused tests pass.
 - Open-source examples contain no private corpora, names, account data, tokens,
   listening history, health records, or private relationship records.

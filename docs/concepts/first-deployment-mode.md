@@ -70,7 +70,7 @@ state/
     state.org.mission.jsonl
     state.campaign.launch-positioning-v1.jsonl
   memory/
-    persona.laura.jsonl
+    persona.maya.jsonl
   rollups/
     pending.jsonl
 ```
@@ -94,9 +94,9 @@ Initial trigger input can be a JSON file:
   "id": "trigger.example",
   "source": "human_edit",
   "actor_ref": "human.example_user",
-  "summary": "Laura's approval boundary was clarified.",
+  "summary": "Maya's approval boundary was clarified.",
   "evidence_refs": ["conversation.2026-04-28.state-system"],
-  "candidate_state_refs": ["persona.laura"]
+  "candidate_state_refs": ["persona.maya"]
 }
 ```
 
@@ -149,16 +149,16 @@ judgments.
 
 ## First Vertical Slice
 
-The first runnable slice should use Laura, Laura's memory, and marketing
+The first runnable slice should use Maya, Maya's memory, and marketing
 campaign state.
 
 Scenario:
 
 1. Trigger says a human clarified the campaign's primary audience.
-2. Runner loads Laura, Laura's relevant memory, the campaign snapshot, the
+2. Runner loads Maya, Maya's relevant memory, the campaign snapshot, the
    marketing operating picture, and recent campaign journal entries.
 3. Model proposes an interpretive journal entry for the campaign and may propose
-   a Laura memory write.
+   a Maya memory write.
 4. Committer validates and appends the journal entry.
 5. Committer persists accepted memory writes.
 6. Snapshot materializer updates the campaign snapshot.

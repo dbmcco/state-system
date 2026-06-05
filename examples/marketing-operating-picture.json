@@ -5,7 +5,7 @@
   "secondary_families": ["work", "relationship", "knowledge", "governance"],
   "state_traits": ["dynamic", "rollup"],
   "scope": "work.marketing",
-  "owner_refs": ["persona.laura"],
+  "owner_refs": ["persona.maya"],
   "as_of": "2026-04-28T12:00:00Z",
   "summary": "Marketing state is in early formation. The primary active object is a launch positioning campaign that needs audience and proof clarification before external execution.",
   "status": "forming",
@@ -14,11 +14,11 @@
       "id": "situation.marketing-system-formation",
       "label": "Marketing state system is being formed",
       "state": "planning",
-      "rationale": "The repo has an initial state model and Laura persona, but no runtime update loop yet."
+      "rationale": "The repo has an initial state model and Maya persona, but no runtime update loop yet."
     }
   ],
   "goals": [
-    "Use Laura to test persona-mediated campaign state updates.",
+    "Use Maya to test persona-mediated campaign state updates.",
     "Create the smallest useful model-mediated update loop.",
     "Keep marketing state connected to work outcomes, not vanity metrics.",
     "Keep marketing narrative aligned with organizational mission state."

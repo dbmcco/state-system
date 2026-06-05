@@ -19,7 +19,7 @@ class AgentActivationTests(unittest.TestCase):
         activation_results = [
             result
             for result in results
-            if result.path.name == "laura-approval-gated-publication-activation.json"
+            if result.path.name == "maya-approval-gated-publication-activation.json"
         ]
         self.assertEqual(1, len(activation_results))
         self.assertTrue(activation_results[0].ok, activation_results[0].errors)
@@ -28,7 +28,7 @@ class AgentActivationTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             package = load_json(
-                ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+                ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
             )
             stores.context_packages.create(package)
 
@@ -59,11 +59,11 @@ class AgentActivationTests(unittest.TestCase):
             self.assertEqual(package["id"], activation["package_id"])
             self.assertEqual("consumer.codex", activation["consumer_ref"])
             self.assertIn(
-                "action.laura.southern-abrasives-internal-proof-note",
+                "action.maya.southern-abrasives-internal-proof-note",
                 activation["allowed_action_refs"],
             )
             self.assertIn(
-                "action.laura.southern-abrasives-linkedin-publish",
+                "action.maya.southern-abrasives-linkedin-publish",
                 activation["prohibited_action_refs"],
             )
             self.assertTrue(
@@ -84,7 +84,7 @@ class AgentActivationTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             package = load_json(
-                ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+                ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
             )
             stores.context_packages.create(package)
             activation = self._activate(directory, package["id"])
@@ -109,7 +109,7 @@ class AgentActivationTests(unittest.TestCase):
             self.assertIn("Expected response type: proposal", text)
             self.assertIn("Allowed action refs:", text)
             self.assertIn("Prohibited action refs:", text)
-            self.assertIn("action.laura.southern-abrasives-linkedin-publish", text)
+            self.assertIn("action.maya.southern-abrasives-linkedin-publish", text)
             self.assertIn("State System Agent Package", text)
             self.assertIn("Requires refresh before external action.", text)
             self.assertIn("Package stale at activation: true", text)
@@ -127,7 +127,7 @@ class AgentActivationTests(unittest.TestCase):
                     "--project-root",
                     str(ROOT),
                     "trace-run",
-                    str(ROOT / "examples" / "traces" / "laura-agent-activation.trace.json"),
+                    str(ROOT / "examples" / "traces" / "maya-agent-activation.trace.json"),
                     "--output-dir",
                     directory,
                 ],
@@ -138,11 +138,11 @@ class AgentActivationTests(unittest.TestCase):
             report = json.loads(output.getvalue())
             self.assertEqual("passed", report["status"])
             self.assertEqual(
-                "trace.laura-agent-activation",
+                "trace.maya-agent-activation",
                 report["trace_id"],
             )
             self.assertEqual(
-                "activation.context.laura.southern-abrasives-won-opportunity.consumer.codex.20260503T100000Z",
+                "activation.context.maya.southern-abrasives-won-opportunity.consumer.codex.20260503T100000Z",
                 report["validated"]["agent_activation_id"],
             )
             activation = load_json(Path(directory) / "02-agent-activation.json")

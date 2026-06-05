@@ -14,9 +14,9 @@ memory dump, CRM, or prompt convention.
 Build a local, inspectable deployment that can run four comparison traces end
 to end:
 
-1. Laura campaign-audience clarification.
-2. Patrick stale-contract review.
-3. Patrick GitHub launch-readiness review.
+1. Maya campaign-audience clarification.
+2. Alex stale-contract review.
+3. Alex GitHub launch-readiness review.
 4. Linear Southern Abrasives deal-won opportunity review.
 
 The first deployment should prove the runtime shape, not finish the whole
@@ -27,7 +27,7 @@ adapters without redesign.
 ## Non-Goals
 
 - Do not build live Linear, GitHub, Workgraph, Speedrift, or agent runtime adapters yet.
-- Do not turn Laura or Patrick into special-case runtime logic.
+- Do not turn Maya or Alex into special-case runtime logic.
 - Do not encode business salience as hardcoded rules.
 - Do not skip fixture consistency in order to reach live model calls sooner.
 - Do not let source systems mutate State System snapshots directly.
@@ -164,8 +164,8 @@ Acceptance gates:
 
 - recent-change entries preserve source, journal, commit, routing, and
   freshness refs
-- Laura does not receive every operational task
-- Laura can still receive a market-facing capability when affected state refs
+- Maya does not receive every operational task
+- Maya can still receive a market-facing capability when affected state refs
   cross into her watched domains
 - context packages include what was excluded and why
 - stale packages cannot support external action without refresh
@@ -181,7 +181,7 @@ Acceptance gates:
 - `state validate` runs schema and fixture consistency checks
 - `state trigger <trigger-file>` can replay fixture traces
 - `state recent --persona <persona-id>` and
-  `state package --persona <persona-id>` reproduce Laura and Patrick views
+  `state package --persona <persona-id>` reproduce Maya and Alex views
 - all four comparison traces pass end to end
 - duplicate replay is idempotent
 - no-op and missing evidence paths do not mutate snapshots
@@ -189,41 +189,41 @@ Acceptance gates:
 
 ## Fixture Traces
 
-Laura campaign-audience trace:
+Maya campaign-audience trace:
 
 ```text
-examples/laura-campaign-audience-trigger.json
-  -> examples/laura-model-review-packet.json
-  -> examples/laura-model-proposal-output.json
-  -> examples/laura-commit-result.json
+examples/maya-campaign-audience-trigger.json
+  -> examples/maya-model-review-packet.json
+  -> examples/maya-model-proposal-output.json
+  -> examples/maya-commit-result.json
   -> examples/marketing-campaign-audience-journal-entry.json
-  -> examples/laura-agent-memory-entry.json
-  -> examples/laura-review-signal.json
+  -> examples/maya-agent-memory-entry.json
+  -> examples/maya-review-signal.json
 ```
 
-Patrick stale-contract trace:
+Alex stale-contract trace:
 
 ```text
-examples/patrick-stale-contract-trigger.json
-  -> examples/patrick-model-review-packet.json
-  -> examples/patrick-model-proposal-output.json
-  -> examples/patrick-commit-result.json
-  -> examples/patrick-contract-journal-entry.json
-  -> examples/patrick-agent-memory-entry.json
-  -> examples/patrick-review-signal.json
+examples/alex-stale-contract-trigger.json
+  -> examples/alex-model-review-packet.json
+  -> examples/alex-model-proposal-output.json
+  -> examples/alex-commit-result.json
+  -> examples/alex-contract-journal-entry.json
+  -> examples/alex-agent-memory-entry.json
+  -> examples/alex-review-signal.json
 ```
 
-Patrick GitHub launch-readiness trace:
+Alex GitHub launch-readiness trace:
 
 ```text
-examples/patrick-github-launch-readiness-trigger.json
-  -> examples/patrick-github-launch-readiness-model-review-packet.json
-  -> examples/patrick-github-launch-readiness-model-proposal-output.json
-  -> examples/patrick-github-launch-readiness-commit-result.json
-  -> examples/patrick-github-capability-journal-entry.json
-  -> examples/patrick-github-obligation-journal-entry.json
-  -> examples/patrick-github-launch-readiness-agent-memory-entry.json
-  -> examples/patrick-github-launch-readiness-review-signal.json
+examples/alex-github-launch-readiness-trigger.json
+  -> examples/alex-github-launch-readiness-model-review-packet.json
+  -> examples/alex-github-launch-readiness-model-proposal-output.json
+  -> examples/alex-github-launch-readiness-commit-result.json
+  -> examples/alex-github-capability-journal-entry.json
+  -> examples/alex-github-obligation-journal-entry.json
+  -> examples/alex-github-launch-readiness-agent-memory-entry.json
+  -> examples/alex-github-launch-readiness-review-signal.json
 ```
 
 Linear Southern Abrasives opportunity trace:
@@ -235,10 +235,10 @@ examples/source-linear-southern-abrasives-won.json
   -> examples/linear-southern-abrasives-won-model-proposal-output.json
   -> examples/linear-southern-abrasives-won-commit-result.json
   -> examples/recent-linear-southern-abrasives-won.json
-  -> examples/laura-southern-abrasives-opportunity-context-package.json
-  -> examples/laura-southern-abrasives-opportunity-review-packet.json
-  -> examples/laura-southern-abrasives-opportunity-model-output.json
-  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+  -> examples/maya-southern-abrasives-opportunity-context-package.json
+  -> examples/maya-southern-abrasives-opportunity-review-packet.json
+  -> examples/maya-southern-abrasives-opportunity-model-output.json
+  -> examples/maya-southern-abrasives-opportunity-commit-result.json
 ```
 
 ## Step Pressure Questions

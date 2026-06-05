@@ -30,7 +30,7 @@
   ],
   "candidate_persona_routes": [
     {
-      "persona_ref": "persona.patrick",
+      "persona_ref": "persona.alex",
       "relevance_tier": "primary",
       "routing_reason": "Won deal creates operational handoff, owner, next-action, document, and relationship-sensitivity checks.",
       "included": true,
@@ -40,7 +40,7 @@
       ]
     },
     {
-      "persona_ref": "persona.laura",
+      "persona_ref": "persona.maya",
       "relevance_tier": "secondary",
       "routing_reason": "Won deal may become a marketing proof point or announcement, but public naming permission is unresolved.",
       "included": true,
@@ -57,8 +57,8 @@
     "relationship_follow_up"
   ],
   "unresolved_follow_up_refs": [
-    "action.patrick.southern-abrasives-handoff",
-    "action.laura.southern-abrasives-opportunity-review"
+    "action.alex.southern-abrasives-handoff",
+    "action.maya.southern-abrasives-opportunity-review"
   ],
   "freshness": {
     "watermark_refs": [

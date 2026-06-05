@@ -5,7 +5,7 @@
   "secondary_families": ["organizational_identity", "relationship", "knowledge"],
   "state_traits": ["dynamic"],
   "scope": "work.marketing",
-  "owner_refs": ["persona.laura"],
+  "owner_refs": ["persona.maya"],
   "as_of": "2026-04-28T12:00:00Z",
   "summary": "Early positioning campaign exists as an idea, but audience, proof points, and success criteria are not yet tight enough for external copy.",
   "status": "planning",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.laura.campaign-brief",
-      "summary": "Laura should draft an internal campaign brief that separates audience, offer, proof, and success metric.",
-      "owner_ref": "persona.laura",
+      "id": "action.maya.campaign-brief",
+      "summary": "Maya should draft an internal campaign brief that separates audience, offer, proof, and success metric.",
+      "owner_ref": "persona.maya",
       "status": "proposed"
     }
   ],

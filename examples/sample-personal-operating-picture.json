@@ -5,7 +5,7 @@
   "secondary_families": ["work", "governance", "relationship"],
   "state_traits": ["dynamic", "rollup"],
   "scope": "organization.sampleco.operations",
-  "owner_refs": ["persona.patrick"],
+  "owner_refs": ["persona.alex"],
   "as_of": "2026-04-28T14:00:00Z",
   "summary": "SampleCo operations need a compact view of active obligations, contracts, document control, delivery handoffs, finance admin, and follow-up risks.",
   "status": "forming",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.ops-rollup-review",
-      "summary": "Patrick should review active obligations and queue internal follow-ups for stale owner, stage, source, or next-action gaps.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.ops-rollup-review",
+      "summary": "Alex should review active obligations and queue internal follow-ups for stale owner, stage, source, or next-action gaps.",
+      "owner_ref": "persona.alex",
       "status": "proposed"
     }
   ],

@@ -5,7 +5,7 @@
   "observations": [
     "The Linear event is sufficient evidence to update the deal stage to won.",
     "The won deal creates operational handoff work and a possible marketing opportunity, but not automatic external publication permission.",
-    "Laura should receive a routed recent-change opportunity package, not the full operational task surface."
+    "Maya should receive a routed recent-change opportunity package, not the full operational task surface."
   ],
   "state_proposals": [
     {
@@ -22,15 +22,15 @@
         ],
         "next_actions": [
           {
-            "id": "action.patrick.southern-abrasives-handoff",
-            "summary": "Patrick should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
-            "owner_ref": "persona.patrick",
+            "id": "action.alex.southern-abrasives-handoff",
+            "summary": "Alex should confirm operational handoff, owner, next action, and any relationship-sensitive constraints.",
+            "owner_ref": "persona.alex",
             "status": "active"
           },
           {
-            "id": "action.laura.southern-abrasives-opportunity-review",
-            "summary": "Laura should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
-            "owner_ref": "persona.laura",
+            "id": "action.maya.southern-abrasives-opportunity-review",
+            "summary": "Maya should review whether the won deal supports an internal proof-point note, customer story draft, LinkedIn draft, or no-op.",
+            "owner_ref": "persona.maya",
             "status": "proposed"
           }
         ]
@@ -51,7 +51,7 @@
   "promotion_proposals": [],
   "action_proposals": [
     {
-      "summary": "Create recent-change routes for Patrick and Laura from the Southern Abrasives won deal.",
+      "summary": "Create recent-change routes for Alex and Maya from the Southern Abrasives won deal.",
       "risk": "low",
       "approval_required": false,
       "target": {
@@ -60,8 +60,8 @@
       "payload": {
         "recent_change_ref": "recent.linear.southern-abrasives-won",
         "routes": [
-          "persona.patrick",
-          "persona.laura"
+          "persona.alex",
+          "persona.maya"
         ]
       }
     }
@@ -112,8 +112,8 @@
       }
     ],
     "follow_up_refs": [
-      "action.patrick.southern-abrasives-handoff",
-      "action.laura.southern-abrasives-opportunity-review"
+      "action.alex.southern-abrasives-handoff",
+      "action.maya.southern-abrasives-opportunity-review"
     ]
   }
 }

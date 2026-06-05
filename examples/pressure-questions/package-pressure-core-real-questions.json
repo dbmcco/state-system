@@ -215,11 +215,11 @@
       }
     },
     {
-      "id": "package_pressure_question.helena_portfolio_co_readiness",
+      "id": "package_pressure_question.chloe_portfolio_co_readiness",
       "status": "planned",
-      "package_id": "instance_agent_package.portfolio_co.helena",
-      "question": "What can Helena know about PortfolioCo today, and what is still only declared?",
-      "intent": "Helena should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
+      "package_id": "instance_agent_package.portfolio_co.chloe",
+      "question": "What can Chloe know about PortfolioCo today, and what is still only declared?",
+      "intent": "Chloe should name declared vs proved source readiness and keep portfolio federation planned until package readiness is proven.",
       "assertions": {
         "required_federation_pack_ids": [
           "instance_federation_pack.portfolio_to_portfolio_co_researchco"

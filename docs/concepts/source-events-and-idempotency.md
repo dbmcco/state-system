@@ -39,7 +39,7 @@ Not allowed:
 - This deal should become a LinkedIn post.
 - This PR means the capability is launch-ready.
 - This task proves the project is healthy.
-- Laura should act on this.
+- Maya should act on this.
 
 Those are model-mediated decisions after routing and packaging.
 

@@ -1,10 +1,10 @@
 {
-  "id": "context.sampleco.company-memory.laura",
+  "id": "context.sampleco.company-memory.maya",
   "package_type": "deep_dive",
   "created_at": "2026-05-04T15:10:00Z",
   "persona_context": {
-    "persona_ref": "persona.laura.marketing",
-    "summary": "Laura reviews company memory and CRM outcomes for marketable proof and narrative opportunities.",
+    "persona_ref": "persona.maya.marketing",
+    "summary": "Maya reviews company memory and CRM outcomes for marketable proof and narrative opportunities.",
     "watched_domains": [
       "company_memory",
       "crm_relationship_outcomes",
@@ -41,9 +41,9 @@
   "memory_context": {
     "entries": [
       {
-        "id": "memory.laura.marketing.draft.audience-before-copy",
+        "id": "memory.maya.marketing.draft.audience-before-copy",
         "promotion_status": "private",
-        "summary": "Laura memory remains private unless explicitly promoted."
+        "summary": "Maya memory remains private unless explicitly promoted."
       }
     ]
   },
@@ -70,7 +70,7 @@
   ],
   "excluded_context_summary": [
     {
-      "reason": "Operational follow-up details are routed to Patrick."
+      "reason": "Operational follow-up details are routed to Alex."
     }
   ],
   "freshness": {

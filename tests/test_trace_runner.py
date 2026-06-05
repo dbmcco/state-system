@@ -23,9 +23,9 @@ class TraceRunnerTests(unittest.TestCase):
         }
         self.assertEqual(
             {
-                "laura-approval-gated-publication.trace.json",
-                "laura-agent-activation.trace.json",
-                "laura-stale-context-refresh.trace.json",
+                "maya-approval-gated-publication.trace.json",
+                "maya-agent-activation.trace.json",
+                "maya-stale-context-refresh.trace.json",
                 "linear-deal-won.trace.json",
                 "southern-abrasives-loop.trace.json",
             },
@@ -55,7 +55,7 @@ class TraceRunnerTests(unittest.TestCase):
                 encoding="utf-8"
             )
             self.assertIn("State System Agent Package", rendered)
-            self.assertIn("Package: context.laura.demo-recent", rendered)
+            self.assertIn("Package: context.maya.demo-recent", rendered)
 
     def test_cli_trace_run_returns_machine_readable_report(self):
         with TemporaryDirectory() as directory:
@@ -87,14 +87,14 @@ class TraceRunnerTests(unittest.TestCase):
                     ROOT
                     / "examples"
                     / "traces"
-                    / "laura-approval-gated-publication.trace.json"
+                    / "maya-approval-gated-publication.trace.json"
                 ),
                 output_dir=Path(directory),
             )
 
             self.assertEqual("passed", report["status"])
             self.assertEqual(
-                "trace.laura-approval-gated-publication",
+                "trace.maya-approval-gated-publication",
                 report["trace_id"],
             )
             self.assertEqual("pending_approval", report["validated"]["commit_status"])

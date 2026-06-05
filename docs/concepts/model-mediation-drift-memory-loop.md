@@ -40,7 +40,7 @@ Recommended mapping:
 - `candidate_state_refs`: project, capability, decision area, or operating
   picture state objects that might need review
 - `candidate_persona_refs`: agent personas that may need memory, such as Codex,
-  Claude Code, Patrick, or a long-lived architecture reviewer
+  Claude Code, Alex, or a long-lived architecture reviewer
 - `idempotency.key`: stable `speedrift:<repo>:<task>:<finding-id>` key
 
 The event may include model-mediation fields inside `change.old_value` or

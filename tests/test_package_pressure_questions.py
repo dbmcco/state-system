@@ -33,7 +33,7 @@ class PackagePressureQuestionTests(unittest.TestCase):
             {
                 "instance_agent_package.sample_personal.nova",
                 "instance_agent_package.sampleco.iris",
-                "instance_agent_package.portfolio_co.helena",
+                "instance_agent_package.portfolio_co.chloe",
                 "instance_agent_package.researchco.scout.scaffold.v0",
             },
             package_ids,
@@ -70,7 +70,7 @@ class PackagePressureQuestionTests(unittest.TestCase):
             {
                 "instance_agent_package.sample_personal.nova": _sam_package(),
                 "instance_agent_package.sampleco.iris": _iris_package(),
-                "instance_agent_package.portfolio_co.helena": _scaffold_package("portfolio_co", "helena"),
+                "instance_agent_package.portfolio_co.chloe": _scaffold_package("portfolio_co", "chloe"),
                 "instance_agent_package.researchco.scout.scaffold.v0": _scaffold_package(
                     "researchco",
                     "scout",

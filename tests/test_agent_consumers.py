@@ -19,14 +19,14 @@ ROOT = Path(__file__).resolve().parents[1]
 class AgentConsumerContractTests(unittest.TestCase):
     def test_render_package_for_agent_is_free_text_with_evidence_and_guardrails(self):
         package = load_json(
-            ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+            ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
         )
 
         text = render_package_for_agent(package)
 
         self.assertIn("State System Agent Package", text)
-        self.assertIn("Package: context.laura.southern-abrasives-won-opportunity", text)
-        self.assertIn("Persona: persona.laura", text)
+        self.assertIn("Package: context.maya.southern-abrasives-won-opportunity", text)
+        self.assertIn("Persona: persona.maya", text)
         self.assertIn("Review goal:", text)
         self.assertIn("Southern Abrasives moved from proposal to won", text)
         self.assertIn("Why relevant:", text)
@@ -42,7 +42,7 @@ class AgentConsumerContractTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             package = load_json(
-                ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+                ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
             )
             stores.context_packages.create(package)
             schemas = {
@@ -51,7 +51,7 @@ class AgentConsumerContractTests(unittest.TestCase):
                 )
             }
             response_text = (
-                "Laura would draft an internal proof-point note, but she would not "
+                "Maya would draft an internal proof-point note, but she would not "
                 "publish externally until approval and public naming permission exist."
             )
 
@@ -65,7 +65,7 @@ class AgentConsumerContractTests(unittest.TestCase):
             )
 
             self.assertEqual(
-                "response.context.laura.southern-abrasives-won-opportunity.consumer.codex.20260501T203000Z",
+                "response.context.maya.southern-abrasives-won-opportunity.consumer.codex.20260501T203000Z",
                 record["id"],
             )
             self.assertEqual(package["id"], record["package_id"])
@@ -84,7 +84,7 @@ class AgentConsumerContractTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             package = load_json(
-                ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+                ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
             )
             stores.context_packages.create(package)
 
@@ -103,7 +103,7 @@ class AgentConsumerContractTests(unittest.TestCase):
 
             self.assertEqual(0, render_code)
             self.assertIn("State System Agent Package", rendered.getvalue())
-            self.assertIn("Persona: persona.laura", rendered.getvalue())
+            self.assertIn("Persona: persona.maya", rendered.getvalue())
 
             response_path = Path(directory) / "response.txt"
             response_path.write_text(

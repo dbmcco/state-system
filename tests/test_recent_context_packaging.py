@@ -56,14 +56,14 @@ class RecentContextPackagingTests(unittest.TestCase):
                 entry["review_signal_refs"],
             )
             self.assertEqual(
-                ["persona.patrick", "persona.laura"],
+                ["persona.alex", "persona.maya"],
                 [route["persona_ref"] for route in entry["candidate_persona_routes"]],
             )
             self.assertTrue(entry["freshness"]["requires_refresh_before_external_action"])
             self.assertEqual(entry, stores.recent_changes.read(entry["id"]))
             self.assertEqual([], validate_schema(entry, self._schemas()["recent_change"]))
 
-    def test_laura_opportunity_package_includes_relevant_context_and_exclusions(self):
+    def test_maya_opportunity_package_includes_relevant_context_and_exclusions(self):
         with TemporaryDirectory() as directory:
             stores = self._stores_with_southern_abrasives_context(Path(directory))
             recent_change = load_json(
@@ -72,9 +72,9 @@ class RecentContextPackagingTests(unittest.TestCase):
             stores.recent_changes.create(recent_change)
 
             package = ContextPackager(stores, self._schemas()).build_opportunity_package(
-                persona=load_json(ROOT / "examples" / "laura-persona.json"),
+                persona=load_json(ROOT / "examples" / "maya-persona.json"),
                 recent_change_id=recent_change["id"],
-                package_id="context.laura.southern-abrasives-won-opportunity",
+                package_id="context.maya.southern-abrasives-won-opportunity",
                 created_at="2026-04-28T16:08:00Z",
                 review_goal=(
                     "Decide whether the Southern Abrasives won deal creates a "
@@ -85,7 +85,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                     "state.sampleco.deal.southern-abrasives",
                     "state.operating_picture.marketing",
                 ],
-                memory_refs=["memory.laura.marketing.draft.audience-before-copy"],
+                memory_refs=["memory.maya.marketing.draft.audience-before-copy"],
                 governance_constraints=[
                     {
                         "id": "governance.external-copy-approval",
@@ -119,12 +119,12 @@ class RecentContextPackagingTests(unittest.TestCase):
                 },
                 available_actions=[
                     {
-                        "id": "action.laura.southern-abrasives-internal-proof-note",
+                        "id": "action.maya.southern-abrasives-internal-proof-note",
                         "summary": "Draft an internal proof-point note.",
                         "approval_required": False,
                     },
                     {
-                        "id": "action.laura.southern-abrasives-linkedin-publish",
+                        "id": "action.maya.southern-abrasives-linkedin-publish",
                         "summary": "Publish LinkedIn copy.",
                         "approval_required": True,
                     },
@@ -134,7 +134,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                         "scope": "operations",
                         "summary": (
                             "Delivery handoff details and operational task detail "
-                            "were excluded from Laura's package."
+                            "were excluded from Maya's package."
                         ),
                     }
                 ],
@@ -150,7 +150,7 @@ class RecentContextPackagingTests(unittest.TestCase):
             )
 
             self.assertEqual("opportunity", package["package_type"])
-            self.assertEqual("persona.laura", package["persona_context"]["persona_ref"])
+            self.assertEqual("persona.maya", package["persona_context"]["persona_ref"])
             self.assertEqual(
                 ["recent.linear.southern-abrasives-won"],
                 [entry["id"] for entry in package["recent_change_context"]["entries"]],
@@ -160,7 +160,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 [snapshot["id"] for snapshot in package["state_context"]["snapshots"]],
             )
             self.assertEqual(
-                ["memory.laura.marketing.draft.audience-before-copy"],
+                ["memory.maya.marketing.draft.audience-before-copy"],
                 [entry["id"] for entry in package["memory_context"]["entries"]],
             )
             self.assertTrue(package["freshness"]["requires_refresh_before_external_action"])
@@ -176,18 +176,18 @@ class RecentContextPackagingTests(unittest.TestCase):
                     "recent.github.internal-webhook-retry",
                     [
                         {
-                            "persona_ref": "persona.patrick",
+                            "persona_ref": "persona.alex",
                             "relevance_tier": "primary",
                             "routing_reason": "Operational reliability work affects follow-through.",
                             "included": True,
                         },
                         {
-                            "persona_ref": "persona.laura",
+                            "persona_ref": "persona.maya",
                             "relevance_tier": "ambient",
                             "routing_reason": "Low-level implementation detail has no explicit marketing route.",
                             "included": False,
                             "excluded_context_summary": (
-                                "Internal webhook retry task excluded from Laura's default package."
+                                "Internal webhook retry task excluded from Maya's default package."
                             ),
                         },
                     ],
@@ -198,7 +198,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                     "recent.github.audit-trail-merged",
                     [
                         {
-                            "persona_ref": "persona.laura",
+                            "persona_ref": "persona.maya",
                             "relevance_tier": "escalated",
                             "routing_reason": "Capability was explicitly escalated as launch-proof context.",
                             "included": True,
@@ -209,10 +209,10 @@ class RecentContextPackagingTests(unittest.TestCase):
             )
 
             package = ContextPackager(stores, self._schemas()).build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "laura-persona.json"),
-                package_id="context.laura.recent",
+                persona=load_json(ROOT / "examples" / "maya-persona.json"),
+                package_id="context.maya.recent",
                 created_at="2026-04-30T12:00:00Z",
-                review_goal="Review recent Laura-relevant changes.",
+                review_goal="Review recent Maya-relevant changes.",
                 valid_until="2026-04-30T18:00:00Z",
             )
 
@@ -235,7 +235,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 "recent.linear.southern-abrasives-won",
                 [
                     {
-                        "persona_ref": "persona.laura",
+                        "persona_ref": "persona.maya",
                         "relevance_tier": "secondary",
                         "routing_reason": "Won deal may become a proof point.",
                         "included": True,
@@ -253,10 +253,10 @@ class RecentContextPackagingTests(unittest.TestCase):
             stores.recent_changes.create(change)
 
             package = ContextPackager(stores, self._schemas()).build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "laura-persona.json"),
-                package_id="context.laura.recent-refresh-required",
+                persona=load_json(ROOT / "examples" / "maya-persona.json"),
+                package_id="context.maya.recent-refresh-required",
                 created_at="2026-04-30T12:00:00Z",
-                review_goal="Review recent Laura-relevant changes.",
+                review_goal="Review recent Maya-relevant changes.",
                 valid_until="2026-04-30T18:00:00Z",
             )
 
@@ -269,7 +269,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 package["freshness"]["watermark_refs"],
             )
 
-    def test_shared_change_can_route_differently_to_laura_and_patrick(self):
+    def test_shared_change_can_route_differently_to_maya_and_alex(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             stores.recent_changes.create(
@@ -279,33 +279,33 @@ class RecentContextPackagingTests(unittest.TestCase):
                 )
             )
 
-            laura_package = ContextPackager(stores, self._schemas()).build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "laura-persona.json"),
-                package_id="context.laura.recent-southern-abrasives",
+            maya_package = ContextPackager(stores, self._schemas()).build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "maya-persona.json"),
+                package_id="context.maya.recent-southern-abrasives",
                 created_at="2026-04-30T12:00:00Z",
-                review_goal="Review Laura-relevant changes.",
+                review_goal="Review Maya-relevant changes.",
                 valid_until="2026-04-30T18:00:00Z",
             )
-            patrick_package = ContextPackager(
+            alex_package = ContextPackager(
                 stores,
                 self._schemas(),
             ).build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "patrick-persona.json"),
-                package_id="context.patrick.recent-southern-abrasives",
+                persona=load_json(ROOT / "examples" / "alex-persona.json"),
+                package_id="context.alex.recent-southern-abrasives",
                 created_at="2026-04-30T12:00:00Z",
-                review_goal="Review Patrick-relevant changes.",
+                review_goal="Review Alex-relevant changes.",
                 valid_until="2026-04-30T18:00:00Z",
             )
 
             self.assertEqual(
                 "secondary",
-                laura_package["recent_change_context"]["entries"][0]["persona_route"][
+                maya_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
             self.assertEqual(
                 "primary",
-                patrick_package["recent_change_context"]["entries"][0]["persona_route"][
+                alex_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
@@ -317,7 +317,7 @@ class RecentContextPackagingTests(unittest.TestCase):
         )
         stores.state_objects.create(load_json(ROOT / "examples" / "marketing-operating-picture.json"))
         stores.journals.create(load_json(ROOT / "examples" / "southern-abrasives-won-journal-entry.json"))
-        stores.memory.create(load_json(ROOT / "examples" / "laura-agent-memory-entry.json"))
+        stores.memory.create(load_json(ROOT / "examples" / "maya-agent-memory-entry.json"))
         return stores
 
     def _schemas(self):
@@ -329,7 +329,7 @@ class RecentContextPackagingTests(unittest.TestCase):
     def _southern_abrasives_routes(self):
         return [
             {
-                "persona_ref": "persona.patrick",
+                "persona_ref": "persona.alex",
                 "relevance_tier": "primary",
                 "routing_reason": (
                     "Won deal creates operational handoff, owner, next-action, "
@@ -342,7 +342,7 @@ class RecentContextPackagingTests(unittest.TestCase):
                 ],
             },
             {
-                "persona_ref": "persona.laura",
+                "persona_ref": "persona.maya",
                 "relevance_tier": "secondary",
                 "routing_reason": (
                     "Won deal may become a marketing proof point or announcement, "

@@ -56,7 +56,7 @@ ss-recent-context-packaging
    pass through the system?
 5. Committer/materializer: can governance hold risky effects without
    reinterpreting the model?
-6. Recent-change packaging: can Laura receive bounded opportunity context
+6. Recent-change packaging: can Maya receive bounded opportunity context
    without scanning unrelated operations?
 7. Routing/freshness/redaction: can the system avoid flooding, hidden routing,
    stale packages, and sensitive context leaks?

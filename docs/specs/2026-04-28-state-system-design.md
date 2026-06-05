@@ -140,7 +140,7 @@ important, evidenced, and approved. See `docs/concepts/agent-memory.md`.
 
 A facet is a specific judgment tendency or behavioral lens.
 
-For example, Laura's marketing facets include:
+For example, Maya's marketing facets include:
 
 - notices audience-message mismatch
 - protects narrative clarity
@@ -219,7 +219,7 @@ Scheduled updates:
 - daily operating-picture review
 - weekly project/deal rollup
 - stale-state detection
-- persona-specific review, such as Laura scanning campaigns for unclear positioning
+- persona-specific review, such as Maya scanning campaigns for unclear positioning
 
 The scheduled path should ask the model what changed or what needs attention.
 It should not blindly rewrite all snapshots.
@@ -238,17 +238,17 @@ Examples:
 Rollups must preserve references to child state and journal evidence. They
 should not become manually maintained mega-docs.
 
-## First Persona: Laura
+## First Persona: Maya
 
-Laura is the first modeled persona.
+Maya is the first modeled persona.
 
-Laura is a marketing agent. Her role is to track and improve the state of
+Maya is a marketing agent. Her role is to track and improve the state of
 positioning, audience fit, campaign momentum, message clarity, and marketing
 execution. She also helps maintain marketing narrative state and flags tension
 between campaign work and the broader mission, strategy, or organizational
 voice.
 
-Laura should notice:
+Maya should notice:
 
 - unclear audience
 - weak offer framing
@@ -258,7 +258,7 @@ Laura should notice:
 - relationship between market signal and current messaging
 - when creative exploration is useful and when commercial focus is needed
 
-Laura should avoid:
+Maya should avoid:
 
 - generic marketing language
 - chasing novelty without evidence

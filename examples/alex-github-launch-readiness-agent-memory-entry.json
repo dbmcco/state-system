@@ -1,0 +1,26 @@
+{
+  "id": "memory.alex.ops.draft.pr-review-commitments",
+  "agent_ref": "persona.alex",
+  "created_at": "2026-04-28T15:15:00Z",
+  "memory_key": "ops.draft.pr-review-commitments",
+  "layer": "draft",
+  "memory_type": "pattern",
+  "summary": "Alex is noticing that merged PRs can still contain unresolved launch commitments in review comments.",
+  "content": "When a PR is merged, review comments and requested-change discussions should be scanned for obligations before launch readiness is updated.",
+  "confidence": 0.68,
+  "evidence_refs": [
+    "github:pr:sampleco/sampleco-ai-graph-crm#142",
+    "github:pr-comment:sampleco/sampleco-ai-graph-crm#142:98765"
+  ],
+  "related_state_refs": [
+    "state.sampleco.capability.auditable-workflows",
+    "state.sampleco.obligation.audit-logging-before-launch",
+    "state.sampleco.operating_picture.ops"
+  ],
+  "promotion_status": "private",
+  "status": "draft",
+  "review_notes": [
+    "Keep as Alex private memory until repeated GitHub review traces confirm the pattern."
+  ],
+  "last_reviewed_at": "2026-04-28T15:15:00Z"
+}

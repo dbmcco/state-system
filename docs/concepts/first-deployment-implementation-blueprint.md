@@ -12,15 +12,15 @@ service, API, or agent runtime adapters.
 Build a local, inspectable deployment that can run four comparison scenarios end
 to end:
 
-- Laura campaign-audience clarification, which tests marketing interpretation
+- Maya campaign-audience clarification, which tests marketing interpretation
   and agent memory.
-- Patrick stale-contract review, which tests operational state hygiene, missing
+- Alex stale-contract review, which tests operational state hygiene, missing
   evidence, and governance boundaries.
-- Patrick GitHub launch-readiness review, which tests source-system evidence,
+- Alex GitHub launch-readiness review, which tests source-system evidence,
   code commits versus delivery commitments, multi-state proposals, and proposed
   Workgraph follow-up.
 - Linear deal-won opportunity review, which tests recent-change routing,
-  context packaging, and Laura's approval-gated marketing opportunity review.
+  context packaging, and Maya's approval-gated marketing opportunity review.
 
 ```text
 trigger
@@ -138,7 +138,7 @@ Responsibilities:
 - return no-op, proposals, uncertainty, missing evidence, and review signal
 
 In test mode, this can use a fixture reviewer that returns
-`examples/laura-model-proposal-output.json`.
+`examples/maya-model-proposal-output.json`.
 
 The reviewer catches meaning, salience, uncertainty, and proposed action. It is
 the first layer allowed to decide whether something is an opportunity.
@@ -158,7 +158,7 @@ Responsibilities:
 - emit commit result and review signal
 - record recent-change entries for later agent opportunity review
 
-It should not reinterpret Laura's marketing judgment.
+It should not reinterpret Maya's marketing judgment.
 
 The committer catches schema, authority, duplicate commit, freshness, and
 approval problems. It does not decide whether the proposal is strategically
@@ -200,16 +200,16 @@ be generated under `state/`.
 
 ## First End-To-End Traces
 
-The Laura fixture set forms a complete contract trace:
+The Maya fixture set forms a complete contract trace:
 
 ```text
-examples/laura-campaign-audience-trigger.json
-  -> examples/laura-model-review-packet.json
-  -> examples/laura-model-proposal-output.json
-  -> examples/laura-commit-result.json
+examples/maya-campaign-audience-trigger.json
+  -> examples/maya-model-review-packet.json
+  -> examples/maya-model-proposal-output.json
+  -> examples/maya-commit-result.json
   -> examples/marketing-campaign-audience-journal-entry.json
-  -> examples/laura-agent-memory-entry.json
-  -> examples/laura-review-signal.json
+  -> examples/maya-agent-memory-entry.json
+  -> examples/maya-review-signal.json
 ```
 
 Pressure-test finding:
@@ -220,35 +220,35 @@ Pressure-test finding:
 - The trace should include that journal entry so every accepted commit ref has a
   corresponding durable example.
 
-The Patrick fixture set forms the comparison trace:
+The Alex fixture set forms the comparison trace:
 
 ```text
-examples/patrick-stale-contract-trigger.json
-  -> examples/patrick-model-review-packet.json
-  -> examples/patrick-model-proposal-output.json
-  -> examples/patrick-commit-result.json
-  -> examples/patrick-contract-journal-entry.json
-  -> examples/patrick-agent-memory-entry.json
-  -> examples/patrick-review-signal.json
+examples/alex-stale-contract-trigger.json
+  -> examples/alex-model-review-packet.json
+  -> examples/alex-model-proposal-output.json
+  -> examples/alex-commit-result.json
+  -> examples/alex-contract-journal-entry.json
+  -> examples/alex-agent-memory-entry.json
+  -> examples/alex-review-signal.json
 ```
 
 Pressure-test finding:
 
-- Laura alone could make the system look like a marketing memory tool.
-- Patrick forces the same contracts to handle operational source-of-truth
+- Maya alone could make the system look like a marketing memory tool.
+- Alex forces the same contracts to handle operational source-of-truth
   discipline, missing evidence, internal follow-up, and approval boundaries.
 
 The GitHub commitment fixture set forms the ecosystem integration trace:
 
 ```text
-examples/patrick-github-launch-readiness-trigger.json
-  -> examples/patrick-github-launch-readiness-model-review-packet.json
-  -> examples/patrick-github-launch-readiness-model-proposal-output.json
-  -> examples/patrick-github-launch-readiness-commit-result.json
-  -> examples/patrick-github-capability-journal-entry.json
-  -> examples/patrick-github-obligation-journal-entry.json
-  -> examples/patrick-github-launch-readiness-agent-memory-entry.json
-  -> examples/patrick-github-launch-readiness-review-signal.json
+examples/alex-github-launch-readiness-trigger.json
+  -> examples/alex-github-launch-readiness-model-review-packet.json
+  -> examples/alex-github-launch-readiness-model-proposal-output.json
+  -> examples/alex-github-launch-readiness-commit-result.json
+  -> examples/alex-github-capability-journal-entry.json
+  -> examples/alex-github-obligation-journal-entry.json
+  -> examples/alex-github-launch-readiness-agent-memory-entry.json
+  -> examples/alex-github-launch-readiness-review-signal.json
 ```
 
 Pressure-test finding:
@@ -269,17 +269,17 @@ examples/source-linear-southern-abrasives-won.json
   -> examples/linear-southern-abrasives-won-model-proposal-output.json
   -> examples/linear-southern-abrasives-won-commit-result.json
   -> examples/recent-linear-southern-abrasives-won.json
-  -> examples/laura-southern-abrasives-opportunity-context-package.json
-  -> examples/laura-southern-abrasives-opportunity-review-packet.json
-  -> examples/laura-southern-abrasives-opportunity-model-output.json
-  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+  -> examples/maya-southern-abrasives-opportunity-context-package.json
+  -> examples/maya-southern-abrasives-opportunity-review-packet.json
+  -> examples/maya-southern-abrasives-opportunity-model-output.json
+  -> examples/maya-southern-abrasives-opportunity-commit-result.json
 ```
 
 Pressure-test finding:
 
 - Linear deal-stage movement can become durable deal state.
-- The same change can route to Patrick for operations and Laura for marketing.
-- Laura receives a bounded opportunity package, not the full operational task
+- The same change can route to Alex for operations and Maya for marketing.
+- Maya receives a bounded opportunity package, not the full operational task
   surface.
 - External LinkedIn publication remains pending approval and requires fresh
   evidence.
@@ -295,7 +295,7 @@ Before code exists, verification is fixture consistency:
 - accepted journal refs exist as examples
 - accepted memory refs exist as examples
 - review signal refs match commit result refs
-- Laura, Patrick stale-contract, Patrick GitHub commitment, and Linear deal-won
+- Maya, Alex stale-contract, Alex GitHub commitment, and Linear deal-won
   traces pass the same consistency checks
 - multi-state traces can accept multiple journal refs and materialized snapshots
 - recent-change and context-package traces preserve routing and freshness refs
@@ -342,7 +342,7 @@ Ask at every step:
 - Routing audit rules are draft only.
 - Context package freshness and source watermark semantics are draft only.
 - Package-level read permissions and redaction are not defined.
-- The Linear deal-won to Laura opportunity fixture is fixture-only, not automated.
+- The Linear deal-won to Maya opportunity fixture is fixture-only, not automated.
 - The model reviewer prompt is not defined.
 - File-backed idempotency rules are documented as a contract but not implemented.
 - Promotion proposal persistence needs a pending-approval record shape.

@@ -25,10 +25,10 @@ Examples:
 Those source events may or may not require durable state updates. They may also
 create opportunities for agents.
 
-Example: if a deal moves to won, Laura may want to propose a LinkedIn post,
+Example: if a deal moves to won, Maya may want to propose a LinkedIn post,
 customer story, founder update, campaign proof point, or internal announcement.
 That should not be hardcoded as "deal won means post." It should be a model
-review over evidence, relationship context, governance policy, and Laura's
+review over evidence, relationship context, governance policy, and Maya's
 persona.
 
 ## Boundary
@@ -67,9 +67,9 @@ change entry
 ```
 
 This matters because an agent should not burn attention on changes outside its
-role. Laura, as a marketing agent, should not normally review an operational
-software-development task just because it changed recently. Patrick, the
-operations manager, may care. Laura should see it only if the change crosses
+role. Maya, as a marketing agent, should not normally review an operational
+software-development task just because it changed recently. Alex, the
+operations manager, may care. Maya should see it only if the change crosses
 into her watched domains.
 
 Examples of crossing conditions:
@@ -77,8 +77,8 @@ Examples of crossing conditions:
 - the task completes a capability that can become market-facing proof
 - the change affects a campaign, customer story, launch, or public claim
 - the change affects a relationship, deal, or named customer
-- Patrick or another agent explicitly escalates it as marketing-relevant
-- a rollup state Laura watches changes because of the task
+- Alex or another agent explicitly escalates it as marketing-relevant
+- a rollup state Maya watches changes because of the task
 
 This keeps the registry useful without turning it into noise.
 
@@ -170,7 +170,7 @@ whether an opportunity is real.
 
 Agents should be able to query recent changes from their own perspective.
 
-Laura might ask:
+Maya might ask:
 
 - what changed recently in campaigns, deals, relationships, capabilities, or
   operating pictures?
@@ -179,7 +179,7 @@ Laura might ask:
 - did a deal move to a stage that deserves a public or internal update?
 - is there enough evidence and approval to draft external copy?
 
-Patrick might ask:
+Alex might ask:
 
 - what changed recently in contracts, obligations, projects, or operating
   pictures?
@@ -190,15 +190,15 @@ Patrick might ask:
 The same registry supports both agents, but the model's persona context changes
 what each agent notices.
 
-It should also change what the registry returns by default. Laura's default
+It should also change what the registry returns by default. Maya's default
 recent-change query should prefer campaigns, deals, relationships, market-facing
 capabilities, proof points, launches, and marketing operating-picture updates.
-Patrick's default query should prefer obligations, contracts, operational
+Alex's default query should prefer obligations, contracts, operational
 projects, missing owners, stale records, follow-up risks, and source-of-truth
 gaps.
 
-Low-level software-development tasks should usually route to Patrick or a
-project/technical agent first. Laura should receive them only when a state
+Low-level software-development tasks should usually route to Alex or a
+project/technical agent first. Maya should receive them only when a state
 change, rollup, or explicit escalation makes them marketing-relevant.
 
 ## Routing Examples
@@ -215,11 +215,11 @@ project: Internal workflow reliability
 
 Likely routing:
 
-- Patrick: `primary` if it affects operating reliability, launch readiness, or
+- Alex: `primary` if it affects operating reliability, launch readiness, or
   follow-up state
-- Laura: `excluded` or `ambient` by default
+- Maya: `excluded` or `ambient` by default
 
-Laura should not review this unless the task becomes evidence for a public
+Maya should not review this unless the task becomes evidence for a public
 claim, customer proof point, launch note, or campaign message.
 
 ### Capability Becomes Marketable
@@ -234,11 +234,11 @@ review: accepted release note says customer-facing audit trail is ready
 
 Likely routing:
 
-- Patrick: `primary` for launch readiness and obligations
-- Laura: `secondary` or `escalated` if the capability can support external
+- Alex: `primary` for launch readiness and obligations
+- Maya: `secondary` or `escalated` if the capability can support external
   positioning, proof, or a launch post
 
-Laura still should not publish directly. She may propose a draft or internal
+Maya still should not publish directly. She may propose a draft or internal
 brief, subject to governance.
 
 ### Deal Stage Changed
@@ -254,9 +254,9 @@ to: won
 
 Likely routing:
 
-- Patrick: `primary` for operational handoff, owner, next action, document
+- Alex: `primary` for operational handoff, owner, next action, document
   control, and delivery readiness
-- Laura: `primary` or `secondary` for proof point, announcement, customer story,
+- Maya: `primary` or `secondary` for proof point, announcement, customer story,
   or relationship-sensitive campaign opportunity
 
 ## Linear Deal Example
@@ -276,9 +276,9 @@ Possible State System interpretation:
 - update deal state to won, with evidence
 - update relationship state if trust or commercial relationship changed
 - queue operating-picture rollup for revenue/pipeline
-- add a recent-change registry entry visible to Laura and Patrick
+- add a recent-change registry entry visible to Maya and Alex
 
-Possible Laura opportunity review:
+Possible Maya opportunity review:
 
 - maybe propose a LinkedIn post
 - maybe propose an internal proof-point note
@@ -296,9 +296,9 @@ The model should consider:
 
 ## External Publication Boundary
 
-Laura may draft a LinkedIn post as an internal action proposal.
+Maya may draft a LinkedIn post as an internal action proposal.
 
-Laura should not publish it directly.
+Maya should not publish it directly.
 
 The existing external-copy governance policy applies:
 
@@ -348,7 +348,7 @@ Minimum useful behavior:
 4. expose a query by persona, state family, source system, relevance tier, and
    recency
 5. build persona-specific context packages from selected changes
-6. allow a fixture opportunity review for Laura
+6. allow a fixture opportunity review for Maya
 
 The first fixture is:
 
@@ -357,9 +357,9 @@ Linear deal stage changed to won
   -> source event captured and deduped
   -> deal state updated
   -> recent-change registry entry
-  -> Laura context package
-  -> Laura reviews marketing opportunity
-  -> Laura proposes internal LinkedIn draft
+  -> Maya context package
+  -> Maya reviews marketing opportunity
+  -> Maya proposes internal LinkedIn draft
   -> external publication is pending approval
 ```
 
@@ -375,10 +375,10 @@ examples/source-linear-southern-abrasives-won.json
   -> examples/linear-southern-abrasives-won-model-proposal-output.json
   -> examples/linear-southern-abrasives-won-commit-result.json
   -> examples/recent-linear-southern-abrasives-won.json
-  -> examples/laura-southern-abrasives-opportunity-context-package.json
-  -> examples/laura-southern-abrasives-opportunity-review-packet.json
-  -> examples/laura-southern-abrasives-opportunity-model-output.json
-  -> examples/laura-southern-abrasives-opportunity-commit-result.json
+  -> examples/maya-southern-abrasives-opportunity-context-package.json
+  -> examples/maya-southern-abrasives-opportunity-review-packet.json
+  -> examples/maya-southern-abrasives-opportunity-model-output.json
+  -> examples/maya-southern-abrasives-opportunity-commit-result.json
 ```
 
 ## Design Rule
@@ -390,6 +390,6 @@ state, evidence, and governance context, decides what matters.
 
 Also do not confuse global awareness with agent attention.
 
-State System can know about a software task. Laura does not need to see it
+State System can know about a software task. Maya does not need to see it
 unless it becomes relevant to marketing state, relationship state, campaign
 state, proof, launch readiness, or a human/agent escalation.

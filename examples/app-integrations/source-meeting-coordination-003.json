@@ -25,8 +25,8 @@
     "state.content.idea.audit-trails-small-teams"
   ],
   "candidate_persona_refs": [
-    "persona.patrick",
-    "persona.laura"
+    "persona.alex",
+    "persona.maya"
   ],
   "governance_refs": [
     "governance.human-review.crm-relationship-update",

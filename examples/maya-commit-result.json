@@ -1,0 +1,45 @@
+{
+  "id": "commit.maya.campaign-audience-clarified",
+  "model_output_id": "model_output.maya.campaign-audience-clarified",
+  "created_at": "2026-04-28T13:07:00Z",
+  "status": "accepted",
+  "accepted_journal_entry_refs": [
+    "journal.campaign.launch-positioning-v1.audience-clarified"
+  ],
+  "accepted_memory_entry_refs": [
+    "memory.maya.marketing.draft.audience-before-copy"
+  ],
+  "materialized_snapshot_refs": [
+    "state.campaign.launch-positioning-v1"
+  ],
+  "queued_rollup_requests": [
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "Audience clarification changes campaign readiness and should be reflected in the marketing operating picture."
+    }
+  ],
+  "pending_approvals": [],
+  "rejected_proposals": [],
+  "review_signal": {
+    "id": "review.maya.campaign-audience-clarified",
+    "trigger_id": "trigger.maya.campaign-audience-clarified",
+    "created_at": "2026-04-28T13:06:00Z",
+    "status": "rollup_queued",
+    "summary": "Campaign state and Maya memory were updated; marketing operating picture should be reviewed because campaign readiness changed.",
+    "journal_entry_refs": [
+      "journal.campaign.launch-positioning-v1.audience-clarified"
+    ],
+    "memory_entry_refs": [
+      "memory.maya.marketing.draft.audience-before-copy"
+    ],
+    "rollup_requests": [
+      {
+        "state_object_id": "state.operating_picture.marketing",
+        "reason": "Audience clarification affects campaign readiness and marketing operating picture."
+      }
+    ],
+    "follow_up_refs": [
+      "action.maya.campaign-brief"
+    ]
+  }
+}

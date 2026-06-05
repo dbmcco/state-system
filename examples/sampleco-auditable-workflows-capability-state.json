@@ -5,7 +5,7 @@
   "secondary_families": ["governance", "operating", "knowledge"],
   "state_traits": ["dynamic"],
   "scope": "organization.sampleco.product.auditable-workflows",
-  "owner_refs": ["persona.patrick"],
+  "owner_refs": ["persona.alex"],
   "as_of": "2026-04-28T15:00:00Z",
   "summary": "Auditable workflows are an emerging SampleCo capability with implementation evidence, but launch readiness depends on review commitments and operational acceptance.",
   "status": "implementation_in_progress",
@@ -33,9 +33,9 @@
   ],
   "next_actions": [
     {
-      "id": "action.patrick.link-audit-logging-task",
-      "summary": "Patrick should create or link the Workgraph task that owns audit logging before launch.",
-      "owner_ref": "persona.patrick",
+      "id": "action.alex.link-audit-logging-task",
+      "summary": "Alex should create or link the Workgraph task that owns audit logging before launch.",
+      "owner_ref": "persona.alex",
       "status": "proposed"
     }
   ],

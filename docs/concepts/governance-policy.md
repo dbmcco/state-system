@@ -51,19 +51,19 @@ The schema is intentionally simple:
 The committer can evaluate this without deciding whether the underlying proposal
 is strategically good.
 
-## Laura External Copy Policy
+## Maya External Copy Policy
 
 The first pressure-test policy is:
 
-- Laura may draft internal campaign recommendations.
-- Laura may propose external copy.
-- Laura may not publish external-facing copy without approval.
+- Maya may draft internal campaign recommendations.
+- Maya may propose external copy.
+- Maya may not publish external-facing copy without approval.
 
 The fixture is `examples/governance-external-copy-policy.json`.
 
 Pressure-test result:
 
-- `examples/laura-pending-approval-commit-result.json` should cite the same
+- `examples/maya-pending-approval-commit-result.json` should cite the same
   approval reason captured by this policy.
 - The action is pending, not executed.
 - No snapshot or memory entry is mutated while approval is pending.

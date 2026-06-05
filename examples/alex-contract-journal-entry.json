@@ -1,0 +1,51 @@
+{
+  "id": "journal.sampleco.contract.harbor.stale-review",
+  "state_object_id": "state.sampleco.contract.harbor",
+  "created_at": "2026-04-28T14:16:00Z",
+  "actor_ref": "persona.alex",
+  "source": "agent_reasoning",
+  "trigger_ref": "trigger.alex.harbor-contract-stale",
+  "update_class": "interpretive",
+  "interpretation": "Harbor should remain in waiting-on-internal status until the owner, stage, next action, and canonical Drive archive are confirmed from source records.",
+  "state_patch": {
+    "summary": "Harbor remains an operational contract obligation under internal clarification; owner, stage, next action, and canonical Drive archive need confirmation before any external follow-up is proposed.",
+    "status": "waiting_on_internal",
+    "open_questions": [
+      "Who owns Harbor contract follow-up?",
+      "What is the current Harbor contract stage?",
+      "Where is the canonical Drive document or retained archive reference?",
+      "What internal approval is needed before any external contract action?"
+    ],
+    "next_actions": [
+      {
+        "id": "action.alex.harbor-contract-clarify",
+        "summary": "Alex should identify the owner, current stage, next action, and canonical Drive reference before any external follow-up is proposed.",
+        "owner_ref": "persona.alex",
+        "status": "active"
+      }
+    ]
+  },
+  "evidence_refs": [
+    "sampleco-process/pipeline/ops-manager-operating-model.md",
+    "state.sampleco.contract.harbor"
+  ],
+  "uncertainty": [
+    "Current contract stage is not evidenced.",
+    "Canonical Drive archive reference is not resolved.",
+    "Human approval owner for external action is not identified."
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.sampleco.operating_picture.ops",
+      "reason": "A stale contract obligation affects SampleCo operational follow-through risk and should be visible in the operations operating picture."
+    }
+  ],
+  "approval_status": "not_required",
+  "proposed_actions": [
+    {
+      "summary": "Request owner, current stage, next action, and canonical Drive archive reference for Harbor before proposing external follow-up.",
+      "risk": "low",
+      "approval_required": false
+    }
+  ]
+}

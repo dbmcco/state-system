@@ -57,7 +57,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                     "linear:deal:southern-abrasives.public-announcement-permission",
                     "linear:deal:southern-abrasives.delivery-handoff",
                 ],
-                persona=load_json(ROOT / "examples" / "patrick-persona.json"),
+                persona=load_json(ROOT / "examples" / "alex-persona.json"),
                 governance_constraints=[
                     {
                         "id": "governance.external-copy-approval",
@@ -86,8 +86,8 @@ class E2EPressureHarnessTests(unittest.TestCase):
             )
             self.assertEqual(
                 [
-                    "action.patrick.southern-abrasives-handoff",
-                    "action.laura.southern-abrasives-opportunity-review",
+                    "action.alex.southern-abrasives-handoff",
+                    "action.maya.southern-abrasives-opportunity-review",
                 ],
                 [action["id"] for action in materialized["next_actions"]],
             )
@@ -126,33 +126,33 @@ class E2EPressureHarnessTests(unittest.TestCase):
             self.assertEqual("recent.linear.southern-abrasives-won", recent["id"])
 
             packager = ContextPackager(stores, schemas)
-            laura_package = packager.build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "laura-persona.json"),
-                package_id="context.laura.recent-e2e",
+            maya_package = packager.build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "maya-persona.json"),
+                package_id="context.maya.recent-e2e",
                 created_at="2026-04-28T16:08:00Z",
-                review_goal="Review Laura-relevant recent changes.",
+                review_goal="Review Maya-relevant recent changes.",
                 valid_until="2026-04-29T16:08:00Z",
             )
-            patrick_package = packager.build_recent_change_package(
-                persona=load_json(ROOT / "examples" / "patrick-persona.json"),
-                package_id="context.patrick.recent-e2e",
+            alex_package = packager.build_recent_change_package(
+                persona=load_json(ROOT / "examples" / "alex-persona.json"),
+                package_id="context.alex.recent-e2e",
                 created_at="2026-04-28T16:08:00Z",
-                review_goal="Review Patrick-relevant recent changes.",
+                review_goal="Review Alex-relevant recent changes.",
                 valid_until="2026-04-29T16:08:00Z",
             )
 
             self.assertTrue(
-                laura_package["freshness"]["requires_refresh_before_external_action"]
+                maya_package["freshness"]["requires_refresh_before_external_action"]
             )
             self.assertEqual(
                 "secondary",
-                laura_package["recent_change_context"]["entries"][0]["persona_route"][
+                maya_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
             self.assertEqual(
                 "primary",
-                patrick_package["recent_change_context"]["entries"][0]["persona_route"][
+                alex_package["recent_change_context"]["entries"][0]["persona_route"][
                     "relevance_tier"
                 ],
             )
@@ -161,7 +161,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
             self.assertEqual(
                 0,
                 cli.main(
-                    ["--state-root", directory, "recent", "persona.laura"],
+                    ["--state-root", directory, "recent", "persona.maya"],
                     stdout=recent_output,
                 ),
             )
@@ -174,12 +174,12 @@ class E2EPressureHarnessTests(unittest.TestCase):
             self.assertEqual(
                 0,
                 cli.main(
-                    ["--state-root", directory, "package", "context.laura.recent-e2e"],
+                    ["--state-root", directory, "package", "context.maya.recent-e2e"],
                     stdout=package_output,
                 ),
             )
             self.assertEqual(
-                "context.laura.recent-e2e",
+                "context.maya.recent-e2e",
                 json.loads(package_output.getvalue())["id"],
             )
 
@@ -296,7 +296,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                     "target": {
                         "state_object_id": "state.sampleco.deal.southern-abrasives"
                     },
-                    "payload": {"approval_ref": "approval.laura.external-copy"},
+                    "payload": {"approval_ref": "approval.maya.external-copy"},
                 }
             ],
             "rollup_requests": [],
@@ -311,14 +311,14 @@ class E2EPressureHarnessTests(unittest.TestCase):
                 "journal_entry_refs": [],
                 "memory_entry_refs": [],
                 "rollup_requests": [],
-                "follow_up_refs": ["approval.laura.external-copy"],
+                "follow_up_refs": ["approval.maya.external-copy"],
             },
         }
 
     def _southern_abrasives_routes(self):
         return [
             {
-                "persona_ref": "persona.patrick",
+                "persona_ref": "persona.alex",
                 "relevance_tier": "primary",
                 "routing_reason": (
                     "Won deal creates operational handoff, owner, next-action, "
@@ -331,7 +331,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                 ],
             },
             {
-                "persona_ref": "persona.laura",
+                "persona_ref": "persona.maya",
                 "relevance_tier": "secondary",
                 "routing_reason": (
                     "Won deal may become a marketing proof point or announcement, "

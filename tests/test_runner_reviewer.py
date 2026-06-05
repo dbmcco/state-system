@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class RunnerReviewerTests(unittest.TestCase):
-    def test_runner_builds_existing_laura_review_packet_shape(self):
-        expected = load_json(ROOT / "examples" / "laura-model-review-packet.json")
+    def test_runner_builds_existing_maya_review_packet_shape(self):
+        expected = load_json(ROOT / "examples" / "maya-model-review-packet.json")
         stores = self._stores_for_expected_packet(expected)
 
         packet = ReviewPacketBuilder(stores).build(
@@ -61,7 +61,7 @@ class RunnerReviewerTests(unittest.TestCase):
                 unresolved_evidence_refs=[
                     "linear:deal:southern-abrasives.delivery-handoff"
                 ],
-                persona={"id": "persona.patrick", "name": "Patrick"},
+                persona={"id": "persona.alex", "name": "Alex"},
             )
             source_event_ids = [record["id"] for record in stores.source_events.replay()]
 

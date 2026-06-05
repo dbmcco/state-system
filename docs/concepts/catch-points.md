@@ -12,7 +12,7 @@ catch broad implications through rollups
 ```
 
 Do not catch "marketing opportunity" at source ingestion. Catch the source fact
-early, preserve evidence, route and package it, then let Laura judge whether it
+early, preserve evidence, route and package it, then let Maya judge whether it
 is a marketing opportunity with the right constraints.
 
 ## Catch Point Map
@@ -67,7 +67,7 @@ This layer should not decide:
 - whether a deal win is post-worthy
 - whether a task completion means project health improved
 - whether a PR merge means launch readiness
-- whether Laura should act
+- whether Maya should act
 
 ## 2. Dedupe Catches Replays
 
@@ -170,9 +170,9 @@ Routing catches likely audience.
 
 Examples:
 
-- Patrick gets operational handoff and source-of-truth issues as `primary`
-- Laura gets deal wins as `primary` or `secondary` if marketing-relevant
-- Laura gets low-level software tasks as `excluded` or `ambient` unless they
+- Alex gets operational handoff and source-of-truth issues as `primary`
+- Maya gets deal wins as `primary` or `secondary` if marketing-relevant
+- Maya gets low-level software tasks as `excluded` or `ambient` unless they
   affect proof, campaign, launch, relationship, public claim, or market-facing
   capability
 
@@ -182,7 +182,7 @@ Routing should record reasons. Hidden routing is hidden business logic.
 
 The context package catches the bounded working set.
 
-For Laura, a package may include:
+For Maya, a package may include:
 
 - deal summary
 - relationship sensitivity
@@ -194,7 +194,7 @@ For Laura, a package may include:
 
 It should not include every operational task or private negotiation detail.
 
-For Patrick, a package may include:
+For Alex, a package may include:
 
 - source-of-truth records
 - owner and next-action gaps
@@ -211,10 +211,10 @@ The model catches whether a routed, packaged change is actually an opportunity.
 
 Examples:
 
-- Laura sees a deal win and proposes an internal proof-point note
-- Laura no-ops because the relationship is private
-- Laura drafts LinkedIn copy for approval only
-- Patrick opens internal follow-up for missing handoff detail
+- Maya sees a deal win and proposes an internal proof-point note
+- Maya no-ops because the relationship is private
+- Maya drafts LinkedIn copy for approval only
+- Alex opens internal follow-up for missing handoff detail
 
 Code should not contain rules like:
 
@@ -280,10 +280,10 @@ The Southern Abrasives fixture exercises the catch points, starting with
 4. Model updates deal state to won.
 5. Committer accepts deal state update and queues rollups.
 6. Recent-change registry catches attention candidate.
-7. Routing sends Patrick `primary`, Laura `secondary`.
-8. Laura package includes marketing context and excludes operational handoff
+7. Routing sends Alex `primary`, Maya `secondary`.
+8. Maya package includes marketing context and excludes operational handoff
    detail.
-9. Laura model proposes internal proof note and approval-gated LinkedIn draft.
+9. Maya model proposes internal proof note and approval-gated LinkedIn draft.
 10. Governance holds external publication pending approval and fresh evidence.
 11. Rollups review operations and marketing operating pictures.
 

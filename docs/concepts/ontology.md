@@ -153,7 +153,7 @@ State families are not silos.
 
 Examples:
 
-- A campaign is work state, but Laura may compare it against organizational
+- A campaign is work state, but Maya may compare it against organizational
   narrative and mission state.
 - Human onboarding is onboarding state, but it depends on role state, governance
   state, and knowledge state.

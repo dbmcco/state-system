@@ -9,7 +9,7 @@
     "reason": "External-facing campaign copy may create reputational, relationship, or commercial commitments."
   },
   "allowed_actor_refs": [
-    "persona.laura"
+    "persona.maya"
   ],
   "approver_refs": [
     "human.example_user"
@@ -22,6 +22,6 @@
   ],
   "blocked_effect": "pending_approval",
   "notes": [
-    "Laura may draft and recommend copy internally, but publishing requires approval."
+    "Maya may draft and recommend copy internally, but publishing requires approval."
   ]
 }

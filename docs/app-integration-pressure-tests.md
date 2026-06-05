@@ -114,7 +114,7 @@ through
 ```text
 coordination update accepted
   -> thoughtforge_author_package
-  -> model decides whether idea fits Example User/ExampleAuthor or Sam Ashford corpus
+  -> model decides whether idea fits Example User/ExampleAuthor or Morgan Webb corpus
   -> interview prompt or longform candidate proposal
   -> human approval before public publication
   -> published corpus update after release

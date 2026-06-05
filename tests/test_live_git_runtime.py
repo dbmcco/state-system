@@ -89,7 +89,7 @@ class LiveGitRuntimeTests(unittest.TestCase):
                 stores.source_events.list_ids(),
             )
 
-    def test_source_recent_index_builds_patrick_and_laura_packages_from_routes(self):
+    def test_source_recent_index_builds_alex_and_maya_packages_from_routes(self):
         with TemporaryDirectory() as repo_directory, TemporaryDirectory() as state_directory:
             repo = Path(repo_directory)
             state_root = Path(state_directory)
@@ -136,7 +136,7 @@ class LiveGitRuntimeTests(unittest.TestCase):
                 json.dumps(
                     [
                         {
-                            "persona_ref": "persona.patrick",
+                            "persona_ref": "persona.alex",
                             "relevance_tier": "primary",
                             "routing_reason": (
                                 "Source adapter code affects runtime operations."
@@ -144,7 +144,7 @@ class LiveGitRuntimeTests(unittest.TestCase):
                             "included": True,
                         },
                         {
-                            "persona_ref": "persona.laura",
+                            "persona_ref": "persona.maya",
                             "relevance_tier": "excluded",
                             "routing_reason": (
                                 "Internal adapter plumbing is not market-facing."
@@ -178,30 +178,30 @@ class LiveGitRuntimeTests(unittest.TestCase):
                     "2026-05-02T18:42:00Z",
                 ],
             )
-            patrick_package = self._run_cli(
+            alex_package = self._run_cli(
                 state_directory,
                 [
                     "build-package",
-                    str(ROOT / "examples" / "patrick-persona.json"),
-                    "context.patrick.live-git",
+                    str(ROOT / "examples" / "alex-persona.json"),
+                    "context.alex.live-git",
                     "--created-at",
                     "2026-05-01T18:43:00Z",
                     "--review-goal",
-                    "Review Patrick-relevant live Git changes.",
+                    "Review Alex-relevant live Git changes.",
                     "--valid-until",
                     "2026-05-02T18:43:00Z",
                 ],
             )
-            laura_package = self._run_cli(
+            maya_package = self._run_cli(
                 state_directory,
                 [
                     "build-package",
-                    str(ROOT / "examples" / "laura-persona.json"),
-                    "context.laura.live-git",
+                    str(ROOT / "examples" / "maya-persona.json"),
+                    "context.maya.live-git",
                     "--created-at",
                     "2026-05-01T18:43:00Z",
                     "--review-goal",
-                    "Review Laura-relevant live Git changes.",
+                    "Review Maya-relevant live Git changes.",
                     "--valid-until",
                     "2026-05-02T18:43:00Z",
                 ],
@@ -212,15 +212,15 @@ class LiveGitRuntimeTests(unittest.TestCase):
                 [f"recent.git.repo.live-fixture.{sha}"],
                 [
                     entry["id"]
-                    for entry in patrick_package["recent_change_context"]["entries"]
+                    for entry in alex_package["recent_change_context"]["entries"]
                 ],
             )
-            self.assertEqual([], laura_package["recent_change_context"]["entries"])
+            self.assertEqual([], maya_package["recent_change_context"]["entries"])
             self.assertEqual(
                 [f"recent.git.repo.live-fixture.{sha}"],
                 [
                     item["recent_change_ref"]
-                    for item in laura_package["excluded_context_summary"]
+                    for item in maya_package["excluded_context_summary"]
                 ],
             )
 

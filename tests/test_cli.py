@@ -73,18 +73,18 @@ class CliTests(unittest.TestCase):
 
             memory_output = StringIO()
             memory_code = cli.main(
-                ["--state-root", directory, "memory", "persona.laura"],
+                ["--state-root", directory, "memory", "persona.maya"],
                 stdout=memory_output,
             )
             self.assertEqual(0, memory_code)
             self.assertEqual(
-                ["memory.laura.marketing.draft.audience-before-copy"],
+                ["memory.maya.marketing.draft.audience-before-copy"],
                 [entry["id"] for entry in json.loads(memory_output.getvalue())["entries"]],
             )
 
             recent_output = StringIO()
             recent_code = cli.main(
-                ["--state-root", directory, "recent", "persona.laura"],
+                ["--state-root", directory, "recent", "persona.maya"],
                 stdout=recent_output,
             )
             self.assertEqual(0, recent_code)
@@ -99,13 +99,13 @@ class CliTests(unittest.TestCase):
                     "--state-root",
                     directory,
                     "package",
-                    "context.laura.southern-abrasives-won-opportunity",
+                    "context.maya.southern-abrasives-won-opportunity",
                 ],
                 stdout=package_output,
             )
             self.assertEqual(0, package_code)
             self.assertEqual(
-                "context.laura.southern-abrasives-won-opportunity",
+                "context.maya.southern-abrasives-won-opportunity",
                 json.loads(package_output.getvalue())["id"],
             )
 
@@ -130,13 +130,13 @@ class CliTests(unittest.TestCase):
         stores.state_objects.create(
             load_json(ROOT / "examples" / "southern-abrasives-deal-state-after-won.json")
         )
-        stores.memory.create(load_json(ROOT / "examples" / "laura-agent-memory-entry.json"))
+        stores.memory.create(load_json(ROOT / "examples" / "maya-agent-memory-entry.json"))
         stores.recent_changes.create(
             load_json(ROOT / "examples" / "recent-linear-southern-abrasives-won.json")
         )
         stores.context_packages.create(
             load_json(
-                ROOT / "examples" / "laura-southern-abrasives-opportunity-context-package.json"
+                ROOT / "examples" / "maya-southern-abrasives-opportunity-context-package.json"
             )
         )
         stores.commits.create(

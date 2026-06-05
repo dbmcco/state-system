@@ -181,7 +181,7 @@ def run_trace_manifest(
         _write_step(
             steps,
             output_dir,
-            _numbered(step_number, "laura-package"),
+            _numbered(step_number, "maya-package"),
             context_package,
         )
         step_number += 1

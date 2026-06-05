@@ -1,0 +1,82 @@
+{
+  "id": "model_output.maya.southern-abrasives-opportunity",
+  "review_packet_id": "review_packet.maya.southern-abrasives-opportunity",
+  "decision": "needs_approval",
+  "observations": [
+    "The won deal is commercially meaningful enough to prepare internal marketing material.",
+    "Public naming permission and an approved proof point are missing, so external publication should not proceed.",
+    "Maya should draft an internal proof-point note and optional LinkedIn copy for human review, not publish directly."
+  ],
+  "state_proposals": [],
+  "memory_proposals": [],
+  "promotion_proposals": [],
+  "action_proposals": [
+    {
+      "summary": "Draft an internal proof-point note about Southern Abrasives moving to won, avoiding public naming claims until permission is confirmed.",
+      "risk": "low",
+      "approval_required": false,
+      "target": {
+        "owner_ref": "persona.maya"
+      },
+      "payload": {
+        "action_ref": "action.maya.southern-abrasives-internal-proof-note",
+        "context_package_ref": "context.maya.southern-abrasives-won-opportunity"
+      }
+    },
+    {
+      "summary": "Draft LinkedIn copy for human review based on the won deal, with placeholders for approved proof point and naming permission.",
+      "risk": "medium",
+      "approval_required": true,
+      "target": {
+        "owner_ref": "persona.maya",
+        "target_ref": "state.sampleco.deal.southern-abrasives"
+      },
+      "payload": {
+        "action_ref": "action.maya.southern-abrasives-linkedin-draft",
+        "controlled_action": "publish_external_campaign_copy",
+        "context_package_ref": "context.maya.southern-abrasives-won-opportunity",
+        "requires_refresh_before_external_action": true
+      }
+    }
+  ],
+  "rollup_requests": [
+    {
+      "state_object_id": "state.operating_picture.marketing",
+      "reason": "A won deal may affect marketing proof points and campaign opportunities."
+    }
+  ],
+  "uncertainty": [
+    "Public naming permission is not recorded.",
+    "Approved external proof point is missing.",
+    "The context package requires refresh before any external action."
+  ],
+  "missing_evidence": [
+    {
+      "summary": "Public naming permission is missing.",
+      "needed_ref_or_source": "customer permission, relationship approval, or leadership approval"
+    },
+    {
+      "summary": "Approved proof point is missing.",
+      "needed_ref_or_source": "approved metric, customer quote, case detail, or internal proof-point approval"
+    }
+  ],
+  "review_signal": {
+    "id": "review.maya.southern-abrasives-opportunity",
+    "trigger_id": "trigger.maya.southern-abrasives-opportunity",
+    "created_at": "2026-04-28T16:10:00Z",
+    "status": "pending_approval",
+    "summary": "Maya can draft internal marketing material from the won deal, but external LinkedIn publication requires approval and fresh evidence.",
+    "journal_entry_refs": [],
+    "memory_entry_refs": [],
+    "rollup_requests": [
+      {
+        "state_object_id": "state.operating_picture.marketing",
+        "reason": "A won deal may affect marketing proof points and campaign opportunities."
+      }
+    ],
+    "follow_up_refs": [
+      "action.maya.southern-abrasives-internal-proof-note",
+      "approval.maya.southern-abrasives-linkedin-publication"
+    ]
+  }
+}

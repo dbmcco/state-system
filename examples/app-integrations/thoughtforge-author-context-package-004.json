@@ -25,7 +25,7 @@
         "summary": "Thoughtforge received a meeting-derived idea candidate with private source provenance.",
         "persona_route": [
           "app.thoughtforge",
-          "persona.laura"
+          "persona.maya"
         ]
       }
     ]
@@ -106,7 +106,7 @@
     }
   ],
   "open_questions": [
-    "Does this idea fit ExampleAuthor, Sam Ashford, or another author context?",
+    "Does this idea fit ExampleAuthor, Morgan Webb, or another author context?",
     "Can private meeting source material be used publicly after redaction?"
   ],
   "freshness": {
