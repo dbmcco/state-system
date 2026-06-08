@@ -222,6 +222,66 @@ class InstanceAgentPackageTests(unittest.TestCase):
         self.assertIn("Governance refs:", rendered)
         self.assertIn("Requires refresh before external action.", rendered)
 
+    def test_package_exposes_probe_only_freshness_as_gap(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            InstanceCapabilityRuntime(stores).seed(
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
+            )
+            InstancePreflightRuntime(stores).record(
+                {
+                    "preflight_ref": "preflight.state_instance.sample_personal.connector.personal.kb",
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
+                    "status": "passed",
+                    "checked_at": "2026-05-17T16:40:00Z",
+                    "stale_after": "2026-05-17T17:40:00Z",
+                    "evidence_refs": ["preflight:kb:passed"],
+                }
+            )
+            InstanceSourceFreshnessRuntime(stores).record(
+                {
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T16:40:00Z",
+                    "source_watermark": "kb.adapter.checked_at:2026-05-17T16:40:00Z",
+                    "stale_after": "2026-05-17T17:40:00Z",
+                    "watermark_basis": "probe_only",
+                    "status_reason": "adapter ran but corpus watermark is unavailable",
+                    "evidence_refs": ["freshness:kb:probe_only"],
+                }
+            )
+
+            package = InstanceAgentPackageRuntime(stores).build(
+                {
+                    "instance_agent_package": load_json(
+                        ROOT / "schemas" / "instance-agent-package.schema.json"
+                    )
+                },
+                instance_ref="state_instance.sample_personal",
+                agent_ref="agent.nova",
+                persona_ref="persona.nova",
+                created_at="2026-05-17T16:41:00Z",
+            )
+
+        kb_source = _source(package, "connector.personal.kb")
+        self.assertEqual("unknown", kb_source["freshness_status"])
+        self.assertEqual("probe_only", kb_source["watermark_basis"])
+        self.assertEqual(
+            "adapter ran but corpus watermark is unavailable",
+            kb_source["status_reason"],
+        )
+        self.assertEqual("usable_with_freshness_gap", kb_source["understanding_status"])
+        self.assertIn(
+            "gap.state_instance.sample_personal.connector.personal.kb.freshness_unknown",
+            kb_source["gap_refs"],
+        )
+
     def test_build_marks_fresh_source_expired_when_stale_after_precedes_created_at(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))

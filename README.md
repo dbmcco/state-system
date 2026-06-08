@@ -117,9 +117,16 @@ Source integrations are first-class. To add one:
      --status fresh \
      --checked-at 2026-05-18T12:05:00Z \
      --source-watermark kb.indexed_at:2026-05-18T12:04:00Z \
+     --watermark-basis source_index \
+     --latest-indexed-at 2026-05-18T12:04:00Z \
+     --freshness-policy-ref source_module.folio.freshness \
      --stale-after 2026-05-18T13:05:00Z \
      --evidence-ref freshness:kb:fresh:20260518T120500Z
    ```
+
+   `checked_at` proves the adapter ran. `watermark_basis` and the typed latest
+   timestamps say whether the corpus or index is current. Use `probe_only` when
+   the adapter checked availability but cannot prove corpus/index recency.
 
 6. Declare source-owned index refs when retrieval exists. State System may cite
    source indexes without owning raw corpora.

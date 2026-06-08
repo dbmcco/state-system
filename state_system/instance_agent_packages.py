@@ -206,6 +206,16 @@ def _package_source(source: JsonObject) -> JsonObject:
         or _latest_preflight_checked_at(preflight_records),
         "source_watermark": freshness_record.get("source_watermark", ""),
         "stale_after": freshness_record.get("stale_after", ""),
+        "watermark_basis": source.get("watermark_basis", ""),
+        "latest_source_event_at": source.get("latest_source_event_at", ""),
+        "latest_source_modified_at": source.get("latest_source_modified_at", ""),
+        "latest_decision_updated_at": source.get("latest_decision_updated_at", ""),
+        "latest_indexed_at": source.get("latest_indexed_at", ""),
+        "freshness_policy_ref": source.get("freshness_policy_ref", ""),
+        "status_reason": source.get("status_reason", ""),
+        "content_stale_after": source.get("content_stale_after", ""),
+        "index_stale_after": source.get("index_stale_after", ""),
+        "probe_stale_after": source.get("probe_stale_after", ""),
         "preflight_contract_ref": f"{source_module_ref}.preflight",
         "freshness_contract_ref": f"{source_module_ref}.freshness",
         "gap_behavior_ref": f"{source_module_ref}.gap_behavior",
@@ -218,6 +228,9 @@ def _package_source(source: JsonObject) -> JsonObject:
         "gap_refs": [gap["gap_ref"] for gap in source.get("gaps", [])],
         "evidence_refs": _source_evidence_refs(source),
     }
+    for count_key in ("source_item_count", "index_item_count"):
+        if source.get(count_key) is not None:
+            packaged[count_key] = source[count_key]
     if source.get("artifact_generated_at"):
         packaged["artifact_generated_at"] = source["artifact_generated_at"]
     if source.get("planned_missing_reason"):

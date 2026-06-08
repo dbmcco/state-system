@@ -111,6 +111,9 @@ python3 -m state_system.cli --project-root . \
   --status fresh \
   --checked-at 2026-05-18T12:05:00Z \
   --source-watermark kb.indexed_at:2026-05-18T12:04:00Z \
+  --watermark-basis source_index \
+  --latest-indexed-at 2026-05-18T12:04:00Z \
+  --freshness-policy-ref source_module.folio.freshness \
   --stale-after 2026-05-18T13:05:00Z \
   --evidence-ref freshness:kb:fresh:20260518T120500Z
 ```
@@ -118,7 +121,8 @@ python3 -m state_system.cli --project-root . \
 `--status` for preflight is `passed`, `failed`, or `planned`. Only `passed`
 sets `proves_live_access: true`. `planned` keeps the connector visible as a
 declared access gap. Freshness `--status` is `fresh`, `stale`, `failed`, or
-`unknown`.
+`unknown`. Use `--watermark-basis probe_only` when an adapter ran but cannot
+prove corpus or index recency; packages surface that as a freshness caveat.
 
 Export the joined understanding surface to inspect what the agent will see:
 

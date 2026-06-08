@@ -34,6 +34,35 @@
     "checked_at": { "type": "string" },
     "source_watermark": { "type": "string" },
     "stale_after": { "type": "string" },
+    "watermark_basis": {
+      "type": "string",
+      "enum": [
+        "source_content",
+        "source_event",
+        "source_index",
+        "derived_index",
+        "package_generation",
+        "probe_only",
+        "declared_gap"
+      ]
+    },
+    "latest_source_event_at": { "type": "string" },
+    "latest_source_modified_at": { "type": "string" },
+    "latest_decision_updated_at": { "type": "string" },
+    "latest_indexed_at": { "type": "string" },
+    "source_item_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "index_item_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "freshness_policy_ref": { "type": "string" },
+    "status_reason": { "type": "string" },
+    "content_stale_after": { "type": "string" },
+    "index_stale_after": { "type": "string" },
+    "probe_stale_after": { "type": "string" },
     "lag_seconds": {
       "type": "integer",
       "minimum": 0

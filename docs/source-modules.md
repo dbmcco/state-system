@@ -27,6 +27,10 @@ Each module declares:
 - `preflight_contract`: checks required before an agent treats the source as
   reachable.
 - `freshness_contract`: watermark strategy and freshness record schema.
+  Strategies should name whether readiness is proven by source content, source
+  events, source-owned indexes, derived indexes, package generation, or probe-only
+  checks. Probe-only and package-generation evidence are useful audit signals,
+  but they do not prove the corpus or decisions are current.
 - `index_contract`: index ownership, scopes, and record kinds.
 - `tool_contract`: tool refs plus capability/action ref patterns.
 - `module_modes`: live API, historical cache, local sync, export, or

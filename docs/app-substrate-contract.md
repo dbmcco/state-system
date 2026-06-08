@@ -156,9 +156,16 @@ Agent runtime source freshness result contract:
   `connector_type`, `status`, `checked_at`, `source_watermark`, `stale_after`,
   `evidence_refs`, `freshness_is_recency_evidence`, `proves_live_access`,
   `authorizes_execution`, and `protected_action_authorized_by`.
-- `status: fresh` means the source watermark is current enough for the checker
-  that recorded it. `stale`, `failed`, and `unknown` mean consumers should avoid
-  relying on interpreted state that depends on that source without refreshing.
+- `checked_at` means the checker ran. Corpus and index recency are represented
+  by `watermark_basis` plus typed fields such as `latest_source_event_at`,
+  `latest_source_modified_at`, `latest_decision_updated_at`, and
+  `latest_indexed_at`.
+- `status: fresh` is package-ready only when the watermark basis is source
+  content, source event, source index, or a derived index. `probe_only` and
+  `package_generation` evidence must remain visible as freshness caveats even if
+  the checker itself ran successfully.
+- `stale`, `failed`, and `unknown` mean consumers should avoid relying on
+  interpreted state that depends on that source without refreshing.
 - Freshness does not prove live access. Preflight remains the live-access
   evidence contract.
 - `authorizes_execution` is always false. Governance remains the authority for

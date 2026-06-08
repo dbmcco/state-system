@@ -145,6 +145,65 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             kb["freshness_record"]["evidence_refs"][0],
         )
 
+    def test_probe_only_freshness_is_visible_but_not_ready(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            InstanceCapabilityRuntime(stores).seed(
+                [load_json(PACK_DIR / "instance-sample-personal.json")]
+            )
+            InstancePreflightRuntime(stores).record(
+                {
+                    "preflight_ref": (
+                        "preflight.state_instance.sample_personal."
+                        "connector.personal.kb"
+                    ),
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
+                    "status": "passed",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "evidence_refs": ["preflight:kb:passed"],
+                }
+            )
+            InstanceSourceFreshnessRuntime(stores).record(
+                {
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "kb.adapter.checked_at:2026-05-17T10:15:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "probe_only",
+                    "status_reason": "adapter ran but did not report corpus watermark",
+                    "evidence_refs": ["agent-runtime:freshness:kb:probe"],
+                }
+            )
+
+            read_model = build_instance_understanding_surface_read_model(stores)
+
+        personal = read_model["instances"][0]
+        kb = next(
+            source
+            for source in personal["source_readiness"]
+            if source["connector_ref"] == "connector.personal.kb"
+        )
+        self.assertEqual("unknown", kb["freshness_status"])
+        self.assertEqual("fresh", kb["freshness_record"]["status"])
+        self.assertEqual("probe_only", kb["watermark_basis"])
+        self.assertEqual(
+            "adapter ran but did not report corpus watermark",
+            kb["status_reason"],
+        )
+        self.assertEqual("usable_with_freshness_gap", kb["understanding_status"])
+        self.assertIn(
+            "gap.state_instance.sample_personal.connector.personal.kb.freshness_unknown",
+            read_model["source_gap_refs"],
+        )
+
     def test_surface_preserves_planned_preflight_as_access_gap(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))

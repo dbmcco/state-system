@@ -75,6 +75,45 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             self.assertEqual("msgvault_sqlite_vec", record["index_metadata"]["backend"])
             self.assertEqual(record, runtime.read(record["id"]))
 
+    def test_record_preserves_typed_corpus_and_index_watermark_metadata(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.msgvault",
+                    "source_ref": "msgvault:tenant:personal-email",
+                    "connector_type": "msgvault",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "msgvault.latest_sent_at:2026-05-17T10:12:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "source_content",
+                    "latest_source_event_at": "2026-05-17T10:12:00Z",
+                    "latest_indexed_at": "2026-05-17T10:14:00Z",
+                    "source_item_count": 1204,
+                    "index_item_count": 1204,
+                    "freshness_policy_ref": "source_module.msgvault.freshness",
+                    "status_reason": "latest indexed message is inside policy window",
+                    "content_stale_after": "2026-05-19T10:12:00Z",
+                    "index_stale_after": "2026-05-17T11:14:00Z",
+                    "probe_stale_after": "2026-05-17T10:45:00Z",
+                    "evidence_refs": ["agent-runtime:freshness:msgvault:fresh"],
+                }
+            )
+
+            errors = validate_schema(
+                record,
+                load_json(ROOT / "schemas" / "instance-source-freshness-record.schema.json"),
+            )
+
+            self.assertEqual([], errors)
+            self.assertEqual("source_content", record["watermark_basis"])
+            self.assertEqual("2026-05-17T10:12:00Z", record["latest_source_event_at"])
+            self.assertEqual(1204, record["source_item_count"])
+
     def test_read_model_exports_latest_freshness_by_scope_key(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
@@ -146,6 +185,10 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "msgvault.sync_status:unknown",
                     "--stale-after",
                     "2026-05-17T10:30:00Z",
+                    "--watermark-basis",
+                    "probe_only",
+                    "--status-reason",
+                    "account list was checked but corpus timestamp is unavailable",
                     "--evidence-ref",
                     "agent-runtime:freshness:msgvault:unknown",
                     "--index-ref",
@@ -161,6 +204,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             self.assertEqual(0, code, output.getvalue())
             payload = json.loads(output.getvalue())
             self.assertEqual("unknown", payload["source_freshness"]["status"])
+            self.assertEqual("probe_only", payload["source_freshness"]["watermark_basis"])
             self.assertEqual(
                 "msgvault_sqlite_vec",
                 payload["source_freshness"]["index_metadata"]["backend"],

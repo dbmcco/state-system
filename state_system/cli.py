@@ -1315,6 +1315,29 @@ def _parser() -> argparse.ArgumentParser:
     instance_freshness_record.add_argument("--checked-at", required=True)
     instance_freshness_record.add_argument("--source-watermark", required=True)
     instance_freshness_record.add_argument("--stale-after", required=True)
+    instance_freshness_record.add_argument(
+        "--watermark-basis",
+        choices=[
+            "source_content",
+            "source_event",
+            "source_index",
+            "derived_index",
+            "package_generation",
+            "probe_only",
+            "declared_gap",
+        ],
+    )
+    instance_freshness_record.add_argument("--latest-source-event-at")
+    instance_freshness_record.add_argument("--latest-source-modified-at")
+    instance_freshness_record.add_argument("--latest-decision-updated-at")
+    instance_freshness_record.add_argument("--latest-indexed-at")
+    instance_freshness_record.add_argument("--source-item-count", type=int)
+    instance_freshness_record.add_argument("--index-item-count", type=int)
+    instance_freshness_record.add_argument("--freshness-policy-ref")
+    instance_freshness_record.add_argument("--status-reason")
+    instance_freshness_record.add_argument("--content-stale-after")
+    instance_freshness_record.add_argument("--index-stale-after")
+    instance_freshness_record.add_argument("--probe-stale-after")
     instance_freshness_record.add_argument("--lag-seconds", type=int)
     instance_freshness_record.add_argument("--evidence-ref", action="append")
     instance_freshness_record.add_argument("--index-ref", action="append")
@@ -1631,6 +1654,18 @@ def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject
         "index_refs": list(args.index_ref or []),
     }
     for source, target in (
+        ("watermark_basis", "watermark_basis"),
+        ("latest_source_event_at", "latest_source_event_at"),
+        ("latest_source_modified_at", "latest_source_modified_at"),
+        ("latest_decision_updated_at", "latest_decision_updated_at"),
+        ("latest_indexed_at", "latest_indexed_at"),
+        ("source_item_count", "source_item_count"),
+        ("index_item_count", "index_item_count"),
+        ("freshness_policy_ref", "freshness_policy_ref"),
+        ("status_reason", "status_reason"),
+        ("content_stale_after", "content_stale_after"),
+        ("index_stale_after", "index_stale_after"),
+        ("probe_stale_after", "probe_stale_after"),
         ("lag_seconds", "lag_seconds"),
         ("detail", "detail"),
     ):

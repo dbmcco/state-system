@@ -132,7 +132,7 @@ def _source_readiness(
     ]
     federated_instance = _federated_instance(connector)
     access_status = _access_status(preflight_records)
-    freshness_status = freshness_record.get("status", "missing")
+    freshness_status = _effective_freshness_status(freshness_record)
     index_status = _index_status(index_manifests)
     connector_type = connector.get("connector_type", "")
     source_module_ref = connector.get(
@@ -165,6 +165,22 @@ def _source_readiness(
         or _latest_preflight_checked_at(preflight_records),
         "source_watermark": freshness_record.get("source_watermark", ""),
         "stale_after": freshness_record.get("stale_after", ""),
+        "watermark_basis": freshness_record.get("watermark_basis", ""),
+        "latest_source_event_at": freshness_record.get("latest_source_event_at", ""),
+        "latest_source_modified_at": freshness_record.get(
+            "latest_source_modified_at", ""
+        ),
+        "latest_decision_updated_at": freshness_record.get(
+            "latest_decision_updated_at", ""
+        ),
+        "latest_indexed_at": freshness_record.get("latest_indexed_at", ""),
+        "source_item_count": freshness_record.get("source_item_count"),
+        "index_item_count": freshness_record.get("index_item_count"),
+        "freshness_policy_ref": freshness_record.get("freshness_policy_ref", ""),
+        "status_reason": freshness_record.get("status_reason", ""),
+        "content_stale_after": freshness_record.get("content_stale_after", ""),
+        "index_stale_after": freshness_record.get("index_stale_after", ""),
+        "probe_stale_after": freshness_record.get("probe_stale_after", ""),
         "preflight_contract_ref": (
             f"{source_module_ref}.preflight" if source_module_ref else ""
         ),
@@ -197,6 +213,9 @@ def _source_readiness(
     )
     if artifact_generated_at:
         readiness["artifact_generated_at"] = artifact_generated_at
+    for count_key in ("source_item_count", "index_item_count"):
+        if readiness.get(count_key) is None:
+            readiness.pop(count_key)
     if connector.get("planned_missing_reason"):
         readiness["planned_missing_reason"] = connector["planned_missing_reason"]
     elif access_status != "passed":
@@ -406,6 +425,17 @@ def _index_status(index_manifests: list[JsonObject]) -> str:
     if "disabled" in statuses:
         return "disabled"
     return "missing"
+
+
+def _effective_freshness_status(freshness_record: JsonObject) -> str:
+    status = freshness_record.get("status", "missing")
+    if (
+        status == "fresh"
+        and freshness_record.get("watermark_basis")
+        in {"package_generation", "probe_only"}
+    ):
+        return "unknown"
+    return status
 
 
 def _understanding_status(
