@@ -25,6 +25,7 @@ DEFAULT_COLLECTIONS = {
     "instance_agent_packages": "instance-agent-packages",
     "instance_preflight_results": "instance-preflight-results",
     "instance_source_freshness": "instance-source-freshness",
+    "entity_current_state": "entity-current-state",
     "company_capabilities": "company-capabilities",
     "company_preflight_results": "company-preflight-results",
     "source_freshness": "source-freshness",

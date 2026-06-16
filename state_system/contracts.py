@@ -210,6 +210,8 @@ def schema_for_example(filename: str) -> str | None:
         return "instance-preflight-result.schema.json"
     if filename.startswith("instance-source-freshness-") and filename.endswith(".json"):
         return "instance-source-freshness-record.schema.json"
+    if filename.startswith("entity-current-state-") and filename.endswith(".json"):
+        return "entity-current-state-record.schema.json"
     if filename.startswith("instance-") and filename.endswith(".json"):
         return "instance-capability-pack.schema.json"
     if filename.startswith("company-") and filename.endswith(".json"):

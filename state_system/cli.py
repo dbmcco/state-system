@@ -54,6 +54,10 @@ from state_system.instance_source_freshness import (
     InstanceSourceFreshnessRuntime,
     build_instance_source_freshness_read_model,
 )
+from state_system.entity_current_state import (
+    EntityCurrentStateRuntime,
+    build_entity_current_state_read_model,
+)
 from state_system.instance_scaffold import (
     InstanceScaffoldError,
     scaffold_state_instance,
@@ -132,6 +136,7 @@ COLLECTIONS = {
     "instance-agent-package": "instance_agent_packages",
     "instance-preflight": "instance_preflight_results",
     "instance-source-freshness": "instance_source_freshness",
+    "entity-current-state": "entity_current_state",
     "company-capability": "company_capabilities",
     "company-preflight": "company_preflight_results",
     "source-freshness": "source_freshness",
@@ -652,6 +657,45 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         output_dir.mkdir(parents=True, exist_ok=True)
         read_model = build_instance_source_freshness_read_model(stores)
         read_model_path = output_dir / "instance-source-freshness-read-model.json"
+        read_model_path.write_text(
+            json.dumps(read_model, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        _write_json(
+            stdout,
+            {
+                "read_model_id": read_model["id"],
+                "read_model_path": str(read_model_path),
+            },
+        )
+        return 0
+
+    if args.command == "entity-current-state-record":
+        result = EntityCurrentStateRuntime(stores).record(
+            _entity_current_state_from_args(args)
+        )
+        schema = load_json(
+            project_root / "schemas" / "entity-current-state-record.schema.json"
+        )
+        errors = list(validate_schema(result, schema))
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        _write_json(stdout, {"ok": True, "entity_current_state": result})
+        return 0
+
+    if args.command == "entity-current-state-list":
+        _write_json(
+            stdout,
+            {"records": EntityCurrentStateRuntime(stores).list_records()},
+        )
+        return 0
+
+    if args.command == "entity-current-state-export":
+        output_dir = Path(args.output_dir)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        read_model = build_entity_current_state_read_model(stores, as_of=args.as_of)
+        read_model_path = output_dir / "entity-current-state-read-model.json"
         read_model_path.write_text(
             json.dumps(read_model, indent=2, sort_keys=True) + "\n",
             encoding="utf-8",
@@ -1355,6 +1399,35 @@ def _parser() -> argparse.ArgumentParser:
     )
     instance_freshness_export.add_argument("--output-dir", required=True)
 
+    entity_state_record = subcommands.add_parser("entity-current-state-record")
+    entity_state_record.add_argument("--entity-id", required=True)
+    entity_state_record.add_argument("--entity-name", required=True)
+    entity_state_record.add_argument("--north-star", required=True)
+    entity_state_record.add_argument("--current-priority", required=True)
+    entity_state_record.add_argument("--owner", required=True)
+    entity_state_record.add_argument("--waiting-on", default="")
+    entity_state_record.add_argument("--braydon-next-action", default="")
+    entity_state_record.add_argument("--effective-at", required=True)
+    entity_state_record.add_argument("--stale-after", required=True)
+    entity_state_record.add_argument("--supersedes", default=None)
+    entity_state_record.add_argument("--source-ref", action="append")
+    entity_state_record.add_argument(
+        "--confidence", required=True, choices=["low", "medium", "high"]
+    )
+    entity_state_record.add_argument(
+        "--status",
+        default="active",
+        choices=["active", "superseded", "retracted"],
+    )
+    entity_state_record.add_argument("--generated-at", required=True)
+    entity_state_record.add_argument("--generated-by", required=True)
+
+    subcommands.add_parser("entity-current-state-list")
+
+    entity_state_export = subcommands.add_parser("entity-current-state-export")
+    entity_state_export.add_argument("--as-of", required=True)
+    entity_state_export.add_argument("--output-dir", required=True)
+
     freshness_record = subcommands.add_parser("source-freshness-record")
     freshness_record.add_argument("--company-ref", required=True)
     freshness_record.add_argument("--connector-ref", required=True)
@@ -1689,6 +1762,27 @@ def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject
             "message": args.error_message or "",
         }
     return result
+
+
+def _entity_current_state_from_args(args: argparse.Namespace) -> JsonObject:
+    record: JsonObject = {
+        "entity_id": args.entity_id,
+        "entity_name": args.entity_name,
+        "north_star": args.north_star,
+        "current_priority": args.current_priority,
+        "owner": args.owner,
+        "waiting_on": args.waiting_on or "",
+        "braydon_next_action": args.braydon_next_action or "",
+        "effective_at": args.effective_at,
+        "stale_after": args.stale_after,
+        "supersedes": args.supersedes,
+        "source_refs": list(args.source_ref or []),
+        "confidence": args.confidence,
+        "status": args.status,
+        "generated_at": args.generated_at,
+        "generated_by": args.generated_by,
+    }
+    return record
 
 
 def _runtime_schemas(project_root: Path) -> dict[str, JsonObject]:

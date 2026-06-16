@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/entity-current-state-record.schema.json",
+  "title": "EntityCurrentStateRecord",
+  "description": "A durable per-entity current-state card. Card CONTENT (north_star, current_priority, owner, waiting_on, braydon_next_action) is authored by the model or human. Code owns only the schema, the append-only store, and the mechanical resolution of effective_at / stale_after / supersedes / status into the read model. This is the SHARED store both Elena/WKM and Sam write.",
+  "type": "object",
+  "required": [
+    "id",
+    "entity_id",
+    "entity_name",
+    "north_star",
+    "current_priority",
+    "owner",
+    "waiting_on",
+    "braydon_next_action",
+    "effective_at",
+    "stale_after",
+    "supersedes",
+    "source_refs",
+    "confidence",
+    "status",
+    "generated_at",
+    "generated_by"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable record id: entity_current_state.<entity_id>.<effective_at-or-version> (slugged)."
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "Stable entity key, e.g. braydon, lfw, synthyra."
+    },
+    "entity_name": { "type": "string" },
+    "north_star": {
+      "type": "string",
+      "description": "Durable long-horizon direction. Model/human authored."
+    },
+    "current_priority": {
+      "type": "string",
+      "description": "Near-term focus. Model/human authored. May differ from north_star at a different horizon (see Synthyra)."
+    },
+    "owner": { "type": "string" },
+    "waiting_on": {
+      "type": "string",
+      "description": "Who/what the entity is blocked on. Empty string when nothing. Suppresses promotion to a Braydon action."
+    },
+    "braydon_next_action": {
+      "type": "string",
+      "description": "Specific next action that is Braydon's, or empty when none is his."
+    },
+    "effective_at": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp; the card is not yet valid before this instant."
+    },
+    "stale_after": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp; past this the card is flagged stale (decay) and loses precedence."
+    },
+    "supersedes": {
+      "type": ["string", "null"],
+      "description": "Id of the prior record this one replaces, or null. Supersede = new record referencing prior."
+    },
+    "source_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "folio / wkm-status / tracker / state-system uris the content is anchored to."
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Model/human authored qualitative confidence. Not a computed score."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "retracted"]
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp the record was authored."
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "Authoring agent/human: elena, sam, braydon, ..."
+    }
+  }
+}
