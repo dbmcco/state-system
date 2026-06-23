@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State System — Data-Flow Network</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f8fa;color:#17202a;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:1560px;margin:0 auto;padding:26px 28px 70px}
+header.h{display:flex;align-items:flex-start;gap:22px;flex-wrap:wrap;margin-bottom:14px}
+header.h .t1{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6f4bb2}
+header.h h1{margin:1px 0 4px;font-size:24px;font-weight:800;letter-spacing:-.01em}
+header.h .sub{font-size:13.5px;color:#5b6572;max-width:760px}
+.legend{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;align-items:flex-start}
+.lg{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:#41506a;background:#fff;border:1px solid #cfd7df;border-radius:999px;padding:4px 10px}
+.lg i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.lg .ln{width:18px;height:0;border-top:2.5px solid;display:inline-block;border-radius:2px}
+.tip{font-size:12px;color:#5b6572;margin:-6px 0 16px}
+.cap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 18px}
+.cap .c{background:#fff;border:1px solid #cfd7df;border-left:5px solid #6f4bb2;border-radius:11px;padding:12px 16px}
+.cap .c.ans{border-left-color:#1f8a5b}
+.cap .c h3{margin:0 0 4px;font-size:14px;font-weight:800}
+.cap .c p{margin:0;font-size:13px;color:#39434f}
+.frame{background:#fff;border:1px solid #cfd7df;border-radius:16px;padding:14px;box-shadow:0 1px 0 rgba(0,0,0,.02);overflow-x:auto}
+.diagram{width:100%;height:auto;display:block}
+footer.f{margin-top:26px;padding-top:16px;border-top:1px solid #cfd7df;font-size:12px;color:#5b6572;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:#eef1f4;padding:1px 5px;border-radius:4px;color:#27405c}
+@media print{@page{size:A3 landscape;margin:10mm}body{background:#fff}.frame{break-inside:avoid}}
+
+.node{cursor:default}
+.node:hover rect{stroke-width:2.6;filter:drop-shadow(0 2px 5px rgba(0,0,0,.12))}
+.ntitle{font-size:14px;font-weight:800;letter-spacing:-.005em}
+.nsub{font-size:10.5px;fill:#5b6572}
+.ntag{font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;fill:#9aa4b0;font-weight:700}
+.edge{fill:none;stroke-width:1.8}
+.edge.fwd{stroke:#5b6572}
+.edge.flow{stroke:#1f8a5b;stroke-width:2.3;stroke-dasharray:9 6;animation:ants 1.05s linear infinite}
+.edge.ok{stroke:#1f8a5b;stroke-width:2.4}
+.edge.dashed{stroke:#b33a3a;stroke-dasharray:6 5}
+.edge.bi{stroke:#2767b1;stroke-dasharray:2 5;stroke-width:2}
+.elabel{font-size:11px;font-weight:700;fill:#39434f;paint-order:stroke;stroke:#f7f8fa;stroke-width:4;stroke-linejoin:round}
+@keyframes ants{to{stroke-dashoffset:-15}}
+@media (prefers-reduced-motion:reduce){.edge.flow{animation:none;stroke-dasharray:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="h">
+    <div>
+      <span class="t1">Data-Flow Network</span>
+      <h1>State System — how a signal becomes a trustworthy answer</h1>
+      <p class="sub">Node-and-edge view of the ingestion pipeline, the update-lifecycle cycle (the central loop), and the read/answer path — with feedback, governance, memory, and federation edges. Follow the <b>green</b> marching-ants for the primary flow.</p>
+    </div>
+    <div class="legend" aria-label="legend">
+      <span class="lg"><i style="background:#e6f0fb"></i>source/evidence</span>
+      <span class="lg"><i style="background:#efe9fb"></i>model</span>
+      <span class="lg"><i style="background:#f9e7e7"></i>governance</span>
+      <span class="lg"><i style="background:#e6f4ee"></i>state kernel</span>
+      <span class="lg"><i style="background:#fff3d8"></i>memory/packaging</span>
+      <span class="lg"><i style="background:#edf0f3"></i>access</span>
+      <span class="lg"><span class="ln" style="border-color:#1f8a5b"></span>primary flow</span>
+      <span class="lg"><span class="ln" style="border-color:#b33a3a;border-top-style:dashed"></span>feedback/conditional</span>
+      <span class="lg"><span class="ln" style="border-color:#2767b1;border-top-style:dashed"></span>governed/federated</span>
+    </div>
+  </header>
+
+  <p class="tip">Hover any node for its schema name(s) and one-line responsibility.</p>
+
+  <div class="cap">
+    <div class="c">
+      <h3>Write path — the update lifecycle (green loop)</h3>
+      <p>A source event is deduped; preflight + freshness prove access and recency; the model interprets the evidence packet and emits a <b>journal proposal</b>; the governance gate commits an <b>immutable</b> journal entry; the snapshot is materialized; rollups queue back into the interpreter. Corrections are new entries — full replay is always possible.</p>
+    </div>
+    <div class="c ans">
+      <h3>Read path — the answer pipeline (right)</h3>
+      <p>Snapshots (+ memory + freshness metadata) are projected into a bounded <b>context package</b>, pressure-tested for answerability, rendered as an <b>instance agent package</b>, and consumed as a read model. Federation adds governed cross-instance reads — no raw materialization by default.</p>
+    </div>
+  </div>
+
+  <div class="frame">
+<svg viewBox="0 0 1540 770" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="State System data-flow network" class="diagram">
+    <defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6572"/></marker>
+      <marker id="ah-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f8a5b"/></marker>
+      <marker id="ah-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f8a5b"/></marker>
+      <marker id="ah-dash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#b33a3a"/></marker>
+      <marker id="ah-bi" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2767b1"/></marker>
+    </defs><rect x="455" y="252" width="855" height="316" rx="26" fill="#e6f4ee" fill-opacity="0.45" stroke="#1f8a5b" stroke-opacity="0.30" stroke-dasharray="3 7"/>
+<text x="882" y="244" text-anchor="middle" fill="#155f3f" font-size="13" font-weight="800" letter-spacing="1.5">⟳ UPDATE LIFECYCLE — model interprets, code commits, journal is truth</text>
+<path d="M203,340 L237,340" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="220" y="340" text-anchor="middle" class="elabel">source events</text>
+<path d="M158,377 L282,473" class="edge fwd" marker-end="url(#ah)"/>
+<text x="220" y="425" text-anchor="middle" class="elabel">probe</text>
+<path d="M423,340 L457,340" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="440" y="340" text-anchor="middle" class="elabel">reachable ✓</text>
+<path d="M378,473 L502,377" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="440" y="425" text-anchor="middle" class="elabel">recent ✓</text>
+<path d="M456,207 L524,303" class="edge fwd" marker-end="url(#ah)"/>
+<text x="490" y="255" text-anchor="middle" class="elabel">memory refs</text>
+<path d="M770,207 L770,303" class="edge fwd" marker-end="url(#ah)"/>
+<text x="770" y="255" text-anchor="middle" class="elabel">persona / facet</text>
+<path d="M643,340 L677,340" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="660" y="340" text-anchor="middle" class="elabel">evidence packet</text>
+<path d="M863,340 L897,340" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="880" y="340" text-anchor="middle" class="elabel">journal proposal</text>
+<path d="M1083,340 L1117,340" class="edge ok" marker-end="url(#ah-ok)"/>
+<text x="1100" y="340" text-anchor="middle" class="elabel">✓ append (immutable)</text>
+<path d="M1210,377 L1210,473" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="1210" y="425" text-anchor="middle" class="elabel">materialize</text>
+<path d="M1117,510 L863,510" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="990" y="510" text-anchor="middle" class="elabel">queue parents</text>
+<path d="M770,473 L770,377" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="770" y="425" text-anchor="middle" class="elabel">rollup review</text>
+<path d="M983,303 Q880,215 777,303" class="edge dashed" marker-end="url(#ah-dash)"/>
+<text x="880" y="209" text-anchor="middle" class="elabel">✗ rejected · ⏳ pending · ∅ no-op</text>
+<path d="M523,198 L897,312" class="edge dashed" marker-end="url(#ah-dash)"/>
+<text x="710" y="255" text-anchor="middle" class="elabel">promote (governed)</text>
+<path d="M1117,535 L663,655" class="edge fwd" marker-end="url(#ah)"/>
+<text x="890" y="595" text-anchor="middle" class="elabel">index</text>
+<path d="M1210,547 L1210,643" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="1210" y="595" text-anchor="middle" class="elabel">project</text>
+<path d="M423,528 L1117,662" class="edge fwd" marker-end="url(#ah)"/>
+<text x="770" y="595" text-anchor="middle" class="elabel">freshness metadata</text>
+<path d="M1258,643 L1382,547" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="1320" y="595" text-anchor="middle" class="elabel">render · pressure-test ✓</text>
+<path d="M1430,547 L1430,643" class="edge flow" marker-end="url(#ah-flow)"/>
+<text x="1430" y="595" text-anchor="middle" class="elabel">read model</text>
+<path d="M1083,680 L1117,680" class="edge bi" marker-end="url(#ah-bi)"/>
+<text x="1100" y="680" text-anchor="middle" class="elabel">governed query</text>
+<g class="node">
+<title>source-event.schema.json, trigger.schema.json, source-module-spec.schema.json — Systems of record emit factual events. They never decide durable meaning.</title>
+<rect x="17" y="303" width="186" height="74" rx="13" fill="#e6f0fb" stroke="#2767b1" stroke-width="1.6"/>
+<text x="110" y="332" text-anchor="middle" class="ntitle" fill="#1c4d86">Source Systems</text>
+<text x="110" y="351" text-anchor="middle" class="nsub">Linear · GitHub · Docs · CRM · Mail · Cal</text>
+<text x="110" y="390" text-anchor="middle" class="ntag">source/evidence</text>
+</g>
+<g class="node">
+<title>instance-preflight-result.schema.json — Proves live connector access (passed) or records why not (failed/planned).</title>
+<rect x="237" y="303" width="186" height="74" rx="13" fill="#eef6fc" stroke="#3a78bf" stroke-width="1.6"/>
+<text x="330" y="332" text-anchor="middle" class="ntitle" fill="#1c4d86">Preflight</text>
+<text x="330" y="351" text-anchor="middle" class="nsub">reachable?</text>
+<text x="330" y="390" text-anchor="middle" class="ntag">evidence</text>
+</g>
+<g class="node">
+<title>instance-source-freshness-record.schema.json — Proves source recency: fresh/stale/failed/unknown/planned. probe_only ≠ fresh.</title>
+<rect x="237" y="473" width="186" height="74" rx="13" fill="#eef6fc" stroke="#3a78bf" stroke-width="1.6"/>
+<text x="330" y="502" text-anchor="middle" class="ntitle" fill="#1c4d86">Freshness</text>
+<text x="330" y="521" text-anchor="middle" class="nsub">recent? fresh/stale/…</text>
+<text x="330" y="560" text-anchor="middle" class="ntag">evidence</text>
+</g>
+<g class="node">
+<title>model-review-packet.schema.json — Bounded packet of references (not blobs) + actor + timestamp + governance state.</title>
+<rect x="457" y="303" width="186" height="74" rx="13" fill="#eef6fc" stroke="#3a78bf" stroke-width="1.6"/>
+<text x="550" y="332" text-anchor="middle" class="ntitle" fill="#1c4d86">Evidence Packet</text>
+<text x="550" y="351" text-anchor="middle" class="nsub">refs, not blobs</text>
+<text x="550" y="390" text-anchor="middle" class="ntag">evidence</text>
+</g>
+<g class="node">
+<title>agent-memory-entry.schema.json, company-memory.schema.json — Task-seeking memory; not truth by default. Promoted to state only via governance.</title>
+<rect x="337" y="133" width="186" height="74" rx="13" fill="#fff3d8" stroke="#b7791f" stroke-width="1.6"/>
+<text x="430" y="162" text-anchor="middle" class="ntitle" fill="#7d5512">Memory Kernel</text>
+<text x="430" y="181" text-anchor="middle" class="nsub">not truth by default</text>
+<text x="430" y="220" text-anchor="middle" class="ntag">memory</text>
+</g>
+<g class="node">
+<title>persona.schema.json, facet.schema.json — Interpretive lens: what an agent notices, how it reads ambiguity, when it escalates.</title>
+<rect x="677" y="133" width="186" height="74" rx="13" fill="#efe9fb" stroke="#6f4bb2" stroke-width="1.6"/>
+<text x="770" y="162" text-anchor="middle" class="ntitle" fill="#4a3183">Personas / Facets</text>
+<text x="770" y="181" text-anchor="middle" class="nsub">interpretive lens</text>
+<text x="770" y="220" text-anchor="middle" class="ntag">model</text>
+</g>
+<g class="node">
+<title>model-proposal-output.schema.json — Interprets evidence → emits a journal proposal (or no-op). The model decides meaning.</title>
+<rect x="677" y="303" width="186" height="74" rx="13" fill="#efe9fb" stroke="#6f4bb2" stroke-width="1.6"/>
+<text x="770" y="332" text-anchor="middle" class="ntitle" fill="#4a3183">Model Interpreter</text>
+<text x="770" y="351" text-anchor="middle" class="nsub">what changed · what matters</text>
+<text x="770" y="390" text-anchor="middle" class="ntag">model</text>
+</g>
+<g class="node">
+<title>governance-policy.schema.json, commit-result.schema.json — Committer: valid/allowed/persisted/pending/rejected. Each check yields an explicit result.</title>
+<rect x="897" y="303" width="186" height="74" rx="13" fill="#f9e7e7" stroke="#b33a3a" stroke-width="1.6"/>
+<text x="990" y="332" text-anchor="middle" class="ntitle" fill="#822a2a">Governance Gate</text>
+<text x="990" y="351" text-anchor="middle" class="nsub">committer · no silent fallback</text>
+<text x="990" y="390" text-anchor="middle" class="ntag">governance</text>
+</g>
+<g class="node">
+<title>state-journal-entry.schema.json — Append-only source of truth. Corrections are new entries; full replay is always possible.</title>
+<rect x="1117" y="303" width="186" height="74" rx="13" fill="#e6f4ee" stroke="#1f8a5b" stroke-width="1.6"/>
+<text x="1210" y="332" text-anchor="middle" class="ntitle" fill="#155f3f">State Journal</text>
+<text x="1210" y="351" text-anchor="middle" class="nsub">append-only · TRUTH</text>
+<text x="1210" y="390" text-anchor="middle" class="ntag">state kernel</text>
+</g>
+<g class="node">
+<title>state-object.schema.json, entity-current-state-record.schema.json — Materialized current view of journal history. Compact reads; drill journal for provenance.</title>
+<rect x="1117" y="473" width="186" height="74" rx="13" fill="#e6f4ee" stroke="#1f8a5b" stroke-width="1.6"/>
+<text x="1210" y="502" text-anchor="middle" class="ntitle" fill="#155f3f">Snapshot</text>
+<text x="1210" y="521" text-anchor="middle" class="nsub">materialized current view</text>
+<text x="1210" y="560" text-anchor="middle" class="ntag">state kernel</text>
+</g>
+<g class="node">
+<title>review-signal.schema.json — Queue affected parents for rollup review (same lifecycle as the original update).</title>
+<rect x="677" y="473" width="186" height="74" rx="13" fill="#e6f4ee" stroke="#1f8a5b" stroke-width="1.6"/>
+<text x="770" y="502" text-anchor="middle" class="ntitle" fill="#155f3f">Rollup Queue</text>
+<text x="770" y="521" text-anchor="middle" class="nsub">affected parents</text>
+<text x="770" y="560" text-anchor="middle" class="ntag">state kernel</text>
+</g>
+<g class="node">
+<title>recent-change-entry.schema.json — Access surface over accepted commits for human/agent review. Not the source of truth.</title>
+<rect x="477" y="643" width="186" height="74" rx="13" fill="#e6f4ee" stroke="#1f8a5b" stroke-width="1.6"/>
+<text x="570" y="672" text-anchor="middle" class="ntitle" fill="#155f3f">Recent-Change Registry</text>
+<text x="570" y="691" text-anchor="middle" class="nsub">what changed recently</text>
+<text x="570" y="730" text-anchor="middle" class="ntag">state kernel</text>
+</g>
+<g class="node">
+<title>instance-federation-pack.schema.json — Governed cross-instance reads; local_materialization=false by default. No raw data sync.</title>
+<rect x="897" y="643" width="186" height="74" rx="13" fill="#e6f0fb" stroke="#2767b1" stroke-width="1.6"/>
+<text x="990" y="672" text-anchor="middle" class="ntitle" fill="#1c4d86">Federation Pack</text>
+<text x="990" y="691" text-anchor="middle" class="nsub">governed cross-instance reads</text>
+<text x="990" y="730" text-anchor="middle" class="ntag">federation</text>
+</g>
+<g class="node">
+<title>context-package.schema.json — Bounded projection: persona-scoped, freshness-stamped, with excluded-context summaries.</title>
+<rect x="1117" y="643" width="186" height="74" rx="13" fill="#fff3d8" stroke="#b7791f" stroke-width="1.6"/>
+<text x="1210" y="672" text-anchor="middle" class="ntitle" fill="#7d5512">Context Packager</text>
+<text x="1210" y="691" text-anchor="middle" class="nsub">bounded projection</text>
+<text x="1210" y="730" text-anchor="middle" class="ntag">packaging</text>
+</g>
+<g class="node">
+<title>instance-agent-package.schema.json, question-route-contract.schema.json — Primary agent packet: routes, source readiness, tool/action refs, freshness gaps, governance.</title>
+<rect x="1337" y="473" width="186" height="74" rx="13" fill="#fff3d8" stroke="#b7791f" stroke-width="1.6"/>
+<text x="1430" y="502" text-anchor="middle" class="ntitle" fill="#7d5512">Instance Agent Package</text>
+<text x="1430" y="521" text-anchor="middle" class="nsub">routes · tools · gaps</text>
+<text x="1430" y="560" text-anchor="middle" class="ntag">packaging</text>
+</g>
+<g class="node">
+<title>north-star-answer.schema.json — Agents, apps, CLI, reports read rendered artifacts. They never scrape the runtime root.</title>
+<rect x="1337" y="643" width="186" height="74" rx="13" fill="#edf0f3" stroke="#6b7280" stroke-width="1.6"/>
+<text x="1430" y="672" text-anchor="middle" class="ntitle" fill="#3c434c">Consumers</text>
+<text x="1430" y="691" text-anchor="middle" class="nsub">agents · apps · CLI · reports</text>
+<text x="1430" y="730" text-anchor="middle" class="ntag">access</text>
+</g></svg>
+  </div>
+
+  <footer class="f">
+    <span><b>State System</b> · Data-flow network. Hover nodes for schemas + responsibilities. Cycle backdrop marks the update lifecycle.</span>
+    <span>Companions: <code>state-system-architecture.html</code> (layers) · <code>state-system-deck.html</code> (narrative) · <code>system-diagram.html</code> (orientation)</span>
+  </footer>
+</div>
+</body>
+</html>
