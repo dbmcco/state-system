@@ -245,6 +245,9 @@ def _generated_personal_package() -> dict:
                 "checked_at": "2026-05-18T16:00:00Z",
                 "source_watermark": "kb.indexed_at:2026-05-18T15:59:00Z",
                 "stale_after": "2026-05-18T17:00:00Z",
+                "watermark_basis": "source_index",
+                "latest_indexed_at": "2026-05-18T15:59:00Z",
+                "status_reason": "latest indexed corpus timestamp is inside policy",
                 "evidence_refs": ["freshness:kb:fresh"],
             }
         )

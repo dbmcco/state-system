@@ -7,8 +7,10 @@
   "connector_type": "msgvault",
   "status": "unknown",
   "checked_at": "2026-05-17T10:15:00Z",
-  "source_watermark": "msgvault.sync_status:unknown",
+  "source_watermark": "msgvault.sync_status:unknown;source_status=unavailable",
   "stale_after": "2026-05-17T10:30:00Z",
+  "watermark_basis": "declared_gap",
+  "status_reason": "msgvault sync status is unavailable, so source freshness is unknown",
   "evidence_refs": [
     "agent-runtime:freshness:msgvault:unknown"
   ],
