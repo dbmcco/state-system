@@ -1,33 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>State System — Data-Flow Network</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f7f8fa;color:#17202a;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.5}
-.wrap{max-width:1560px;margin:0 auto;padding:26px 28px 70px}
-header.h{display:flex;align-items:flex-start;gap:22px;flex-wrap:wrap;margin-bottom:14px}
-header.h .t1{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6f4bb2}
-header.h h1{margin:1px 0 4px;font-size:24px;font-weight:800;letter-spacing:-.01em}
-header.h .sub{font-size:13.5px;color:#5b6572;max-width:760px}
-.legend{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto;align-items:flex-start}
-.lg{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:#41506a;background:#fff;border:1px solid #cfd7df;border-radius:999px;padding:4px 10px}
-.lg i{width:11px;height:11px;border-radius:3px;display:inline-block}
-.lg .ln{width:18px;height:0;border-top:2.5px solid;display:inline-block;border-radius:2px}
-.tip{font-size:12px;color:#5b6572;margin:-6px 0 16px}
-.cap{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:8px 0 18px}
-.cap .c{background:#fff;border:1px solid #cfd7df;border-left:5px solid #6f4bb2;border-radius:11px;padding:12px 16px}
-.cap .c.ans{border-left-color:#1f8a5b}
-.cap .c h3{margin:0 0 4px;font-size:14px;font-weight:800}
-.cap .c p{margin:0;font-size:13px;color:#39434f}
-.frame{background:#fff;border:1px solid #cfd7df;border-radius:16px;padding:14px;box-shadow:0 1px 0 rgba(0,0,0,.02);overflow-x:auto}
-.diagram{width:100%;height:auto;display:block}
-footer.f{margin-top:26px;padding-top:16px;border-top:1px solid #cfd7df;font-size:12px;color:#5b6572;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;background:#eef1f4;padding:1px 5px;border-radius:4px;color:#27405c}
-@media print{@page{size:A3 landscape;margin:10mm}body{background:#fff}.frame{break-inside:avoid}}
-
+<svg viewBox="0 0 1540 770" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="State System data-flow network" class="diagram" font-family="Inter, ui-sans-serif, system-ui, -apple-system, sans-serif"><style>
 .node{cursor:default}
 .node:hover rect{stroke-width:2.6;filter:drop-shadow(0 2px 5px rgba(0,0,0,.12))}
 .ntitle{font-size:14px;font-weight:800;letter-spacing:-.005em}
@@ -43,43 +14,6 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
 @keyframes ants{to{stroke-dashoffset:-15}}
 @media (prefers-reduced-motion:reduce){.edge.flow{animation:none;stroke-dasharray:none}}
 </style>
-</head>
-<body>
-<div class="wrap">
-  <header class="h">
-    <div>
-      <span class="t1">Data-Flow Network</span>
-      <h1>State System — how a signal becomes a trustworthy answer</h1>
-      <p class="sub">Node-and-edge view of the ingestion pipeline, the update-lifecycle cycle (the central loop), and the read/answer path — with feedback, governance, memory, and federation edges. Follow the <b>green</b> marching-ants for the primary flow.</p>
-    </div>
-    <div class="legend" aria-label="legend">
-      <span class="lg"><i style="background:#e6f0fb"></i>source/evidence</span>
-      <span class="lg"><i style="background:#efe9fb"></i>model</span>
-      <span class="lg"><i style="background:#f9e7e7"></i>governance</span>
-      <span class="lg"><i style="background:#e6f4ee"></i>state kernel</span>
-      <span class="lg"><i style="background:#fff3d8"></i>memory/packaging</span>
-      <span class="lg"><i style="background:#edf0f3"></i>access</span>
-      <span class="lg"><span class="ln" style="border-color:#1f8a5b"></span>primary flow</span>
-      <span class="lg"><span class="ln" style="border-color:#b33a3a;border-top-style:dashed"></span>feedback/conditional</span>
-      <span class="lg"><span class="ln" style="border-color:#2767b1;border-top-style:dashed"></span>governed/federated</span>
-    </div>
-  </header>
-
-  <p class="tip">Hover any node for its schema name(s) and one-line responsibility.</p>
-
-  <div class="cap">
-    <div class="c">
-      <h3>Write path — the update lifecycle (green loop)</h3>
-      <p>A source event is deduped; preflight + freshness prove access and recency; the model interprets the evidence packet and emits a <b>journal proposal</b>; the governance gate commits an <b>immutable</b> journal entry; the snapshot is materialized; rollups queue back into the interpreter. Corrections are new entries — full replay is always possible.</p>
-    </div>
-    <div class="c ans">
-      <h3>Read path — the answer pipeline (right)</h3>
-      <p>Snapshots (+ memory + freshness metadata) are projected into a bounded <b>context package</b>, pressure-tested for answerability, rendered as an <b>instance agent package</b>, and consumed as a read model. Federation adds governed cross-instance reads — no raw materialization by default.</p>
-    </div>
-  </div>
-
-  <div class="frame">
-<svg viewBox="0 0 1540 770" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="State System data-flow network" class="diagram">
     <defs>
       <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6572"/></marker>
       <marker id="ah-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f8a5b"/></marker>
@@ -240,12 +174,3 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;bac
 <text x="1430" y="691" text-anchor="middle" class="nsub">agents · apps · CLI · reports</text>
 <text x="1430" y="730" text-anchor="middle" class="ntag">access</text>
 </g></svg>
-  </div>
-
-  <footer class="f">
-    <span><b>State System</b> · Data-flow network. Hover nodes for schemas + responsibilities. Cycle backdrop marks the update lifecycle.</span>
-    <span>Companions: <code>state-system-architecture.html</code> (layers) · <code>state-system-deck.html</code> (narrative) · <code>system-diagram.html</code> (orientation)</span>
-  </footer>
-</div>
-</body>
-</html>
