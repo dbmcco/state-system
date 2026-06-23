@@ -48,8 +48,10 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "connector_type": "msgvault",
                     "status": "unknown",
                     "checked_at": "2026-05-17T10:15:00Z",
-                    "source_watermark": "msgvault.sync_status:unknown",
+                    "source_watermark": "msgvault.sync_status:unknown;source_status=unavailable",
                     "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "declared_gap",
+                    "status_reason": "msgvault output is unavailable, so source freshness is unknown",
                     "evidence_refs": ["agent-runtime:freshness:msgvault:unknown"],
                     "index_refs": ["index.personal.msgvault.email"],
                     "index_metadata": {
@@ -114,6 +116,67 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             self.assertEqual("2026-05-17T10:12:00Z", record["latest_source_event_at"])
             self.assertEqual(1204, record["source_item_count"])
 
+    def test_record_rejects_fresh_probe_only_status(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "fresh cannot be proven by probe_only"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sample_personal",
+                        "connector_ref": "connector.personal.workboard",
+                        "source_ref": "paia-workboard:default",
+                        "connector_type": "workboard",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "workboard.checked_at:2026-05-17T10:15:00Z;corpus_watermark=unproven",
+                        "stale_after": "2026-05-17T11:15:00Z",
+                        "watermark_basis": "probe_only",
+                        "status_reason": "connector health was checked but corpus freshness is unproven",
+                    }
+                )
+
+    def test_record_rejects_source_content_without_source_timestamp(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "source_content/source_event"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sample_personal",
+                        "connector_ref": "connector.personal.msgvault",
+                        "source_ref": "msgvault:tenant:personal-email",
+                        "connector_type": "msgvault",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "msgvault.latest_sent_at:2026-05-17T10:12:00Z",
+                        "stale_after": "2026-05-19T10:12:00Z",
+                        "watermark_basis": "source_content",
+                        "status_reason": "latest source content timestamp is inside policy",
+                    }
+                )
+
+    def test_record_rejects_package_generation_marked_fresh(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "fresh cannot be proven by package_generation"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sample_personal",
+                        "connector_ref": "connector.personal.lfw_state_system",
+                        "source_ref": "state-system-instance:state_instance.lfw",
+                        "connector_type": "state_system_instance",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "state_system_instance.lfw.generated_at:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T11:15:00Z",
+                        "watermark_basis": "package_generation",
+                        "latest_indexed_at": "2026-05-17T10:14:00Z",
+                        "status_reason": "package was generated recently",
+                    }
+                )
+
     def test_read_model_exports_latest_freshness_by_scope_key(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
@@ -131,6 +194,9 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "status": "stale",
                     "checked_at": "2026-05-17T10:00:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-17T08:00:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T08:00:00Z",
+                    "status_reason": "latest indexed corpus timestamp is outside policy",
                     "lag_seconds": 7200,
                     "evidence_refs": ["agent-runtime:freshness:kb:stale"],
                 }
@@ -141,6 +207,9 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "status": "fresh",
                     "checked_at": "2026-05-17T10:15:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-17T10:14:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T10:14:00Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "lag_seconds": 60,
                     "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
                 }
@@ -188,7 +257,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "--watermark-basis",
                     "probe_only",
                     "--status-reason",
-                    "account list was checked but corpus timestamp is unavailable",
+                    "account list was checked but source/corpus freshness is unproven because corpus timestamp is unavailable",
                     "--evidence-ref",
                     "agent-runtime:freshness:msgvault:unknown",
                     "--index-ref",

@@ -204,6 +204,9 @@ def _seed_personal_state(state_root: Path) -> None:
             "checked_at": "2026-05-19T19:59:00Z",
             "source_watermark": "kb.indexed_at:2026-05-19T19:58:00Z",
             "stale_after": "2026-05-19T21:00:00Z",
+            "watermark_basis": "source_index",
+            "latest_indexed_at": "2026-05-19T19:58:00Z",
+            "status_reason": "latest indexed corpus timestamp is inside policy",
             "evidence_refs": ["freshness:kb:fresh"],
         }
     )

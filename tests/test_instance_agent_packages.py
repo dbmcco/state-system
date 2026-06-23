@@ -57,6 +57,9 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     "checked_at": "2026-05-17T16:40:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-17T16:39:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T16:39:00Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "evidence_refs": ["freshness:kb:fresh"],
                 }
             )
@@ -247,12 +250,12 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     "connector_ref": "connector.personal.kb",
                     "source_ref": "kb:tenant:personal",
                     "connector_type": "kb",
-                    "status": "fresh",
+                    "status": "unknown",
                     "checked_at": "2026-05-17T16:40:00Z",
-                    "source_watermark": "kb.adapter.checked_at:2026-05-17T16:40:00Z",
+                    "source_watermark": "kb.adapter.checked_at:2026-05-17T16:40:00Z;corpus_watermark=unproven",
                     "stale_after": "2026-05-17T17:40:00Z",
                     "watermark_basis": "probe_only",
-                    "status_reason": "adapter ran but corpus watermark is unavailable",
+                    "status_reason": "adapter ran but source/corpus freshness is unproven because corpus watermark is unavailable",
                     "evidence_refs": ["freshness:kb:probe_only"],
                 }
             )
@@ -273,7 +276,7 @@ class InstanceAgentPackageTests(unittest.TestCase):
         self.assertEqual("unknown", kb_source["freshness_status"])
         self.assertEqual("probe_only", kb_source["watermark_basis"])
         self.assertEqual(
-            "adapter ran but corpus watermark is unavailable",
+            "adapter ran but source/corpus freshness is unproven because corpus watermark is unavailable",
             kb_source["status_reason"],
         )
         self.assertEqual("usable_with_freshness_gap", kb_source["understanding_status"])
@@ -311,6 +314,9 @@ class InstanceAgentPackageTests(unittest.TestCase):
                     "checked_at": "2026-05-17T16:40:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-17T16:39:00Z",
                     "stale_after": "2026-05-17T17:40:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T16:39:00Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "evidence_refs": ["freshness:kb:fresh"],
                 }
             )
@@ -371,8 +377,11 @@ class InstanceAgentPackageTests(unittest.TestCase):
                         "connector_type": connector_type,
                         "status": "fresh",
                         "checked_at": "2026-05-17T16:40:00Z",
-                        "source_watermark": f"{connector_ref}:2026-05-17T16:39:00Z",
+                        "source_watermark": f"{connector_ref}.indexed_at:2026-05-17T16:39:00Z",
                         "stale_after": "2026-05-17T17:40:00Z",
+                        "watermark_basis": "source_index",
+                        "latest_indexed_at": "2026-05-17T16:39:00Z",
+                        "status_reason": "latest indexed corpus timestamp is inside policy",
                         "evidence_refs": [f"freshness:{connector_ref}:fresh"],
                     }
                 )

@@ -178,6 +178,9 @@ def _sampleco_runtime(root: Path) -> StateStoreBundle:
             "checked_at": "2026-05-16T19:31:00Z",
             "source_watermark": "kb.updated_at:2026-05-16T19:30:00Z",
             "stale_after": "2026-05-16T19:46:00Z",
+            "watermark_basis": "source_index",
+            "latest_indexed_at": "2026-05-16T19:30:00Z",
+            "status_reason": "latest indexed corpus timestamp is inside policy",
             "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
         }
     )

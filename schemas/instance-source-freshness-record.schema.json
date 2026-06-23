@@ -14,6 +14,8 @@
     "checked_at",
     "source_watermark",
     "stale_after",
+    "watermark_basis",
+    "status_reason",
     "evidence_refs",
     "freshness_is_recency_evidence",
     "proves_live_access",

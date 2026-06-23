@@ -49,6 +49,9 @@ class CompanyUnderstandingSurfaceTests(unittest.TestCase):
                     "checked_at": "2026-05-15T18:01:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-15T18:00:30Z",
                     "stale_after": "2026-05-15T18:16:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-15T18:00:30Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
                 }
             )

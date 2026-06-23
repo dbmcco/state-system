@@ -136,6 +136,9 @@ class AgentRuntimeBootstrapExportTests(unittest.TestCase):
                     "checked_at": "2026-05-15T12:00:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-15T11:59:00Z",
                     "stale_after": "2026-05-15T12:15:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-15T11:59:00Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "lag_seconds": 60,
                     "evidence_refs": ["agent-runtime:freshness:kb:sampleco"],
                 }

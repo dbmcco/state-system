@@ -125,6 +125,9 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                     "checked_at": "2026-05-17T10:15:00Z",
                     "source_watermark": "kb.indexed_at:2026-05-17T10:14:00Z",
                     "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T10:14:00Z",
+                    "status_reason": "latest indexed corpus timestamp is inside policy",
                     "lag_seconds": 60,
                     "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
                 }
@@ -173,12 +176,12 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                     "connector_ref": "connector.personal.kb",
                     "source_ref": "kb:tenant:personal",
                     "connector_type": "kb",
-                    "status": "fresh",
+                    "status": "unknown",
                     "checked_at": "2026-05-17T10:15:00Z",
-                    "source_watermark": "kb.adapter.checked_at:2026-05-17T10:15:00Z",
+                    "source_watermark": "kb.adapter.checked_at:2026-05-17T10:15:00Z;corpus_watermark=unproven",
                     "stale_after": "2026-05-17T10:30:00Z",
                     "watermark_basis": "probe_only",
-                    "status_reason": "adapter ran but did not report corpus watermark",
+                    "status_reason": "adapter ran but source/corpus freshness is unproven because corpus watermark was not reported",
                     "evidence_refs": ["agent-runtime:freshness:kb:probe"],
                 }
             )
@@ -192,10 +195,10 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             if source["connector_ref"] == "connector.personal.kb"
         )
         self.assertEqual("unknown", kb["freshness_status"])
-        self.assertEqual("fresh", kb["freshness_record"]["status"])
+        self.assertEqual("unknown", kb["freshness_record"]["status"])
         self.assertEqual("probe_only", kb["watermark_basis"])
         self.assertEqual(
-            "adapter ran but did not report corpus watermark",
+            "adapter ran but source/corpus freshness is unproven because corpus watermark was not reported",
             kb["status_reason"],
         )
         self.assertEqual("usable_with_freshness_gap", kb["understanding_status"])
@@ -275,6 +278,9 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                         "garmin.daily_summary.synced_at:2026-05-17T18:23:58Z"
                     ),
                     "stale_after": "2026-05-17T19:37:18Z",
+                    "watermark_basis": "source_index",
+                    "latest_indexed_at": "2026-05-17T18:23:58Z",
+                    "status_reason": "latest local activity index sync is inside policy",
                     "evidence_refs": ["freshness:garmin_connect:fresh"],
                     "index_refs": ["index.personal.garmin_connect.activity"],
                 }
@@ -308,6 +314,9 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
                         "played_at:2026-02-15T15:09:00Z"
                     ),
                     "stale_after": "2026-02-16T15:09:00Z",
+                    "watermark_basis": "source_event",
+                    "latest_source_event_at": "2026-02-15T15:09:00Z",
+                    "status_reason": "latest listening record is outside policy",
                     "evidence_refs": ["freshness:spotify:stale"],
                     "index_refs": ["index.personal.spotify.listening"],
                 }
