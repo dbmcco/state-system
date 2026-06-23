@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State System — Technical Architecture</title>
+<style>
+/* ============================================================
+   Semantic palette — shared with docs/system-diagram.html and
+   docs/state-system-deck.html so concepts stay color-coded
+   across every artifact in the repo.
+   blue   = sources / evidence (provenance)
+   green  = state kernel (durable truth / committed)
+   amber  = memory + projections (task-seeking)
+   purple = model interpretation (model-mediated update)
+   red    = governance / authorization
+   gray   = access surfaces / consumers
+   ============================================================ */
+:root{
+  --ink:#17202a; --muted:#5b6572; --line:#cfd7df; --line-soft:#e6eaef;
+  --bg:#f7f8fa; --paper:#ffffff; --paper-2:#fbfcfd;
+  --source:#2767b1; --source-soft:#e6f0fb; --source-ink:#1c4d86;
+  --done:#1f8a5b; --done-soft:#e6f4ee; --done-ink:#155f3f;
+  --partial:#b7791f; --partial-soft:#fff3d8; --partial-ink:#7d5512;
+  --next:#6f4bb2; --next-soft:#efe9fb; --next-ink:#4a3183;
+  --governance:#b33a3a; --governance-soft:#f9e7e7; --governance-ink:#822a2a;
+  --future:#6b7280; --future-soft:#edf0f3; --future-ink:#3c434c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.5;
+}
+.wrap{max-width:1380px; margin:0 auto; padding:0 32px 96px}
+
+/* ---------- sticky header ---------- */
+header.top{
+  position:sticky; top:0; z-index:30; background:rgba(247,248,250,.92);
+  backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid var(--line);
+}
+header.top .wrap{display:flex; align-items:center; gap:20px; padding-top:14px; padding-bottom:14px}
+.brand{display:flex; flex-direction:column; min-width:0}
+.brand .t1{font-size:13px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--next)}
+.brand h1{margin:1px 0 0; font-size:22px; font-weight:800; letter-spacing:-.01em; line-height:1.1}
+.brand .sub{font-size:12.5px; color:var(--muted); margin-top:2px}
+.legend{display:flex; gap:7px; flex-wrap:wrap; margin-left:auto}
+.lg{display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:600; color:#4a5460;
+  background:var(--paper); border:1px solid var(--line); border-radius:999px; padding:3px 9px}
+.lg i{width:9px; height:9px; border-radius:50%}
+
+/* ---------- intro ---------- */
+.intro{margin-top:34px}
+h2.section-h{font-size:13px; font-weight:800; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 4px; display:flex; align-items:center; gap:9px}
+h2.section-h .num{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:6px;
+  background:var(--next); color:#fff; font-size:12px}
+.lead{font-size:18px; line-height:1.5; color:#3c4754; max-width:1000px; margin:6px 0 0}
+.lead b{color:var(--ink)}
+
+.invariants{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px}
+.invariant{background:var(--paper); border:1px solid var(--line); border-left:5px solid var(--next);
+  border-radius:12px; padding:15px 18px}
+.invariant.green{border-left-color:var(--done)}
+.invariant.red{border-left-color:var(--governance)}
+.invariant h3{margin:0 0 5px; font-size:14px; font-weight:800; display:flex; align-items:center; gap:8px}
+.invariant p{margin:0; font-size:14px; color:#3c4754}
+
+/* ---------- THE STACK ---------- */
+.stack{margin-top:30px; display:flex; flex-direction:column; gap:0; border-radius:14px; overflow:hidden;
+  border:1px solid var(--line); box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.layer{display:grid; grid-template-columns:46px 1fr; min-height:0; border-top:1px solid var(--line-soft)}
+.layer:first-child{border-top:0}
+.lstripe{grid-row:span 1; align-self:stretch}
+.lbody{padding:13px 20px 15px; background:var(--paper)}
+.lhead{display:flex; align-items:baseline; gap:12px; flex-wrap:wrap}
+.lnum{font-size:11px; font-weight:800; letter-spacing:.1em; color:#9aa4b0}
+.lname{font-size:16px; font-weight:800; letter-spacing:-.005em}
+.lrole{font-size:13px; color:var(--muted)}
+.lrole b{color:#4a5460; font-weight:600}
+.lrow{display:grid; grid-template-columns:1fr 1fr; gap:10px 26px; margin-top:9px; align-items:start}
+.lcomp{font-size:12.5px; line-height:1.5; color:#39434f}
+.lcomp b{color:#222a33; font-weight:700}
+.lcomp .sub{color:var(--muted); font-size:12px}
+.chips{display:flex; flex-wrap:wrap; gap:5px; margin-top:7px}
+.chip{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:10.5px; font-weight:600;
+  background:var(--paper-2); border:1px solid var(--line); border-radius:5px; padding:2px 6px; color:#41506a; white-space:nowrap}
+
+/* per-layer accent */
+.acc-src{background:var(--source)} .acc-src+.lbody .lname{color:var(--source-ink)}
+.acc-evi{background:var(--source); opacity:.6}
+.acc-mem{background:var(--partial)} .acc-mem~.lbody .lname{color:var(--partial-ink)}
+.acc-st{background:var(--done)}
+.acc-pkg{background:var(--partial); opacity:.7}
+.acc-mdl{background:var(--next)}
+.acc-gov{background:var(--governance)}
+.acc-acc{background:var(--future)}
+
+/* ---------- flow rail ---------- */
+.flowrail{margin-top:24px; background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:16px 20px}
+.flowrail .fh{display:flex; align-items:baseline; gap:12px; margin-bottom:10px; flex-wrap:wrap}
+.flowrail .fh .ft{font-size:15px; font-weight:800}
+.flowrail .fh .fd{font-size:12.5px; color:var(--muted)}
+.flow{display:flex; align-items:stretch; gap:0}
+.fstep{flex:1; min-width:0; border-radius:10px; padding:9px 11px; border:1px solid var(--line); background:var(--paper-2)}
+.fstep .n{font-size:9.5px; font-weight:800; letter-spacing:.08em; color:#9aa4b0}
+.fstep .t{font-size:13px; font-weight:800; margin-top:1px}
+.fstep .d{font-size:10.5px; color:#5a6571; margin-top:2px; line-height:1.35}
+.farrow{flex:0 0 26px; display:grid; place-items:center; color:#c2cad3; font-weight:800; font-size:15px}
+
+/* ---------- two-column panels ---------- */
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:14px}
+.panel{background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:15px 17px}
+.panel h3{margin:0 0 8px; font-size:14px; font-weight:800; display:flex; align-items:center; gap:8px}
+.panel .tag{font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; padding:2px 7px; border-radius:5px}
+.panel p{margin:5px 0; font-size:13px; color:#39434f; line-height:1.5}
+.panel ul{margin:6px 0 0; padding-left:18px}
+.panel li{font-size:12.5px; line-height:1.5; color:#39434f; margin:3px 0}
+.split-col{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+.split-col .half{padding:13px 16px}
+.split-col .half + .half{border-left:1px solid var(--line)}
+.split-col .half h4{margin:0 0 6px; font-size:13px; font-weight:800}
+.split-col ul{margin:0; padding-left:17px}
+.split-col li{font-size:12.5px; line-height:1.5; margin:3px 0; color:#33404c}
+
+/* boundary banners */
+.banner{margin-top:14px; border-radius:12px; border:1px solid; padding:14px 18px; display:flex; gap:16px; align-items:flex-start}
+.banner .bh{flex:0 0 150px; font-size:13px; font-weight:800; letter-spacing:.01em}
+.banner .bd{font-size:13px; line-height:1.5; color:#39434f; flex:1}
+.banner.gv{border-color:var(--governance); background:var(--governance-soft)} .banner.gv .bh{color:var(--governance-ink)}
+.banner.pr{border-color:var(--done); background:var(--done-soft)} .banner.pr .bh{color:var(--done-ink)}
+.banner.fed{border-color:var(--source); background:var(--source-soft)} .banner.fed .bh{color:var(--source-ink)}
+
+/* ---------- ref tables ---------- */
+table.ref{width:100%; border-collapse:separate; border-spacing:0; font-size:12.5px; margin-top:4px}
+table.ref th,table.ref td{text-align:left; padding:8px 11px; border-bottom:1px solid var(--line-soft); vertical-align:top}
+table.ref th{font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:#8a94a0; font-weight:700; background:var(--paper-2)}
+table.ref td code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11.5px; color:#1c4d86; background:var(--source-soft); padding:1px 5px; border-radius:4px; white-space:nowrap}
+table.ref tr:last-child td{border-bottom:0}
+
+/* family chips */
+.fam{display:grid; grid-template-columns:repeat(2,1fr); gap:6px; margin-top:6px}
+.fami{background:var(--paper-2); border:1px solid var(--line-soft); border-radius:8px; padding:7px 10px}
+.fami .fn{font-size:12px; font-weight:800}
+.fami .fd{font-size:11px; color:var(--muted); margin-top:1px}
+.traits{display:flex; flex-wrap:wrap; gap:5px; margin-top:7px}
+.trait{font-size:11px; font-weight:700; padding:3px 9px; border-radius:6px; border:1px solid var(--line)}
+.t-slow{background:var(--future-soft); color:var(--future-ink)}
+.t-dyn{background:var(--done-soft); color:var(--done-ink)}
+.t-dev{background:var(--partial-soft); color:var(--partial-ink)}
+.t-roll{background:var(--next-soft); color:var(--next-ink)}
+
+/* ---------- substrate vs working ---------- */
+.dual{display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:8px}
+.dual .seg{padding:13px 16px}
+.dual .seg + .seg{border-left:1px solid var(--line)}
+.dual h4{margin:0 0 6px; font-size:13px; font-weight:800}
+.dual p{margin:0; font-size:12px; color:#39434f; line-height:1.5}
+.dual .sub{margin-top:7px; font-size:11px; color:var(--muted)}
+
+/* section spacing */
+.section{margin-top:38px}
+.section + .section{margin-top:30px}
+footer.bot{margin-top:48px; padding-top:18px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+code.inline{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.92em; background:#eef1f4; padding:1px 5px; border-radius:4px; color:#27405c}
+
+/* responsive */
+@media (max-width:1080px){
+  .lrow{grid-template-columns:1fr}
+  .grid2,.grid3,.dual{grid-template-columns:1fr}
+  .dual .seg + .seg{border-left:0; border-top:1px solid var(--line)}
+  .invariants{grid-template-columns:1fr}
+}
+@media print{
+  @page{size:A3 landscape; margin:12mm}
+  body{background:#fff}
+  header.top{position:static; background:#fff; border-bottom:1px solid #ccc}
+  .section{break-inside:avoid; margin-top:22px}
+  .panel,.layer,.flowrail{break-inside:avoid}
+  a{color:inherit; text-decoration:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="t1">Technical Architecture</span>
+      <h1>State System</h1>
+      <span class="sub">Layered reference · source → evidence → memory → state kernel → packaging → model-update → governance → access</span>
+    </div>
+    <div class="legend" aria-label="legend">
+      <span class="lg"><i style="background:var(--source)"></i>sources / evidence</span>
+      <span class="lg"><i style="background:var(--done)"></i>state kernel</span>
+      <span class="lg"><i style="background:var(--partial)"></i>memory / projection</span>
+      <span class="lg"><i style="background:var(--next)"></i>model interpretation</span>
+      <span class="lg"><i style="background:var(--governance)"></i>governance</span>
+      <span class="lg"><i style="background:var(--future)"></i>access surface</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ===================== INTRO ===================== -->
+  <section class="intro">
+    <h2 class="section-h"><span class="num">0</span> What this is</h2>
+    <p class="lead">State System is an <b>organizational state layer</b>: durable working interpretation of what appears true now — and the machinery to keep it current, evidence-backed, freshness-aware, and governance-gated. This diagram is the engineer's reference for the <b>layer stack</b>, the <b>update data-flow</b>, and the <b>boundaries</b> that keep interpretation, integrity, and authorization from collapsing into one another.</p>
+
+    <div class="invariants">
+      <div class="invariant">
+        <h3 class="c-next" style="color:var(--next-ink)">🧠 vs 🔒 The model/code split</h3>
+        <p>The model owns <b>interpretation</b> (what changed, what matters, what's uncertain). Code owns <b>integrity</b> (schemas, evidence refs, permissions, persistence, audit, execution safety). No thresholds, no hidden routing — every model-mediated decision is inspectable.</p>
+      </div>
+      <div class="invariant green">
+        <h3 style="color:var(--done-ink)">📖 Journal = truth · Snapshot = view</h3>
+        <p>The <b>append-only journal</b> is the source of truth. <b>Snapshots</b> are materialized current views. Never update a snapshot without a journal entry; corrections are new entries, so full replay is always possible.</p>
+      </div>
+      <div class="invariant red">
+        <h3 style="color:var(--governance-ink)">🚦 Three independent gates</h3>
+        <p><b>Preflight</b> (reachable?) · <b>Freshness</b> (recent?) · <b>Governance</b> (authorized?). One does <b>not</b> imply the others — a fresh, reachable source still cannot authorize an external action.</p>
+      </div>
+      <div class="invariant" style="border-left-color:var(--source)">
+        <h3 style="color:var(--source-ink)">🧭 Durable substrate vs working models</h3>
+        <p>The <b>substrate</b> is truth-seeking (objects, claims, evidence, accepted state, journals). <b>Working models</b> are task-seeking projections (packages, packets) consumed by agents, apps, reports. Consumers never mutate the substrate directly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== THE STACK ===================== -->
+  <section class="section">
+    <h2 class="section-h"><span class="num">1</span> The layer stack — what exists, top to bottom</h2>
+    <p class="lead" style="font-size:14px">Each layer has stable responsibilities and named contracts (cited schema files in <code class="inline">schemas/</code>). Read downward for dependencies, upward for consumers.</p>
+
+    <div class="stack">
+
+      <!-- L1 -->
+      <div class="layer">
+        <div class="lstripe acc-src"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L1</span><span class="lname c-src" style="color:var(--source-ink)">Source Systems</span><span class="lrole">— systems of record. They emit factual envelopes; they do <b>not</b> decide durable meaning.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Source events</b> <span class="sub">— Linear deal changed, GitHub PR merged, Workgraph task done, doc updated. Carry idempotency keys, source refs, watermarks.</span>
+              <div class="chips"><span class="chip">source-event.schema.json</span><span class="chip">trigger.schema.json</span></div></div>
+            <div class="lcomp"><b>Source modules</b> <span class="sub">— the open-source extension point: what a connector <i>means</i> (ref shape, access mode, preflight, freshness, index ownership, tools, gaps, governance defaults). Capability-pack connector types must resolve to a registered module.</span>
+              <div class="chips"><span class="chip">source-module-spec.schema.json</span><span class="chip">instance-capability-pack.schema.json</span><span class="chip">company-capability-pack.schema.json</span><span class="chip">fleet-refresh-manifest.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L2 -->
+      <div class="layer">
+        <div class="lstripe acc-evi"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L2</span><span class="lname" style="color:var(--source-ink)">Evidence Layer</span><span class="lrole">— prove access and recency. Store <b>references</b>, not blobs.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Preflight</b> <span class="sub">— is the connector <i>reachable</i>? <code class="inline">passed</code> proves live access; <code class="inline">failed / planned</code> stay visible gaps.</span>
+              <div class="chips"><span class="chip">instance-preflight-result.schema.json</span><span class="chip">company-preflight-result.schema.json</span></div></div>
+            <div class="lcomp"><b>Freshness</b> <span class="sub">— is it <i>recent</i>? checked-at · source watermark · stale-after · lag → <code class="inline">fresh / stale / failed / unknown / planned</code>. Hard non-conflation: <code class="inline">probe_only</code> ≠ fresh, <code class="inline">package_generation</code> ≠ fresh, <code class="inline">declared_gap</code> ≠ fresh.</span>
+              <div class="chips"><span class="chip">instance-source-freshness-record.schema.json</span><span class="chip">source-freshness-record.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L3 -->
+      <div class="layer">
+        <div class="lstripe acc-mem"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L3</span><span class="lname" style="color:var(--partial-ink)">Memory Kernel</span><span class="lrole">— task-seeking memory. <b>Not truth by default</b>; promoted to state only through governance.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Agent &amp; org memory</b> <span class="sub">— per-agent / per-person / shared notes, observations, candidate interpretations. Distinct from accepted state.</span>
+              <div class="chips"><span class="chip">agent-memory-entry.schema.json</span><span class="chip">company-memory.schema.json</span></div></div>
+            <div class="lcomp"><b>Captured agent output</b> <span class="sub">— durable <b>evidence for review</b>, never accepted truth. Promotion to shared state requires authority over the target object.</span>
+              <div class="chips"><span class="chip">agent-response.schema.json</span><span class="chip">agent-activation.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L4 -->
+      <div class="layer">
+        <div class="lstripe acc-st"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L4</span><span class="lname" style="color:var(--done-ink)">State Kernel</span><span class="lrole">— durable current truth. The heart of the system.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Journals &amp; snapshots</b> <span class="sub">— append-only journal is truth; snapshot is the materialized current view. <code class="inline">as_of</code> + <code class="inline">latest_journal_entry_id</code>. Parent/child refs across the ontology.</span>
+              <div class="chips"><span class="chip">state-object.schema.json</span><span class="chip">state-journal-entry.schema.json</span><span class="chip">entity-current-state-record.schema.json</span><span class="chip">state-instance.schema.json</span></div></div>
+            <div class="lcomp"><b>Rollups, signals, audit</b> <span class="sub">— rollup queue for affected parents; review signals (<code class="inline">accepted / pending_approval / rejected / no_update_warranted</code>); replay &amp; audit.</span>
+              <div class="chips"><span class="chip">review-signal.schema.json</span><span class="chip">commit-result.schema.json</span><span class="chip">crm-operating-picture.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L5 -->
+      <div class="layer">
+        <div class="lstripe acc-pkg"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L5</span><span class="lname" style="color:var(--partial-ink)">Context Packaging Layer</span><span class="lrole">— bounded working sets. Projections over the substrate for a purpose.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Packages</b> <span class="sub">— persona/app-scoped context + recent-change packages + opportunity-review packages. Each carries <b>freshness metadata</b> and <b>excluded-context summaries</b> so routing is auditable.</span>
+              <div class="chips"><span class="chip">context-package.schema.json</span><span class="chip">personal-context-package.schema.json</span><span class="chip">recent-change-entry.schema.json</span></div></div>
+            <div class="lcomp"><b>Model review input</b> <span class="sub">— bounded slices of state, journal, memory, evidence, governance handed to the model-update layer. May produce durable proposals — or none.</span>
+              <div class="chips"><span class="chip">model-review-packet.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L6 -->
+      <div class="layer">
+        <div class="lstripe acc-mdl"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L6</span><span class="lname" style="color:var(--next-ink)">Model-Mediated Update Layer</span><span class="lrole">— the model interprets; the committer commits. See flow rail ↓</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Model review</b> <span class="sub">— receives evidence + snapshots + persona → answers what changed / what didn't / fact vs interpretation / uncertainty / affected objects / proposed actions. Emits a <b>journal proposal</b> (or no-op).</span>
+              <div class="chips"><span class="chip">model-proposal-output.schema.json</span><span class="chip">facet.schema.json</span><span class="chip">persona.schema.json</span></div></div>
+            <div class="lcomp"><b>Update classes</b> <span class="sub">— <b>Direct</b> (one trigger, one object) · <b>Interpretive</b> (judgment over ambiguous evidence) · <b>Corrective</b> (contradicts prior — new entry) · <b>Rollup</b> (regen parent from children) · <b>Developmental</b> (readiness/learning).</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L7 -->
+      <div class="layer">
+        <div class="lstripe acc-gov"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L7</span><span class="lname" style="color:var(--governance-ink)">Governance Layer</span><span class="lrole">— the committer decides valid · allowed · persisted · pending · rejected. <b>No silent fallback</b>.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Governance checks</b> <span class="sub">— schema validity · actor authority · write permission · evidence-reference existence · action risk · protected-state rules · duplicate id · memory/promotion policy. Each check yields an explicit result.</span>
+              <div class="chips"><span class="chip">governance-policy.schema.json</span><span class="chip">mission-governance-receipt.schema.json</span></div></div>
+            <div class="lcomp"><b>External-action rule</b> <span class="sub">— before any external action: refresh-required? protected state changed? governance/approval changed? unresolved evidence? If any fails → pending / rejected / refresh request.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- L8 -->
+      <div class="layer">
+        <div class="lstripe acc-acc"></div>
+        <div class="lbody">
+          <div class="lhead"><span class="lnum">L8</span><span class="lname" style="color:var(--future-ink)">Access Surfaces</span><span class="lrole">— consumers read rendered artifacts. They never scrape the runtime root or mutate the substrate directly.</span></div>
+          <div class="lrow">
+            <div class="lcomp"><b>Agent packages &amp; routes</b> <span class="sub">— the primary agent-facing packet: routes, source readiness, tool/action refs, freshness gaps, evidence, federation boundaries, governance. Plus deterministic read surfaces.</span>
+              <div class="chips"><span class="chip">instance-agent-package.schema.json</span><span class="chip">question-route-contract.schema.json</span><span class="chip">tool-action-contract.schema.json</span><span class="chip">north-star-answer.schema.json</span></div></div>
+            <div class="lcomp"><b>Federation &amp; pressure gates</b> <span class="sub">— governed cross-instance <i>reads</i> (no raw materialization by default); structural assertions that a package is actually answerable.</span>
+              <div class="chips"><span class="chip">instance-federation-pack.schema.json</span><span class="chip">package-pressure-question.schema.json</span><span class="chip">app-conformance-note.schema.json</span><span class="chip">trace-manifest.schema.json</span></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== FLOW RAIL ===================== -->
+  <section class="section">
+    <h2 class="section-h"><span class="num">2</span> Update data-flow — how a change becomes durable state</h2>
+    <p class="lead" style="font-size:14px">The five-phase loop crosses every layer. Two invariants hold throughout: the <b>journal is the source of truth</b>, and <b>the model decides meaning while code enforces contracts</b>. Idempotent around trigger / proposal ids.</p>
+
+    <div class="flowrail">
+      <div class="fh"><span class="ft">trigger → durable state → propagation</span><span class="fd">each box maps to a layer in the stack above</span></div>
+      <div class="flow">
+        <div class="fstep" style="border-color:var(--source);background:var(--source-soft)"><div class="n" style="color:var(--source-ink)">PHASE 1 · L1–L2</div><div class="t" style="color:var(--source-ink)">Notice</div><div class="d">Receive &amp; <b>dedupe</b> a source event/trigger (idempotency key); build an evidence packet of <b>refs</b>, not blobs.</div></div>
+        <div class="farrow">▶</div>
+        <div class="fstep" style="border-color:var(--next);background:var(--next-soft)"><div class="n" style="color:var(--next-ink)">PHASE 2 · L6</div><div class="t" style="color:var(--next-ink)">Interpret</div><div class="d">Model reviews evidence + snapshots + persona → emits a <b>journal proposal</b> (patch, evidence refs, uncertainty, proposed actions) — or none.</div></div>
+        <div class="farrow">▶</div>
+        <div class="fstep" style="border-color:var(--governance);background:var(--governance-soft)"><div class="n" style="color:var(--governance-ink)">PHASE 3 · L7→L4</div><div class="t" style="color:var(--governance-ink)">Commit</div><div class="d">Committer validates schema/authority/evidence/risk → appends <b>immutable</b> journal entry, materializes snapshot.</div></div>
+        <div class="farrow">▶</div>
+        <div class="fstep" style="border-color:var(--partial);background:var(--partial-soft)"><div class="n" style="color:var(--partial-ink)">PHASE 4 · L4→L5</div><div class="t" style="color:var(--partial-ink)">Propagate</div><div class="d">Queue <b>rollups</b> for parents (same lifecycle); emit review signal; surface follow-up opportunities.</div></div>
+        <div class="farrow">▶</div>
+        <div class="fstep" style="border-color:var(--future);background:var(--future-soft)"><div class="n" style="color:var(--future-ink)">PHASE 5 · L5→L8</div><div class="t" style="color:var(--future-ink)">Index</div><div class="d">Record accepted commits in the <b>recent-change registry</b>; re-package for agents &amp; consumers.</div></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3>Commit outcomes <span class="tag" style="background:var(--governance-soft);color:var(--governance-ink)">L7</span></h3>
+        <div class="split-col">
+          <div class="half"><h4 style="color:var(--done-ink)">✓ Accepted</h4><p style="font-size:12px;margin:0">append journal · persist memory · materialize snapshot · queue rollups · emit signal</p></div>
+          <div class="half"><h4 style="color:var(--partial-ink)">⏳ Pending</h4><p style="font-size:12px;margin:0">valid but needs approval — no protected mutation, no risky action; record pending proposal</p></div>
+        </div>
+        <div class="split-col" style="margin-top:8px"><div class="half"><h4 style="color:var(--governance-ink)">✗ Rejected</h4><p style="font-size:12px;margin:0">invalid/unauthorized/unsafe — no append, no write; emit <code class="inline">rejected</code> + reason</p></div>
+          <div class="half"><h4 style="color:var(--future-ink)">∅ No-op</h4><p style="font-size:12px;margin:0">model proposes nothing — append nothing; emit <code class="inline">no_update_warranted</code> for audit</p></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Approval posture <span class="tag" style="background:var(--done-soft);color:var(--done-ink)">L7</span></h3>
+        <p>Not every update needs human approval:</p>
+        <ul>
+          <li><b>Auto-commit</b> — low-risk internal interpretations when evidence &amp; permissions are sufficient.</li>
+          <li><b>Requires approval</b> — external commitments, protected mission changes, policy, relationship-sensitive claims, business-risk actions.</li>
+          <li>Approval attaches to the <b>journal entry or proposed action</b> — it never disappears into chat context.</li>
+        </ul>
+        <p style="font-size:12px;color:var(--muted);margin-top:8px">Captured agent responses are durable artifacts, not accepted state — they enter state only via the normal review / governance / commit path.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== BOUNDARIES ===================== -->
+  <section class="section">
+    <h2 class="section-h"><span class="num">3</span> The boundaries that prevent false confidence</h2>
+
+    <div class="banner gv">
+      <div class="bh">Three independent gates</div>
+      <div class="bd"><b>Preflight</b> (reachable?) is checked at L2. <b>Freshness</b> (recent?) is checked at L2. <b>Governance</b> (authorized?) is checked at L7. They are <b>separate by construction</b>: a reachable, fresh source cannot authorize an external action, and a governed action still needs fresh evidence. Conflating them is exactly how agents act on stale, unproven, or unauthorized state.</div>
+    </div>
+
+    <div class="banner pr">
+      <div class="bh">Product vs. instance</div>
+      <div class="bd">The <b>product repo</b> (this one) holds schemas, runtime code, contracts, fixtures (SampleCo, ResearchCo, PortfolioCo). A <b>deployed instance</b> owns live records, credentials, local paths, source-owned &amp; State-System-owned indexes, generated package exports. Agents consume <b>rendered artifacts</b> — they never touch the runtime root. This is what makes the product safely open-source.</div>
+    </div>
+
+    <div class="banner fed">
+      <div class="bh">Federation boundary</div>
+      <div class="bd"><code class="inline">InstanceFederationPack</code> is the boundary object for governed cross-instance <b>reads</b> — it does <b>not</b> sync raw data. Default <code class="inline">local_materialization=false</code>: identity stays remote, outputs are safe summaries with evidence refs, subject-notes may demote/explain but never hidden-filter, and a repair policy says what to do when the route is stale. A company may read personal relationship evidence <b>only</b> through an explicit governed route — never by copying raw personal records.</div>
+    </div>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3 class="c-next" style="color:var(--next-ink)">Model-mediated update rule <span class="tag" style="background:var(--next-soft);color:var(--next-ink)">L6</span></h3>
+        <p>Code gathers factual inputs and exposes update tools. The model decides <b>what changed</b>, which family relationships matter, what is uncertain, and whether a proposed update is worth recording. The schema makes those decisions <b>explicit after they are made</b> — it never hides them inside prompt prose.</p>
+        <p style="font-size:12px;color:var(--muted)">Semantic retrieval that returns explicit State System records (claims, evidence, memory, journals, operating pictures) with provenance is part of the <b>integrity</b> layer — evidence plumbing, not hidden organizational judgment.</p>
+      </div>
+      <div class="panel">
+        <h3>Write boundary <span class="tag" style="background:var(--governance-soft);color:var(--governance-ink)">L7–L8</span></h3>
+        <p>Agents may <b>propose</b> updates, record evidence, or trigger refresh when a runtime grants that capability. They must <b>not</b>:</p>
+        <ul>
+          <li>directly mutate source-owned truth or external systems (unless the package exposes an allowed action <i>and</i> governance permits);</li>
+          <li>materialize raw federated data unless a pack explicitly permits it;</li>
+          <li>infer behavior from connector names — connector behavior lives in source modules + tool-action contracts;</li>
+          <li>treat a stale package as permission to act externally.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REFERENCE: substrate vs working ===================== -->
+  <section class="section">
+    <h2 class="section-h"><span class="num">4</span> Substrate vs. working models — the "Gordian knot"</h2>
+    <p class="lead" style="font-size:14px">One substrate, many projections. This is why State System does not grow a separate architecture for CRM, wiki, company memory, trips, meetings, creative arcs, code review, and agent briefings — those are all <b>working-model profiles</b> over the same substrate.</p>
+    <div class="dual">
+      <div class="seg" style="background:var(--done-soft)">
+        <h4 style="color:var(--done-ink)">Durable substrate — truth-seeking</h4>
+        <p>objects · claims · evidence · accepted state · journals · memory · governance</p>
+        <div class="sub">The immutable, scoped, evidence-backed record. Append-only. Replayable.</div>
+      </div>
+      <div class="seg" style="background:var(--partial-soft)">
+        <h4 style="color:var(--partial-ink)">Working models — task-seeking</h4>
+        <p>bounded projections over the substrate for a purpose</p>
+        <div class="sub"><code class="inline">ContextPackage</code> · <code class="inline">ModelReviewPacket</code> · <code class="inline">AgentActivation</code> — persona/app scoped, freshness-stamped.</div>
+      </div>
+      <div class="seg" style="background:var(--future-soft)">
+        <h4 style="color:var(--future-ink)">Consumers</h4>
+        <p>agent-runtime packets · CLI agents · apps · reports · wiki views · CRM views · model reviewers</p>
+        <div class="sub">Read rendered artifacts. Never mutate the substrate directly.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REFERENCE: ref-naming + ontology ===================== -->
+  <section class="section">
+    <h2 class="section-h"><span class="num">5</span> Reference — refs, ontology, traits</h2>
+
+    <div class="grid2">
+      <div class="panel">
+        <h3>Ref naming — keep working context from collapsing into state <span class="tag" style="background:var(--source-soft);color:var(--source-ink)">narrowing</span></h3>
+        <table class="ref">
+          <thead><tr><th>Ref</th><th>Means</th></tr></thead>
+          <tbody>
+            <tr><td><code>state_refs</code></td><td>accepted State System state only — <b>not</b> "anything relevant"</td></tr>
+            <tr><td><code>object_refs</code></td><td>addressable things: people, docs, code, images, meetings, packets</td></tr>
+            <tr><td><code>claim_refs</code></td><td>assertions about/by objects — accepted or still candidate</td></tr>
+            <tr><td><code>source_refs</code></td><td>origin system/item refs</td></tr>
+            <tr><td><code>evidence_refs</code></td><td>evidence supporting claims, state, memory, proposals</td></tr>
+            <tr><td><code>memory_refs</code></td><td>agent/person/org memory — <b>not truth by default</b></td></tr>
+            <tr><td><code>governance_refs</code></td><td>policies, approval boundaries, authority constraints</td></tr>
+            <tr><td><code>runtime_constraints</code></td><td>execution limits owned by a runtime, not governance policy</td></tr>
+            <tr><td><code>visible_control_refs</code></td><td>workboard, task, approval, schedule, user-control surfaces</td></tr>
+            <tr><td><code>artifact_refs</code></td><td>outputs, files, drafts, reports, generated media</td></tr>
+            <tr><td><code>packet_refs</code></td><td>agent-runtime / runtime packet lineage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel">
+        <h3>Ontology — top-level state families <span class="tag" style="background:var(--done-soft);color:var(--done-ink)">8 families</span></h3>
+        <p style="font-size:12px;margin:0 0 4px"><code class="inline">type</code> = what the object <i>is</i>; <code class="inline">primary_family</code> = where it <i>belongs</i>. One primary home, but it can participate in several rollups — the ontology is not a brittle inheritance tree.</p>
+        <div class="fam">
+          <div class="fami"><div class="fn">Organizational Identity</div><div class="fd">mission, principles, narrative</div></div>
+          <div class="fami"><div class="fn">Operating</div><div class="fd">norms, roles, rhythms, ops</div></div>
+          <div class="fami"><div class="fn">Work</div><div class="fd">projects, campaigns, deals</div></div>
+          <div class="fami"><div class="fn">Relationship</div><div class="fd">people, orgs, affiliations</div></div>
+          <div class="fami"><div class="fn">Knowledge</div><div class="fd">claims, insights, evidence</div></div>
+          <div class="fami"><div class="fn">Role &amp; Persona</div><div class="fd">roles, agent personas, facets</div></div>
+          <div class="fami"><div class="fn">Onboarding</div><div class="fd">human &amp; agent ramp/readiness</div></div>
+          <div class="fami"><div class="fn">Governance</div><div class="fd">permissions, approval, authority</div></div>
+        </div>
+        <h3 style="margin-top:14px">State traits — how objects change over time</h3>
+        <div class="traits">
+          <span class="trait t-slow">slow_changing — mission, principles, strategy</span>
+          <span class="trait t-dyn">dynamic — campaigns, deals, risks, priorities</span>
+          <span class="trait t-dev">developmental — onboarding, role ramp</span>
+          <span class="trait t-roll">rollup — synthesized operating pictures</span>
+        </div>
+        <p style="font-size:11.5px;color:var(--muted);margin-top:8px">Traits guide update cadence &amp; review policy. They do <b>not</b> replace model judgment about what changed or what matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bot">
+    <span><b>State System</b> · Technical Architecture reference. Schema names link to <code class="inline">schemas/</code>; contracts to <code class="inline">docs/concepts/</code> &amp; <code class="inline">docs/source-modules.md</code>.</span>
+    <span>Companion: <code class="inline">docs/state-system-deck.html</code> (narrative) · <code class="inline">docs/system-diagram.html</code> (orientation)</span>
+  </footer>
+
+</div>
+</body>
+</html>
