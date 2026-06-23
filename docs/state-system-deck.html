@@ -1,0 +1,823 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State System — Technical Deep-Dive</title>
+<style>
+/* ============================================================
+   Semantic palette — matches docs/system-diagram.html so the
+   concepts stay color-coded across both artifacts.
+   ============================================================ */
+:root{
+  --ink:#17202a; --muted:#5b6572; --line:#cfd7df;
+  --bg:#f7f8fa; --paper:#ffffff;
+  --done:#1f8a5b; --done-soft:#e6f4ee;
+  --partial:#b7791f; --partial-soft:#fff3d8;
+  --next:#6f4bb2; --next-soft:#efe9fb;        /* model / interpretation */
+  --future:#6b7280; --future-soft:#edf0f3;
+  --source:#2767b1; --source-soft:#e6f0fb;    /* sources */
+  --governance:#b33a3a; --governance-soft:#f9e7e7;
+  --stage-w:1280px; --stage-h:720px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; background:#0e1116; color:var(--ink);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  overflow:hidden;
+}
+
+/* ---------- scaled stage ---------- */
+#viewport{position:fixed; inset:0; display:grid; place-items:center}
+#stage{
+  position:relative; width:var(--stage-w); height:var(--stage-h);
+  background:var(--bg); transform-origin:center center;
+  box-shadow:0 30px 80px rgba(0,0,0,.45);
+  overflow:hidden;
+}
+.slide{
+  position:absolute; inset:0; padding:56px 72px 64px;
+  display:none; flex-direction:column;
+}
+.slide.active{display:flex}
+
+/* ---------- chrome ---------- */
+.kicker{
+  font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); display:flex; align-items:center; gap:10px; margin-bottom:14px;
+}
+.kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--next)}
+h1.title{font-size:46px; line-height:1.06; margin:0 0 10px; letter-spacing:-.01em; font-weight:800}
+h1.title.small{font-size:38px}
+.lede{font-size:19px; line-height:1.5; color:var(--muted); max-width:1000px; margin:0}
+.subtitle{font-size:20px; color:var(--muted); margin:0}
+
+.slide-footer{
+  position:absolute; left:72px; right:72px; bottom:24px;
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:12px; color:#94a0ad; letter-spacing:.04em;
+}
+.slide-footer .brand{display:flex; align-items:center; gap:8px}
+.slide-footer .brand b{color:var(--ink); font-weight:700}
+.progress{position:absolute; left:0; right:0; bottom:0; height:4px; background:rgba(0,0,0,.07)}
+.progress > i{display:block; height:100%; width:0; background:var(--next); transition:width .35s ease}
+
+/* ---------- primitives ---------- */
+.body{font-size:17px; line-height:1.55}
+.card{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:18px 20px; box-shadow:0 1px 0 rgba(0,0,0,.02);
+}
+.card h3{margin:0 0 8px; font-size:16px; font-weight:700; display:flex; align-items:center; gap:9px}
+.card .tag{font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:2px 7px; border-radius:5px}
+.card p{margin:6px 0 0; font-size:14.5px; line-height:1.5; color:#39434f}
+.card ul{margin:8px 0 0; padding-left:18px}
+.card ul li{font-size:14px; line-height:1.5; color:#39434f; margin:3px 0}
+
+.grid{display:grid; gap:16px; margin-top:18px}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.cols-4{grid-template-columns:repeat(4,1fr)}
+.cols-5{grid-template-columns:repeat(5,1fr)}
+.grow{flex:1; min-height:0}
+
+.pill{display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:var(--muted);
+  background:var(--paper); border:1px solid var(--line); border-radius:999px; padding:4px 12px}
+
+/* color helpers */
+.c-src{color:var(--source)} .bg-src{background:var(--source-soft); color:#1c4d86}
+.c-next{color:var(--next)} .bg-next{background:var(--next-soft); color:#4a3183}
+.c-gov{color:var(--governance)} .bg-gov{background:var(--governance-soft); color:#822a2a}
+.c-done{color:var(--done)} .bg-done{background:var(--done-soft); color:#155f3f}
+.c-part{color:var(--partial)} .bg-part{background:var(--partial-soft); color:#7d5512}
+.c-fut{color:var(--future)} .bg-fut{background:var(--future-soft); color:#3c434c}
+.l-src{border-color:var(--source)} .l-next{border-color:var(--next)}
+.l-gov{border-color:var(--governance)} .l-done{border-color:var(--done)}
+.l-part{border-color:var(--partial)} .l-fut{border-color:var(--future)}
+.card.tight{padding:13px 15px}
+.card.tight h3{font-size:15px;margin-bottom:5px}
+.card.tight p{font-size:13.5px;margin-top:5px}
+.card.tight ul{margin-top:6px}
+.card.tight ul li{font-size:13px;line-height:1.42;margin:2px 0}
+
+blockquote.principle{
+  margin:0; font-size:24px; line-height:1.4; font-weight:600; color:var(--ink);
+  border-left:5px solid var(--next); padding:6px 0 6px 22px; max-width:980px;
+}
+.footnote{font-size:13px; color:var(--muted); margin-top:14px}
+
+/* ---------- title slide ---------- */
+.slide-title{justify-content:center; padding:0 96px}
+.slide-title .badge{
+  align-self:flex-start; font-size:13px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; background:var(--next); padding:6px 14px; border-radius:999px; margin-bottom:26px;
+}
+.slide-title h1{font-size:72px; line-height:1.02; letter-spacing:-.02em; font-weight:800; margin:0 0 18px}
+.slide-title .lede{font-size:23px; color:#3c4754; max-width:920px}
+.title-meta{margin-top:38px; display:flex; gap:12px; flex-wrap:wrap}
+
+/* ---------- lifecycle pipeline ---------- */
+.pipe{display:flex; align-items:stretch; gap:0; margin-top:8px}
+.pipe .node{
+  flex:1; background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:14px 14px 12px; position:relative; display:flex; flex-direction:column; gap:7px;
+}
+.pipe .arrow{flex:0 0 30px; display:grid; place-items:center; color:var(--line); font-size:20px; font-weight:700}
+.pipe .step-n{font-size:11px; font-weight:800; letter-spacing:.1em; color:#9aa4b0}
+.pipe .step-t{font-size:16px; font-weight:800; letter-spacing:-.01em}
+.pipe .step-d{font-size:12.5px; line-height:1.45; color:#49535f}
+.pipe .bar{height:4px; border-radius:3px; margin-bottom:3px}
+
+/* ---------- read pipeline ---------- */
+.flow{display:flex; align-items:center; gap:6px; margin-top:14px; flex-wrap:nowrap}
+.flow .chip{
+  flex:1; min-width:0; background:var(--paper); border:1px solid var(--line); border-radius:10px;
+  padding:11px 12px; text-align:left;
+}
+.flow .chip .n{font-size:11px; font-weight:800; color:#9aa4b0}
+.flow .chip .t{font-size:14px; font-weight:700; margin-top:2px; line-height:1.2}
+.flow .chip .d{font-size:11.5px; color:#5a6571; margin-top:3px; line-height:1.35}
+.flow .arr{flex:0 0 auto; color:#c2cad3; font-size:16px; font-weight:700}
+
+/* ---------- matrix table ---------- */
+.matrix{width:100%; border-collapse:separate; border-spacing:0; margin-top:16px; font-size:14px}
+.matrix th, .matrix td{text-align:left; padding:11px 14px; border-bottom:1px solid var(--line); vertical-align:top}
+.matrix th{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#8a94a0; font-weight:700; background:#fff}
+.matrix tr td:first-child{font-weight:700; white-space:nowrap}
+.status-chip{font-size:12px; font-weight:700; padding:2px 9px; border-radius:6px}
+
+/* ---------- split (model/code) ---------- */
+.split{display:grid; grid-template-columns:1fr 60px 1fr; gap:0; margin-top:18px; align-items:stretch; flex:1; min-height:0}
+.split .col{background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:20px 22px; display:flex; flex-direction:column}
+.split .col h3{margin:0; font-size:20px; font-weight:800; display:flex; align-items:center; gap:10px}
+.split .col .role{font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin:2px 0 12px}
+.split .col ul{margin:0; padding-left:19px}
+.split .col li{font-size:15px; line-height:1.5; margin:5px 0; color:#33404c}
+.split .div{display:grid; place-items:center; color:#c2cad3; font-weight:800; font-size:18px}
+.divider-note{margin-top:auto; padding-top:12px; font-size:13px; color:var(--muted); border-top:1px dashed var(--line)}
+
+/* ---------- federation diagram ---------- */
+.fed{display:grid; grid-template-columns:1fr 1.15fr 1fr; gap:14px; margin-top:18px; align-items:stretch}
+.fed .inst{border-radius:14px; padding:16px; border:1px solid; background:var(--paper)}
+.fed .inst h3{margin:0 0 8px; font-size:16px}
+.fed .pack{border-radius:14px; border:2px dashed var(--governance); background:var(--governance-soft); padding:16px; display:flex; flex-direction:column; gap:8px}
+.fed .pack h3{margin:0; font-size:16px; color:#822a2a}
+.fed ul{margin:6px 0 0; padding-left:18px}
+.fed li{font-size:13.5px; line-height:1.45; color:#4a3b3b; margin:3px 0}
+
+/* ---------- nav hint ---------- */
+.hint{position:fixed; left:50%; transform:translateX(-50%); bottom:14px; z-index:50;
+  font-size:11px; color:#7d8893; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12);
+  padding:5px 11px; border-radius:999px; pointer-events:none; letter-spacing:.03em; transition:opacity .6s}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0; transform:translateY(14px)}
+.slide.active .reveal{animation:reveal .55s cubic-bezier(.2,.7,.2,1) forwards; animation-delay:calc(var(--ri,0)*90ms)}
+@keyframes reveal{to{opacity:1; transform:none}}
+.slide.active .accent-line{display:block; height:3px; width:0; background:var(--next); border-radius:2px;
+  animation:drawline .8s ease-out .15s forwards, pulse 4s ease-in-out 1s infinite}
+@keyframes drawline{to{width:96px}}
+@keyframes pulse{0%,100%{opacity:.85}50%{opacity:.4}}
+
+/* ---------- speaker notes ---------- */
+#notes{position:fixed; right:0; top:0; bottom:0; width:340px; z-index:60; transform:translateX(100%);
+  background:#0e1116; color:#cdd5de; padding:26px 24px; overflow:auto; transition:transform .3s ease;
+  border-left:1px solid rgba(255,255,255,.1)}
+#notes.open{transform:none}
+#notes h4{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:#7d8893; margin:0 0 12px}
+#notes .nh{font-size:16px; font-weight:700; color:#fff; margin:0 0 10px}
+#notes p{font-size:14px; line-height:1.6; color:#aab4bf; margin:0 0 12px}
+#notes .hint-k{font-size:12px; color:#6f7b87; margin-top:18px; border-top:1px solid rgba(255,255,255,.1); padding-top:14px}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion:reduce){
+  .reveal{opacity:1!important; transform:none!important; animation:none!important}
+  .slide.active .accent-line{animation:none!important; width:96px}
+}
+
+/* ---------- print / pdf ---------- */
+@media print{
+  @page{size:1280px 720px; margin:0}
+  body{background:#fff; overflow:visible}
+  #viewport{position:static}
+  #stage{transform:none!important; box-shadow:none; width:1280px; height:720px}
+  .slide{display:flex!important; page-break-after:always; break-after:page}
+  .slide:not(:first-child){position:absolute; left:0; top:0}
+  .hint,#notes{display:none}
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+
+  <!-- ===================================================== SLIDE 1 : TITLE -->
+  <section class="slide slide-title active" data-title="title">
+    <span class="badge reveal" style="--ri:0">Technical Deep-Dive</span>
+    <h1 class="reveal" style="--ri:1">State System</h1>
+    <span class="accent-line reveal" style="--ri:2"></span>
+    <p class="lede reveal" style="--ri:3">A durable <b>organizational state layer</b> that turns scattered signals across docs, messages, tasks, CRM, calendars, and repos into scoped, evidence-backed, freshness-aware state that humans and agents can act from.</p>
+    <div class="title-meta reveal" style="--ri:4">
+      <span class="pill"><span class="dot" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--source)"></span> Sources</span>
+      <span class="pill"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--next)"></span> Model interpretation</span>
+      <span class="pill"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--governance)"></span> Governance</span>
+      <span class="pill"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--done)"></span> Fresh / committed</span>
+    </div>
+    <div class="slide-footer">
+      <span class="brand"><b>State System</b> · Technical Deep-Dive</span>
+      <span>1 / 16</span>
+    </div>
+    <div class="progress"><i style="width:6.25%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 2 : THE PROBLEM -->
+  <section class="slide" data-title="problem">
+    <div class="kicker"><span class="dot"></span> Why this exists</div>
+    <h1 class="title">Agents can't answer <span class="c-gov">"what is the current state?"</span></h1>
+    <p class="lede reveal" style="--ri:0">The evidence is scattered across dozens of systems. Some are fresh, some stale, some unreachable, some only declared, some governed elsewhere. Without an explicit state layer, agents either <b>over-trust whatever they saw last</b> — or <b>hide uncertainty in prose</b>.</p>
+
+    <div class="grid cols-4 grow">
+      <div class="card l-src reveal" style="--ri:1"><h3><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--source);display:inline-block"></span> Scattered</h3><p>Docs, messages, tasks, CRM, calendar, repos, memory, local runtime artifacts — no single current view.</p></div>
+      <div class="card l-gov reveal" style="--ri:2"><h3><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--partial);display:inline-block"></span> Mixed freshness</h3><p>Some sources fresh, some stale, some failed, some only <i>planned</i>. Recency is usually invisible.</p></div>
+      <div class="card l-next reveal" style="--ri:3"><h3><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--governance);display:inline-block"></span> Unauditable</h3><p>Interpretation, fact, and permission blur together inside chat context. No provenance. No replay.</p></div>
+      <div class="card l-done reveal" style="--ri:4"><h3><span class="dot" style="width:9px;height:9px;border-radius:50%;background:var(--future);display:inline-block"></span> Ungoverned</h3><p>Protected actions fire off hidden thresholds and "best guesses" instead of an explicit authorization boundary.</p></div>
+    </div>
+
+    <div class="footnote reveal" style="--ri:5">State System makes the boundary between <b>what appears true</b>, <b>why it changed</b>, <b>what's fresh</b>, and <b>what's allowed</b> explicit and inspectable.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>2 / 16</span></div>
+    <div class="progress"><i style="width:12.5%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 3 : CORE IDEA -->
+  <section class="slide" data-title="core-idea">
+    <div class="kicker"><span class="dot"></span> Core idea</div>
+    <h1 class="title">State is not a note, a prompt, or a context dump.</h1>
+    <blockquote class="principle reveal" style="--ri:0">It is a <span class="c-next">durable, scoped record</span> of what appears true now — and the machinery to keep it honest.</blockquote>
+
+    <div class="grid cols-2 grow" style="margin-top:22px">
+      <div class="card reveal" style="--ri:1">
+        <h3>State is a durable record of…</h3>
+        <ul>
+          <li>What appears to be true <b>now</b></li>
+          <li><b>Why</b> that view changed</li>
+          <li>Which <b>evidence</b> supports it</li>
+          <li>Which sources are reachable &amp; <b>fresh</b></li>
+          <li>What is stale, failed, unknown, planned, or <b>federated</b></li>
+          <li>What needs <b>attention</b></li>
+          <li>Which actions are proposed, approved, blocked, or taken</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--ri:2;background:var(--next-soft);border-color:var(--next)">
+        <h3 class="c-next">Working interpretation, not absolute truth</h3>
+        <p>State System does not claim to hold ground truth. It holds <b>current working interpretation</b>: what appears true now, why we believe it, what evidence supports it, what remains uncertain, and what action may be warranted.</p>
+        <p style="margin-top:12px">Every record is <b>scoped</b> (instance / domain / persona), <b>evidence-linked</b>, and <b>freshness-stamped</b> — so a reader never confuses a stale view with permission to act.</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>3 / 16</span></div>
+    <div class="progress"><i style="width:18.75%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 4 : TWO FORMS -->
+  <section class="slide" data-title="two-forms">
+    <div class="kicker"><span class="dot"></span> Product boundary</div>
+    <h1 class="title">Two separable forms — keep them apart</h1>
+    <p class="lede reveal" style="--ri:0">State System has a public <b>product surface</b> and a private <b>deployed instance</b>. The boundary keeps open-source contracts clean while a company owns its real runtime substrate.</p>
+
+    <div class="grid cols-2 grow">
+      <div class="card tight l-done reveal" style="--ri:1">
+        <h3><span class="tag bg-done">this repo</span> Product repo</h3>
+        <p style="margin-top:10px">Defines schemas, contracts, runtime code, migrations, and documentation. No private data.</p>
+        <ul>
+          <li>JSON schemas (state, packages, freshness, routes, tools…)</li>
+          <li>File-backed Python CLI runtime</li>
+          <li>Source-module &amp; federation contracts</li>
+          <li>Preflight / freshness recorders</li>
+          <li>Package rendering &amp; pressure tests</li>
+          <li>Public fixtures (SampleCo, ResearchCo…)</li>
+        </ul>
+      </div>
+      <div class="card tight l-gov reveal" style="--ri:2">
+        <h3><span class="tag bg-gov">deployed</span> Deployed instance</h3>
+        <p style="margin-top:10px">A company (or person) owns its live runtime: the actual state, evidence, indexes, and ops artifacts.</p>
+        <ul>
+          <li>Live state records &amp; append-only journals</li>
+          <li>Credentials &amp; local paths</li>
+          <li>Source-owned &amp; State-System-owned indexes</li>
+          <li>Generated package exports / read models</li>
+          <li>Adapter &amp; freshness evidence</li>
+          <li>Operational artifacts</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:3">↳ Agents consume <b>rendered artifacts</b> (packages / read models) — they never scrape a private runtime root.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>4 / 16</span></div>
+    <div class="progress"><i style="width:25%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 5 : MODEL / CODE BOUNDARY -->
+  <section class="slide" data-title="model-code-boundary">
+    <div class="kicker"><span class="dot"></span> The central design principle</div>
+    <h1 class="title">The model interprets. Code keeps the record honest.</h1>
+    <p class="lede reveal" style="--ri:0">No brittle thresholds or hidden routing rules. Structure lets the model interpret while code guarantees integrity — and every decision is inspectable.</p>
+
+    <div class="split reveal" style="--ri:1">
+      <div class="col l-next">
+        <h3 class="c-next">🧠 Model owns interpretation</h3>
+        <div class="role c-next">what changed · what matters</div>
+        <ul>
+          <li>What changed (and what did <i>not</i>)</li>
+          <li>What is fact vs. interpretation</li>
+          <li>What evidence supports the reading</li>
+          <li>What uncertainty remains</li>
+          <li>Which state objects are affected</li>
+          <li>Which actions make sense</li>
+          <li>How persona facets shape the reading</li>
+        </ul>
+      </div>
+      <div class="div">≡</div>
+      <div class="col">
+        <h3>🔒 Code owns integrity</h3>
+        <div class="role" style="color:#5a6571">valid · allowed · persisted · auditable</div>
+        <ul>
+          <li>Schemas &amp; evidence references</li>
+          <li>Permissions &amp; write authority</li>
+          <li>Persistence &amp; append-only journal</li>
+          <li>Replay &amp; auditability</li>
+          <li>Source access &amp; freshness checks</li>
+          <li>Governance &amp; execution safety</li>
+          <li>Safe boundaries for action</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:2">The system provides the structure for models to interpret — it does <b>not</b> encode organizational judgment as regex, thresholds, or fallbacks.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>5 / 16</span></div>
+    <div class="progress"><i style="width:31.25%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 6 : LIFECYCLE -->
+  <section class="slide" data-title="lifecycle">
+    <div class="kicker"><span class="dot"></span> How a change becomes durable state</div>
+    <h1 class="title small">The update lifecycle — a five-phase loop</h1>
+    <p class="lede reveal" style="--ri:0">Two invariants: the <b>journal is the source of truth</b>, and the <b>model decides meaning while code enforces contracts</b>. The twelve detailed stages collapse into this loop.</p>
+
+    <div class="grow reveal" style="--ri:1">
+      <div class="pipe" style="margin-top:18px">
+        <div class="node l-src">
+          <div class="bar" style="background:var(--source)"></div>
+          <div class="step-n">PHASE 1 · SOURCE</div>
+          <div class="step-t c-src">Notice</div>
+          <div class="step-d">Receive &amp; <b>dedupe</b> a source event / trigger; gather an evidence packet (refs over blobs).</div>
+        </div>
+        <div class="arrow">▶</div>
+        <div class="node l-next">
+          <div class="bar" style="background:var(--next)"></div>
+          <div class="step-n">PHASE 2 · MODEL</div>
+          <div class="step-t c-next">Interpret</div>
+          <div class="step-d">Model reviews evidence + snapshots + persona → emits a <b>journal proposal</b> (or none).</div>
+        </div>
+        <div class="arrow">▶</div>
+        <div class="node l-gov">
+          <div class="bar" style="background:var(--governance)"></div>
+          <div class="step-n">PHASE 3 · GATE</div>
+          <div class="step-t c-gov">Commit</div>
+          <div class="step-d">Committer validates schema, authority, evidence, risk → appends <b>immutable</b> journal entry, materializes snapshot.</div>
+        </div>
+        <div class="arrow">▶</div>
+        <div class="node l-part">
+          <div class="bar" style="background:var(--partial)"></div>
+          <div class="step-n">PHASE 4 · CASCADE</div>
+          <div class="step-t c-part">Propagate</div>
+          <div class="step-d">Queue <b>rollups</b> for parents; emit review signal; surface follow-up opportunities.</div>
+        </div>
+        <div class="arrow">▶</div>
+        <div class="node l-done">
+          <div class="bar" style="background:var(--future)"></div>
+          <div class="step-n">PHASE 5 · INDEX</div>
+          <div class="step-t c-fut">Index</div>
+          <div class="step-d">Record accepted commits in the <b>recent-change registry</b> for human &amp; agent review.</div>
+        </div>
+      </div>
+
+      <div class="grid cols-5" style="margin-top:20px">
+        <div class="card reveal" style="--ri:2;padding:12px 14px"><h3 style="font-size:14px">Update classes</h3><p style="font-size:13px">Direct · Interpretive · Corrective · Rollup · Developmental</p></div>
+        <div class="card reveal" style="--ri:3;padding:12px 14px"><h3 style="font-size:14px">Journal = truth</h3><p style="font-size:13px">Immutable. Corrections are new entries, never edits. Full replay possible.</p></div>
+        <div class="card reveal" style="--ri:4;padding:12px 14px"><h3 style="font-size:14px">Snapshots</h3><p style="font-size:13px">Materialized from history. Compact reads; drill into journal for provenance.</p></div>
+        <div class="card reveal" style="--ri:5;padding:12px 14px"><h3 style="font-size:14px">Idempotent</h3><p style="font-size:13px">Replayed triggers never duplicate journal entries or memory writes.</p></div>
+        <div class="card reveal" style="--ri:6;padding:12px 14px"><h3 style="font-size:14px">Approval posture</h3><p style="font-size:13px">Low-risk interpretations auto-commit; external / protected changes stay pending.</p></div>
+      </div>
+    </div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>6 / 16</span></div>
+    <div class="progress"><i style="width:37.5%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 7 : EVIDENCE -->
+  <section class="slide" data-title="evidence">
+    <div class="kicker"><span class="dot"></span> Evidence &amp; provenance</div>
+    <h1 class="title">Every claim is traceable — to a reference, not a blob</h1>
+    <p class="lede reveal" style="--ri:0">State System stores <b>pointers</b> to source material, not duplicated content. Large material stays in its system of record; state keeps the link and the interpretation.</p>
+
+    <div class="grid cols-3 grow">
+      <div class="card l-src reveal" style="--ri:1">
+        <h3><span class="tag bg-src">pointers</span> Evidence references</h3>
+        <ul>
+          <li>meeting note id</li>
+          <li>email / chat thread id</li>
+          <li>task / document id</li>
+          <li>metric snapshot id</li>
+          <li>prior journal entry id</li>
+        </ul>
+      </div>
+      <div class="card l-next reveal" style="--ri:2">
+        <h3 class="c-next"><span class="tag bg-next">judgment</span> Interpretation vs. fact</h3>
+        <p>The model may record interpretations — "the campaign narrative feels diffuse" — and persist them. But it must <b>label uncertainty</b>.</p>
+        <p style="margin-top:10px">External facts — "the client approved the proposal" — require evidence before they're stored as fact.</p>
+      </div>
+      <div class="card l-gov reveal" style="--ri:3">
+        <h3 class="c-gov"><span class="tag bg-gov">rule</span> The boundary rule</h3>
+        <p>Low-confidence interpretations are allowed to persist, but the system <b>never converts interpretation into fact without evidence</b>.</p>
+        <p style="margin-top:10px">Captured agent output is durable <b>evidence</b> — it becomes state only through the normal review, governance, and commit path.</p>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:4">Provenance is a first-class column: every snapshot points back through the journal to the exact trigger, actor, and source material that produced it.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>7 / 16</span></div>
+    <div class="progress"><i style="width:43.75%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 8 : READ PIPELINE -->
+  <section class="slide" data-title="read-pipeline">
+    <div class="kicker"><span class="dot"></span> How it works — from sources to a trustworthy answer</div>
+    <h1 class="title small">Declare sources → prove access &amp; recency → render → pressure-test</h1>
+
+    <div class="grow reveal" style="--ri:0">
+      <div class="flow" style="margin-top:14px">
+        <div class="chip l-src"><div class="n c-src">1 · DECLARE</div><div class="t">Source modules</div><div class="d">What a connector <i>means</i>: ref shape, access mode, preflight, freshness, index, tools, gaps.</div></div>
+        <div class="arr">▶</div>
+        <div class="chip"><div class="n">2 · DECLARE</div><div class="t">Instance capability</div><div class="d">Which connectors, indexes, tools &amp; governance the instance will use.</div></div>
+        <div class="arr">▶</div>
+        <div class="chip l-src"><div class="n c-src">3 · PROVE</div><div class="t">Preflight</div><div class="d">Is the connector <i>reachable</i>? <code>passed</code> proves live access; <code>failed/planned</code> stay visible.</div></div>
+        <div class="arr">▶</div>
+        <div class="chip l-done"><div class="n c-done">4 · PROVE</div><div class="t">Freshness</div><div class="d">Is it <i>recent</i>? checked-at, watermark, stale-after, lag → <code>fresh/stale/failed/unknown/planned</code>.</div></div>
+        <div class="arr">▶</div>
+        <div class="chip"><div class="n">5 · RENDER</div><div class="t">Read model</div><div class="d">Join capability + preflight + freshness + indexes + gaps into inspectable understanding.</div></div>
+      </div>
+      <div class="flow" style="margin-top:14px">
+        <div class="chip l-next"><div class="n c-next">6 · RENDER</div><div class="t">Agent package</div><div class="d">Routes, source readiness, tool/action refs, freshness gaps, evidence, federation, governance.</div></div>
+        <div class="arr">▶</div>
+        <div class="chip l-gov"><div class="n c-gov">7 · ASSERT</div><div class="t">Pressure test</div><div class="d">Does the package expose <i>enough structure</i> for an agent to answer responsibly?</div></div>
+        <div class="arr" style="visibility:hidden">▶</div>
+        <div class="chip" style="background:var(--done-soft);border-color:var(--done)"><div class="n c-done">RESULT</div><div class="t c-done">Grounded answer</div><div class="d">Current, scoped, evidence-linked, freshness-caveated, persona-shaped.</div></div>
+        <div class="arr" style="visibility:hidden">▶</div>
+        <div class="chip" style="visibility:hidden"></div>
+        <div class="arr" style="visibility:hidden">▶</div>
+        <div class="chip" style="visibility:hidden"></div>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:1">Each box is a real CLI/runtime step. Nothing here is a diagram-only concept — <code>instance-preflight-record</code>, <code>instance-source-freshness-record</code>, <code>instance-agent-package-render</code>, <code>package-pressure-run</code>.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>8 / 16</span></div>
+    <div class="progress"><i style="width:50%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 9 : FRESHNESS -->
+  <section class="slide" data-title="freshness">
+    <div class="kicker"><span class="dot"></span> Freshness — prove recency, don't fake it</div>
+    <h1 class="title small">A status enum with hard non-conflation rules</h1>
+
+    <div class="grow reveal" style="--ri:0">
+      <table class="matrix">
+        <thead><tr><th>Status</th><th>What it means</th><th>Agent behavior</th></tr></thead>
+        <tbody>
+          <tr><td><span class="status-chip bg-done">fresh</span></td><td>Record carries source- or ingestion-owned recency <b>within policy</b>.</td><td>Safe to use for operational answers.</td></tr>
+          <tr><td><span class="status-chip bg-part">stale</span></td><td>Past <code>stale_after</code> / expired validity window.</td><td>Refresh before external action. Usable with caveat.</td></tr>
+          <tr><td><span class="status-chip bg-gov">failed</span></td><td>Adapter ran but couldn't prove recency (error / unreachable).</td><td>Visible gap. Don't pretend it's current.</td></tr>
+          <tr><td><span class="status-chip bg-fut">unknown</span></td><td>Never checked; no recency evidence.</td><td>Treat as unproven. Caveat explicitly.</td></tr>
+          <tr><td><span class="status-chip bg-next">planned</span></td><td>Declared in capability, adapter not implemented yet.</td><td>Remains a declared gap, never silently usable.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="grid cols-3" style="margin-top:20px">
+        <div class="card l-gov reveal" style="--ri:1"><h3 class="c-gov">probe_only ≠ fresh</h3><p>A probe that ran proves <b>availability only</b> — not that the corpus or index is current.</p></div>
+        <div class="card l-gov reveal" style="--ri:2"><h3 class="c-gov">package_generation ≠ fresh</h3><p>Package <code>generated_at</code> is <b>export time</b>, not source recency. Never promote it to <code>fresh</code>.</p></div>
+        <div class="card l-gov reveal" style="--ri:3"><h3 class="c-gov">declared_gap ≠ fresh</h3><p>Unavailable / auth-blocked / disabled / not-configured sources stay <b>visible</b> with a reason.</p></div>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:4">Aggregates may be <i>usable</i> while still exposing stale/unknown children — child gaps must remain visible in read models and packages.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>9 / 16</span></div>
+    <div class="progress"><i style="width:56.25%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 10 : THREE QUESTIONS -->
+  <section class="slide" data-title="three-questions">
+    <div class="kicker"><span class="dot"></span> The separation that prevents false confidence</div>
+    <h1 class="title">Three independent questions — <span class="c-gov">one does not imply the others</span></h1>
+    <p class="lede reveal" style="--ri:0">Reachability, recency, and authorization are checked separately. Conflating them is how agents act on stale, unproven, or unauthorized state.</p>
+
+    <div class="grid cols-3 grow" style="margin-top:24px">
+      <div class="card l-src reveal" style="--ri:1">
+        <div class="tag bg-src" style="align-self:flex-start">preflight</div>
+        <h3 class="c-src" style="margin-top:10px">Is it reachable?</h3>
+        <p>Proves <b>live access</b> to a connector — or records why access isn't proved. The adapter actually connected.</p>
+      </div>
+      <div class="card l-done reveal" style="--ri:2">
+        <div class="tag bg-done" style="align-self:flex-start">freshness</div>
+        <h3 class="c-done" style="margin-top:10px">Is it recent?</h3>
+        <p>Proves <b>source recency</b> within policy — or records stale / failed / unknown / planned. The watermark is current.</p>
+      </div>
+      <div class="card l-gov reveal" style="--ri:3">
+        <div class="tag bg-gov" style="align-self:flex-start">governance</div>
+        <h3 class="c-gov" style="margin-top:10px">Is it authorized?</h3>
+        <p>Authorizes <b>protected external action</b> — independent of access and recency. A separate boundary.</p>
+      </div>
+    </div>
+
+    <blockquote class="principle reveal" style="--ri:4;margin-top:26px;border-color:var(--governance)">A reachable, fresh source still can't authorize an external action. A governed action still needs fresh evidence. <b>Each gate stands alone.</b></blockquote>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>10 / 16</span></div>
+    <div class="progress"><i style="width:62.5%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 11 : COMMITTER -->
+  <section class="slide" data-title="committer">
+    <div class="kicker"><span class="dot"></span> Committer &amp; governance</div>
+    <h1 class="title">The committer turns proposals into durable effects</h1>
+    <p class="lede reveal" style="--ri:0">It never reinterprets business meaning. The model proposes; the committer decides what is <b>valid, allowed, persisted, pending, or rejected</b> — with no silent fallback.</p>
+
+    <div class="grid cols-4 grow" style="margin-top:22px">
+      <div class="card tight l-done reveal" style="--ri:1">
+        <h3 class="c-done"><span class="tag bg-done">accepted</span></h3>
+        <ul><li>Valid + no approval needed</li><li>Append journal + persist memory</li><li>Materialize snapshot, queue rollups</li><li>Emit review signal</li></ul>
+      </div>
+      <div class="card tight l-part reveal" style="--ri:2">
+        <h3 class="c-part"><span class="tag bg-part">pending</span></h3>
+        <ul><li>Valid — needs human approval</li><li>No mutation of protected state</li><li>No risky action executed</li><li>Emit <code>pending_approval</code></li></ul>
+      </div>
+      <div class="card tight l-gov reveal" style="--ri:3">
+        <h3 class="c-gov"><span class="tag bg-gov">rejected</span></h3>
+        <ul><li>Invalid / unauthorized / unsafe</li><li>No journal append, no memory write</li><li>Emit <code>rejected</code> + reason</li></ul>
+      </div>
+      <div class="card tight l-fut reveal" style="--ri:4">
+        <h3 class="c-fut"><span class="tag bg-fut">no-op</span></h3>
+        <ul><li>Model proposes nothing</li><li>Append nothing</li><li>Emit <code>no_update_warranted</code> for audit</li></ul>
+      </div>
+    </div>
+
+    <div class="footnote reveal" style="--ri:5">The gate checks: schema validity · actor authority · write permission · evidence existence · action risk · protected-state rules · duplicate ids · memory/promotion policy. Each check produces an <b>explicit result</b>.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>11 / 16</span></div>
+    <div class="progress"><i style="width:68.75%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 12 : FEDERATION -->
+  <section class="slide" data-title="federation">
+    <div class="kicker"><span class="dot"></span> Federation — governed cross-instance reads</div>
+    <h1 class="title small">Query across instances — without copying raw data</h1>
+
+    <div class="grow reveal" style="--ri:0">
+      <div class="fed">
+        <div class="inst l-src">
+          <h3 class="c-src">Personal instance</h3>
+          <p style="font-size:13px;color:#49535f;margin:4px 0 0">Owns personal interpreted state &amp; relationship substrate.</p>
+          <ul><li>health, activity, media</li><li>personal relationships</li><li>owned indexes</li></ul>
+        </div>
+        <div class="pack">
+          <h3>🛡️ InstanceFederationPack</h3>
+          <p style="font-size:13px;color:#5a4545;margin:0">The <b>boundary object</b> for governed cross-instance queries. It does <b>not</b> sync raw data.</p>
+          <ul>
+            <li><b>identity boundary</b> — subjects stay owned by the remote source</li>
+            <li><b>materialization</b> — <code>local_materialization = false</code> by default</li>
+            <li><b>freshness policy</b> — checked-at, watermark, stale-after, gap refs</li>
+            <li><b>subject-note policy</b> — demote / explain, never hidden filter</li>
+            <li><b>output policy</b> — safe summaries + evidence refs, no raw corpora</li>
+            <li><b>repair policy</b> — what to say when the route is stale / missing</li>
+          </ul>
+        </div>
+        <div class="inst l-done">
+          <h3 class="c-done">Company instance</h3>
+          <p style="font-size:13px;color:#49535f;margin:4px 0 0">e.g. SampleCo — owns company interpreted state.</p>
+          <ul><li>deals, campaigns, projects</li><li>operating pictures</li><li>governance &amp; approval state</li></ul>
+        </div>
+      </div>
+      <blockquote class="principle reveal" style="--ri:1;margin-top:22px">A company may read personal relationship evidence only through an <b>explicit governed federated route</b> — it must never copy raw personal records or treat personal sources as company sources.</blockquote>
+    </div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>12 / 16</span></div>
+    <div class="progress"><i style="width:75%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 13 : AGENT INTEGRATION -->
+  <section class="slide" data-title="agent-integration">
+    <div class="kicker"><span class="dot"></span> Agent integration contract</div>
+    <h1 class="title">Agents read rendered packages — they don't scrape roots</h1>
+
+    <div class="grid cols-2 grow" style="margin-top:20px">
+      <div class="card l-done reveal" style="--ri:0">
+        <h3 class="c-done">✓ Agents should</h3>
+        <ul>
+          <li>Read <code>InstanceAgentPackage</code> / the exported read model</li>
+          <li>Inspect <b>freshness before answering</b> (status, gaps, expired refs, stale-after)</li>
+          <li>Use explicit <b>question routes</b> &amp; <b>tool/action refs</b> from the package</li>
+          <li>Reference <b>source module</b> contracts for connector behavior</li>
+          <li>Treat captured agent output as <b>evidence for review</b></li>
+          <li>Keep governance separate from freshness &amp; preflight</li>
+        </ul>
+      </div>
+      <div class="card l-gov reveal" style="--ri:1">
+        <h3 class="c-gov">✗ Agents must not</h3>
+        <ul>
+          <li>Infer behavior from connector <b>names</b> (<code>drive</code>, <code>msgvault</code>, <code>linear</code>)</li>
+          <li>Scrape private runtime roots or raw corpora</li>
+          <li>Materialize raw federated data unless a pack <b>explicitly permits</b> it</li>
+          <li>Directly mutate source-owned truth or external systems</li>
+          <li>Treat a stale package as permission to act externally</li>
+          <li>Authorize protected actions from freshness or preflight alone</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footnote reveal" style="--ri:2">For agent runtimes: ship a rendered <b>scope packet</b> in the prompt, expose <code>refresh / understanding / search</code> as tools, and point <code>AGENTS.md</code> at the package — never duplicate its contents.</div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>13 / 16</span></div>
+    <div class="progress"><i style="width:81.25%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 14 : PRESSURE TESTS -->
+  <section class="slide" data-title="pressure-tests">
+    <div class="kicker"><span class="dot"></span> Pressure tests &amp; conformance</div>
+    <h1 class="title">Packages must be <span class="c-next">answerable</span>, not just present</h1>
+    <p class="lede reveal" style="--ri:0">Pressure questions are real operational questions with <b>structural assertions</b> against package JSON — they don't grade answer text, they check that a package exposes enough structure to answer <i>responsibly</i>.</p>
+
+    <div class="grid cols-3 grow" style="margin-top:20px">
+      <div class="card tight l-next reveal" style="--ri:1"><h3 class="c-next">Package pressure</h3><ul><li>Does the route exist for this question?</li><li>Is required source coverage present?</li><li>Are the right tool/action refs exposed?</li><li>Are freshness gaps &amp; answer policy visible?</li><li>Are federation boundaries declared?</li></ul></div>
+      <div class="card tight l-src reveal" style="--ri:2"><h3 class="c-src">Ecosystem conformance</h3><ul><li>Capability connectors have source modules</li><li>Tool actions ref known modules + types</li><li>Route tools have action contracts</li><li>Route source-module refs exist</li><li>Packages emit linkage fields</li></ul></div>
+      <div class="card tight l-done reveal" style="--ri:3"><h3 class="c-done">North-star answer</h3><p>A deterministic <b>read surface</b> turns the question set into a grounded substrate — current state, why, recent changes, evidence, uncertainty, responsibility, next actions — without copying raw corpora or authorizing execution.</p></div>
+    </div>
+    <div class="footnote reveal" style="--ri:4"><code>python3 -m state_system.cli validate</code> · <code>package-pressure-run</code> · <code>instance-federation-pack-validate</code> · <code>north-star-answer</code></div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>14 / 16</span></div>
+    <div class="progress"><i style="width:87.5%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 15 : NORTH STAR -->
+  <section class="slide" data-title="north-star">
+    <div class="kicker"><span class="dot"></span> The North Star</div>
+    <h1 class="title">State System succeeds when anyone can ask…</h1>
+    <div class="grid cols-2 grow" style="margin-top:18px; align-items:start">
+      <div class="card reveal" style="--ri:0;background:var(--next-soft);border-color:var(--next)">
+        <h3 class="c-next">"What is the current state?"</h3>
+        <p style="font-size:15px">…of this organization, workstream, role, person, agent, project, campaign, relationship, decision, or mission — and receive an answer that is:</p>
+      </div>
+      <div class="card reveal" style="--ri:1">
+        <h3>…and trust the answer</h3>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+          <span class="pill bg-done">current</span>
+          <span class="pill bg-src">grounded</span>
+          <span class="pill bg-part">scoped</span>
+          <span class="pill">inspectable</span>
+          <span class="pill bg-next">persona-shaped</span>
+          <span class="pill bg-gov">governance-aware</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card reveal" style="--ri:2;margin-top:16px">
+      <h3>The full question set</h3>
+      <div class="grid" style="grid-template-columns:repeat(2,1fr);gap:4px 28px;margin-top:6px">
+        <p style="margin:4px 0;font-size:14.5px">→ What is the current state?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ Why is that the state?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ What changed recently?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ What evidence supports it?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ What remains uncertain?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ Who / what is responsible?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ What should happen next?</p>
+        <p style="margin:4px 0;font-size:14.5px">→ How does this affect the org?</p>
+      </div>
+    </div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive</span><span>15 / 16</span></div>
+    <div class="progress"><i style="width:93.75%"></i></div>
+  </section>
+
+  <!-- ===================================================== SLIDE 16 : WHAT IT IS / IS NOT -->
+  <section class="slide" data-title="recap">
+    <div class="kicker"><span class="dot"></span> Recap</div>
+    <h1 class="title">The missing state layer — not another tool to replace</h1>
+
+    <div class="grid cols-2 grow" style="margin-top:18px">
+      <div class="card l-gov reveal" style="--ri:0">
+        <h3 class="c-gov">State System is <i>not</i>…</h3>
+        <ul>
+          <li>a task tracker</li>
+          <li>a CRM</li>
+          <li>a notes app</li>
+          <li>a memory store</li>
+          <li>an onboarding app</li>
+          <li>an agent framework</li>
+        </ul>
+      </div>
+      <div class="card l-done reveal" style="--ri:1">
+        <h3 class="c-done">It <i>is</i> the layer between them</h3>
+        <ul>
+          <li>Durable, scoped, evidence-backed state</li>
+          <li>Append-only journal + materialized snapshots</li>
+          <li>Model interprets · code guarantees integrity</li>
+          <li>Freshness-proven, governance-gated</li>
+          <li>Federated without raw materialization</li>
+          <li>Rendered packages agents can answer from — responsibly</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid cols-3 reveal" style="--ri:2;margin-top:16px">
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:14px">📍 Start here</h3><p style="font-size:13.5px;margin-top:4px"><code>README.md</code> · <code>docs/NORTH_STAR.md</code></p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:14px">🔌 Extend sources</h3><p style="font-size:13.5px;margin-top:4px"><code>docs/source-modules.md</code></p></div>
+      <div class="card" style="padding:14px 16px"><h3 style="font-size:14px">🤖 Consume as agent</h3><p style="font-size:13.5px;margin-top:4px"><code>AGENTS.md</code> · <code>docs/agent-integration.md</code></p></div>
+    </div>
+    <div class="slide-footer"><span class="brand"><b>State System</b> · Technical Deep-Dive · <span style="color:#5a6571">questions?</span></span><span>16 / 16</span></div>
+    <div class="progress"><i style="width:100%"></i></div>
+  </section>
+
+</div></div>
+
+<!-- speaker notes -->
+<aside id="notes" aria-hidden="true">
+  <h4>Speaker notes · <span id="notes-count"></span></h4>
+  <div id="notes-body"></div>
+  <div class="hint-k">n = toggle notes · ←/→ = nav · f = fullscreen · ? = help</div>
+</aside>
+<div class="hint" id="hint">← → to navigate · n for notes · f for fullscreen</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const slides = Array.from(stage.querySelectorAll('.slide'));
+  const hint = document.getElementById('hint');
+  const notesEl = document.getElementById('notes');
+  let idx = 0;
+
+  // speaker notes per slide (keyed by data-title)
+  const NOTES = {
+    'title': "State System is an organizational state layer. This deck is a technical deep-dive for engineers and agents-builders. The four colors map to the core concepts: sources (blue), model interpretation (purple), governance (red), fresh/committed (green). Keep that legend in mind — it recurs.",
+    'problem': "Frame the failure mode concretely: an agent gets 'what's the current state of this deal?' and the truth is split across Linear, email, the CRM, a meeting transcript, and a stale memory note. Without a state layer the agent either over-trusts the last thing it saw or buries uncertainty in fluent prose. State System makes recency, evidence, and authorization explicit.",
+    'core-idea': "The key reframe: state is durable working interpretation, not absolute truth. Stress 'scoped, evidence-linked, freshness-stamped'. This is why it can hold low-confidence interpretations without lying — it labels them.",
+    'two-forms': "Emphasize the boundary. This repo is contracts + runtime code + public fixtures. A deployed instance owns the real data. Agents never touch the runtime root directly — they read rendered packages. This is what makes it safely open-source.",
+    'model-code-boundary': "This is THE principle to land. No thresholds, no regex routing, no hidden fallbacks. The model decides meaning; code enforces integrity. Every model-mediated decision is inspectable. This is the opposite of cramming business logic into brittle rules.",
+    'lifecycle': "Two invariants: journal is source of truth; model decides meaning, code enforces contracts. Walk the five phases. Stress idempotency (replayed triggers don't duplicate) and that corrections are new entries, never edits — so full replay is always possible. Approval posture: low-risk auto-commits, external/protected stays pending.",
+    'evidence': "Pointers not blobs. The system never copies large source material — it keeps references. The hard rule: never convert interpretation into fact without evidence. Captured agent output is evidence for review, not accepted state.",
+    'read-pipeline': "Each box is a real CLI step — not diagram-only. Walk left to right twice (declare → prove → render, then render → assert). Preflight answers reachability; freshness answers recency. Pressure tests assert the package is answerable.",
+    'freshness': "The enum is small but the non-conflation rules are the technical crux. A probe running does NOT prove the corpus is current. Package generation time is NOT source recency. Unavailable sources stay visible, never silently 'fresh'. Aggregates can be usable while exposing stale children.",
+    'three-questions': "Reachability ≠ recency ≠ authorization. This separation is what stops false confidence. A fresh, reachable source still cannot authorize an external action. Say it plainly: each gate stands alone.",
+    'committer': "The committer never reinterprets business meaning — it only decides valid/allowed/persisted/pending/rejected. Four outcomes. No silent fallback: every gate check produces an explicit result. Idempotent around trigger/proposal ids.",
+    'federation': "Federation is governed cross-instance READS, not sync. The InstanceFederationPack is the boundary object. Default: local_materialization=false — no raw personal data copied into a company instance. Company can query personal relationship evidence only through an explicit governed route.",
+    'agent-integration': "The agent contract: read the package, check freshness before answering, use the package's routes/tools, don't infer behavior from connector names. For agent runtimes: ship a scope packet in the prompt, expose refresh/understanding/search as tools, point AGENTS.md at the package but don't duplicate it.",
+    'pressure-tests': "Pressure tests don't grade answer text — they assert the package exposes enough STRUCTURE to answer responsibly. Conformance checks the open-source extension boundary: every connector has a module, every tool maps to a module, routes have contracts. The north-star command produces a deterministic grounded substrate.",
+    'north-star': "This is the success criterion: the question set should be answerable with an answer that is current, grounded, scoped, inspectable, persona-shaped, and governance-aware. The deterministic read surface produces the substrate; the model/UI renders the final answer from it.",
+    'recap': "Close on positioning: it's not replacing your CRM/task tracker/notes app — it's the state layer that sits between them so the organization stays understandable, current, and actionable over time. Point people to the three entry docs."
+  };
+
+  function render(){
+    slides.forEach((s,i)=> s.classList.toggle('active', i===idx));
+    const body = document.getElementById('notes-body');
+    const t = slides[idx].dataset.title || '';
+    const cnt = document.getElementById('notes-count');
+    body.innerHTML = '<p class="nh">'+ (idx+1) +'. '+(slides[idx].querySelector('h1')?slides[idx].querySelector('h1').textContent.trim():'')+'</p>'
+      + (NOTES[t] ? '<p>'+NOTES[t]+'</p>' : '<p style="color:#6f7b87">(no notes)</p>');
+    cnt.textContent = (idx+1)+' / '+slides.length;
+    location.hash = slides[idx].dataset.title || ('slide-'+(idx+1));
+  }
+  function go(n){ idx = Math.max(0, Math.min(slides.length-1, n)); render(); }
+
+  // scale stage to viewport
+  function fit(){
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const scale = Math.min(vw/1280, vh/720);
+    stage.style.transform = 'scale('+scale+')';
+  }
+  window.addEventListener('resize', fit); fit();
+
+  // keyboard
+  window.addEventListener('keydown', e=>{
+    const k = e.key;
+    if(['ArrowRight','PageDown',' '].includes(k)){ e.preventDefault(); go(idx+1); }
+    else if(['ArrowLeft','PageUp'].includes(k)){ e.preventDefault(); go(idx-1); }
+    else if(k==='Home'){ e.preventDefault(); go(0); }
+    else if(k==='End'){ e.preventDefault(); go(slides.length-1); }
+    else if(k==='n'||k==='N'){ notesEl.classList.toggle('open'); notesEl.setAttribute('aria-hidden', !notesEl.classList.contains('open')); }
+    else if(k==='f'||k==='F'){ if(!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); }
+    else if(k==='?'){ alert('Navigation:\n  → / Space / PgDn   next\n  ← / PgUp           prev\n  Home / End         first / last\n  n                  toggle speaker notes\n  f                  fullscreen\n  #slide-title       jump to slide'); }
+  });
+
+  // click anywhere on right/left to advance (desktop convenience)
+  stage.addEventListener('click', e=>{
+    if(notesEl.classList.contains('open') && e.clientX > window.innerWidth-340) return;
+    const x = e.clientX / window.innerWidth;
+    if(x > 0.62) go(idx+1); else if(x < 0.38) go(idx-1);
+  });
+
+  // hash deep-link
+  function fromHash(){
+    const h = location.hash.replace('#','');
+    const f = slides.findIndex(s=> s.dataset.title===h);
+    if(f>=0) idx=f;
+  }
+  window.addEventListener('hashchange', fromHash);
+  fromHash(); render();
+
+  // fade hint
+  setTimeout(()=>{ if(hint) hint.style.opacity='0'; }, 5000);
+})();
+</script>
+</body>
+</html>
