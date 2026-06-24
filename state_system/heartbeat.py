@@ -114,6 +114,9 @@ def _local_path_record(
             **base,
             "status": "fresh",
             "source_watermark": f"local.mtime_ns:{stat.st_mtime_ns}",
+            "watermark_basis": "source_content",
+            "latest_source_modified_at": f"local.mtime_ns:{stat.st_mtime_ns}",
+            "status_reason": "State System directly checked local path source metadata.",
             "lag_seconds": 0,
             "evidence_refs": [f"state-system:heartbeat:local_path:{connector['id']}"],
             "detail": f"State System directly checked local path metadata for {path}.",
@@ -121,7 +124,9 @@ def _local_path_record(
     return {
         **base,
         "status": "failed",
-        "source_watermark": "local.path_missing",
+        "source_watermark": "local.path_missing;source_status=unavailable",
+        "watermark_basis": "declared_gap",
+        "status_reason": "Local path is unavailable, so source freshness cannot be proven.",
         "evidence_refs": [f"state-system:heartbeat:local_path:{connector['id']}"],
         "error": {
             "code": "path_missing",
@@ -140,7 +145,9 @@ def _delegated_record(
     return {
         **_base_record(company_ref, connector, checked_at, stale_after),
         "status": "unknown",
-        "source_watermark": "delegated:not_checked",
+        "source_watermark": "delegated:not_checked;corpus_watermark=unproven",
+        "watermark_basis": "probe_only",
+        "status_reason": "Delegated connector was not checked by State System; source/corpus freshness is unproven.",
         "evidence_refs": [f"state-system:heartbeat:delegated:{connector['id']}"],
         "error": {
             "code": "delegated_connector",
@@ -165,7 +172,9 @@ def _unsupported_record(
     return {
         **_base_record(company_ref, connector, checked_at, stale_after),
         "status": "unknown",
-        "source_watermark": "unsupported:not_checked",
+        "source_watermark": "unsupported:not_checked;source_status=not_configured",
+        "watermark_basis": "declared_gap",
+        "status_reason": "No heartbeat adapter is configured, so source freshness is unknown.",
         "evidence_refs": [f"state-system:heartbeat:unsupported:{connector['id']}"],
         "error": {
             "code": "unsupported_connector",

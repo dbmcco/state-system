@@ -65,6 +65,9 @@ def _seed_personal(stores: StateStoreBundle) -> None:
             "checked_at": "2026-05-17T10:15:00Z",
             "source_watermark": "kb.indexed_at:2026-05-17T10:14:00Z",
             "stale_after": "2026-05-17T11:15:00Z",
+            "watermark_basis": "source_index",
+            "latest_indexed_at": "2026-05-17T10:14:00Z",
+            "status_reason": "latest indexed corpus timestamp is inside policy",
             "lag_seconds": 60,
             "evidence_refs": ["agent-runtime:freshness:kb:fresh"],
         }

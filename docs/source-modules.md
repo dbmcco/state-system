@@ -47,6 +47,34 @@ Capability-pack schemas intentionally allow open `connector_type` strings.
 Conformance should validate connector types against registered source modules
 instead of hardcoding connector enums into every pack schema.
 
+## Freshness Status Encoding
+
+Freshness records are source/read-model evidence, not connector-health reports.
+`fresh` means the record carries source-owned or ingestion-owned recency evidence
+inside policy. Connector reachability, package generation, and probe-only checks
+must not be promoted to corpus/source freshness.
+
+Current schemas keep the compatible status enum `fresh`, `stale`, `failed`, and
+`unknown`. Resolution states such as unavailable, auth-blocked, disabled, or not
+configured must be encoded explicitly with the compatible status plus
+`source_watermark`, `watermark_basis`, `status_reason`, and evidence refs; they
+must not be hidden behind a `fresh` aggregate.
+
+Required non-conflation rules:
+
+- `probe_only` records prove only that a probe ran; they cannot be `fresh` and
+  must state that source/corpus freshness is unproven.
+- `package_generation` records prove package/export generation only; package
+  `generated_at` is not raw-source freshness and cannot be `fresh`.
+- `declared_gap` records keep unavailable/auth/disabled/not-configured sources
+  visible; they cannot be `fresh`.
+- `source_content` and `source_event` records require a typed source timestamp.
+- `source_index` and `derived_index` records require `latest_indexed_at` and
+  should not imply live upstream source sync unless the adapter provides that
+  evidence separately.
+- Aggregates may be usable while still exposing stale or unknown child records;
+  child gaps must remain visible in read models and packages.
+
 ## Adding A Connector
 
 1. Add or update a module in the source module registry.

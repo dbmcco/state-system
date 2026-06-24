@@ -1441,6 +1441,29 @@ def _parser() -> argparse.ArgumentParser:
     freshness_record.add_argument("--checked-at", required=True)
     freshness_record.add_argument("--source-watermark", required=True)
     freshness_record.add_argument("--stale-after", required=True)
+    freshness_record.add_argument(
+        "--watermark-basis",
+        choices=[
+            "source_content",
+            "source_event",
+            "source_index",
+            "derived_index",
+            "package_generation",
+            "probe_only",
+            "declared_gap",
+        ],
+    )
+    freshness_record.add_argument("--latest-source-event-at")
+    freshness_record.add_argument("--latest-source-modified-at")
+    freshness_record.add_argument("--latest-decision-updated-at")
+    freshness_record.add_argument("--latest-indexed-at")
+    freshness_record.add_argument("--source-item-count", type=int)
+    freshness_record.add_argument("--index-item-count", type=int)
+    freshness_record.add_argument("--freshness-policy-ref")
+    freshness_record.add_argument("--status-reason")
+    freshness_record.add_argument("--content-stale-after")
+    freshness_record.add_argument("--index-stale-after")
+    freshness_record.add_argument("--probe-stale-after")
     freshness_record.add_argument("--lag-seconds", type=int)
     freshness_record.add_argument("--evidence-ref", action="append")
     freshness_record.add_argument("--error-code")
@@ -1699,6 +1722,18 @@ def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
         "evidence_refs": list(args.evidence_ref or []),
     }
     for source, target in (
+        ("watermark_basis", "watermark_basis"),
+        ("latest_source_event_at", "latest_source_event_at"),
+        ("latest_source_modified_at", "latest_source_modified_at"),
+        ("latest_decision_updated_at", "latest_decision_updated_at"),
+        ("latest_indexed_at", "latest_indexed_at"),
+        ("source_item_count", "source_item_count"),
+        ("index_item_count", "index_item_count"),
+        ("freshness_policy_ref", "freshness_policy_ref"),
+        ("status_reason", "status_reason"),
+        ("content_stale_after", "content_stale_after"),
+        ("index_stale_after", "index_stale_after"),
+        ("probe_stale_after", "probe_stale_after"),
         ("lag_seconds", "lag_seconds"),
         ("detail", "detail"),
     ):

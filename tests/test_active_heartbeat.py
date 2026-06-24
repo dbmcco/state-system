@@ -43,11 +43,18 @@ class ActiveHeartbeatTests(unittest.TestCase):
             self.assertEqual("local_path", local["connector_type"])
             self.assertEqual(f"local:{local_dir}", local["source_ref"])
             self.assertIn("local.mtime_ns:", local["source_watermark"])
+            self.assertEqual("source_content", local["watermark_basis"])
+            self.assertIn("local.mtime_ns:", local["latest_source_modified_at"])
             self.assertFalse(local["proves_live_access"])
 
             kb = _latest(read_model, "connector.sampleco.kb")
             self.assertEqual("unknown", kb["status"])
-            self.assertEqual("delegated:not_checked", kb["source_watermark"])
+            self.assertEqual(
+                "delegated:not_checked;corpus_watermark=unproven",
+                kb["source_watermark"],
+            )
+            self.assertEqual("probe_only", kb["watermark_basis"])
+            self.assertIn("unproven", kb["status_reason"])
             self.assertEqual("delegated_connector", kb["error"]["code"])
 
             zulip = _latest(read_model, "connector.sampleco.zulip")
@@ -98,7 +105,12 @@ class ActiveHeartbeatTests(unittest.TestCase):
             local = _latest(read_model, "connector.sampleco.local")
 
             self.assertEqual("failed", local["status"])
-            self.assertEqual("local.path_missing", local["source_watermark"])
+            self.assertEqual(
+                "local.path_missing;source_status=unavailable",
+                local["source_watermark"],
+            )
+            self.assertEqual("declared_gap", local["watermark_basis"])
+            self.assertIn("unavailable", local["status_reason"])
             self.assertEqual("path_missing", local["error"]["code"])
 
     def test_cli_runs_source_heartbeat_and_exports_read_model(self):

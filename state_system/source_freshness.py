@@ -55,6 +55,7 @@ class SourceFreshnessRuntime:
 
 def _normalize_result(result: JsonObject) -> JsonObject:
     record = dict(result)
+    _validate_freshness_contract(record)
     record.setdefault("scope_key", _scope_key(record))
     record.setdefault("id", _result_id(record))
     record.setdefault("evidence_refs", [])
@@ -63,6 +64,89 @@ def _normalize_result(result: JsonObject) -> JsonObject:
     record["authorizes_execution"] = False
     record["protected_action_authorized_by"] = "governance"
     return record
+
+
+def _validate_freshness_contract(record: JsonObject) -> None:
+    required = [
+        "company_ref",
+        "connector_ref",
+        "source_ref",
+        "connector_type",
+        "status",
+        "checked_at",
+        "source_watermark",
+        "stale_after",
+        "watermark_basis",
+        "status_reason",
+    ]
+    missing = [field for field in required if not record.get(field)]
+    if missing:
+        raise ValueError(
+            "source freshness record missing required freshness contract "
+            f"field(s): {', '.join(missing)}"
+        )
+
+    status = record["status"]
+    basis = record["watermark_basis"]
+    if status not in {"fresh", "stale", "failed", "unknown"}:
+        raise ValueError(f"invalid freshness status: {status}")
+    if basis not in {
+        "source_content",
+        "source_event",
+        "source_index",
+        "derived_index",
+        "package_generation",
+        "probe_only",
+        "declared_gap",
+    }:
+        raise ValueError(f"invalid watermark_basis: {basis}")
+
+    if status == "fresh" and basis in {
+        "probe_only",
+        "package_generation",
+        "declared_gap",
+    }:
+        raise ValueError(f"fresh cannot be proven by {basis}")
+
+    if basis in {"source_content", "source_event"} and not any(
+        record.get(field)
+        for field in [
+            "latest_source_event_at",
+            "latest_source_modified_at",
+            "latest_decision_updated_at",
+        ]
+    ):
+        raise ValueError(
+            "source_content/source_event freshness requires a typed source "
+            "timestamp such as latest_source_event_at or latest_source_modified_at"
+        )
+
+    if basis in {"source_index", "derived_index"} and not record.get(
+        "latest_indexed_at"
+    ):
+        raise ValueError("source_index/derived_index freshness requires latest_indexed_at")
+
+    if basis == "package_generation":
+        if not record.get("latest_indexed_at"):
+            raise ValueError("package_generation freshness requires generated_at/latest_indexed_at")
+        if "generated_at" not in str(record.get("source_watermark", "")):
+            raise ValueError("package_generation watermark must include generated_at")
+
+    if basis == "probe_only":
+        proof_text = " ".join(
+            [
+                str(record.get("source_watermark", "")),
+                str(record.get("status_reason", "")),
+            ]
+        ).lower()
+        if "unproven" not in proof_text and "not prove" not in proof_text:
+            raise ValueError(
+                "probe_only freshness must explicitly state that source/corpus "
+                "freshness is unproven"
+            )
+
+    if basis == "declared_gap" and status == "fresh":
+        raise ValueError("declared_gap cannot be fresh")
 
 
 def _result_id(result: JsonObject) -> str:
