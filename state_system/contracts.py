@@ -216,11 +216,15 @@ def schema_for_example(filename: str) -> str | None:
         return "staleness-review-packet.schema.json"
     if filename.startswith("staleness-review-output-") and filename.endswith(".json"):
         return "staleness-review-output.schema.json"
+    if filename.startswith("strategic-review-packet-") and filename.endswith(".json"):
+        return "strategic-review-packet.schema.json"
+    if filename.startswith("strategic-review-output-") and filename.endswith(".json"):
+        return "strategic-review-output.schema.json"
     if filename.startswith("instance-") and filename.endswith(".json"):
         return "instance-capability-pack.schema.json"
     if filename.startswith("company-") and filename.endswith(".json"):
         return "company-capability-pack.schema.json"
-    if filename == "sampleco-company-memory.json":
+    if filename.endswith("-company-memory.json"):
         return "company-memory.schema.json"
     if filename == "sampleco-crm-operating-picture.json":
         return "crm-operating-picture.schema.json"

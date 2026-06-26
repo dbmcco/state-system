@@ -1,0 +1,150 @@
+{
+  "id": "strategic_review_packet.all.2026-W26",
+  "created_at": "2026-06-25T12:00:00Z",
+  "review_kind": "strategic_staleness",
+  "review_week": "2026-W26",
+  "as_of": "2026-06-25T12:00:00Z",
+  "findings": [
+    {
+      "scope_key": "company.sampleco|company_mission",
+      "claim_kind": "company_mission",
+      "subject_ref": "company.sampleco",
+      "claim_summary": "SampleCo Works helps organizations turn AI capability into bounded, useful business systems.",
+      "declared_status": "",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/company-memory/sampleco-company-memory.json",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "source.crm.relationship-outcome.006",
+        "source.meeting.coordination.003"
+      ],
+      "last_validated_at": "2026-05-04T15:00:00Z",
+      "age_days": 51,
+      "declared_stale_after": "2026-05-11T15:00:00Z"
+    },
+    {
+      "scope_key": "company.sampleco|company_priority:0",
+      "claim_kind": "company_priority",
+      "subject_ref": "company.sampleco",
+      "claim_summary": "Ship State System as a substrate for company memory and agent context.",
+      "declared_status": "",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/company-memory/sampleco-company-memory.json",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "prospect.referral-doctrine-candidate.006",
+        "source.crm.relationship-outcome.006",
+        "source.meeting.coordination.003"
+      ],
+      "last_validated_at": "2026-05-04T15:00:00Z",
+      "age_days": 51,
+      "declared_stale_after": "2026-05-11T15:00:00Z"
+    },
+    {
+      "scope_key": "company.sampleco|company_priority:1",
+      "claim_kind": "company_priority",
+      "subject_ref": "company.sampleco",
+      "claim_summary": "Use CRM outcomes as evidence for doctrine, not as hidden sales scores.",
+      "declared_status": "",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/company-memory/sampleco-company-memory.json",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "prospect.referral-doctrine-candidate.006",
+        "source.crm.relationship-outcome.006",
+        "source.meeting.coordination.003"
+      ],
+      "last_validated_at": "2026-05-04T15:00:00Z",
+      "age_days": 51,
+      "declared_stale_after": "2026-05-11T15:00:00Z"
+    },
+    {
+      "scope_key": "company.sampleco|company_project:project.state-system",
+      "claim_kind": "company_project",
+      "subject_ref": "company.sampleco",
+      "claim_summary": "Substrate for durable interpreted state, memory, evidence, and agent activation.",
+      "declared_status": "active",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/company-memory/sampleco-company-memory.json",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "source.crm.relationship-outcome.006",
+        "source.meeting.coordination.003"
+      ],
+      "last_validated_at": "2026-05-04T15:00:00Z",
+      "age_days": 51,
+      "declared_stale_after": "2026-05-11T15:00:00Z"
+    },
+    {
+      "scope_key": "company.sampleco|company_strategy",
+      "claim_kind": "company_strategy",
+      "subject_ref": "company.sampleco",
+      "claim_summary": "Use relationship-backed proof and concrete operating systems rather than generic AI positioning.",
+      "declared_status": "",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/company-memory/sampleco-company-memory.json",
+      "evidence_refs": [
+        "crm:relationship:southern-abrasives",
+        "prospect.referral-doctrine-candidate.006",
+        "source.crm.relationship-outcome.006",
+        "source.meeting.coordination.003"
+      ],
+      "last_validated_at": "2026-05-04T15:00:00Z",
+      "age_days": 51,
+      "declared_stale_after": "2026-05-11T15:00:00Z",
+      "detail": "Ship State System as a substrate for company memory and agent context.; Use CRM outcomes as evidence for doctrine, not as hidden sales scores."
+    },
+    {
+      "scope_key": "portfolio|operating-decision:portfolio-operating-framework",
+      "claim_kind": "operating_decision",
+      "subject_ref": "portfolio",
+      "claim_summary": "Portfolio Operating Framework",
+      "declared_status": "",
+      "validity_window_exceeded": false,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/strategic-reviews/operating-docs/portfolio-operating-framework.md",
+      "evidence_refs": [
+        "/Users/braydon/projects/experiments/state-system/examples/strategic-reviews/operating-docs/portfolio-operating-framework.md",
+        "operating-decision:portfolio-operating-framework"
+      ],
+      "detail": "no declared status line"
+    },
+    {
+      "scope_key": "portfolio|operating-decision:sampleco-positioning-cleanup-plan",
+      "claim_kind": "operating_decision",
+      "subject_ref": "portfolio",
+      "claim_summary": "SampleCo \u2014 Product Positioning Consolidation",
+      "declared_status": "Draft (ready to assign)",
+      "validity_window_exceeded": false,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/strategic-reviews/operating-docs/sampleco-positioning-cleanup-plan.md",
+      "evidence_refs": [
+        "/Users/braydon/projects/experiments/state-system/examples/strategic-reviews/operating-docs/sampleco-positioning-cleanup-plan.md",
+        "operating-decision:sampleco-positioning-cleanup-plan"
+      ],
+      "last_validated_at": "2026-06-24T00:00:00Z",
+      "age_days": 1,
+      "detail": "declared status: Draft (ready to assign)"
+    }
+  ],
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "no-auto-mutation",
+        "rule": "No mutation executes without operator approval routed through governance. The runner only surfaces findings or produces proposals that still require approval."
+      },
+      {
+        "id": "model-mediated-discipline",
+        "rule": "Classification, recommended action, confidence, and the natural-language question are model-owned. Code owns structure, evidence, and gates; it must not substitute heuristics, regex, or thresholds for these judgments."
+      },
+      {
+        "id": "auto-revise-gated",
+        "rule": "Auto-revise is OFF this build phase. Surface decisions only; do not emit revise_proposals."
+      }
+    ]
+  },
+  "allowed_outputs": [
+    "surface_decisions",
+    "needs_evidence",
+    "no_op"
+  ],
+  "review_question": "For each strategic claim \u2014 a company mission, strategy, current priority, project, or cross-cutting operating decision \u2014 judge whether it still holds or has drifted. Has the underlying context changed? Has it been superseded by a newer decision or document? Is there evidence it is being acted on as if still current when it may not be? Surface a plain-language question plus a recommended action (validate, revise, or retire), with evidence and a confidence score. Classify each claim objective_drift (a verifiable change \u2014 a referenced fact moved, a stated priority was superseded in a newer document) or uncertain (needs human judgment). Do not assume drift matters; judge it from the evidence."
+}

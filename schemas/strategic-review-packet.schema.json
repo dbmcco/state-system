@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/strategic-review-packet.schema.json",
+  "title": "StrategicReviewPacket",
+  "description": "Evidence packet for the strategic-staleness review loop. Code assembles this from company_memory strategic claims (mission/strategy/priorities/projects) and cross-cutting operating decisions (operating-framework, tracker-boundaries, decision-claim handoffs) plus governance context. It is the input to the model-mediated strategic reviewer. Code owns structure and objective evidence (declared status, declared dates, age arithmetic, declared-window arithmetic); the model owns every semantic judgment (does this claim still hold, has it drifted, is it being acted on as if current).",
+  "type": "object",
+  "required": [
+    "id",
+    "created_at",
+    "review_kind",
+    "review_week",
+    "as_of",
+    "findings",
+    "governance_context",
+    "allowed_outputs",
+    "review_question"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "review_kind": { "type": "string", "const": "strategic_staleness" },
+    "review_week": {
+      "type": "string",
+      "description": "ISO-8601 week the review belongs to, e.g. 2026-W26. Used to date the surfaced packet.",
+      "pattern": "^\\d{4}-W\\d{2}$"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The instant strategic staleness was measured against. Age is computed from as_of minus the claim's declared last-validated instant."
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" },
+      "description": "Objective strategic-claim findings. Each finding faithfully serializes a declared claim plus computed objective facts (age, declared-window exceeded). It carries no judgment about whether the claim has drifted; that is the reviewer's job."
+    },
+    "governance_context": {
+      "type": "object",
+      "required": ["constraints"],
+      "properties": {
+        "constraints": {
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Governance constraints the reviewer must honor, e.g. no auto-mutation without approval, model-mediated discipline."
+        }
+      }
+    },
+    "allowed_outputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The outputs the reviewer is permitted to return. Restricts the model's effect surface, not its judgment."
+    },
+    "review_question": {
+      "type": "string",
+      "description": "The model-mediated question the reviewer answers for each strategic claim."
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "scope_key",
+        "claim_kind",
+        "subject_ref",
+        "claim_summary",
+        "declared_status",
+        "validity_window_exceeded",
+        "source_doc_ref",
+        "evidence_refs"
+      ],
+      "properties": {
+        "scope_key": {
+          "type": "string",
+          "description": "Stable per-claim identifier within the packet, e.g. 'company.sampleco|mission' or 'portfolio|operating-decision:forgeworks-positioning'."
+        },
+        "claim_kind": {
+          "type": "string",
+          "enum": [
+            "company_mission",
+            "company_strategy",
+            "company_priority",
+            "company_project",
+            "operating_decision"
+          ]
+        },
+        "subject_ref": {
+          "type": "string",
+          "description": "The company_ref (e.g. company.sampleco) for company-level claims, or 'portfolio' for cross-cutting operating decisions."
+        },
+        "claim_summary": {
+          "type": "string",
+          "description": "Verbatim declared text of the claim (mission summary, strategy summary, a single current priority, a project summary, or an operating decision's title + declared status). Carried as evidence; code does not paraphrase or judge it."
+        },
+        "declared_status": {
+          "type": "string",
+          "description": "A status the source document itself declares for this claim (e.g. a project status of 'active', or an operating decision's 'Status: Draft' line). Empty string when the source declares no status. Objective evidence, not judgment."
+        },
+        "last_validated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The instant the claim was last validated, as declared by its source (company_memory freshness.as_of, or an operating doc's Created/Updated line). Absent when the source declares no date."
+        },
+        "declared_stale_after": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The declared end of the claim's validity window (company_memory freshness.stale_after). Absent when the source declares no window."
+        },
+        "validity_window_exceeded": {
+          "type": "boolean",
+          "description": "True when as_of is at or beyond the claim's own declared validity-window end. Arithmetic on a field the source itself declares, not semantic judgment. False when no window is declared."
+        },
+        "age_days": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "as_of minus last_validated_at, in whole days. Objective fact. Absent when last_validated_at is unknown."
+        },
+        "source_doc_ref": {
+          "type": "string",
+          "description": "Origin of the claim: a JSON doc path for company_memory, or a markdown path for operating decisions."
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "detail": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "id": "strategic-review-output.all.2026-W26",
+  "review_packet_id": "strategic_review_packet.all.2026-W26",
+  "created_at": "2026-06-25T12:00:00Z",
+  "review_week": "2026-W26",
+  "decision": "surface_decisions",
+  "observations": [
+    "The SampleCo company_memory freshness window expired 2026-05-11 and has not been re-validated against current reality; every company-level claim is therefore aged evidence, not confirmed-current evidence.",
+    "The positioning cleanup plan carries an explicit, verifiable drift signal: the 30/60/90 staged-delivery model is declared dead and superseded by the 30-day promise, yet the cleanup is only Draft and the dead model still lives in forward-facing materials.",
+    "The operating framework carries no declared last-validated date, so its currency cannot be judged from evidence alone."
+  ],
+  "entries": [
+    {
+      "scope_key": "company.sampleco|company_mission",
+      "nl_question": "SampleCo's mission statement was last validated May 4 (51 days ago, past its own stale-after). Does this mission still describe what SampleCo is for, or has the focus moved on?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.6,
+      "evidence_refs": [
+        "company_memory.sampleco",
+        "company_memory.sampleco.freshness.stale_after"
+      ],
+      "rationale": "A mission is durable by nature, but the evidence is seven weeks stale and past its declared validity window; a human should confirm it still holds before it is treated as current."
+    },
+    {
+      "scope_key": "company.sampleco|company_strategy",
+      "nl_question": "The stated strategy ('relationship-backed proof and concrete operating systems') is 51 days old. Is this still the live strategy, or has it been refined in a newer document?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.58,
+      "evidence_refs": [
+        "company_memory.sampleco",
+        "company_memory.sampleco.freshness.stale_after"
+      ],
+      "rationale": "No newer document is cited as superseding it, but no evidence confirms it either; the age alone does not prove drift."
+    },
+    {
+      "scope_key": "company.sampleco|company_priority:0",
+      "nl_question": "The priority 'Ship State System as a substrate for company memory and agent context' is 51 days old. Is shipping State System still a current priority, and has its meaning or scope shifted?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.6,
+      "evidence_refs": [
+        "company_memory.sampleco",
+        "company_memory.sampleco.freshness.stale_after"
+      ],
+      "rationale": "Priorities turn faster than mission; aged evidence past its stale-after warrants a human check rather than an automatic call."
+    },
+    {
+      "scope_key": "company.sampleco|company_priority:1",
+      "nl_question": "The priority 'Use CRM outcomes as evidence for doctrine, not as hidden sales scores' is 51 days old. Is this still a guiding priority?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.55,
+      "evidence_refs": [
+        "company_memory.sampleco",
+        "company_memory.sampleco.freshness.stale_after"
+      ],
+      "rationale": "A doctrinal-sounding priority is likely durable, but it is being carried past its declared validity window with no confirmation; needs a human to attest."
+    },
+    {
+      "scope_key": "company.sampleco|company_project:project.state-system",
+      "nl_question": "The State System project is declared 'active' as of May 4. Is it still active, and is 'active' still the right status, or has it shipped, stalled, or been deprioritized since?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.62,
+      "evidence_refs": [
+        "company_memory.sampleco",
+        "project.state-system"
+      ],
+      "rationale": "A declared status of 'active' carried seven weeks past stale-after is not confirmed-current; a human should confirm the project's real status before it is acted on as active."
+    },
+    {
+      "scope_key": "portfolio|operating-decision:portfolio-operating-framework",
+      "nl_question": "The Portfolio Operating Framework is a cross-cutting operating decision with no declared last-validated date. When was it last checked against current reality, and does the operating stack it describes still match how work actually runs?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.5,
+      "evidence_refs": [
+        "operating-decision:portfolio-operating-framework",
+        "examples/strategic-reviews/operating-docs/portfolio-operating-framework.md"
+      ],
+      "rationale": "With no declared date there is no objective basis to call this drifted or current; it needs a human to attest when it was last validated."
+    },
+    {
+      "scope_key": "portfolio|operating-decision:sampleco-positioning-cleanup-plan",
+      "nl_question": "The positioning cleanup plan states the 30/60/90 staged-delivery model is dead and superseded by the 30-day promise, but the plan is still Draft (created June 24) and the dead model still appears in forward-facing materials. Is the old staged model still being acted on as if current anywhere it shouldn't be?",
+      "recommended_action": "revise",
+      "classification": "objective_drift",
+      "confidence": 0.85,
+      "evidence_refs": [
+        "operating-decision:sampleco-positioning-cleanup-plan",
+        "examples/strategic-reviews/operating-docs/sampleco-positioning-cleanup-plan.md"
+      ],
+      "rationale": "This is verifiable drift: the document itself declares the old model superseded, yet the cleanup remains incomplete and the dead model persists in active materials. The claim has objectively moved; it should be revised to completion."
+    }
+  ],
+  "revise_proposals": [],
+  "uncertainty": [
+    "All SampleCo company-level claims share one stale freshness watermark, so their currency cannot be separated from the company_memory read model's own age.",
+    "The operating framework carries no declared last-validated date, so its drift status is genuinely unknown from evidence."
+  ],
+  "auto_revise_enabled": false,
+  "review_signal": {
+    "id": "review_signal.strategic.2026-W26",
+    "status": "surface_decisions",
+    "created_at": "2026-06-25T12:00:00Z",
+    "trigger_ref": "strategic_review_packet.all.2026-W26"
+  }
+}

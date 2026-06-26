@@ -47,6 +47,12 @@ from state_system.staleness_runner import (
     parse_instant,
     run_staleness_review,
 )
+from state_system.strategic_staleness import (
+    LiveStrategicReviewer,
+    RecordedStrategicReviewer,
+    load_strategic_schemas,
+    run_strategic_review,
+)
 from state_system.instance_capability import (
     InstanceCapabilityRuntime,
     build_instance_capability_read_model,
@@ -1186,6 +1192,40 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             output_schema=schemas["staleness_output"],
             packet_schema=schemas["staleness_packet"],
             reviewer_label=reviewer_label,
+            filename_suffix="hygiene",
+        )
+        _write_json(stdout, result.summary())
+        return 0
+
+    if args.command == "strategic-review-run":
+        schemas = load_strategic_schemas(project_root)
+        as_of = parse_instant(args.as_of) if args.as_of else datetime.now(timezone.utc)
+        scope = args.scope or "all"
+        reviewer = None
+        reviewer_label = "none"
+        if args.reviewer == "recorded":
+            reviewer = RecordedStrategicReviewer.from_examples(
+                project_root / "examples" / "strategic-reviews"
+            )
+            reviewer_label = "recorded"
+        elif args.reviewer == "live":
+            reviewer = LiveStrategicReviewer(
+                registry_route=args.registry_route or "strategic-review"
+            )
+            reviewer_label = "live"
+        result = run_strategic_review(
+            company_memory_dir=(
+                Path(args.company_memory_dir) if args.company_memory_dir else None
+            ),
+            operating_docs=([Path(p) for p in (args.operating_doc or [])] or None),
+            as_of=as_of,
+            reviewer=reviewer,
+            scope=scope,
+            auto_revise_enabled=bool(args.auto_revise),
+            out_dir=Path(args.output_dir) if args.output_dir else None,
+            output_schema=schemas["strategic_output"],
+            packet_schema=schemas["strategic_packet"],
+            reviewer_label=reviewer_label,
         )
         _write_json(stdout, result.summary())
         return 0
@@ -1731,6 +1771,70 @@ def _parser() -> argparse.ArgumentParser:
         default=False,
         help=(
             "Arm the auto-demote gate (default OFF). Even armed, demotion only "
+            "proposes; execution requires Braydon approval routed via Avery."
+        ),
+    )
+
+    strategic_review_run = subcommands.add_parser(
+        "strategic-review-run",
+        help=(
+            "Run the strategic-staleness review loop (strategic claims -> "
+            "reviewer -> dated packet). Surfaces semantic drift in mission, "
+            "strategy, priorities, projects, and operating decisions; "
+            "auto-revise defaults OFF and never mutates."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--company-memory-dir",
+        help=(
+            "Directory of company_memory JSON documents to read company-level "
+            "strategic claims from (mission, strategy, priorities, projects)."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--operating-doc",
+        action="append",
+        default=None,
+        help=(
+            "Path to an operating/decision-claim markdown document to review "
+            "(operating-framework, tracker-boundaries, decision handoffs). "
+            "Repeatable; the operator curates which docs are strategic-claim "
+            "sources."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--as-of",
+        help="ISO-8601 instant to measure strategic staleness against (defaults to now).",
+    )
+    strategic_review_run.add_argument(
+        "--scope", help="Packet scope label (defaults to 'all')."
+    )
+    strategic_review_run.add_argument(
+        "--reviewer",
+        choices=["recorded", "live", "none"],
+        default="recorded",
+        help=(
+            "Reviewer backend (recorded replays fixtures; live resolves a "
+            "registry route; none produces evidence-only)."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--registry-route",
+        help="Central-registry route for the live reviewer (e.g. strategic-review).",
+    )
+    strategic_review_run.add_argument(
+        "--output-dir",
+        help=(
+            "Directory to write the dated packet markdown (YYYY-WW.md). Omit "
+            "to skip the markdown write."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--auto-revise",
+        action="store_true",
+        default=False,
+        help=(
+            "Arm the auto-revise gate (default OFF). Even armed, revision only "
             "proposes; execution requires Braydon approval routed via Avery."
         ),
     )

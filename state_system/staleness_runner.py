@@ -578,12 +578,14 @@ def write_packet_markdown(
     *,
     out_dir: Path,
     reviewer_label: str = "recorded",
+    filename_suffix: str = "",
 ) -> Path:
-    """Write the dated packet markdown (YYYY-WW.md). Falls back to evidence-only
+    """Write the dated packet markdown (YYYY-WW[suffix].md). Falls back to evidence-only
     when no model output is supplied.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / f"{packet['review_week']}.md"
+    suffix = f"-{filename_suffix}" if filename_suffix else ""
+    path = out_dir / f"{packet['review_week']}{suffix}.md"
     if output is None:
         text = render_evidence_only_markdown(packet)
     else:
@@ -633,6 +635,7 @@ def run_staleness_review(
     packet_schema: JsonObject | None = None,
     governance_constraints: list[JsonObject] | None = None,
     reviewer_label: str = "recorded",
+    filename_suffix: str = "",
 ) -> StalenessRunResult:
     """Run the full staleness loop: gather -> packet -> review -> render.
 
@@ -679,6 +682,7 @@ def run_staleness_review(
             output,
             out_dir=out_dir,
             reviewer_label=reviewer_label,
+            filename_suffix=filename_suffix,
         )
 
     decisions_queued = len(output.get("entries", [])) if output else len(findings)
