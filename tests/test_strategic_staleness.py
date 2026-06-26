@@ -280,6 +280,126 @@ class GatherEntityCurrentStateTests(unittest.TestCase):
         self.assertIn("operating_decision", kinds)
 
 
+class _OneEntryReviewer:
+    """Test double: emits one model-style judgment for the first finding.
+
+    Stands in for a live model reviewer. Its entry carries the finding's
+    scope_key so the output-enrichment join can be exercised.
+    """
+
+    def review(self, packet):
+        findings = packet.get("findings") or []
+        if not findings:
+            raise MissingStrategicJudgmentError(packet["id"])
+        head = findings[0]
+        return {
+            "id": "strategic_review_output.test",
+            "created_at": "2026-06-25T12:00:00Z",
+            "decision": "surface_decisions",
+            "observations": [],
+            "entries": [
+                {
+                    "scope_key": head["scope_key"],
+                    "nl_question": "does this strategic claim still hold?",
+                    "recommended_action": "revise",
+                    "classification": "objective_drift",
+                    "confidence": 0.8,
+                    "evidence_refs": list(head.get("evidence_refs", [])),
+                    "rationale": "test double",
+                }
+            ],
+            "uncertainty": [],
+            "review_signal": {
+                "id": "review_signal.test",
+                "status": "surfaced",
+                "created_at": "2026-06-25T12:00:00Z",
+                "trigger_ref": "trigger.test",
+            },
+        }
+
+
+class EntityIdBridgeTests(unittest.TestCase):
+    """The strategic output must join to entity-current-state cards by a
+    first-class ``entity_id`` — never by parsing ``scope_key``.
+
+    ``scope_key`` nests the id as ``entity.<id>|entity_current_state:<slug>``;
+    a naive equality join against a card's bare ``entity_id`` silently no-ops,
+    and the slug half is lossy. Carrying the verbatim ``entity_id`` on the
+    finding and surfacing it on the entry removes that hazard and lets a
+    consumer join with ``entry.entity_id == card.entity_id``.
+    """
+
+    def test_ecs_finding_carries_verbatim_dotted_entity_id(self):
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[
+                (_entity_current_state(entity_id="venture.sampleco"), "ecs.sampleco")
+            ],
+            as_of=AS_OF,
+        )
+        self.assertEqual(1, len(findings))
+        # verbatim dotted id preserved as a first-class field, not parsed out
+        self.assertEqual("venture.sampleco", findings[0]["entity_id"])
+
+    def test_ecs_finding_entity_id_is_raw_not_a_lossy_slug(self):
+        # an id whose slug form differs from its raw form proves the bridge
+        # carries the verbatim key rather than a derived slug
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[
+                (_entity_current_state(entity_id="LFW Co"), "ecs.lfwco")
+            ],
+            as_of=AS_OF,
+        )
+        self.assertEqual("LFW Co", findings[0]["entity_id"])
+
+    def test_output_entry_enriched_with_entity_id_joined_by_scope(self):
+        result = run_strategic_review(
+            entity_current_state_docs=[
+                (_entity_current_state(entity_id="venture.sampleco"), "ecs.sampleco")
+            ],
+            as_of=AS_OF,
+            reviewer=_OneEntryReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertTrue(result.judgments_present)
+        entries = result.output["entries"]
+        self.assertEqual(1, len(entries))
+        # the entry now carries the joinable entity_id, joined from the finding
+        self.assertEqual("venture.sampleco", entries[0]["entity_id"])
+
+    def test_non_ecs_entries_have_no_entity_id(self):
+        result = run_strategic_review(
+            company_memory_docs=[(_company_memory(), "company_memory.acme")],
+            as_of=AS_OF,
+            reviewer=_OneEntryReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertTrue(result.judgments_present)
+        # company_memory claims are not entity-scoped: entity_id must be absent
+        for entry in result.output["entries"]:
+            self.assertNotIn("entity_id", entry)
+
+    def test_model_smuggled_entity_id_on_non_ecs_entry_is_scrubbed(self):
+        # the contract: entity_id is code-owned and present only on
+        # entity-current-state entries. Even if a model erroneously emits one
+        # on a company-memory entry, code must strip it (no model-owned ids).
+        class _SmugglingReviewer(_OneEntryReviewer):
+            def review(self, packet):
+                out = super().review(packet)
+                out["entries"][0]["entity_id"] = "smuggled-by-model"
+                return out
+
+        result = run_strategic_review(
+            company_memory_docs=[(_company_memory(), "company_memory.acme")],
+            as_of=AS_OF,
+            reviewer=_SmugglingReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertNotIn("entity_id", result.output["entries"][0])
+
+
 class BuildStrategicPacketTests(unittest.TestCase):
     def test_packet_validates_and_gate_off_shape(self):
         findings = gather_strategic_findings(

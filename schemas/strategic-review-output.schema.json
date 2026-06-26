@@ -83,6 +83,10 @@
       ],
       "properties": {
         "scope_key": { "type": "string" },
+        "entity_id": {
+          "type": "string",
+          "description": "First-class join key for entity-current-state claims. Carried verbatim from the source card by a code-owned join (never model-produced) so a consumer joins entry.entity_id == card.entity_id without parsing scope_key. Absent on non-entity entries."
+        },
         "nl_question": {
           "type": "string",
           "description": "Natural-language question for Braydon about whether this strategic claim still holds."

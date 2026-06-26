@@ -398,6 +398,7 @@ def _claims_from_entity_current_state(
             scope_key=f"{subject_ref}|entity_current_state:{_slug(entity_id)}",
             claim_kind="entity_current_state",
             subject_ref=subject_ref,
+            entity_id=entity_id,
             claim_summary=str(record.get("north_star", "")),
             declared_status=str(record.get("status", "")),
             last_validated_at=record.get("effective_at"),
@@ -421,8 +422,9 @@ def _claim(
     source_doc_ref: str,
     evidence_refs: list[str],
     detail: str,
+    entity_id: str | None = None,
 ) -> JsonObject:
-    return {
+    claim: JsonObject = {
         "scope_key": scope_key,
         "claim_kind": claim_kind,
         "subject_ref": subject_ref,
@@ -434,6 +436,12 @@ def _claim(
         "evidence_refs": sorted(set(evidence_refs)),
         "detail": detail,
     }
+    # First-class join key for entity-current-state claims. Carried verbatim
+    # so a consumer joins entry.entity_id == card.entity_id without parsing
+    # the scope_key (whose slug half is lossy). Absent for non-entity claims.
+    if entity_id is not None:
+        claim["entity_id"] = entity_id
+    return claim
 
 
 def _to_finding(claim: JsonObject, as_of: datetime) -> JsonObject:
@@ -453,6 +461,8 @@ def _to_finding(claim: JsonObject, as_of: datetime) -> JsonObject:
         "source_doc_ref": claim["source_doc_ref"],
         "evidence_refs": list(claim["evidence_refs"]),
     }
+    if "entity_id" in claim:
+        finding["entity_id"] = claim["entity_id"]
     last_validated = claim.get("last_validated_at")
     if last_validated:
         finding["last_validated_at"] = last_validated
@@ -709,6 +719,34 @@ class AutoReviseGate:
 def _target_ref_from_scope(scope_key: str) -> str:
     # scope_key is "<subject_ref>|<claim_kind>:<slug>"; subject is the revise target
     return scope_key.split("|", 1)[0]
+
+
+def _enrich_entries_with_entity_id(output: JsonObject, packet: JsonObject) -> None:
+    """Surface a first-class ``entity_id`` on each entity-current-state entry.
+
+    Pure code-owned join (the model never produces ``entity_id``): the id is
+    carried verbatim on the finding and copied onto the matching entry by
+    ``scope_key``. This removes the hazard of parsing ``scope_key``
+    (``entity.<id>|entity_current_state:<slug>``, where the slug half is
+    lossy) to recover the card's join key. Non-entity entries are untouched.
+    """
+    ecs_id_by_scope = {
+        f["scope_key"]: f["entity_id"]
+        for f in packet.get("findings", [])
+        if f.get("claim_kind") == "entity_current_state" and "entity_id" in f
+    }
+    entries = output.get("entries", [])
+    if not ecs_id_by_scope and not entries:
+        return
+    for entry in entries:
+        scope_key = entry.get("scope_key")
+        if scope_key in ecs_id_by_scope:
+            entry["entity_id"] = ecs_id_by_scope[scope_key]
+        else:
+            # entity_id is code-owned and defined only for entity-current-state
+            # entries. Scrub any stray value so the model cannot smuggle one
+            # onto a non-entity entry (keeps the code/model boundary explicit).
+            entry.pop("entity_id", None)
 
 
 # --------------------------------------------------------------------------
@@ -1025,6 +1063,7 @@ def run_strategic_review(
             reviewed["revise_proposals"] = proposals
             reviewed["review_packet_id"] = packet["id"]
             reviewed.setdefault("review_week", packet["review_week"])
+            _enrich_entries_with_entity_id(reviewed, packet)
             if output_schema is not None:
                 errors = _validate_output_deep(reviewed, output_schema)
                 if errors:
