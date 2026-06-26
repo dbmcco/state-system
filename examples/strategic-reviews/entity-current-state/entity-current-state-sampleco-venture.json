@@ -1,0 +1,21 @@
+{
+  "id": "entity_current_state.venture.sampleco.2026-06-18T13-14-00-00-00",
+  "entity_id": "venture.sampleco",
+  "entity_name": "SampleCo Venture",
+  "north_star": "Ship the SampleCo app for Friday review with co-founders and establish clinical credibility.",
+  "current_priority": "Background agent is actively building the app; check its progress before Friday so the operator is not walking in cold.",
+  "owner": "Operator",
+  "waiting_on": "Background agent to make progress on the app before Friday review",
+  "braydon_next_action": "Check agent progress before Friday review",
+  "effective_at": "2026-06-18T13:14:00Z",
+  "stale_after": "2026-06-20T12:00:00Z",
+  "supersedes": null,
+  "source_refs": [
+    "folio:sampleco-venture-note",
+    "workboard:finish-sampleco-app"
+  ],
+  "confidence": "high",
+  "status": "active",
+  "generated_at": "2026-06-18T13:14:00Z",
+  "generated_by": "sam"
+}

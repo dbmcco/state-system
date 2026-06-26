@@ -76,6 +76,35 @@ def _company_memory() -> dict:
     }
 
 
+def _entity_current_state(
+    *,
+    entity_id: str = "venture.sample",
+    north_star: str = "Ship the sample app for Friday review.",
+    status: str = "active",
+    effective_at: str = "2026-06-18T13:14:00Z",
+    stale_after: str = "2026-06-20T12:00:00Z",
+) -> dict:
+    """A self-contained entity-current-state record (b-state shape)."""
+    return {
+        "id": f"entity_current_state.{entity_id}.{effective_at}",
+        "entity_id": entity_id,
+        "entity_name": entity_id,
+        "north_star": north_star,
+        "current_priority": "Background agent is building the app; check before Friday.",
+        "owner": "Braydon",
+        "waiting_on": "Background agent progress",
+        "braydon_next_action": "Check agent progress before Friday",
+        "effective_at": effective_at,
+        "stale_after": stale_after,
+        "supersedes": None,
+        "source_refs": ["folio:sample-note", "workboard:sample-task"],
+        "confidence": "high",
+        "status": status,
+        "generated_at": effective_at,
+        "generated_by": "sam",
+    }
+
+
 def _write_operating_doc(directory: Path, name: str, body: str) -> Path:
     path = directory / name
     path.write_text(body, encoding="utf-8")
@@ -180,6 +209,75 @@ class GatherStrategicFindingsTests(unittest.TestCase):
         # sorted by (subject_ref, claim_kind, scope_key); portfolio sorts after company.acme
         subjects = [f["subject_ref"] for f in findings]
         self.assertEqual(subjects, sorted(subjects))
+
+
+class GatherEntityCurrentStateTests(unittest.TestCase):
+    def test_surfaces_active_expired_card_as_one_finding(self):
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[
+                (_entity_current_state(), "entity_current_state.venture.sample")
+            ],
+            as_of=AS_OF,  # 2026-06-25 > stale_after 2026-06-20
+        )
+        self.assertEqual(1, len(findings))
+        finding = findings[0]
+        self.assertEqual("entity_current_state", finding["claim_kind"])
+        self.assertEqual("entity.venture.sample", finding["subject_ref"])
+        self.assertIn("Ship the sample app", finding["claim_summary"])
+        self.assertEqual("active", finding["declared_status"])
+        self.assertTrue(finding["validity_window_exceeded"])
+
+    def test_skips_card_still_within_validity_window(self):
+        fresh = _entity_current_state(stale_after="2026-07-01T12:00:00Z")
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[(fresh, "ecs.fresh")], as_of=AS_OF
+        )
+        self.assertEqual([], findings)  # current by its own declaration; not worth review
+
+    def test_skips_non_active_cards(self):
+        superseded = _entity_current_state(status="superseded")
+        retracted = _entity_current_state(status="retracted")
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[
+                (superseded, "ecs.s"),
+                (retracted, "ecs.r"),
+            ],
+            as_of=AS_OF,
+        )
+        self.assertEqual([], findings)  # own declared status says not-current
+
+    def test_evidence_and_detail_carry_card_content_faithfully(self):
+        findings = gather_strategic_findings(
+            entity_current_state_docs=[
+                (_entity_current_state(), "entity_current_state.venture.sample")
+            ],
+            as_of=AS_OF,
+        )
+        finding = findings[0]
+        self.assertIn("folio:sample-note", finding["evidence_refs"])
+        self.assertIn("workboard:sample-task", finding["evidence_refs"])
+        detail = finding.get("detail", "")
+        # current_priority + next_action carried as evidence; source confidence
+        # carried as declared evidence, NOT a model confidence.
+        self.assertIn("current_priority:", detail)
+        self.assertIn("high", detail)
+
+    def test_combines_with_company_memory_and_operating_docs(self):
+        with TemporaryDirectory() as directory:
+            directory = Path(directory)
+            op_path = _write_operating_doc(
+                directory, "decision.md", "# A Decision\n**Status:** Open\n"
+            )
+            findings = gather_strategic_findings(
+                company_memory_docs=[(_company_memory(), "company_memory.acme")],
+                entity_current_state_docs=[(_entity_current_state(), "ecs.sample")],
+                operating_docs=[op_path],
+                as_of=AS_OF,
+            )
+        kinds = sorted(f["claim_kind"] for f in findings)
+        self.assertIn("company_mission", kinds)
+        self.assertIn("entity_current_state", kinds)
+        self.assertIn("operating_decision", kinds)
 
 
 class BuildStrategicPacketTests(unittest.TestCase):

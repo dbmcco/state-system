@@ -95,6 +95,23 @@
       "detail": "Ship State System as a substrate for company memory and agent context.; Use CRM outcomes as evidence for doctrine, not as hidden sales scores."
     },
     {
+      "scope_key": "entity.venture.sampleco|entity_current_state:venture.sampleco",
+      "claim_kind": "entity_current_state",
+      "subject_ref": "entity.venture.sampleco",
+      "claim_summary": "Ship the SampleCo app for Friday review with co-founders and establish clinical credibility.",
+      "declared_status": "active",
+      "validity_window_exceeded": true,
+      "source_doc_ref": "/Users/braydon/projects/experiments/state-system/examples/strategic-reviews/entity-current-state/entity-current-state-sampleco-venture.json",
+      "evidence_refs": [
+        "folio:sampleco-venture-note",
+        "workboard:finish-sampleco-app"
+      ],
+      "last_validated_at": "2026-06-18T13:14:00Z",
+      "age_days": 6,
+      "declared_stale_after": "2026-06-20T12:00:00Z",
+      "detail": "current_priority: Background agent is actively building the app; check its progress before Friday so the operator is not walking in cold.; next_action: Check agent progress before Friday review; owner: Operator; waiting_on: Background agent to make progress on the app before Friday review; source_confidence: high; generated_by: sam"
+    },
+    {
       "scope_key": "portfolio|operating-decision:portfolio-operating-framework",
       "claim_kind": "operating_decision",
       "subject_ref": "portfolio",

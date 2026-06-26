@@ -93,6 +93,18 @@
         "examples/strategic-reviews/operating-docs/sampleco-positioning-cleanup-plan.md"
       ],
       "rationale": "This is verifiable drift: the document itself declares the old model superseded, yet the cleanup remains incomplete and the dead model persists in active materials. The claim has objectively moved; it should be revised to completion."
+    },
+    {
+      "scope_key": "entity.venture.sampleco|entity_current_state:venture.sampleco",
+      "nl_question": "The SampleCo venture card declares a north star of shipping the app for Friday review (June 18), but its own stale_after was June 20 and Friday has passed. Did the Friday review happen, and does this north star + priority still hold, or has the venture moved past it?",
+      "recommended_action": "validate",
+      "classification": "uncertain",
+      "confidence": 0.7,
+      "evidence_refs": [
+        "folio:sampleco-venture-note",
+        "workboard:finish-sampleco-app"
+      ],
+      "rationale": "The card's own declared stale_after has expired, which is objective decay evidence, but whether the underlying Friday-review claim held or slipped is unknown without a human check; the source confidence (high) is evidence about authoring certainty, not about whether the claim is still current."
     }
   ],
   "revise_proposals": [],

@@ -328,6 +328,87 @@ def _claims_from_operating_doc(path: Path) -> list[JsonObject]:
     ]
 
 
+def gather_entity_current_state_docs(
+    *,
+    entity_current_state_dir: Path | None = None,
+    entity_current_state_files: Iterable[Path] | None = None,
+) -> list[tuple[JsonObject, str]]:
+    """Load entity-current-state records (b-state shape) from disk.
+
+    Returns ``(record, source_doc_ref)`` pairs. Records are returned as-is;
+    they are evidence, not findings.
+    """
+    pairs: list[tuple[JsonObject, str]] = []
+    if entity_current_state_dir is not None:
+        for path in sorted(entity_current_state_dir.glob("*.json")):
+            pairs.append((load_json(path), str(path)))
+    if entity_current_state_files is not None:
+        for path in entity_current_state_files:
+            path = Path(path)
+            pairs.append((load_json(path), str(path)))
+    return pairs
+
+
+def _is_surfaced_entity_state(record: JsonObject, as_of: datetime) -> bool:
+    """Surface an entity-current-state card when its own declared window expired.
+
+    Mirrors the freshness runner's ``_is_surfaced``: ``status`` and
+    ``stale_after`` are fields the card itself declares, so this is evidence
+    surfacing, not judgment. Cards still within their own validity window are
+    current-by-declaration and not worth a review; superseded/retracted cards
+    declare themselves not-current. Only active, window-expired cards surface.
+    """
+    if str(record.get("status", "")) != "active":
+        return False
+    stale_after = record.get("stale_after")
+    if not stale_after:
+        return False
+    return as_of >= parse_instant(str(stale_after))
+
+
+def _claims_from_entity_current_state(
+    record: JsonObject, source_doc_ref: str
+) -> list[JsonObject]:
+    """Turn one entity-current-state card into one strategic-claim record.
+
+    A card is an integrated current-state snapshot authored at one
+    ``effective_at`` with one ``stale_after`` (north_star + current_priority
+    live together, and may diverge in horizon per the schema). It is surfaced
+    as a single claim whose headline is the durable north_star; the
+    current_priority, next action, owner, version, and the source's own
+    declared confidence are carried as evidence/detail. The source confidence
+    is evidence, never a model judgment.
+    """
+    entity_id = str(record["entity_id"])
+    subject_ref = f"entity.{entity_id}"
+    evidence = list(record.get("source_refs", []))
+    detail_bits = [
+        f"current_priority: {record.get('current_priority', '')}",
+        f"next_action: {record.get('braydon_next_action', '')}",
+        f"owner: {record.get('owner', '')}",
+        f"waiting_on: {record.get('waiting_on', '')}",
+        f"source_confidence: {record.get('confidence', '')}",
+        f"generated_by: {record.get('generated_by', '')}",
+    ]
+    supersedes = record.get("supersedes")
+    if supersedes:
+        detail_bits.append(f"supersedes: {supersedes}")
+    return [
+        _claim(
+            scope_key=f"{subject_ref}|entity_current_state:{_slug(entity_id)}",
+            claim_kind="entity_current_state",
+            subject_ref=subject_ref,
+            claim_summary=str(record.get("north_star", "")),
+            declared_status=str(record.get("status", "")),
+            last_validated_at=record.get("effective_at"),
+            declared_stale_after=record.get("stale_after"),
+            source_doc_ref=source_doc_ref,
+            evidence_refs=evidence,
+            detail="; ".join(detail_bits),
+        )
+    ]
+
+
 def _claim(
     *,
     scope_key: str,
@@ -390,6 +471,9 @@ def gather_strategic_findings(
     company_memory_dir: Path | None = None,
     company_memory_files: Iterable[Path] | None = None,
     company_memory_docs: Iterable[tuple[JsonObject, str]] | None = None,
+    entity_current_state_dir: Path | None = None,
+    entity_current_state_files: Iterable[Path] | None = None,
+    entity_current_state_docs: Iterable[tuple[JsonObject, str]] | None = None,
     operating_docs: Iterable[Path] | None = None,
     as_of: datetime,
 ) -> list[JsonObject]:
@@ -400,6 +484,11 @@ def gather_strategic_findings(
     from disk. ``operating_docs`` accepts markdown paths the operator has
     curated as decision-claim sources (the curation is a human decision, not a
     code heuristic — code surfaces exactly the documents it is pointed at).
+    ``entity_current_state_*`` read b-state current-state cards; unlike the
+    low-volume curated company_memory, these are high-frequency append-only
+    snapshots with an explicit ``stale_after``, so only active cards whose own
+    declared window has expired surface (objective decay surfacing, mirroring
+    the freshness runner) — cards current-by-declaration are not worth a review.
     """
     claims: list[JsonObject] = []
 
@@ -413,6 +502,19 @@ def gather_strategic_findings(
         )
     for document, source_doc_ref in loaded:
         claims.extend(_claims_from_company_memory(document, source_doc_ref))
+
+    ecs_loaded = list(entity_current_state_docs or [])
+    if entity_current_state_dir is not None or entity_current_state_files is not None:
+        ecs_loaded.extend(
+            gather_entity_current_state_docs(
+                entity_current_state_dir=entity_current_state_dir,
+                entity_current_state_files=entity_current_state_files,
+            )
+        )
+    for record, source_doc_ref in ecs_loaded:
+        if not _is_surfaced_entity_state(record, as_of):
+            continue
+        claims.extend(_claims_from_entity_current_state(record, source_doc_ref))
 
     for path in operating_docs or []:
         claims.extend(_claims_from_operating_doc(Path(path)))
@@ -632,6 +734,7 @@ _CLAIM_KIND_LABEL = {
     "company_strategy": "company strategy",
     "company_priority": "current priority",
     "company_project": "project",
+    "entity_current_state": "entity current state",
     "operating_decision": "operating decision",
 }
 
@@ -867,6 +970,9 @@ def run_strategic_review(
     company_memory_dir: Path | None = None,
     company_memory_files: Iterable[Path] | None = None,
     company_memory_docs: Iterable[tuple[JsonObject, str]] | None = None,
+    entity_current_state_dir: Path | None = None,
+    entity_current_state_files: Iterable[Path] | None = None,
+    entity_current_state_docs: Iterable[tuple[JsonObject, str]] | None = None,
     operating_docs: Iterable[Path] | None = None,
     as_of: datetime,
     reviewer: StrategicReviewer | None = None,
@@ -889,6 +995,9 @@ def run_strategic_review(
         company_memory_dir=company_memory_dir,
         company_memory_files=company_memory_files,
         company_memory_docs=company_memory_docs,
+        entity_current_state_dir=entity_current_state_dir,
+        entity_current_state_files=entity_current_state_files,
+        entity_current_state_docs=entity_current_state_docs,
         operating_docs=operating_docs,
         as_of=as_of,
     )

@@ -1217,6 +1217,11 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
             company_memory_dir=(
                 Path(args.company_memory_dir) if args.company_memory_dir else None
             ),
+            entity_current_state_dir=(
+                Path(args.entity_current_state_dir)
+                if args.entity_current_state_dir
+                else None
+            ),
             operating_docs=([Path(p) for p in (args.operating_doc or [])] or None),
             as_of=as_of,
             reviewer=reviewer,
@@ -1789,6 +1794,14 @@ def _parser() -> argparse.ArgumentParser:
         help=(
             "Directory of company_memory JSON documents to read company-level "
             "strategic claims from (mission, strategy, priorities, projects)."
+        ),
+    )
+    strategic_review_run.add_argument(
+        "--entity-current-state-dir",
+        help=(
+            "Directory of entity-current-state JSON records (b-state shape) to "
+            "read personal/entity strategic claims from. Active cards whose own "
+            "declared stale_after has expired are surfaced for review."
         ),
     )
     strategic_review_run.add_argument(

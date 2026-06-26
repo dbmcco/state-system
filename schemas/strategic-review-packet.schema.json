@@ -80,6 +80,7 @@
             "company_strategy",
             "company_priority",
             "company_project",
+            "entity_current_state",
             "operating_decision"
           ]
         },
