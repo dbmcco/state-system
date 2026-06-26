@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/staleness-review-packet.schema.json",
+  "title": "StalenessReviewPacket",
+  "description": "Evidence packet for the staleness review loop. Code assembles this from source-freshness / instance-source-freshness records plus governance context. It is the input to the model-mediated staleness reviewer. Code owns structure and evidence; the model owns every semantic judgment (question, action, confidence, classification).",
+  "type": "object",
+  "required": [
+    "id",
+    "created_at",
+    "review_kind",
+    "review_week",
+    "as_of",
+    "findings",
+    "governance_context",
+    "allowed_outputs",
+    "review_question"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "review_kind": { "type": "string", "const": "staleness" },
+    "review_week": {
+      "type": "string",
+      "description": "ISO-8601 week the review belongs to, e.g. 2026-W26. Used to date the surfaced packet.",
+      "pattern": "^\\d{4}-W\\d{2}$"
+    },
+    "as_of": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The instant staleness was measured against. Lag is computed from as_of minus checked_at."
+    },
+    "findings": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/finding" },
+      "description": "Objective freshness findings. Each finding is faithful evidence serialized from a freshness record; it carries no judgment about whether the staleness matters."
+    },
+    "governance_context": {
+      "type": "object",
+      "required": ["constraints"],
+      "properties": {
+        "constraints": {
+          "type": "array",
+          "items": { "type": "object" },
+          "description": "Governance constraints the reviewer must honor, e.g. no auto-mutation without approval, model-mediated discipline."
+        }
+      }
+    },
+    "allowed_outputs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The outputs the reviewer is permitted to return. Restricts the model's effect surface, not its judgment."
+    },
+    "review_question": {
+      "type": "string",
+      "description": "The model-mediated question the reviewer answers for each finding."
+    }
+  },
+  "$defs": {
+    "finding": {
+      "type": "object",
+      "required": [
+        "scope_key",
+        "subject_kind",
+        "subject_ref",
+        "connector_ref",
+        "source_ref",
+        "freshness_status",
+        "checked_at",
+        "stale_after",
+        "watermark_basis",
+        "status_reason",
+        "lag_seconds",
+        "exceeds_stale_after",
+        "freshness_record_id",
+        "evidence_refs"
+      ],
+      "properties": {
+        "scope_key": { "type": "string" },
+        "subject_kind": { "type": "string", "enum": ["company", "instance"] },
+        "subject_ref": {
+          "type": "string",
+          "description": "company_ref or instance_ref, matching subject_kind."
+        },
+        "connector_ref": { "type": "string" },
+        "source_ref": { "type": "string" },
+        "freshness_status": { "type": "string", "enum": ["fresh", "stale", "failed", "unknown"] },
+        "checked_at": { "type": "string", "format": "date-time" },
+        "stale_after": { "type": "string", "format": "date-time" },
+        "watermark_basis": {
+          "type": "string",
+          "enum": [
+            "source_content",
+            "source_event",
+            "source_index",
+            "derived_index",
+            "package_generation",
+            "probe_only",
+            "declared_gap"
+          ]
+        },
+        "status_reason": { "type": "string" },
+        "lag_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "as_of minus checked_at, in whole seconds. Objective fact, not judgment."
+        },
+        "exceeds_stale_after": {
+          "type": "boolean",
+          "description": "True when checked_at is at or beyond the record's own declared stale_after. Arithmetic on the record's own field, not semantic judgment."
+        },
+        "freshness_record_id": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "detail": { "type": "string" }
+      }
+    }
+  }
+}

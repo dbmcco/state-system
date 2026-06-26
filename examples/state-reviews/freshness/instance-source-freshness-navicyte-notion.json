@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.navicyte.connector.navicyte.notion.notion-navicyte-grant.2026-06-23T09-00-00Z",
+  "scope_key": "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant",
+  "instance_ref": "state_instance.navicyte",
+  "connector_ref": "connector.navicyte.notion",
+  "source_ref": "notion:navicyte-grant",
+  "connector_type": "notion",
+  "status": "stale",
+  "checked_at": "2026-06-23T09:00:00Z",
+  "source_watermark": "notion:workspace:navicyte-grant:last_modified=2026-06-23T09:00:00Z",
+  "stale_after": "2026-06-24T00:00:00Z",
+  "watermark_basis": "source_content",
+  "latest_source_modified_at": "2026-06-23T09:00:00Z",
+  "status_reason": "Notion grant workspace last modified 2026-06-23; one day past its declared stale-after.",
+  "evidence_refs": [
+    "agent-runtime:freshness:notion:navicyte-grant:stale"
+  ],
+  "index_refs": [
+    "index.navicyte.notion.grant"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

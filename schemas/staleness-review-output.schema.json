@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/staleness-review-output.schema.json",
+  "title": "StalenessReviewOutput",
+  "description": "Model-mediated output of the staleness reviewer. Every per-entry field here is a model-owned judgment (question, action, confidence, classification). Code validates the contract and renders it; code never generates these judgments. The auto-demote gate may only act on entries the model classified as objective_stale with recommended_action demote, and only ever proposes (execution requires Committer approval).",
+  "type": "object",
+  "required": [
+    "id",
+    "review_packet_id",
+    "created_at",
+    "review_week",
+    "decision",
+    "observations",
+    "entries",
+    "uncertainty",
+    "auto_demote_enabled",
+    "review_signal"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "review_packet_id": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "review_week": { "type": "string", "pattern": "^\\d{4}-W\\d{2}$" },
+    "decision": {
+      "type": "string",
+      "enum": ["surface_decisions", "demote_proposals", "needs_evidence", "no_op"],
+      "description": "The reviewer's overall decision for this packet."
+    },
+    "observations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "entries": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/entry" },
+      "description": "One judgment per surfaced finding, in the HYBRID shape: a natural-language question AND a recommended action, plus evidence, confidence, and an objective/uncertain classification."
+    },
+    "demote_proposals": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/demote_proposal" },
+      "description": "Generated only when the auto-demote gate is ON and the model classified a finding as objective_stale with recommended_action demote. Always pending approval; never auto-executed."
+    },
+    "uncertainty": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["summary", "needed_ref_or_source"],
+        "properties": {
+          "summary": { "type": "string" },
+          "needed_ref_or_source": { "type": "string" }
+        }
+      }
+    },
+    "auto_demote_enabled": {
+      "type": "boolean",
+      "description": "Reflects the gate state at run time. Must be false for every packet produced this build phase."
+    },
+    "review_signal": {
+      "type": "object",
+      "required": ["id", "status", "created_at", "trigger_ref"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "trigger_ref": { "type": "string" }
+      }
+    }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "required": [
+        "scope_key",
+        "nl_question",
+        "recommended_action",
+        "classification",
+        "confidence",
+        "evidence_refs"
+      ],
+      "properties": {
+        "scope_key": { "type": "string" },
+        "nl_question": {
+          "type": "string",
+          "description": "Natural-language question for Braydon about this entry."
+        },
+        "recommended_action": {
+          "type": "string",
+          "enum": ["approve", "demote", "change", "refresh", "investigate"]
+        },
+        "classification": {
+          "type": "string",
+          "enum": ["objective_stale", "uncertain"],
+          "description": "Model-owned: is this an objective staleness call, or does it need human judgment?"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "rationale": { "type": "string" }
+      }
+    },
+    "demote_proposal": {
+      "type": "object",
+      "required": ["scope_key", "target_ref", "rationale", "evidence_refs", "approval_required"],
+      "properties": {
+        "scope_key": { "type": "string" },
+        "target_ref": { "type": "string" },
+        "rationale": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "approval_required": { "type": "boolean", "const": true }
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "id": "staleness_review_output.all.2026-W26",
+  "review_packet_id": "staleness_review_packet.all.2026-W26",
+  "created_at": "2026-06-25T12:00:00Z",
+  "review_week": "2026-W26",
+  "decision": "surface_decisions",
+  "observations": [
+    "Five instance-source-freshness findings were surfaced across lfw, synthyra, and navicyte; two fresh sources were correctly not surfaced.",
+    "Two findings look like objective staleness (lfw Linear, synth CRM); three need a human call because the cause (connector failure, declared gap, or a one-day lag) is ambiguous.",
+    "Auto-demote is OFF this build phase, so every entry is surfaced for decision rather than auto-demoted."
+  ],
+  "entries": [
+    {
+      "scope_key": "state_instance.lfw|connector.lfw.linear|linear:lfw-engineering",
+      "nl_question": "LightForge's Linear engineering feed hasn't been checked since May 20 (about 36 days past its stale-after of June 1). Is the Linear connector still active for LFW, and should we refresh it before treating LFW engineering state as current?",
+      "recommended_action": "refresh",
+      "classification": "objective_stale",
+      "confidence": 0.9,
+      "evidence_refs": ["agent-runtime:freshness:linear:lfw-engineering:stale"],
+      "rationale": "A declared source_event basis with no events for over a month, far past stale-after, is objective staleness; the open question is operational (refresh the connector), not whether it is stale."
+    },
+    {
+      "scope_key": "state_instance.lfw|connector.lfw.github|github:lfw-monorepo",
+      "nl_question": "The LFW GitHub connector reported a failure at its last probe on June 20 and freshness is now a declared gap. Do we know whether that failure was transient or a broken auth/config, and who should look?",
+      "recommended_action": "investigate",
+      "classification": "uncertain",
+      "confidence": 0.6,
+      "evidence_refs": ["agent-runtime:freshness:github:lfw-monorepo:failed"],
+      "rationale": "A failed probe could be transient or a real break; the evidence does not say which, so this needs a human to investigate before any demote or refresh call."
+    },
+    {
+      "scope_key": "state_instance.synthyra|connector.synth.monday|monday:synth-programs",
+      "nl_question": "Synthyra's Monday program-board freshness is unknown (a declared gap since June 10). Is Monday still a source we rely on for Synthyra program state, and who can confirm whether the connector is wired?",
+      "recommended_action": "investigate",
+      "classification": "uncertain",
+      "confidence": 0.55,
+      "evidence_refs": ["agent-runtime:freshness:monday:synth-programs:unknown"],
+      "rationale": "Declared-gap unknowns mean we cannot tell staleness from a missing connector; a human must confirm source relevance and wiring."
+    },
+    {
+      "scope_key": "state_instance.synthyra|connector.synth.crm|crm:synth-contacts",
+      "nl_question": "Synthyra CRM contacts haven't been checked since April 15 (over two months stale, past a May 1 stale-after). Should we demote this source's freshness weight until it is refreshed, given how central contacts are?",
+      "recommended_action": "demote",
+      "classification": "objective_stale",
+      "confidence": 0.85,
+      "evidence_refs": ["agent-runtime:freshness:crm:synth-contacts:stale"],
+      "rationale": "A source_event basis with no events for over two months is objective staleness; the demote recommendation is model-judged given how stale it is, and would only execute through the gated approval path."
+    },
+    {
+      "scope_key": "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant",
+      "nl_question": "Navicyte's Notion grant workspace is one day past its stale-after (last modified June 23). Is this routine sync lag, or a sign the Notion connector stopped running ahead of the UD grant work?",
+      "recommended_action": "change",
+      "classification": "uncertain",
+      "confidence": 0.6,
+      "evidence_refs": ["agent-runtime:freshness:notion:navicyte-grant:stale"],
+      "rationale": "A one-day lag on a normally-active source is ambiguous; it could be benign or a stopped connector, so it needs a human to change status or re-check rather than an automatic call."
+    }
+  ],
+  "demote_proposals": [],
+  "uncertainty": [
+    "The lfw-github and synth-monday findings depend on connector health we cannot see from freshness evidence alone.",
+    "The navicyte-notion one-day lag is within normal noise; treating it as stale may be premature."
+  ],
+  "auto_demote_enabled": false,
+  "review_signal": {
+    "id": "review_signal.staleness.2026-W26",
+    "status": "surface_decisions",
+    "created_at": "2026-06-25T12:00:00Z",
+    "trigger_ref": "staleness_review_packet.all.2026-W26"
+  }
+}

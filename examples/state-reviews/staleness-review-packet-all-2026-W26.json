@@ -1,0 +1,107 @@
+{
+  "id": "staleness_review_packet.all.2026-W26",
+  "created_at": "2026-06-25T12:00:00Z",
+  "review_kind": "staleness",
+  "review_week": "2026-W26",
+  "as_of": "2026-06-25T12:00:00Z",
+  "findings": [
+    {
+      "scope_key": "state_instance.lfw|connector.lfw.linear|linear:lfw-engineering",
+      "subject_kind": "instance",
+      "subject_ref": "state_instance.lfw",
+      "connector_ref": "connector.lfw.linear",
+      "source_ref": "linear:lfw-engineering",
+      "freshness_status": "stale",
+      "checked_at": "2026-05-20T09:00:00Z",
+      "stale_after": "2026-06-01T00:00:00Z",
+      "watermark_basis": "source_event",
+      "status_reason": "No Linear engineering events ingested since 2026-05-20; source is past its declared stale-after.",
+      "lag_seconds": 3121200,
+      "exceeds_stale_after": true,
+      "freshness_record_id": "instance_source_freshness.state_instance.lfw.connector.lfw.linear.linear-lfw-engineering.2026-05-20T09-00-00Z",
+      "evidence_refs": ["agent-runtime:freshness:linear:lfw-engineering:stale"]
+    },
+    {
+      "scope_key": "state_instance.lfw|connector.lfw.github|github:lfw-monorepo",
+      "subject_kind": "instance",
+      "subject_ref": "state_instance.lfw",
+      "connector_ref": "connector.lfw.github",
+      "source_ref": "github:lfw-monorepo",
+      "freshness_status": "failed",
+      "checked_at": "2026-06-20T09:00:00Z",
+      "stale_after": "2026-06-22T00:00:00Z",
+      "watermark_basis": "declared_gap",
+      "status_reason": "GitHub connector reported a failure at the last probe; source/corpus freshness is unproven until the connector recovers.",
+      "lag_seconds": 442800,
+      "exceeds_stale_after": true,
+      "freshness_record_id": "instance_source_freshness.state_instance.lfw.connector.lfw.github.github-lfw-monorepo.2026-06-20T09-00-00Z",
+      "evidence_refs": ["agent-runtime:freshness:github:lfw-monorepo:failed"]
+    },
+    {
+      "scope_key": "state_instance.synthyra|connector.synth.monday|monday:synth-programs",
+      "subject_kind": "instance",
+      "subject_ref": "state_instance.synthyra",
+      "connector_ref": "connector.synth.monday",
+      "source_ref": "monday:synth-programs",
+      "freshness_status": "unknown",
+      "checked_at": "2026-06-10T09:00:00Z",
+      "stale_after": "2026-06-12T00:00:00Z",
+      "watermark_basis": "declared_gap",
+      "status_reason": "Monday program board freshness is a declared gap; sync status is unavailable so source freshness is unknown.",
+      "lag_seconds": 1306800,
+      "exceeds_stale_after": true,
+      "freshness_record_id": "instance_source_freshness.state_instance.synthyra.connector.synth.monday.monday-synth-programs.2026-06-10T09-00-00Z",
+      "evidence_refs": ["agent-runtime:freshness:monday:synth-programs:unknown"]
+    },
+    {
+      "scope_key": "state_instance.synthyra|connector.synth.crm|crm:synth-contacts",
+      "subject_kind": "instance",
+      "subject_ref": "state_instance.synthyra",
+      "connector_ref": "connector.synth.crm",
+      "source_ref": "crm:synth-contacts",
+      "freshness_status": "stale",
+      "checked_at": "2026-04-15T09:00:00Z",
+      "stale_after": "2026-05-01T00:00:00Z",
+      "watermark_basis": "source_event",
+      "status_reason": "CRM contact events not ingested since 2026-04-15; source is well past its declared stale-after.",
+      "lag_seconds": 6145200,
+      "exceeds_stale_after": true,
+      "freshness_record_id": "instance_source_freshness.state_instance.synthyra.connector.synth.crm.crm-synth-contacts.2026-04-15T09-00-00Z",
+      "evidence_refs": ["agent-runtime:freshness:crm:synth-contacts:stale"]
+    },
+    {
+      "scope_key": "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant",
+      "subject_kind": "instance",
+      "subject_ref": "state_instance.navicyte",
+      "connector_ref": "connector.navicyte.notion",
+      "source_ref": "notion:navicyte-grant",
+      "freshness_status": "stale",
+      "checked_at": "2026-06-23T09:00:00Z",
+      "stale_after": "2026-06-24T00:00:00Z",
+      "watermark_basis": "source_content",
+      "status_reason": "Notion grant workspace last modified 2026-06-23; one day past its declared stale-after.",
+      "lag_seconds": 183600,
+      "exceeds_stale_after": true,
+      "freshness_record_id": "instance_source_freshness.state_instance.navicyte.connector.navicyte.notion.notion-navicyte-grant.2026-06-23T09-00-00Z",
+      "evidence_refs": ["agent-runtime:freshness:notion:navicyte-grant:stale"]
+    }
+  ],
+  "governance_context": {
+    "constraints": [
+      {
+        "id": "no-auto-mutation",
+        "rule": "No mutation executes without operator approval routed through governance. The runner only surfaces findings or produces proposals that still require approval."
+      },
+      {
+        "id": "model-mediated-discipline",
+        "rule": "Classification, recommended action, confidence, and the natural-language question are model-owned. Code owns structure, evidence, and gates; it must not substitute heuristics, regex, or thresholds for these judgments."
+      },
+      {
+        "id": "auto-demote-gated",
+        "rule": "Auto-demote is OFF this build phase. Surface decisions only; do not emit demote_proposals."
+      }
+    ]
+  },
+  "allowed_outputs": ["surface_decisions", "needs_evidence", "no_op"],
+  "review_question": "For each stale, failed, or unknown freshness finding, decide whether it is an objective staleness call (safe to refresh or, once the gate is open and approved, demote) or whether it needs a human judgment. Surface a plain-language question plus a recommended action, with evidence and a confidence score. Do not assume staleness matters; judge it from the evidence."
+}

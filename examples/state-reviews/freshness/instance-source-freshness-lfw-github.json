@@ -1,0 +1,24 @@
+{
+  "id": "instance_source_freshness.state_instance.lfw.connector.lfw.github.github-lfw-monorepo.2026-06-20T09-00-00Z",
+  "scope_key": "state_instance.lfw|connector.lfw.github|github:lfw-monorepo",
+  "instance_ref": "state_instance.lfw",
+  "connector_ref": "connector.lfw.github",
+  "source_ref": "github:lfw-monorepo",
+  "connector_type": "github",
+  "status": "failed",
+  "checked_at": "2026-06-20T09:00:00Z",
+  "source_watermark": "github:repo:lfw-monorepo:probe=unproven",
+  "stale_after": "2026-06-22T00:00:00Z",
+  "watermark_basis": "declared_gap",
+  "status_reason": "GitHub connector reported a failure at the last probe; source/corpus freshness is unproven until the connector recovers.",
+  "evidence_refs": [
+    "agent-runtime:freshness:github:lfw-monorepo:failed"
+  ],
+  "index_refs": [
+    "index.lfw.github.monorepo"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

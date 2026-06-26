@@ -1,0 +1,24 @@
+{
+  "id": "instance_source_freshness.state_instance.synthyra.connector.synth.monday.monday-synth-programs.2026-06-10T09-00-00Z",
+  "scope_key": "state_instance.synthyra|connector.synth.monday|monday:synth-programs",
+  "instance_ref": "state_instance.synthyra",
+  "connector_ref": "connector.synth.monday",
+  "source_ref": "monday:synth-programs",
+  "connector_type": "monday",
+  "status": "unknown",
+  "checked_at": "2026-06-10T09:00:00Z",
+  "source_watermark": "monday:board:synth-programs:probe=unproven",
+  "stale_after": "2026-06-12T00:00:00Z",
+  "watermark_basis": "declared_gap",
+  "status_reason": "Monday program board freshness is a declared gap; sync status is unavailable so source freshness is unknown.",
+  "evidence_refs": [
+    "agent-runtime:freshness:monday:synth-programs:unknown"
+  ],
+  "index_refs": [
+    "index.synth.monday.programs"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

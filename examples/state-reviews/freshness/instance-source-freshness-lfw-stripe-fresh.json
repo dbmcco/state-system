@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.lfw.connector.lfw.stripe.stripe-lfw-billing.2026-06-24T09-00-00Z",
+  "scope_key": "state_instance.lfw|connector.lfw.stripe|stripe:lfw-billing",
+  "instance_ref": "state_instance.lfw",
+  "connector_ref": "connector.lfw.stripe",
+  "source_ref": "stripe:lfw-billing",
+  "connector_type": "stripe",
+  "status": "fresh",
+  "checked_at": "2026-06-24T09:00:00Z",
+  "source_watermark": "stripe:account:lfw-billing:last_modified=2026-06-24T08:55:00Z",
+  "stale_after": "2026-07-01T00:00:00Z",
+  "watermark_basis": "source_content",
+  "latest_source_modified_at": "2026-06-24T08:55:00Z",
+  "status_reason": "Stripe billing source content last modified within the freshness window; source is fresh.",
+  "evidence_refs": [
+    "agent-runtime:freshness:stripe:lfw-billing:fresh"
+  ],
+  "index_refs": [
+    "index.lfw.stripe.billing"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

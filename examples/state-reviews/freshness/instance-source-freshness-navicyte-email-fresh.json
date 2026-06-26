@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.navicyte.connector.navicyte.email.email-navicyte-mike.2026-06-25T09-00-00Z",
+  "scope_key": "state_instance.navicyte|connector.navicyte.email|email:navicyte-mike",
+  "instance_ref": "state_instance.navicyte",
+  "connector_ref": "connector.navicyte.email",
+  "source_ref": "email:navicyte-mike",
+  "connector_type": "email",
+  "status": "fresh",
+  "checked_at": "2026-06-25T09:00:00Z",
+  "source_watermark": "email:mailbox:navicyte-mike:last_event=2026-06-25T09:00:00Z",
+  "stale_after": "2026-07-02T00:00:00Z",
+  "watermark_basis": "source_event",
+  "latest_source_event_at": "2026-06-25T09:00:00Z",
+  "status_reason": "Navicyte Mike mailbox ingested events today; source is fresh.",
+  "evidence_refs": [
+    "agent-runtime:freshness:email:navicyte-mike:fresh"
+  ],
+  "index_refs": [
+    "index.navicyte.email.mike"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

@@ -39,6 +39,14 @@ from state_system.interpreted_index import (
 )
 from state_system.contracts import load_json, validate_all_examples, validate_schema
 from state_system.heartbeat import run_source_heartbeat
+from state_system.staleness_runner import (
+    LiveStalenessReviewer,
+    RecordedStalenessReviewer,
+    gather_freshness_records,
+    load_staleness_schemas,
+    parse_instant,
+    run_staleness_review,
+)
 from state_system.instance_capability import (
     InstanceCapabilityRuntime,
     build_instance_capability_read_model,
@@ -1140,6 +1148,48 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
         _write_json(stdout, stores.context_packages.read(args.package_id))
         return 0
 
+    if args.command == "staleness-review-run":
+        schemas = load_staleness_schemas(project_root)
+        records = gather_freshness_records(
+            state_root=state_root,
+            freshness_dir=Path(args.freshness_dir) if args.freshness_dir else None,
+        )
+        if args.company:
+            token = args.company.lower()
+            records = [
+                record
+                for record in records
+                if token in str(record.get("instance_ref", "")).lower()
+                or token in str(record.get("company_ref", "")).lower()
+            ]
+        as_of = parse_instant(args.as_of) if args.as_of else datetime.now(timezone.utc)
+        scope = args.scope or (args.company or "all")
+        reviewer = None
+        reviewer_label = "none"
+        if args.reviewer == "recorded":
+            reviewer = RecordedStalenessReviewer.from_examples(
+                project_root / "examples" / "state-reviews"
+            )
+            reviewer_label = "recorded"
+        elif args.reviewer == "live":
+            reviewer = LiveStalenessReviewer(
+                registry_route=args.registry_route or "staleness-review"
+            )
+            reviewer_label = "live"
+        result = run_staleness_review(
+            records=records,
+            as_of=as_of,
+            reviewer=reviewer,
+            scope=scope,
+            auto_demote_enabled=bool(args.auto_demote),
+            out_dir=Path(args.output_dir) if args.output_dir else None,
+            output_schema=schemas["staleness_output"],
+            packet_schema=schemas["staleness_packet"],
+            reviewer_label=reviewer_label,
+        )
+        _write_json(stdout, result.summary())
+        return 0
+
     parser.error(f"unsupported command {args.command}")
     return 2
 
@@ -1625,6 +1675,65 @@ def _parser() -> argparse.ArgumentParser:
 
     package = subcommands.add_parser("package")
     package.add_argument("package_id")
+
+    staleness_review_run = subcommands.add_parser(
+        "staleness-review-run",
+        help=(
+            "Run the staleness review loop (freshness -> reviewer -> dated "
+            "packet). Dry-run safe; auto-demote defaults OFF and never mutates."
+        ),
+    )
+    staleness_review_run.add_argument(
+        "--freshness-dir",
+        help=(
+            "Directory of flat freshness record JSON files to review (in "
+            "addition to --state-root)."
+        ),
+    )
+    staleness_review_run.add_argument(
+        "--as-of",
+        help="ISO-8601 instant to measure staleness against (defaults to now).",
+    )
+    staleness_review_run.add_argument(
+        "--company",
+        help=(
+            "Filter records by subject ref (instance_ref/company_ref substring, "
+            "e.g. lfw, synthyra, navicyte)."
+        ),
+    )
+    staleness_review_run.add_argument(
+        "--scope",
+        help="Packet scope label (defaults to --company or 'all').",
+    )
+    staleness_review_run.add_argument(
+        "--reviewer",
+        choices=["recorded", "live", "none"],
+        default="recorded",
+        help=(
+            "Reviewer backend (recorded replays fixtures; live resolves a "
+            "registry route; none produces evidence-only)."
+        ),
+    )
+    staleness_review_run.add_argument(
+        "--registry-route",
+        help="Central-registry route for the live reviewer (e.g. staleness-review).",
+    )
+    staleness_review_run.add_argument(
+        "--output-dir",
+        help=(
+            "Directory to write the dated packet markdown (YYYY-WW.md). Omit "
+            "to skip the markdown write."
+        ),
+    )
+    staleness_review_run.add_argument(
+        "--auto-demote",
+        action="store_true",
+        default=False,
+        help=(
+            "Arm the auto-demote gate (default OFF). Even armed, demotion only "
+            "proposes; execution requires Braydon approval routed via Avery."
+        ),
+    )
 
     return parser
 

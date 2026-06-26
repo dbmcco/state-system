@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.lfw.connector.lfw.linear.linear-lfw-engineering.2026-05-20T09-00-00Z",
+  "scope_key": "state_instance.lfw|connector.lfw.linear|linear:lfw-engineering",
+  "instance_ref": "state_instance.lfw",
+  "connector_ref": "connector.lfw.linear",
+  "source_ref": "linear:lfw-engineering",
+  "connector_type": "linear",
+  "status": "stale",
+  "checked_at": "2026-05-20T09:00:00Z",
+  "source_watermark": "linear:team:lfw-engineering:last_event=2026-05-20T09:00:00Z",
+  "stale_after": "2026-06-01T00:00:00Z",
+  "watermark_basis": "source_event",
+  "latest_source_event_at": "2026-05-20T09:00:00Z",
+  "status_reason": "No Linear engineering events ingested since 2026-05-20; source is past its declared stale-after.",
+  "evidence_refs": [
+    "agent-runtime:freshness:linear:lfw-engineering:stale"
+  ],
+  "index_refs": [
+    "index.lfw.linear.engineering"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

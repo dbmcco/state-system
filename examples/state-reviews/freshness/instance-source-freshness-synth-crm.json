@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.synthyra.connector.synth.crm.crm-synth-contacts.2026-04-15T09-00-00Z",
+  "scope_key": "state_instance.synthyra|connector.synth.crm|crm:synth-contacts",
+  "instance_ref": "state_instance.synthyra",
+  "connector_ref": "connector.synth.crm",
+  "source_ref": "crm:synth-contacts",
+  "connector_type": "crm",
+  "status": "stale",
+  "checked_at": "2026-04-15T09:00:00Z",
+  "source_watermark": "crm:tenant:synth-contacts:last_event=2026-04-15T09:00:00Z",
+  "stale_after": "2026-05-01T00:00:00Z",
+  "watermark_basis": "source_event",
+  "latest_source_event_at": "2026-04-15T09:00:00Z",
+  "status_reason": "CRM contact events not ingested since 2026-04-15; source is well past its declared stale-after.",
+  "evidence_refs": [
+    "agent-runtime:freshness:crm:synth-contacts:stale"
+  ],
+  "index_refs": [
+    "index.synth.crm.contacts"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}
