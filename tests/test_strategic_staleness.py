@@ -22,12 +22,14 @@ from state_system.strategic_staleness import (
     RecordedStrategicReviewer,
     StrategicOutputValidationError,
     build_strategic_review_packet,
+    build_strategic_staleness_read_model,
     gather_strategic_findings,
     load_strategic_schemas,
     render_strategic_evidence_only_markdown,
     render_strategic_packet_markdown,
     run_strategic_review,
     strategic_packet_id,
+    write_strategic_staleness_read_model,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -788,6 +790,96 @@ class CliDryRunTests(unittest.TestCase):
             self.assertFalse(summary["auto_revise_enabled"])
             self.assertEqual(0, summary["revise_proposals"])
             self.assertTrue(Path(summary["markdown_path"]).exists())
+
+
+class StrategicStalenessReadModelTests(unittest.TestCase):
+    """The staleness read model carries the model's per-entity judgment VERBATIM,
+    keyed by entity_id, so a consumer joins with entry.entity_id == card.entity_id.
+
+    Code keys by entity_id and maps reviewed_at from the output's created_at; it
+    never reinterprets the model's judgment. Confidence is carried as the
+    model's numeric value (0-1), never bucketed into a string category.
+    Non-entity judgments (no entity_id) are excluded — they are not joinable to
+    ECS cards and belong to a future scope_key index.
+    """
+
+    def test_read_model_carries_judgment_verbatim_keyed_by_entity_id(self):
+        result = run_strategic_review(
+            entity_current_state_docs=[
+                (_entity_current_state(entity_id="venture.cyrcle"), "ecs.cyrcle")
+            ],
+            as_of=AS_OF,
+            reviewer=_OneEntryReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertTrue(result.judgments_present)
+        read_model = build_strategic_staleness_read_model(result.output)
+        self.assertIn("venture.cyrcle", read_model["latest_by_entity_id"])
+        judgment = read_model["latest_by_entity_id"]["venture.cyrcle"]
+        self.assertEqual("venture.cyrcle", judgment["entity_id"])
+        self.assertEqual("objective_drift", judgment["classification"])
+        self.assertEqual("revise", judgment["recommended_action"])
+        # confidence is the model's numeric value, carried verbatim (not bucketed)
+        self.assertIsInstance(judgment["confidence"], float)
+        self.assertEqual(0.8, judgment["confidence"])
+        self.assertEqual("test double", judgment["rationale"])
+        self.assertIn("nl_question", judgment)
+        # reviewed_at maps from the output's created_at; packet id carried verbatim
+        self.assertEqual(result.output["created_at"], judgment["reviewed_at"])
+        self.assertEqual(result.output["review_packet_id"], judgment["review_packet_id"])
+
+    def test_read_model_excludes_non_entity_judgments(self):
+        # company_memory claims have no entity_id; they must not appear in the
+        # entity-keyed read model (deferred to a future scope_key index).
+        result = run_strategic_review(
+            company_memory_docs=[(_company_memory(), "company_memory.acme")],
+            as_of=AS_OF,
+            reviewer=_OneEntryReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertTrue(result.judgments_present)
+        read_model = build_strategic_staleness_read_model(result.output)
+        self.assertEqual({}, read_model["latest_by_entity_id"])
+
+    def test_code_never_assigns_a_semantic_field(self):
+        # boundary guard: the emitter source must not hardcode any model-owned
+        # judgment value. Carrying verbatim from the model's entry is allowed;
+        # inventing classification/recommended_action/confidence is not.
+        import inspect
+
+        source = inspect.getsource(build_strategic_staleness_read_model)
+        for forbidden in (
+            '"objective_drift"',
+            '"uncertain"',
+            '"validate"',
+            '"revise"',
+            '"retire"',
+            '"high"',
+            '"medium"',
+            '"low"',
+        ):
+            self.assertNotIn(forbidden, source)
+
+    def test_write_read_model_round_trips_to_json(self):
+        result = run_strategic_review(
+            entity_current_state_docs=[
+                (_entity_current_state(entity_id="venture.cyrcle"), "ecs.cyrcle")
+            ],
+            as_of=AS_OF,
+            reviewer=_OneEntryReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        with TemporaryDirectory() as tmp:
+            out_path = Path(tmp) / "strategic-staleness-read-model.json"
+            write_strategic_staleness_read_model(result.output, out_path=out_path)
+            written = json.loads(out_path.read_text())
+        self.assertIn("venture.cyrcle", written["latest_by_entity_id"])
+        carried = written["latest_by_entity_id"]["venture.cyrcle"]
+        self.assertIsInstance(carried["confidence"], float)
+        self.assertEqual("venture.cyrcle", carried["entity_id"])
 
 
 if __name__ == "__main__":

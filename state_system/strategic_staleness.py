@@ -46,6 +46,7 @@ Hard rules honored here (same as the freshness runner):
 
 from __future__ import annotations
 
+import json
 import re
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -1160,3 +1161,57 @@ def load_strategic_schemas(project_root: Path) -> dict[str, JsonObject]:
         "strategic_packet": load_json(schemas_dir / "strategic-review-packet.schema.json"),
         "strategic_output": load_json(schemas_dir / "strategic-review-output.schema.json"),
     }
+
+
+# --------------------------------------------------------------------------
+# Step 6 — per-entity staleness read model (the consumer-facing projection)
+# --------------------------------------------------------------------------
+
+
+def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
+    """Project a strategic review output into a per-entity staleness read model.
+
+    This is the artifact the runtime ECS enricher and the pi MCP
+    ``strategic_staleness_get`` tool consume. It carries the model's per-entity
+    judgment VERBATIM (classification, recommended_action, confidence as the
+    model's numeric value, rationale, nl_question). Code only keys by entity_id
+    and maps ``reviewed_at`` from the output's ``created_at``; it never assigns
+    or reinterprets a semantic field. Mirrors how the freshness runner
+    materializes ``source-freshness-read-model.json``.
+
+    Only entity-current-state entries carry an ``entity_id`` (enriched by
+    ``_enrich_entries_with_entity_id``). Non-entity judgments are excluded —
+    they are not joinable to ECS cards and belong to a future scope_key index.
+    """
+    created_at = output.get("created_at")
+    packet_id = output.get("review_packet_id")
+    latest_by_entity_id: dict[str, JsonObject] = {}
+    for entry in output.get("entries", []):
+        entity_id = entry.get("entity_id")
+        if not entity_id:
+            continue  # non-entity judgment — excluded (deferred scope_key index)
+        latest_by_entity_id[entity_id] = {
+            "entity_id": entity_id,
+            "classification": entry.get("classification"),
+            "recommended_action": entry.get("recommended_action"),
+            "confidence": entry.get("confidence"),
+            "rationale": entry.get("rationale"),
+            "nl_question": entry.get("nl_question"),
+            "reviewed_at": created_at,
+            "review_packet_id": packet_id,
+        }
+    return {"latest_by_entity_id": latest_by_entity_id}
+
+
+def write_strategic_staleness_read_model(
+    output: JsonObject, *, out_path: Path
+) -> Path:
+    """Materialize the per-entity staleness read model to a JSON file.
+
+    Mirrors how ``source-freshness-read-model.json`` is materialized by the
+    fleet-refresh daemon. Returns the written path.
+    """
+    read_model = build_strategic_staleness_read_model(output)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(read_model, indent=2, sort_keys=True) + "\n")
+    return out_path
