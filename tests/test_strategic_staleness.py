@@ -882,5 +882,111 @@ class StrategicStalenessReadModelTests(unittest.TestCase):
         self.assertEqual("venture.cyrcle", carried["entity_id"])
 
 
+class BStateStalenessReadModelIntegrationTests(unittest.TestCase):
+    """The staleness read model must join cleanly to REAL b-state ECS cards.
+
+    Skipped unless the b-state root is present. Validates that every emitted
+    entity_id matches a real card verbatim — including the dotted
+    ``venture.cyrcle`` id and the dash/underscore ``bobby`` variants that a
+    slug join would silently collapse.
+    """
+
+    BSTATE_RECORDS = Path(
+        "/Users/braydon/projects/personal/b-state/state/entity-current-state"
+    )
+    FUTURE_AS_OF = parse_instant("2027-01-01T00:00:00Z")
+
+    def setUp(self):
+        if not self.BSTATE_RECORDS.is_dir():
+            self.skipTest(f"b-state ECS records not present at {self.BSTATE_RECORDS}")
+
+    def _real_entity_ids(self) -> set[str]:
+        ids: set[str] = set()
+        for path in sorted(self.BSTATE_RECORDS.glob("entity_current_state.*.json")):
+            try:
+                rec = json.loads(path.read_text())
+            except Exception:
+                continue
+            if isinstance(rec, dict) and rec.get("entity_id"):
+                ids.add(rec["entity_id"])
+        return ids
+
+    def test_emitted_entity_ids_join_verbatim_to_real_b_state_cards(self):
+        real_ids = self._real_entity_ids()
+        self.assertTrue(real_ids, "b-state ECS records present but yielded no entity_ids")
+
+        files = sorted(self.BSTATE_RECORDS.glob("entity_current_state.*.json"))
+        # future as_of forces every active card's declared window to be expired,
+        # so all active cards surface and the emitter is exercised over real ids
+        result = run_strategic_review(
+            entity_current_state_files=files,
+            as_of=self.FUTURE_AS_OF,
+            reviewer=_PerEcsFindingReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        self.assertIsNotNone(result.output, "no ECS findings surfaced against real b-state")
+        read_model = build_strategic_staleness_read_model(result.output)
+        emitted = read_model["latest_by_entity_id"]
+        self.assertTrue(emitted, "emitter yielded no entity judgments from real b-state")
+
+        # every emitted id is a VERBATIM real card id — no slug collapse
+        for entity_id in emitted:
+            self.assertIn(
+                entity_id,
+                real_ids,
+                f"emitted entity_id {entity_id!r} does not match any real card verbatim",
+            )
+
+        # collision-safety: the dotted id is carried with its dot (not flattened)
+        if "venture.cyrcle" in emitted:
+            self.assertIn("venture.cyrcle", real_ids)
+        # dash and underscore variants are kept as DISTINCT keys, not merged
+        if "bobby-gardner-partnership" in emitted:
+            self.assertIn("bobby-gardner-partnership", real_ids)
+        if "bobby_gardner_partnership" in emitted:
+            self.assertIn("bobby_gardner_partnership", real_ids)
+
+
+class _PerEcsFindingReviewer:
+    """Test double: emits one judgment entry per gathered finding.
+
+    Stands in for a live model reviewer so the read-model emitter can be
+    exercised over real evidence. Carries each finding's scope_key so the
+    entity_id enrichment join fires. The judgment values are fixed mechanical
+    placeholders — the model mediation boundary is not under test here.
+    """
+
+    def review(self, packet):
+        findings = packet.get("findings") or []
+        if not findings:
+            raise MissingStrategicJudgmentError(packet["id"])
+        return {
+            "id": "strategic_review_output.test.per_finding",
+            "created_at": "2027-01-01T00:00:00Z",
+            "decision": "surface_decisions",
+            "observations": [],
+            "entries": [
+                {
+                    "scope_key": f["scope_key"],
+                    "nl_question": "does this strategic claim still hold?",
+                    "recommended_action": "validate",
+                    "classification": "uncertain",
+                    "confidence": 0.5,
+                    "evidence_refs": list(f.get("evidence_refs", [])),
+                    "rationale": "test double per-finding",
+                }
+                for f in findings
+            ],
+            "uncertainty": [],
+            "review_signal": {
+                "id": "review_signal.test",
+                "status": "surfaced",
+                "created_at": "2027-01-01T00:00:00Z",
+                "trigger_ref": "trigger.test",
+            },
+        }
+
+
 if __name__ == "__main__":
     unittest.main()
