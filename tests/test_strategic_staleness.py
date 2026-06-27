@@ -504,6 +504,24 @@ class RecordedReviewerWeekBoundaryTests(unittest.TestCase):
             reviewer.resolve_recording_key("strategic_review_packet.all.2026-W27")
         )
 
+    def test_resolve_key_never_replays_a_future_recording(self):
+        # requesting W27: the W26 (past) recording is eligible; the W28 (future)
+        # recording must NOT be pulled backward out of its own week.
+        reviewer = RecordedStrategicReviewer(
+            outputs_by_packet_id={
+                "strategic_review_packet.all.2026-W26": {
+                    "review_packet_id": "strategic_review_packet.all.2026-W26"
+                },
+                "strategic_review_packet.all.2026-W28": {
+                    "review_packet_id": "strategic_review_packet.all.2026-W28"
+                },
+            }
+        )
+        self.assertEqual(
+            "strategic_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("strategic_review_packet.all.2026-W27"),
+        )
+
     def test_recording_replays_across_week_boundary(self):
         from datetime import timedelta
 
@@ -881,6 +899,47 @@ class StrategicStalenessReadModelTests(unittest.TestCase):
         carried = written["latest_by_entity_id"]["venture.cyrcle"]
         self.assertIsInstance(carried["confidence"], float)
         self.assertEqual("venture.cyrcle", carried["entity_id"])
+
+    def test_collision_prone_entity_ids_stay_distinct(self):
+        # CI-safe mirror of the real b-state collision invariant (which skips
+        # off this machine): a dotted id and dash/underscore variants must never
+        # collapse in the read model. Runs in every environment.
+        cards = [
+            (
+                _entity_current_state(
+                    entity_id="venture.cyrcle",
+                    effective_at="2026-06-18T13:14:00Z",
+                ),
+                "ecs.cyrcle",
+            ),
+            (
+                _entity_current_state(
+                    entity_id="bobby-gardner-partnership",
+                    effective_at="2026-06-18T13:15:00Z",
+                ),
+                "ecs.dash",
+            ),
+            (
+                _entity_current_state(
+                    entity_id="bobby_gardner_partnership",
+                    effective_at="2026-06-18T13:16:00Z",
+                ),
+                "ecs.under",
+            ),
+        ]
+        result = run_strategic_review(
+            entity_current_state_docs=cards,
+            as_of=AS_OF,
+            reviewer=_PerEcsFindingReviewer(),
+            output_schema=None,
+            packet_schema=None,
+        )
+        read_model = build_strategic_staleness_read_model(result.output)
+        ids = set(read_model["latest_by_entity_id"])
+        self.assertIn("venture.cyrcle", ids)  # dotted preserved verbatim
+        self.assertIn("bobby-gardner-partnership", ids)  # dash
+        self.assertIn("bobby_gardner_partnership", ids)  # underscore
+        self.assertEqual(3, len(ids))  # all three distinct — no slug collapse
 
 
 class BStateStalenessReadModelIntegrationTests(unittest.TestCase):

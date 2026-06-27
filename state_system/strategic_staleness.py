@@ -623,20 +623,22 @@ class MissingStrategicJudgmentError(KeyError):
     """
 
 
-def _strategic_packet_scope(packet_id: str) -> str | None:
-    """Return the scope slug shared by a packet id, or None if it isn't strategic.
+def _strategic_packet_scope_week(packet_id: str) -> tuple[str | None, str | None]:
+    """Return (scope, week) from a packet id, either None if it isn't strategic.
 
     Packet ids are ``strategic_review_packet.<scope>.<YYYY-WW>``; the week is
     always the trailing ``.``-segment, so the scope is everything between the
     prefix and the week. Robust to scopes that themselves contain dots.
+    YYYY-WW sorts chronologically as a string, so weeks compare correctly.
     Used only for code-owned recording routing — not a semantic judgment.
     """
     if not packet_id.startswith("strategic_review_packet."):
-        return None
+        return None, None
     body = packet_id[len("strategic_review_packet.") :]
     if "." not in body:
-        return None
-    return body.rsplit(".", 1)[0]
+        return None, None
+    scope, week = body.rsplit(".", 1)
+    return scope, week
 
 
 class RecordedStrategicReviewer:
@@ -664,23 +666,33 @@ class RecordedStrategicReviewer:
     def resolve_recording_key(self, packet_id: str) -> str | None:
         """Resolve the recording key for a (possibly week-bound) packet id.
 
-        Exact match wins. Otherwise fall back to the most recent recording
-        sharing the scope prefix, so a judgment made last week still replays
-        this week instead of silently degrading to evidence-only at every week
-        boundary. This is code-owned routing (which recording to replay), not a
-        semantic judgment — the recording itself is the model's verdict.
+        Exact match wins. Otherwise fall back to the most recent SAME-SCOPE
+        recording at or before the requested week — so a judgment made last
+        week still replays this week instead of silently degrading to
+        evidence-only, but a FUTURE recording is never pulled backward out of
+        its own week. This is code-owned routing (which recording to replay),
+        not a semantic judgment — the recording itself is the model's verdict.
         """
         if packet_id in self.outputs_by_packet_id:
             return packet_id
-        scope = _strategic_packet_scope(packet_id)
+        scope, requested_week = _strategic_packet_scope_week(packet_id)
         if scope is None:
             return None
-        # YYYY-WW sorts lexically; the most recent recording for the scope wins
-        candidates = sorted(
-            (key for key in self.outputs_by_packet_id if _strategic_packet_scope(key) == scope),
-            reverse=True,
-        )
-        return candidates[0] if candidates else None
+        # YYYY-WW sorts chronologically as a string; consider only same-scope
+        # recordings at or before the requested week (never a future judgment).
+        candidates: list[str] = []
+        for key in self.outputs_by_packet_id:
+            k_scope, k_week = _strategic_packet_scope_week(key)
+            if k_scope != scope:
+                continue
+            if (
+                requested_week is not None
+                and k_week is not None
+                and k_week > requested_week
+            ):
+                continue  # future recording — never replay out of time
+            candidates.append(key)
+        return max(candidates) if candidates else None
 
     def review(self, packet: JsonObject) -> JsonObject:
         key = self.resolve_recording_key(packet["id"])
