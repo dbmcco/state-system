@@ -25,6 +25,7 @@ from state_system.strategic_staleness import (
     build_strategic_staleness_read_model,
     gather_strategic_findings,
     load_strategic_schemas,
+    refresh_strategic_staleness_read_model,
     render_strategic_evidence_only_markdown,
     render_strategic_packet_markdown,
     run_strategic_review,
@@ -986,6 +987,53 @@ class _PerEcsFindingReviewer:
                 "trigger_ref": "trigger.test",
             },
         }
+
+
+class FleetRefreshStalenessStepTests(unittest.TestCase):
+    """The cadence host (fleet-refresh) materializes the staleness read model
+    for a state root so agents always read a current projection.
+
+    The step is reviewer-injected: code owns load/run/write; the reviewer owns
+    every judgment. With no reviewer wired (the current build phase) it writes
+    an honest EMPTY read model rather than fabricating judgment.
+    """
+
+    def _seed_ecs_card(self, state_root: Path, entity_id: str = "venture.cyrcle") -> Path:
+        ecs_dir = state_root / "state" / "entity-current-state"
+        ecs_dir.mkdir(parents=True, exist_ok=True)
+        path = ecs_dir / f"entity_current_state.{entity_id}.2026-06-18.json"
+        path.write_text(json.dumps(_entity_current_state(entity_id=entity_id)))
+        return path
+
+    def test_writes_populated_read_model_when_reviewer_runs(self):
+        with TemporaryDirectory() as tmp:
+            state_root = Path(tmp)
+            self._seed_ecs_card(state_root, entity_id="venture.cyrcle")
+            out_path = refresh_strategic_staleness_read_model(
+                state_root,
+                as_of=AS_OF,
+                reviewer=_OneEntryReviewer(),
+            )
+            self.assertEqual(
+                state_root / "strategic-staleness" / "strategic-staleness-read-model.json",
+                out_path,
+            )
+            written = json.loads(out_path.read_text())
+            self.assertIn("venture.cyrcle", written["latest_by_entity_id"])
+            self.assertIsInstance(
+                written["latest_by_entity_id"]["venture.cyrcle"]["confidence"], float
+            )
+
+    def test_writes_honest_empty_read_model_when_no_reviewer_wired(self):
+        with TemporaryDirectory() as tmp:
+            state_root = Path(tmp)
+            self._seed_ecs_card(state_root, entity_id="venture.cyrcle")
+            out_path = refresh_strategic_staleness_read_model(
+                state_root, as_of=AS_OF, reviewer=None
+            )
+            # honest: no reviewer -> no fabricated judgments, but the file exists
+            self.assertTrue(out_path.exists())
+            self.assertEqual({}, json.loads(out_path.read_text())["latest_by_entity_id"])
 
 
 if __name__ == "__main__":

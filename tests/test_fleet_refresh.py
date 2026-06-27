@@ -47,6 +47,19 @@ class FleetRefreshTests(unittest.TestCase):
                 (state_root / "instance-understanding" / "instance-understanding-surface-read-model.json").exists()
             )
             self.assertTrue((state_root / "fleet-refresh" / "fleet-refresh-report.json").exists())
+            # the strategic-staleness read model is produced on every refresh
+            # (honest empty until a reviewer is wired) so agents always have a
+            # current projection to read
+            self.assertTrue(
+                (
+                    state_root
+                    / "strategic-staleness"
+                    / "strategic-staleness-read-model.json"
+                ).exists()
+            )
+            self.assertIn(
+                "strategic_staleness", instance["read_model_paths"]
+            )
             package = load_json(Path(instance["package_path"]))
             kb = _source(package, "connector.personal.kb")
             self.assertEqual("fresh", kb["freshness_status"])

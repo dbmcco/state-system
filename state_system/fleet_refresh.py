@@ -25,6 +25,8 @@ from state_system.package_pressure import (
     validate_pressure_registry,
 )
 from state_system.stores import StateStoreBundle
+from state_system.staleness_runner import parse_instant
+from state_system.strategic_staleness import refresh_strategic_staleness_read_model
 
 
 def run_fleet_refresh(
@@ -143,6 +145,14 @@ def _refresh_instance(
         "instance-source-freshness-read-model.json",
         build_instance_source_freshness_read_model(stores),
     )
+    # Strategic-staleness read model: the per-entity projection agents consume.
+    # Reviewer is None until a live reviewer is wired; until then this writes
+    # an honest empty read model so the file exists for consumers without any
+    # fabricated judgment. Code owns load/run/write; the reviewer owns judgment.
+    staleness_path = refresh_strategic_staleness_read_model(
+        state_root,
+        as_of=parse_instant(checked_at),
+    )
     understanding = build_instance_understanding_surface_read_model(stores)
     understanding_path = _write_read_model(
         state_root,
@@ -187,6 +197,7 @@ def _refresh_instance(
             "instance_source_freshness": str(freshness_path),
             "instance_understanding": str(understanding_path),
             "instance_agent_package": str(package_read_model_path),
+            "strategic_staleness": str(staleness_path),
         },
         "package_path": str(package_path),
         "source_status_counts": source_counts,

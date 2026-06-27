@@ -1215,3 +1215,45 @@ def write_strategic_staleness_read_model(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(read_model, indent=2, sort_keys=True) + "\n")
     return out_path
+
+
+def refresh_strategic_staleness_read_model(
+    state_root: Path,
+    *,
+    as_of: datetime,
+    reviewer: StrategicReviewer | None = None,
+    output_dir: str = "strategic-staleness",
+    ecs_records_subdir: str = "state/entity-current-state",
+) -> Path:
+    """Run the strategic-staleness review for a state root and materialize the
+    per-entity read model. This is the cadence-host step the fleet-refresh
+    daemon calls every cycle so the read model agents consume stays current.
+
+    Loads entity-current-state cards from ``state_root / ecs_records_subdir``,
+    runs the review with the given reviewer, and writes
+    ``strategic-staleness-read-model.json``. Division of ownership is unchanged:
+    code owns load + run + write; the reviewer owns every judgment.
+
+    ``reviewer`` is injected rather than constructed here so this stays free of
+    any live-model dependency. When ``reviewer`` is None (no live reviewer wired
+    yet) the step short-circuits the run and writes an honest EMPTY read model —
+    the file exists for consumers to read, with no fabricated judgment. When a
+    reviewer is wired the read model populates automatically.
+    """
+    ecs_dir = state_root / ecs_records_subdir
+    ecs_files = (
+        sorted(ecs_dir.glob("entity_current_state.*.json")) if ecs_dir.is_dir() else []
+    )
+    output: JsonObject | None = None
+    if reviewer is not None and ecs_files:
+        result = run_strategic_review(
+            entity_current_state_files=ecs_files,
+            as_of=as_of,
+            reviewer=reviewer,
+            output_schema=None,
+            packet_schema=None,
+        )
+        output = result.output
+    payload = output if output is not None else {"entries": []}
+    out_path = state_root / output_dir / "strategic-staleness-read-model.json"
+    return write_strategic_staleness_read_model(payload, out_path=out_path)
