@@ -454,6 +454,93 @@ class RecordedReviewerTests(unittest.TestCase):
             reviewer.review(packet)
 
 
+class RecordedReviewerWeekBoundaryTests(unittest.TestCase):
+    """A recorded judgment must replay across a week boundary.
+
+    The packet id is week-bound (``strategic_review_packet.<scope>.<YYYY-WW>``),
+    but a recording is a model judgment about a scope, not a calendar week. A
+    judgment made in W26 must still replay when ``as_of`` crosses into W27 —
+    otherwise the live packet silently degrades to evidence-only at every week
+    boundary. Packet-id routing is code-owned structure, so resolving by scope
+    (falling back to the latest recording for the scope) is a legitimate
+    code-owned routing decision, not a semantic one.
+    """
+
+    def test_resolve_key_prefers_exact_match_then_latest_scope_recording(self):
+        reviewer = RecordedStrategicReviewer(
+            outputs_by_packet_id={
+                "strategic_review_packet.all.2026-W25": {
+                    "review_packet_id": "strategic_review_packet.all.2026-W25"
+                },
+                "strategic_review_packet.all.2026-W26": {
+                    "review_packet_id": "strategic_review_packet.all.2026-W26"
+                },
+            }
+        )
+        # exact match wins
+        self.assertEqual(
+            "strategic_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("strategic_review_packet.all.2026-W26"),
+        )
+        # no exact match -> latest recording for the same scope (W26 > W25)
+        self.assertEqual(
+            "strategic_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("strategic_review_packet.all.2026-W27"),
+        )
+
+    def test_resolve_key_does_not_cross_scopes(self):
+        reviewer = RecordedStrategicReviewer(
+            outputs_by_packet_id={
+                "strategic_review_packet.venture.cyrcle.2026-W26": {
+                    "review_packet_id": "strategic_review_packet.venture.cyrcle.2026-W26"
+                }
+            }
+        )
+        # a dotted scope is matched as a whole; a different scope yields nothing
+        self.assertIsNone(
+            reviewer.resolve_recording_key("strategic_review_packet.all.2026-W27")
+        )
+
+    def test_recording_replays_across_week_boundary(self):
+        from datetime import timedelta
+
+        from state_system.staleness_runner import review_week
+
+        recording = {
+            "review_packet_id": "strategic_review_packet.all.2026-W26",
+            "created_at": "2026-06-25T12:00:00Z",
+            "decision": "surface_decisions",
+            "entries": [{"scope_key": "entity.venture.sampleco"}],
+        }
+        reviewer = RecordedStrategicReviewer(
+            outputs_by_packet_id={
+                "strategic_review_packet.all.2026-W26": recording
+            }
+        )
+        next_week_as_of = AS_OF + timedelta(days=7)
+        self.assertNotEqual(review_week(AS_OF), review_week(next_week_as_of))
+        packet = build_strategic_review_packet(
+            gather_strategic_findings(
+                company_memory_docs=[(_company_memory(), "company_memory.acme")],
+                as_of=next_week_as_of,
+            ),
+            as_of=next_week_as_of,
+        )
+        # packet id is now week-bound to W27; the W26 recording must still replay
+        self.assertEqual("strategic_review_packet.all.2026-W27", packet["id"])
+        output = reviewer.review(packet)
+        self.assertEqual(
+            "strategic_review_packet.all.2026-W26", output["review_packet_id"]
+        )
+        self.assertTrue(output["entries"])
+
+    def test_still_raises_when_no_recording_for_scope(self):
+        reviewer = RecordedStrategicReviewer(outputs_by_packet_id={})
+        packet = {"id": "strategic_review_packet.unknown.2026-W27"}
+        with self.assertRaises(MissingStrategicJudgmentError):
+            reviewer.review(packet)
+
+
 class AutoReviseGateTests(unittest.TestCase):
     def _output(self, classification: str, action: str) -> dict:
         return {

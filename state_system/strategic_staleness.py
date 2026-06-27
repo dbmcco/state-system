@@ -622,6 +622,22 @@ class MissingStrategicJudgmentError(KeyError):
     """
 
 
+def _strategic_packet_scope(packet_id: str) -> str | None:
+    """Return the scope slug shared by a packet id, or None if it isn't strategic.
+
+    Packet ids are ``strategic_review_packet.<scope>.<YYYY-WW>``; the week is
+    always the trailing ``.``-segment, so the scope is everything between the
+    prefix and the week. Robust to scopes that themselves contain dots.
+    Used only for code-owned recording routing — not a semantic judgment.
+    """
+    if not packet_id.startswith("strategic_review_packet."):
+        return None
+    body = packet_id[len("strategic_review_packet.") :]
+    if "." not in body:
+        return None
+    return body.rsplit(".", 1)[0]
+
+
 class RecordedStrategicReviewer:
     """Replay recorded strategic review outputs, keyed by review packet id.
 
@@ -644,11 +660,32 @@ class RecordedStrategicReviewer:
             outputs[output["review_packet_id"]] = output
         return cls(outputs)
 
+    def resolve_recording_key(self, packet_id: str) -> str | None:
+        """Resolve the recording key for a (possibly week-bound) packet id.
+
+        Exact match wins. Otherwise fall back to the most recent recording
+        sharing the scope prefix, so a judgment made last week still replays
+        this week instead of silently degrading to evidence-only at every week
+        boundary. This is code-owned routing (which recording to replay), not a
+        semantic judgment — the recording itself is the model's verdict.
+        """
+        if packet_id in self.outputs_by_packet_id:
+            return packet_id
+        scope = _strategic_packet_scope(packet_id)
+        if scope is None:
+            return None
+        # YYYY-WW sorts lexically; the most recent recording for the scope wins
+        candidates = sorted(
+            (key for key in self.outputs_by_packet_id if _strategic_packet_scope(key) == scope),
+            reverse=True,
+        )
+        return candidates[0] if candidates else None
+
     def review(self, packet: JsonObject) -> JsonObject:
-        packet_id = packet["id"]
-        if packet_id not in self.outputs_by_packet_id:
-            raise MissingStrategicJudgmentError(packet_id)
-        return deepcopy(self.outputs_by_packet_id[packet_id])
+        key = self.resolve_recording_key(packet["id"])
+        if key is None:
+            raise MissingStrategicJudgmentError(packet["id"])
+        return deepcopy(self.outputs_by_packet_id[key])
 
 
 class LiveStrategicReviewer:
