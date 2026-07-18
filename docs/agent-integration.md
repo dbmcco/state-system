@@ -107,3 +107,27 @@ governance permits it.
 Captured agent responses are durable artifacts, not accepted state by default.
 They become state only through the normal review, governance, and commit path.
 
+## Model-Operable CLI
+
+For model-facing calls, use the typed JSON envelope rather than scraping legacy
+text output:
+
+```bash
+python3 -m state_system.cli --format json handshake
+python3 -m state_system.cli --json inspect --package-ref package:example
+python3 -m state_system.cli --json dispatch inspect --request request.json
+```
+
+The handshake declares each operation's effect class. `read_only` operations
+inspect or validate state, `internal_write` operations write State System
+records, and `external_effect` would affect a source or outside service. The
+State System CLI does not authorize an external effect; governance and the
+owning adapter must issue any such authorization separately.
+
+Errors are returned in `errors[]` with a bounded expected shape, safe examples,
+and next steps. Repair means selecting an explicit declared source-owner action;
+it never means silently switching connectors, inventing freshness, or changing
+user intent. `acknowledge_gap` writes a retained, auditable acknowledgement but
+leaves the gap and freshness status unchanged. Its receipt is not an
+authorization token.
+
