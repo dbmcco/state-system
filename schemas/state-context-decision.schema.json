@@ -1,0 +1,261 @@
+{
+  "$defs": {
+    "FreshnessBasis": {
+      "enum": [
+        "source_content",
+        "source_event",
+        "source_index",
+        "probe_only",
+        "package_generation",
+        "declared_gap"
+      ],
+      "title": "FreshnessBasis",
+      "type": "string"
+    },
+    "FreshnessStatus": {
+      "enum": [
+        "fresh",
+        "stale",
+        "unknown",
+        "failed",
+        "not_applicable"
+      ],
+      "title": "FreshnessStatus",
+      "type": "string"
+    },
+    "FreshnessSummary": {
+      "additionalProperties": false,
+      "description": "A declared freshness observation; this model does not calculate it.",
+      "properties": {
+        "basis": {
+          "$ref": "#/$defs/FreshnessBasis"
+        },
+        "coverage_status": {
+          "default": "unknown",
+          "enum": [
+            "complete",
+            "partial",
+            "unknown"
+          ],
+          "title": "Coverage Status",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "maxLength": 512,
+            "minLength": 3,
+            "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "expires_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expires At"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "protocol_version": {
+          "const": "state-system.v1",
+          "default": "state-system.v1",
+          "title": "Protocol Version",
+          "type": "string"
+        },
+        "stale_after_seconds": {
+          "anyOf": [
+            {
+              "maximum": 31536000,
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Stale After Seconds"
+        },
+        "status": {
+          "$ref": "#/$defs/FreshnessStatus"
+        },
+        "status_reason": {
+          "anyOf": [
+            {
+              "maxLength": 1000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Reason"
+        }
+      },
+      "required": [
+        "status",
+        "basis",
+        "observed_at"
+      ],
+      "title": "FreshnessSummary",
+      "type": "object"
+    },
+    "StateContextDecisionKind": {
+      "enum": [
+        "include",
+        "omit",
+        "degrade",
+        "deny"
+      ],
+      "title": "StateContextDecisionKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Code-owned decision about whether declared state may enter a context.",
+  "properties": {
+    "action_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Action Ref"
+    },
+    "decided_at": {
+      "format": "date-time",
+      "title": "Decided At",
+      "type": "string"
+    },
+    "decision": {
+      "$ref": "#/$defs/StateContextDecisionKind"
+    },
+    "evidence_refs": {
+      "items": {
+        "maxLength": 512,
+        "minLength": 3,
+        "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+        "type": "string"
+      },
+      "title": "Evidence Refs",
+      "type": "array"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "freshness": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FreshnessSummary"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "gap_refs": {
+      "items": {
+        "maxLength": 512,
+        "minLength": 3,
+        "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+        "type": "string"
+      },
+      "title": "Gap Refs",
+      "type": "array"
+    },
+    "package_hash": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Package Hash"
+    },
+    "package_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Package Ref"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "reason": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "requires_refresh_before_external_action": {
+      "default": false,
+      "title": "Requires Refresh Before External Action",
+      "type": "boolean"
+    },
+    "route_ref": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Route Ref",
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "reason",
+    "route_ref",
+    "decided_at"
+  ],
+  "title": "StateContextDecision",
+  "type": "object"
+}

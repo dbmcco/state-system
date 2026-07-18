@@ -1,0 +1,14 @@
+{
+  "additionalProperties": false,
+  "description": "Strict, immutable base for every State System contract.",
+  "properties": {
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    }
+  },
+  "title": "StateProtocolModel",
+  "type": "object"
+}

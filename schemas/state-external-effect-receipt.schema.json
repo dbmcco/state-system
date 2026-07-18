@@ -1,0 +1,171 @@
+{
+  "$defs": {
+    "RedactionPolicy": {
+      "enum": [
+        "none",
+        "bounded",
+        "hash_only"
+      ],
+      "title": "RedactionPolicy",
+      "type": "string"
+    },
+    "RetentionClass": {
+      "enum": [
+        "ephemeral",
+        "operational",
+        "audit"
+      ],
+      "title": "RetentionClass",
+      "type": "string"
+    },
+    "StateEffectStatus": {
+      "enum": [
+        "allowed",
+        "denied",
+        "failed",
+        "queued",
+        "committed",
+        "skipped"
+      ],
+      "title": "StateEffectStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "action_ref": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Action Ref",
+      "type": "string"
+    },
+    "audit_entry_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Audit Entry Ref"
+    },
+    "authorization_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Authorization Ref"
+    },
+    "effect_ref": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Effect Ref",
+      "type": "string"
+    },
+    "error_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Error Ref"
+    },
+    "idempotency_key": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^\\S+$",
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "occurred_at": {
+      "format": "date-time",
+      "title": "Occurred At",
+      "type": "string"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "provider_receipt_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Provider Receipt Ref"
+    },
+    "receipt_id": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Receipt Id",
+      "type": "string"
+    },
+    "redaction_policy": {
+      "$ref": "#/$defs/RedactionPolicy"
+    },
+    "request_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^\\S+$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "retain_until": {
+      "format": "date-time",
+      "title": "Retain Until",
+      "type": "string"
+    },
+    "retention_class": {
+      "$ref": "#/$defs/RetentionClass"
+    },
+    "status": {
+      "$ref": "#/$defs/StateEffectStatus"
+    }
+  },
+  "required": [
+    "idempotency_key",
+    "retention_class",
+    "retain_until",
+    "redaction_policy",
+    "receipt_id",
+    "request_id",
+    "effect_ref",
+    "action_ref",
+    "status",
+    "occurred_at"
+  ],
+  "title": "StateExternalEffectReceipt",
+  "type": "object"
+}

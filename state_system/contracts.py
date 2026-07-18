@@ -5,8 +5,28 @@ import json
 from pathlib import Path
 from typing import Any
 
+from jsonschema import Draft202012Validator
+
 
 JsonObject = dict[str, Any]
+
+STATE_SYSTEM_SCHEMA_FILES = frozenset(
+    {
+        "state-protocol.schema.json",
+        "freshness-summary.schema.json",
+        "state-capability.schema.json",
+        "state-handshake.schema.json",
+        "state-request.schema.json",
+        "state-error.schema.json",
+        "state-context-decision.schema.json",
+        "state-usage-receipt.schema.json",
+        "state-messaging-authorization.schema.json",
+        "state-audit-ledger-entry.schema.json",
+        "state-external-effect-receipt.schema.json",
+        "state-response.schema.json",
+        "gap-acknowledgement.schema.json",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -320,6 +340,27 @@ def validate_schema(document: Any, schema: JsonObject, path: str = "$") -> list[
         errors.append(f"{path}: expected one of {schema['enum']}, got {document!r}")
 
     return errors
+
+
+def validate_state_system_schema(
+    document: Any,
+    schema_name: str,
+    root: Path,
+) -> list[str]:
+    """Validate a new State System protocol document with Draft 2020-12.
+
+    The older ``validate_schema`` function remains intentionally partial for
+    legacy artifacts. New protocol boundaries must call this explicit validator.
+    """
+    if schema_name not in STATE_SYSTEM_SCHEMA_FILES:
+        raise ValueError(f"unsupported State System schema: {schema_name}")
+    schema = load_json(root / "schemas" / schema_name)
+    validator = Draft202012Validator(schema)
+    errors = sorted(validator.iter_errors(document), key=lambda error: list(error.absolute_path))
+    return [
+        f"{'.'.join(str(part) for part in error.absolute_path) or '$'}: {error.message}"
+        for error in errors
+    ]
 
 
 def _load_schemas(schemas_dir: Path) -> dict[str, JsonObject]:

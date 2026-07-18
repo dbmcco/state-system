@@ -1,0 +1,114 @@
+{
+  "$defs": {
+    "StateEffectClass": {
+      "enum": [
+        "read_only",
+        "internal_write",
+        "external_effect"
+      ],
+      "title": "StateEffectClass",
+      "type": "string"
+    },
+    "StateOperation": {
+      "enum": [
+        "handshake",
+        "inspect",
+        "validate",
+        "refresh",
+        "search",
+        "record",
+        "repair",
+        "acknowledge_gap"
+      ],
+      "title": "StateOperation",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A code-declared operation capability exposed during handshake.",
+  "properties": {
+    "action_refs": {
+      "items": {
+        "maxLength": 512,
+        "minLength": 3,
+        "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+        "type": "string"
+      },
+      "title": "Action Refs",
+      "type": "array"
+    },
+    "capability_ref": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Capability Ref",
+      "type": "string"
+    },
+    "description": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Description",
+      "type": "string"
+    },
+    "effect_class": {
+      "$ref": "#/$defs/StateEffectClass"
+    },
+    "examples": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Examples",
+      "type": "array"
+    },
+    "limits": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "string"
+          }
+        ]
+      },
+      "title": "Limits",
+      "type": "object"
+    },
+    "operation": {
+      "$ref": "#/$defs/StateOperation"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "requires_governance": {
+      "default": false,
+      "title": "Requires Governance",
+      "type": "boolean"
+    },
+    "requires_idempotency": {
+      "default": true,
+      "title": "Requires Idempotency",
+      "type": "boolean"
+    },
+    "schema_ref": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Schema Ref",
+      "type": "string"
+    }
+  },
+  "required": [
+    "capability_ref",
+    "operation",
+    "description",
+    "schema_ref",
+    "effect_class"
+  ],
+  "title": "StateCapability",
+  "type": "object"
+}
