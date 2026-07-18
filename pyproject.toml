@@ -8,6 +8,9 @@ version = "0.1.0"
 description = "A generic model-mediated substrate for tracking organizational state."
 requires-python = ">=3.11"
 license = "MIT"
+dependencies = [
+    "jsonschema>=4.23",
+]
 
 [project.scripts]
 state-system = "state_system.cli:main"

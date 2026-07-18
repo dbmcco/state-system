@@ -1,0 +1,132 @@
+{
+  "$defs": {
+    "StateErrorCode": {
+      "enum": [
+        "invalid_request",
+        "unknown_operation",
+        "unsupported_version",
+        "invalid_reference",
+        "state_gap",
+        "not_found",
+        "unavailable",
+        "conflict",
+        "unauthorized",
+        "governance_denied",
+        "internal_error"
+      ],
+      "title": "StateErrorCode",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A safe, bounded repair error that never retains raw secret-like values.",
+  "properties": {
+    "blocking_refs": {
+      "items": {
+        "maxLength": 512,
+        "minLength": 3,
+        "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+        "type": "string"
+      },
+      "title": "Blocking Refs",
+      "type": "array"
+    },
+    "code": {
+      "$ref": "#/$defs/StateErrorCode"
+    },
+    "expected_shape": {
+      "anyOf": [
+        {
+          "maxLength": 1000,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expected Shape"
+    },
+    "field_path": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Field Path"
+    },
+    "message": {
+      "maxLength": 1000,
+      "minLength": 1,
+      "title": "Message",
+      "type": "string"
+    },
+    "next_steps": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Next Steps",
+      "type": "array"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "received_value_redacted": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Received Value Redacted"
+    },
+    "retryable": {
+      "default": false,
+      "title": "Retryable",
+      "type": "boolean"
+    },
+    "safe_examples": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "title": "Safe Examples",
+      "type": "array"
+    },
+    "schema_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Schema Ref"
+    }
+  },
+  "required": [
+    "code",
+    "message"
+  ],
+  "title": "StateError",
+  "type": "object"
+}

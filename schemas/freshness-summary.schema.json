@@ -1,0 +1,116 @@
+{
+  "$defs": {
+    "FreshnessBasis": {
+      "enum": [
+        "source_content",
+        "source_event",
+        "source_index",
+        "probe_only",
+        "package_generation",
+        "declared_gap"
+      ],
+      "title": "FreshnessBasis",
+      "type": "string"
+    },
+    "FreshnessStatus": {
+      "enum": [
+        "fresh",
+        "stale",
+        "unknown",
+        "failed",
+        "not_applicable"
+      ],
+      "title": "FreshnessStatus",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A declared freshness observation; this model does not calculate it.",
+  "properties": {
+    "basis": {
+      "$ref": "#/$defs/FreshnessBasis"
+    },
+    "coverage_status": {
+      "default": "unknown",
+      "enum": [
+        "complete",
+        "partial",
+        "unknown"
+      ],
+      "title": "Coverage Status",
+      "type": "string"
+    },
+    "evidence_refs": {
+      "items": {
+        "maxLength": 512,
+        "minLength": 3,
+        "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+        "type": "string"
+      },
+      "title": "Evidence Refs",
+      "type": "array"
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Expires At"
+    },
+    "observed_at": {
+      "format": "date-time",
+      "title": "Observed At",
+      "type": "string"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "stale_after_seconds": {
+      "anyOf": [
+        {
+          "maximum": 31536000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Stale After Seconds"
+    },
+    "status": {
+      "$ref": "#/$defs/FreshnessStatus"
+    },
+    "status_reason": {
+      "anyOf": [
+        {
+          "maxLength": 1000,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Status Reason"
+    }
+  },
+  "required": [
+    "status",
+    "basis",
+    "observed_at"
+  ],
+  "title": "FreshnessSummary",
+  "type": "object"
+}

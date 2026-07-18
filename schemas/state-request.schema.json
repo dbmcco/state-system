@@ -1,0 +1,109 @@
+{
+  "$defs": {
+    "StateOperation": {
+      "enum": [
+        "handshake",
+        "inspect",
+        "validate",
+        "refresh",
+        "search",
+        "record",
+        "repair",
+        "acknowledge_gap"
+      ],
+      "title": "StateOperation",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "An explicit request; authorization and governance are never request data.",
+  "properties": {
+    "action_ref": {
+      "anyOf": [
+        {
+          "maxLength": 512,
+          "minLength": 3,
+          "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Action Ref"
+    },
+    "arguments": {
+      "additionalProperties": true,
+      "title": "Arguments",
+      "type": "object"
+    },
+    "correlation_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^\\S+$",
+      "title": "Correlation Id",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "anyOf": [
+        {
+          "maxLength": 256,
+          "minLength": 1,
+          "pattern": "^\\S+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Idempotency Key"
+    },
+    "operation": {
+      "$ref": "#/$defs/StateOperation"
+    },
+    "protocol_version": {
+      "const": "state-system.v1",
+      "default": "state-system.v1",
+      "title": "Protocol Version",
+      "type": "string"
+    },
+    "request_id": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^\\S+$",
+      "title": "Request Id",
+      "type": "string"
+    },
+    "requested_at": {
+      "format": "date-time",
+      "title": "Requested At",
+      "type": "string"
+    },
+    "schema_ref": {
+      "default": "schema:state-request.v1",
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Schema Ref",
+      "type": "string"
+    },
+    "scope": {
+      "maxLength": 512,
+      "minLength": 3,
+      "pattern": "^[a-z][a-z0-9+.-]*:[^\\s]+$",
+      "title": "Scope",
+      "type": "string"
+    }
+  },
+  "required": [
+    "request_id",
+    "correlation_id",
+    "operation",
+    "scope",
+    "requested_at"
+  ],
+  "title": "StateRequest",
+  "type": "object"
+}
