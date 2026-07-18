@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+from io import StringIO
 import json
 from pathlib import Path
 import sys
 from typing import TextIO
+
+from state_system.api_surface import dispatch as dispatch_operation
 
 from state_system.agent_consumers import (
     capture_agent_response,
@@ -157,13 +160,61 @@ COLLECTIONS = {
 }
 
 
-def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
+def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
     stdout = stdout or sys.stdout
     parser = _parser()
     args = parser.parse_args(argv)
     project_root = Path(args.project_root)
     state_root = Path(args.state_root or args.project_root)
     stores = StateStoreBundle(state_root)
+
+    if args.command in {"handshake", "inspect", "repair", "acknowledge-gap", "acknowledge_gap", "dispatch"}:
+        operation = args.command
+        arguments: dict[str, object] = {}
+        request_id = None
+        correlation_id = None
+        scope = getattr(args, "scope", "state:local")
+        if operation == "handshake":
+            operation = "handshake"
+        elif operation == "inspect":
+            arguments = {
+                "package_ref": args.package_ref,
+                "gap_refs": list(args.gap_ref or []),
+            }
+        elif operation == "repair":
+            operation = "repair"
+        elif operation in {"acknowledge-gap", "acknowledge_gap"}:
+            operation = "acknowledge_gap"
+            arguments = {
+                "gap_ref": args.gap_ref,
+                "idempotency_key": args.idempotency_key,
+                "acknowledged_by_ref": args.acknowledged_by_ref,
+                "reason": args.reason,
+            }
+            request_id = args.request_id
+        else:
+            operation = args.operation
+            if args.request:
+                request = load_json(Path(args.request))
+                if not isinstance(request, dict):
+                    arguments = {"_malformed_request": type(request).__name__}
+                else:
+                    request_id = request.get("request_id")
+                    correlation_id = request.get("correlation_id")
+                    scope = request.get("scope", scope)
+                    operation = request.get("operation", operation)
+                    arguments = request.get("arguments", {})
+        response = dispatch_operation(
+            operation,
+            project_root=project_root,
+            state_root=state_root,
+            request_id=request_id,
+            correlation_id=correlation_id,
+            scope=scope,
+            arguments=arguments,
+        )
+        _write_json(stdout, response)
+        return 0 if response["status"] in {"ok", "partial"} else 1
 
     if args.command == "validate":
         results = validate_all_examples(project_root)
@@ -1239,13 +1290,167 @@ def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
     return 2
 
 
+def main(argv: list[str] | None = None, stdout: TextIO | None = None) -> int:
+    """Run the legacy CLI, with an opt-in typed protocol envelope for models."""
+    stdout = stdout or sys.stdout
+    raw_args = list(sys.argv[1:] if argv is None else argv)
+    json_mode, normalized_args = _extract_output_mode(raw_args)
+    if not json_mode:
+        return _legacy_main(normalized_args, stdout=stdout)
+
+    captured = StringIO()
+    operation = _operation_for_args(normalized_args)
+    try:
+        code = _legacy_main(normalized_args, stdout=captured)
+    except SystemExit as error:
+        code = int(error.code) if isinstance(error.code, int) else 2
+    except Exception as error:  # model-facing boundary: never emit a traceback
+        code = 1
+        captured.write(json.dumps({"error": str(error)}))
+
+    raw_output = captured.getvalue()
+    try:
+        payload = json.loads(raw_output) if raw_output.strip() else {}
+    except json.JSONDecodeError:
+        payload = {"legacy_output": raw_output}
+
+    if isinstance(payload, dict) and payload.get("protocol_version") == "state-system.v1" and payload.get("status"):
+        response = payload
+    elif code == 0:
+        response = {
+            "protocol_version": "state-system.v1",
+            "request_id": "request:cli.legacy",
+            "operation": operation,
+            "status": "ok",
+            "data": payload if isinstance(payload, dict) else {"value": payload},
+            "errors": [],
+            "next_steps": [],
+            "retryable": False,
+            "receipt": None,
+            "receipt_ref": None,
+            "evidence_refs": [],
+            "gap_refs": [],
+            "freshness": None,
+        }
+    else:
+        message = "The CLI request could not be completed."
+        if isinstance(payload, dict) and payload.get("error"):
+            message = str(payload["error"])
+        response = {
+            "protocol_version": "state-system.v1",
+            "request_id": "request:cli.legacy",
+            "operation": operation,
+            "status": "error",
+            "data": {},
+            "errors": [{
+                "protocol_version": "state-system.v1",
+                "code": "invalid_request",
+                "message": message,
+                "retryable": True,
+                "expected_shape": "Use the command help and retry with valid arguments.",
+                "safe_examples": ["state --format json handshake"],
+                "next_steps": ["Call handshake to inspect the declared request shape, then retry."],
+            }],
+            "next_steps": ["Call handshake to inspect the declared request shape, then retry."],
+            "retryable": True,
+            "receipt": None,
+            "receipt_ref": None,
+            "evidence_refs": [],
+            "gap_refs": [],
+            "freshness": None,
+        }
+    _write_json(stdout, response)
+    return code
+
+
+def _extract_output_mode(argv: list[str]) -> tuple[bool, list[str]]:
+    json_mode = False
+    normalized: list[str] = []
+    index = 0
+    while index < len(argv):
+        value = argv[index]
+        if value == "--json":
+            json_mode = True
+        elif value == "--format" and index + 1 < len(argv):
+            json_mode = argv[index + 1] == "json"
+            index += 1
+        else:
+            normalized.append(value)
+        index += 1
+    return json_mode, normalized
+
+
+def _operation_for_args(argv: list[str]) -> str:
+    for value in argv:
+        if value in {"handshake", "inspect", "validate", "refresh", "search", "record", "repair", "acknowledge-gap", "acknowledge_gap"}:
+            return "acknowledge_gap" if value in {"acknowledge-gap", "acknowledge_gap"} else value
+    return "validate"
+
+
 def _parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="state")
+    parser = argparse.ArgumentParser(
+        prog="state",
+        description=(
+            "State System CLI. Model-operable commands use typed dispatcher envelopes. "
+            "Effect classes: read-only reads state, internal-write changes only the "
+            "State System, and external-effect would affect an external system and "
+            "requires separate governance/authorization."
+        ),
+        epilog=(
+            "Examples: state --format json handshake; state --json inspect; "
+            "state --json dispatch acknowledge_gap --request /path/request.json. "
+            "On errors, inspect errors[].safe_examples and errors[].next_steps, then "
+            "repair the request and retry. acknowledge_gap is retained in the audit "
+            "ledger under its retention policy (400 days by default), does not change freshness, and does not "
+            "authorize an external effect."
+        ),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     parser.add_argument("--project-root", default=".")
     parser.add_argument("--state-root")
     subcommands = parser.add_subparsers(dest="command", required=True)
 
     subcommands.add_parser("validate")
+
+    handshake = subcommands.add_parser(
+        "handshake",
+        help="Read-only capability discovery for model callers.",
+    )
+    handshake.add_argument("--scope", default="state:local")
+
+    inspect = subcommands.add_parser(
+        "inspect",
+        help="Read-only package, freshness, gap, repair, and ledger inspection.",
+    )
+    inspect.add_argument("--scope", default="state:local")
+    inspect.add_argument("--package-ref")
+    inspect.add_argument("--gap-ref", action="append")
+
+    dispatch = subcommands.add_parser(
+        "dispatch",
+        help="Dispatch one explicit protocol operation from a request JSON document.",
+    )
+    dispatch.add_argument("operation")
+    dispatch.add_argument("--request", help="Path to a StateRequest JSON document.")
+    dispatch.add_argument("--scope", default="state:local")
+
+    repair = subcommands.add_parser(
+        "repair",
+        help="Request explicit source-owner repair guidance; no implicit fallback.",
+    )
+    repair.add_argument("--scope", default="state:local")
+
+    acknowledge_gap = subcommands.add_parser(
+        "acknowledge-gap",
+        aliases=["acknowledge_gap"],
+        help="Internal-write audit acknowledgement; never changes freshness or authorizes effects.",
+    )
+    acknowledge_gap.add_argument("gap_ref")
+    acknowledge_gap.add_argument("--request-id")
+    acknowledge_gap.add_argument("--idempotency-key")
+    acknowledge_gap.add_argument("--acknowledged-by-ref")
+    acknowledge_gap.add_argument("--reason")
+    acknowledge_gap.add_argument("--scope", default="state:local")
 
     trigger = subcommands.add_parser("trigger")
     trigger.add_argument("source_event")
