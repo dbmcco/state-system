@@ -62,6 +62,34 @@
     },
     "freshness_policy_ref": { "type": "string" },
     "status_reason": { "type": "string" },
+    "content_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "failed", "unknown"]
+    },
+    "event_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "failed", "unknown"]
+    },
+    "index_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "failed", "unknown"]
+    },
+    "probe_status": {
+      "type": "string",
+      "enum": ["fresh", "stale", "failed", "unknown"]
+    },
+    "completeness_status": {
+      "type": "string",
+      "enum": ["complete", "incomplete", "unknown", "not_applicable"]
+    },
+    "process_status": {
+      "type": "string",
+      "enum": ["succeeded", "failed", "running", "unknown"]
+    },
+    "source_gap_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
     "content_stale_after": { "type": "string" },
     "index_stale_after": { "type": "string" },
     "probe_stale_after": { "type": "string" },

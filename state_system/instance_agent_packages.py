@@ -138,6 +138,7 @@ def _package_from_instance(
         for source in sources
     ) or bool(expired_freshness_refs)
     selected_persona_ref = persona_ref or _first(capability["identity"].get("primary_agent_refs"))
+    freshness_dimensions = _aggregate_freshness_dimensions(sources)
     return {
         "id": resolved_package_id,
         "package_type": "instance_agent_package",
@@ -178,6 +179,16 @@ def _package_from_instance(
             "requires_refresh_before_external_action": requires_refresh,
             "watermark_refs": _watermark_refs(instance["source_readiness"]),
             "expired_freshness_refs": expired_freshness_refs,
+            "content_status": freshness_dimensions["content_status"],
+            "event_status": freshness_dimensions["event_status"],
+            "index_status": freshness_dimensions["index_status"],
+            "probe_status": freshness_dimensions["probe_status"],
+            "completeness_status": freshness_dimensions["completeness_status"],
+            "watermark_basis": freshness_dimensions["watermark_basis"],
+            "status_reason": freshness_dimensions["status_reason"],
+            "evidence_refs": evidence_refs,
+            "process_status": "succeeded",
+            "source_gap_refs": gap_refs,
         },
         "invariant": {
             "agent_package_executes_retrieval": False,
@@ -213,6 +224,17 @@ def _package_source(source: JsonObject) -> JsonObject:
         "latest_indexed_at": source.get("latest_indexed_at", ""),
         "freshness_policy_ref": source.get("freshness_policy_ref", ""),
         "status_reason": source.get("status_reason", ""),
+        "content_status": source.get("content_status", "unknown"),
+        "event_status": source.get("event_status", "unknown"),
+        "index_status": source.get(
+            "freshness_record", {}
+        ).get("index_status", source.get("index_status", "unknown")),
+        "index_freshness_status": source.get("index_freshness_status", "unknown"),
+        "probe_status": source.get("probe_status", "unknown"),
+        "completeness_status": source.get("completeness_status", "unknown"),
+        "process_status": source.get("process_status", "unknown"),
+        "evidence_refs": _source_evidence_refs(source),
+        "source_gap_refs": source.get("source_gap_refs", []),
         "content_stale_after": source.get("content_stale_after", ""),
         "index_stale_after": source.get("index_stale_after", ""),
         "probe_stale_after": source.get("probe_stale_after", ""),
@@ -226,7 +248,6 @@ def _package_source(source: JsonObject) -> JsonObject:
         "understanding_status": source["understanding_status"],
         "index_refs": source.get("index_refs", []),
         "gap_refs": [gap["gap_ref"] for gap in source.get("gaps", [])],
-        "evidence_refs": _source_evidence_refs(source),
     }
     for count_key in ("source_item_count", "index_item_count"):
         if source.get(count_key) is not None:
@@ -248,6 +269,56 @@ def _package_source(source: JsonObject) -> JsonObject:
     if "federated_instance" in source:
         packaged["federated_instance"] = source["federated_instance"]
     return packaged
+
+
+def _aggregate_freshness_dimensions(sources: list[JsonObject]) -> JsonObject:
+    return {
+        "content_status": _aggregate_status(sources, "content_status"),
+        "event_status": _aggregate_status(sources, "event_status"),
+        "index_status": _aggregate_status(sources, "index_freshness_status"),
+        "probe_status": _aggregate_status(sources, "probe_status"),
+        "completeness_status": _aggregate_completeness_status(sources),
+        "watermark_basis": sorted(
+            {
+                str(source.get("watermark_basis", ""))
+                for source in sources
+                if source.get("watermark_basis")
+            }
+        ),
+        "status_reason": _aggregate_status_reason(sources),
+    }
+
+
+def _aggregate_status(sources: list[JsonObject], field: str) -> str:
+    statuses = {str(source.get(field, "unknown")) for source in sources}
+    if not statuses or statuses == {"unknown"}:
+        return "unknown"
+    for status in ("failed", "stale", "unknown"):
+        if status in statuses:
+            return status
+    return "fresh"
+
+
+def _aggregate_completeness_status(sources: list[JsonObject]) -> str:
+    statuses = {str(source.get("completeness_status", "unknown")) for source in sources}
+    if "incomplete" in statuses:
+        return "incomplete"
+    if "unknown" in statuses or not statuses:
+        return "unknown"
+    if statuses == {"complete"}:
+        return "complete"
+    return "unknown"
+
+
+def _aggregate_status_reason(sources: list[JsonObject]) -> str:
+    reasons = sorted(
+        {
+            str(source.get("status_reason", ""))
+            for source in sources
+            if source.get("status_reason")
+        }
+    )
+    return "; ".join(reasons)
 
 
 def _module_mode(source: JsonObject) -> str:
@@ -1132,6 +1203,99 @@ def _route_required_actions(route: JsonObject) -> list[str]:
         f"Use {tool_ref} only through declared source coverage and visible gap behavior."
         for tool_ref in required_tools
     ]
+
+
+def evaluate_route_freshness_sufficiency(
+    route: JsonObject,
+    sources: list[JsonObject],
+) -> JsonObject:
+    """Evaluate only the freshness contract explicitly declared by a route.
+
+    A route with no declaration is intentionally insufficient. In particular,
+    event/index/probe/package-generation evidence is never promoted to content
+    freshness by this evaluator.
+    """
+
+    source_by_ref = {
+        source.get("connector_ref"): source
+        for source in sources
+        if source.get("connector_ref")
+    }
+    coverage_entries = route.get("required_source_coverage", [])
+    if not coverage_entries:
+        coverage_entries = [{"connector_refs": list(source_by_ref)}]
+    gaps: set[str] = set()
+    satisfied_dimensions: set[str] = set()
+    reasons: list[str] = []
+    sufficient = True
+
+    for coverage in coverage_entries:
+        if not isinstance(coverage, dict):
+            sufficient = False
+            reasons.append("invalid required source coverage declaration")
+            continue
+        spec = coverage.get("freshness_sufficiency")
+        if spec is None:
+            spec = route.get("freshness_sufficiency")
+        if not isinstance(spec, dict):
+            sufficient = False
+            reasons.append("missing explicit freshness sufficiency declaration")
+            continue
+        connector_refs = coverage.get("connector_refs", [])
+        if not connector_refs:
+            sufficient = False
+            reasons.append("freshness sufficiency declaration has no connector refs")
+            continue
+        required_dimensions = spec.get("required_dimensions", [])
+        if isinstance(required_dimensions, str):
+            required_dimensions = [required_dimensions]
+        minimum_status = str(spec.get("minimum_status", "fresh"))
+        acceptable_statuses = spec.get("acceptable_statuses", {})
+        acceptable_bases = set(spec.get("acceptable_watermark_bases", []))
+        allow_incomplete = bool(spec.get("allow_incomplete", False))
+        for connector_ref in connector_refs:
+            source = source_by_ref.get(connector_ref)
+            if source is None:
+                sufficient = False
+                reasons.append(f"required source {connector_ref} is missing")
+                continue
+            gaps.update(source.get("source_gap_refs", []))
+            gaps.update(source.get("gap_refs", []))
+            basis = source.get("watermark_basis", "")
+            if acceptable_bases and basis not in acceptable_bases:
+                sufficient = False
+                reasons.append(
+                    f"{connector_ref} watermark basis {basis!r} is not declared acceptable"
+                )
+            for dimension in required_dimensions:
+                value = str(source.get(dimension, "unknown"))
+                allowed = acceptable_statuses.get(dimension)
+                if allowed is None:
+                    allowed = [minimum_status]
+                if isinstance(allowed, str):
+                    allowed = [allowed]
+                if value not in allowed and not (
+                    dimension == "completeness_status"
+                    and value == "incomplete"
+                    and allow_incomplete
+                ):
+                    sufficient = False
+                    reasons.append(f"{connector_ref} {dimension} is {value}")
+                else:
+                    satisfied_dimensions.add(dimension)
+
+    content_status = _aggregate_status(sources, "content_status")
+    return {
+        "route_ref": route.get("id", route.get("route_id", "")),
+        "sufficient": sufficient,
+        "status": "sufficient" if sufficient else "insufficient",
+        "content_status": content_status,
+        "satisfied_dimensions": sorted(satisfied_dimensions),
+        "source_gap_refs": sorted(gaps),
+        "status_reason": "; ".join(reasons)
+        if reasons
+        else "all explicitly declared freshness requirements are satisfied",
+    }
 
 
 def _tool_action_refs_by_tool_ref(state_root: Path) -> dict[str, list[str]]:
