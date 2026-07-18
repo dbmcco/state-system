@@ -1178,6 +1178,52 @@ def _federation_packs(
     connector_refs = {source["connector_ref"] for source in sources}
     packs: list[JsonObject] = []
 
+    for route in routes:
+        federation_spec = route.get("federation_pack")
+        if not isinstance(federation_spec, dict):
+            continue
+        pack_id = federation_spec.get("id")
+        if not isinstance(pack_id, str) or not pack_id:
+            continue
+        packs.append(
+            _federation_pack(
+                pack_id=pack_id,
+                status=str(federation_spec.get("status", "planned")),
+                mode=str(federation_spec.get("federation_mode", "federated_query")),
+                local_instance_ref=instance_ref,
+                remote_instance_refs=list(federation_spec.get("remote_instance_refs", [])),
+                route_refs=[route["id"]],
+                query_surface_refs=list(federation_spec.get("query_surface_refs", [])),
+                tool_action_refs=list(federation_spec.get("tool_action_refs", [])),
+                source_module_refs=list(federation_spec.get("source_module_refs", [])),
+                local_materialization=bool(federation_spec.get("local_materialization", False)),
+                raw_remote_corpus_policy=str(
+                    federation_spec.get(
+                        "raw_remote_corpus_policy",
+                        "No raw remote corpus may be copied into local instance state.",
+                    )
+                ),
+                freshness_status=str(federation_spec.get("freshness_status", "unknown")),
+                checked_at=str(federation_spec.get("checked_at", "")),
+                source_watermark=str(federation_spec.get("source_watermark", "")),
+                gap_refs=list(federation_spec.get("gap_refs", [])),
+                repair_owner=str(federation_spec.get("repair_owner", instance_ref)),
+                when_unavailable=str(
+                    federation_spec.get(
+                        "when_unavailable",
+                        "Declare the federated route unavailable.",
+                    )
+                ),
+                when_stale=str(
+                    federation_spec.get(
+                        "when_stale",
+                        "Name the federated source freshness gap before relying on it.",
+                    )
+                ),
+                subject_notes_apply=bool(federation_spec.get("subject_notes_apply", False)),
+            )
+        )
+
     personal_state_connector = (
         "connector.personal.sampleco_state_system"
         if "connector.personal.sampleco_state_system" in connector_refs

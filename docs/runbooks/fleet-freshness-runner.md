@@ -48,6 +48,16 @@ python3 -m state_system.cli \
 - `source_status_counts`: grouped as `access|freshness|understanding`.
 - `source_gap_refs`: the gaps agents must caveat before answering.
 
+## Durable Scheduler Safety
+
+The macOS wrapper at `scripts/run-fleet-refresh.sh` gives each instance a
+stale-safe lock and uses one shared lock across instances. The shared lock is
+intentional: several deployed adapters query MsgVault, whose daemon should not
+be hit concurrently by the fleet. A timed-out adapter is terminated together
+with its descendant process tree, and the wrapper removes both locks on exit.
+A stale or unavailable source remains failed or unknown in the report; the
+scheduler does not convert that gap into freshness.
+
 ## Downstream Pattern
 
 Each downstream state root should carry a manifest at:

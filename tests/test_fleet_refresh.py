@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
+import sys
+import time
 from tempfile import TemporaryDirectory
 import unittest
 
@@ -91,6 +94,54 @@ class FleetRefreshTests(unittest.TestCase):
             command = report["instances"][0]["adapter_commands"][0]
             self.assertEqual("failed", command["status"])
             self.assertEqual(7, command["returncode"])
+
+    def test_adapter_timeout_terminates_child_process_group(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            _seed_personal_state(state_root)
+            child_pid_path = state_root / "child.pid"
+            manifest = _manifest(
+                state_root,
+                adapter_commands=[
+                    {
+                        "id": "adapter.timeout",
+                        "argv": [
+                            sys.executable,
+                            "-c",
+                            (
+                                "import pathlib, subprocess, sys, time; "
+                                "child = subprocess.Popen(['sleep', '30'], start_new_session=True); "
+                                "pathlib.Path(sys.argv[1]).write_text(str(child.pid)); "
+                                "time.sleep(30)"
+                            ),
+                            str(child_pid_path),
+                        ],
+                        "required": True,
+                        "timeout_seconds": 1,
+                    }
+                ],
+            )
+
+            report = run_fleet_refresh(
+                manifest,
+                project_root=ROOT,
+                checked_at="2026-05-19T20:00:00Z",
+                stale_after="2026-05-19T21:00:00Z",
+            )
+
+            command = report["instances"][0]["adapter_commands"][0]
+            self.assertEqual("failed", command["status"])
+            self.assertIn("timed out", command["error"])
+            child_pid = int(child_pid_path.read_text())
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline:
+                try:
+                    os.kill(child_pid, 0)
+                except ProcessLookupError:
+                    break
+                time.sleep(0.05)
+            else:
+                self.fail(f"timed-out adapter child still running: {child_pid}")
 
     def test_dry_run_skips_adapter_and_package_write(self):
         with TemporaryDirectory() as directory:

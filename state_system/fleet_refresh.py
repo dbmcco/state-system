@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import signal
 import subprocess
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -220,6 +221,7 @@ def _run_adapter_command(
     }
     if dry_run:
         return {**result, "status": "planned"}
+    process: subprocess.Popen[str] | None = None
     try:
         env = {
             **os.environ,
@@ -227,24 +229,91 @@ def _run_adapter_command(
             "STATE_SYSTEM_FLEET_STALE_AFTER": stale_after,
             "STATE_SYSTEM_FLEET_COMMAND_ID": command["id"],
         }
-        completed = subprocess.run(
+        process = subprocess.Popen(
             command["argv"],
             cwd=command.get("cwd") or None,
-            check=False,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
             env=env,
-            timeout=int(command.get("timeout_seconds", 300)),
+            start_new_session=True,
         )
-    except (OSError, subprocess.TimeoutExpired) as error:
+        stdout, stderr = process.communicate(
+            timeout=int(command.get("timeout_seconds", 300))
+        )
+    except subprocess.TimeoutExpired as error:
+        if process is not None:
+            _terminate_process_group(process)
+        return {**result, "status": "failed", "error": str(error)}
+    except OSError as error:
         return {**result, "status": "failed", "error": str(error)}
     return {
         **result,
-        "status": "passed" if completed.returncode == 0 else "failed",
-        "returncode": completed.returncode,
-        "stdout": completed.stdout[-4000:],
-        "stderr": completed.stderr[-4000:],
+        "status": "passed" if process.returncode == 0 else "failed",
+        "returncode": process.returncode,
+        "stdout": stdout[-4000:],
+        "stderr": stderr[-4000:],
     }
+
+
+def _terminate_process_group(process: subprocess.Popen[str]) -> None:
+    """Stop a timed-out adapter and every descendant it started."""
+    for pid in _descendant_pids(process.pid):
+        _signal_process(pid, signal.SIGTERM)
+    _signal_process_group(process.pid, signal.SIGTERM)
+
+    try:
+        process.communicate(timeout=1)
+    except subprocess.TimeoutExpired:
+        pass
+
+    for pid in _descendant_pids(process.pid):
+        _signal_process(pid, signal.SIGKILL)
+    _signal_process_group(process.pid, signal.SIGKILL)
+    try:
+        process.kill()
+    except ProcessLookupError:
+        pass
+    process.communicate()
+
+
+def _descendant_pids(root_pid: int) -> list[int]:
+    completed = subprocess.run(
+        ["ps", "-axo", "pid=,ppid="],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    children: dict[int, list[int]] = {}
+    for line in completed.stdout.splitlines():
+        fields = line.split()
+        if len(fields) != 2:
+            continue
+        pid, parent_pid = (int(value) for value in fields)
+        children.setdefault(parent_pid, []).append(pid)
+
+    descendants: list[int] = []
+    pending = [root_pid]
+    while pending:
+        parent_pid = pending.pop()
+        for child_pid in children.get(parent_pid, []):
+            descendants.append(child_pid)
+            pending.append(child_pid)
+    return descendants
+
+
+def _signal_process(pid: int, sig: signal.Signals) -> None:
+    try:
+        os.kill(pid, sig)
+    except (PermissionError, ProcessLookupError):
+        pass
+
+
+def _signal_process_group(pid: int, sig: signal.Signals) -> None:
+    try:
+        os.killpg(pid, sig)
+    except (PermissionError, ProcessLookupError):
+        pass
 
 
 def _run_pressure(
