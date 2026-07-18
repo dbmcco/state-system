@@ -146,8 +146,11 @@ def _source_readiness(
         access_status=access_status,
         freshness_status=freshness_status,
         index_status=index_status,
+        completeness_status=freshness_record.get("completeness_status", "unknown"),
         federation_status=federated_instance.get("status"),
     )
+    source_gap_refs = set(freshness_record.get("source_gap_refs", []))
+    source_gap_refs.update(gap["gap_ref"] for gap in gaps)
     readiness = {
         "connector_ref": connector_ref,
         "connector_type": connector_type,
@@ -178,6 +181,14 @@ def _source_readiness(
         "index_item_count": freshness_record.get("index_item_count"),
         "freshness_policy_ref": freshness_record.get("freshness_policy_ref", ""),
         "status_reason": freshness_record.get("status_reason", ""),
+        "content_status": freshness_record.get("content_status", "unknown"),
+        "event_status": freshness_record.get("event_status", "unknown"),
+        "index_freshness_status": freshness_record.get("index_status", "unknown"),
+        "probe_status": freshness_record.get("probe_status", "unknown"),
+        "completeness_status": freshness_record.get("completeness_status", "unknown"),
+        "process_status": freshness_record.get("process_status", "unknown"),
+        "evidence_refs": list(freshness_record.get("evidence_refs", [])),
+        "source_gap_refs": sorted(source_gap_refs),
         "content_stale_after": freshness_record.get("content_stale_after", ""),
         "index_stale_after": freshness_record.get("index_stale_after", ""),
         "probe_stale_after": freshness_record.get("probe_stale_after", ""),
@@ -463,6 +474,7 @@ def _source_gaps(
     access_status: str,
     freshness_status: str,
     index_status: str,
+    completeness_status: str = "unknown",
     federation_status: str | None = None,
 ) -> list[JsonObject]:
     gaps: list[JsonObject] = []
@@ -481,6 +493,8 @@ def _source_gaps(
         )
     if index_status != "declared":
         gaps.append(_gap(instance_ref, connector_ref, source_ref, f"index_{index_status}"))
+    if completeness_status == "incomplete":
+        gaps.append(_gap(instance_ref, connector_ref, source_ref, "completeness_incomplete"))
     if federation_status == "missing":
         gaps.append(_gap(instance_ref, connector_ref, source_ref, "federation_missing"))
     return gaps

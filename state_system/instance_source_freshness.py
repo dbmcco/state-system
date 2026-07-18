@@ -62,6 +62,29 @@ def _normalize_result(result: JsonObject) -> JsonObject:
     record.setdefault("id", _result_id(record))
     record.setdefault("evidence_refs", [])
     record.setdefault("index_refs", [])
+    record.setdefault("source_gap_refs", [])
+    record["content_status"] = _dimension_status(
+        record, "content_status", {"source_content"}
+    )
+    record["event_status"] = _dimension_status(
+        record, "event_status", {"source_event"}
+    )
+    record["index_status"] = _dimension_status(
+        record, "index_status", {"source_index", "derived_index"}
+    )
+    record["probe_status"] = _dimension_status(
+        record, "probe_status", {"probe_only"}
+    )
+    record.setdefault("completeness_status", "unknown")
+    record.setdefault(
+        "process_status",
+        "succeeded" if record["watermark_basis"] == "package_generation" else "unknown",
+    )
+    if record["completeness_status"] == "incomplete":
+        gap_ref = _completeness_gap_ref(record)
+        if gap_ref not in record["source_gap_refs"]:
+            record["source_gap_refs"].append(gap_ref)
+    record["source_gap_refs"] = sorted(set(record["source_gap_refs"]))
     record["freshness_is_recency_evidence"] = True
     record["proves_live_access"] = False
     record["authorizes_execution"] = False
@@ -118,6 +141,10 @@ def _validate_freshness_contract(record: JsonObject) -> None:
     }:
         raise ValueError(f"fresh cannot be proven by {basis}")
 
+    _validate_dimension_statuses(record)
+    if record.get("content_status") == "fresh" and basis != "source_content":
+        raise ValueError("content_status=fresh requires source_content watermark_basis")
+
     if basis in {"source_content", "source_event"} and not any(
         record.get(field)
         for field in [
@@ -157,6 +184,40 @@ def _validate_freshness_contract(record: JsonObject) -> None:
 
     if basis == "declared_gap" and status == "fresh":
         raise ValueError("declared_gap cannot be fresh")
+
+
+def _validate_dimension_statuses(record: JsonObject) -> None:
+    statuses = {"fresh", "stale", "failed", "unknown"}
+    for field in ("content_status", "event_status", "index_status", "probe_status"):
+        value = record.get(field)
+        if value is not None and value not in statuses:
+            raise ValueError(f"invalid {field}: {value}")
+    completeness = record.get("completeness_status", "unknown")
+    if completeness not in {"complete", "incomplete", "unknown", "not_applicable"}:
+        raise ValueError(f"invalid completeness_status: {completeness}")
+    process = record.get("process_status", "unknown")
+    if process not in {"succeeded", "failed", "running", "unknown"}:
+        raise ValueError(f"invalid process_status: {process}")
+
+
+def _dimension_status(
+    record: JsonObject,
+    field: str,
+    proven_bases: set[str],
+) -> str:
+    explicit = record.get(field)
+    if explicit is not None:
+        return str(explicit)
+    if record.get("watermark_basis") in proven_bases:
+        return str(record.get("status", "unknown"))
+    return "unknown"
+
+
+def _completeness_gap_ref(record: JsonObject) -> str:
+    return (
+        f"gap.{record['instance_ref']}.{record['connector_ref']}."
+        "completeness_incomplete"
+    )
 
 
 def _result_id(result: JsonObject) -> str:

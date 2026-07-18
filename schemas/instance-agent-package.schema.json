@@ -129,6 +129,25 @@
         "expired_freshness_refs": {
           "type": "array",
           "items": { "type": "string" }
+        },
+        "content_status": { "type": "string" },
+        "event_status": { "type": "string" },
+        "index_status": { "type": "string" },
+        "probe_status": { "type": "string" },
+        "completeness_status": { "type": "string" },
+        "watermark_basis": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status_reason": { "type": "string" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "process_status": { "type": "string" },
+        "source_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
         }
       }
     },
@@ -268,6 +287,16 @@
         },
         "freshness_policy_ref": { "type": "string" },
         "status_reason": { "type": "string" },
+        "content_status": { "type": "string" },
+        "event_status": { "type": "string" },
+        "index_freshness_status": { "type": "string" },
+        "probe_status": { "type": "string" },
+        "completeness_status": { "type": "string" },
+        "process_status": { "type": "string" },
+        "source_gap_refs": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "content_stale_after": { "type": "string" },
         "index_stale_after": { "type": "string" },
         "probe_stale_after": { "type": "string" },
