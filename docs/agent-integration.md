@@ -1,5 +1,7 @@
 # Agent Integration
 
+**Live cutover record:** [`decisions/2026-07-24-state-system-live-cutover.md`](decisions/2026-07-24-state-system-live-cutover.md).
+
 State System is a substrate that agents read from. It is not itself a chat
 agent, memory product, skill, or tool registry. It gives agents typed state,
 evidence, readiness, source routes, freshness, and governance boundaries so
