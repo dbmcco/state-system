@@ -46,6 +46,15 @@ The full design document with phases, rollback, and risks lives at
    (company_mission / company_strategy / operating_decision) is deferred as an
    explicit follow-up — not in the validation gate.
 
+6. **Entity-current-state projection is a fleet-level post-refresh artifact.**
+   The append-only entity-current-state records remain in their owning state
+   root. Resolution into `entity-current-state-read-model.json` runs after the
+   per-instance refresh work completes, using the fleet run's explicit
+   `checked_at` as `as_of`. It is not an additional `_refresh_instance` output:
+   the per-instance boundary owns source readiness and package artifacts, while
+   the entity projection is the portfolio-level materialized view consumed by
+   chief-of-staff packets.
+
 ---
 
 ## The staleness read-model shape

@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from state_system.contracts import JsonObject, load_json, validate_schema
+from state_system.entity_current_state import build_entity_current_state_read_model
 from state_system.instance_agent_packages import InstanceAgentPackageRuntime
 from state_system.instance_preflight import (
     build_instance_preflight_read_model,
@@ -59,6 +60,11 @@ def run_fleet_refresh(
         for result in instance_results
         if result.get("package_path") and Path(result["package_path"]).exists()
     }
+    entity_current_state = _refresh_entity_current_state(
+        manifest.get("entity_current_state"),
+        checked_at=run_checked_at,
+        dry_run=dry_run,
+    )
     pressure_report = _run_pressure(
         manifest,
         packages=packages,
@@ -72,6 +78,7 @@ def run_fleet_refresh(
         "stale_after": run_stale_after,
         "dry_run": dry_run,
         "ok": all(result["ok"] for result in instance_results)
+        and (entity_current_state is None or entity_current_state["status"] in {"planned", "refreshed"})
         and (pressure_report is None or pressure_report["ok"]),
         "instance_count": len(instance_results),
         "instances": instance_results,
@@ -82,12 +89,43 @@ def run_fleet_refresh(
             "package_regeneration_is_not_live_access_proof": True,
         },
     }
+    if entity_current_state is not None:
+        report["entity_current_state"] = entity_current_state
     if output_dir is not None:
         output_dir.mkdir(parents=True, exist_ok=True)
         report_path = output_dir / "fleet-refresh-report.json"
         _write_json(report_path, report)
         report["report_path"] = str(report_path)
     return report
+
+
+def _refresh_entity_current_state(
+    config: JsonObject | None,
+    *,
+    checked_at: str,
+    dry_run: bool,
+) -> JsonObject | None:
+    if config is None:
+        return None
+    state_root = Path(config["state_root"]).expanduser()
+    output_path = state_root / config.get(
+        "output_dir", "entity-current-state"
+    ) / "entity-current-state-read-model.json"
+    result = {
+        "state_root": str(state_root),
+        "read_model_path": str(output_path),
+    }
+    if dry_run:
+        return {**result, "status": "planned"}
+    try:
+        read_model = build_entity_current_state_read_model(
+            StateStoreBundle(state_root),
+            as_of=checked_at,
+        )
+        _write_json(output_path, read_model)
+    except (KeyError, OSError, TypeError, ValueError) as error:
+        return {**result, "status": "failed", "error": str(error)}
+    return {**result, "status": "refreshed", "as_of": checked_at}
 
 
 def _refresh_instance(

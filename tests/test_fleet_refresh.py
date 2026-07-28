@@ -10,6 +10,7 @@ import unittest
 
 from state_system import cli
 from state_system.contracts import load_json, validate_schema
+from state_system.entity_current_state import EntityCurrentStateRuntime
 from state_system.fleet_refresh import run_fleet_refresh
 from state_system.instance_capability import InstanceCapabilityRuntime
 from state_system.instance_preflight import InstancePreflightRuntime
@@ -27,6 +28,57 @@ class FleetRefreshTests(unittest.TestCase):
         )
         schema = load_json(ROOT / "schemas" / "fleet-refresh-manifest.schema.json")
         self.assertEqual([], validate_schema(manifest, schema))
+
+    def test_manifest_accepts_optional_entity_current_state_projection(self):
+        with TemporaryDirectory() as directory:
+            manifest = _manifest(Path(directory))
+            manifest["entity_current_state"] = {"state_root": directory}
+            schema = load_json(ROOT / "schemas" / "fleet-refresh-manifest.schema.json")
+            self.assertEqual([], validate_schema(manifest, schema))
+
+    def test_refresh_regenerates_entity_current_state_at_fleet_boundary(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            _seed_personal_state(state_root)
+            EntityCurrentStateRuntime(StateStoreBundle(state_root)).record(
+                {
+                    "id": "entity_current_state.lfw.2026-05-19T19-00-00Z",
+                    "entity_id": "lfw",
+                    "entity_name": "LFW",
+                    "north_star": "Repeatable partner-led delivery.",
+                    "current_priority": "Advance contracting.",
+                    "owner": "Braydon",
+                    "waiting_on": "",
+                    "braydon_next_action": "Advance the SOW.",
+                    "effective_at": "2026-05-19T19:00:00Z",
+                    "stale_after": "2026-05-20T00:00:00Z",
+                    "supersedes": None,
+                    "source_refs": ["test:lfw"],
+                    "confidence": "high",
+                    "status": "active",
+                    "generated_at": "2026-05-19T19:00:00Z",
+                    "generated_by": "test",
+                }
+            )
+            manifest = _manifest(state_root)
+            manifest["entity_current_state"] = {"state_root": str(state_root)}
+
+            report = run_fleet_refresh(
+                manifest,
+                project_root=ROOT,
+                checked_at="2026-05-19T20:00:00Z",
+                stale_after="2026-05-19T21:00:00Z",
+            )
+
+            self.assertTrue(report["ok"], report)
+            projection = report["entity_current_state"]
+            self.assertEqual("refreshed", projection["status"])
+            path = Path(projection["read_model_path"])
+            self.assertTrue(path.exists())
+            model = load_json(path)
+            self.assertEqual("2026-05-19T20:00:00Z", model["as_of"])
+            self.assertEqual(["lfw"], model["entity_ids"])
+            self.assertFalse(model["active_cards"][0]["is_stale"])
 
     def test_refresh_regenerates_instance_package_and_report(self):
         with TemporaryDirectory() as directory:

@@ -13,6 +13,7 @@
       "minItems": 1,
       "items": { "$ref": "#/$defs/instance" }
     },
+    "entity_current_state": { "$ref": "#/$defs/entity_current_state" },
     "pressure": { "$ref": "#/$defs/pressure" }
   },
   "$defs": {
@@ -70,6 +71,15 @@
         },
         "required": { "type": "boolean", "default": true },
         "timeout_seconds": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "entity_current_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state_root"],
+      "properties": {
+        "state_root": { "type": "string", "minLength": 1 },
+        "output_dir": { "type": "string", "minLength": 1 }
       }
     },
     "pressure": {

@@ -29,6 +29,36 @@ Agents should prefer the exported read model at:
 <state-root>/instance-agent-package/instance-agent-packages-read-model.json
 ```
 
+### Deployment binding contract
+
+The runtime must receive the package identity from the deployment manifest. For
+an `instance_agent_package`, set all three environment variables in the agent
+process (for example, its launchd job):
+
+```text
+PAIA_STATE_INSTANCE_REF=state_instance.<instance>
+PAIA_STATE_AGENT_REF=agent.<agent>
+PAIA_STATE_PERSONA_REF=persona.<persona>
+```
+
+The values must match the package's declared `instance_ref` and nested
+`agent_context.agent_ref` / `agent_context.persona_ref`. The typed runtime uses
+these external bindings to reject a package pointed at the wrong instance,
+agent, or persona. If the instance or agent binding is absent, the package is
+reported as `UNKNOWN` and omitted from model context; a bounded policy header
+may remain, but the agent must not treat that as state evidence. Do not infer
+identity from the package itself: that would remove the fail-closed
+misconfiguration check.
+
+Current Paia deployment bindings are:
+
+| Agent | Instance | Agent | Persona |
+|---|---|---|---|
+| Samantha | `state_instance.braydon_personal` | `agent.samantha` | `persona.samantha` |
+| Caroline | `state_instance.lfw` | `agent.caroline` | `persona.caroline` |
+| Helena | `state_instance.navicyte` | `agent.helena` | `persona.helena` |
+| Ingrid | `state_instance.synthyra` | `agent.ingrid` | `persona.ingrid` |
+
 The package is intentionally bounded. It contains interpreted state, source
 readiness, freshness, route contracts, tool action refs, gap refs, governance
 refs, and federation boundaries. It should not contain broad raw corpora.
