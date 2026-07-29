@@ -64,13 +64,13 @@ def _normalize_result(result: JsonObject) -> JsonObject:
     record.setdefault("index_refs", [])
     record.setdefault("source_gap_refs", [])
     record["content_status"] = _dimension_status(
-        record, "content_status", {"source_content"}
+        record, "content_status", {"source_content", "remote_corpus", "remote_head", "local_checkout"}
     )
     record["event_status"] = _dimension_status(
         record, "event_status", {"source_event"}
     )
     record["index_status"] = _dimension_status(
-        record, "index_status", {"source_index", "derived_index"}
+        record, "index_status", {"source_index", "derived_index", "sync_index"}
     )
     record["probe_status"] = _dimension_status(
         record, "probe_status", {"probe_only"}
@@ -131,6 +131,10 @@ def _validate_freshness_contract(record: JsonObject) -> None:
         "package_generation",
         "probe_only",
         "declared_gap",
+        "remote_head",
+        "local_checkout",
+        "sync_index",
+        "remote_corpus",
     }:
         raise ValueError(f"invalid watermark_basis: {basis}")
 
@@ -142,26 +146,65 @@ def _validate_freshness_contract(record: JsonObject) -> None:
         raise ValueError(f"fresh cannot be proven by {basis}")
 
     _validate_dimension_statuses(record)
-    if record.get("content_status") == "fresh" and basis != "source_content":
-        raise ValueError("content_status=fresh requires source_content watermark_basis")
+    if record.get("content_status") == "fresh" and basis not in {
+        "source_content",
+        "remote_corpus",
+        "remote_head",
+        "local_checkout",
+    }:
+        raise ValueError(
+            "content_status=fresh requires a content-proving watermark_basis"
+        )
 
-    if basis in {"source_content", "source_event"} and not any(
+    if basis == "source_content" and not any(
         record.get(field)
         for field in [
-            "latest_source_event_at",
             "latest_source_modified_at",
             "latest_decision_updated_at",
         ]
     ):
         raise ValueError(
-            "source_content/source_event freshness requires a typed source "
-            "timestamp such as latest_source_event_at or latest_source_modified_at"
+            "source_content freshness requires a typed source content "
+            "timestamp such as latest_source_modified_at or latest_decision_updated_at"
+        )
+
+    if basis == "source_event" and not record.get("latest_source_event_at"):
+        raise ValueError(
+            "source_event freshness requires latest_source_event_at"
         )
 
     if basis in {"source_index", "derived_index"} and not record.get(
         "latest_indexed_at"
     ):
         raise ValueError("source_index/derived_index freshness requires latest_indexed_at")
+
+    if basis == "remote_head" and not record.get("latest_remote_head_at"):
+        raise ValueError("remote_head freshness requires latest_remote_head_at")
+
+    if basis == "local_checkout" and not record.get("latest_local_checkout_at"):
+        raise ValueError("local_checkout freshness requires latest_local_checkout_at")
+
+    if basis == "sync_index" and not record.get("latest_sync_index_at"):
+        raise ValueError("sync_index freshness requires latest_sync_index_at")
+
+    if basis == "remote_corpus" and not record.get("latest_remote_corpus_at"):
+        raise ValueError("remote_corpus freshness requires latest_remote_corpus_at")
+
+    if basis == "local_checkout" and status == "fresh":
+        local_at = record.get("latest_local_checkout_at")
+        remote_at = record.get("latest_remote_head_at")
+        if local_at and remote_at and local_at < remote_at:
+            raise ValueError(
+                "local_checkout cannot be fresh when the local checkout lags remote HEAD"
+            )
+
+    if basis == "sync_index" and status == "fresh":
+        sync_at = record.get("latest_sync_index_at")
+        corpus_at = record.get("latest_remote_corpus_at")
+        if sync_at and corpus_at and sync_at < corpus_at:
+            raise ValueError(
+                "sync_index cannot be fresh when the sync index lags the remote corpus"
+            )
 
     if basis == "package_generation":
         if not record.get("latest_indexed_at"):
@@ -233,6 +276,7 @@ def _scope_key(result: JsonObject) -> str:
             result["instance_ref"],
             result["connector_ref"],
             result["source_ref"],
+            result.get("watermark_basis", "unknown"),
         ]
     )
 

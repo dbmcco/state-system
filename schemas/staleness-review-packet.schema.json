@@ -95,7 +95,11 @@
             "derived_index",
             "package_generation",
             "probe_only",
-            "declared_gap"
+            "declared_gap",
+            "remote_head",
+            "local_checkout",
+            "sync_index",
+            "remote_corpus"
           ]
         },
         "status_reason": { "type": "string" },

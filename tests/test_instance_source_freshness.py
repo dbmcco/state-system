@@ -63,7 +63,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
 
             self.assertEqual(
                 "state_instance.sample_personal|connector.personal.msgvault|"
-                "msgvault:tenant:personal-email",
+                "msgvault:tenant:personal-email|declared_gap",
                 record["scope_key"],
             )
             self.assertTrue(
@@ -94,6 +94,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     "stale_after": "2026-05-17T10:30:00Z",
                     "watermark_basis": "source_content",
                     "latest_source_event_at": "2026-05-17T10:12:00Z",
+                    "latest_source_modified_at": "2026-05-17T10:12:00Z",
                     "latest_indexed_at": "2026-05-17T10:14:00Z",
                     "source_item_count": 1204,
                     "index_item_count": 1204,
@@ -140,7 +141,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
 
-            with self.assertRaisesRegex(ValueError, "source_content/source_event"):
+            with self.assertRaisesRegex(ValueError, "source_content.*latest_source_modified_at"):
                 runtime.record(
                     {
                         "instance_ref": "state_instance.sample_personal",
@@ -241,7 +242,7 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             self.assertEqual("instance_source_freshness_read_model", read_model["id"])
             scope_key = (
                 "state_instance.sample_personal|connector.personal.kb|"
-                "kb:tenant:personal"
+                "kb:tenant:personal|source_index"
             )
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("fresh", latest["status"])
@@ -333,6 +334,360 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
             read_model_path = Path(json.loads(export_output.getvalue())["read_model_path"])
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(1, len(read_model["results"]))
+
+    def test_record_rejects_source_event_without_latest_source_event_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "source_event.*latest_source_event_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.linear",
+                        "source_ref": "linear:teams:FORGE,INT",
+                        "connector_type": "linear",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "linear.latest_updated_at:2026-05-17T10:12:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "source_event",
+                        "status_reason": "latest source event timestamp is inside policy",
+                    }
+                )
+
+    def test_record_rejects_remote_head_without_latest_remote_head_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "remote_head.*latest_remote_head_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.repo",
+                        "source_ref": "github:repo:SampleCo-Org/state-system",
+                        "connector_type": "repo",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "github.remote_head:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "remote_head",
+                        "status_reason": "remote HEAD is recent",
+                    }
+                )
+
+    def test_record_rejects_local_checkout_without_latest_local_checkout_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "local_checkout.*latest_local_checkout_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.repo",
+                        "source_ref": "github:repo:SampleCo-Org/state-system",
+                        "connector_type": "repo",
+                        "status": "stale",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "local.checkout_mtime:2026-05-17T08:00:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "local_checkout",
+                        "status_reason": "local checkout lags remote HEAD",
+                    }
+                )
+
+    def test_record_rejects_sync_index_without_latest_sync_index_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "sync_index.*latest_sync_index_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.gws_drive",
+                        "source_ref": "gws:sampleco:drive:sampleco",
+                        "connector_type": "gws_drive",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "gws_drive.sync_index:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "sync_index",
+                        "status_reason": "sync index is recent",
+                    }
+                )
+
+    def test_record_rejects_remote_corpus_without_latest_remote_corpus_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "remote_corpus.*latest_remote_corpus_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.gws_drive",
+                        "source_ref": "gws:sampleco:drive:sampleco",
+                        "connector_type": "gws_drive",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "gws_drive.remote_corpus_max_modified:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "remote_corpus",
+                        "status_reason": "remote corpus is recent",
+                    }
+                )
+
+    def test_record_accepts_remote_head_repo_watermark(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.repo",
+                    "source_ref": "github:repo:SampleCo-Org/state-system",
+                    "connector_type": "repo",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "github.remote_head:2026-05-17T10:14:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "remote_head",
+                    "latest_remote_head_at": "2026-05-17T10:14:00Z",
+                    "status_reason": "remote HEAD is inside policy",
+                    "evidence_refs": ["agent-runtime:freshness:repo:remote_head"],
+                }
+            )
+
+            self.assertEqual("remote_head", record["watermark_basis"])
+            self.assertEqual("2026-05-17T10:14:00Z", record["latest_remote_head_at"])
+            self.assertEqual([], validate_schema(record, load_json(ROOT / "schemas" / "instance-source-freshness-record.schema.json")))
+
+    def test_record_accepts_local_checkout_lagging_remote_head(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.repo",
+                    "source_ref": "github:repo:SampleCo-Org/state-system",
+                    "connector_type": "repo",
+                    "status": "stale",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "local.checkout_commit:2026-05-17T08:00:00Z;remote_head:2026-05-17T10:14:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "local_checkout",
+                    "latest_local_checkout_at": "2026-05-17T08:00:00Z",
+                    "latest_remote_head_at": "2026-05-17T10:14:00Z",
+                    "lag_seconds": 8100,
+                    "watermark_lag_seconds": 8040,
+                    "status_reason": "local checkout HEAD lags remote HEAD; checked_at proves adapter ran, not corpus current",
+                    "evidence_refs": ["agent-runtime:freshness:repo:local_checkout"],
+                }
+            )
+
+            self.assertEqual("local_checkout", record["watermark_basis"])
+            self.assertEqual("2026-05-17T08:00:00Z", record["latest_local_checkout_at"])
+            self.assertEqual(8100, record["lag_seconds"])
+            self.assertEqual(8040, record["watermark_lag_seconds"])
+            self.assertEqual([], validate_schema(record, load_json(ROOT / "schemas" / "instance-source-freshness-record.schema.json")))
+
+    def test_record_accepts_sync_index_lagging_remote_corpus(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.gws_drive",
+                    "source_ref": "gws:sampleco:drive:sampleco",
+                    "connector_type": "gws_drive",
+                    "status": "stale",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "gws_drive.sync_index:2026-05-17T08:00:00Z;remote_corpus_max:2026-05-17T10:14:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "sync_index",
+                    "latest_sync_index_at": "2026-05-17T08:00:00Z",
+                    "latest_remote_corpus_at": "2026-05-17T10:14:00Z",
+                    "lag_seconds": 8100,
+                    "watermark_lag_seconds": 8040,
+                    "status_reason": "sync index lags remote corpus; checked_at proves adapter ran, not corpus current",
+                    "evidence_refs": ["agent-runtime:freshness:gws_drive:sync_index"],
+                }
+            )
+
+            self.assertEqual("sync_index", record["watermark_basis"])
+            self.assertEqual("2026-05-17T08:00:00Z", record["latest_sync_index_at"])
+            self.assertEqual(8100, record["lag_seconds"])
+            self.assertEqual(8040, record["watermark_lag_seconds"])
+            self.assertEqual([], validate_schema(record, load_json(ROOT / "schemas" / "instance-source-freshness-record.schema.json")))
+
+    def test_record_accepts_remote_corpus_watermark(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "instance_ref": "state_instance.sampleco",
+                    "connector_ref": "connector.sampleco.gws_drive",
+                    "source_ref": "gws:sampleco:drive:sampleco",
+                    "connector_type": "gws_drive",
+                    "status": "fresh",
+                    "checked_at": "2026-05-17T10:15:00Z",
+                    "source_watermark": "gws_drive.remote_corpus_max_modified:2026-05-17T10:14:00Z",
+                    "stale_after": "2026-05-17T10:30:00Z",
+                    "watermark_basis": "remote_corpus",
+                    "latest_remote_corpus_at": "2026-05-17T10:14:00Z",
+                    "status_reason": "remote corpus max modified time is inside policy",
+                    "evidence_refs": ["agent-runtime:freshness:gws_drive:remote_corpus"],
+                }
+            )
+
+            self.assertEqual("remote_corpus", record["watermark_basis"])
+            self.assertEqual("2026-05-17T10:14:00Z", record["latest_remote_corpus_at"])
+            self.assertEqual([], validate_schema(record, load_json(ROOT / "schemas" / "instance-source-freshness-record.schema.json")))
+
+    def test_cli_records_repo_remote_head_and_local_checkout_watermarks(self):
+        with TemporaryDirectory() as directory:
+            output = StringIO()
+            code = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "--state-root",
+                    directory,
+                    "instance-source-freshness-record",
+                    "--instance-ref",
+                    "state_instance.sampleco",
+                    "--connector-ref",
+                    "connector.sampleco.repo",
+                    "--source-ref",
+                    "github:repo:SampleCo-Org/state-system",
+                    "--connector-type",
+                    "repo",
+                    "--status",
+                    "stale",
+                    "--checked-at",
+                    "2026-05-17T10:15:00Z",
+                    "--source-watermark",
+                    "local.checkout_commit:2026-05-17T08:00:00Z;remote_head:2026-05-17T10:14:00Z",
+                    "--stale-after",
+                    "2026-05-17T10:30:00Z",
+                    "--watermark-basis",
+                    "local_checkout",
+                    "--latest-local-checkout-at",
+                    "2026-05-17T08:00:00Z",
+                    "--latest-remote-head-at",
+                    "2026-05-17T10:14:00Z",
+                    "--lag-seconds",
+                    "8100",
+                    "--watermark-lag-seconds",
+                    "8040",
+                    "--status-reason",
+                    "local checkout lags remote HEAD; checked_at proves adapter ran, not corpus current",
+                    "--evidence-ref",
+                    "agent-runtime:freshness:repo:local_checkout",
+                ],
+                stdout=output,
+            )
+
+            self.assertEqual(0, code, output.getvalue())
+            payload = json.loads(output.getvalue())
+            self.assertEqual("local_checkout", payload["source_freshness"]["watermark_basis"])
+            self.assertEqual("2026-05-17T08:00:00Z", payload["source_freshness"]["latest_local_checkout_at"])
+            self.assertEqual("2026-05-17T10:14:00Z", payload["source_freshness"]["latest_remote_head_at"])
+            self.assertEqual(8100, payload["source_freshness"]["lag_seconds"])
+            self.assertEqual(8040, payload["source_freshness"]["watermark_lag_seconds"])
+            self.assertEqual("2026-05-17T10:14:00Z", payload["source_freshness"]["latest_remote_head_at"])
+
+    def test_both_repo_bases_at_same_checked_at_produce_distinct_records(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = InstanceSourceFreshnessRuntime(stores)
+            base = {
+                "instance_ref": "state_instance.sampleco",
+                "connector_ref": "connector.sampleco.repo",
+                "source_ref": "github:repo:SampleCo-Org/state-system",
+                "connector_type": "repo",
+                "checked_at": "2026-05-17T10:15:00Z",
+                "stale_after": "2026-05-17T10:30:00Z",
+                "status_reason": "repo watermark basis disambiguation",
+            }
+            remote_head = runtime.record(
+                {
+                    **base,
+                    "status": "fresh",
+                    "source_watermark": "github.remote_head:2026-05-17T10:14:00Z",
+                    "watermark_basis": "remote_head",
+                    "latest_remote_head_at": "2026-05-17T10:14:00Z",
+                    "evidence_refs": ["agent-runtime:freshness:repo:remote_head"],
+                }
+            )
+            local_checkout = runtime.record(
+                {
+                    **base,
+                    "status": "stale",
+                    "source_watermark": "local.checkout_commit:2026-05-17T08:00:00Z;remote_head:2026-05-17T10:14:00Z",
+                    "watermark_basis": "local_checkout",
+                    "latest_local_checkout_at": "2026-05-17T08:00:00Z",
+                    "latest_remote_head_at": "2026-05-17T10:14:00Z",
+                    "lag_seconds": 8100,
+                    "watermark_lag_seconds": 8040,
+                    "evidence_refs": ["agent-runtime:freshness:repo:local_checkout"],
+                }
+            )
+
+            self.assertNotEqual(remote_head["id"], local_checkout["id"])
+            self.assertNotEqual(remote_head["scope_key"], local_checkout["scope_key"])
+            read_model = build_instance_source_freshness_read_model(stores)
+            self.assertEqual(2, len(read_model["results"]))
+            self.assertEqual(2, len(read_model["latest_by_scope_key"]))
+
+    def test_record_rejects_fresh_local_checkout_that_lags_remote_head(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "local_checkout cannot be fresh when the local checkout lags remote HEAD"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.repo",
+                        "source_ref": "github:repo:SampleCo-Org/state-system",
+                        "connector_type": "repo",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "local.checkout_commit:2026-05-17T08:00:00Z;remote_head:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "local_checkout",
+                        "latest_local_checkout_at": "2026-05-17T08:00:00Z",
+                        "latest_remote_head_at": "2026-05-17T10:14:00Z",
+                        "status_reason": "fresh local checkout that lags remote HEAD",
+                    }
+                )
+
+    def test_record_rejects_fresh_sync_index_that_lags_remote_corpus(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "sync_index cannot be fresh when the sync index lags the remote corpus"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sampleco",
+                        "connector_ref": "connector.sampleco.gws_drive",
+                        "source_ref": "gws:sampleco:drive:sampleco",
+                        "connector_type": "gws_drive",
+                        "status": "fresh",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "gws_drive.sync_index:2026-05-17T08:00:00Z;remote_corpus_max:2026-05-17T10:14:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "sync_index",
+                        "latest_sync_index_at": "2026-05-17T08:00:00Z",
+                        "latest_remote_corpus_at": "2026-05-17T10:14:00Z",
+                        "status_reason": "fresh sync index that lags remote corpus",
+                    }
+                )
 
 
 if __name__ == "__main__":

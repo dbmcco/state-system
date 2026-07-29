@@ -42,7 +42,7 @@ class SourceFreshnessTests(unittest.TestCase):
             )
 
             self.assertEqual(
-                "company.sampleco|connector.sampleco.linear|linear:teams:FORGE,INT",
+                "company.sampleco|connector.sampleco.linear|linear:teams:FORGE,INT|source_event",
                 record["scope_key"],
             )
             self.assertTrue(
@@ -102,7 +102,7 @@ class SourceFreshnessTests(unittest.TestCase):
             read_model = build_source_freshness_read_model(stores)
 
             self.assertEqual("source_freshness_read_model", read_model["id"])
-            scope_key = "company.sampleco|connector.sampleco.kb|kb:tenant:sampleco"
+            scope_key = "company.sampleco|connector.sampleco.kb|kb:tenant:sampleco|source_index"
             latest = read_model["latest_by_scope_key"][scope_key]
             self.assertEqual("fresh", latest["status"])
             self.assertEqual("2026-05-15T12:00:00Z", latest["checked_at"])
@@ -253,6 +253,144 @@ class SourceFreshnessTests(unittest.TestCase):
             read_model = json.loads(read_model_path.read_text(encoding="utf-8"))
             self.assertEqual(1, len(read_model["results"]))
             self.assertFalse(read_model["results"][0]["authorizes_execution"])
+
+    def test_record_rejects_remote_head_without_latest_remote_head_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = SourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "remote_head.*latest_remote_head_at"):
+                runtime.record(
+                    {
+                        "company_ref": "company.sampleco",
+                        "connector_ref": "connector.sampleco.repo",
+                        "source_ref": "github:repo:SampleCo-Org/state-system",
+                        "connector_type": "repo",
+                        "status": "fresh",
+                        "checked_at": "2026-05-15T12:00:00Z",
+                        "source_watermark": "github.remote_head:2026-05-15T11:59:00Z",
+                        "stale_after": "2026-05-15T12:15:00Z",
+                        "watermark_basis": "remote_head",
+                        "status_reason": "remote HEAD is recent",
+                    }
+                )
+
+    def test_record_rejects_local_checkout_without_latest_local_checkout_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = SourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "local_checkout.*latest_local_checkout_at"):
+                runtime.record(
+                    {
+                        "company_ref": "company.sampleco",
+                        "connector_ref": "connector.sampleco.repo",
+                        "source_ref": "github:repo:SampleCo-Org/state-system",
+                        "connector_type": "repo",
+                        "status": "stale",
+                        "checked_at": "2026-05-15T12:00:00Z",
+                        "source_watermark": "local.checkout_commit:2026-05-15T09:00:00Z",
+                        "stale_after": "2026-05-15T12:15:00Z",
+                        "watermark_basis": "local_checkout",
+                        "status_reason": "local checkout lags remote HEAD",
+                    }
+                )
+
+    def test_record_accepts_local_checkout_repo_watermark(self):
+        with TemporaryDirectory() as directory:
+            stores = StateStoreBundle(Path(directory))
+            runtime = SourceFreshnessRuntime(stores)
+
+            record = runtime.record(
+                {
+                    "company_ref": "company.sampleco",
+                    "connector_ref": "connector.sampleco.repo",
+                    "source_ref": "github:repo:SampleCo-Org/state-system",
+                    "connector_type": "repo",
+                    "status": "stale",
+                    "checked_at": "2026-05-15T12:00:00Z",
+                    "source_watermark": "local.checkout_commit:2026-05-15T09:00:00Z;remote_head:2026-05-15T11:59:00Z",
+                    "stale_after": "2026-05-15T12:15:00Z",
+                    "watermark_basis": "local_checkout",
+                    "latest_local_checkout_at": "2026-05-15T09:00:00Z",
+                    "latest_remote_head_at": "2026-05-15T11:59:00Z",
+                    "lag_seconds": 10740,
+                    "watermark_lag_seconds": 10740,
+                    "status_reason": "local checkout lags remote HEAD; checked_at proves adapter ran, not corpus current",
+                    "evidence_refs": ["agent-runtime:freshness:repo:local_checkout"],
+                }
+            )
+
+            self.assertEqual("local_checkout", record["watermark_basis"])
+            self.assertEqual("2026-05-15T09:00:00Z", record["latest_local_checkout_at"])
+            self.assertEqual(10740, record["lag_seconds"])
+            self.assertEqual(10740, record["watermark_lag_seconds"])
+            self.assertEqual(
+                [],
+                validate_schema(
+                    record,
+                    load_json(ROOT / "schemas" / "source-freshness-record.schema.json"),
+                ),
+            )
+
+    def test_record_rejects_sync_index_without_latest_sync_index_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = SourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "sync_index.*latest_sync_index_at"):
+                runtime.record(
+                    {
+                        "company_ref": "company.sampleco",
+                        "connector_ref": "connector.sampleco.gws_drive",
+                        "source_ref": "gws:sampleco:drive:sampleco",
+                        "connector_type": "gws_drive",
+                        "status": "fresh",
+                        "checked_at": "2026-05-15T12:00:00Z",
+                        "source_watermark": "gws_drive.sync_index:2026-05-15T11:59:00Z",
+                        "stale_after": "2026-05-15T12:15:00Z",
+                        "watermark_basis": "sync_index",
+                        "status_reason": "sync index is recent",
+                    }
+                )
+
+    def test_record_rejects_remote_corpus_without_latest_remote_corpus_at(self):
+        with TemporaryDirectory() as directory:
+            runtime = SourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "remote_corpus.*latest_remote_corpus_at"):
+                runtime.record(
+                    {
+                        "company_ref": "company.sampleco",
+                        "connector_ref": "connector.sampleco.gws_drive",
+                        "source_ref": "gws:sampleco:drive:sampleco",
+                        "connector_type": "gws_drive",
+                        "status": "fresh",
+                        "checked_at": "2026-05-15T12:00:00Z",
+                        "source_watermark": "gws_drive.remote_corpus_max_modified:2026-05-15T11:59:00Z",
+                        "stale_after": "2026-05-15T12:15:00Z",
+                        "watermark_basis": "remote_corpus",
+                        "status_reason": "remote corpus is recent",
+                    }
+                )
+
+    def test_record_rejects_source_content_with_event_only_timestamp(self):
+        with TemporaryDirectory() as directory:
+            runtime = SourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "source_content.*latest_source_modified_at"):
+                runtime.record(
+                    {
+                        "company_ref": "company.sampleco",
+                        "connector_ref": "connector.sampleco.linear",
+                        "source_ref": "linear:teams:FORGE,INT",
+                        "connector_type": "linear",
+                        "status": "fresh",
+                        "checked_at": "2026-05-15T12:00:00Z",
+                        "source_watermark": "linear.latest_updated_at:2026-05-15T11:58:00Z",
+                        "stale_after": "2026-05-15T12:15:00Z",
+                        "watermark_basis": "source_content",
+                        "latest_source_event_at": "2026-05-15T11:58:00Z",
+                        "status_reason": "event time alone is ambiguous for a source_content watermark",
+                    }
+                )
 
 
 if __name__ == "__main__":

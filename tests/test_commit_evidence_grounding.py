@@ -156,6 +156,7 @@ class CommitEvidenceGroundingTests(unittest.TestCase):
             "checked_at": "2026-06-01T00:00:00Z",
             "stale_after": "2026-06-02T00:00:00Z",
             "watermark_basis": "source_content",
+            "latest_source_modified_at": "2026-06-01T00:00:00Z",
             "status_reason": "source content has not changed since June 1",
             "evidence_refs": ["evidence:declared-in-packet"],
         }

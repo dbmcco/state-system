@@ -45,9 +45,17 @@
         "derived_index",
         "package_generation",
         "probe_only",
-        "declared_gap"
+        "declared_gap",
+        "remote_head",
+        "local_checkout",
+        "sync_index",
+        "remote_corpus"
       ]
     },
+    "latest_remote_head_at": { "type": "string" },
+    "latest_local_checkout_at": { "type": "string" },
+    "latest_sync_index_at": { "type": "string" },
+    "latest_remote_corpus_at": { "type": "string" },
     "latest_source_event_at": { "type": "string" },
     "latest_source_modified_at": { "type": "string" },
     "latest_decision_updated_at": { "type": "string" },
@@ -66,6 +74,10 @@
     "index_stale_after": { "type": "string" },
     "probe_stale_after": { "type": "string" },
     "lag_seconds": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "watermark_lag_seconds": {
       "type": "integer",
       "minimum": 0
     },

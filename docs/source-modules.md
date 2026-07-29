@@ -62,6 +62,9 @@ must not be hidden behind a `fresh` aggregate.
 
 Required non-conflation rules:
 
+- `checked_at` proves the adapter or probe ran; it is not evidence that the
+  source corpus or index is current. The typed watermark and latest timestamp
+  fields prove what the adapter actually observed.
 - `probe_only` records prove only that a probe ran; they cannot be `fresh` and
   must state that source/corpus freshness is unproven.
 - `package_generation` records prove package/export generation only; package
@@ -69,9 +72,26 @@ Required non-conflation rules:
 - `declared_gap` records keep unavailable/auth/disabled/not-configured sources
   visible; they cannot be `fresh`.
 - `source_content` and `source_event` records require a typed source timestamp.
+  `source_content` requires `latest_source_modified_at` or
+  `latest_decision_updated_at`; `source_event` requires `latest_source_event_at`.
 - `source_index` and `derived_index` records require `latest_indexed_at` and
   should not imply live upstream source sync unless the adapter provides that
   evidence separately.
+- `remote_head` records require `latest_remote_head_at` and prove upstream
+  HEAD recency for repository connectors.
+- `local_checkout` records require `latest_local_checkout_at` and may lag the
+  remote HEAD; a successful adapter run does not make the local checkout current.
+- `sync_index` records require `latest_sync_index_at` and may lag the remote
+  corpus; a successful sync process does not prove the corpus is current.
+- `remote_corpus` records require `latest_remote_corpus_at` and prove recency
+  against the upstream corpus directly.
+- Records use `watermark_basis` as part of their identity (`scope_key`) so that
+  a single connector can hold distinct freshness targets (`remote_head` versus
+  `local_checkout`, `sync_index` versus `remote_corpus`) without overwriting
+  each other.
+- Use `lag_seconds` for the gap between `checked_at` and the observed
+  watermark, and `watermark_lag_seconds` for the gap between a local watermark
+  and its upstream counterpart (e.g. local checkout versus remote HEAD).
 - Aggregates may be usable while still exposing stale or unknown child records;
   child gaps must remain visible in read models and packages.
 

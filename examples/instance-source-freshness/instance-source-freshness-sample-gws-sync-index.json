@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.sampleco-connector.sampleco.gws_drive-gws-sampleco-drive-sampleco-sync_index.2026-05-17T10-15-00Z",
+  "scope_key": "state_instance.sampleco|connector.sampleco.gws_drive|gws:sampleco:drive:sampleco|sync_index",
+  "instance_ref": "state_instance.sampleco",
+  "connector_ref": "connector.sampleco.gws_drive",
+  "source_ref": "gws:sampleco:drive:sampleco",
+  "connector_type": "gws_drive",
+  "status": "stale",
+  "checked_at": "2026-05-17T10:15:00Z",
+  "source_watermark": "gws_drive.sync_index:2026-05-17T08:00:00Z;remote_corpus_max:2026-05-17T10:14:00Z",
+  "stale_after": "2026-05-17T10:30:00Z",
+  "watermark_basis": "sync_index",
+  "latest_sync_index_at": "2026-05-17T08:00:00Z",
+  "latest_remote_corpus_at": "2026-05-17T10:14:00Z",
+  "lag_seconds": 8100,
+  "watermark_lag_seconds": 8040,
+  "status_reason": "local sync index lags remote corpus; the sync process ran successfully but the index is not current",
+  "evidence_refs": [
+    "agent-runtime:freshness:gws_drive:sync_index"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

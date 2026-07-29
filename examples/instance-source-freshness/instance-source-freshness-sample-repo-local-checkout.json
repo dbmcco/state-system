@@ -1,0 +1,25 @@
+{
+  "id": "instance_source_freshness.state_instance.sampleco-connector.sampleco.repo-github-repo-SampleCo-Org-state-system-local_checkout.2026-05-17T10-15-00Z",
+  "scope_key": "state_instance.sampleco|connector.sampleco.repo|github:repo:SampleCo-Org/state-system|local_checkout",
+  "instance_ref": "state_instance.sampleco",
+  "connector_ref": "connector.sampleco.repo",
+  "source_ref": "github:repo:SampleCo-Org/state-system",
+  "connector_type": "repo",
+  "status": "stale",
+  "checked_at": "2026-05-17T10:15:00Z",
+  "source_watermark": "local.checkout_commit:2026-05-17T08:00:00Z;remote_head:2026-05-17T10:14:00Z",
+  "stale_after": "2026-05-17T10:30:00Z",
+  "watermark_basis": "local_checkout",
+  "latest_local_checkout_at": "2026-05-17T08:00:00Z",
+  "latest_remote_head_at": "2026-05-17T10:14:00Z",
+  "lag_seconds": 8100,
+  "watermark_lag_seconds": 8040,
+  "status_reason": "local checkout HEAD lags remote HEAD; checked_at proves the adapter ran, not that the corpus is current",
+  "evidence_refs": [
+    "agent-runtime:freshness:repo:local_checkout"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

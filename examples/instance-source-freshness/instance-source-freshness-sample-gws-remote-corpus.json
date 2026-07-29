@@ -1,0 +1,22 @@
+{
+  "id": "instance_source_freshness.state_instance.sampleco-connector.sampleco.gws_drive-gws-sampleco-drive-sampleco-remote_corpus.2026-05-17T10-15-00Z",
+  "scope_key": "state_instance.sampleco|connector.sampleco.gws_drive|gws:sampleco:drive:sampleco|remote_corpus",
+  "instance_ref": "state_instance.sampleco",
+  "connector_ref": "connector.sampleco.gws_drive",
+  "source_ref": "gws:sampleco:drive:sampleco",
+  "connector_type": "gws_drive",
+  "status": "fresh",
+  "checked_at": "2026-05-17T10:15:00Z",
+  "source_watermark": "gws_drive.remote_corpus_max_modified:2026-05-17T10:14:00Z",
+  "stale_after": "2026-05-17T10:30:00Z",
+  "watermark_basis": "remote_corpus",
+  "latest_remote_corpus_at": "2026-05-17T10:14:00Z",
+  "status_reason": "remote corpus max modified time is inside policy; checked_at proves the adapter ran against the remote corpus",
+  "evidence_refs": [
+    "agent-runtime:freshness:gws_drive:remote_corpus"
+  ],
+  "freshness_is_recency_evidence": true,
+  "proves_live_access": false,
+  "authorizes_execution": false,
+  "protected_action_authorized_by": "governance"
+}

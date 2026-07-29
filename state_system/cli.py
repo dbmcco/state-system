@@ -1692,12 +1692,20 @@ def _parser() -> argparse.ArgumentParser:
             "package_generation",
             "probe_only",
             "declared_gap",
+            "remote_head",
+            "local_checkout",
+            "sync_index",
+            "remote_corpus",
         ],
     )
     instance_freshness_record.add_argument("--latest-source-event-at")
     instance_freshness_record.add_argument("--latest-source-modified-at")
     instance_freshness_record.add_argument("--latest-decision-updated-at")
     instance_freshness_record.add_argument("--latest-indexed-at")
+    instance_freshness_record.add_argument("--latest-remote-head-at")
+    instance_freshness_record.add_argument("--latest-local-checkout-at")
+    instance_freshness_record.add_argument("--latest-sync-index-at")
+    instance_freshness_record.add_argument("--latest-remote-corpus-at")
     instance_freshness_record.add_argument("--source-item-count", type=int)
     instance_freshness_record.add_argument("--index-item-count", type=int)
     instance_freshness_record.add_argument("--freshness-policy-ref")
@@ -1706,6 +1714,7 @@ def _parser() -> argparse.ArgumentParser:
     instance_freshness_record.add_argument("--index-stale-after")
     instance_freshness_record.add_argument("--probe-stale-after")
     instance_freshness_record.add_argument("--lag-seconds", type=int)
+    instance_freshness_record.add_argument("--watermark-lag-seconds", type=int)
     instance_freshness_record.add_argument("--evidence-ref", action="append")
     instance_freshness_record.add_argument("--index-ref", action="append")
     instance_freshness_record.add_argument("--index-owner")
@@ -1774,12 +1783,20 @@ def _parser() -> argparse.ArgumentParser:
             "package_generation",
             "probe_only",
             "declared_gap",
+            "remote_head",
+            "local_checkout",
+            "sync_index",
+            "remote_corpus",
         ],
     )
     freshness_record.add_argument("--latest-source-event-at")
     freshness_record.add_argument("--latest-source-modified-at")
     freshness_record.add_argument("--latest-decision-updated-at")
     freshness_record.add_argument("--latest-indexed-at")
+    freshness_record.add_argument("--latest-remote-head-at")
+    freshness_record.add_argument("--latest-local-checkout-at")
+    freshness_record.add_argument("--latest-sync-index-at")
+    freshness_record.add_argument("--latest-remote-corpus-at")
     freshness_record.add_argument("--source-item-count", type=int)
     freshness_record.add_argument("--index-item-count", type=int)
     freshness_record.add_argument("--freshness-policy-ref")
@@ -1788,6 +1805,7 @@ def _parser() -> argparse.ArgumentParser:
     freshness_record.add_argument("--index-stale-after")
     freshness_record.add_argument("--probe-stale-after")
     freshness_record.add_argument("--lag-seconds", type=int)
+    freshness_record.add_argument("--watermark-lag-seconds", type=int)
     freshness_record.add_argument("--evidence-ref", action="append")
     freshness_record.add_argument("--error-code")
     freshness_record.add_argument("--error-message")
@@ -2195,6 +2213,10 @@ def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
         ("latest_source_modified_at", "latest_source_modified_at"),
         ("latest_decision_updated_at", "latest_decision_updated_at"),
         ("latest_indexed_at", "latest_indexed_at"),
+        ("latest_remote_head_at", "latest_remote_head_at"),
+        ("latest_local_checkout_at", "latest_local_checkout_at"),
+        ("latest_sync_index_at", "latest_sync_index_at"),
+        ("latest_remote_corpus_at", "latest_remote_corpus_at"),
         ("source_item_count", "source_item_count"),
         ("index_item_count", "index_item_count"),
         ("freshness_policy_ref", "freshness_policy_ref"),
@@ -2203,6 +2225,7 @@ def _source_freshness_from_args(args: argparse.Namespace) -> JsonObject:
         ("index_stale_after", "index_stale_after"),
         ("probe_stale_after", "probe_stale_after"),
         ("lag_seconds", "lag_seconds"),
+        ("watermark_lag_seconds", "watermark_lag_seconds"),
         ("detail", "detail"),
     ):
         value = getattr(args, source)
@@ -2235,6 +2258,10 @@ def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject
         ("latest_source_modified_at", "latest_source_modified_at"),
         ("latest_decision_updated_at", "latest_decision_updated_at"),
         ("latest_indexed_at", "latest_indexed_at"),
+        ("latest_remote_head_at", "latest_remote_head_at"),
+        ("latest_local_checkout_at", "latest_local_checkout_at"),
+        ("latest_sync_index_at", "latest_sync_index_at"),
+        ("latest_remote_corpus_at", "latest_remote_corpus_at"),
         ("source_item_count", "source_item_count"),
         ("index_item_count", "index_item_count"),
         ("freshness_policy_ref", "freshness_policy_ref"),
@@ -2243,6 +2270,7 @@ def _instance_source_freshness_from_args(args: argparse.Namespace) -> JsonObject
         ("index_stale_after", "index_stale_after"),
         ("probe_stale_after", "probe_stale_after"),
         ("lag_seconds", "lag_seconds"),
+        ("watermark_lag_seconds", "watermark_lag_seconds"),
         ("detail", "detail"),
     ):
         value = getattr(args, source)

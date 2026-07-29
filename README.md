@@ -125,8 +125,59 @@ Source integrations are first-class. To add one:
    ```
 
    `checked_at` proves the adapter ran. `watermark_basis` and the typed latest
-   timestamps say whether the corpus or index is current. Use `probe_only` when
-   the adapter checked availability but cannot prove corpus/index recency.
+   timestamps say whether the corpus or index is current. `checked_at` is not
+   itself evidence that the corpus is current. Use `probe_only` when the
+   adapter checked availability but cannot prove corpus/index recency.
+
+   Disambiguate connector watermark targets. A `repo` connector can prove
+   recency against `remote_head` or `local_checkout`; a local checkout may lag
+   the remote HEAD even when the adapter ran successfully:
+
+   ```bash
+   python3 -m state_system.cli --project-root . \
+     --state-root /path/to/state-root \
+     instance-source-freshness-record \
+     --instance-ref state_instance.sampleco \
+     --connector-ref connector.sampleco.repo \
+     --source-ref github:repo:SampleCo-Org/state-system \
+     --connector-type repo \
+     --status stale \
+     --checked-at 2026-05-18T12:05:00Z \
+     --source-watermark "local.checkout_commit:2026-05-18T10:00:00Z;remote_head:2026-05-18T11:00:00Z" \
+     --watermark-basis local_checkout \
+     --latest-local-checkout-at 2026-05-18T10:00:00Z \
+     --latest-remote-head-at 2026-05-18T11:00:00Z \
+     --stale-after 2026-05-18T10:30:00Z \
+     --lag-seconds 7500 \
+     --watermark-lag-seconds 3600 \
+     --status-reason "local checkout lags remote HEAD; checked_at proves the adapter ran, not that the corpus is current" \
+     --evidence-ref agent-runtime:freshness:repo:local_checkout:20260518T120500Z
+   ```
+
+   A `gws_drive` connector can prove recency against a `sync_index` or the
+   `remote_corpus`; the sync index may lag the remote corpus even when the sync
+   process succeeded:
+
+   ```bash
+   python3 -m state_system.cli --project-root . \
+     --state-root /path/to/state-root \
+     instance-source-freshness-record \
+     --instance-ref state_instance.sampleco \
+     --connector-ref connector.sampleco.gws_drive \
+     --source-ref gws:sampleco:drive:sampleco \
+     --connector-type gws_drive \
+     --status stale \
+     --checked-at 2026-05-18T12:05:00Z \
+     --source-watermark "gws_drive.sync_index:2026-05-18T10:00:00Z;remote_corpus_max:2026-05-18T11:00:00Z" \
+     --watermark-basis sync_index \
+     --latest-sync-index-at 2026-05-18T10:00:00Z \
+     --latest-remote-corpus-at 2026-05-18T11:00:00Z \
+     --stale-after 2026-05-18T10:30:00Z \
+     --lag-seconds 7500 \
+     --watermark-lag-seconds 3600 \
+     --status-reason "sync index lags remote corpus; checked_at proves the adapter ran, not that the corpus is current" \
+     --evidence-ref agent-runtime:freshness:gws_drive:sync_index:20260518T120500Z
+   ```
 
 6. Declare source-owned index refs when retrieval exists. State System may cite
    source indexes without owning raw corpora.
