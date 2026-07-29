@@ -158,7 +158,7 @@ def _source_readiness(
     ]
     access_status = _access_status(preflight_records)
     freshness_status = _effective_freshness_status(freshness_record, generated_at)
-    content_status = "stale" if freshness_status == "stale" else freshness_status
+    content_status = _company_content_status(freshness_record, freshness_status)
     index_status = _index_status(index_manifests)
     gaps = _source_gaps(
         company_ref=company_ref,
@@ -233,6 +233,29 @@ def _effective_freshness_status(freshness_record: JsonObject, generated_at: str)
     if status == "fresh" and expired_at(freshness_record.get("stale_after", ""), generated_at):
         return "stale"
     return status
+
+
+_COMPANY_CONTENT_PROVING_BASES = frozenset(
+    {"source_content", "remote_corpus", "remote_head", "local_checkout"}
+)
+
+
+def _company_content_status(freshness_record: JsonObject, freshness_status: str) -> str:
+    """Derive content health from a content-proving dimension, not overall freshness.
+
+    Company-level freshness records do not always carry a watermark_basis, and
+    even when fresh they may be proven only by a source_event / package_generation
+    basis that is not content proof. Content health is therefore ``stale`` when
+    freshness is stale, ``fresh`` only when a content-proving basis confirms it,
+    and ``unknown`` otherwise — so a source-event-only fresh record can no longer
+    suppress the stale/unknown content-health banner.
+    """
+    if freshness_status == "stale":
+        return "stale"
+    basis = freshness_record.get("watermark_basis")
+    if freshness_status == "fresh" and basis in _COMPANY_CONTENT_PROVING_BASES:
+        return "fresh"
+    return "unknown"
 
 
 def _access_status(preflight_records: list[JsonObject]) -> str:

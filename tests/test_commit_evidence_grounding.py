@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from state_system.committer import Committer, CommitValidationError
+from state_system.committer import Committer, CommitValidationError, _review_packet_evidence_refs
 from state_system.contracts import load_json, validate_schema
 from state_system.stores import StateStoreBundle
 from state_system.staleness_runner import (
@@ -143,6 +143,17 @@ class CommitEvidenceGroundingTests(unittest.TestCase):
                 "proposal:smuggled-evidence-ref",
                 stores.review_packets.read(packet["id"])["evidence_packet"]["evidence_refs"],
             )
+
+    def test_allowlist_excludes_unresolved_evidence_refs(self):
+        # A ref listed in evidence_refs but also marked unresolved must not be
+        # usable as grounding — the evidence was never confirmed to exist.
+        packet = load_json(ROOT / "examples" / "maya-model-review-packet.json")
+        cited = packet["evidence_packet"]["evidence_refs"][0]
+        packet["evidence_packet"]["unresolved_evidence_refs"] = [cited]
+
+        allowed = _review_packet_evidence_refs(packet)
+
+        self.assertNotIn(cited, allowed)
 
     def test_staleness_review_output_rejects_evidence_refs_not_in_packet(self):
         schemas = load_staleness_schemas(ROOT)

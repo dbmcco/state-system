@@ -344,8 +344,16 @@ def _missing_refs(required_refs: list[str], available_refs: set[str]) -> list[st
 
 
 def _review_packet_evidence_refs(review_packet: JsonObject) -> set[str]:
-    refs = review_packet.get("evidence_packet", {}).get("evidence_refs", [])
-    return {ref for ref in refs if isinstance(ref, str)}
+    packet = review_packet.get("evidence_packet", {})
+    refs = {ref for ref in packet.get("evidence_refs", []) if isinstance(ref, str)}
+    unresolved = {
+        ref for ref in packet.get("unresolved_evidence_refs", []) if isinstance(ref, str)
+    }
+    # The commit evidence allowlist is RESOLVED evidence only. The packet's
+    # evidence_refs list includes every cited ref, resolved or not; a proposal
+    # citing a ref the packet itself marked unresolved must not pass grounding,
+    # because that evidence was never confirmed to exist.
+    return refs - unresolved
 
 
 def _commit_id(model_output: JsonObject) -> str:

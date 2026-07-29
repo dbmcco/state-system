@@ -9,6 +9,7 @@ from state_system.company_capability import CompanyCapabilityRuntime
 from state_system.company_preflight import CompanyPreflightRuntime
 from state_system.company_understanding_surface import (
     build_company_understanding_surface_read_model,
+    _company_content_status,
 )
 from state_system.contracts import load_json
 from state_system.source_freshness import SourceFreshnessRuntime
@@ -127,6 +128,36 @@ def _source(company: dict, connector_ref: str) -> dict:
         for source in company["source_readiness"]
         if source["connector_ref"] == connector_ref
     )
+
+
+class CompanyContentStatusDimensionTests(unittest.TestCase):
+    """Company content health must not mirror overall freshness.
+
+    A fresh source_event / package_generation basis is not content proof, so it
+    cannot make content health fresh. Content health is fresh only when a
+    content-proving basis confirms it, stale when freshness is stale, and
+    unknown otherwise.
+    """
+
+    def test_stale_freshness_is_stale_content_regardless_of_basis(self):
+        record = {"watermark_basis": "source_event"}
+        self.assertEqual("stale", _company_content_status(record, "stale"))
+
+    def test_source_content_basis_can_make_content_fresh(self):
+        record = {"watermark_basis": "source_content"}
+        self.assertEqual("fresh", _company_content_status(record, "fresh"))
+
+    def test_source_event_basis_cannot_make_content_fresh(self):
+        record = {"watermark_basis": "source_event"}
+        self.assertEqual("unknown", _company_content_status(record, "fresh"))
+
+    def test_missing_basis_defaults_content_to_unknown(self):
+        self.assertEqual("unknown", _company_content_status({}, "fresh"))
+        self.assertEqual("unknown", _company_content_status({"watermark_basis": None}, "fresh"))
+
+    def test_package_generation_basis_cannot_make_content_fresh(self):
+        record = {"watermark_basis": "package_generation"}
+        self.assertEqual("unknown", _company_content_status(record, "fresh"))
 
 
 if __name__ == "__main__":
