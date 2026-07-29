@@ -1308,6 +1308,8 @@ def build_strategic_staleness_read_model_from_findings(
         "status": status,
         "review_status": review_status,
         "status_reason": status_reason,
+        "finding_count": len(findings),
+        "entity_finding_count": len(latest_by_entity_id),
         "latest_by_entity_id": latest_by_entity_id,
     }
 
