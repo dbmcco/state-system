@@ -90,13 +90,13 @@ def run_fleet_refresh(
             "runner_materializes_raw_source_corpora": False,
             "package_regeneration_is_not_live_access_proof": True,
         },
-        "report_age_canary": {
-            "checked_at": run_checked_at,
-            "stale_after": run_stale_after,
-            "is_stale_at_checked_at": parse_instant(run_checked_at)
-            >= parse_instant(run_stale_after),
-            "report_ref": "fleet-refresh-report.json",
-        },
+        "report_age_canary": _evaluate_report_age(
+            checked_at=run_checked_at,
+            as_of=run_checked_at,
+            ttl_seconds=int(manifest.get("default_ttl_seconds", 3600)),
+            report_ref="fleet-refresh-report.json",
+            exists=True,
+        ),
     }
     if entity_current_state is not None:
         report["entity_current_state"] = entity_current_state
@@ -491,6 +491,129 @@ def _now_utc() -> str:
 def _default_stale_after(checked_at: str, ttl_seconds: int) -> str:
     parsed = datetime.fromisoformat(checked_at.replace("Z", "+00:00"))
     return (parsed + timedelta(seconds=ttl_seconds)).isoformat().replace("+00:00", "Z")
+
+
+def _derive_report_ttl(report: JsonObject, checked_at: object) -> int:
+    """Best-effort TTL (seconds) for a fleet-refresh report read from disk.
+
+    Prefer the report's own stale_after window (checked_at + ttl) so a consumer
+    evaluates the same freshness contract the producer declared; fall back to a
+    declared ttl field, then a sane default. Used by the report-age canary
+    consumer which has no manifest in scope.
+    """
+    stale_after = report.get("stale_after")
+    if isinstance(stale_after, str) and isinstance(checked_at, str):
+        try:
+            window = (
+                parse_instant(stale_after) - parse_instant(checked_at)
+            ).total_seconds()
+            if window > 0:
+                return int(window)
+        except (ValueError, TypeError):
+            pass
+    for key in ("ttl_seconds", "default_ttl_seconds"):
+        value = report.get(key)
+        if isinstance(value, (int, float)) and value > 0:
+            return int(value)
+    return 3600
+
+
+def _evaluate_report_age(
+    *,
+    checked_at: object,
+    as_of: str,
+    ttl_seconds: int,
+    report_ref: object,
+    exists: bool,
+    unreadable: bool = False,
+) -> JsonObject:
+    """Pure freshness arithmetic for a fleet-refresh report.
+
+    A report is fresh while ``checked_at`` is within ``ttl_seconds`` of
+    ``as_of``; over-age, missing, unreadable, or undated reports fail. This is
+    the core of the report-age canary: a self-referential field embedded at
+    generation time can never be stale (it compares checked_at to a stale_after
+    derived from the same checked_at), so it cannot detect a dead producer.
+    Evaluating against an independent ``as_of`` (real wall-clock time, supplied
+    by a consumer) is what makes the canary able to catch a launchd job whose
+    report has frozen while time kept advancing.
+    """
+    result: JsonObject = {
+        "checked_against": as_of,
+        "ttl_seconds": ttl_seconds,
+        "report_ref": str(report_ref),
+        "exists": exists,
+    }
+    if not exists:
+        return {**result, "status": "fail", "reason": "missing"}
+    if unreadable:
+        return {**result, "status": "fail", "reason": "unreadable"}
+    if not isinstance(checked_at, str) or not checked_at:
+        return {**result, "status": "fail", "reason": "missing_checked_at"}
+    try:
+        age_seconds = (parse_instant(as_of) - parse_instant(checked_at)).total_seconds()
+    except (ValueError, TypeError):
+        return {
+            **result,
+            "report_checked_at": checked_at,
+            "status": "fail",
+            "reason": "invalid_checked_at",
+        }
+    over_age = age_seconds > ttl_seconds
+    return {
+        **result,
+        "report_checked_at": checked_at,
+        "age_seconds": age_seconds,
+        "status": "fail" if over_age else "pass",
+        "reason": "over_age" if over_age else "fresh",
+    }
+
+
+def check_fleet_refresh_report_age(
+    report_path: Path | str,
+    *,
+    as_of: str | None = None,
+    ttl_seconds: int | None = None,
+) -> JsonObject:
+    """Consumer canary: evaluate a fleet-refresh report's age against real time.
+
+    A live launchd job regenerates the fleet-refresh report on a fixed cadence.
+    If the job dies, the report's ``checked_at`` freezes while wall-clock time
+    keeps advancing. This reads the report from disk and compares its
+    ``checked_at`` to ``as_of`` (default now); over-age, missing, or unreadable
+    reports fail. An external watchdog (cron, a launchd probe, an agent loop)
+    calls this and alerts on ``status == "fail"``.
+    """
+    path = Path(report_path)
+    as_of_iso = as_of or _now_utc()
+    if not path.exists():
+        return _evaluate_report_age(
+            checked_at=None,
+            as_of=as_of_iso,
+            ttl_seconds=ttl_seconds or 3600,
+            report_ref=path,
+            exists=False,
+        )
+    try:
+        report = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+        return _evaluate_report_age(
+            checked_at=None,
+            as_of=as_of_iso,
+            ttl_seconds=ttl_seconds or 3600,
+            report_ref=path,
+            exists=True,
+            unreadable=True,
+        )
+    checked_at = report.get("checked_at")
+    ttl = ttl_seconds if ttl_seconds is not None else _derive_report_ttl(report, checked_at)
+    return _evaluate_report_age(
+        checked_at=checked_at,
+        as_of=as_of_iso,
+        ttl_seconds=ttl,
+        report_ref=path,
+        exists=True,
+    )
 
 
 def validate_fleet_refresh_manifest(manifest: JsonObject, schema: JsonObject) -> list[str]:
