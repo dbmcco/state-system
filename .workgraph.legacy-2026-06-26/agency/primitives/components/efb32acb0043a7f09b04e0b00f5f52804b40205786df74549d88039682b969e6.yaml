@@ -1,0 +1,196 @@
+id: efb32acb0043a7f09b04e0b00f5f52804b40205786df74549d88039682b969e6
+name: domain-specific-evaluation-standards
+description: Apply evaluation norms from a particular field (e.g., software engineering, research, creative writing). Invoked when task rubric specifies a domain standard.
+category: novel
+content: !name domain-specific-evaluation-standards
+performance:
+  task_count: 45
+  avg_score: 0.8548444444444444
+  evaluations:
+  - score: 1.0
+    task_id: .evaluate-ss-trace-runner
+    timestamp: 2026-05-02T22:03:50.304990+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: .evaluate-ss-trace-runner-approval-gate
+    timestamp: 2026-05-02T22:25:33.932844+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: .evaluate-ss-agent-activation-contract-v0
+    timestamp: 2026-05-03T10:51:20.071682+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.09
+    task_id: state-user-testable-root
+    timestamp: 2026-05-03T11:09:15.033485+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.09
+    task_id: state-user-testable-root
+    timestamp: 2026-05-03T11:09:15.216148+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 0.864
+    task_id: state-user-report-v0
+    timestamp: 2026-05-03T11:10:51.568318+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.864
+    task_id: state-user-report-v0
+    timestamp: 2026-05-03T11:10:51.768945+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: .evaluate-state-user-report-v0
+    timestamp: 2026-05-03T11:10:51.789141+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.67
+    task_id: state-stale-context-pressure-v0
+    timestamp: 2026-05-04T16:39:55.239989+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.67
+    task_id: state-stale-context-pressure-v0
+    timestamp: 2026-05-04T16:39:57.331618+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: .evaluate-state-stale-context-pressure-v0
+    timestamp: 2026-05-04T16:39:57.346785+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.86
+    task_id: state-stale-context-pressure-v0
+    timestamp: 2026-05-04T16:43:56.959083+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.86
+    task_id: state-stale-context-pressure-v0
+    timestamp: 2026-05-04T16:43:57.134969+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:24:40.147426+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:24:40.379552+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 0.63
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:47:12.252974+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.63
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:47:12.438972+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 0.7
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:49:26.178161+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.7
+    task_id: state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:49:26.323026+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: .evaluate-state-prospect-outreach-crm-contract-v0
+    timestamp: 2026-05-04T17:49:26.338021+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.83
+    task_id: state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-04T18:03:44.572097+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.83
+    task_id: state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-04T18:03:44.747191+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 0.83
+    task_id: state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-04T18:05:19.408472+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.83
+    task_id: state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-04T18:05:19.597196+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: .evaluate-state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-04T18:05:19.626288+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: .evaluate-state-mission-records-v0
+    timestamp: 2026-05-04T18:13:59.173688+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.53
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:18:35.724718+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.53
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:18:35.903489+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 0.73
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:22:20.673981+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 0.73
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:22:20.846124+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: .evaluate-state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:22:20.866700+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:23:01.999366+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:23:02.167961+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-mission-report-html-v0
+    timestamp: 2026-05-04T20:31:32.076043+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-mission-report-html-v0
+    timestamp: 2026-05-04T20:31:32.305842+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-demo-report-suite-v0
+    timestamp: 2026-05-04T20:36:30.624788+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-demo-report-suite-v0
+    timestamp: 2026-05-04T20:36:30.795537+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-meeting-coordination-contract-v0
+    timestamp: 2026-05-04T20:56:35.191678+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-meeting-coordination-contract-v0
+    timestamp: 2026-05-04T20:56:35.365058+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-thoughtforge-provenance-contract-v0
+    timestamp: 2026-05-04T21:00:33.339457+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-thoughtforge-provenance-contract-v0
+    timestamp: 2026-05-04T21:00:33.484404+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-visual-forge-qualitative-contract-v0
+    timestamp: 2026-05-04T21:04:21.646269+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-visual-forge-qualitative-contract-v0
+    timestamp: 2026-05-04T21:04:21.788637+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+  - score: 1.0
+    task_id: state-crm-outcome-doctrine-contract-v0
+    timestamp: 2026-05-04T21:20:27.481767+00:00
+    context_id: 75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b
+  - score: 1.0
+    task_id: state-crm-outcome-doctrine-contract-v0
+    timestamp: 2026-05-04T21:20:27.654550+00:00
+    context_id: experiment:novel:3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3
+lineage:
+  generation: 0
+  created_by: human
+  created_at: 2026-04-28T21:07:39.658281Z
+access_control:
+  owner: local
+  policy: open

@@ -1,0 +1,100 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-package-layer-dirty-tree-scope-audit-v0 - Audit package-layer dirty tree and scope boundaries
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Audit package-layer dirty tree and scope boundaries"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Follow-up from state-agent-package-fix-loop-v0. Coredrift is yellow because the coordinated package-layer wave touched many files and includes runtime artifacts across generic state-system plus personal state/SampleCo outputs. Audit the dirty tree, separate intentional package-layer changes from older/parallel personal-context and runtime changes, decide what should be committed together, and either resolve or document the remaining coredrift scope/churn condition. Acceptance: git status is triaged by category, unrelated user/parallel changes are preserved, package-layer artifacts have an explicit commit/ship plan, and coredrift no longer reports unexplained scope drift for the wave.
+
+Context from dependencies:
+No context from dependencies
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-package-layer-dirty-tree-scope-audit-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-package-layer-dirty-tree-scope-audit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-package-layer-dirty-tree-scope-audit-v0 "message"
+- When complete: wg done state-package-layer-dirty-tree-scope-audit-v0
+- If blocked: wg fail state-package-layer-dirty-tree-scope-audit-v0 --reason "description"

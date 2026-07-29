@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-company-capability-tool-exposure-v0-2026-05-14T18-03-01.354798+00-00",
+  "task_id": "state-company-capability-tool-exposure-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "schema": 1.0,
+    "docs": 1.0,
+    "tests": 1.0,
+    "drift": 1.0,
+    "runtime": 1.0
+  },
+  "notes": "PAIA can mechanically expose/hide tools from companies[].tool_capability_bindings without semantic routing; State System remains declaration-only, PAIA owns preflight/execution/governance enforcement.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-14T18:03:01.354798+00:00",
+  "source": "codex-validation"
+}

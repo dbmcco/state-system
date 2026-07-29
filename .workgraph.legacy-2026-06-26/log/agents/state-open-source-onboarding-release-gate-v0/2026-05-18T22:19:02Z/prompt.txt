@@ -1,0 +1,123 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-open-source-onboarding-release-gate-v0 - Prepare open-source onboarding release gate
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Create the release gate proving a new adopter can scaffold an instance, add modules, run readiness checks, generate a package, and understand federation/gaps from docs and CLI output."
+non_goals = [
+  "Do not publish a package externally in this task",
+  "Do not include private deployment artifacts in open-source fixtures"
+]
+touch = [
+  "README.md",
+  "docs/runbooks/open-source-onboarding.md",
+  "docs/reports/*open-source*release*gate*",
+  "tests/test_open_source_ecosystem_conformance.py"
+]
+acceptance = [
+  "Onboarding runbook covers install, scaffold, source module declaration, preflight/freshness, package render, federation pack declaration, and pressure test",
+  "Conformance tests cover no private data in examples and no connector enum lock-in",
+  "Release report lists remaining private-deployment-only gaps separately from product blockers",
+  "Full validation passes"
+]
+max_files = 6
+max_loc = 700
+pit_stop_after = 3
+auto_followups = true
+```
+
+Final release gate for the operationally trustworthy model wave.
+
+Context from dependencies:
+From state-real-question-package-pressure-harness-v0 logs: 2026-05-18T19:24:44.533339+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-real-question-package-pressure-harness-v0 logs: 2026-05-18T19:24:53.939492+00:00 Claimed by coordinator. Start drift yellow due inherited repo-wide churn; scoped implementation is package pressure schema, synthetic fixtures, harness runtime, CLI, tests, and docs only.
+From state-real-question-package-pressure-harness-v0 logs: 2026-05-18T19:29:22.029592+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-real-question-package-pressure-harness-v0 logs: 2026-05-18T19:29:27.928122+00:00 Implemented package pressure harness: schema, real-question registry, runtime assertions, CLI package-pressure-run, docs, and tests. Ready cases cover Sam relationship follow-up, Sam small consulting contacts, Sam Spotify currentness, and Caroline SampleCo relationship follow-up. Planned cases cover Caroline Linear/GitHub/transcript awareness plus Helena/PortfolioCo and Ingrid/ResearchCo scaffold readiness. Live ready run against Sam/Caroline passed 4/4; include-planned run correctly failed known gaps for SampleCo source gap visibility and missing Helena/Ingrid package inputs. Validation green: pressure tests 5 OK, full 208 tests OK, state-system validate 129 examples OK, git diff --check clean. End drift yellow only inherited repo-wide churn.
+From state-real-question-package-pressure-harness-v0 logs: 2026-05-18T19:29:30.833969+00:00 Task marked as done
+From state-portfolio_co-researchco-readiness-promotion-v0 logs: 2026-05-18T19:30:01.112428+00:00 Claimed by coordinator. Start drift yellow due inherited repo-wide churn. Promotion will touch only PortfolioCo/ResearchCo state-system roots/guidance and central readiness report.
+From state-portfolio_co-researchco-readiness-promotion-v0 logs: 2026-05-18T19:33:07.052211+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-portfolio_co-researchco-readiness-promotion-v0 logs: 2026-05-18T19:39:09.423979+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-portfolio_co-researchco-readiness-promotion-v0 logs: 2026-05-18T19:39:18.216546+00:00 Promoted PortfolioCo and ResearchCo packages/read models. Regenerated Helena package instance_agent_package.portfolio_co.helena and Ingrid package instance_agent_package.researchco.ingrid.scaffold.v0; both render from repo roots with PYTHONPATH to core. Added repo guidance in PortfolioCo/ResearchCo AGENTS.md and CLAUDE.md. Implemented generic private state-root question-route/tool-action registry ingestion in package builder so ResearchCo/PortfolioCo routes are packaged without hardcoding. Validation green: instance package tests 5 OK, pressure/understanding focused 11 OK, ResearchCo scaffold validator passed, core validate 129 examples OK, full unittest discover 209 OK, git diff --check clean. Leakage scans: no >1MB state-root files and no secret/token matches excluding PortfolioCo runbook example command. Package pressure include-planned passes Helena/Ingrid; remaining failure is separate SampleCo planned stale-source gap parity for Linear/GitHub/transcripts. End drift yellow due inherited repo-wide churn plus necessary core route-ingestion change.
+From state-portfolio_co-researchco-readiness-promotion-v0 logs: 2026-05-18T19:39:18.246520+00:00 Task marked as done
+From state-high-value-freshness-repair-loop-v0 logs: 2026-05-18T21:55:56.195492+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-high-value-freshness-repair-loop-v0 logs: 2026-05-18T22:03:45.279843+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-high-value-freshness-repair-loop-v0 logs: 2026-05-18T22:03:52.147922+00:00 Coordinator takeover complete. Repaired SampleCo Linear/GitHub package readiness with source-owned preflight/freshness evidence and regenerated Caroline package. Transcript raw/processed remain explicit planned gaps; Spotify remains stale due live OAuth invalid_client blocker. Updated freshness backlog/report and package pressure expectations. Verification green: validate 129 examples, package-pressure 7/7, unittest discover 209 tests, git diff --check clean. End drift yellow from inherited repo-wide churn/scope warnings.
+From state-high-value-freshness-repair-loop-v0 logs: 2026-05-18T22:03:54.021118+00:00 Task reset for retry from failed (attempt #2)
+From state-high-value-freshness-repair-loop-v0 logs: 2026-05-18T22:04:03.694981+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-open-source-onboarding-release-gate-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-open-source-onboarding-release-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-open-source-onboarding-release-gate-v0 "message"
+- When complete: wg done state-open-source-onboarding-release-gate-v0
+- If blocked: wg fail state-open-source-onboarding-release-gate-v0 --reason "description"

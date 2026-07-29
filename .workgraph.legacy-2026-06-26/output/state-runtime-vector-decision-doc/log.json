@@ -1,0 +1,22 @@
+[
+  {
+    "timestamp": "2026-05-16T15:21:29.874901+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-16T15:21:29.889660+00:00",
+    "user": "braydon",
+    "message": "Claimed by Codex; documenting Braydon architecture decision about deployed State System instances and pgvector/vector ownership."
+  },
+  {
+    "timestamp": "2026-05-16T15:21:33.185899+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-16T15:21:40.593108+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

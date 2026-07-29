@@ -1,0 +1,38 @@
+{
+  "scores": [
+    {
+      "approach": "Guarded multi-lane source repair plus deterministic renderer",
+      "problem_fit": 10,
+      "simplicity": 8,
+      "tech_risk": 7,
+      "yagni": 9,
+      "reversibility": 9,
+      "total": 43
+    },
+    {
+      "approach": "Only build product renderer, defer all source repairs",
+      "problem_fit": 5,
+      "simplicity": 10,
+      "tech_risk": 9,
+      "yagni": 8,
+      "reversibility": 10,
+      "total": 42
+    },
+    {
+      "approach": "Attempt full readiness promotion for all sources in one lane",
+      "problem_fit": 7,
+      "simplicity": 3,
+      "tech_risk": 3,
+      "yagni": 2,
+      "reversibility": 4,
+      "total": 19
+    }
+  ],
+  "winner": "Guarded multi-lane source repair plus deterministic renderer",
+  "rationale": "It matches the current gap topology, preserves dirty-root safety, and lets product validation proceed while source-owned repairs happen independently.",
+  "dissenting_concerns": [
+    "Some operational lanes may block on credentials or unavailable local services.",
+    "Workgraph service is not running and global config still contains Claude defaults, so execution should use explicit codex executor spawns or manual codexd lanes.",
+    "Renderer implementation could become pseudo-synthesis if it starts inventing conclusions beyond the JSON substrate."
+  ]
+}

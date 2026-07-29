@@ -1,0 +1,17 @@
+{
+  "id": "eval-state-mission-records-v0-2026-05-04T17-57-46.546401+00-00",
+  "task_id": "state-mission-records-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "docs": 1.0,
+    "replay": 1.0,
+    "tests": 1.0,
+    "contract": 1.0
+  },
+  "notes": "Mission schemas, deterministic fixture replay, idempotency, read model generation, CLI mission-replay, full unit harness, validate, report-suite smoke, and driftdriver smart check passed. FLIP runner failed before scoring due Claude CLI call failure.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-04T17:57:46.546401+00:00",
+  "source": "codex-validation"
+}

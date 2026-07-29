@@ -1,0 +1,60 @@
+[
+  {
+    "timestamp": "2026-05-18T16:23:42.018305+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T16:23:54.758104+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T16:25:18.076379+00:00",
+    "user": "braydon",
+    "message": "Personal/Relationship boundary audit: Relationship Substrate repo has subject_note migration/API in dirty local changes, but still needs farmable module artifacts: Pydantic/JSON contracts for person/organization/affiliation/interaction/subject_note and record/list subject-note IO, SOURCE_MODULE_SPEC docs in relationship-substrate, private-data-free fixtures, README CLI docs for subject-note not person-note only, stable search field naming (subject_note_context vs subject_notes/person_notes), affiliation public API, and OSS-safe config/docs with no Braydon/local-path/provider-env leakage."
+  },
+  {
+    "timestamp": "2026-05-18T16:36:56.701928+00:00",
+    "user": "braydon",
+    "message": "Relationship Substrate alignment completed locally: added docs/SOURCE_MODULE_SPEC.md, OSS-safe examples/source_module/relationship_substrate_records.json, Pydantic contracts for person/organization/affiliation/interaction/subject_note and record/list subject-note IO, README subject-note primary docs, ASK_NETWORK_CONTRACT subject_note_context demote/explain/not-hide wording, and search_history_backed_people now emits subject_note_context with subject_notes/person_notes compatibility aliases. Focused validation: RELATIONSHIP_SUBSTRATE_TEST_DATABASE_URL=postgresql://localhost:5432/relationship_substrate_test uv run pytest tests/test_source_module_contracts.py tests/test_person_notes.py -q => 5 passed."
+  },
+  {
+    "timestamp": "2026-05-18T16:41:50.141923+00:00",
+    "actor": "agent-106",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-18T16:42:26.927120+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T16:44:20.928795+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T16:44:37.843469+00:00",
+    "user": "braydon",
+    "message": "Runbook committed on worktree branch (ab44a1b). Touch glob set to docs/runbooks/relationship-substrate-open-source.md. Worktree branch is clean with just the one file added; drift warnings about file/LOC churn reflect the main repo's unrelated in-flight planning state, not this task."
+  },
+  {
+    "timestamp": "2026-05-18T16:44:48.339641+00:00",
+    "actor": "agent-106",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  },
+  {
+    "timestamp": "2026-05-18T16:46:25.908412+00:00",
+    "user": "braydon",
+    "message": "Relationship Substrate OSS alignment refreshed for core ToolActionContract names: fixture declares operating_picture, list_subject_notes, search_small_consulting_firm_contacts, search_history_backed_people, and record_subject_note; docs name answer_contract_policy subject_note_context_demote_explain_not_hide; record_subject_note remains source_owned_correction_write with no external action approval; focused validation in relationship-substrate passed: RELATIONSHIP_SUBSTRATE_TEST_DATABASE_URL=postgresql://localhost:5432/relationship_substrate_test uv run pytest tests/test_source_module_contracts.py tests/test_person_notes.py -q => 6 passed."
+  },
+  {
+    "timestamp": "2026-05-18T18:09:10.381062+00:00",
+    "actor": "agent-106",
+    "user": "braydon",
+    "message": "Task marked as done (converged)"
+  }
+]

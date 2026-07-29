@@ -1,0 +1,120 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: drift-self-update-state-source-freshness-heartbeat-v0 - self-update decision: state-source-freshness-heartbeat-v0
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "self-update decision: state-source-freshness-heartbeat-v0"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Speedrift ecosystem updates were detected during driftdriver preflight.
+
+Origin task: state-source-freshness-heartbeat-v0
+Detected at: 2026-05-15T17:37:17.005851+00:00
+
+Decision needed: should the model/toolchain self-update now?
+
+Expected action:
+- review new commits in ecosystem repos
+- decide update now vs defer and log rationale
+- if updating, rerun `./.workgraph/drifts check --task state-source-freshness-heartbeat-v0 --write-log --create-followups`
+
+Preflight summary:
+Speedrift ecosystem updates detected:
+- driftdriver: e38e845 -> 915d274
+Decision needed: should the model/toolchain self-update now?
+
+
+Context from dependencies:
+From state-source-freshness-heartbeat-v0 logs: 2026-05-15T17:41:44.282868+00:00 Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-source-freshness-heartbeat-v0 logs: 2026-05-15T17:42:06.778520+00:00 Updated contract touch/budget after narrow store-registry test update and diagram note; no scope expansion beyond source freshness substrate.
+From state-source-freshness-heartbeat-v0 logs: 2026-05-15T17:42:10.146762+00:00 Coredrift: OK (no findings)
+From state-source-freshness-heartbeat-v0 logs: 2026-05-15T17:42:22.384950+00:00 Validated source freshness heartbeat v0: focused 9 tests passed; schema validation 116 examples passed; py_compile passed; temp bootstrap emitted empty source-freshness read model; temp record/export emitted one freshness result; production paia-bootstrap-export refreshed /Users/braydon/.paia/state-system with source_freshness_results=0 and preserved 49 preflight results; full 113-test suite passed; git diff --check passed; closing drift green.
+From state-source-freshness-heartbeat-v0 logs: 2026-05-15T17:42:28.066229+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task drift-self-update-state-source-freshness-heartbeat-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task drift-self-update-state-source-freshness-heartbeat-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log drift-self-update-state-source-freshness-heartbeat-v0 "message"
+- When complete: wg done drift-self-update-state-source-freshness-heartbeat-v0
+- If blocked: wg fail drift-self-update-state-source-freshness-heartbeat-v0 --reason "description"

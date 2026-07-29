@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-05-18T16:23:42.018319+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T16:23:54.764593+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T16:27:27.680231+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T16:32:50.346471+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T16:32:58.796395+00:00",
+    "user": "braydon",
+    "message": "Implemented QuestionRouteContract v0: schema, core Sam/Caroline route examples, validation mapping, tests for source coverage, no calendar-only relationship answers, SampleCo federated no-materialization route, subject-note demote/explain policy, and Linear/GitHub gap refs. Validation green: 127 examples; 186 tests. Drift remains yellow for repo-wide churn advisory."
+  },
+  {
+    "timestamp": "2026-05-18T16:33:03.127750+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

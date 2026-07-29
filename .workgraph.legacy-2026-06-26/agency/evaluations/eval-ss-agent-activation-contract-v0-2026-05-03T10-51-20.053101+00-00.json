@@ -1,0 +1,20 @@
+{
+  "id": "eval-ss-agent-activation-contract-v0-2026-05-03T10-51-20.053101+00-00",
+  "task_id": "ss-agent-activation-contract-v0",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.82,
+  "dimensions": {
+    "downstream_usability": 0.8,
+    "blocking_impact": 0.85,
+    "completeness": 0.9,
+    "efficiency": 0.8,
+    "correctness": 0.85,
+    "style_adherence": 0.85,
+    "coordination_overhead": 0.85
+  },
+  "notes": "Strong execution of a complex contract implementation. The agent delivered all acceptance criteria: schema definition, activation runtime with record persistence, CLI integration, trace-run stage support, comprehensive test coverage (approved/prohibited action separation, freshness guidance, response capture), example canonical trace, and documentation updates. Coredrift validation passed with no findings; full test suite executing. Work is well-integrated into existing systems (modified 13 files, created 5 new artifacts) within the 25-file constraint. Python typing and TDD conventions followed. Primary strengths: comprehensive scope coverage, efficient 7-8 minute turnaround for a contract system, proper schema-driven design, clean module structure with dedicated test file. Task decomposition into subtasks is appropriate for verification phase. Minor deductions reflect conservative evaluation without direct runtime verification and generic caution on scoring. Output is production-ready and well-positioned for downstream trace-run and CLI consumers.",
+  "evaluator": "claude:haiku",
+  "timestamp": "2026-05-03T10:51:20.053101+00:00",
+  "source": "llm"
+}

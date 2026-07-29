@@ -1,0 +1,463 @@
+{
+  "updated_at": "2026-06-27T14:08:38.806847+00:00",
+  "execute_draft_prs": false,
+  "request_count": 24,
+  "results": [
+    {
+      "repo": "driftdriver",
+      "repo_path": "/Users/braydon/projects/experiments/driftdriver",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] tooling: contribute driftdriver changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: driftdriver: tooling candidate from main vs origin/main (ahead=0, dirty_files=1, files=1)\nCategory: tooling\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- driftdriver/upstream-pins.toml",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "folio",
+      "repo_path": "/Users/braydon/projects/experiments/folio",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute folio changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: folio: feature candidate from main vs origin/main (ahead=0, dirty_files=33, files=33)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .playwright-mcp/\n- GENTS.md\n- backups/\n- src/folio/api/app.py\n- src/folio/api/routes.py\n- src/folio/store.py\n- src/folio/sync/obsidian.py\n- tests/cli/test_note.py\n- tests/test_api.py\n- tests/test_collections.py\n- tests/test_obsidian_sync.py\n- tests/test_semantic.py\n- ui/package-lock.json\n- ui/package.json\n- ui/src/App.svelte\n- ui/src/lib/components/notes/MilkdownEditor.svelte\n- ui/src/lib/components/notes/NoteEditor.svelte\n- ui/src/lib/stores/notes.svelte.ts\n- ui/src/lib/utils/\n- ui/tests/docx-export.spec.ts\n- ui/tests/markdown-export.spec.ts\n- ui/tests/pdf-export.spec.ts\n- ui/tests/table-formatting.spec.ts\n- ui/tests/tabs.spec.ts\n- uploads/13c22f64-369d-4c84-be88-2349f2474a0b/\n- uploads/196d4806-d82e-44d4-9761-86dac824908a/\n- uploads/21a33a13-538e-4884-9bb4-80b30c14ec84/\n- uploads/49d8a48b-ad44-4266-81f9-61b204f8c361/\n- uploads/688e367c-ce49-4ca8-b5ed-568ee2009842/\n- uploads/a132381b-999e-411d-be2a-d05669ee6278/\n- uploads/a616b1b0-4bb8-4d3b-a488-7b7e759df8ce/\n- uploads/eaf15809-df1c-41a6-a55d-ad8a4b38701e/\n- uploads/fb62ed6b-c62d-4089-8e58-0dc8ac0bfde2/",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "freshell",
+      "repo_path": "/Users/braydon/projects/experiments/freshell",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] bugfix: contribute freshell changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: freshell: bugfix candidate from main vs origin/main (ahead=5, dirty_files=2, files=30)\nCategory: bugfix\nAhead/Behind vs origin/main: 5/0\nWorking tree dirty: yes\n\nChanged files:\n- .env.example\n- .workgraph/finding-ledger.jsonl\n- .workgraph/service/directives/failed.jsonl\n- .workgraph/service/directives/pending.jsonl\n- README.md\n- docs/plans/2026-03-31-tool-coalesce-test-plan.md\n- docs/plans/2026-03-31-tool-coalesce.md\n- docs/plans/2026-04-04-performance-fixes-test-plan.md\n- docs/plans/2026-05-09-fix-opencode-ambiguous-ownership.md\n- docs/rca/2026-05-09-opencode-ambiguous-session-ownership.md\n- server/agent-api/router.ts\n- server/ai-prompts.ts\n- server/model-routes.ts\n- server/opencode-launch.ts\n- test/browser_use/tool_coalesce.py\n- test/integration/real/codex-app-server-readiness-contract.test.ts\n- test/integration/real/coding-cli-session-contract.test.ts\n- test/integration/server/codex-session-flow.test.ts\n- test/integration/server/files-api.test.ts\n- test/server/agent-panes-write.test.ts\n- test/server/agent-run.test.ts\n- test/server/ws-protocol.test.ts\n- test/setup/dom.ts\n- test/unit/server/coding-cli/codex-app-server/runtime.test.ts\n- test/unit/server/model-routes.test.ts\n- test/unit/server/opencode-launch.test.ts\n- test/unit/server/terminal-env.test.ts\n- test/unit/server/terminal-registry.codex-recovery.test.ts\n- test/unit/server/terminal-registry.test.ts\n- workgraph/service/directives/failed.jsonl",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "garmin-connect-sync",
+      "repo_path": "/Users/braydon/projects/experiments/garmin-connect-sync",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute garmin-connect-sync changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: garmin-connect-sync: feature candidate from main vs origin/main (ahead=0, dirty_files=3, files=3)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- om.garmin.calendar-sync.plist\n- repair_23167078617/\n- run_calendar_sync.sh",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "house",
+      "repo_path": "/Users/braydon/projects/experiments/house",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute house changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: house: feature candidate from main vs origin/main (ahead=0, dirty_files=10, files=10)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .amplifier/\n- .claude/\n- .opencode/\n- .wg-worktrees/\n- .workgraph/\n- core/bus.py\n- core/bus/\n- core/docs/\n- docs/\n- energy/src/",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "lessons-mcp",
+      "repo_path": "/Users/braydon/projects/experiments/lessons-mcp",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute lessons-mcp changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: lessons-mcp: feature candidate from main vs origin/main (ahead=0, dirty_files=1, files=1)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- workgraph/usage.log",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "lfw-ai-graph-crm",
+      "repo_path": "/Users/braydon/projects/experiments/lfw-ai-graph-crm",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] docs: contribute lfw-ai-graph-crm changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: lfw-ai-graph-crm: docs candidate from main vs origin/main (ahead=0, dirty_files=2, files=2)\nCategory: docs\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- LAUDE.md\n- agents.md",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "linkedin-promotion-engine",
+      "repo_path": "/Users/braydon/projects/experiments/linkedin-promotion-engine",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] docs: contribute linkedin-promotion-engine changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: linkedin-promotion-engine: docs candidate from main vs origin/main (ahead=0, dirty_files=1, files=1)\nCategory: docs\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- UPERSEDED.md",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "news-briefing",
+      "repo_path": "/Users/braydon/projects/experiments/news-briefing",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] bugfix: contribute news-briefing changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: news-briefing: bugfix candidate from codex/three-layer-program-2026-03-10 vs origin/main (ahead=35, dirty_files=2, files=150)\nCategory: bugfix\nAhead/Behind vs origin/main: 35/0\nWorking tree dirty: yes\n\nChanged files:\n- .gitignore\n- .workgraph/drift-policy.toml\n- .workgraph/executors/amplifier-run.sh\n- .workgraph/executors/amplifier.toml\n- .workgraph/executors/claude-run.sh\n- .workgraph/executors/claude.toml\n- .workgraph/executors/codex-run.sh\n- .workgraph/executors/codex.toml\n- .workgraph/executors/dispatch-loop.sh\n- .workgraph/executors/session-driver-run.sh\n- .workgraph/executors/session-driver.toml\n- .workgraph/graph.jsonl\n- AGENTS.md\n- CLAUDE.md\n- README.md\n- backend/Dockerfile\n- backend/app/anthropic_adapter.py\n- backend/app/auth.py\n- backend/app/billing.py\n- backend/app/briefing_builder.py\n- backend/app/briefing_room.py\n- backend/app/chat.py\n- backend/app/chat_limits.py\n- backend/app/columnist.py\n- backend/app/db.py\n- backend/app/feed_engine.py\n- backend/app/live_feed.py\n- backend/app/main.py\n- backend/app/model_routes.py\n- backend/app/pp_adapter.py\n- backend/app/worker.py\n- backend/migrations/0011_feed_engine.sql\n- backend/migrations/0012_briefing_room.sql\n- backend/migrations/0013_auth_commercial.sql\n- backend/migrations/0014_research_briefs.sql\n- backend/migrations/0015_decision_cards.sql\n- backend/migrations/0016_research_brief_ownership.sql\n- backend/migrations/0017_share_snapshots.sql\n- backend/migrations/0018_thread_lineage.sql\n- backend/migrations/0019_cross_layer_feedback.sql",
+        "--base",
+        "main",
+        "--head",
+        "codex/three-layer-program-2026-03-10"
+      ]
+    },
+    {
+      "repo": "paia-agent-runtime",
+      "repo_path": "/Users/braydon/projects/experiments/paia-agent-runtime",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-agent-runtime changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-agent-runtime: feature candidate from main vs origin/main (ahead=0, dirty_files=5, files=5)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- context.md\n- tests/test_model_operable.py\n- tests/test_p3_tools_3_manifest_repair.py\n- tests/test_p3_tools_cohort1.py\n- tests/test_tool_model_operable_cohort2.py",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-agents",
+      "repo_path": "/Users/braydon/projects/experiments/paia-agents",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-agents changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-agents: feature candidate from main vs origin/main (ahead=0, dirty_files=8, files=8)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- amantha/.wg-worktrees/agent-1\n- docs/2026-06-19-HANDOFF.md\n- samantha/.wg-worktrees/agent-2\n- samantha/.wg-worktrees/agent-3\n- samantha/.wg-worktrees/agent-4\n- samantha/.wg-worktrees/agent-5\n- samantha/src/samantha/daily_walk.py\n- samantha/tests/test_daily_walk_packets.py",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-memory",
+      "repo_path": "/Users/braydon/projects/experiments/paia-memory",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] tooling: contribute paia-memory changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-memory: tooling candidate from agent-parity-shared-services vs origin/main (ahead=25, dirty_files=3, files=66)\nCategory: tooling\nAhead/Behind vs origin/main: 25/0\nWorking tree dirty: yes\n\nChanged files:\n- .gitignore\n- AGENTS.md\n- CLAUDE.md\n- GENTS.md\n- NORTH_STAR.md\n- alembic/versions/009_add_facet_provenance.py\n- alembic/versions/010_add_facet_status_supersedes.py\n- config/agents.toml\n- db/migrations/001_init.sql\n- docs/core-architecture.md\n- docs/specs/2026-06-16-facet-status-supersedes-design.md\n- docs/specs/2026-06-23-agent-registry-and-multi-tenant-parity-design.md\n- docs/specs/2026-06-23-pi-memory-integration-design.md\n- docs/specs/2026-06-25-telemetry-memory-tiers-design.md\n- pyproject.toml\n- scripts/audit_tenant_casing.py\n- scripts/com.paia.nightly-embed.plist\n- scripts/facet_layer_migration.py\n- scripts/facet_migration.py\n- scripts/lint_agents.py\n- scripts/merge_tenant_casing.py\n- scripts/nightly_embed.py\n- src/paia_memory/__init__.py\n- src/paia_memory/active_context.py\n- src/paia_memory/agent_registry.py\n- src/paia_memory/agent_state_store.py\n- src/paia_memory/api/__init__.py\n- src/paia_memory/api/admin.py\n- src/paia_memory/api/app.py\n- src/paia_memory/api/hermes.py\n- src/paia_memory/api/ingest.py\n- src/paia_memory/api/retrieval.py\n- src/paia_memory/api/user_board.py\n- src/paia_memory/digests.py\n- src/paia_memory/embeddings.py\n- src/paia_memory/evidence.py\n- src/paia_memory/facets.py\n- src/paia_memory/graph.py\n- src/paia_memory/model_routes.py\n- src/paia_memory/models.py",
+        "--base",
+        "main",
+        "--head",
+        "agent-parity-shared-services"
+      ]
+    },
+    {
+      "repo": "paia-n8n",
+      "repo_path": "/Users/braydon/projects/experiments/paia-n8n",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-n8n changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-n8n: feature candidate from main vs origin/main (ahead=0, dirty_files=2, files=2)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .wg-worktrees/agent-16\n- wg-worktrees/agent-15",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-os",
+      "repo_path": "/Users/braydon/projects/experiments/paia-os",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] tooling: contribute paia-os changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-os: tooling candidate from main vs origin/main (ahead=0, dirty_files=576, files=576)\nCategory: tooling\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t1-verifier-gate-2026-06-24T19-37-59.022643+00-00.json\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t1-verifier-gate-2026-06-24T20-36-10.043488+00-00.json\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t3-attempt-cap-2026-06-24T19-37-59.046088+00-00.json\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t3-attempt-cap-2026-06-24T20-38-05.600389+00-00.json\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t4-quarantine-2026-06-24T19-37-59.066013+00-00.json\n- .workgraph/agency/evaluations/eval-fix-trust-defect-t4-quarantine-2026-06-24T20-40-52.731714+00-00.json\n- .workgraph/archive-last-batch.json\n- .workgraph/archive.jsonl\n- .workgraph/artifacts/\n- .workgraph/check-snapshots/\n- .workgraph/config.toml.2026-06-24T19-04-06Z\n- .workgraph/config.toml.2026-06-24T19-04-07Z\n- .workgraph/config.toml.2026-06-24T20-30-55Z\n- .workgraph/config.toml.2026-06-24T20-31-31Z\n- .workgraph/config.toml.2026-06-24T20-34-33Z\n- .workgraph/escalations.jsonl\n- .workgraph/executors/pi-run.sh\n- .workgraph/executors/pi.toml\n- .workgraph/executors/session-driver-run.sh\n- .workgraph/executors/session-driver.toml\n- .workgraph/federation.yaml\n- .workgraph/graph.jsonl\n- .workgraph/handlers/session-start.sh\n- .workgraph/materials-sync/.assign-channel-zulip-ux-01.json\n- .workgraph/materials-sync/.assign-channel-zulip-ux-02.json\n- .workgraph/materials-sync/.assign-channel-zulip-ux-03.json\n- .workgraph/materials-sync/.assign-implement-workboard-open-page-workspace.json\n- .workgraph/materials-sync/.evaluate-channel-zulip-ux-01.json\n- .workgraph/materials-sync/.evaluate-channel-zulip-ux-02.json\n- .workgraph/materials-sync/.evaluate-channel-zulip-ux-03.json\n- .workgraph/materials-sync/.evaluate-implement-workboard-open-page-workspace.json\n- .workgraph/materials-sync/.flip-channel-zulip-ux-01.json\n- .workgraph/materials-sync/.flip-channel-zulip-ux-02.json\n- .workgraph/materials-sync/.flip-channel-zulip-ux-03.json\n- .workgraph/materials-sync/.flip-implement-workboard-open-page-workspace.json\n- .workgraph/materials-sync/channel-zulip-flow-fix.json\n- .workgraph/materials-sync/channel-zulip-ux-01.json\n- .workgraph/materials-sync/channel-zulip-ux-02.json\n- .workgraph/materials-sync/channel-zulip-ux-03.json\n- .workgraph/materials-sync/fastapi-http-server.json",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-os-wt-evidence-ledger-monitoring",
+      "repo_path": "/Users/braydon/projects/experiments/paia-os-wt-evidence-ledger-monitoring",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] tooling: contribute paia-os-wt-evidence-ledger-monitoring changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-os-wt-evidence-ledger-monitoring: tooling candidate from codex/evidence-ledger-monitoring vs origin/main (ahead=1, dirty_files=46, files=47)\nCategory: tooling\nAhead/Behind vs origin/main: 1/425\nWorking tree dirty: yes\n\nChanged files:\n- .amplifier/\n- .workgraph/.driftdriver/\n- .workgraph/.new_task_focus\n- .workgraph/archdrift\n- .workgraph/budget-ledger.jsonl\n- .workgraph/check-snapshots/\n- .workgraph/coredrift\n- .workgraph/datadrift\n- .workgraph/depsdrift\n- .workgraph/drift-policy.toml\n- .workgraph/driftdriver\n- .workgraph/drifts\n- .workgraph/executors/amplifier-run.sh\n- .workgraph/executors/amplifier.toml\n- .workgraph/executors/claude.toml\n- .workgraph/fixdrift\n- .workgraph/graph.jsonl\n- .workgraph/graph.lock\n- .workgraph/output/\n- .workgraph/redrift\n- .workgraph/rifts\n- .workgraph/specdrift\n- .workgraph/specrift\n- .workgraph/speedrift\n- .workgraph/stats.json\n- .workgraph/therapydrift\n- .workgraph/usage.log\n- .workgraph/uxdrift\n- .workgraph/uxrift\n- .workgraph/yagnidrift\n- AGENTS.md\n- CLAUDE.md\n- NORTH_STAR.md\n- README.md\n- docs/design/ARCHITECTURE.md\n- package-lock.json\n- src/paia/cost/analysis.py\n- src/paia/db/migrations/017_evidence.sql\n- src/paia/db/repos/__init__.py\n- src/paia/db/repos/evidence.py",
+        "--base",
+        "main",
+        "--head",
+        "codex/evidence-ledger-monitoring"
+      ]
+    },
+    {
+      "repo": "paia-program",
+      "repo_path": "/Users/braydon/projects/experiments/paia-program",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-program changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-program: feature candidate from main vs origin/main (ahead=0, dirty_files=21, files=21)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .DS_Store\n- .workgraph/chat/\n- docs/audits/2026-06-07-agent-life-standardization-drift-decision-matrix.md\n- docs/audits/2026-06-09-whole-person-shadow-scenario-report.md\n- docs/audits/2026-06-14-conversation-channel-delivery-architecture-MAP-codex.md\n- docs/audits/2026-06-14-conversation-channel-delivery-architecture-MAP-glm.md\n- docs/audits/2026-06-17-whatsapp-send-false-positive-delivery-evidence.md\n- docs/diagnostics/\n- docs/superpowers/plans/2026-06-09-paia-action-module-agenda-pilot-speedrift-plan.md\n- docs/superpowers/plans/2026-06-09-whole-person-model-mediated-context-architecture-implementation-plan.md\n- docs/superpowers/plans/2026-06-17-messaging-contact-delivery-evidence-contract-plan.md\n- docs/superpowers/specs/2026-06-09-whole-person-model-mediated-context-architecture-design.md\n- docs/superpowers/specs/2026-06-15-paia-agenda-action-module-design.md\n- docs/superpowers/specs/2026-06-17-messaging-contact-delivery-evidence-contract-design.md\n- output/.DS_Store\n- output/action-module-agenda-pilot/\n- output/agenda-comparison-lfw-2026-06-22/\n- tests/test_action_module_agenda.py\n- tools/action_modules/\n- uv.lock\n- workgraph/graph.jsonl",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-shell",
+      "repo_path": "/Users/braydon/projects/experiments/paia-shell",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] bugfix: contribute paia-shell changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-shell: bugfix candidate from migration/paia-agent-operator-runtime vs origin/main (ahead=40, dirty_files=2, files=82)\nCategory: bugfix\nAhead/Behind vs origin/main: 40/3\nWorking tree dirty: yes\n\nChanged files:\n- AGENTS.md\n- CLAUDE.md\n- db/migrations/014_collaboration_channels.sql\n- db/migrations/015_collaboration_message_delivery.sql\n- db/migrations/016_collaboration_read_cursors.sql\n- db/migrations/017_web_push_subscriptions.sql\n- db/migrations/018_channel_messages.sql\n- docs/superpowers/specs/2026-05-21-zulip-style-agent-channels-design.md\n- docs/superpowers/specs/2026-06-04-telegram-pi-agent-design.md\n- docs/superpowers/specs/2026-06-10-chat-media-mode-viewer-design.md\n- ests/test_router.py\n- pyproject.toml\n- scripts/seed-telegram-channel.sh\n- src/paia_shell/agent_turn_gateway.py\n- src/paia_shell/api/agent_profile_routes.py\n- src/paia_shell/api/app.py\n- src/paia_shell/api/collaboration_routes.py\n- src/paia_shell/api/external_routes.py\n- src/paia_shell/api/gateway_routes.py\n- src/paia_shell/api/intent_fabric_routes.py\n- src/paia_shell/api/media_routes.py\n- src/paia_shell/api/publishing_routes.py\n- src/paia_shell/api/research_routes.py\n- src/paia_shell/api/review_routes.py\n- src/paia_shell/api/routes.py\n- src/paia_shell/api/user_profile_routes.py\n- src/paia_shell/api/web_gateway_routes.py\n- src/paia_shell/aurora_client.py\n- src/paia_shell/channel_messages.py\n- src/paia_shell/collaboration.py\n- src/paia_shell/collaboration_source_contracts.py\n- src/paia_shell/companion_service.py\n- src/paia_shell/heartbeat_scheduler.py\n- src/paia_shell/intent_fabric_ops.py\n- src/paia_shell/models.py\n- src/paia_shell/notifications.py\n- src/paia_shell/orchestrator.py\n- src/paia_shell/pi_turn_runner.py\n- src/paia_shell/publishing_store.py\n- src/paia_shell/review_queue.py",
+        "--base",
+        "main",
+        "--head",
+        "migration/paia-agent-operator-runtime"
+      ]
+    },
+    {
+      "repo": "paia-supernote",
+      "repo_path": "/Users/braydon/projects/experiments/paia-supernote",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-supernote changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-supernote: feature candidate from main vs origin/main (ahead=0, dirty_files=12, files=12)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- AGENTS.md\n- ocs/superpowers/specs/2026-06-10-quick-note-reorg-design.md\n- src/paia_supernote/cloud_poller.py\n- src/paia_supernote/events.py\n- src/paia_supernote/ingest_service.py\n- src/paia_supernote/main.py\n- src/paia_supernote/notebook_artifacts.py\n- src/paia_supernote/writer.py\n- tests/test_cloud_poller_health.py\n- tests/test_events.py\n- tests/test_notebook_artifacts.py\n- uv.lock",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "paia-work",
+      "repo_path": "/Users/braydon/projects/experiments/paia-work",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute paia-work changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: paia-work: feature candidate from main vs origin/main (ahead=0, dirty_files=2, files=2)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- rc/paia_work/workboard_pages.py\n- tests/test_workboard_pages.py",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "pi-memory-extension",
+      "repo_path": "/Users/braydon/projects/experiments/pi-memory-extension",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute pi-memory-extension changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: pi-memory-extension: feature candidate from main vs origin/main (ahead=0, dirty_files=4, files=4)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .wg-worktrees/\n- AGENTS.md\n- CLAUDE.md\n- gitignore",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "redrift",
+      "repo_path": "/Users/braydon/projects/experiments/redrift",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute redrift changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: redrift: feature candidate from main vs origin/main (ahead=0, dirty_files=3, files=3)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .workgraph/service/directives/pending.jsonl\n- .workgraph/usage.log\n- workgraph/service/directives/failed.jsonl",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "state-system",
+      "repo_path": "/Users/braydon/projects/experiments/state-system",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute state-system changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: state-system: feature candidate from main vs origin/main (ahead=0, dirty_files=2, files=2)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- plan.md\n- uv.lock",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "vibez-monitor",
+      "repo_path": "/Users/braydon/projects/personal/vibez-monitor",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] feature: contribute vibez-monitor changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: vibez-monitor: feature candidate from main vs origin/main (ahead=0, dirty_files=6, files=6)\nCategory: feature\nAhead/Behind vs origin/main: 0/0\nWorking tree dirty: yes\n\nChanged files:\n- .workgraph/executors/session-driver-run.sh\n- AGENTS.md\n- backend/scripts/push_remote.py\n- backend/tests/test_push_remote.py\n- backups/\n- wg-worktrees/agent-64",
+        "--base",
+        "main",
+        "--head",
+        "main"
+      ]
+    },
+    {
+      "repo": "workgraph",
+      "repo_path": "/Users/braydon/projects/experiments/workgraph",
+      "dry_run": true,
+      "command": [
+        "gh",
+        "pr",
+        "create",
+        "--draft",
+        "--title",
+        "[speedrift] bugfix: contribute workgraph changes upstream",
+        "--body",
+        "Automated draft from Speedrift ecosystem hub.\n\nSummary: workgraph: bugfix candidate from integrate/pi-harness-upstream-speedrift-20260622 vs origin/main (ahead=74, dirty_files=0, files=97)\nCategory: bugfix\nAhead/Behind vs origin/main: 74/121\nWorking tree dirty: no\n\nChanged files:\n- AGENTS.md\n- CLAUDE.md\n- PROMPT_CONSTRUCTION_ANALYSIS.md\n- README.md\n- docs/GUIDE.md\n- docs/config-ux-design.md\n- docs/design-named-profiles.md\n- docs/design/agency-model-quality-tiers.md\n- docs/design/agent-activity-protocol.md\n- docs/design/auto-evolver-loop.md\n- docs/design/compactor-agent-spec.md\n- docs/design/coordinator-as-graph-citizen.md\n- docs/design/coordinator-compactor-architecture.md\n- docs/design/self-healing-task-graph.md\n- docs/design/temporal-navigation.md\n- docs/designs/standalone-nex-config-split.md\n- docs/reports/archive-review-human-interaction.md\n- docs/reports/deep-synthesis.md\n- docs/reports/integration-roadmap.md\n- docs/research/low-friction-install-upgrade.md\n- docs/upstream-adoption-6617ef03.md\n- prompt_construction_analysis.md\n- src/agency/types.rs\n- src/chat.rs\n- src/chat_command.rs\n- src/chat_sessions.rs\n- src/cli.rs\n- src/commands/abandon.rs\n- src/commands/add.rs\n- src/commands/archive.rs\n- src/commands/artifact.rs\n- src/commands/claim.rs\n- src/commands/claude_handler.rs\n- src/commands/config_cmd.rs\n- src/commands/edit.rs\n- src/commands/eval_scaffold.rs\n- src/commands/exec.rs\n- src/commands/fail.rs\n- src/commands/func_apply.rs\n- src/commands/gc.rs",
+        "--base",
+        "main",
+        "--head",
+        "integrate/pi-harness-upstream-speedrift-20260622"
+      ]
+    }
+  ]
+}

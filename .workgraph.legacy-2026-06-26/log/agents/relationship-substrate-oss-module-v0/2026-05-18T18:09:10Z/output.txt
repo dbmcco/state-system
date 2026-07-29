@@ -1,0 +1,1 @@
+Task complete. Runbook `docs/runbooks/relationship-substrate-open-source.md` committed on branch `wg/agent-106/relationship-substrate-oss-module-v0` (commit `ab44a1b`). Task marked pending-eval; the evaluator will score before downstream `.flip-…` unblocks.

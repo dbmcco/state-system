@@ -1,0 +1,25 @@
+{
+  "task_id": "north-star-ecosystem-acceptance-v0",
+  "task_title": "north-star: ecosystem acceptance and final report",
+  "git_root": "/Users/braydon/projects/experiments/state-system",
+  "score": "green",
+  "spec": {
+    "schema": 1,
+    "spec": [
+      "docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md"
+    ],
+    "require_spec_update_when_code_changes": true,
+    "ignore": [
+      ".workgraph/**",
+      ".git/**"
+    ]
+  },
+  "telemetry": {
+    "files_changed": 32,
+    "spec_files_changed": 1,
+    "non_spec_files_changed": 31
+  },
+  "findings": [],
+  "recommendations": [],
+  "_specdrift_block": "```specdrift\nschema = 1\nspec = [\"docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md\"]\ncheck = \"final ecosystem report reflects actual validated gap movement and deferred source-owned repairs\"\n```"
+}

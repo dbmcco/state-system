@@ -9,15 +9,15 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 import re
+import json
 from pathlib import Path
 from typing import Any, Mapping
 from uuid import uuid4
 
 from state_system.audit_ledger import StateAuditLedger
+from state_system.content_health import build_package_health
 from state_system.contracts import validate_all_examples
 from state_system.gap_acknowledgement import GapAcknowledgementLedger
-from state_system.instance_agent_packages import InstanceAgentPackageRuntime
-from state_system.stores import StateStoreBundle
 
 
 PROTOCOL_VERSION = "state-system.v1"
@@ -165,15 +165,33 @@ class StateDispatcher:
             for entry in entries
             if entry.get("event_type") == "gap_acknowledgement"
         ]
-        package_health = self._package_health(arguments.get("package_ref"))
+        package_ref = arguments.get("package_ref")
+        package = self._read_package(str(package_ref)) if isinstance(package_ref, str) else None
+        package_health = build_package_health(package) if package else None
         return {
             "scope": scope,
-            "package": arguments.get("package_ref"),
-            "package_health": package_health,
+            "package": package_ref,
             "source_gap_refs": list(arguments.get("gap_refs", []))
             if isinstance(arguments.get("gap_refs", []), list)
             else [],
-            "expired_freshness_refs": [],
+            "expired_freshness_refs": package_health["expired_freshness_refs"]
+            if package_health
+            else [],
+            "package_health": package_health,
+            "process_health": package_health.get("process_health")
+            if package_health
+            else {"status": "not_inspected", "generated_at": "", "artifact_refs": []},
+            "content_health": package_health.get("content_health")
+            if package_health
+            else {
+                "status": "unknown",
+                "requires_refresh_before_external_action": True,
+                "source_gap_refs": [],
+                "expired_freshness_refs": [],
+                "evidence_refs": [],
+                "generated_at": "",
+                "staleness_banner": "HARD STALENESS BANNER: content health is unknown; inspect a package before relying on this surface.",
+            },
             "acknowledged_gap_refs": [item.get("gap_ref") for item in acknowledgements],
             "repair_actions": ["repair", "acknowledge_gap"],
             "ledger": {
@@ -183,34 +201,17 @@ class StateDispatcher:
             },
         }
 
-    def _package_health(self, package_ref: str | None) -> dict[str, Any] | None:
-        """Surface a package's content/process health separately, not conflated.
-
-        Content freshness and process health are distinct dimensions: a source
-        can be fully ingested (process ``succeeded``) while its content is
-        ``stale`` past stale-after. ``inspect`` reports both verbatim from the
-        rendered package so a caller treats a stale content status as a visible
-        caveat rather than reading a green process status as current. Returns
-        None when no package_ref is supplied or the package is absent.
-        """
-        if not package_ref:
+    def _read_package(self, package_ref: str) -> dict[str, Any] | None:
+        if not package_ref or "/" in package_ref or "\\" in package_ref:
             return None
-        stores = StateStoreBundle(self.state_root)
-        # An absent package has no health to report; this is the read semantics
-        # of an optional lookup. A package that exists but is malformed is
-        # allowed to surface rather than being swallowed.
-        if not stores.instance_agent_packages.path_for(package_ref).exists():
+        path = self.state_root / "state" / "instance-agent-packages" / f"{package_ref}.json"
+        if not path.exists():
             return None
-        package = InstanceAgentPackageRuntime(stores).read(package_ref)
-        freshness = package.get("freshness", {})
-        return {
-            "process_status": freshness.get("process_status"),
-            "content_status": freshness.get("content_status"),
-            "requires_refresh_before_external_action": freshness.get(
-                "requires_refresh_before_external_action"
-            ),
-            "source_gap_refs": list(freshness.get("source_gap_refs", [])),
-        }
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return None
+        return value if isinstance(value, dict) else None
 
     def _validate(self) -> dict[str, Any]:
         results = validate_all_examples(self.project_root)

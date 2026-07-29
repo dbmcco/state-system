@@ -1,0 +1,110 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-operational-eval-gate-v0 - Run operational model eval gate before new contract changes
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Run and summarize the pending FLIP/evaluator gates for the package-layer contracts and ecosystem instance scaffolds before extending the model."
+non_goals = [
+  "Do not change schemas in this task",
+  "Do not repair connector freshness in this task"
+]
+touch = [
+  "docs/reports/*operational*eval*",
+  ".workgraph/graph.jsonl"
+]
+acceptance = [
+  "Pending FLIP/eval results for source modules, tool actions, route contracts, personal state, SampleCo, PortfolioCo, ResearchCo, ecosystem conformance, and freshness backlog are run or explicitly classified as evaluator-infra blocked",
+  "Findings are summarized into a report with contract-blocking vs follow-up categories",
+  "Follow-up tasks are created for any blocking findings"
+]
+max_files = 3
+max_loc = 400
+pit_stop_after = 3
+auto_followups = true
+```
+
+This is Phase 0 of docs/specs/2026-05-18-operationally-trustworthy-federated-state-model.md.
+
+Context from dependencies:
+From state-operational-federated-model-design-v0 logs: 2026-05-18T18:56:39.061285+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-operational-federated-model-design-v0 logs: 2026-05-18T18:56:53.354446+00:00 Start drift yellow due inherited repo-wide package-layer churn and fallback wording already present before this design anchor. This task scope is docs/spec design, PlanForge discovery JSON, and Workgraph task seeding only.
+From state-operational-federated-model-design-v0 logs: 2026-05-18T18:58:50.105849+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-operational-federated-model-design-v0 logs: 2026-05-18T18:58:55.267488+00:00 Design anchor complete. Added PlanForge discovery, operationally trustworthy federated state model spec, and seeded dependent Speedrift tasks: eval gate, InstanceFederationPack contract, federation materialization, connector module kit, PortfolioCo/ResearchCo readiness promotion, high-value freshness repair loop, real-question package pressure harness, and open-source onboarding release gate. Validation passed: state-system validate 127 examples and git diff --check clean. End drift remains yellow only for inherited worktree churn.
+From state-operational-federated-model-design-v0 logs: 2026-05-18T18:58:58.715627+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-operational-eval-gate-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-operational-eval-gate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-operational-eval-gate-v0 "message"
+- When complete: wg done state-operational-eval-gate-v0
+- If blocked: wg fail state-operational-eval-gate-v0 --reason "description"

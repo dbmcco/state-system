@@ -1,0 +1,17 @@
+{
+  "id": "eval-state-sampleco-linear-team-ref-fix-v0-2026-05-15T19-41-00.906071+00-00",
+  "task_id": "state-sampleco-linear-team-ref-fix-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "tests": 1.0,
+    "contract": 1.0,
+    "drift": 1.0,
+    "runtime": 1.0
+  },
+  "notes": "Corrected SampleCo Linear declaration to Braydon-confirmed FORGE and INT team keys; PAIA no longer needs a hidden team-key workaround.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-15T19:41:00.906071+00:00",
+  "source": "codex-validation"
+}

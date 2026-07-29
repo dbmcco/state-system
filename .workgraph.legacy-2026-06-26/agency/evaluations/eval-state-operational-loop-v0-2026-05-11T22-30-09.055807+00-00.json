@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-operational-loop-v0-2026-05-11T22-30-09.055807+00-00",
+  "task_id": "state-operational-loop-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "schema": 1.0,
+    "drift": 1.0,
+    "cli": 1.0,
+    "tests": 1.0,
+    "diagram": 1.0
+  },
+  "notes": "Operational loop v0 validated: one command runs source/evidence through review, commit, recent package, activation, and captured response; operator summary emitted; focused tests, full 92-test harness, schema validation, script smoke, diff hygiene, drift green, diagrams updated.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-11T22:30:09.055807+00:00",
+  "source": "codex-validation"
+}

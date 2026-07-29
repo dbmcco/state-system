@@ -1,0 +1,34 @@
+[
+  {
+    "timestamp": "2026-05-17T16:14:37.128387+00:00",
+    "actor": "agent-95",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-17T16:14:50.697650+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-17T16:15:42.973782+00:00",
+    "user": "braydon",
+    "message": "Initial drift check yellow due to pre-existing uncommitted files (carry-over from prior task). Touch globs scoped to docs/runbooks/*personal*.md and README.md. Authoring docs/runbooks/personal-personal state.md based on instance capability pack, preflight/freshness CLI surface, and personal runtime root layout at /Users/braydon/projects/personal/personal state."
+  },
+  {
+    "timestamp": "2026-05-17T16:17:02.183601+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-17T16:17:31.188116+00:00",
+    "user": "braydon",
+    "message": "Wrote docs/runbooks/personal-personal state.md (309 lines) + 1-line pointer in README.md. Task-scoped diff = 2 files, ~310 LOC — within max_files=4 / max_loc=500. Drift score yellow reflects pre-existing carry-over churn (27 files from prior tasks), same condition under which state-personal-understanding-surface-operational-v0 completed. Acceptance criteria: (1) refresh commands (preflight-record/run, source-freshness-record, exports), read commands (understanding-surface-read, agent-package-build/export/render), and output locations documented; (2) source-owned indexes (msgvault sqlite-vec, folio/agentmem/relationship pgvector, workboard jsonl, garmin/spotify planned) plus State System interpreted-state index and capability pack as routing/catalog layer explained; (3) boundaries documented for folio, msgvault, agentmem, workboard, relationship-substrate, SampleCo work instance, local projects, garmin, spotify; (4) verification (5 jq + unittest commands) and troubleshooting (7 issues) sections included."
+  },
+  {
+    "timestamp": "2026-05-17T16:17:31.824728+00:00",
+    "actor": "agent-95",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

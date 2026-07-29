@@ -1,0 +1,5 @@
+You've hit your limit · resets 4:30pm (America/New_York)
+
+[wrapper] Agent exited with code 1, marking task failed
+Agent archived to /Users/braydon/projects/experiments/state-system/.workgraph/log/agents/sampleco-daily-use-contract-refresh-v0/2026-05-18T17:16:05Z
+Output captured to /Users/braydon/projects/experiments/state-system/.workgraph/output/sampleco-daily-use-contract-refresh-v0

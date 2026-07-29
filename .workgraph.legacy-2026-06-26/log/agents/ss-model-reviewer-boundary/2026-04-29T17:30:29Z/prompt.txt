@@ -1,0 +1,114 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: ss-model-reviewer-boundary - Define model reviewer prompt and tool boundary
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Define model reviewer prompt and tool boundary"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Define the production model reviewer prompt/tool boundary after runner/reviewer plumbing is clear. Specify what context the model receives, what tools it can call, what output schema it must produce, and what code may enforce.
+
+## Pressure Test
+- Does adding the real model require only replacing fixture reviewer behavior?
+- Are model decisions inspectable and replayable?
+- Are tool calls executed as proposed, subject only to governance/contract gates?
+
+## Validation
+- [ ] Runtime boundary doc exists.
+- [ ] Prompt/tool contract maps to existing schemas.
+- [ ] No code-side fallback tries to compensate for model behavior.
+
+Context from dependencies:
+From ss-runner-fixture-reviewer logs: 2026-04-29T17:26:04.412342+00:00 Spawned by wg spawn --executor claude --model opus
+From ss-runner-fixture-reviewer logs: 2026-04-29T17:26:40.934214+00:00 Coredrift: OK (no findings)
+From ss-runner-fixture-reviewer logs: 2026-04-29T17:29:38.049689+00:00 Coredrift: OK (no findings)
+From ss-runner-fixture-reviewer logs: 2026-04-29T17:29:55.589890+00:00 Validated manually: runner builds Laura review packet shape; source-event flow builds review packet; fixture reviewer replays example model outputs; no-op and missing-evidence fixtures do not mutate state; full unittest/json/diff checks pass; coredrift green
+From ss-runner-fixture-reviewer logs: 2026-04-29T17:29:59.798706+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task ss-model-reviewer-boundary <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task ss-model-reviewer-boundary --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task ss-model-reviewer-boundary --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log ss-model-reviewer-boundary "message"
+- When complete: wg done ss-model-reviewer-boundary
+- If blocked: wg fail ss-model-reviewer-boundary --reason "description"

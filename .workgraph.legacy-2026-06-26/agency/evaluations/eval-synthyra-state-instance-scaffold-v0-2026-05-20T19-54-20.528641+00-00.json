@@ -1,0 +1,18 @@
+{
+  "id": "eval-researchco-state-instance-scaffold-v0-2026-05-20T19-54-20.528641+00-00",
+  "task_id": "researchco-state-instance-scaffold-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.94,
+  "dimensions": {
+    "validation": 1.0,
+    "readiness_gaps": 0.95,
+    "scaffold_artifacts": 0.96,
+    "scope_control": 0.85,
+    "privacy_guidance": 1.0
+  },
+  "notes": "Manual Codex evaluator pass, no Claude/wg service. Based on state:5 FLIP evidence and manual-flip:state:5 score 0.94: ResearchCo scaffold validator passed; Ingrid package render passed; instance_scaffold and instance_agent_packages tests passed; state_system.cli validate 130 examples; 56 private scaffold JSON files parsed; privacy/freshness/gap/governance/route/tool-action boundaries verified. No implementation redo required.",
+  "evaluator": "manual-eval:codex-state1",
+  "timestamp": "2026-05-20T19:54:20.528641+00:00",
+  "source": "manual-eval:codex-state1"
+}

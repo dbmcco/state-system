@@ -1,0 +1,66 @@
+[
+  {
+    "timestamp": "2026-04-28T21:10:21.178872+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-04-28T21:11:53.921739+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-04-29T16:52:21.277962+00:00",
+    "actor": "agent-28",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:52:29.208863+00:00",
+    "actor": "agent-28",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-04-29T16:53:02.444090+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from failed (attempt #2) — reason: Reset auto-spawned pressure-test worker; no accepted output in this checkpoint"
+  },
+  {
+    "timestamp": "2026-04-29T16:55:46.473251+00:00",
+    "actor": "agent-29",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:56:00.205638+00:00",
+    "actor": "agent-29",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-04-29T16:58:20.310904+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from failed (attempt #3) — reason: Reset auto-spawned pressure worker; manual pressure testing continues"
+  },
+  {
+    "timestamp": "2026-04-29T16:58:40.846865+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T17:01:04.643625+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T17:01:18.411504+00:00",
+    "user": "braydon",
+    "message": "Validated manually: source-event pressure tests cover native id fallback, field transition fallback, partial-to-full replay, and out-of-order watermarks; full unittest/json/diff checks pass; coredrift green"
+  },
+  {
+    "timestamp": "2026-04-29T17:01:21.237686+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

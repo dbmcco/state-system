@@ -1,0 +1,18 @@
+{
+  "id": "flip-state-model-mediated-drift-suite-v0-2026-05-04T18-03-44.572097+00-00",
+  "task_id": "state-model-mediated-drift-suite-v0",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 0.83,
+  "dimensions": {
+    "hallucination_rate": 0.3,
+    "requirement_coverage": 0.85,
+    "semantic_match": 0.95,
+    "specificity_match": 0.65
+  },
+  "notes": "The INFERRED description captures the core task (model-mediated drift pressure test suite) and main acceptance criteria (tests, docs, drift checks) accurately. It successfully infers the boundary doctrine emphasis and TDD-first approach. However, it loses some specificity about the particular hazards being tested—the original emphasizes 'hidden rules, scoring, and qualitative judgment collapse' while the INFERRED version uses more generic terms like 'boundary cases and edge conditions.' The addition of procedural guidance (TDD principles, coredrift standards validation) aligns with project conventions but wasn't explicit in the original task description. The constraint metadata (max_files, max_loc, spec reference) is not captured, but these are task metadata rather than functional requirements.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Implement a comprehensive test suite for model-mediated drift pressure detection and validation in the state-system. The suite should include: (1) failing-first tests that establish boundary cases and edge conditions (boundary doctrine); (2) comprehensive documentation explaining the purpose, patterns, and usage of the suite; (3) smart drift checks that validate the implementation against coredrift standards. Follow TDD principles by writing tests before implementation. Ensure all coredrift validation passes with no findings and that smart drift checks remain green.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-04T18:03:44.572097+00:00",
+  "source": "flip"
+}

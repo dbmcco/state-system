@@ -1,0 +1,77 @@
+[
+  {
+    "timestamp": "2026-04-28T21:10:21.163528+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-04-28T21:11:53.921737+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-04-29T16:30:17.999218+00:00",
+    "actor": "agent-18",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:30:28.663427+00:00",
+    "actor": "agent-18",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-04-29T16:31:33.125893+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from failed (attempt #2) — reason: Reset after failed auto-assignment worker; no task work was produced"
+  },
+  {
+    "timestamp": "2026-04-29T16:33:48.546058+00:00",
+    "actor": "agent-21",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:35:02.810253+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from in-progress (attempt #2) — reason: Reset dead worker before publishing repo; no accepted task output"
+  },
+  {
+    "timestamp": "2026-04-29T16:37:22.099259+00:00",
+    "actor": "agent-23",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:44:53.961173+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from in-progress (attempt #3) — reason: Reset dead worker; no accepted output"
+  },
+  {
+    "timestamp": "2026-04-29T16:45:07.518279+00:00",
+    "actor": "agent-24",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-29T16:46:32.542097+00:00",
+    "user": "braydon",
+    "message": "Task reset for retry from in-progress (attempt #4) — reason: Reset dead worker; no accepted output"
+  },
+  {
+    "timestamp": "2026-04-29T16:47:03.565832+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T16:48:32.916945+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T16:48:39.868669+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

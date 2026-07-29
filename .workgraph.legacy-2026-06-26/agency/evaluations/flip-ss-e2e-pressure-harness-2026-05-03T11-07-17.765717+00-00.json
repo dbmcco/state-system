@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-e2e-pressure-harness-2026-05-03T11-07-17.765717+00-00",
+  "task_id": "ss-e2e-pressure-harness",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.677,
+  "dimensions": {
+    "requirement_coverage": 0.64,
+    "specificity_match": 0.6,
+    "hallucination_rate": 0.35,
+    "semantic_match": 0.75
+  },
+  "notes": "The inferred task correctly identifies the core objective (end-to-end pressure harness for state system) and captures ~9 of 14 actual requirements including duplicate replay, no-op handling, missing evidence scenarios, and governance. However, it hallucinates a specific test file location and fabricates the '42 test cases' number, which are not in the original. The actual task emphasizes running existing harness and converting issues to follow-up tasks, while inferred shifts focus to building a new test suite. Critical omissions: no mention of converting findings to wg follow-up tasks (central to ACTUAL), missing the four comparison traces specification, and omitting all constraints (25 files, 800 LOC, pit_stop_after 3). The inferred version is less specific about pressure-test mechanics despite broader coverage enumeration.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Build a comprehensive end-to-end pressure harness for the state system that validates all major flows and edge cases. The harness must cover: source ingestion, fixture review, commit/materialization, duplicate replay, recent indexing, persona packages, CLI reads, no-op handling, missing evidence scenarios, and approval-gated external actions. Implement test suite in tests/test_e2e_pressure_harness.py with 42 total test cases. All tests must pass and pass coredrift validation with no findings.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:07:17.765717+00:00",
+  "source": "flip"
+}

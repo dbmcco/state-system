@@ -1,0 +1,17 @@
+{
+  "id": "eval-state-gws-source-ref-normalization-v0-2026-05-14T19-23-25.909499+00-00",
+  "task_id": "state-gws-source-ref-normalization-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "contract": 1.0,
+    "runtime": 1.0,
+    "docs": 1.0,
+    "tests": 1.0
+  },
+  "notes": "GWS Drive source refs now have explicit GWS account profile, resource kind, and lookup key, allowing PAIA to implement read-only preflight without SampleCo-specific parsing.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-14T19:23:25.909499+00:00",
+  "source": "codex-validation"
+}

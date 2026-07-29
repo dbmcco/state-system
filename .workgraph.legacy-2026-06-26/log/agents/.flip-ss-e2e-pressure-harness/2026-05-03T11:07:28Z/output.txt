@@ -1,0 +1,12 @@
+FLIP Phase 1: Inferring prompt from output (model: 'haiku')...
+  Inferred prompt length: 497 chars
+FLIP Phase 2: Comparing prompts (model: 'haiku')...
+
+=== FLIP Evaluation Complete ===
+Task:       Run end-to-end system pressure harness (ss-e2e-pressure-harness)
+FLIP Score: 0.68
+Evaluator:  flip:haiku+haiku
+Saved to:   /Users/braydon/projects/experiments/state-system/.workgraph/agency/evaluations/flip-ss-e2e-pressure-harness-2026-05-03T11-07-17.765717+00-00.json
+Warning: no identity assigned — role/tradeoff performance records not updated
+FLIP models: inference='haiku' (config), comparison='haiku' (config)
+__WG_TOKENS__:{"cost_usd":0.05751695,"input_tokens":18,"output_tokens":3308,"cache_read_input_tokens":64702,"cache_creation_input_tokens":27591}

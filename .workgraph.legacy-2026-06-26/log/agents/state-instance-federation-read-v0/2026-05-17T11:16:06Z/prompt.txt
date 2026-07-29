@@ -1,0 +1,112 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-instance-federation-read-v0 - Implement state instance federation read surface
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Implement the state_system_instance connector/read surface for federating work instances into personal personal state."
+non_goals = [
+  "Do not copy SampleCo, ResearchCo, PortfolioCo, Plum, or future work corpora",
+  "Do not require all future work instances to exist before the connector works"
+]
+touch = [
+  "state_system/instance_capability.py",
+  "state_system/instance_understanding_surface.py",
+  "state_system/cli.py",
+  "examples/instance-capability/*.json",
+  "tests/test_instance_federation*.py"
+]
+acceptance = [
+  "Connector reads declared state instance read models by root path and exposes readiness/freshness/provenance",
+  "Missing future instances become planned/gap records",
+  "SampleCo federation works against the existing SampleCo local state root/read models",
+  "Tests prove no raw corpus copy is required"
+]
+max_files = 10
+max_loc = 700
+pit_stop_after = 3
+auto_followups = true
+```
+
+Context from dependencies:
+From state-instance-readiness-records-v0 logs: 2026-05-17T10:03:49.074134+00:00 Start drift yellow: scope_drift because implementation also needs README.md, state_system/stores.py, examples/instance-preflight/*.json, and tests/test_stores.py for the instance preflight store/fixture/docs. Treating as explicit contract expansion; no source-specific personal probes in this task.
+From state-instance-readiness-records-v0 logs: 2026-05-17T10:04:17.791141+00:00 Coredrift: OK (no findings)
+From state-instance-readiness-records-v0 logs: 2026-05-17T10:04:32.757045+00:00 Coredrift: OK (no findings)
+From state-instance-readiness-records-v0 logs: 2026-05-17T10:04:32.788517+00:00 Completed instance readiness records v0: added instance preflight schema/runtime/CLI/export, store registry, example fixture, docs, and understanding-surface consumption. Verified focused 14 tests, schema validation 121 examples, and full unittest discover 141 tests all pass.
+From state-instance-readiness-records-v0 logs: 2026-05-17T10:04:32.817540+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-instance-federation-read-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-instance-federation-read-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-instance-federation-read-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-instance-federation-read-v0 "message"
+- When complete: wg done state-instance-federation-read-v0
+- If blocked: wg fail state-instance-federation-read-v0 --reason "description"

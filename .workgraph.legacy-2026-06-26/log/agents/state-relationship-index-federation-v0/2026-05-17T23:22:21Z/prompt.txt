@@ -1,0 +1,119 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-relationship-index-federation-v0 - Formalize relationship-index federation route
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Formalize relationship_substrate operating-picture and enrichment-backed small consulting firm contact routes across generic State System, personal state, and SampleCo agent packages."
+non_goals = [
+  "Do not copy raw personal relationship data into SampleCo or personal state package artifacts",
+  "Do not make prompt-only behavior the source of truth",
+  "Do not mark live access proven without connector/tool evidence"
+]
+touch = [
+  "schemas/instance-agent-package.schema.json",
+  "state_system/instance_agent_packages.py",
+  "state_system/agent_consumers.py",
+  "examples/instance-capability/*.json",
+  "examples/instance-agent-package/*.json",
+  "docs/runbooks/personal-personal state.md",
+  "docs/specs/2026-05-17-cli-ready-agent-facing-package-layer-speedrift-plan.md",
+  "tests/test_instance_*.py",
+  "/Users/braydon/projects/personal/personal state/state/instance-capabilities/*.json",
+  "/Users/braydon/projects/personal/personal state/state/instance-agent-packages/*.json",
+  "/Users/braydon/projects/work/sampleco/state-system/state/instance-capabilities/*.json",
+  "/Users/braydon/projects/work/sampleco/state-system/state/instance-agent-packages/*.json"
+]
+acceptance = [
+  "Generic package schema/renderer can expose route tool refs and capability refs",
+  "Personal package declares operating_picture and small-consulting-firm relationship substrate routes",
+  "SampleCo package declares a governed federated relationship-index route for Caroline without importing raw personal sources",
+  "Tests validate the route contracts and rendered agent prompt contains the tool/action names",
+  "Schema validation and focused/full tests pass or gaps are recorded as follow-up tasks"
+]
+max_files = 18
+max_loc = 900
+pit_stop_after = 3
+auto_followups = true
+```
+
+User-facing target: cli-ready agent-facing package layer for Caroline/SampleCo and Samantha/personal state, including real relationship-substrate enrichment questions.
+
+Context from dependencies:
+No context from dependencies
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-relationship-index-federation-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-relationship-index-federation-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-relationship-index-federation-v0 "message"
+- When complete: wg done state-relationship-index-federation-v0
+- If blocked: wg fail state-relationship-index-federation-v0 --reason "description"

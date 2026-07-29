@@ -1,0 +1,95 @@
+remotes: {}
+peers:
+  agentmem:
+    path: /Users/braydon/projects/experiments/agentmem
+  canon:
+    path: /Users/braydon/projects/experiments/canon
+  driftdriver:
+    path: /Users/braydon/projects/experiments/driftdriver
+  folio:
+    path: /Users/braydon/projects/experiments/folio
+  founder-finance:
+    path: /Users/braydon/projects/experiments/founder-finance
+  freshell:
+    path: /Users/braydon/projects/experiments/freshell
+  garmin-connect-sync:
+    path: /Users/braydon/projects/experiments/garmin-connect-sync
+  grok-aurora-cli:
+    path: /Users/braydon/projects/experiments/grok-aurora-cli
+  hermes-paia:
+    path: /Users/braydon/projects/experiments/hermes-paia
+  lessons-mcp:
+    path: /Users/braydon/projects/experiments/lessons-mcp
+  sampleco:
+    path: /Users/braydon/projects/work/sampleco
+    description: Lightforge Works repo and deployed SampleCo state runtime
+  sampleco-ai-graph-crm:
+    path: /Users/braydon/projects/experiments/sampleco-ai-graph-crm
+  sampleco-interview:
+    path: /Users/braydon/projects/experiments/sampleco-interview
+  lodestar:
+    path: /Users/braydon/projects/experiments/lodestar
+  meridian:
+    path: /Users/braydon/projects/experiments/meridian
+  news-briefing:
+    path: /Users/braydon/projects/experiments/news-briefing
+  paia-agent-runtime:
+    path: /Users/braydon/projects/experiments/paia-agent-runtime
+  paia-agents:
+    path: /Users/braydon/projects/experiments/paia-agents
+  paia-events:
+    path: /Users/braydon/projects/experiments/paia-events
+  paia-identity:
+    path: /Users/braydon/projects/experiments/paia-identity
+  paia-meetings:
+    path: /Users/braydon/projects/experiments/paia-meetings
+  paia-memory:
+    path: /Users/braydon/projects/experiments/paia-memory
+  paia-n8n:
+    path: /Users/braydon/projects/experiments/paia-n8n
+  paia-os:
+    path: /Users/braydon/projects/experiments/paia-os
+  paia-os-wt-email-obligation-tracker:
+    path: /Users/braydon/projects/experiments/paia-os-wt-email-obligation-tracker
+  paia-os-wt-evidence-ledger-monitoring:
+    path: /Users/braydon/projects/experiments/paia-os-wt-evidence-ledger-monitoring
+  paia-os-wt-operating-graph-portfolio-spine:
+    path: /Users/braydon/projects/experiments/paia-os-wt-operating-graph-portfolio-spine
+  paia-planner:
+    path: /Users/braydon/projects/experiments/paia-planner
+  paia-program:
+    path: /Users/braydon/projects/experiments/paia-program
+  paia-shell:
+    path: /Users/braydon/projects/experiments/paia-shell
+  paia-supernote:
+    path: /Users/braydon/projects/experiments/paia-supernote
+  paia-vault:
+    path: /Users/braydon/projects/experiments/paia-vault
+  paia-work:
+    path: /Users/braydon/projects/experiments/paia-work
+  prospecting-partner:
+    path: /Users/braydon/projects/experiments/prospecting-partner
+  redrift:
+    path: /Users/braydon/projects/experiments/redrift
+  relationship-substrate:
+    path: /Users/braydon/projects/experiments/relationship-substrate
+  specdrift:
+    path: /Users/braydon/projects/experiments/specdrift
+  speedrift:
+    path: /Users/braydon/projects/experiments/speedrift
+  speedrift-ecosystem:
+    path: /Users/braydon/projects/experiments/speedrift-ecosystem
+  speedrift-lane-sdk:
+    path: /Users/braydon/projects/experiments/speedrift-lane-sdk
+  researchco-outreach-factory:
+    path: /Users/braydon/projects/experiments/researchco-outreach-factory
+  test-pilot:
+    path: /Users/braydon/projects/experiments/test-pilot
+  third-layer-news:
+    path: /Users/braydon/projects/experiments/third-layer-news
+  training-assistant:
+    path: /Users/braydon/projects/experiments/training-assistant
+  uxdrift:
+    path: /Users/braydon/projects/experiments/uxdrift
+  workgraph:
+    path: /Users/braydon/projects/experiments/workgraph

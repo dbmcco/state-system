@@ -1,0 +1,14 @@
+{
+  "repo": "state-system",
+  "updated_at": "2026-05-03T11:07:57.168345+00:00",
+  "mode": "observe",
+  "dispatch_enabled": false,
+  "interactive_service_start": false,
+  "lease_owner": "",
+  "lease_acquired_at": "",
+  "lease_ttl_seconds": 0,
+  "lease_expires_at": "",
+  "lease_active": false,
+  "source": "cli",
+  "reason": "manual execution of state-user-report-v0; avoid dispatching old eval tasks"
+}

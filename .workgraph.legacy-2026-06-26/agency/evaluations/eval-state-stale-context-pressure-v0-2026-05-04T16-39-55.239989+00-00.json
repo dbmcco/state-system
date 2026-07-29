@@ -1,0 +1,21 @@
+{
+  "id": "eval-state-stale-context-pressure-v0-2026-05-04T16-39-55.239989+00-00",
+  "task_id": "state-stale-context-pressure-v0",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 0.67,
+  "dimensions": {
+    "coordination_overhead": 0.75,
+    "completeness": 0.7,
+    "downstream_usability": 0.65,
+    "efficiency": 0.75,
+    "correctness": 0.7,
+    "style_adherence": 0.75,
+    "blocking_impact": 0.75
+  },
+  "notes": "Agent completed task with strong automated validation: coredrift/specdrift both green, 62 examples validated, 63 unit tests passing. All acceptance criteria addressed (trace proving stale/freshness boundary, report surfacing refresh requirement, tests passing). File modifications align with task requirements. Proper workgraph integration with appropriate follow-up task decomposition for spec updates. Primary concern: no artifacts recorded, limiting independent verification of implementation details beyond automated checks. Downstream usability hampered by lack of formal handoff documentation, though code changes are in repo for consumption. Overall execution demonstrates competent completion within constraints; automated validations provide strong confidence despite inability to independently verify solution correctness.",
+  "evaluator": "claude:haiku",
+  "timestamp": "2026-05-04T16:39:55.239989+00:00",
+  "source": "llm"
+}

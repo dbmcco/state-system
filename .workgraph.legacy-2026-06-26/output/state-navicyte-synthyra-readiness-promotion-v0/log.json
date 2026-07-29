@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-05-18T19:29:43.156861+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T19:30:01.112428+00:00",
+    "user": "braydon",
+    "message": "Claimed by coordinator. Start drift yellow due inherited repo-wide churn. Promotion will touch only PortfolioCo/ResearchCo state-system roots/guidance and central readiness report."
+  },
+  {
+    "timestamp": "2026-05-18T19:33:07.052211+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T19:39:09.423979+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T19:39:18.216546+00:00",
+    "user": "braydon",
+    "message": "Promoted PortfolioCo and ResearchCo packages/read models. Regenerated Helena package instance_agent_package.portfolio_co.helena and Ingrid package instance_agent_package.researchco.ingrid.scaffold.v0; both render from repo roots with PYTHONPATH to core. Added repo guidance in PortfolioCo/ResearchCo AGENTS.md and CLAUDE.md. Implemented generic private state-root question-route/tool-action registry ingestion in package builder so ResearchCo/PortfolioCo routes are packaged without hardcoding. Validation green: instance package tests 5 OK, pressure/understanding focused 11 OK, ResearchCo scaffold validator passed, core validate 129 examples OK, full unittest discover 209 OK, git diff --check clean. Leakage scans: no >1MB state-root files and no secret/token matches excluding PortfolioCo runbook example command. Package pressure include-planned passes Helena/Ingrid; remaining failure is separate SampleCo planned stale-source gap parity for Linear/GitHub/transcripts. End drift yellow due inherited repo-wide churn plus necessary core route-ingestion change."
+  },
+  {
+    "timestamp": "2026-05-18T19:39:18.246520+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

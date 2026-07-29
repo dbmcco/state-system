@@ -1,0 +1,30 @@
+[
+  {
+    "path": "schemas/agent-activation.schema.json",
+    "size": 1828
+  },
+  {
+    "path": "state_system/agent_activation.py",
+    "size": 4865
+  },
+  {
+    "path": "tests/test_agent_activation.py",
+    "size": 6451
+  },
+  {
+    "path": "examples/traces/laura-agent-activation.trace.json",
+    "size": 1193
+  },
+  {
+    "path": "README.md",
+    "size": 15144
+  },
+  {
+    "path": "docs/system-diagram.html",
+    "size": 34289
+  },
+  {
+    "path": "docs/assets/state-system-overview.svg",
+    "size": 6021
+  }
+]

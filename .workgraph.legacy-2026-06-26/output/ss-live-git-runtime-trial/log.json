@@ -1,0 +1,19 @@
+[
+  {
+    "timestamp": "2026-05-01T18:37:52.104081+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-01T18:37:53.324836+00:00",
+    "actor": "agent-56",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-01T18:37:58.314506+00:00",
+    "actor": "agent-56",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  }
+]

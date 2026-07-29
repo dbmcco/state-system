@@ -1,0 +1,37 @@
+[
+  {
+    "timestamp": "2026-05-03T11:04:21.571623+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-03T11:04:28.818221+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-04T17:58:48.033079+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-04T18:00:39.910921+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-04T18:00:51.389759+00:00",
+    "user": "braydon",
+    "message": "Added model-mediated drift pressure suite: failing-first tests plus boundary doctrine doc; validation and smart drift checks green."
+  },
+  {
+    "timestamp": "2026-05-04T18:00:55.650063+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  },
+  {
+    "timestamp": "2026-05-04T18:05:41.336242+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

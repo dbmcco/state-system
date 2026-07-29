@@ -1,0 +1,18 @@
+{
+  "id": "eval-portfolio_co-state-instance-scaffold-v0-2026-05-20T19-42-53.466653+00-00",
+  "task_id": "portfolio_co-state-instance-scaffold-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.91,
+  "dimensions": {
+    "privacy_boundary": 0.96,
+    "validation": 0.95,
+    "guidance": 0.93,
+    "scaffold": 0.94,
+    "scope_control": 0.78
+  },
+  "notes": "Manual FLIP by codex-state4. Verified current NaviCyte scaffold under portfolio_co-workspace/state-system. Helena package renders; schema/readiness checks pass for 18 schema docs plus 2 read models; source readiness exposes access_status/freshness_status/usable_access_status/source_watermark/stale_after/gap_refs for folio, drive, msgvault, local, repo, and state_system connectors; leakage/raw-file scans clean; upstream State System targeted unittest suite ran 37 tests OK; state_system.cli validate passed 130 examples; coredrift for FLIP green. Caveats: implementation exceeded original max_files/max_loc advisory budget and safe repo scaffold/guidance changes remain local/uncommitted.",
+  "evaluator": "manual-flip:codex-state4",
+  "timestamp": "2026-05-20T19:42:53.466653+00:00",
+  "source": "manual-flip:codex-state4"
+}

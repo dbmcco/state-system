@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2026-04-28T21:10:21.140011+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-04-28T21:11:53.921741+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-04-28T21:12:21.216576+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-28T21:15:57.381477+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-28T21:17:34.147127+00:00",
+    "actor": "agent-16",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-28T21:17:40.422666+00:00",
+    "actor": "agent-16",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-04-29T16:23:10.283098+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T16:24:38.874857+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-04-29T16:24:46.802271+00:00",
+    "actor": "agent-16",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "id": "eval-relationship-substrate-oss-module-v0-2026-05-18T18-09-05.840909+00-00",
+  "task_id": "relationship-substrate-oss-module-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.8,
+  "dimensions": {
+    "correctness": 0.84,
+    "style_adherence": 0.8,
+    "completeness": 0.82,
+    "downstream_usability": 0.86,
+    "efficiency": 0.7,
+    "coordination_overhead": 0.72,
+    "blocking_impact": 0.8
+  },
+  "notes": "Manual evaluation because automated FLIP/evaluator backend is unavailable. The State System runbook deliverable is now merged on main as docs/runbooks/relationship-substrate-open-source.md and captures Relationship Substrate as a source-owned OSS module boundary with contracts, subject-note behavior, source_owned_correction_write boundary, tool surfaces, and federation/no-materialization rules. Deductions for earlier unmerged worktree state, broad repo churn warnings, and evaluator infra/manual closure.",
+  "evaluator": "manual:codex",
+  "timestamp": "2026-05-18T18:09:05.840909+00:00",
+  "source": "manual:codex"
+}

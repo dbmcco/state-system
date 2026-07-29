@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-visual-forge-qualitative-contract-v0-2026-05-04T21-04-21.646269+00-00",
+  "task_id": "state-visual-forge-qualitative-contract-v0",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 1.0,
+  "dimensions": {
+    "schema": 1.0,
+    "drift": 1.0,
+    "report_suite": 1.0,
+    "tests": 1.0
+  },
+  "notes": "Validated Visual Forge qualitative learning pressure trace: focused app/model-mediated tests, full 83-test harness, schema validation for 100 examples, git diff --check, smart drift check green, report-suite smoke includes Visual Forge chain and conformance.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-04T21:04:21.646269+00:00",
+  "source": "codex-validation"
+}

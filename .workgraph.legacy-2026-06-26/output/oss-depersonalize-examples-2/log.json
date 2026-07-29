@@ -1,0 +1,22 @@
+[
+  {
+    "timestamp": "2026-05-28T16:51:15.369670+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-28T16:51:28.036059+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-28T16:58:06.469638+00:00",
+    "user": "braydon",
+    "message": "Task claimed"
+  },
+  {
+    "timestamp": "2026-05-28T17:08:55.825404+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

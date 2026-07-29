@@ -1,0 +1,26 @@
+[
+  {
+    "path": "state_system/reporting.py",
+    "size": 8265
+  },
+  {
+    "path": "tests/test_trace_reporting.py",
+    "size": 2348
+  },
+  {
+    "path": "scripts/demo_state_system.sh",
+    "size": 1054
+  },
+  {
+    "path": "docs/superpowers/specs/2026-05-03-user-testable-state-system-surface-spec.md",
+    "size": 2341
+  },
+  {
+    "path": "docs/superpowers/plans/2026-05-03-state-system-end-to-end-build-plan.md",
+    "size": 3893
+  },
+  {
+    "path": "README.md",
+    "size": 15374
+  }
+]

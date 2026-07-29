@@ -1,0 +1,86 @@
+[
+  {
+    "timestamp": "2026-05-18T16:23:42.070191+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T16:23:54.796902+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T16:25:02.502520+00:00",
+    "actor": "state-researchco-codex",
+    "user": "braydon",
+    "message": "Task claimed by @state-researchco-codex"
+  },
+  {
+    "timestamp": "2026-05-18T16:25:02.893334+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T16:31:01.323999+00:00",
+    "user": "braydon",
+    "message": "ResearchCo scaffold slice complete under /Users/braydon/projects/work/synth/state-system. Added private runtime capability pack, SourceModuleSpec alignment manifest, runbook, preflight/freshness records, generated company capability/preflight/freshness/understanding read models, and scaffold validator. Validation: python3 state-system/tests/validate_researchco_scaffold.py passed; python3 -m state_system.cli --project-root . validate passed with 127 examples; company-capability-seed/read passed; JSON parse passed. Gaps intentionally visible: non-local preflight failed/not run; non-local freshness unknown; CRM not declared pending SourceModuleSpec registry entry. PortfolioCo not touched by ResearchCo agent."
+  },
+  {
+    "timestamp": "2026-05-18T16:31:12.215661+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T16:48:56.587424+00:00",
+    "user": "braydon",
+    "message": "ResearchCo scaffold updated for advanced contracts. Added private ToolActionContract and QuestionRouteContract registries, instance capability, instance preflight/freshness records, instance understanding and Ingrid agent package. Agent package now carries typed source readiness fields and ResearchCo routes with route_contract_ref, required_source_coverage, fallback_policy, gap_behavior, and tool_action_refs. Corrected state-root usage to /Users/braydon/projects/work/synth/state-system and removed nested state/state artifacts created during regeneration. Validation: ResearchCo scaffold validator passed; private contract/package schemas passed; JSON parse passed; state-system instance agent package tests passed; generic CLI validate passed with 127 examples. Remaining gaps are explicit: non-local live checks not run, freshness unknown, docs pipeline planned, CRM/Linear not declared. PortfolioCo remains untouched."
+  },
+  {
+    "timestamp": "2026-05-18T16:49:40.539982+00:00",
+    "user": "braydon",
+    "message": "ResearchCo scaffold cleanup: removed duplicate non-canonical instance capability file and regenerated instance-capability read model; confirmed no nested state/state store remains. Focused validator and JSON parse still pass."
+  },
+  {
+    "timestamp": "2026-05-18T16:53:28.395511+00:00",
+    "user": "braydon",
+    "message": "ResearchCo scaffold aligned to updated instance-understanding readiness contract. Updated scaffold validator to require source_module_ref, module_registry_ref, module_mode, checked_at, source_watermark, stale_after, preflight/freshness/gap refs, usable_access_status, and planned/pipeline gaps on both instance-understanding and agent-package source readiness. Regenerated instance-understanding read model from updated core; docs source carries planned_missing_reason and pipeline_dependency. Verified CLI renderer exposes route_contract_ref, required_source_coverage, fallback_policy, gap_behavior, and tool_action_refs for ResearchCo routes. Validation: ResearchCo scaffold validator passed; private schema validation passed; JSON parse passed; tests.test_instance_agent_packages passed; generic CLI validate passed with 127 examples."
+  },
+  {
+    "timestamp": "2026-05-19T19:28:03.383084+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-19T19:33:42.735686+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-19T19:33:50.442716+00:00",
+    "user": "braydon",
+    "message": "2026-05-19 refresh: seeded PortfolioCo runtime preflight/freshness records, refreshed ResearchCo local/repo evidence, regenerated Helena/Ingrid packages/read models, corrected PortfolioCo self state-system runtime_root/interpreted index, and validated state roots plus 8/8 package pressure. Remaining source gaps are explicit: PortfolioCo Folio/Drive/msgvault live checks; ResearchCo Folio/Drive/msgvault and docs pipeline; repo freshness stale where applicable."
+  },
+  {
+    "timestamp": "2026-05-20T19:35:51.760073+00:00",
+    "actor": "reconcile",
+    "user": "braydon",
+    "message": "Reconciliation: task recovered from orphaned state (agent: state-researchco-codex)"
+  },
+  {
+    "timestamp": "2026-05-20T19:55:00.015076+00:00",
+    "actor": "state:1-manual",
+    "user": "braydon",
+    "message": "Task claimed by @state:1-manual"
+  },
+  {
+    "timestamp": "2026-05-20T19:55:00.028509+00:00",
+    "user": "braydon",
+    "message": "Manual Codex close-out after post-reboot recovery. Child lanes are complete: PortfolioCo FLIP done score 0.91, ResearchCo FLIP done score 0.94, PortfolioCo evaluator done score 0.91, ResearchCo evaluator done score 0.94. Earlier logs show both company state instance scaffolds validated, package/readiness/guidance/privacy checks passed, and remaining gaps are explicit. Caveats preserved: original parent task exceeded max_files/max_loc advisory budget; NaviCyte workspace changes remain local/uncommitted; Workgraph service was not used because it is configured for Claude, not codexd."
+  },
+  {
+    "timestamp": "2026-05-20T19:55:00.058198+00:00",
+    "actor": "state:1-manual",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

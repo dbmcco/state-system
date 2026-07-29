@@ -1,0 +1,5 @@
+Assigned agent to task 'state-stale-context-pressure-v0':
+  Agent:      Default Evaluator (31847164)
+  Role:       Evaluator (75d2fab8)
+  Tradeoff:   Evaluator Balanced (ac9bc242)
+[assign] Auto-selecting agent: 31847164 for task 'state-stale-context-pressure-v0'

@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-pressure-governance-2026-05-03T11-08-28.130063+00-00",
+  "task_id": "ss-pressure-governance",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.72,
+  "dimensions": {
+    "specificity_match": 0.6,
+    "requirement_coverage": 0.85,
+    "semantic_match": 0.7,
+    "hallucination_rate": 0.36
+  },
+  "notes": "The ACTUAL task frames this as a pressure test/review of governance and append-only semantics, while the INFERRED task describes the implementation requirements needed to satisfy those tests. Both address the same core domain (approval-gating, immutable journaling, avoiding fabricated state), and INFERRED captures most functional requirements: external publication gates, append-only journal behavior, contract evidence handling, and governance validation. Key requirement gaps: INFERRED doesn't explicitly mention 'committer' and 'materializer' components from ACTUAL. Specificity differs—ACTUAL uses scenario details (Laura, Patrick, LinkedIn); INFERRED uses technical requirements (32 unit tests, compileall, coredrift). Minor hallucinations: specific test counts and validation tools (compileall, diff checks, coredrift) are context-inferred from project infrastructure, not stated in the task description itself. Overall, INFERRED reconstructs the core implementation intent but with a shifted perspective (solution-focused vs. test-focused) and adds environment-specific validation requirements.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Implement approval-gated external publication and governance validation for the state system. Requirements: (1) Add external publication functionality with approval-gate constraints that keep changes pending until approved; (2) Preserve rollup references during publication; (3) Implement immutable journal updates that append corrective entries without modifying original records; (4) Handle contract evidence records without fabricating source truth; (5) Pass governance pressure tests validating the approval workflow and publication constraints; (6) Achieve at least 32 unit test checks passing; (7) Pass compileall validation, diff checks, and coredrift quality enforcement. Acceptance criteria: all governance tests pass, approval-gated publication workflow functions correctly, corrective updates properly append to journals, reference integrity is preserved, and all validation checks (unittest, compile, diff, coredrift) show green.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:08:28.130063+00:00",
+  "source": "flip"
+}

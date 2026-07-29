@@ -1,0 +1,19 @@
+{
+  "id": "flip-state-user-testable-root-2026-05-03T11-09-15.033485+00-00",
+  "task_id": "state-user-testable-root",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 0.09,
+  "dimensions": {
+    "specificity_match": 0.15,
+    "semantic_match": 0.05,
+    "requirement_coverage": 0.0,
+    "hallucination_rate": 0.95
+  },
+  "notes": "ACTUAL task is constructive: build a user-testable trace-driven State System surface with specific constraints (PlanForge session 20260503-070201, max_files=25, max_loc=800, pit_stop_after=3). INFERRED task is evaluative/meta: assess completed work against a rubric and produce graded feedback. These are fundamentally different activities. The inferred task introduces evaluation machinery, grading criteria, and rubric assessment—none of which appear in the actual task contract. No actual requirements (trace-driven, pressure loops, specific file/LOC limits) appear in the inferred version. The inferred task appears to describe a code-review or evaluation workflow, not the construction task specified.\n\nFLIP metadata: {\"comparison_model\":\"opus\",\"comparison_source\":\"task-model\",\"inference_model\":\"opus\",\"inference_source\":\"task-model\",\"inferred_prompt\":\"Evaluate the completed task output against the provided rubric. Apply grading criteria to assess whether the actor-agent's work meets the specified acceptance criteria. Produce a calibrated grade with transparent rationale, noting any strengths, gaps, or underspecified evaluation dimensions. Flag any rubric criteria that were ambiguous or difficult to assess from the available artifacts and output logs.\"}",
+  "evaluator": "flip:opus+opus",
+  "timestamp": "2026-05-03T11:09:15.033485+00:00",
+  "model": "opus",
+  "source": "flip"
+}

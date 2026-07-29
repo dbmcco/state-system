@@ -1,0 +1,116 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: ss-spec-anchor - Create Speedrift spec anchor for state-system first deployment
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Create Speedrift spec anchor for state-system first deployment"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Write a lightweight Speedrift drift anchor for the first deployment. Synthesize the North Star, first-deployment blueprint, source-event/idempotency contract, and system pressure test into an execution spec.
+
+## Model-Mediated Boundary
+- Code owns schemas, persistence, provenance, replay, and governance enforcement.
+- The model owns durable meaning, salience, uncertainty, memory promotion, and opportunity judgment.
+- Do not encode business judgment as static routing or action heuristics.
+
+## Pressure Test
+- Does the spec preserve source event -> trigger -> evidence -> model review -> governance -> journal/snapshot -> recent change -> package?
+- Does it distinguish Workgraph execution state from State System organizational state?
+- Does it keep Laura and Patrick as pressure-test personas without making the design SampleCo-specific?
+
+## Validation
+- [ ] Spec anchor exists at docs/specs/2026-04-28-state-system-speedrift-plan.md.
+- [ ] Spec lists implementation phases and acceptance gates.
+- [ ] Spec names the fixture traces that must pass.
+- [ ] Spec contains no temporary placeholder markers or brittle rule like deal won means post.
+
+Context from dependencies:
+No context from dependencies
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task ss-spec-anchor <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task ss-spec-anchor --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task ss-spec-anchor --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log ss-spec-anchor "message"
+- When complete: wg done ss-spec-anchor
+- If blocked: wg fail ss-spec-anchor --reason "description"

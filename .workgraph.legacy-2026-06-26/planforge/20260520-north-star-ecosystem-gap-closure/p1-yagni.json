@@ -1,0 +1,20 @@
+{
+  "cut_now": [
+    "Do not solve Workgraph executor configuration in this graph.",
+    "Do not repair FLIP/evaluator infrastructure in this graph.",
+    "Do not build full transcript semantic pipelines unless raw/read-model evidence exists.",
+    "Do not require every stale source to become fresh for this phase."
+  ],
+  "defer": [
+    "Spotify OAuth repair if credentials are unavailable.",
+    "ResearchCo transcript docs readiness until a real processed read model exists.",
+    "Full automated fleet scheduling after one manual ecosystem refresh proves the path."
+  ],
+  "watch": [
+    "Runtime roots with existing local changes.",
+    "Drive profile/source-ref mismatch for ResearchCo.",
+    "Private data leakage into product examples or reports."
+  ],
+  "minimum_scope": "Seed an execution graph with guarded instance lanes, a product renderer lane, and a final ecosystem acceptance lane. Execute only safe product validation immediately; operational lanes must claim dirty roots before writes.",
+  "rationale": "The value is in making gaps explicit and reducing them where evidence exists, not in over-promoting every source or expanding infrastructure scope."
+}

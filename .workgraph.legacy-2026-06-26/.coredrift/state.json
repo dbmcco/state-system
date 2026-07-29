@@ -1,0 +1,927 @@
+{
+  "schema": 1,
+  "tasks": {
+    "ss-spec-anchor": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T16:24:38.868636+00:00"
+    },
+    "ss-e2e-pressure-harness": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T21:05:57.341706+00:00"
+    },
+    "ss-contracts-fixtures": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T16:28:30.450571+00:00"
+    },
+    "ss-pressure-contracts": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T16:29:39.852887+00:00"
+    },
+    "ss-file-stores": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T16:48:32.907178+00:00"
+    },
+    "ss-source-idempotency": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T16:51:19.953994+00:00"
+    },
+    "ss-pressure-idempotency": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T17:02:32.868920+00:00"
+    },
+    "ss-runner-fixture-reviewer": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T17:29:38.042520+00:00"
+    },
+    "ss-backward-gap-audit": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T19:19:19.844334+00:00"
+    },
+    "ss-model-reviewer-boundary": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T20:01:22.372997+00:00"
+    },
+    "ss-committer-materializer": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-29T21:32:33.781456+00:00"
+    },
+    "ss-pressure-governance": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T16:11:33.255175+00:00"
+    },
+    "ss-recent-context-packaging": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T20:26:29.789524+00:00"
+    },
+    "ss-pressure-routing-freshness": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T21:05:48.717308+00:00"
+    },
+    "ss-cli": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T21:05:51.671289+00:00"
+    },
+    "ss-paia-memory-adapter": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-04-30T21:05:54.543835+00:00"
+    },
+    "ss-runtime-v0-anchor": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T17:23:19.289791+00:00"
+    },
+    "ss-runtime-v0-cli-loop": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T17:23:24.634329+00:00"
+    },
+    "ss-git-source-adapter-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T18:11:44.134119+00:00"
+    },
+    "ss-live-git-runtime-trial": {
+      "score": "yellow",
+      "kinds": [
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T18:43:24.078620+00:00"
+    },
+    "ss-agent-consumer-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T20:18:08.339908+00:00"
+    },
+    "ss-system-diagram-html": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T21:18:33.445239+00:00"
+    },
+    "ss-system-diagram-source-generalization": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T22:27:58.654720+00:00"
+    },
+    "ss-system-diagram-flow-first": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-01T22:33:43.757359+00:00"
+    },
+    "ss-miriam-critical-reviewer-persona": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-02T00:55:04.384904+00:00"
+    },
+    "ss-trace-runner": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-02T22:02:27.114941+00:00"
+    },
+    "ss-trace-runner-approval-gate": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-02T22:24:17.248660+00:00"
+    },
+    "ss-agent-activation-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-03T10:52:17.836966+00:00"
+    },
+    "state-user-report-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-03T11:12:27.141760+00:00"
+    },
+    "state-stale-context-pressure-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T16:44:11.891077+00:00"
+    },
+    "state-prospect-outreach-crm-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T17:23:49.166509+00:00"
+    },
+    "state-app-substrate-report-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T17:32:33.667363+00:00"
+    },
+    "state-reporting-surface-v1": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T17:44:43.967014+00:00"
+    },
+    "state-mission-records-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T17:56:47.381507+00:00"
+    },
+    "state-model-mediated-drift-suite-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T18:00:39.903943+00:00"
+    },
+    "state-report-suite-mission-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T18:22:38.291241+00:00"
+    },
+    "state-mission-report-html-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T20:31:07.444091+00:00"
+    },
+    "state-demo-report-suite-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T20:36:15.871400+00:00"
+    },
+    "state-meeting-coordination-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T20:56:14.002573+00:00"
+    },
+    "state-thoughtforge-provenance-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T21:00:18.067904+00:00"
+    },
+    "state-visual-forge-qualitative-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T21:04:06.001900+00:00"
+    },
+    "state-crm-outcome-doctrine-contract-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-04T21:19:55.210309+00:00"
+    },
+    "state-refresh-app-substrate-contract-six-chain-doc": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-11T19:14:43.113657+00:00"
+    },
+    "state-company-memory-crm-operating-picture-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-11T19:20:15.605136+00:00"
+    },
+    "state-working-model-envelope-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-11T22:15:08.347299+00:00"
+    },
+    "state-operational-loop-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-11T22:29:48.104270+00:00"
+    },
+    "state-company-capability-pack-baseline-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-14T17:12:06.734091+00:00"
+    },
+    "state-company-capability-runtime-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-14T17:27:40.955041+00:00"
+    },
+    "state-company-capability-tool-exposure-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-14T18:02:46.542787+00:00"
+    },
+    "state-company-capability-preflight-results-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-14T18:40:52.607833+00:00"
+    },
+    "state-paia-bootstrap-export-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-14T18:53:22.156721+00:00"
+    },
+    "state-source-freshness-heartbeat-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-15T17:42:10.136486+00:00"
+    },
+    "state-active-heartbeat-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-15T18:32:48.120317+00:00"
+    },
+    "state-sampleco-linear-team-ref-fix-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-15T19:40:31.312846+00:00"
+    },
+    "state-root-migration-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-16T13:58:12.385136+00:00"
+    },
+    "state-personal-personal state-operational-v0": {
+      "score": "yellow",
+      "kinds": [
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-16T19:30:38.358011+00:00"
+    },
+    "state-instance-readiness-records-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T10:04:32.748388+00:00"
+    },
+    "state-personal-source-freshness-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": true,
+      "updated_at": "2026-05-17T10:10:08.557478+00:00"
+    },
+    "state-personal-connector-preflight-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T10:13:54.159093+00:00"
+    },
+    "state-personal-garmin-spotify-sources-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T15:18:14.999682+00:00"
+    },
+    "state-cli-agent-package-plan-anchor-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:03:08.703432+00:00"
+    },
+    "bstate-source-readiness-proof-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:08:17.679021+00:00"
+    },
+    "state-instance-preflight-id-hardening-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:07:23.535207+00:00"
+    },
+    "state-instance-federation-read-v1": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:09:25.357703+00:00"
+    },
+    "state-personal-understanding-surface-operational-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:09:56.968259+00:00"
+    },
+    "state-agent-package-contract-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:11:54.493938+00:00"
+    },
+    "state-agent-package-cli-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:16:19.340120+00:00"
+    },
+    "state-personal-personal state-runbook-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:17:02.162673+00:00"
+    },
+    "state-personal-context-package-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:23:59.839884+00:00"
+    },
+    "sampleco-instance-readiness-promote-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T16:15:03.041330+00:00"
+    },
+    "state-cross-repo-package-sync-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T17:07:32.984845+00:00"
+    },
+    "state-agent-package-e2e-pressure-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T17:08:55.068169+00:00"
+    },
+    "state-agent-package-fix-loop-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T17:13:12.703479+00:00"
+    },
+    "state-agent-source-freshness-gap-fix-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T18:41:40.589789+00:00"
+    },
+    "bstate-spotify-source-access-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T20:00:43.346474+00:00"
+    },
+    "state-relationship-index-federation-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-17T23:22:13.273879+00:00"
+    },
+    "state-source-module-contract-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T16:25:07.568688+00:00"
+    },
+    "company-instance-scaffold-portfolio_co-researchco-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-19T19:33:42.726082+00:00"
+    },
+    "state-tool-action-contract-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T16:43:24.890127+00:00"
+    },
+    "state-route-contract-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T16:50:35.819070+00:00"
+    },
+    "relationship-substrate-oss-module-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T16:44:20.907011+00:00"
+    },
+    "relationship-substrate-oss-contracts-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:50:17.200611+00:00"
+    },
+    "sampleco-daily-use-contract-refresh-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:12:55.432207+00:00"
+    },
+    "bstate-daily-use-contract-refresh-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 5,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T14:45:30.274685+00:00"
+    },
+    "state-oss-ecosystem-conformance-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:15:44.036529+00:00"
+    },
+    "state-instance-scaffold-command-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:17:41.522911+00:00"
+    },
+    "researchco-state-instance-scaffold-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:20:41.874515+00:00"
+    },
+    "portfolio_co-state-instance-scaffold-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T17:17:32.264760+00:00"
+    },
+    "ecosystem-freshness-repair-backlog-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T18:24:54.338934+00:00"
+    },
+    "state-operational-federated-model-design-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T18:58:50.093836+00:00"
+    },
+    "state-operational-eval-gate-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T19:11:30.910794+00:00"
+    },
+    "state-instance-federation-pack-contract-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T19:16:03.011675+00:00"
+    },
+    "state-live-instance-federation-pack-materialization-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T19:20:23.043945+00:00"
+    },
+    "state-real-question-package-pressure-harness-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T19:29:22.017852+00:00"
+    },
+    "state-portfolio_co-researchco-readiness-promotion-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 3,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T19:39:09.409799+00:00"
+    },
+    "state-high-value-freshness-repair-loop-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T22:03:45.269956+00:00"
+    },
+    "state-open-source-onboarding-release-gate-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-18T22:18:11.377322+00:00"
+    },
+    "state-fleet-freshness": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-19T20:33:18.744504+00:00"
+    },
+    "state-system-beeper-bstate": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "hardening_in_core"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T14:47:57.730415+00:00"
+    },
+    ".flip-researchco-state-instance-scaffold-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T19:41:46.421147+00:00"
+    },
+    ".flip-portfolio_co-state-instance-scaffold-v0": {
+      "score": "green",
+      "kinds": [],
+      "streak": 0,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T19:42:28.128022+00:00"
+    },
+    "north-star-product-stabilize-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 4,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T22:51:42.972075+00:00"
+    },
+    "north-star-renderer-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 2,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T22:54:15.568265+00:00"
+    },
+    "north-star-ecosystem-acceptance-v0": {
+      "score": "yellow",
+      "kinds": [
+        "churn_files",
+        "churn_loc",
+        "scope_drift"
+      ],
+      "streak": 1,
+      "pit_stop_created": false,
+      "updated_at": "2026-05-20T22:59:14.492306+00:00"
+    }
+  },
+  "event_cursor": 0
+}

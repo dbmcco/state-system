@@ -1,0 +1,20 @@
+{
+  "id": "eval-relationship-substrate-oss-contracts-v0-2026-05-18T18-05-02.238805+00-00",
+  "task_id": "relationship-substrate-oss-contracts-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.84,
+  "dimensions": {
+    "coordination_overhead": 0.74,
+    "downstream_usability": 0.88,
+    "efficiency": 0.72,
+    "style_adherence": 0.82,
+    "blocking_impact": 0.82,
+    "correctness": 0.9,
+    "completeness": 0.88
+  },
+  "notes": "Manual evaluation after FLIP/direct evaluator infrastructure failed. Deliverables are present: public typed models for person/org/affiliation/interaction/subject_note, synthetic fixture, canonical subject-note CLI/docs, compatibility aliases, demote/explain/not-hide tests, source_owned_correction_write boundary. Full Relationship Substrate pytest passed: 172 passed. Deductions: large churn over workgraph budget, state-system task had prior failed agent/eval infra noise, and Relationship Substrate worktree remains dirty awaiting landing.",
+  "evaluator": "manual:codex",
+  "timestamp": "2026-05-18T18:05:02.238805+00:00",
+  "source": "manual:codex"
+}

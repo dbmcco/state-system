@@ -1,0 +1,12 @@
+{
+  "actor": {
+    "id": "session-3084",
+    "actor_class": "interactive",
+    "name": "claude-code",
+    "repo": "state-system"
+  },
+  "started_at": "2026-06-26T22:27:01.527339+00:00",
+  "last_heartbeat": "2026-06-26T22:27:01.527339+00:00",
+  "current_task": "",
+  "status": "active"
+}

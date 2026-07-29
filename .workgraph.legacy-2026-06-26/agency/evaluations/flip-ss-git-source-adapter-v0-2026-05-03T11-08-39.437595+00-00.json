@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-git-source-adapter-v0-2026-05-03T11-08-39.437595+00-00",
+  "task_id": "ss-git-source-adapter-v0",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.73,
+  "dimensions": {
+    "requirement_coverage": 0.6,
+    "hallucination_rate": 0.38,
+    "semantic_match": 1.0,
+    "specificity_match": 0.45
+  },
+  "notes": "Both describe the same core task: converting git commits into source-events for the trigger runtime. However, the inferred version diverges significantly in scope and specificity. It captures 3 of 5 acceptance criteria (commit-to-event conversion, event ingestion, metadata inclusion) but omits idempotency stability and the crucial non-goal about avoiding persona/marketing decisions. The inferred version fabricates specific numbers (56 scenarios, 45 tests) and validation gates (compileall, diff integrity, coredrift compliance) not in the original. It also fails to acknowledge hard constraints from the actual task (max 450 LOC, max 5 files, pit stop after 3 checkpoints). The actual task is concise and constraint-driven; the inferred is implementation-prescriptive. The inferred adds necessary detail but overshoots the brief and introduces hallucinated requirements.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Implement a Git commit source adapter v0 for the trigger runtime. Create a CLI command 'git-commit-event' that can detect, parse, and optionally ingest git commits as events into the trigger system. Requirements: (1) Full implementation of GitCommitSourceAdapter with proper event emission, (2) CLI validation supporting at least 56 different git commit scenarios and formats, (3) Comprehensive test suite with minimum 45 tests in tests/test_git_source_adapter.py covering edge cases and common workflows, (4) Code quality validation including compileall syntax check, diff integrity verification, and coredrift compliance, (5) Optional support for direct ingestion into the trigger runtime system. Acceptance criteria: all tests passing, no coredrift violations, CLI examples validate cleanly, and full integration with existing trigger infrastructure.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:08:39.437595+00:00",
+  "source": "flip"
+}

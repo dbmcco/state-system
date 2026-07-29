@@ -1,0 +1,18 @@
+{
+  "id": "flip-ss-runner-fixture-reviewer-2026-05-03T11-06-56.779497+00-00",
+  "task_id": "ss-runner-fixture-reviewer",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.91,
+  "dimensions": {
+    "semantic_match": 0.95,
+    "hallucination_rate": 0.15,
+    "specificity_match": 0.85,
+    "requirement_coverage": 0.93
+  },
+  "notes": "The inferred task accurately captures the core objective of implementing a runner and fixture reviewer for the event-driven review packet pipeline. All major requirements are present: the Notice and Interpret flow, source-event processing, model-mediated boundary, edge case handling (no-op, missing evidence), and validation approach. The inferred version adds reasonable specificity (JSON schema validation, coredrift checks) and elaborates test categories (nominal/no-op/missing-evidence), which align with the spirit of the actual task. One minor omission: the pressure test about 'one trigger producing multiple proposals' is not captured. The term 'Laura shape format' in the inferred version is actually a useful specification not explicitly named in the actual. No significant hallucinations—additions are grounded inferences rather than fabrications.\n\nFLIP metadata: {\"comparison_model\":\"opus\",\"comparison_source\":\"task-model\",\"inference_model\":\"opus\",\"inference_source\":\"task-model\",\"inferred_prompt\":\"Implement core components for the state system event-driven review packet pipeline: (1) A runner that constructs review packets in the Laura shape format; (2) A source-event flow processor that transforms incoming events into properly-shaped review packets; (3) A fixture-based reviewer that can replay and validate example model outputs against test fixtures; (4) Edge case handling ensuring no-op operations and missing-evidence scenarios do not mutate state. Requirements: All components must pass full unit test coverage with JSON schema validation and diff-based verification. Test fixtures must cover nominal flow, no-op cases, and missing-evidence cases. Code must pass coredrift quality checks with no findings. Acceptance: Validate that runner builds correct Laura review packet structure, source-event flow correctly transforms events, fixture reviewer accurately replays model outputs, edge cases do not cause state mutations, and all unittest/json/diff checks pass.\"}",
+  "evaluator": "flip:opus+opus",
+  "timestamp": "2026-05-03T11:06:56.779497+00:00",
+  "model": "opus",
+  "source": "flip"
+}

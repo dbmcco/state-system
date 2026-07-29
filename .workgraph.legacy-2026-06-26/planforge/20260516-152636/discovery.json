@@ -1,0 +1,40 @@
+{
+  "session_id": "20260516-152636",
+  "created_at": "2026-05-16T15:26:36-04:00",
+  "method": "planforge-speedrift",
+  "source_context": [
+    "Braydon requested a personal state system under /Users/braydon/projects/personal/personal state.",
+    "The personal instance must include entire-life context, workboard tasks, agentmem, msgvault, and the developing relationship-substrate system.",
+    "SampleCo, ResearchCo, PortfolioCo, and Plum should be treated as separate state instances, with connector/federation patterns instead of duplicated corpora.",
+    "msgvault already owns an email archive and pgvector-backed retrieval; personal personal state should query or reference it rather than create a competing raw email store.",
+    "Braydon framed himself as another abstraction, so the personal instance should use a generic entity/state-instance contract rather than a company-shaped bridge."
+  ],
+  "problem": "Make the personal personal state root operational as a federated State System instance that can prove source readiness and freshness, expose gaps, build bounded context packages, and support model-owned synthesis without duplicating raw source stores.",
+  "non_goals": [
+    "Do not copy raw email, agent memory, relationship, or work-instance corpora into /personal/personal state.",
+    "Do not encode deterministic whole-life scoring or company-specific ontology as the personal abstraction.",
+    "Do not add a new vector store as the default answer to every source; prefer source-owned indexes with explicit read contracts.",
+    "Do not start Speedrift autonomous execution without an explicit request."
+  ],
+  "constraints": [
+    "Use /Users/braydon/projects/personal/personal state as the personal runtime root.",
+    "Use Workgraph/Speedrift as the task and dependency source of truth.",
+    "Use git worktrees for implementation waves after the plan is accepted or selected.",
+    "Respect source ownership: msgvault owns email retrieval, agentmem owns agent memory, relationship-substrate owns personal network relationship substrate, PAIA Workboard owns tasks, and work state instances own their local corpora.",
+    "Model synthesis should operate over bounded context packages with evidence and freshness metadata, and should produce proposals rather than silently accepted state.",
+    "All schema/runtime changes must preserve existing SampleCo/company behavior and pass validation plus the test suite."
+  ],
+  "success_criteria": [
+    "A refresh of /personal/personal state can mechanically report readiness and freshness for declared personal sources.",
+    "The read surface exposes ready, stale, planned, and gap statuses with evidence references.",
+    "Personal personal state can federate to work instances through state_system_instance connectors rather than corpus duplication.",
+    "A bounded context package exists for model synthesis and includes provenance, freshness, unresolved gaps, and connector boundaries.",
+    "A model proposal loop can answer personal attention/state questions while preserving proposal/evidence separation.",
+    "Runbook documents refresh, inspection, vector-store implications, and source ownership."
+  ],
+  "speedrift_posture": {
+    "mode": "observe",
+    "dispatcher": "stopped",
+    "autonomous_execution": "not_requested"
+  }
+}

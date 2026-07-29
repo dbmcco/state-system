@@ -1,0 +1,17 @@
+{
+  "providers": {
+    "claude": {
+      "provider_id": "claude",
+      "consecutive_failures": 0,
+      "last_failure_at": null,
+      "last_error": null,
+      "is_paused": false,
+      "paused_at": null,
+      "pause_reason": null
+    }
+  },
+  "service_paused": false,
+  "pause_reason": null,
+  "paused_at": null,
+  "auto_resume_at": null
+}

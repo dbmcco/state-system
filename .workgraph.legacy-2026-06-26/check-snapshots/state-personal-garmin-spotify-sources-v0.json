@@ -1,0 +1,306 @@
+{
+  "task_id": "state-personal-garmin-spotify-sources-v0",
+  "exit_code": 3,
+  "mode": "redirect",
+  "effective_mode": "redirect",
+  "contract_auto_ensure": {
+    "enabled": true,
+    "attempted": true,
+    "applied": true,
+    "error": null
+  },
+  "loop_safety": {
+    "max_redrift_depth": 2,
+    "observed_redrift_depth": 0,
+    "ready_drift_followups": 14,
+    "blocked_by_cycle": false,
+    "followups_blocked": false,
+    "reasons": []
+  },
+  "update_preflight": {
+    "enabled": true,
+    "checked": true,
+    "skipped": true,
+    "has_updates": false,
+    "has_discoveries": false,
+    "updates": [],
+    "user_findings": [],
+    "report_findings": [],
+    "errors": [],
+    "summary": null,
+    "followup_task_id": null,
+    "checked_at": "2026-05-17T15:14:38.319673+00:00",
+    "interval_seconds": 21600,
+    "elapsed_seconds": 18659
+  },
+  "lane_strategy": "auto",
+  "lane_plan": {
+    "strategy": "auto",
+    "full_suite": false,
+    "reasons": [],
+    "selected_plugins": [],
+    "plugin_reasons": {
+      "specdrift": "not selected",
+      "datadrift": "not selected",
+      "archdrift": "not selected",
+      "depsdrift": "not selected",
+      "uxdrift": "not selected",
+      "therapydrift": "not selected",
+      "fixdrift": "not selected",
+      "yagnidrift": "not selected",
+      "redrift": "not selected"
+    }
+  },
+  "policy_order": [
+    "specdrift",
+    "datadrift",
+    "archdrift",
+    "depsdrift",
+    "uxdrift",
+    "therapydrift",
+    "fixdrift",
+    "yagnidrift",
+    "redrift"
+  ],
+  "plugins": {
+    "coredrift": {
+      "ran": true,
+      "exit_code": 3,
+      "report": {
+        "task_id": "state-personal-garmin-spotify-sources-v0",
+        "task_title": "Add Garmin and Spotify personal state source surfaces",
+        "git_root": "/Users/braydon/projects/experiments/state-system",
+        "score": "yellow",
+        "contract": {
+          "schema": 1,
+          "mode": "core",
+          "objective": "Declare Garmin Connect and Spotify as first-class personal personal state source surfaces while preserving generic State System contracts and readiness semantics.",
+          "non_goals": [
+            "Do not copy raw Garmin Connect or Spotify corpora into the product repo or personal state",
+            "Do not mark either source ready without passed preflight and fresh source freshness evidence",
+            "Do not import personal-source assumptions into company/SampleCo defaults"
+          ],
+          "touch": [
+            "schemas/instance-capability-pack.schema.json",
+            "examples/instance-capability/instance-braydon-personal.json",
+            "docs/NORTH_STAR.md",
+            "tests/test_instance_capability_pack.py",
+            "tests/test_instance_understanding_surface.py",
+            "/Users/braydon/projects/personal/personal state/**",
+            "/Users/braydon/projects/work/sampleco/state-system/docs/NORTH_STAR.md"
+          ],
+          "acceptance": [
+            "Schema admits garmin_connect and spotify connector types without changing company defaults",
+            "Personal capability pack declares Garmin Connect and Spotify connectors, raw source refs, index manifests, and read action surfaces",
+            "Personal understanding surface shows Garmin and Spotify as planned/gap sources until preflight/freshness pass",
+            "Generic, SampleCo, and personal state north-star docs are aligned and explicitly separate product, company instance, and personal instance scope",
+            "Specdrift, schema validation, and focused tests pass"
+          ],
+          "max_files": 14,
+          "max_loc": 900,
+          "pit_stop_after": 3,
+          "auto_followups": true
+        },
+        "telemetry": {
+          "files_changed": 15,
+          "loc_changed": 878,
+          "out_of_scope_files": 14
+        },
+        "findings": [
+          {
+            "kind": "scope_drift",
+            "severity": "warn",
+            "summary": "14 files outside touch globs",
+            "details": {
+              "out_of_scope": [
+                "README.md",
+                "examples/instance-preflight/instance-preflight-braydon-personal-folio.json",
+                "examples/instance-source-freshness/instance-source-freshness-braydon-personal-msgvault.json",
+                "schemas/instance-preflight-result.schema.json",
+                "schemas/instance-source-freshness-record.schema.json",
+                "state_system/cli.py",
+                "state_system/contracts.py",
+                "state_system/instance_preflight.py",
+                "state_system/instance_source_freshness.py",
+                "state_system/instance_understanding_surface.py",
+                "state_system/stores.py",
+                "tests/test_instance_preflight_results.py",
+                "tests/test_instance_source_freshness.py",
+                "tests/test_stores.py"
+              ]
+            }
+          },
+          {
+            "kind": "churn_files",
+            "severity": "warn",
+            "summary": "High file churn: 15 files (max_files=14)",
+            "details": {
+              "changed_files": [
+                "README.md",
+                "examples/instance-preflight/instance-preflight-braydon-personal-folio.json",
+                "examples/instance-source-freshness/instance-source-freshness-braydon-personal-msgvault.json",
+                "schemas/instance-preflight-result.schema.json",
+                "schemas/instance-source-freshness-record.schema.json",
+                "state_system/cli.py",
+                "state_system/contracts.py",
+                "state_system/instance_preflight.py",
+                "state_system/instance_source_freshness.py",
+                "state_system/instance_understanding_surface.py",
+                "state_system/stores.py",
+                "tests/test_instance_preflight_results.py",
+                "tests/test_instance_source_freshness.py",
+                "tests/test_instance_understanding_surface.py",
+                "tests/test_stores.py"
+              ]
+            }
+          }
+        ],
+        "recommendations": [
+          {
+            "priority": "high",
+            "action": "Revert out-of-scope file changes or expand touch globs",
+            "rationale": "Out-of-scope edits are the fastest path to unintended refactors and long-term performance regressions.",
+            "commands": [
+              "coredrift contract set-touch --task <id> <glob...>"
+            ]
+          },
+          {
+            "priority": "medium",
+            "action": "Split the task or adjust max_files/max_loc budgets in the contract",
+            "rationale": "High churn correlates with spec drift and hidden refactors; smaller tasks keep the graph in sync."
+          }
+        ]
+      }
+    },
+    "specdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "datadrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "archdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "depsdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "uxdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "note": "no standardized json output yet"
+    },
+    "therapydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "fixdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "yagnidrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "redrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "qadrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "qadrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "qadrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW"
+        }
+      }
+    },
+    "secdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "plandrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "factorydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "northstardrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "evolverdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "debatedrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "debatedrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "no debatedrift fence \u2014 skipping",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "debatedrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "no debatedrift fence \u2014 skipping"
+        }
+      }
+    }
+  },
+  "action_plan": [
+    {
+      "action": "scope",
+      "kind": "scope_drift",
+      "source": "coredrift"
+    },
+    {
+      "action": "ignore-with-rationale",
+      "kind": "churn_files",
+      "source": "coredrift"
+    }
+  ],
+  "contract_compliance": {
+    "total_checked": 3,
+    "contract_valid": 2,
+    "contract_invalid": 1,
+    "invalid_lanes": [
+      "coredrift"
+    ]
+  },
+  "enforcement": {
+    "blocked": false,
+    "warnings": [],
+    "exit_code": 0,
+    "counts": {}
+  }
+}

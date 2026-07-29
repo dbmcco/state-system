@@ -1,0 +1,371 @@
+{
+  "task_id": "north-star-product-stabilize-v0",
+  "exit_code": 3,
+  "mode": "redirect",
+  "effective_mode": "redirect",
+  "contract_auto_ensure": {
+    "enabled": true,
+    "attempted": true,
+    "applied": true,
+    "error": null
+  },
+  "loop_safety": {
+    "max_redrift_depth": 2,
+    "observed_redrift_depth": 0,
+    "ready_drift_followups": 20,
+    "blocked_by_cycle": false,
+    "followups_blocked": false,
+    "reasons": []
+  },
+  "update_preflight": {
+    "enabled": true,
+    "checked": true,
+    "skipped": true,
+    "has_updates": false,
+    "has_discoveries": false,
+    "updates": [],
+    "user_findings": [],
+    "report_findings": [],
+    "errors": [],
+    "summary": null,
+    "followup_task_id": null,
+    "checked_at": "2026-05-20T22:51:42.770190+00:00",
+    "interval_seconds": 21600,
+    "elapsed_seconds": 275
+  },
+  "lane_strategy": "auto",
+  "lane_plan": {
+    "strategy": "auto",
+    "full_suite": false,
+    "reasons": [],
+    "selected_plugins": [
+      "specdrift"
+    ],
+    "plugin_reasons": {
+      "specdrift": "task fence",
+      "datadrift": "not selected",
+      "archdrift": "not selected",
+      "depsdrift": "not selected",
+      "uxdrift": "not selected",
+      "therapydrift": "not selected",
+      "fixdrift": "not selected",
+      "yagnidrift": "not selected",
+      "redrift": "not selected"
+    }
+  },
+  "policy_order": [
+    "specdrift",
+    "datadrift",
+    "archdrift",
+    "depsdrift",
+    "uxdrift",
+    "therapydrift",
+    "fixdrift",
+    "yagnidrift",
+    "redrift"
+  ],
+  "plugins": {
+    "coredrift": {
+      "ran": true,
+      "exit_code": 3,
+      "report": {
+        "task_id": "north-star-product-stabilize-v0",
+        "task_title": "north-star: stabilize schema-backed substrate",
+        "git_root": "/Users/braydon/projects/experiments/state-system",
+        "score": "yellow",
+        "contract": {
+          "schema": 1,
+          "mode": "core",
+          "objective": "Verify the existing north-star-answer schema, CLI, tests, and ecosystem report as a coherent product substrate.",
+          "non_goals": [
+            "Do not touch runtime state roots",
+            "Do not edit .workgraph/graph.jsonl except through Workgraph commands",
+            "Do not claim unrelated FLIP or evaluator tasks"
+          ],
+          "touch": [
+            "state_system/north_star_answer.py",
+            "schemas/north-star-answer.schema.json",
+            "tests/test_north_star_answer.py",
+            "tests/test_open_source_ecosystem_conformance.py",
+            "state_system/cli.py",
+            "docs/NORTH_STAR.md",
+            "docs/reports/2026-05-20-north-star-ecosystem-run.md"
+          ],
+          "acceptance": [
+            "north-star-answer artifacts validate against the formal schema",
+            "focused north-star and open-source conformance tests pass",
+            "project validation passes",
+            "baseline ecosystem counts are recorded under /tmp/state-system-coordination/"
+          ],
+          "verify": "python3 -m unittest tests.test_north_star_answer && python3 -m unittest tests.test_open_source_ecosystem_conformance && python3 -m state_system.cli --project-root . validate",
+          "max_files": 8,
+          "max_loc": 700,
+          "pit_stop_after": 3,
+          "auto_followups": true
+        },
+        "telemetry": {
+          "files_changed": 30,
+          "loc_changed": 838,
+          "out_of_scope_files": 23
+        },
+        "findings": [
+          {
+            "kind": "scope_drift",
+            "severity": "warn",
+            "summary": "23 files outside touch globs",
+            "details": {
+              "out_of_scope": [
+                "README.md",
+                "docs/superpowers/plans/2026-05-20-north-star-ecosystem-gap-closure.md",
+                "docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md",
+                "examples/company-capability/company-sampleco.json",
+                "examples/company-capability/company-portfolio_co.json",
+                "examples/company-capability/company-researchco.json",
+                "examples/instance-agent-package/instance-agent-package-braydon-personal-samantha.json",
+                "examples/instance-agent-package/instance-agent-package-sampleco-caroline.json",
+                "examples/instance-capability/instance-braydon-personal.json",
+                "examples/instance-federation-packs/instance-federation-pack-core-examples.json",
+                "examples/instance-preflight/instance-preflight-braydon-personal-folio.json",
+                "examples/instances/state-instance-braydon-personal.json",
+                "examples/instances/state-instance-sampleco.json",
+                "examples/laura-model-review-packet.json",
+                "examples/pressure-questions/package-pressure-core-real-questions.json",
+                "examples/question-routes/question-route-core-agent-routes.json",
+                "examples/source-modules/source-module-core-connectors.json",
+                "examples/tool-actions/tool-action-core-source-tools.json",
+                "tests/test_instance_capability_pack.py",
+                "tests/test_instance_understanding_surface.py",
+                "tests/test_personal_context_package.py",
+                "tests/test_state_instance_contract.py",
+                "tests/test_state_root_migration.py"
+              ]
+            }
+          },
+          {
+            "kind": "churn_files",
+            "severity": "warn",
+            "summary": "High file churn: 30 files (max_files=8)",
+            "details": {
+              "changed_files": [
+                "docs/NORTH_STAR.md",
+                "README.md",
+                "docs/reports/2026-05-20-north-star-ecosystem-run.md",
+                "docs/superpowers/plans/2026-05-20-north-star-ecosystem-gap-closure.md",
+                "docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md",
+                "examples/company-capability/company-sampleco.json",
+                "examples/company-capability/company-portfolio_co.json",
+                "examples/company-capability/company-researchco.json",
+                "examples/instance-agent-package/instance-agent-package-braydon-personal-samantha.json",
+                "examples/instance-agent-package/instance-agent-package-sampleco-caroline.json",
+                "examples/instance-capability/instance-braydon-personal.json",
+                "examples/instance-federation-packs/instance-federation-pack-core-examples.json",
+                "examples/instance-preflight/instance-preflight-braydon-personal-folio.json",
+                "examples/instances/state-instance-braydon-personal.json",
+                "examples/instances/state-instance-sampleco.json",
+                "examples/laura-model-review-packet.json",
+                "examples/pressure-questions/package-pressure-core-real-questions.json",
+                "examples/question-routes/question-route-core-agent-routes.json",
+                "examples/source-modules/source-module-core-connectors.json",
+                "examples/tool-actions/tool-action-core-source-tools.json",
+                "schemas/north-star-answer.schema.json",
+                "state_system/cli.py",
+                "state_system/north_star_answer.py",
+                "tests/test_instance_capability_pack.py",
+                "tests/test_instance_understanding_surface.py",
+                "tests/test_north_star_answer.py",
+                "tests/test_open_source_ecosystem_conformance.py",
+                "tests/test_personal_context_package.py",
+                "tests/test_state_instance_contract.py",
+                "tests/test_state_root_migration.py"
+              ]
+            }
+          },
+          {
+            "kind": "churn_loc",
+            "severity": "warn",
+            "summary": "High LOC churn: 838 lines (max_loc=700)",
+            "details": {
+              "loc_changed": 838
+            }
+          }
+        ],
+        "recommendations": [
+          {
+            "priority": "high",
+            "action": "Revert out-of-scope file changes or expand touch globs",
+            "rationale": "Out-of-scope edits are the fastest path to unintended refactors and long-term performance regressions.",
+            "commands": [
+              "coredrift contract set-touch --task <id> <glob...>"
+            ]
+          },
+          {
+            "priority": "medium",
+            "action": "Split the task or adjust max_files/max_loc budgets in the contract",
+            "rationale": "High churn correlates with spec drift and hidden refactors; smaller tasks keep the graph in sync."
+          }
+        ]
+      }
+    },
+    "specdrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "task_id": "north-star-product-stabilize-v0",
+        "task_title": "north-star: stabilize schema-backed substrate",
+        "git_root": "/Users/braydon/projects/experiments/state-system",
+        "score": "green",
+        "spec": {
+          "schema": 1,
+          "spec": [
+            "docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md"
+          ],
+          "require_spec_update_when_code_changes": true,
+          "ignore": [
+            ".workgraph/**",
+            ".git/**"
+          ]
+        },
+        "telemetry": {
+          "files_changed": 30,
+          "spec_files_changed": 1,
+          "non_spec_files_changed": 29
+        },
+        "findings": [],
+        "recommendations": [],
+        "_specdrift_block": "```specdrift\nschema = 1\nspec = [\"docs/superpowers/specs/2026-05-20-north-star-ecosystem-gap-closure-spec.md\"]\ncheck = \"substrate remains schema-valid, gap-visible, non-executing, and non-materializing\"\n```",
+        "_contract_valid": false
+      }
+    },
+    "datadrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "archdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "depsdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "uxdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "note": "no standardized json output yet"
+    },
+    "therapydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "fixdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "yagnidrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "redrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "qadrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "qadrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "qadrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW"
+        }
+      }
+    },
+    "secdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "plandrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "factorydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "northstardrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "evolverdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "debatedrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "debatedrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "no debatedrift fence \u2014 skipping",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "debatedrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "no debatedrift fence \u2014 skipping"
+        }
+      }
+    }
+  },
+  "action_plan": [
+    {
+      "action": "scope",
+      "kind": "scope_drift",
+      "source": "coredrift"
+    },
+    {
+      "action": "ignore-with-rationale",
+      "kind": "churn_files",
+      "source": "coredrift"
+    },
+    {
+      "action": "ignore-with-rationale",
+      "kind": "churn_loc",
+      "source": "coredrift"
+    }
+  ],
+  "contract_compliance": {
+    "total_checked": 4,
+    "contract_valid": 2,
+    "contract_invalid": 2,
+    "invalid_lanes": [
+      "coredrift",
+      "specdrift"
+    ]
+  },
+  "enforcement": {
+    "blocked": false,
+    "warnings": [],
+    "exit_code": 0,
+    "counts": {}
+  }
+}

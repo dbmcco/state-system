@@ -1,0 +1,18 @@
+{
+  "id": "flip-state-stale-context-pressure-v0-2026-05-04T16-43-56.959083+00-00",
+  "task_id": "state-stale-context-pressure-v0",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 0.86,
+  "dimensions": {
+    "hallucination_rate": 0.45,
+    "requirement_coverage": 0.95,
+    "semantic_match": 0.9,
+    "specificity_match": 0.85
+  },
+  "notes": "The inferred task correctly identifies the core objective: adding trace coverage for stale context behavior and reporting. All three explicit acceptance criteria (trace proves freshness boundary, report surfaces requirement, tests pass) are captured. The inferred version adds reasonable specificity about HTML reports, visual markers, and coredrift checks that are implied by the context (reporting.py file, code quality in experiments). However, the specific numbers (62 example traces, 63 test cases) and explicit 'HTML output correctly marks states' detail appear to be reverse-engineered from the actual implementation output rather than stated in the original task. These represent ~45% hallucination—reasonable inference from context and constraint structure, but not explicitly required by the original task description.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Implement stale-context refresh tracing and reporting functionality for the state system. The implementation should: (1) collect and surface trace data demonstrating stale context detection and refresh cycles; (2) generate HTML reports with visual markers distinguishing stale vs. refreshed context states; (3) support at least 62 example traces that validate successfully; (4) pass 63 unit test cases covering trace collection, reporting, and HTML generation; (5) update specification and documentation files to reflect the new functionality (resolve specdrift warnings); (6) maintain code quality standards (coredrift checks must pass). Acceptance criteria: all examples validate, all tests pass, HTML output correctly marks stale/refresh states, specdrift and coredrift checks return green/OK status, and the feature is ready for evaluation.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-04T16:43:56.959083+00:00",
+  "source": "flip"
+}

@@ -1,0 +1,54 @@
+[
+  {
+    "timestamp": "2026-05-18T17:12:07.051018+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T17:12:25.778422+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T17:13:02.969289+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:14:36.329547+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:14:40.396455+00:00",
+    "actor": "state-researchco-codex",
+    "user": "braydon",
+    "message": "Task claimed by @state-researchco-codex"
+  },
+  {
+    "timestamp": "2026-05-18T17:18:00.853219+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:18:17.680765+00:00",
+    "user": "braydon",
+    "message": "ResearchCo state instance scaffold complete under /Users/braydon/projects/work/synth/state-system. Changed ResearchCo root guidance: AGENTS.md and CLAUDE.md now describe the private state root, first Ingrid agent package, render/validation commands, no raw private materialization boundary, and current gaps. Added state/source-modules/source-module-registry-researchco.json selecting upstream SourceModuleSpec modules for folio, gws_drive, msgvault, local_path, repo, and docs, with CRM/Linear/state_system_instance candidate gaps explicit. Existing runtime artifacts include company/instance capability, preflight, freshness, understanding, question routes, tool actions, and instance_agent_package.researchco.ingrid.scaffold.v0. Updated validator and runbook expectations. Validation passed: python3 state-system/tests/validate_researchco_scaffold.py; private schema validation for package/actions/routes/capabilities; JSON parse for state-system; instance-agent-package render check; python3 -m unittest tests.test_instance_agent_packages; python3 -m state_system.cli --project-root . validate (127 examples). Final drift yellow only repo-wide churn/hardening advisory, per coordinator not a blocker. No raw private corpus copied into generic examples."
+  },
+  {
+    "timestamp": "2026-05-18T17:20:41.884117+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:20:53.872707+00:00",
+    "user": "braydon",
+    "message": "Coordinator update handled: ran new instance-scaffold CLI against /Users/braydon/projects/work/synth/state-system with ResearchCo company args and connector types folio, gws_drive, msgvault, local_path, repo, docs. Added canonical baseline artifacts state/instances/state-instance-researchco.json, schema-shaped state/source-modules/source-module-registry-researchco.json, and state-system/README.md; preserved richer ResearchCo runtime capability/preflight/freshness/readiness/routes/tool-actions/agent-package artifacts. Updated validator to compare against CLI baseline shape and root README privacy guidance; updated runbook to record instance-scaffold baseline. Validation passed: python3 state-system/tests/validate_researchco_scaffold.py; private schema validation including source-module registry and state instance; JSON parse; package render check; python3 -m unittest tests.test_instance_scaffold tests.test_instance_agent_packages; python3 -m state_system.cli --project-root . validate (127 examples). Final drift remains yellow only for repo-wide churn/hardening advisory. Changed ResearchCo files include AGENTS.md, CLAUDE.md, and /Users/braydon/projects/work/synth/state-system/**. No raw private corpus copied into generic examples."
+  },
+  {
+    "timestamp": "2026-05-18T17:20:59.909129+00:00",
+    "actor": "state-researchco-codex",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

@@ -1,0 +1,12 @@
+id: ead7f53029b7d01980e12f8beb6ad13f6907750479eb2951dd75eb63951922b8
+role_id: 7e24a678f9ff9b70861727c3e3e47a3aa59dfddd9caa356253b573f41c566ed1
+tradeoff_id: 009fc7d36067de05e837d75711d82f88d62a0eda859b577940f95c7c78e9b82e
+name: Default Creator
+performance:
+  task_count: 0
+  avg_score: null
+lineage:
+  generation: 0
+  created_by: human
+  created_at: 2026-04-28T21:07:43.253569Z
+attractor_weight: 0.5

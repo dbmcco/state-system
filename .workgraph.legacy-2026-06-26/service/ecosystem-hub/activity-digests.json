@@ -1,0 +1,3483 @@
+{
+  "generated_at": "2026-06-27T14:05:42.394747+00:00",
+  "repos": [
+    {
+      "name": "driftdriver",
+      "path": "/Users/braydon/projects/experiments/driftdriver",
+      "last_commit_at": "2026-06-22T12:35:22+00:00",
+      "last_commit_hash": "78c99db72c647aae627ec337772dab1594a408b8",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".driftdriver/upstream-config.toml",
+        ".driftdriver/upstream-pins.toml"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "driftdriver: track workgraph pi integration branch"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "driftdriver",
+          "hash": "78c99db72c647aae627ec337772dab1594a408b8",
+          "timestamp": "2026-06-22T12:35:22+00:00",
+          "subject": "driftdriver: track workgraph pi integration branch",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "coredrift",
+      "path": "/Users/braydon/projects/experiments/coredrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "specdrift",
+      "path": "/Users/braydon/projects/experiments/specdrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "datadrift",
+      "path": "/Users/braydon/projects/experiments/datadrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "archdrift",
+      "path": "/Users/braydon/projects/experiments/archdrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "depsdrift",
+      "path": "/Users/braydon/projects/experiments/depsdrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "uxdrift",
+      "path": "/Users/braydon/projects/experiments/uxdrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "therapydrift",
+      "path": "/Users/braydon/projects/experiments/therapydrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "fixdrift",
+      "path": "/Users/braydon/projects/experiments/fixdrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "yagnidrift",
+      "path": "/Users/braydon/projects/experiments/yagnidrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "redrift",
+      "path": "/Users/braydon/projects/experiments/redrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "atlas_product",
+      "path": "/Users/braydon/projects/work/synth/atlas_product",
+      "last_commit_at": "2026-06-22T12:59:38+00:00",
+      "last_commit_hash": "955ea37a3af1080ac08516f2f4447a935d511564",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "lfw/docs/specs/2026-06-22-fecon-production-local-prototype-design.md",
+        "synth/docs/superpowers/plans/2026-06-19-seed-deck-v3-build.md",
+        "synth/docs/superpowers/specs/2026-06-19-seed-deck-v3-design.md",
+        "synth/synthyra-decks"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "docs: add Fecon prototype design"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "atlas_product",
+          "hash": "955ea37a3af1080ac08516f2f4447a935d511564",
+          "timestamp": "2026-06-22T12:59:38+00:00",
+          "subject": "docs: add Fecon prototype design",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "40e5d7480da05feed8acdbf0c015f4ae14523b6f",
+          "timestamp": "2026-06-20T12:52:15+00:00",
+          "subject": "chore: update synthyra-decks v3 visual pptx",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "888832e6a80300fa074c68d520509250144e8a7c",
+          "timestamp": "2026-06-20T12:41:33+00:00",
+          "subject": "chore: update synthyra-decks seed v3 pptx",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "c9ceea4b8b68a7649cf3aa2af6f961b03ca63b3f",
+          "timestamp": "2026-06-20T12:29:17+00:00",
+          "subject": "chore: update synthyra-decks roadmap reveal",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "1d95003dd68f2240672f8b94e08af2821c5efd45",
+          "timestamp": "2026-06-20T12:22:48+00:00",
+          "subject": "chore: update synthyra-decks seed v3 revision",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "a325c9190f1d02443daa1165e2aaeb085417f124",
+          "timestamp": "2026-06-19T22:31:42+00:00",
+          "subject": "chore: point synthyra-decks to seed v3 draft",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "596c743414aae9e06278a2bd313e5f15bb3a0c4a",
+          "timestamp": "2026-06-19T22:31:10+00:00",
+          "subject": "docs: add seed deck v3 build plan",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "atlas_product",
+          "hash": "b4a89678e144ce81584a74fad472768b574e5b02",
+          "timestamp": "2026-06-19T22:01:46+00:00",
+          "subject": "docs: add seed deck v3 design spec",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "lodestar",
+      "path": "/Users/braydon/projects/experiments/lodestar",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "training-assistant",
+      "path": "/Users/braydon/projects/experiments/training-assistant",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "news-briefing",
+      "path": "/Users/braydon/projects/experiments/news-briefing",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "vibez-monitor",
+      "path": "/Users/braydon/projects/personal/vibez-monitor",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "paia-os",
+      "path": "/Users/braydon/projects/experiments/paia-os",
+      "last_commit_at": "2026-06-24T19:43:42+00:00",
+      "last_commit_hash": "d0655af44a71e42771a78125d3da0192ef47156e",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".workgraph/config.toml",
+        "docs/design/OPERATING_GRAPH.md",
+        "docs/fix-trust-defect-spec.md",
+        "src/paia/agents/paia/action_contract.py",
+        "src/paia/integrations/workgraph/watcher.py",
+        "src/paia/server/main.py",
+        "src/paia/tools/executor.py",
+        "src/paia/tools/verifiers.py",
+        "src/paia/workers/task_heartbeat.py",
+        "src/paia/workers/workgraph_sync.py",
+        "tests/test_paia_action_contract.py",
+        "tests/test_task_heartbeat.py",
+        "tests/test_tool_executor_contract.py",
+        "tests/test_workgraph_sync_worker.py",
+        "tests/test_workgraph_watcher.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 1,
+          "subjects": [
+            "fix(trust-defect): close-loop execution reliability \u2014 verifier gate + claim_safe + attempt cap + quarantine"
+          ]
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "fix(trust-defect): close-loop execution reliability \u2014 verifier gate + claim_safe + attempt cap + quarantine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-os",
+          "hash": "d0655af44a71e42771a78125d3da0192ef47156e",
+          "timestamp": "2026-06-24T19:43:42+00:00",
+          "subject": "fix(trust-defect): close-loop execution reliability \u2014 verifier gate + claim_safe + attempt cap + quarantine",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-shell",
+      "path": "/Users/braydon/projects/experiments/paia-shell",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "paia-program",
+      "path": "/Users/braydon/projects/experiments/paia-program",
+      "last_commit_at": "2026-06-23T14:46:01+00:00",
+      "last_commit_hash": "b8a965853c75f2e968c1dc7bfb5450122b9afb5b",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "docs/superpowers/plans/2026-06-22-paia-memory-5-minute-visualization-plan.md",
+        "docs/superpowers/specs/2026-06-22-paia-memory-5-minute-visualization-design.md",
+        "output/paia-memory-5min-visualization/index.html",
+        "output/paia-memory-visual-assets/index.html",
+        "output/paia-memory-visual-assets/speaking-notes.md",
+        "output/paia-memory-visual-assets/talk-overview.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 7,
+          "subjects": [
+            "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)",
+            "docs: add talk-overview.md \u2014 narrative arc and framing for paia memory deck",
+            "viz: fix visual defects found via playwright + vision review",
+            "viz: rebuild paia memory diagrams to eliminate label misalignment & edge clutter",
+            "docs: light theme redesign + speaking notes for paia memory visual assets",
+            "docs: add paia memory visual asset pack",
+            "docs: add paia memory presentation visualization"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-program",
+          "hash": "b8a965853c75f2e968c1dc7bfb5450122b9afb5b",
+          "timestamp": "2026-06-23T14:46:01+00:00",
+          "subject": "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "dee367428d3ac69382bdd09720c1670672c0566c",
+          "timestamp": "2026-06-22T17:56:36+00:00",
+          "subject": "docs: add talk-overview.md \u2014 narrative arc and framing for paia memory deck",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "031fb7a3297b4e681063713912c20c825dee463a",
+          "timestamp": "2026-06-22T17:35:40+00:00",
+          "subject": "viz: fix visual defects found via playwright + vision review",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "e833bf516d968a6b1d684cc2bedcdee59a4adb8d",
+          "timestamp": "2026-06-22T17:01:43+00:00",
+          "subject": "viz: rebuild paia memory diagrams to eliminate label misalignment & edge clutter",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "8cef5fd61bb93abb423ee8c5b6811987adde44a2",
+          "timestamp": "2026-06-22T16:04:39+00:00",
+          "subject": "docs: light theme redesign + speaking notes for paia memory visual assets",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "d1434ad746aa0bbf52cf1794bd896e0ad36d8d00",
+          "timestamp": "2026-06-22T15:51:28+00:00",
+          "subject": "docs: add paia memory visual asset pack",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-program",
+          "hash": "a53c46738bc07a74dabc82223c9dc8ab9ee2a67d",
+          "timestamp": "2026-06-22T13:16:42+00:00",
+          "subject": "docs: add paia memory presentation visualization",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-events",
+      "path": "/Users/braydon/projects/experiments/paia-events",
+      "last_commit_at": "2026-06-23T14:45:18+00:00",
+      "last_commit_hash": "3040da186435cf2d9034b0b1ad2cf87e7d8be977",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-events",
+          "hash": "3040da186435cf2d9034b0b1ad2cf87e7d8be977",
+          "timestamp": "2026-06-23T14:45:18+00:00",
+          "subject": "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-identity",
+      "path": "/Users/braydon/projects/experiments/paia-identity",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "paia-memory",
+      "path": "/Users/braydon/projects/experiments/paia-memory",
+      "last_commit_at": "2026-06-25T17:20:15+00:00",
+      "last_commit_hash": "f4f775d59b3e0228db98d2b6cf2bf2df4e5ae7be",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".gitignore",
+        "CLAUDE.md",
+        "NORTH_STAR.md",
+        "config/agents.toml",
+        "docs/core-architecture.md",
+        "docs/specs/2026-06-23-agent-registry-and-multi-tenant-parity-design.md",
+        "docs/specs/2026-06-23-pi-memory-integration-design.md",
+        "docs/specs/2026-06-25-telemetry-memory-tiers-design.md",
+        "scripts/audit_tenant_casing.py",
+        "scripts/lint_agents.py",
+        "scripts/merge_tenant_casing.py",
+        "src/paia_memory/active_context.py",
+        "src/paia_memory/agent_registry.py",
+        "src/paia_memory/api/ingest.py",
+        "src/paia_memory/api/retrieval.py",
+        "src/paia_memory/digests.py",
+        "src/paia_memory/embeddings.py",
+        "src/paia_memory/evidence.py",
+        "src/paia_memory/graph.py",
+        "src/paia_memory/models.py",
+        "src/paia_memory/tenant_casing.py",
+        "tests/test_agent_registry.py",
+        "tests/test_api_surface.py",
+        "tests/test_ingest.py",
+        "tests/test_merge_tenant_casing.py",
+        "tests/test_retrieval_parity.py",
+        "tests/test_tenant_casing.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 1,
+          "subjects": [
+            "feat(memory): tier telemetry evidence retrieval"
+          ]
+        },
+        "72h": {
+          "count": 1,
+          "subjects": [
+            "feat(memory): tier telemetry evidence retrieval"
+          ]
+        },
+        "7d": {
+          "count": 16,
+          "subjects": [
+            "feat(memory): tier telemetry evidence retrieval",
+            "docs(spec): correct Loop 2 mechanism \u2014 hooks cannot spawn agents",
+            "chore(docs): relocate architecture doc to docs/; revert stray uv.lock",
+            "docs(spec): Workstream F \u2014 dual-system memory (paia-memory + state-system)",
+            "docs(spec): Workstream E \u2014 memory call/update architecture (hooks + session-bound subagent)",
+            "feat(memory): add [agents.avery] work agent to registry (Project 2, C.1)",
+            "docs(spec): name the work agent 'Avery' (matches roster convention)",
+            "docs(spec): Pi identity locked + Workstream D persona accrual",
+            "docs(spec): Project 2 \u2014 paia-memory MCP server + Pi extension",
+            "chore: gitignore backups/ (tenant-merge remediation dumps)",
+            "docs(memory): document agent registry + multi-tenant retrieval contract (Project 1 \u00a77)",
+            "feat(memory): multi-tenant retrieval parity across all read endpoints",
+            "feat(memory): tenant-casing audit + reversible merge tool",
+            "feat(memory): agent registry with canonical tenant casing",
+            "docs(spec): lock braydon-paia disposition \u2014 do not merge (stale + sensitive)",
+            "docs(spec): Project 1 \u2014 agent registry + multi-tenant retrieval parity design"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-memory",
+          "hash": "f4f775d59b3e0228db98d2b6cf2bf2df4e5ae7be",
+          "timestamp": "2026-06-25T17:20:15+00:00",
+          "subject": "feat(memory): tier telemetry evidence retrieval",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "1d06e149869c7899dbd53f264e7aa7f407ffda1d",
+          "timestamp": "2026-06-24T00:06:28+00:00",
+          "subject": "docs(spec): correct Loop 2 mechanism \u2014 hooks cannot spawn agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "06081352a9271ca5627b1d2e930633d31a27afc2",
+          "timestamp": "2026-06-23T23:58:26+00:00",
+          "subject": "chore(docs): relocate architecture doc to docs/; revert stray uv.lock",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "df0350865f65ed3dc905538bc291b32b428f8dcb",
+          "timestamp": "2026-06-23T23:16:16+00:00",
+          "subject": "docs(spec): Workstream F \u2014 dual-system memory (paia-memory + state-system)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "e1a0c46f0f05cca1c7cbe193e04e7e393df0f343",
+          "timestamp": "2026-06-23T22:48:24+00:00",
+          "subject": "docs(spec): Workstream E \u2014 memory call/update architecture (hooks + session-bound subagent)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "d2f1248360fb6d2a0b8bfece00f7eaceb2f7275a",
+          "timestamp": "2026-06-23T22:27:55+00:00",
+          "subject": "feat(memory): add [agents.avery] work agent to registry (Project 2, C.1)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "56b5de8fde9d0e0ec77280ed5b69141557659254",
+          "timestamp": "2026-06-23T22:24:17+00:00",
+          "subject": "docs(spec): name the work agent 'Avery' (matches roster convention)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "b2fd4e7edbef02b98c6675d9a5044dbded7c9d2c",
+          "timestamp": "2026-06-23T22:16:02+00:00",
+          "subject": "docs(spec): Pi identity locked + Workstream D persona accrual",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "78b83e34bddcf872bb1a431c34d5f589fb36b6cc",
+          "timestamp": "2026-06-23T21:27:07+00:00",
+          "subject": "docs(spec): Project 2 \u2014 paia-memory MCP server + Pi extension",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "689dbc074436a92c6b37c42704c5286a7d0c9d36",
+          "timestamp": "2026-06-23T21:06:51+00:00",
+          "subject": "chore: gitignore backups/ (tenant-merge remediation dumps)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "23b527823cb2a192d350c44a553bc450913e3588",
+          "timestamp": "2026-06-23T21:03:36+00:00",
+          "subject": "docs(memory): document agent registry + multi-tenant retrieval contract (Project 1 \u00a77)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "0bf233b6913f60579f81162102a0dce97f64437c",
+          "timestamp": "2026-06-23T20:30:20+00:00",
+          "subject": "feat(memory): multi-tenant retrieval parity across all read endpoints",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "8c593ba8d30b0d4edb9a0bfbf01e562cd08714f0",
+          "timestamp": "2026-06-23T20:30:20+00:00",
+          "subject": "feat(memory): tenant-casing audit + reversible merge tool",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "a075f351365a222aa361a22d3b39115ed7bb7b40",
+          "timestamp": "2026-06-23T20:30:20+00:00",
+          "subject": "feat(memory): agent registry with canonical tenant casing",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "1784fdd36a41cc8a0a37b172d18a5c017816bee1",
+          "timestamp": "2026-06-23T20:16:49+00:00",
+          "subject": "docs(spec): lock braydon-paia disposition \u2014 do not merge (stale + sensitive)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-memory",
+          "hash": "1905fdb037a2c7cfe11d7fe4ddcde1985e784b4f",
+          "timestamp": "2026-06-23T19:40:37+00:00",
+          "subject": "docs(spec): Project 1 \u2014 agent registry + multi-tenant retrieval parity design",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-work",
+      "path": "/Users/braydon/projects/experiments/paia-work",
+      "last_commit_at": "2026-06-22T19:37:26+00:00",
+      "last_commit_hash": "f2e6a534e52e1fabcf4ebf0efa1ad624f0a4369f",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "CLAUDE.md",
+        "docs/workboard-operating-brief.md",
+        "src/paia_work/api/routes.py",
+        "src/paia_work/wg_bridge.py",
+        "src/paia_work/workboard_cli.py",
+        "src/paia_work/workboard_pages.py",
+        "tests/test_app.py",
+        "tests/test_routes.py",
+        "tests/test_wg_bridge.py",
+        "tests/test_workboard_cli.py",
+        "tests/test_workboard_page_commands.py",
+        "tests/test_workboard_pages.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 11,
+          "subjects": [
+            "fix(claude-md): scope workgraph-managed block to observe/explicit-execution",
+            "fix(workboard): require actor+approved_by for operating-truth mutations",
+            "fix(workboard): Sam triage stages dispatch as proposal, not operating truth",
+            "fix(workboard): pause operating items unless explicitly executable",
+            "fix(workboard): keep operating items visible after execution failure",
+            "feat: workboard-operating-layer-final-review (agent-121932)",
+            "feat: workboard-operating-layer-helpers (agent-121931)",
+            "feat: workboard-operating-layer-brief (agent-121930)",
+            "feat: workboard-operating-layer-slice (agent-121928)",
+            "feat: workboard-operating-layer-doctor (agent-121929)",
+            "feat: workboard-operating-layer-metadata (agent-121927)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-work",
+          "hash": "f2e6a534e52e1fabcf4ebf0efa1ad624f0a4369f",
+          "timestamp": "2026-06-22T19:37:26+00:00",
+          "subject": "fix(claude-md): scope workgraph-managed block to observe/explicit-execution",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "f6cc55ce65d527a79d6847b933cbc76c6fad92a0",
+          "timestamp": "2026-06-22T19:00:29+00:00",
+          "subject": "fix(workboard): require actor+approved_by for operating-truth mutations",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "4e26a265da490a623c386023b3f0f1458dd4ed79",
+          "timestamp": "2026-06-22T18:55:04+00:00",
+          "subject": "fix(workboard): Sam triage stages dispatch as proposal, not operating truth",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "8efbf599f794e773a4b7dab1c1c09e3fb2ae9fb1",
+          "timestamp": "2026-06-21T23:12:33+00:00",
+          "subject": "fix(workboard): pause operating items unless explicitly executable",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "9337418a3cc0c407c4a966908c98e9473fb32c76",
+          "timestamp": "2026-06-21T23:03:15+00:00",
+          "subject": "fix(workboard): keep operating items visible after execution failure",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "50104297eb6d393a1c5dbd99bca4bb6f79be9316",
+          "timestamp": "2026-06-21T20:22:38+00:00",
+          "subject": "feat: workboard-operating-layer-final-review (agent-121932)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "30877f0bcd5ba9a326b7a25c06e5a4458e09f776",
+          "timestamp": "2026-06-21T20:17:22+00:00",
+          "subject": "feat: workboard-operating-layer-helpers (agent-121931)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "a787ac8b1638e10d7c3bba74942286f77ab4445e",
+          "timestamp": "2026-06-21T20:12:57+00:00",
+          "subject": "feat: workboard-operating-layer-brief (agent-121930)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "467bcc7b461c4727256e755f65dc7048c0f2f1c1",
+          "timestamp": "2026-06-21T20:06:06+00:00",
+          "subject": "feat: workboard-operating-layer-slice (agent-121928)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "ff47f9b9e324fa751fd71b2a6b6b8eea40523883",
+          "timestamp": "2026-06-21T19:59:23+00:00",
+          "subject": "feat: workboard-operating-layer-doctor (agent-121929)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-work",
+          "hash": "6599c420583a8633262959e5957964d26caade0d",
+          "timestamp": "2026-06-21T19:52:32+00:00",
+          "subject": "feat: workboard-operating-layer-metadata (agent-121927)",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-meetings",
+      "path": "/Users/braydon/projects/experiments/paia-meetings",
+      "last_commit_at": "2026-06-23T14:45:19+00:00",
+      "last_commit_hash": "2e5703f284a1c79d20ec9176c1db7152205d2841",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-meetings",
+          "hash": "2e5703f284a1c79d20ec9176c1db7152205d2841",
+          "timestamp": "2026-06-23T14:45:19+00:00",
+          "subject": "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-n8n",
+      "path": "/Users/braydon/projects/experiments/paia-n8n",
+      "last_commit_at": "2026-06-23T14:45:21+00:00",
+      "last_commit_hash": "543ed16e8cef938a021c641fcad275421cb7be41",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-n8n",
+          "hash": "543ed16e8cef938a021c641fcad275421cb7be41",
+          "timestamp": "2026-06-23T14:45:21+00:00",
+          "subject": "docs: refresh driftdriver-managed agent guidance (AGENTS.md/CLAUDE.md)",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-agent-runtime",
+      "path": "/Users/braydon/projects/experiments/paia-agent-runtime",
+      "last_commit_at": "2026-06-24T11:56:36+00:00",
+      "last_commit_hash": "9fc0e42800fd705a2e79f282239abb78208be6da",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "config/cognition-presets.toml",
+        "src/paia_agent_runtime/chief_of_staff/close_loop.py",
+        "src/paia_agent_runtime/cognition.py",
+        "src/paia_agent_runtime/model_failover.py",
+        "src/paia_agent_runtime/responder.py",
+        "src/paia_agent_runtime/tools/__init__.py",
+        "src/paia_agent_runtime/tools/_coerce.py",
+        "src/paia_agent_runtime/tools/attention_loop.py",
+        "src/paia_agent_runtime/tools/background_task.py",
+        "src/paia_agent_runtime/tools/bash.py",
+        "src/paia_agent_runtime/tools/browser.py",
+        "src/paia_agent_runtime/tools/calendar.py",
+        "src/paia_agent_runtime/tools/child_session.py",
+        "src/paia_agent_runtime/tools/codex_delegate.py",
+        "src/paia_agent_runtime/tools/company_corpus.py",
+        "src/paia_agent_runtime/tools/company_state.py",
+        "src/paia_agent_runtime/tools/computer_use.py",
+        "src/paia_agent_runtime/tools/files.py",
+        "src/paia_agent_runtime/tools/folio.py",
+        "src/paia_agent_runtime/tools/linear.py",
+        "src/paia_agent_runtime/tools/machine_state.py",
+        "src/paia_agent_runtime/tools/mcp_client.py",
+        "src/paia_agent_runtime/tools/media.py",
+        "src/paia_agent_runtime/tools/memory_search.py",
+        "src/paia_agent_runtime/tools/memory_update.py",
+        "src/paia_agent_runtime/tools/messaging.py",
+        "src/paia_agent_runtime/tools/model_operable.py",
+        "src/paia_agent_runtime/tools/msgvault.py",
+        "src/paia_agent_runtime/tools/n8n.py",
+        "src/paia_agent_runtime/tools/resource_resolve.py",
+        "src/paia_agent_runtime/tools/skills.py",
+        "src/paia_agent_runtime/tools/spine.py",
+        "src/paia_agent_runtime/tools/supernote.py",
+        "src/paia_agent_runtime/tools/tmux_monitor.py",
+        "src/paia_agent_runtime/tools/vault.py",
+        "src/paia_agent_runtime/tools/weather.py",
+        "src/paia_agent_runtime/tools/workboard.py",
+        "src/paia_agent_runtime/tools/workgraph.py",
+        "src/paia_agent_runtime/tools/zulip.py",
+        "tests/test_browser_tool.py",
+        "tests/test_chief_of_staff_close_loop.py",
+        "tests/test_cognition_registry.py",
+        "tests/test_model_failover.py",
+        "tests/test_responder.py",
+        "tests/test_tmux_monitor_tool.py",
+        "tests/test_tool_browser.py",
+        "tests/test_tool_calendar.py",
+        "tests/test_tool_dispatcher_repair.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 16,
+          "subjects": [
+            "config: extend whealth reasoner timeout",
+            "test(calendar): midnight-safe fixture for paia-events elapsed_state test",
+            "tools: shared model-operable int coercion (linear/n8n/tmux_monitor)",
+            "cognition: log raw model tool-call args as permanent diagnostic",
+            "feat(model-failover): preserve GLM-5.2 split in failback-zai",
+            "config: fail agents back to z.ai GLM (samantha+derek glm-5.2, rest glm-5.1)",
+            "fix(calendar): validate days_ahead type, return structured type-error repair",
+            "test(cognition): sync stale model_route assertions with config refresh",
+            "fix(folio): surface note_not_found with alternatives to stop retry loops",
+            "feat(tools): per-action param scoping in schema serializer (Option C)",
+            "fix(responder): model-mediated visible repair narrowing on retry",
+            "fix(tools): make unknown-parameters repair payload trigger contract-repair retry",
+            "Merge migration/paia-agent-operator-runtime: PAIA boundary patches A + Residual #1",
+            "fix(workboard-tool): forward actor+approved_by on page-command mutations",
+            "fix(close_loop): stage post-turn followup as approval:proposed/orbit",
+            "config: refresh workgraph model routes"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "9fc0e42800fd705a2e79f282239abb78208be6da",
+          "timestamp": "2026-06-24T11:56:36+00:00",
+          "subject": "config: extend whealth reasoner timeout",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "6c48e0bd0e23cb775bf141217808953250fb7b12",
+          "timestamp": "2026-06-23T04:14:43+00:00",
+          "subject": "test(calendar): midnight-safe fixture for paia-events elapsed_state test",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "df8927252ac0adf00c5f5f56315b7b2e1b937538",
+          "timestamp": "2026-06-23T03:10:24+00:00",
+          "subject": "tools: shared model-operable int coercion (linear/n8n/tmux_monitor)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "34102baa1e3f259ac91e0bae121bdf536182a12a",
+          "timestamp": "2026-06-23T01:42:51+00:00",
+          "subject": "cognition: log raw model tool-call args as permanent diagnostic",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "41b644a654c49d2d4155dbc4e2aef0ae55ad466b",
+          "timestamp": "2026-06-23T00:33:50+00:00",
+          "subject": "feat(model-failover): preserve GLM-5.2 split in failback-zai",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "6c9cc14008bebf0e3b87f081dfef41a21674f69f",
+          "timestamp": "2026-06-23T00:26:28+00:00",
+          "subject": "config: fail agents back to z.ai GLM (samantha+derek glm-5.2, rest glm-5.1)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "d8b65d119d6695058c5b2adc729c1cc53b646cc2",
+          "timestamp": "2026-06-22T23:38:20+00:00",
+          "subject": "fix(calendar): validate days_ahead type, return structured type-error repair",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "0b3117a339a07833a7ae464ad1e927303e0e34a0",
+          "timestamp": "2026-06-22T23:11:14+00:00",
+          "subject": "test(cognition): sync stale model_route assertions with config refresh",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "87ea95e1c47481459d26cc6fcf72a9b2e8de3960",
+          "timestamp": "2026-06-22T23:09:56+00:00",
+          "subject": "fix(folio): surface note_not_found with alternatives to stop retry loops",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "73cccb17e28ddcaf16ca0e7860b93689afe5d2d5",
+          "timestamp": "2026-06-22T22:42:00+00:00",
+          "subject": "feat(tools): per-action param scoping in schema serializer (Option C)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "e53673fa7f9ab92b45de55ab4fc594a581de7efe",
+          "timestamp": "2026-06-22T21:36:36+00:00",
+          "subject": "fix(responder): model-mediated visible repair narrowing on retry",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "20f8e63371781a00e9bfc221b8258ee2ee8d6dfe",
+          "timestamp": "2026-06-22T20:14:44+00:00",
+          "subject": "fix(tools): make unknown-parameters repair payload trigger contract-repair retry",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "5263a1be3dc89833b2f2f1355d4fb21b69f12ffc",
+          "timestamp": "2026-06-22T19:08:54+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: PAIA boundary patches A + Residual #1",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "73fd27ab05aa3fb000f255749b1fc358484181df",
+          "timestamp": "2026-06-22T19:04:32+00:00",
+          "subject": "fix(workboard-tool): forward actor+approved_by on page-command mutations",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "8d904b40ebc18c60621faed44e58974541ffe73a",
+          "timestamp": "2026-06-22T18:54:03+00:00",
+          "subject": "fix(close_loop): stage post-turn followup as approval:proposed/orbit",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "7cad049071b9d32b241bc5a692920d163eb9ca43",
+          "timestamp": "2026-06-22T17:20:27+00:00",
+          "subject": "config: refresh workgraph model routes",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "c71587c5543c9da2e5736220def2f21ec7d0ffb2",
+          "timestamp": "2026-06-20T12:13:15+00:00",
+          "subject": "config: route Samantha to GPT 5.5 fallback",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "28cb64374b4d71778af1d654d830b3137fad6ea0",
+          "timestamp": "2026-06-19T20:25:15+00:00",
+          "subject": "config: add whealth openrouter reasoner route",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "af4db04e728a6b03af4affa19359f88e82631d00",
+          "timestamp": "2026-06-19T19:52:04+00:00",
+          "subject": "Add dynamic tool contract repair retry",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "be6ecad6ffc9ee52abc30f973b2fc8877ed227e2",
+          "timestamp": "2026-06-19T14:15:49+00:00",
+          "subject": "Add model-operable repair contracts",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agent-runtime",
+          "hash": "73e1d5d60f2d548a2dc864cadf929ab748aace8d",
+          "timestamp": "2026-06-19T14:06:35+00:00",
+          "subject": "config: fail Samantha back to GPT 5.5",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-agents",
+      "path": "/Users/braydon/projects/experiments/paia-agents",
+      "last_commit_at": "2026-06-23T14:46:14+00:00",
+      "last_commit_hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "caroline/src/caroline/config.py",
+        "caroline/src/caroline/tools.py",
+        "caroline/tests/test_config.py",
+        "caroline/tests/test_tools_manifest.py",
+        "derek/src/derek/config.py",
+        "derek/src/derek/tools/_executor.py",
+        "derek/tests/test_agent.py",
+        "derek/tests/test_config.py",
+        "derek/tests/test_tools_manifest.py",
+        "docs/proactivity-loop-spec.md",
+        "frank/src/frank/tools.py",
+        "frank/tests/test_tools_manifest.py",
+        "helena/src/helena/tools.py",
+        "helena/tests/test_tools_manifest.py",
+        "ingrid/src/ingrid/config.py",
+        "ingrid/src/ingrid/tools.py",
+        "ingrid/tests/test_config.py",
+        "ingrid/tests/test_tools_manifest.py",
+        "samantha/src/samantha/agent.py",
+        "samantha/src/samantha/api/app.py",
+        "samantha/src/samantha/config.py",
+        "samantha/src/samantha/daily_walk.py",
+        "samantha/src/samantha/tools.py",
+        "samantha/tests/test_app.py",
+        "samantha/tests/test_config.py",
+        "samantha/tests/test_daily_walk_surface_decision.py",
+        "samantha/tests/test_tools_manifest.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+            "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+            "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+            "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+            "fix(config): action tool-contract repair hints instead of failing fast",
+            "fix(config): carve out repair-hint actioning in fail-hard doctrine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-agents",
+          "hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+          "timestamp": "2026-06-23T14:46:14+00:00",
+          "subject": "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "7e70986b06b70bc6d964d3a434d20a2356ab093a",
+          "timestamp": "2026-06-22T21:01:50+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "91613a354a3bb25858aba6bec683ca399fcc5186",
+          "timestamp": "2026-06-22T20:59:16+00:00",
+          "subject": "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "69d1b542a56b06203863d4e57015feed05199550",
+          "timestamp": "2026-06-22T20:58:58+00:00",
+          "subject": "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "aa063c0765278585775ef590f6c989e27d8e5986",
+          "timestamp": "2026-06-22T20:58:37+00:00",
+          "subject": "fix(config): action tool-contract repair hints instead of failing fast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "2b5128689bf7f3349fac6034149ce593ef12b53b",
+          "timestamp": "2026-06-22T20:54:39+00:00",
+          "subject": "fix(config): carve out repair-hint actioning in fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "b0241247b02e12fa589ffa42e4d40cd4a85da39b",
+          "timestamp": "2026-06-20T12:13:11+00:00",
+          "subject": "fix(samantha): keep walk artifact on surface contract miss",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "504ef986cbd79c33d826a5a739348dc7b5631cf9",
+          "timestamp": "2026-06-19T14:16:54+00:00",
+          "subject": "Enrich agent tool manifests for model guidance",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "paia-agents",
+          "hash": "8bda1a5293274f4f9671f67a76984dcb36312b3c",
+          "timestamp": "2026-06-19T14:06:17+00:00",
+          "subject": "fix(samantha): keep scheduled walk artifact-only",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-os-wt-evidence-ledger-monitoring",
+      "path": "/Users/braydon/projects/experiments/paia-os-wt-evidence-ledger-monitoring",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "samantha",
+      "path": "/Users/braydon/projects/experiments/paia-agents/samantha",
+      "last_commit_at": "2026-06-23T14:46:14+00:00",
+      "last_commit_hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "caroline/src/caroline/config.py",
+        "caroline/src/caroline/tools.py",
+        "caroline/tests/test_config.py",
+        "caroline/tests/test_tools_manifest.py",
+        "derek/src/derek/config.py",
+        "derek/src/derek/tools/_executor.py",
+        "derek/tests/test_agent.py",
+        "derek/tests/test_config.py",
+        "derek/tests/test_tools_manifest.py",
+        "docs/proactivity-loop-spec.md",
+        "frank/src/frank/tools.py",
+        "frank/tests/test_tools_manifest.py",
+        "helena/src/helena/tools.py",
+        "helena/tests/test_tools_manifest.py",
+        "ingrid/src/ingrid/config.py",
+        "ingrid/src/ingrid/tools.py",
+        "ingrid/tests/test_config.py",
+        "ingrid/tests/test_tools_manifest.py",
+        "samantha/src/samantha/agent.py",
+        "samantha/src/samantha/api/app.py",
+        "samantha/src/samantha/config.py",
+        "samantha/src/samantha/daily_walk.py",
+        "samantha/src/samantha/tools.py",
+        "samantha/tests/test_app.py",
+        "samantha/tests/test_config.py",
+        "samantha/tests/test_daily_walk_surface_decision.py",
+        "samantha/tests/test_tools_manifest.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+            "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+            "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+            "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+            "fix(config): action tool-contract repair hints instead of failing fast",
+            "fix(config): carve out repair-hint actioning in fail-hard doctrine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "samantha",
+          "hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+          "timestamp": "2026-06-23T14:46:14+00:00",
+          "subject": "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "7e70986b06b70bc6d964d3a434d20a2356ab093a",
+          "timestamp": "2026-06-22T21:01:50+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "91613a354a3bb25858aba6bec683ca399fcc5186",
+          "timestamp": "2026-06-22T20:59:16+00:00",
+          "subject": "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "69d1b542a56b06203863d4e57015feed05199550",
+          "timestamp": "2026-06-22T20:58:58+00:00",
+          "subject": "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "aa063c0765278585775ef590f6c989e27d8e5986",
+          "timestamp": "2026-06-22T20:58:37+00:00",
+          "subject": "fix(config): action tool-contract repair hints instead of failing fast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "2b5128689bf7f3349fac6034149ce593ef12b53b",
+          "timestamp": "2026-06-22T20:54:39+00:00",
+          "subject": "fix(config): carve out repair-hint actioning in fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "b0241247b02e12fa589ffa42e4d40cd4a85da39b",
+          "timestamp": "2026-06-20T12:13:11+00:00",
+          "subject": "fix(samantha): keep walk artifact on surface contract miss",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "504ef986cbd79c33d826a5a739348dc7b5631cf9",
+          "timestamp": "2026-06-19T14:16:54+00:00",
+          "subject": "Enrich agent tool manifests for model guidance",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "samantha",
+          "hash": "8bda1a5293274f4f9671f67a76984dcb36312b3c",
+          "timestamp": "2026-06-19T14:06:17+00:00",
+          "subject": "fix(samantha): keep scheduled walk artifact-only",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "derek",
+      "path": "/Users/braydon/projects/experiments/paia-agents/derek",
+      "last_commit_at": "2026-06-23T14:46:14+00:00",
+      "last_commit_hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "caroline/src/caroline/config.py",
+        "caroline/src/caroline/tools.py",
+        "caroline/tests/test_config.py",
+        "caroline/tests/test_tools_manifest.py",
+        "derek/src/derek/config.py",
+        "derek/src/derek/tools/_executor.py",
+        "derek/tests/test_agent.py",
+        "derek/tests/test_config.py",
+        "derek/tests/test_tools_manifest.py",
+        "docs/proactivity-loop-spec.md",
+        "frank/src/frank/tools.py",
+        "frank/tests/test_tools_manifest.py",
+        "helena/src/helena/tools.py",
+        "helena/tests/test_tools_manifest.py",
+        "ingrid/src/ingrid/config.py",
+        "ingrid/src/ingrid/tools.py",
+        "ingrid/tests/test_config.py",
+        "ingrid/tests/test_tools_manifest.py",
+        "samantha/src/samantha/agent.py",
+        "samantha/src/samantha/api/app.py",
+        "samantha/src/samantha/config.py",
+        "samantha/src/samantha/daily_walk.py",
+        "samantha/src/samantha/tools.py",
+        "samantha/tests/test_app.py",
+        "samantha/tests/test_config.py",
+        "samantha/tests/test_daily_walk_surface_decision.py",
+        "samantha/tests/test_tools_manifest.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+            "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+            "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+            "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+            "fix(config): action tool-contract repair hints instead of failing fast",
+            "fix(config): carve out repair-hint actioning in fail-hard doctrine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "derek",
+          "hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+          "timestamp": "2026-06-23T14:46:14+00:00",
+          "subject": "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "7e70986b06b70bc6d964d3a434d20a2356ab093a",
+          "timestamp": "2026-06-22T21:01:50+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "91613a354a3bb25858aba6bec683ca399fcc5186",
+          "timestamp": "2026-06-22T20:59:16+00:00",
+          "subject": "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "69d1b542a56b06203863d4e57015feed05199550",
+          "timestamp": "2026-06-22T20:58:58+00:00",
+          "subject": "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "aa063c0765278585775ef590f6c989e27d8e5986",
+          "timestamp": "2026-06-22T20:58:37+00:00",
+          "subject": "fix(config): action tool-contract repair hints instead of failing fast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "2b5128689bf7f3349fac6034149ce593ef12b53b",
+          "timestamp": "2026-06-22T20:54:39+00:00",
+          "subject": "fix(config): carve out repair-hint actioning in fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "b0241247b02e12fa589ffa42e4d40cd4a85da39b",
+          "timestamp": "2026-06-20T12:13:11+00:00",
+          "subject": "fix(samantha): keep walk artifact on surface contract miss",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "504ef986cbd79c33d826a5a739348dc7b5631cf9",
+          "timestamp": "2026-06-19T14:16:54+00:00",
+          "subject": "Enrich agent tool manifests for model guidance",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "derek",
+          "hash": "8bda1a5293274f4f9671f67a76984dcb36312b3c",
+          "timestamp": "2026-06-19T14:06:17+00:00",
+          "subject": "fix(samantha): keep scheduled walk artifact-only",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "ingrid",
+      "path": "/Users/braydon/projects/experiments/paia-agents/ingrid",
+      "last_commit_at": "2026-06-23T14:46:14+00:00",
+      "last_commit_hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "caroline/src/caroline/config.py",
+        "caroline/src/caroline/tools.py",
+        "caroline/tests/test_config.py",
+        "caroline/tests/test_tools_manifest.py",
+        "derek/src/derek/config.py",
+        "derek/src/derek/tools/_executor.py",
+        "derek/tests/test_agent.py",
+        "derek/tests/test_config.py",
+        "derek/tests/test_tools_manifest.py",
+        "docs/proactivity-loop-spec.md",
+        "frank/src/frank/tools.py",
+        "frank/tests/test_tools_manifest.py",
+        "helena/src/helena/tools.py",
+        "helena/tests/test_tools_manifest.py",
+        "ingrid/src/ingrid/config.py",
+        "ingrid/src/ingrid/tools.py",
+        "ingrid/tests/test_config.py",
+        "ingrid/tests/test_tools_manifest.py",
+        "samantha/src/samantha/agent.py",
+        "samantha/src/samantha/api/app.py",
+        "samantha/src/samantha/config.py",
+        "samantha/src/samantha/daily_walk.py",
+        "samantha/src/samantha/tools.py",
+        "samantha/tests/test_app.py",
+        "samantha/tests/test_config.py",
+        "samantha/tests/test_daily_walk_surface_decision.py",
+        "samantha/tests/test_tools_manifest.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+            "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+            "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+            "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+            "fix(config): action tool-contract repair hints instead of failing fast",
+            "fix(config): carve out repair-hint actioning in fail-hard doctrine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "ingrid",
+          "hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+          "timestamp": "2026-06-23T14:46:14+00:00",
+          "subject": "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "7e70986b06b70bc6d964d3a434d20a2356ab093a",
+          "timestamp": "2026-06-22T21:01:50+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "91613a354a3bb25858aba6bec683ca399fcc5186",
+          "timestamp": "2026-06-22T20:59:16+00:00",
+          "subject": "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "69d1b542a56b06203863d4e57015feed05199550",
+          "timestamp": "2026-06-22T20:58:58+00:00",
+          "subject": "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "aa063c0765278585775ef590f6c989e27d8e5986",
+          "timestamp": "2026-06-22T20:58:37+00:00",
+          "subject": "fix(config): action tool-contract repair hints instead of failing fast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "2b5128689bf7f3349fac6034149ce593ef12b53b",
+          "timestamp": "2026-06-22T20:54:39+00:00",
+          "subject": "fix(config): carve out repair-hint actioning in fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "b0241247b02e12fa589ffa42e4d40cd4a85da39b",
+          "timestamp": "2026-06-20T12:13:11+00:00",
+          "subject": "fix(samantha): keep walk artifact on surface contract miss",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "504ef986cbd79c33d826a5a739348dc7b5631cf9",
+          "timestamp": "2026-06-19T14:16:54+00:00",
+          "subject": "Enrich agent tool manifests for model guidance",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "ingrid",
+          "hash": "8bda1a5293274f4f9671f67a76984dcb36312b3c",
+          "timestamp": "2026-06-19T14:06:17+00:00",
+          "subject": "fix(samantha): keep scheduled walk artifact-only",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "caroline",
+      "path": "/Users/braydon/projects/experiments/paia-agents/caroline",
+      "last_commit_at": "2026-06-23T14:46:14+00:00",
+      "last_commit_hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "caroline/src/caroline/config.py",
+        "caroline/src/caroline/tools.py",
+        "caroline/tests/test_config.py",
+        "caroline/tests/test_tools_manifest.py",
+        "derek/src/derek/config.py",
+        "derek/src/derek/tools/_executor.py",
+        "derek/tests/test_agent.py",
+        "derek/tests/test_config.py",
+        "derek/tests/test_tools_manifest.py",
+        "docs/proactivity-loop-spec.md",
+        "frank/src/frank/tools.py",
+        "frank/tests/test_tools_manifest.py",
+        "helena/src/helena/tools.py",
+        "helena/tests/test_tools_manifest.py",
+        "ingrid/src/ingrid/config.py",
+        "ingrid/src/ingrid/tools.py",
+        "ingrid/tests/test_config.py",
+        "ingrid/tests/test_tools_manifest.py",
+        "samantha/src/samantha/agent.py",
+        "samantha/src/samantha/api/app.py",
+        "samantha/src/samantha/config.py",
+        "samantha/src/samantha/daily_walk.py",
+        "samantha/src/samantha/tools.py",
+        "samantha/tests/test_app.py",
+        "samantha/tests/test_config.py",
+        "samantha/tests/test_daily_walk_surface_decision.py",
+        "samantha/tests/test_tools_manifest.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+            "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+            "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+            "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+            "fix(config): action tool-contract repair hints instead of failing fast",
+            "fix(config): carve out repair-hint actioning in fail-hard doctrine"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "caroline",
+          "hash": "7db60a0876b2cdb66e9c79e7b5e12af45708e919",
+          "timestamp": "2026-06-23T14:46:14+00:00",
+          "subject": "docs(agents): add proactivity-loop spec (ledger mirror + recall enrichment)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "7e70986b06b70bc6d964d3a434d20a2356ab093a",
+          "timestamp": "2026-06-22T21:01:50+00:00",
+          "subject": "Merge migration/paia-agent-operator-runtime: repair-hint carve-out in fail-hard doctrine for all 4 agents",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "91613a354a3bb25858aba6bec683ca399fcc5186",
+          "timestamp": "2026-06-22T20:59:16+00:00",
+          "subject": "fix(config): carve out repair-hint retry in Fail-Hard Cognition Contract",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "69d1b542a56b06203863d4e57015feed05199550",
+          "timestamp": "2026-06-22T20:58:58+00:00",
+          "subject": "fix(config): carve out model-operable repair hints from fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "aa063c0765278585775ef590f6c989e27d8e5986",
+          "timestamp": "2026-06-22T20:58:37+00:00",
+          "subject": "fix(config): action tool-contract repair hints instead of failing fast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "2b5128689bf7f3349fac6034149ce593ef12b53b",
+          "timestamp": "2026-06-22T20:54:39+00:00",
+          "subject": "fix(config): carve out repair-hint actioning in fail-hard doctrine",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "b0241247b02e12fa589ffa42e4d40cd4a85da39b",
+          "timestamp": "2026-06-20T12:13:11+00:00",
+          "subject": "fix(samantha): keep walk artifact on surface contract miss",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "504ef986cbd79c33d826a5a739348dc7b5631cf9",
+          "timestamp": "2026-06-19T14:16:54+00:00",
+          "subject": "Enrich agent tool manifests for model guidance",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "caroline",
+          "hash": "8bda1a5293274f4f9671f67a76984dcb36312b3c",
+          "timestamp": "2026-06-19T14:06:17+00:00",
+          "subject": "fix(samantha): keep scheduled walk artifact-only",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "folio",
+      "path": "/Users/braydon/projects/experiments/folio",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "lfw-ai-graph-crm",
+      "path": "/Users/braydon/projects/experiments/lfw-ai-graph-crm",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "grok-aurora-cli",
+      "path": "/Users/braydon/projects/experiments/grok-aurora-cli",
+      "last_commit_at": "2026-06-23T16:38:51+00:00",
+      "last_commit_hash": "dea2fb7533758eee7d1eea586a59ce86b38b8f69",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "src/grok_aurora_cli/anchor_visual_enrichment.py",
+        "src/grok_aurora_cli/atlas_client.py",
+        "src/grok_aurora_cli/dop_agent_runner.py",
+        "src/grok_aurora_cli/dop_agent_tools.py",
+        "src/grok_aurora_cli/web_app.py",
+        "tests/test_atlas_client.py",
+        "tests/test_dop_agent_runner.py",
+        "tests/test_dop_agent_tools.py",
+        "tests/test_web_app.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 2,
+          "subjects": [
+            "fix(media): add deterministic budget fallback when DoP model can't count chars",
+            "fix(media): stop self-inflicted Atlas rate-limit storms in Caroline DMs"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "grok-aurora-cli",
+          "hash": "dea2fb7533758eee7d1eea586a59ce86b38b8f69",
+          "timestamp": "2026-06-23T16:38:51+00:00",
+          "subject": "fix(media): add deterministic budget fallback when DoP model can't count chars",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "grok-aurora-cli",
+          "hash": "dfd13307b156f0c3e99fbd33bb8af97fe1f177f3",
+          "timestamp": "2026-06-23T16:04:01+00:00",
+          "subject": "fix(media): stop self-inflicted Atlas rate-limit storms in Caroline DMs",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "grok-aurora-cli",
+          "hash": "3903fcbea0e3842a963393f6d9a3f125e0839e1d",
+          "timestamp": "2026-06-14T20:21:40+00:00",
+          "subject": "fix(enrichment): guard module-level signal handler to the main thread",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "grok-aurora-cli",
+          "hash": "6ef3c1148de3d7eb0d94c6c348bb9795a2836401",
+          "timestamp": "2026-06-14T19:20:19+00:00",
+          "subject": "Revert DoP prompt fallback \u2014 mask, not fix (fallback violation)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "grok-aurora-cli",
+          "hash": "26e2198325fd2315022cb79983f49ef88e0ea1c4",
+          "timestamp": "2026-06-14T19:02:43+00:00",
+          "subject": "fix(dop): fall back to user render intent when model omits executable prompt",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "third-layer-news",
+      "path": "/Users/braydon/projects/experiments/third-layer-news",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "garmin-connect-sync",
+      "path": "/Users/braydon/projects/experiments/garmin-connect-sync",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "lessons-mcp",
+      "path": "/Users/braydon/projects/experiments/lessons-mcp",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "lfw-interview",
+      "path": "/Users/braydon/projects/experiments/lfw-interview",
+      "last_commit_at": "2026-06-26T11:27:10+00:00",
+      "last_commit_hash": "8a190e2b45f74118d29116c06cdf39a437f8784e",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".gitignore",
+        "config/cognition-presets.toml",
+        "data/blueprints/bp_1779131626200_jp3dnizt.json",
+        "docs/govcon/README.md",
+        "docs/govcon/govcon-asbuilt-transcript-2026-06-25.md",
+        "docs/govcon/govcon-fixed-transcript-2026-06-25.md",
+        "docs/govcon/govcon-gap-analysis-2026-06-25.md",
+        "docs/plans/2026-05-20-lfw-wanda-model-led-setup.md",
+        "e2e/govcon-adversarial.spec.ts",
+        "e2e/interview-flow.spec.ts",
+        "e2e/setup-studio.spec.ts",
+        "package.json",
+        "public/app.js",
+        "public/assets/wanda-interviewer.png",
+        "public/interview.html",
+        "public/participant.js",
+        "public/setup.html",
+        "public/setup.js",
+        "public/styles.css",
+        "scripts/dev-tailnet.sh",
+        "src/api/routes.ts",
+        "src/index.ts",
+        "src/interview/blueprint-drafter.ts",
+        "src/interview/engine.ts",
+        "src/interview/library.ts",
+        "src/interview/service.ts",
+        "src/model-routes.ts",
+        "tests/adversarial-adaptive-discovery.test.ts",
+        "tests/adversarial-contradiction.test.ts",
+        "tests/adversarial-file-isolation.test.ts",
+        "tests/adversarial-outcome-first.test.ts",
+        "tests/api-routes.test.ts",
+        "tests/govcon-engine-fixes.test.ts",
+        "tests/lightforge-blueprint.test.ts",
+        "tests/listen-options.test.ts",
+        "tests/model-routes.test.ts"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 2,
+          "subjects": [
+            "test: add adversarial GovCon scenario tests",
+            "feat(interview): GovCon proof \u2014 model-led discovery contract + adaptation fixes"
+          ]
+        },
+        "72h": {
+          "count": 2,
+          "subjects": [
+            "test: add adversarial GovCon scenario tests",
+            "feat(interview): GovCon proof \u2014 model-led discovery contract + adaptation fixes"
+          ]
+        },
+        "7d": {
+          "count": 8,
+          "subjects": [
+            "test: add adversarial GovCon scenario tests",
+            "feat(interview): GovCon proof \u2014 model-led discovery contract + adaptation fixes",
+            "Document Wanda model-led setup direction",
+            "Add tailnet dev runner",
+            "Overhaul participant voice room and refresh Wanda avatar",
+            "Draft Wanda blueprint and pathway from operator intent packet",
+            "Add OpenRouter interview route",
+            "Resolve Railway listen port with testable entry guard"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "lfw-interview",
+          "hash": "8a190e2b45f74118d29116c06cdf39a437f8784e",
+          "timestamp": "2026-06-26T11:27:10+00:00",
+          "subject": "test: add adversarial GovCon scenario tests",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "ddf505fe19e9916652518674f92967a7f94e9245",
+          "timestamp": "2026-06-26T00:11:21+00:00",
+          "subject": "feat(interview): GovCon proof \u2014 model-led discovery contract + adaptation fixes",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "7fe6fc13ea795fb8fecaa1aba42197f4432f4f7b",
+          "timestamp": "2026-06-23T12:51:24+00:00",
+          "subject": "Document Wanda model-led setup direction",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "842f6d45a3dbc9ecf4df38c9f19bb2fb967c0bbc",
+          "timestamp": "2026-06-23T12:51:24+00:00",
+          "subject": "Add tailnet dev runner",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "e8d3cecc0435778b3754f5d0b91fc18db4e20f77",
+          "timestamp": "2026-06-23T12:51:24+00:00",
+          "subject": "Overhaul participant voice room and refresh Wanda avatar",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "bc4349c55db523f861bb9ed8da7c1d22e48c1855",
+          "timestamp": "2026-06-23T12:50:14+00:00",
+          "subject": "Draft Wanda blueprint and pathway from operator intent packet",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "053f6b78e0e5b3d2610732c655f8eb912c341c2b",
+          "timestamp": "2026-06-23T12:50:14+00:00",
+          "subject": "Add OpenRouter interview route",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "lfw-interview",
+          "hash": "bb7c66886eed9bf844f2d87ceb134b6da46e34a2",
+          "timestamp": "2026-06-23T12:50:14+00:00",
+          "subject": "Resolve Railway listen port with testable entry guard",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "synthyra-outreach-factory",
+      "path": "/Users/braydon/projects/experiments/synthyra-outreach-factory",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "speedrift",
+      "path": "/Users/braydon/projects/experiments/speedrift",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "speedrift-lane-sdk",
+      "path": "/Users/braydon/projects/experiments/speedrift-lane-sdk",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "speedrift-ecosystem",
+      "path": "/Users/braydon/projects/experiments/speedrift-ecosystem",
+      "last_commit_at": "2026-06-22T17:20:27+00:00",
+      "last_commit_hash": "288ea7b15d6013b5e06a8a7d580d60ba110faed9",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "docs/workgraph-pi-full-upgrade-plan-20260622.md",
+        "docs/workgraph-pi-upstream-adoption-20260622.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 2,
+          "subjects": [
+            "speedrift: record workgraph pi adoption plan",
+            "docs: record workgraph pi upstream adoption"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "speedrift-ecosystem",
+          "hash": "288ea7b15d6013b5e06a8a7d580d60ba110faed9",
+          "timestamp": "2026-06-22T17:20:27+00:00",
+          "subject": "speedrift: record workgraph pi adoption plan",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "speedrift-ecosystem",
+          "hash": "59200fa088b392464c062e8352e0619430b1bc0d",
+          "timestamp": "2026-06-22T12:35:22+00:00",
+          "subject": "docs: record workgraph pi upstream adoption",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "freshell",
+      "path": "/Users/braydon/projects/experiments/freshell",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "workgraph",
+      "path": "/Users/braydon/projects/experiments/workgraph",
+      "last_commit_at": "2026-06-22T19:37:13+00:00",
+      "last_commit_hash": "ac2b86c59265730f56dd22250ef82f595f72f9a4",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "docs/design-named-profiles.md",
+        "docs/pi-integration/executor-research.md",
+        "docs/pi-integration/integration-plan.md",
+        "docs/pi-integration/model-mgmt-research.md",
+        "src/cli.rs",
+        "src/commands/archive.rs",
+        "src/commands/func_apply.rs",
+        "src/commands/init.rs",
+        "src/commands/mod.rs",
+        "src/commands/pi_handler.rs",
+        "src/commands/profile_cmd.rs",
+        "src/commands/quickstart.rs",
+        "src/commands/service/coordinator.rs",
+        "src/commands/service/triage.rs",
+        "src/commands/setup.rs",
+        "src/commands/spawn/execution.rs",
+        "src/commands/spawn_task.rs",
+        "src/config.rs",
+        "src/config_defaults.rs",
+        "src/dispatch/handler_for_model.rs",
+        "src/dispatch/mod.rs",
+        "src/dispatch/plan.rs",
+        "src/executor_discovery.rs",
+        "src/main.rs",
+        "src/model_routes.rs",
+        "src/profile/named.rs",
+        "src/profile/templates/nex.toml",
+        "src/profile/templates/opencode.toml",
+        "src/profile/templates/pi.toml",
+        "src/service/executor.rs",
+        "src/service/llm.rs",
+        "src/service/provider_health.rs",
+        "tests/test_provider_health.rs"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 6,
+          "subjects": [
+            "fix(setup): scope CLAUDE.md directives to observe/explicit-execution posture",
+            "workgraph: adopt pi handler and local routes",
+            "workgraph: fix recovery command description flags",
+            "workgraph: preserve provider failover after upstream pi merge",
+            "Merge remote-tracking branch 'origin/main' into integrate/pi-harness-upstream-speedrift-20260622",
+            "docs: publish pi.dev integration docs to main (pi-docs-publish)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "workgraph",
+          "hash": "ac2b86c59265730f56dd22250ef82f595f72f9a4",
+          "timestamp": "2026-06-22T19:37:13+00:00",
+          "subject": "fix(setup): scope CLAUDE.md directives to observe/explicit-execution posture",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "workgraph",
+          "hash": "6e466e5aa1716085aa2578d3e1b05b2383afa1e6",
+          "timestamp": "2026-06-22T17:20:27+00:00",
+          "subject": "workgraph: adopt pi handler and local routes",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "workgraph",
+          "hash": "7e44aa8d2486a5cff25fceb0c4d045ad46eb1244",
+          "timestamp": "2026-06-22T12:30:18+00:00",
+          "subject": "workgraph: fix recovery command description flags",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "workgraph",
+          "hash": "37b0767a9ce3e3f3bd538bc26f17157712230d89",
+          "timestamp": "2026-06-22T12:19:38+00:00",
+          "subject": "workgraph: preserve provider failover after upstream pi merge",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "workgraph",
+          "hash": "bc9eded3685ecbae0960f24aa91851b676c9c3d9",
+          "timestamp": "2026-06-22T12:11:52+00:00",
+          "subject": "Merge remote-tracking branch 'origin/main' into integrate/pi-harness-upstream-speedrift-20260622",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "workgraph",
+          "hash": "5e47d1f0be190a1bb06e699d1badb2e32a64be3c",
+          "timestamp": "2026-06-22T08:59:58+00:00",
+          "subject": "docs: publish pi.dev integration docs to main (pi-docs-publish)",
+          "author": "Erik Garrison"
+        }
+      ]
+    },
+    {
+      "name": "state-system",
+      "path": "/Users/braydon/projects/experiments/state-system",
+      "last_commit_at": "2026-06-26T22:36:33+00:00",
+      "last_commit_hash": "7a01541b43be85b16333bd55d035ade9a21a8987",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "docs/assets/state-system-network-flow.png",
+        "docs/assets/state-system-network-flow.svg",
+        "docs/source-modules.md",
+        "docs/state-system-architecture.html",
+        "docs/state-system-deck.html",
+        "docs/state-system-network-flow.html",
+        "examples/instance-source-freshness/instance-source-freshness-sample-personal-msgvault.json",
+        "examples/state-reviews/freshness/instance-source-freshness-lfw-github.json",
+        "examples/state-reviews/freshness/instance-source-freshness-lfw-linear.json",
+        "examples/state-reviews/freshness/instance-source-freshness-lfw-stripe-fresh.json",
+        "examples/state-reviews/freshness/instance-source-freshness-navicyte-email-fresh.json",
+        "examples/state-reviews/freshness/instance-source-freshness-navicyte-notion.json",
+        "examples/state-reviews/freshness/instance-source-freshness-synth-crm.json",
+        "examples/state-reviews/freshness/instance-source-freshness-synth-monday.json",
+        "examples/state-reviews/staleness-review-output-all-2026-W26.json",
+        "examples/state-reviews/staleness-review-packet-all-2026-W26.json",
+        "examples/strategic-reviews/entity-current-state/entity-current-state-sampleco-venture.json",
+        "examples/strategic-reviews/operating-docs/portfolio-operating-framework.md",
+        "examples/strategic-reviews/operating-docs/sampleco-positioning-cleanup-plan.md",
+        "examples/strategic-reviews/strategic-review-output-all-2026-W26.json",
+        "examples/strategic-reviews/strategic-review-packet-all-2026-W26.json",
+        "schemas/instance-source-freshness-record.schema.json",
+        "schemas/source-freshness-record.schema.json",
+        "schemas/staleness-review-output.schema.json",
+        "schemas/staleness-review-packet.schema.json",
+        "schemas/strategic-review-output.schema.json",
+        "schemas/strategic-review-packet.schema.json",
+        "scripts/build_network_flow_diagram.py",
+        "state_system/cli.py",
+        "state_system/contracts.py",
+        "state_system/heartbeat.py",
+        "state_system/instance_source_freshness.py",
+        "state_system/source_freshness.py",
+        "state_system/staleness_runner.py",
+        "state_system/strategic_staleness.py",
+        "tests/test_active_heartbeat.py",
+        "tests/test_company_understanding_surface.py",
+        "tests/test_fleet_refresh.py",
+        "tests/test_instance_agent_packages.py",
+        "tests/test_instance_source_freshness.py",
+        "tests/test_instance_understanding_surface.py",
+        "tests/test_interpreted_index.py",
+        "tests/test_open_source_ecosystem_conformance.py",
+        "tests/test_personal_context_package.py",
+        "tests/test_runtime_bootstrap_export.py",
+        "tests/test_source_freshness.py",
+        "tests/test_staleness_runner.py",
+        "tests/test_strategic_staleness.py"
+      ],
+      "windows": {
+        "24h": {
+          "count": 2,
+          "subjects": [
+            "feat(strategic): first-class entity_id join key on ECS findings/entries",
+            "feat(strategic-staleness): read b-state entity-current-state cards"
+          ]
+        },
+        "48h": {
+          "count": 4,
+          "subjects": [
+            "feat(strategic): first-class entity_id join key on ECS findings/entries",
+            "feat(strategic-staleness): read b-state entity-current-state cards",
+            "feat(strategic-staleness): semantic drift review loop; demote freshness to monthly hygiene",
+            "feat(staleness): model-mediated staleness review loop, gated"
+          ]
+        },
+        "72h": {
+          "count": 4,
+          "subjects": [
+            "feat(strategic): first-class entity_id join key on ECS findings/entries",
+            "feat(strategic-staleness): read b-state entity-current-state cards",
+            "feat(strategic-staleness): semantic drift review loop; demote freshness to monthly hygiene",
+            "feat(staleness): model-mediated staleness review loop, gated"
+          ]
+        },
+        "7d": {
+          "count": 11,
+          "subjects": [
+            "feat(strategic): first-class entity_id join key on ECS findings/entries",
+            "feat(strategic-staleness): read b-state entity-current-state cards",
+            "feat(strategic-staleness): semantic drift review loop; demote freshness to monthly hygiene",
+            "feat(staleness): model-mediated staleness review loop, gated",
+            "Merge branch 'docs/technical-network-flow-diagram'",
+            "Merge branch 'docs/technical-architecture-diagram'",
+            "docs: add node tooltips + standalone SVG/PNG exports to network diagram",
+            "docs: add State System data-flow network diagram",
+            "docs: add State System technical architecture reference diagram",
+            "docs: add State System technical deep-dive slide deck",
+            "fix(freshness): encode durable contract for status resolution and non-conflation"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "state-system",
+          "hash": "7a01541b43be85b16333bd55d035ade9a21a8987",
+          "timestamp": "2026-06-26T22:36:33+00:00",
+          "subject": "feat(strategic): first-class entity_id join key on ECS findings/entries",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "553f125561de6584526ca4586607fe591e429db4",
+          "timestamp": "2026-06-26T15:18:54+00:00",
+          "subject": "feat(strategic-staleness): read b-state entity-current-state cards",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "1bda940d2fc780cc77546ca0ed5878f749fe62c7",
+          "timestamp": "2026-06-26T11:04:53+00:00",
+          "subject": "feat(strategic-staleness): semantic drift review loop; demote freshness to monthly hygiene",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "1379b511af089c6381570138b9a15ec3e5e73582",
+          "timestamp": "2026-06-26T00:08:36+00:00",
+          "subject": "feat(staleness): model-mediated staleness review loop, gated",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "5f1b70daefc87d54fd33a52e8923fee34aafa927",
+          "timestamp": "2026-06-23T14:34:52+00:00",
+          "subject": "Merge branch 'docs/technical-network-flow-diagram'",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "f86b4560ec05e7d35f146cd23f5eb3935cc8613d",
+          "timestamp": "2026-06-23T14:34:52+00:00",
+          "subject": "Merge branch 'docs/technical-architecture-diagram'",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "dd32e9c0feb42c9866e3b59f6bad8e2687d8c720",
+          "timestamp": "2026-06-23T14:33:35+00:00",
+          "subject": "docs: add node tooltips + standalone SVG/PNG exports to network diagram",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "7b0bb038c58a3d13c67a1d2c9018d19212f140a8",
+          "timestamp": "2026-06-23T14:10:21+00:00",
+          "subject": "docs: add State System data-flow network diagram",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "5d7f2716e32c5dea06438a9e3c30cef52ab133f6",
+          "timestamp": "2026-06-23T13:58:49+00:00",
+          "subject": "docs: add State System technical architecture reference diagram",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "fe61b29c947ba5539f6fed480492890699017b11",
+          "timestamp": "2026-06-23T13:32:52+00:00",
+          "subject": "docs: add State System technical deep-dive slide deck",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "state-system",
+          "hash": "43007c818c94a3326209e37748c5cf18dcfce3ab",
+          "timestamp": "2026-06-23T12:21:54+00:00",
+          "subject": "fix(freshness): encode durable contract for status resolution and non-conflation",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "pi-memory-extension",
+      "path": "/Users/braydon/projects/experiments/pi-memory-extension",
+      "last_commit_at": "2026-06-25T16:32:12+00:00",
+      "last_commit_hash": "81744cd460730b008c5ceb7598a0720edc324c7f",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".gitignore",
+        "README.md",
+        "docs/superpowers/plans/2026-06-25-pi-memory-stage1-system-prompt-identity.md",
+        "docs/superpowers/specs/2026-06-25-pi-memory-context-governor-design.md",
+        "package-lock.json",
+        "package.json",
+        "src/pi-memory.ts",
+        "test/pi-memory.harness.mjs"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 2,
+          "subjects": [
+            "feat(memory): add turn-boundary context governor",
+            "feat(identity): inject Avery into Pi system prompt"
+          ]
+        },
+        "72h": {
+          "count": 3,
+          "subjects": [
+            "feat(memory): add turn-boundary context governor",
+            "feat(identity): inject Avery into Pi system prompt",
+            "feat(persona): imperative identity-frame header for salience"
+          ]
+        },
+        "7d": {
+          "count": 10,
+          "subjects": [
+            "feat(memory): add turn-boundary context governor",
+            "feat(identity): inject Avery into Pi system prompt",
+            "feat(persona): imperative identity-frame header for salience",
+            "feat(F.7): /avery no-arg opens interactive on/off picker",
+            "feat(F.7): Avery suppression gate + /avery toggle",
+            "fix(priming): survive reload/fork + compaction without losing identity",
+            "fix(loop2): point consolidation defaults at glm-5.2/zai (non-anthropic stack)",
+            "feat(loop2): in-hook consolidation \u2014 merge/supersede/retract + work-threads summary",
+            "fix(F.3): correct state CLI invocation (binary + --project-root)",
+            "feat: pi-memory-extension \u2014 Pi hook layer for Avery (Workstreams B+E+F)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "pi-memory-extension",
+          "hash": "81744cd460730b008c5ceb7598a0720edc324c7f",
+          "timestamp": "2026-06-25T16:32:12+00:00",
+          "subject": "feat(memory): add turn-boundary context governor",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "126e48ae3d2cd200743834f9da0a73715f3b52cc",
+          "timestamp": "2026-06-25T15:30:36+00:00",
+          "subject": "feat(identity): inject Avery into Pi system prompt",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "d2e5b4464da3e606389b98e2a76753e449331876",
+          "timestamp": "2026-06-24T15:43:05+00:00",
+          "subject": "feat(persona): imperative identity-frame header for salience",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "8ed93d6fcb72f1159aca142c30acbf2c43695884",
+          "timestamp": "2026-06-24T13:30:19+00:00",
+          "subject": "feat(F.7): /avery no-arg opens interactive on/off picker",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "58363a27c935119cfd6df09e9ee8ea0f69f8fa25",
+          "timestamp": "2026-06-24T13:14:32+00:00",
+          "subject": "feat(F.7): Avery suppression gate + /avery toggle",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "84fe087ddd071c4890e3cd8a99989324c9cbfe90",
+          "timestamp": "2026-06-24T10:51:22+00:00",
+          "subject": "fix(priming): survive reload/fork + compaction without losing identity",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "734b5bc6c3134cf73ead22bd86f1f479852092a5",
+          "timestamp": "2026-06-24T01:19:08+00:00",
+          "subject": "fix(loop2): point consolidation defaults at glm-5.2/zai (non-anthropic stack)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "192fa58acebc23d4aef0c1476724c249391ab85d",
+          "timestamp": "2026-06-24T01:00:11+00:00",
+          "subject": "feat(loop2): in-hook consolidation \u2014 merge/supersede/retract + work-threads summary",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "3f7486a2be633803d7cb0fe5d2c8e9e3cf6df01b",
+          "timestamp": "2026-06-24T00:32:38+00:00",
+          "subject": "fix(F.3): correct state CLI invocation (binary + --project-root)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "pi-memory-extension",
+          "hash": "37f6db2eaa52cb2e7b06de75ee933d7863eb2743",
+          "timestamp": "2026-06-24T00:05:02+00:00",
+          "subject": "feat: pi-memory-extension \u2014 Pi hook layer for Avery (Workstreams B+E+F)",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "linkedin-promotion-engine",
+      "path": "/Users/braydon/projects/experiments/linkedin-promotion-engine",
+      "last_commit_at": "2026-06-25T17:32:51+00:00",
+      "last_commit_hash": "2946c8054ff046441e853c510d86fa56b2a6031b",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".gitignore",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md",
+        "SUPERSEDED.md",
+        "docs/superpowers/plans/2026-06-19-linkedin-promotion-engine-phase-0-plan.md",
+        "examples/lfw_exemplars.json",
+        "pyproject.toml",
+        "src/linkedin_promotion_engine/__init__.py",
+        "src/linkedin_promotion_engine/contracts.py",
+        "src/linkedin_promotion_engine/thesis.py",
+        "tests/__init__.py",
+        "tests/test_cli.py",
+        "tests/test_contracts.py",
+        "tests/test_thesis_packet.py",
+        "uv.lock"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 1,
+          "subjects": [
+            "docs: mark repo superseded by lfw-marketing merge (2026-06-25)"
+          ]
+        },
+        "72h": {
+          "count": 1,
+          "subjects": [
+            "docs: mark repo superseded by lfw-marketing merge (2026-06-25)"
+          ]
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "docs: mark repo superseded by lfw-marketing merge (2026-06-25)"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "linkedin-promotion-engine",
+          "hash": "2946c8054ff046441e853c510d86fa56b2a6031b",
+          "timestamp": "2026-06-25T17:32:51+00:00",
+          "subject": "docs: mark repo superseded by lfw-marketing merge (2026-06-25)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "linkedin-promotion-engine",
+          "hash": "89ad09a58b1455fba64a2d25c5e5dfc95af0498e",
+          "timestamp": "2026-06-19T17:37:34+00:00",
+          "subject": "feat: scaffold linkedin promotion engine phase 0",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "keynote-slides-skill",
+      "path": "/Users/braydon/projects/experiments/keynote-slides-skill",
+      "last_commit_at": null,
+      "last_commit_hash": null,
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 0,
+          "subjects": []
+        }
+      },
+      "timeline": []
+    },
+    {
+      "name": "whealth",
+      "path": "/Users/braydon/projects/experiments/whealth",
+      "last_commit_at": "2026-06-24T17:59:38+00:00",
+      "last_commit_hash": "81fee89bdf99236990797e6a157544085074781b",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        ".workgraph/reviews/menopause-pattern-reasoner-boundary-review.json",
+        "apps/web/app/api/auth/claim/route.test.ts",
+        "apps/web/app/api/auth/claim/route.ts",
+        "apps/web/app/api/home/enrich/route.ts",
+        "apps/web/app/api/home/route.reasoner.test.ts",
+        "apps/web/app/api/home/route.ts",
+        "apps/web/app/dev/home-preview/page.tsx",
+        "apps/web/components/home/NowMoment.test.tsx",
+        "apps/web/components/home/NowMoment.tsx",
+        "apps/web/components/home/ReturningHome.tsx",
+        "apps/web/components/home/home-ui.test.tsx",
+        "apps/web/components/home/home.css",
+        "apps/web/components/interview/InterviewClient.tsx",
+        "apps/web/components/interview/interview-ui.flow.test.tsx",
+        "apps/web/components/trend/trend.css",
+        "apps/web/lib/auth.test.ts",
+        "apps/web/lib/auth.ts",
+        "apps/web/lib/clinician-summary.test.ts",
+        "apps/web/lib/clinician-summary.ts",
+        "apps/web/lib/menopause-pattern-reasoner-prompt.test.ts",
+        "apps/web/lib/menopause-pattern-reasoner-prompt.ts",
+        "apps/web/lib/menopause-pattern-reasoner-safety.test.ts",
+        "apps/web/lib/menopause-pattern-reasoner.model.test.ts",
+        "apps/web/lib/menopause-pattern-reasoner.test.ts",
+        "apps/web/lib/menopause-pattern-reasoner.ts",
+        "apps/web/lib/safety-wording.test.ts",
+        "apps/web/lib/safety-wording.ts",
+        "apps/web/scripts/issue-demo-login-links.ts",
+        "apps/web/scripts/seed-synthetic-users.ts",
+        "apps/web/scripts/synthetic-fixture-window.test.ts",
+        "apps/web/scripts/synthetic-fixture-window.ts",
+        "config/models.toml",
+        "docs/evals/2026-06-19-live-reasoner-production-validation.md",
+        "docs/evals/2026-06-23-openrouter-live-reasoner-validation.md",
+        "docs/evals/menopause-pattern-reasoner-v1-seeded-user-eval.md",
+        "docs/handoff/2026-06-19-phase-delivery-prep.md",
+        "docs/handoff/menopause-pattern-reasoner-audit-decision.md",
+        "docs/handoff/menopause-pattern-reasoner-route-decision.md",
+        "docs/handoff/menopause-pattern-reasoner-v1-handoff.md",
+        "docs/nicole.txt",
+        "docs/reasoner/nicole-narrative-reasoner-input.md",
+        "docs/superpowers/specs/2026-06-19-implement-menopause-pattern-reasoner-v1-in-speedrift-starting-wi-spec.md",
+        "docs/superpowers/specs/2026-06-19-menopause-pattern-reasoner-persona-design.md",
+        "docs/superpowers/specs/2026-06-24-home-enrichment-sequencing-design.md",
+        "docs/ux-review/2026-06-19-meeting-review-transcript-findings.md",
+        "e2e/clinician-prep-reasoner.spec.ts",
+        "packages/interview/src/grounding.ts",
+        "packages/interview/test/grounding.test.ts"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 6,
+          "subjects": [
+            "Show slow interview turn progress",
+            "Fix chart explanation contrast",
+            "Prefer enriched pattern read line",
+            "Keep pattern read concise",
+            "Make synthetic reseeding idempotent",
+            "Improve demo charts and pattern read"
+          ]
+        },
+        "7d": {
+          "count": 12,
+          "subjects": [
+            "Show slow interview turn progress",
+            "Fix chart explanation contrast",
+            "Prefer enriched pattern read line",
+            "Keep pattern read concise",
+            "Make synthetic reseeding idempotent",
+            "Improve demo charts and pattern read",
+            "feat: split home load from model enrichment",
+            "fix: keep returning home resilient to slow reasoner",
+            "config: extend reasoner timeout for openrouter",
+            "feat: add nicole-informed reasoner context",
+            "docs: record openrouter live reasoner validation",
+            "docs: synthesize nicole narrative for reasoner"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "whealth",
+          "hash": "81fee89bdf99236990797e6a157544085074781b",
+          "timestamp": "2026-06-24T17:59:38+00:00",
+          "subject": "Show slow interview turn progress",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "e1454f30f26c210eb182149061153b3c5dd2b3e2",
+          "timestamp": "2026-06-24T15:32:20+00:00",
+          "subject": "Fix chart explanation contrast",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "f57ae6c4364d4497459b945d082dae08bc2f4f77",
+          "timestamp": "2026-06-24T15:06:57+00:00",
+          "subject": "Prefer enriched pattern read line",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "089a163b0f141626c4382e6ad7d460721f3c6783",
+          "timestamp": "2026-06-24T15:03:28+00:00",
+          "subject": "Keep pattern read concise",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "651f976e5acd13e5afe2c62a01b49ebf58986c7a",
+          "timestamp": "2026-06-24T14:58:22+00:00",
+          "subject": "Make synthetic reseeding idempotent",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "34f20552bd887cda94772f285c2da4f1a86417bc",
+          "timestamp": "2026-06-24T14:51:18+00:00",
+          "subject": "Improve demo charts and pattern read",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "8c43efe17f94a96ad4eb632b70afe8680c2edbb0",
+          "timestamp": "2026-06-24T13:54:46+00:00",
+          "subject": "feat: split home load from model enrichment",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "0b7065953b6000b6781511937118ee347397977e",
+          "timestamp": "2026-06-24T13:13:39+00:00",
+          "subject": "fix: keep returning home resilient to slow reasoner",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "9b684151aabd17caee8a1076d1ffb69cc0bc11a7",
+          "timestamp": "2026-06-24T11:56:30+00:00",
+          "subject": "config: extend reasoner timeout for openrouter",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "b0d892937bf57bd159306f7ee0d531e2e73ca753",
+          "timestamp": "2026-06-24T11:48:46+00:00",
+          "subject": "feat: add nicole-informed reasoner context",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "b3f482aa735745db849cae49a0bd55544179866f",
+          "timestamp": "2026-06-23T20:32:40+00:00",
+          "subject": "docs: record openrouter live reasoner validation",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "f9a12d48593f533797922adaa9cdb5a70b4aaadf",
+          "timestamp": "2026-06-23T18:52:33+00:00",
+          "subject": "docs: synthesize nicole narrative for reasoner",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "7bcbd4c12079a83f7ea9c374e2850321590c9e0a",
+          "timestamp": "2026-06-19T20:25:08+00:00",
+          "subject": "feat: prep demo access and openrouter reasoner route",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "288124472dbe677cba9afd576b4d0d069f9e1efa",
+          "timestamp": "2026-06-19T19:20:17+00:00",
+          "subject": "docs: record live reasoner production validation",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "839ad1ceb3851d75cc0d7fed217c2c525d8062b0",
+          "timestamp": "2026-06-19T18:41:26+00:00",
+          "subject": "docs: record reasoner handoff push status (reasoner-v1-flat:review-handoff)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "f89f619d00deb981f63a40866048f585ba43e412",
+          "timestamp": "2026-06-19T18:40:44+00:00",
+          "subject": "docs: hand off menopause reasoner review (reasoner-v1-flat:review-handoff)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "7655b55c43955a69fc65b656717e69e3e389cb14",
+          "timestamp": "2026-06-19T18:33:07+00:00",
+          "subject": "test: verify menopause reasoner eval gates (reasoner-v1-flat:verify-eval)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "ddbd9b27a471d8f2454053c01d881bf8da5643f9",
+          "timestamp": "2026-06-19T18:22:35+00:00",
+          "subject": "feat: integrate reasoner into clinician prep (reasoner-v1-flat:integration)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "bf5e877cd7315a58c2d8baa16b4be6019244c007",
+          "timestamp": "2026-06-19T18:13:42+00:00",
+          "subject": "feat: add menopause reasoner runtime (reasoner-v1-flat:runtime)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "601d06753a60e8b41c9a256b532319c45500a602",
+          "timestamp": "2026-06-19T18:06:02+00:00",
+          "subject": "feat: add menopause pattern reasoner contract (reasoner-v1-flat:contract)",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "885e59ef74fae4e95c88cc1985378674ddd33b56",
+          "timestamp": "2026-06-19T17:59:29+00:00",
+          "subject": "docs: add reasoner v1 speedrift anchor",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "a9484dd4be11fe84a49b2c23c130b0efed6ed095",
+          "timestamp": "2026-06-19T17:35:26+00:00",
+          "subject": "docs: design internal menopause pattern reasoner",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "292988e5916667943cd913409a7cdc8aa21e9987",
+          "timestamp": "2026-06-19T15:21:54+00:00",
+          "subject": "fix(grounding): humanize companion signal labels",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "whealth",
+          "hash": "f978bb693daec2874e4858a0aea7e924a9c5e5bf",
+          "timestamp": "2026-06-19T14:31:52+00:00",
+          "subject": "feat(home): clarify companion chat affordance",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "house",
+      "path": "/Users/braydon/projects/experiments/house",
+      "last_commit_at": "2026-06-21T14:24:25+00:00",
+      "last_commit_hash": "a3003ce5bf6e3e2f25273ca1eeaa59a36971a927",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "AGENTS.md",
+        "CLAUDE.md",
+        "README.md",
+        "core/AGENTS.md",
+        "core/CLAUDE.md",
+        "core/README.md",
+        "energy/AGENTS.md",
+        "energy/CLAUDE.md",
+        "energy/README.md",
+        "finance/AGENTS.md",
+        "finance/CLAUDE.md",
+        "finance/README.md",
+        "property/AGENTS.md",
+        "property/CLAUDE.md",
+        "property/README.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 2,
+          "subjects": [
+            "docs: align house agent guidance with workspace pattern",
+            "Initial commit: House ecosystem structure and North Stars"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "house",
+          "hash": "a3003ce5bf6e3e2f25273ca1eeaa59a36971a927",
+          "timestamp": "2026-06-21T14:24:25+00:00",
+          "subject": "docs: align house agent guidance with workspace pattern",
+          "author": "Braydon McCormick"
+        },
+        {
+          "repo": "house",
+          "hash": "2bf3a9259fabb662c359d1c2867746626aea01a3",
+          "timestamp": "2026-06-21T12:16:53+00:00",
+          "subject": "Initial commit: House ecosystem structure and North Stars",
+          "author": "Braydon McCormick"
+        }
+      ]
+    },
+    {
+      "name": "paia-supernote",
+      "path": "/Users/braydon/projects/experiments/paia-supernote",
+      "last_commit_at": "2026-06-22T19:37:27+00:00",
+      "last_commit_hash": "50e540a26149ada049a66acefc6f48a87e0f1b21",
+      "summary": null,
+      "summary_hash": null,
+      "changed_files": [
+        "CLAUDE.md"
+      ],
+      "windows": {
+        "24h": {
+          "count": 0,
+          "subjects": []
+        },
+        "48h": {
+          "count": 0,
+          "subjects": []
+        },
+        "72h": {
+          "count": 0,
+          "subjects": []
+        },
+        "7d": {
+          "count": 1,
+          "subjects": [
+            "fix(claude-md): scope workgraph-managed block to observe/explicit-execution"
+          ]
+        }
+      },
+      "timeline": [
+        {
+          "repo": "paia-supernote",
+          "hash": "50e540a26149ada049a66acefc6f48a87e0f1b21",
+          "timestamp": "2026-06-22T19:37:27+00:00",
+          "subject": "fix(claude-md): scope workgraph-managed block to observe/explicit-execution",
+          "author": "Braydon McCormick"
+        }
+      ]
+    }
+  ]
+}

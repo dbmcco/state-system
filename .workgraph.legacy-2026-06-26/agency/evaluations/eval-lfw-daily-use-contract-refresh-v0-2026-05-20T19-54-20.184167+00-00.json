@@ -1,0 +1,17 @@
+{
+  "id": "eval-sampleco-daily-use-contract-refresh-v0-2026-05-20T19-54-20.184167+00-00",
+  "task_id": "sampleco-daily-use-contract-refresh-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.9,
+  "dimensions": {
+    "validation": 0.9,
+    "package_contract": 0.95,
+    "guidance": 0.93,
+    "scope_control": 0.82
+  },
+  "notes": "Manual Codex evaluator pass, no Claude/wg service. Based on state:2 FLIP evidence: Caroline packages validate against instance-agent-package schema; render exposes Linear/GitHub fresh usable readiness, processed transcript typed gaps, federated relationship route, route contract, state_instance.sample_personal, and local_materialization=false; AGENTS/CLAUDE guidance present. Residual caveat: an ignored SampleCo local validator script had stale assertions and was minimally corrected during FLIP; implementation package/read-model/guidance files did not require changes.",
+  "evaluator": "manual-eval:codex-state1",
+  "timestamp": "2026-05-20T19:54:20.184167+00:00",
+  "source": "manual-eval:codex-state1"
+}

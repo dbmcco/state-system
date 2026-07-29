@@ -1,0 +1,18 @@
+{
+  "id": "eval-portfolio_co-state-instance-scaffold-v0-2026-05-20T19-54-20.417646+00-00",
+  "task_id": "portfolio_co-state-instance-scaffold-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.91,
+  "dimensions": {
+    "validation": 0.96,
+    "scope_control": 0.78,
+    "scaffold_artifacts": 0.93,
+    "privacy_scope": 0.95,
+    "readiness_gaps": 0.92
+  },
+  "notes": "Manual Codex evaluator pass, no Claude/wg service. Based on state:4 FLIP evidence and manual-flip:codex-state4 score 0.91: Helena render OK; schema/readiness passed for 18 docs and 2 read models; privacy scans clean; upstream unittest 37 OK; state_system.cli validate 130 examples OK; drift green. Caveats: original implementation exceeded max_files/max_loc advisory budget and portfolio_co-workspace changes remain local/uncommitted.",
+  "evaluator": "manual-eval:codex-state1",
+  "timestamp": "2026-05-20T19:54:20.417646+00:00",
+  "source": "manual-eval:codex-state1"
+}

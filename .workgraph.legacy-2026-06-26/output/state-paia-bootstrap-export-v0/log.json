@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "2026-05-14T18:50:14.761592+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-14T18:50:14.774563+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-14T18:50:15.348353+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-14T18:52:36.201966+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-14T18:53:22.165464+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-14T18:53:34.449928+00:00",
+    "user": "braydon",
+    "message": "Validated: added paia-bootstrap-export command and bootstrap module; command seeds company capability runtime records and writes company-capability/company-capability-read-model.json plus company-preflight/company-preflight-results-read-model.json under the target state root. Focused 9 tests passed; full 107-test harness passed; schema validation 116 examples passed; temp-root CLI smoke passed; production default /Users/braydon/.paia/state-system bootstrap ran; git diff --check passed; smart drift check green."
+  },
+  {
+    "timestamp": "2026-05-14T18:53:34.476991+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  },
+  {
+    "timestamp": "2026-05-14T18:53:34.650563+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "id": "eval-state-report-suite-mission-v0-2026-05-04T18-22-20.673981+00-00",
+  "task_id": "state-report-suite-mission-v0",
+  "agent_id": "3184716484e6f0ea08bb13539daf07686ee79d440505f1fdf2de0357707034c3",
+  "role_id": "75d2fab8c1f8e0378e335701132a3b68ef9aa32b78841ce73f558116b725b68b",
+  "tradeoff_id": "ac9bc242305c7e5db07436618e9d3a6ce26b484d1103bc0d45b96035f5c260f3",
+  "score": 0.73,
+  "dimensions": {
+    "downstream_usability": 0.72,
+    "blocking_impact": 0.65,
+    "style_adherence": 0.82,
+    "intent_fidelity": 0.53,
+    "coordination_overhead": 0.6,
+    "constraint_fidelity": 0.85,
+    "correctness": 0.78,
+    "efficiency": 0.8,
+    "completeness": 0.65
+  },
+  "notes": "Core functionality is correct: validation confirms report-suite-run creates mission-read-model.json artifact, existing tests pass (80-test harness), and coredrift checks pass. Three of four acceptance criteria are explicitly validated. However, the critical 'report suite index links to mission output' criterion lacks explicit validation in test results. The agent decomposed work into a FLIP subtask (marked Open), which is reasonable for validation workflows but creates two problems: (1) the subtask description is incomplete/cut off in the record, leaving handoff criteria unclear, and (2) the agent reported done while leaving a subtask open, creating coordination ambiguity about whether this is intentional deferred work or incomplete delegation. Efficiency is good (within file/LOC constraints). Style adherence is solid (coredrift OK, comprehensive tests). Main weaknesses: incomplete decomposition documentation, unvalidated linking criterion, and coordination overhead from the open subtask. Constraint-fidelity score of 0.85 with 1 unanchored constraint is reasonable but suggests minor task specification issues.",
+  "evaluator": "claude:haiku",
+  "timestamp": "2026-05-04T18:22:20.673981+00:00",
+  "source": "llm"
+}

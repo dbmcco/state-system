@@ -1,0 +1,15 @@
+{
+  "problem_valid": true,
+  "gaps": [
+    "Operational source repair and product rendering have different acceptance gates and should remain separate lanes.",
+    "Runtime roots are dirty, so execution must start with ownership and status capture.",
+    "Some gaps require external source systems or credentials and cannot be closed inside State System alone."
+  ],
+  "hidden_assumptions": [
+    "All source adapters are available locally during execution.",
+    "The current Workgraph executor configuration can safely run codex workers without service changes.",
+    "Freshness can improve for every source; in practice some sources should remain planned or failed with better evidence."
+  ],
+  "refined_problem": "Coordinate a codexd-compatible Speedrift execution graph that repairs source readiness where direct evidence is available, leaves honest typed gaps where it is not, regenerates packages, reruns the North Star ecosystem check, and adds a deterministic renderer over the schema-backed JSON substrate.",
+  "confidence": 0.91
+}

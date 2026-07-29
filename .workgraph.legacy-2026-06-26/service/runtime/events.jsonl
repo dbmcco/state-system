@@ -1,0 +1,149 @@
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777410464.0081651, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777410475.546091, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777410476.585290000,"payload":{"cli":"codex","actor_id":"session-21801"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-file-stores","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-e2e-pressure-harness","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-recent-context-packaging","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-runner-fixture-reviewer","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-pressure-contracts","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-model-reviewer-boundary","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-cli","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-pressure-routing-freshness","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-pressure-governance","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-source-idempotency","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-spec-anchor","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:23Z","task":".assign-ss-paia-memory-adapter","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:24Z","task":".assign-ss-contracts-fixtures","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:24Z","task":".assign-ss-pressure-idempotency","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:13:24Z","task":".assign-ss-committer-materializer","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-28T21:17:34Z","task":"ss-spec-anchor","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777479754.580121, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777479755.264098000,"payload":{"cli":"codex","actor_id":"session-32581"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777479905.729054, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777479906.470301000,"payload":{"cli":"codex","actor_id":"session-37539"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:26:55Z","task":"ss-contracts-fixtures","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:30:18Z","task":"ss-file-stores","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:30:18Z","task":"ss-source-idempotency","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:52:21Z","task":"ss-pressure-idempotency","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:52:21Z","task":"ss-runner-fixture-reviewer","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T16:55:46Z","task":"ss-pressure-idempotency","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T17:30:18Z","task":"ss-committer-materializer","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T17:30:18Z","task":"ss-model-reviewer-boundary","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777498017.6370502, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777498018.342467000,"payload":{"cli":"codex","actor_id":"session-67984"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T21:35:46Z","task":"ss-pressure-governance","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-29T21:35:46Z","task":"ss-recent-context-packaging","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-30T20:26:03Z","task":"ss-pressure-routing-freshness","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-30T20:26:03Z","task":"ss-cli","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-30T20:26:03Z","task":"ss-paia-memory-adapter","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-04-30T20:29:04Z","task":"ss-pressure-routing-freshness","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777655877.232318, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777655877.928021000,"payload":{"cli":"codex","actor_id":"session-83674"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-01T17:20:35Z","task":".assign-ss-runtime-v0-anchor","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-01T17:20:35Z","task":".assign-ss-runtime-v0-cli-loop","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777658926.62366, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777658927.291803000,"payload":{"cli":"codex","actor_id":"session-49381"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777660640.893219, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777660641.659988000,"payload":{"cli":"codex","actor_id":"session-3568"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-01T18:37:53Z","task":"ss-live-git-runtime-trial","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777666391.958415, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777666392.740428000,"payload":{"cli":"codex","actor_id":"session-19437"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777666460.797625, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777666461.409969000,"payload":{"cli":"codex","actor_id":"session-20565"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777670108.5187268, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777670109.162569000,"payload":{"cli":"codex","actor_id":"session-37806"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777674195.4995892, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777674196.135891000,"payload":{"cli":"codex","actor_id":"session-94781"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777674608.685163, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777674609.397381000,"payload":{"cli":"codex","actor_id":"session-7771"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777683195.878048, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777683196.611840000,"payload":{"cli":"codex","actor_id":"session-37395"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777759016.632812, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777759017.361886000,"payload":{"cli":"codex","actor_id":"session-26119"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777806097.251768, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777806097.879156000,"payload":{"cli":"codex","actor_id":"session-63441"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777912241.069414, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777912245.078126000,"payload":{"cli":"codex","actor_id":"session-33815"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777914968.8811378, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777914972.321952000,"payload":{"cli":"codex","actor_id":"session-8284"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777926554.8635461, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777926558.249018000,"payload":{"cli":"codex","actor_id":"session-60489"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1777929487.956969, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1777929491.661346000,"payload":{"cli":"codex","actor_id":"session-89324"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-cli","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-committer-materializer","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-live-git-runtime-trial","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-recent-context-packaging","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-file-stores","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-agent-consumer-contract-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-drift-self-update-ss-runtime-v0-anchor","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-system-diagram-flow-first","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-contracts-fixtures","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-miriam-critical-reviewer-persona","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-model-reviewer-boundary","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-system-diagram-html","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".assign-state-refresh-app-substrate-contract-six-chain-doc","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-paia-memory-adapter","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-system-diagram-source-generalization","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-05T16:39:11Z","task":".flip-ss-source-idempotency","detail":"reason=agency_unavailable"}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778513343.972416, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778513347.350317000,"payload":{"cli":"codex","actor_id":"session-69914"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778516545.565171, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778516549.327319000,"payload":{"cli":"codex","actor_id":"session-23925"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778526839.774223, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778526843.484040000,"payload":{"cli":"codex","actor_id":"session-95520"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778537599.3240478, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778537603.041720000,"payload":{"cli":"codex","actor_id":"session-20692"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778538330.265223, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778538333.745084000,"payload":{"cli":"codex","actor_id":"session-73436"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778672997.8737369, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778673002.957440000,"payload":{"cli":"codex","actor_id":"session-28004"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778778300.708979, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778778304.857386000,"payload":{"cli":"codex","actor_id":"session-75539"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778779315.0993369, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778779320.029484000,"payload":{"cli":"codex","actor_id":"session-17727"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778781510.7075148, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778781515.581201000,"payload":{"cli":"codex","actor_id":"session-93054"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778783713.5570612, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778783718.084971000,"payload":{"cli":"codex","actor_id":"session-32405"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778784576.754511, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778784581.203976000,"payload":{"cli":"codex","actor_id":"session-80805"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778866603.713965, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778866607.855783000,"payload":{"cli":"codex","actor_id":"session-29955"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778869700.230259, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778869704.666025000,"payload":{"cli":"codex","actor_id":"session-96667"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778939458.045568, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778939463.112084000,"payload":{"cli":"codex","actor_id":"session-94569"}}
+{"kind": "repo.discovered", "repo": "state-system", "ts": 1778949624.91729, "payload": {"path": "/Users/braydon/projects/experiments/state-system", "source": "driftdriver-install"}}
+{"kind":"session.started","repo":"state-system","ts":1778949631.133229000,"payload":{"cli":"codex","actor_id":"session-97197"}}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T09:58:39Z","task":"state-object-claim-substrate-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T09:58:40Z","task":"drift-self-update-state-company-capability-pack-baseline-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T09:58:43Z","task":"drift-self-update-state-source-freshness-heartbeat-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T09:58:44Z","task":"drift-self-update-state-refresh-app-substrate-contract-six-chain-doc","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T11:16:03Z","task":"state-instance-federation-read-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T16:14:37Z","task":"state-personal-context-package-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T16:14:37Z","task":"state-personal-personal state-runbook-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T16:14:39Z","task":"sampleco-instance-readiness-promote-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T16:30:04Z","task":"state-cross-repo-package-sync-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T16:30:06Z","task":"state-personal-model-synthesis-loop-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T17:16:17Z","task":"state-package-layer-dirty-tree-scope-audit-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T18:49:50Z","task":"bstate-spotify-source-access-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-17T23:19:59Z","task":"state-relationship-index-federation-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T16:30:21Z","task":".assign-company-instance-scaffold-portfolio_co-researchco-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T16:30:21Z","task":".assign-state-route-contract-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T16:30:21Z","task":".assign-relationship-substrate-oss-module-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T16:30:21Z","task":".assign-state-tool-action-contract-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T16:41:50Z","task":"relationship-substrate-oss-module-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:42Z","task":"sampleco-daily-use-contract-refresh-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:43Z","task":"state-instance-scaffold-command-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:43Z","task":"portfolio_co-state-instance-scaffold-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:44Z","task":"state-oss-ecosystem-conformance-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:45Z","task":"relationship-substrate-oss-contracts-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T17:15:45Z","task":"ecosystem-freshness-repair-backlog-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T19:06:58Z","task":"state-operational-eval-gate-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T19:18:18Z","task":"state-evaluator-infra-repair-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T19:18:19Z","task":"state-connector-module-kit-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T19:18:21Z","task":"state-high-value-freshness-repair-loop-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T19:18:24Z","task":"state-live-instance-federation-pack-materialization-v0","detail":"reason=agency_unavailable"}
+{"kind":"agency.enrichment.skipped","ts":"2026-05-18T22:10:53Z","task":"state-open-source-onboarding-release-gate-v0","detail":"reason=agency_unavailable"}
+{"kind":"session.started","repo":"state-system","ts":1782512821.643320000,"payload":{"cli":"claude-code","actor_id":"session-3084"}}

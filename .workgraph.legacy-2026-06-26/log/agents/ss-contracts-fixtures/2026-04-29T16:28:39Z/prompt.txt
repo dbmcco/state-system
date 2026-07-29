@@ -1,0 +1,120 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: ss-contracts-fixtures - Build schema validation and fixture consistency harness
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Build schema validation and fixture consistency harness"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Implement the first executable harness for JSON schema loading and fixture consistency. This is plumbing only: validate shapes and cross-file references without deciding meaning.
+
+## Scope
+- Add project scaffolding only as needed for tests and CLI-compatible validation.
+- Validate all schemas and examples.
+- Add consistency checks for the Laura, Patrick stale-contract, Patrick GitHub commitment, and Linear Southern Abrasives traces.
+
+## Pressure Test
+- Can every accepted commit ref resolve to an example artifact?
+- Can a multi-state proposal accept multiple journal refs?
+- Can fixture validation fail loudly without invoking model judgment?
+
+## Validation
+- [ ] Existing JSON examples parse.
+- [ ] Fixture trace tests cover all four comparison scenarios.
+- [ ] No hardcoded business judgment appears in validation code.
+- [ ] Repo-specific test command is documented.
+
+Context from dependencies:
+From ss-spec-anchor logs: 2026-04-28T21:17:34.147127+00:00 Spawned by wg spawn --executor claude --model opus
+From ss-spec-anchor logs: 2026-04-28T21:17:40.422666+00:00 Task marked as failed: Agent exited with code 1
+From ss-spec-anchor logs: 2026-04-29T16:23:10.283098+00:00 Coredrift: OK (no findings)
+From ss-spec-anchor logs: 2026-04-29T16:24:38.874857+00:00 Coredrift: OK (no findings)
+From ss-spec-anchor logs: 2026-04-29T16:24:46.802271+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task ss-contracts-fixtures <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task ss-contracts-fixtures --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task ss-contracts-fixtures --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log ss-contracts-fixtures "message"
+- When complete: wg done ss-contracts-fixtures
+- If blocked: wg fail ss-contracts-fixtures --reason "description"

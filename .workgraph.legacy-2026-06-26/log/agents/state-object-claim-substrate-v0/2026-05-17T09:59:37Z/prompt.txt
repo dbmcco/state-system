@@ -1,0 +1,108 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-object-claim-substrate-v0 - Implement Object and Claim substrate v0
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Add first-class ObjectRecord and ClaimRecord substrate so working models, state objects, packets, CRM views, wiki views, documents, code artifacts, images, and people can reference addressable objects and evidence-backed claims without becoming state by default"
+touch = ["schemas/object-record.schema.json", "schemas/claim-record.schema.json", "schemas/relationship-record.schema.json", "examples/object-claim/*", "state_system/object_claims.py", "state_system/contracts.py", "state_system/cli.py", "tests/test_object_claim_substrate.py", "docs/concepts/working-models.md", "docs/system-diagram.html", "docs/assets/state-system-overview.svg", "README.md"]
+acceptance = ["ObjectRecord schema supports generic addressable things with kind/source/evidence/provenance/freshness/sensitivity", "ClaimRecord schema supports factual, interpretive, operational, aesthetic, and code-related claims with evidence refs and acceptance status", "RelationshipRecord schema supports typed object-to-object/object-to-claim edges", "fixtures map person/document/code/image/CRM packet-like examples without creating state by default", "tests prove state_refs are accepted state only while object_refs and claim_refs carry candidates", "working models can cite object_refs and claim_refs", "validation and drift checks pass"]
+max_files = 20
+max_loc = 1200
+auto_followups = true
+```
+
+Corrective implementation lane after Working Models: lower the substrate from state-specific shapes to generic objects, claims, and relationships. Do not replace StateObject; make accepted state an interpretation over object/claim records.
+
+Context from dependencies:
+From state-working-model-envelope-v0 logs: 2026-05-11T22:13:36.026599+00:00 Coredrift: OK (no findings)
+From state-working-model-envelope-v0 logs: 2026-05-11T22:15:08.355402+00:00 Coredrift: OK (no findings)
+From state-working-model-envelope-v0 logs: 2026-05-11T22:15:17.550450+00:00 Validated: added working-model concept note, updated README and diagrams, seeded Object/Claim substrate follow-up; schema validation for 112 examples; git diff --check; smart drift check green.
+From state-working-model-envelope-v0 logs: 2026-05-11T22:15:17.573725+00:00 Task pending eval (agent reported done; awaiting `.evaluate-*` to score)
+From state-working-model-envelope-v0 logs: 2026-05-11T22:15:17.714819+00:00 Task marked as done
+From state-operational-loop-v0 logs: 2026-05-11T22:29:22.762364+00:00 Coredrift: yellow (scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-operational-loop-v0 logs: 2026-05-11T22:29:48.112641+00:00 Coredrift: OK (no findings)
+From state-operational-loop-v0 logs: 2026-05-11T22:30:08.997153+00:00 Validated: added operational-loop-run CLI and script; dedicated Southern Abrasives operational trace; operator-summary.json; focused operational-loop tests; full 92-test harness; schema validation for 113 examples; script smoke verifies accepted commit and captured response not truth; git diff --check; smart drift check green; diagrams updated. Object/Claim substrate task is now behind this operational lane.
+From state-operational-loop-v0 logs: 2026-05-11T22:30:09.021377+00:00 Task pending eval (agent reported done; awaiting `.evaluate-*` to score)
+From state-operational-loop-v0 logs: 2026-05-11T22:30:09.173681+00:00 Task marked as done
+From state-company-capability-pack-baseline-v0 logs: 2026-05-14T17:05:24.874563+00:00 Coredrift: OK (no findings)
+From state-company-capability-pack-baseline-v0 logs: 2026-05-14T17:12:06.742766+00:00 Coredrift: OK (no findings)
+From state-company-capability-pack-baseline-v0 logs: 2026-05-14T17:12:20.730745+00:00 Validated: added CompanyCapabilityPack schema, SampleCo/ResearchCo/PortfolioCo fixtures, read-model builder and CLI, ownership/invariant docs, README/diagram updates; focused tests; full 96-test harness; schema validation for 116 examples; CLI read-model smoke; git diff --check; smart drift check green.
+From state-company-capability-pack-baseline-v0 logs: 2026-05-14T17:12:20.756667+00:00 Task pending eval (agent reported done; awaiting `.evaluate-*` to score)
+From state-company-capability-pack-baseline-v0 logs: 2026-05-14T17:12:24.585461+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-object-claim-substrate-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-object-claim-substrate-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-object-claim-substrate-v0 "message"
+- When complete: wg done state-object-claim-substrate-v0
+- If blocked: wg fail state-object-claim-substrate-v0 --reason "description"

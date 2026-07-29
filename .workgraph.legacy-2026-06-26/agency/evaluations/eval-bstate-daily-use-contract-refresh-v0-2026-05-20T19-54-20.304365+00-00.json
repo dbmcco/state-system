@@ -1,0 +1,18 @@
+{
+  "id": "eval-bstate-daily-use-contract-refresh-v0-2026-05-20T19-54-20.304365+00-00",
+  "task_id": "bstate-daily-use-contract-refresh-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.94,
+  "dimensions": {
+    "scope_control": 0.9,
+    "package_contract": 0.96,
+    "validation": 0.96,
+    "freshness_gap_clarity": 0.95,
+    "privacy_scope": 0.97
+  },
+  "notes": "Manual Codex evaluator pass, no Claude/wg service. Based on state:3 FLIP evidence: Sam package/readiness verified; Garmin fresh usable; Spotify stale typed gap visible; Beeper iMessage preflight passed with unknown freshness and threads=0 gap; Beeper WhatsApp fresh ready with watermark; messaging route uses canonical tool.beeper.search/tool_action.beeper_messaging.search; personal state validate 130 examples, package render, 29 focused tests, and raw-corpus scan passed.",
+  "evaluator": "manual-eval:codex-state1",
+  "timestamp": "2026-05-20T19:54:20.304365+00:00",
+  "source": "manual-eval:codex-state1"
+}

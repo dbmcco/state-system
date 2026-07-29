@@ -1,0 +1,1 @@
+[inline claude task — no LLM prompt; runs: .flip-ss-e2e-pressure-harness]

@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-pressure-routing-freshness-2026-05-03T11-09-32.001689+00-00",
+  "task_id": "ss-pressure-routing-freshness",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.64,
+  "dimensions": {
+    "hallucination_rate": 0.2,
+    "specificity_match": 0.5,
+    "requirement_coverage": 0.6,
+    "semantic_match": 0.7
+  },
+  "notes": "The inferred version captures the core domain (routing, freshness, package handling) and correctly identifies that this involves trace runner implementation and divergence patterns. However, it misses critical requirements from the actual task: (1) specific pressure test scenarios (Laura flooded by tasks, misses marketable capability; sensitive context leaking into marketing package; Patrick/Laura operational readiness disagreement), (2) the emphasis on 'redaction' as a specific concern, (3) validation approach focusing on 'excluded-context summaries' being inspectable and hidden routing logic being explicit, not implementation-driven. The inferred version reads like an implementation plan derived from the task but is more generic about WHAT scenarios to test. Hallucinations are minimal (specific test file paths, '42 test harness' number, 'drifts check') but represent reasonable inferences rather than false requirements.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Add routing and freshness pressure coverage to the state system trace runner. Implement support for external-action refresh requirements and handle route divergence patterns (such as Laura/Patrick route divergence scenarios). The implementation should:\\n\\n1. Track freshness pressure signals and ensure external actions can refresh state appropriately\\n2. Support multiple routing paths and divergence patterns within the trace system\\n3. Package recent context correctly for downstream decision-making\\n4. Pass all existing tests (42 test harness)\\n5. Validate with python3 -m unittest tests/test_recent_context_packaging.py\\n6. Ensure drifts check passes\\n\\nAcceptance criteria: All tests pass, drifts check green, routing/freshness coverage is measurable in trace output.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:09:32.001689+00:00",
+  "source": "flip"
+}

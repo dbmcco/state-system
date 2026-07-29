@@ -1,0 +1,112 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-personal-model-synthesis-loop-v0 - Add personal model synthesis proposal loop
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Add a model-mediated proposal loop for personal state and attention synthesis over bounded context packages."
+non_goals = [
+  "Do not hardcode provider names, model IDs, base URLs, or credential env vars",
+  "Do not silently accept model proposals as state",
+  "Do not implement provider fallback in app code"
+]
+touch = [
+  "state_system/*synthesis*.py",
+  "state_system/cli.py",
+  "schemas/*proposal*.json",
+  "tests/test_personal_synthesis*.py"
+]
+acceptance = [
+  "Model route/credentials resolve through paia-agent-runtime cognition presets or the existing central registry adapter",
+  "The loop can answer attention/state prompts as proposal records with evidence refs",
+  "Proposal records are distinct from accepted state records",
+  "Tests cover fail-hard routing and proposal/evidence separation"
+]
+max_files = 12
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Context from dependencies:
+From state-personal-context-package-v0 logs: 2026-05-17T16:17:07.274859+00:00 Starting TDD: writing test for personal context package generation
+From state-personal-context-package-v0 logs: 2026-05-17T16:22:09.736744+00:00 Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-personal-context-package-v0 logs: 2026-05-17T16:23:59.877863+00:00 Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-personal-context-package-v0 logs: 2026-05-17T16:24:19.155044+00:00 Implemented personal context package schema, generator, and CLI. Schema includes source_boundaries, retrieval_refs (msgvault/agentmem bounded), freshness, governance, unresolved_gaps, non_goals, invariant. Generator consumes the instance understanding surface and personal capability pack. 7 new tests + 165 total pass; 124 example validations pass. Drift yellow inherited from prior task's uncommitted personal understanding surface work (28 files outside my touch globs). My own additions: 4 files / ~676 LOC, well within max_files=10 and ~budget for max_loc=700.
+From state-personal-context-package-v0 logs: 2026-05-17T16:24:34.439683+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-personal-model-synthesis-loop-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-personal-model-synthesis-loop-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-personal-model-synthesis-loop-v0 "message"
+- When complete: wg done state-personal-model-synthesis-loop-v0
+- If blocked: wg fail state-personal-model-synthesis-loop-v0 --reason "description"

@@ -1,0 +1,17 @@
+[
+  {
+    "timestamp": "2026-05-14T19:33:04.469394+00:00",
+    "user": "braydon",
+    "message": "Claimed by Codex for PAIA msgvault preflight contract alignment; adding explicit source connector preflight_target metadata."
+  },
+  {
+    "timestamp": "2026-05-14T19:34:34.357923+00:00",
+    "user": "braydon",
+    "message": "Validated: msgvault source_ref remains msgvault:tenant:<tenant-id>; source_connectors now include preflight_target.kind=msgvault_search with explicit query/account details for PAIA-owned read-only checks. Focused 14 tests passed; schema validation 116 examples passed; temp bootstrap verified ResearchCo msgvault target; production paia-bootstrap-export refreshed /Users/braydon/.paia/state-system with 19 preflight results preserved; full 109-test suite passed; git diff --check passed."
+  },
+  {
+    "timestamp": "2026-05-14T19:34:42.338859+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

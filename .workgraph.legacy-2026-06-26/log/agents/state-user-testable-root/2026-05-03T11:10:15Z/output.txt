@@ -1,0 +1,5 @@
+/Users/braydon/projects/experiments/state-system/.workgraph/agents/agent-65/run.sh: line 22: .workgraph/executors/claude-run.sh: No such file or directory
+
+[wrapper] Agent exited with code 127, marking task failed
+Agent archived to /Users/braydon/projects/experiments/state-system/.workgraph/log/agents/state-user-testable-root/2026-05-03T11:06:05Z
+Output captured to /Users/braydon/projects/experiments/state-system/.workgraph/output/state-user-testable-root

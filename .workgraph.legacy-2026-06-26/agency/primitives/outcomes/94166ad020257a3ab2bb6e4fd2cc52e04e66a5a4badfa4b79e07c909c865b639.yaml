@@ -1,0 +1,55 @@
+id: 94166ad020257a3ab2bb6e4fd2cc52e04e66a5a4badfa4b79e07c909c865b639
+name: Optimal agent-task assignment
+description: The closest available agent configuration for the task, with a confidence score, a match rationale, and a flag if the task was underspecified.
+success_criteria:
+- Agent configuration matches task requirements
+- Confidence score provided
+- Match rationale documented
+performance:
+  task_count: 9
+  avg_score: 0.5
+  evaluations:
+  - score: 0.5
+    task_id: .assign-state-stale-context-pressure-v0
+    timestamp: 2026-05-03T11:05:32.829078+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-03T11:07:28.470873+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:15:09.630133+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-mission-report-html-v0
+    timestamp: 2026-05-04T20:29:40.611765+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-demo-report-suite-v0
+    timestamp: 2026-05-04T20:35:14.420902+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-meeting-coordination-contract-v0
+    timestamp: 2026-05-04T20:52:16.567197+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-thoughtforge-provenance-contract-v0
+    timestamp: 2026-05-04T20:57:26.835758+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-visual-forge-qualitative-contract-v0
+    timestamp: 2026-05-04T21:01:30.142013+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+  - score: 0.5
+    task_id: .assign-state-crm-outcome-doctrine-contract-v0
+    timestamp: 2026-05-04T21:13:47.004596+00:00
+    context_id: eea940a6f6be13d60578dee27be1f4bade4fcaab05bbbe54b9c5ef4b2d05eae0
+lineage:
+  generation: 0
+  created_by: human
+  created_at: 2026-04-28T21:07:39.819447Z
+access_control:
+  owner: local
+  policy: open
+requires_human_oversight: true

@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "2026-04-28T21:11:37.956525+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-04-28T21:11:53.921740+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-04-30T20:29:03.761994+00:00",
+    "actor": "agent-51",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-04-30T20:29:08.170294+00:00",
+    "actor": "agent-51",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  }
+]

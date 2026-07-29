@@ -1,0 +1,118 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: ss-source-idempotency - Implement source-event ingestion and idempotency
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Implement source-event ingestion and idempotency"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Implement source-event ingestion for the local runner. Accept source-event envelopes, validate them, persist them, dedupe by idempotency key, and create triggers only for new events.
+
+## Model-Mediated Boundary
+Source ingestion catches facts and identity only. It must not decide marketing opportunity, project health, launch readiness, or persona salience.
+
+## Pressure Test
+- Linear webhook plus scheduled sync reports the same deal stage change. Only one downstream trigger should be created.
+- A semantically duplicate event should be flagged for review instead of blindly creating duplicate journal/recent-change/package records.
+- Partial sync evidence should carry uncertainty forward.
+
+## Validation
+- [ ] Replaying examples/source-linear-southern-abrasives-won.json is idempotent.
+- [ ] Duplicate source events do not create duplicate triggers.
+- [ ] Partial sync/confidence fields survive into evidence context.
+- [ ] No source adapter code decides action salience.
+
+Context from dependencies:
+From ss-contracts-fixtures logs: 2026-04-29T16:25:14.609146+00:00 Coredrift: OK (no findings)
+From ss-contracts-fixtures logs: 2026-04-29T16:26:55.181576+00:00 Spawned by wg spawn --executor claude --model opus
+From ss-contracts-fixtures logs: 2026-04-29T16:27:02.965774+00:00 Task marked as failed: Agent exited with code 1
+From ss-contracts-fixtures logs: 2026-04-29T16:28:30.457960+00:00 Coredrift: OK (no findings)
+From ss-contracts-fixtures logs: 2026-04-29T16:28:39.594896+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task ss-source-idempotency <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log ss-source-idempotency "message"
+- When complete: wg done ss-source-idempotency
+- If blocked: wg fail ss-source-idempotency --reason "description"

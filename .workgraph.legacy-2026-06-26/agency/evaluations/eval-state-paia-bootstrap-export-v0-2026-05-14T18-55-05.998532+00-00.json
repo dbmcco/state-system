@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-paia-bootstrap-export-v0-2026-05-14T18-55-05.998532+00-00",
+  "task_id": "state-paia-bootstrap-export-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "drift": 1.0,
+    "runtime": 1.0,
+    "cli": 1.0,
+    "tests": 1.0,
+    "docs": 1.0
+  },
+  "notes": "paia-bootstrap-export refreshes company capability and company preflight read-model artifacts under the PAIA State System runtime root; actual connector checks remain PAIA-owned.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-14T18:55:05.998532+00:00",
+  "source": "codex-validation"
+}

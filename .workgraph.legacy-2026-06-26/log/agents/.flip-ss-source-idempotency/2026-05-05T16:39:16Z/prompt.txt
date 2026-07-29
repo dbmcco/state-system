@@ -1,0 +1,104 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: .flip-ss-source-idempotency - FLIP: ss-source-idempotency
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "FLIP: ss-source-idempotency"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Run FLIP (Fidelity via Latent Intent Probing) evaluation for task 'ss-source-idempotency'.
+
+Context from dependencies:
+From ss-source-idempotency logs: 2026-04-29T16:49:09.026545+00:00 Coredrift: OK (no findings)
+From ss-source-idempotency logs: 2026-04-29T16:49:20.533645+00:00 Task reset for retry from in-progress (attempt #5) — reason: Reset dead worker; manual Codex execution continues
+From ss-source-idempotency logs: 2026-04-29T16:51:19.961784+00:00 Coredrift: OK (no findings)
+From ss-source-idempotency logs: 2026-04-29T16:51:28.975217+00:00 Validated manually: python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py; jq schema/example parse; git diff --check; coredrift green
+From ss-source-idempotency logs: 2026-04-29T16:51:32.385727+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task .flip-ss-source-idempotency <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task .flip-ss-source-idempotency --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-source-idempotency --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log .flip-ss-source-idempotency "message"
+- When complete: wg done .flip-ss-source-idempotency
+- If blocked: wg fail .flip-ss-source-idempotency --reason "description"

@@ -1,0 +1,18 @@
+{
+  "id": "eval-company-instance-scaffold-portfolio_co-researchco-v0-2026-05-20T19-55-29.638678+00-00",
+  "task_id": "company-instance-scaffold-portfolio_co-researchco-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.92,
+  "dimensions": {
+    "researchco": 0.94,
+    "validation": 0.96,
+    "privacy_scope": 0.96,
+    "portfolio_co": 0.91,
+    "scope_control": 0.8
+  },
+  "notes": "Manual Codex parent FLIP, no Claude/wg service. Aggregates completed child evidence: PortfolioCo FLIP/eval 0.91; ResearchCo FLIP/eval 0.94; both scaffolds validated, rendered package surfaces, explicit readiness gaps, privacy scans clean, generic state_system validation 130 examples. Score reduced for original max_files/max_loc budget overrun and local/uncommitted NaviCyte workspace changes.",
+  "evaluator": "manual-flip:codex-state1",
+  "timestamp": "2026-05-20T19:55:29.638678+00:00",
+  "source": "manual-flip:codex-state1"
+}

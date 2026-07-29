@@ -1,0 +1,15 @@
+{
+  "id": "eval-state-refresh-app-substrate-contract-six-chain-doc-2026-05-11T19-14-49.532306+00-00",
+  "task_id": "state-refresh-app-substrate-contract-six-chain-doc",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "docs": 1.0,
+    "drift": 1.0
+  },
+  "notes": "Docs-only validation: app-substrate contract updated for six-chain coverage; git diff --check clean; smart drift check green.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-11T19:14:49.532306+00:00",
+  "source": "codex-validation"
+}

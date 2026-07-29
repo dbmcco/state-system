@@ -1,0 +1,24 @@
+[
+  {
+    "timestamp": "2026-05-20T22:53:14.052448+00:00",
+    "actor": "arendt-codex",
+    "user": "braydon",
+    "message": "Task claimed by @arendt-codex"
+  },
+  {
+    "timestamp": "2026-05-20T22:56:30.217291+00:00",
+    "user": "braydon",
+    "message": "arendt-codex checkpoint: source probes recorded and Ingrid package regenerated. Package gap refs moved from 12 to 5: Drive, msgvault, and repo atlas/decks/org_workspace are now ready from source-owned probe evidence; Folio remains failed/unknown because localhost:3520 timed out; transcript docs remain planned because no real read-model pipeline was found. No blocker; running validation now. ETA 10-15 minutes."
+  },
+  {
+    "timestamp": "2026-05-20T22:57:40.104651+00:00",
+    "user": "braydon",
+    "message": "arendt-codex final: repaired ResearchCo readiness only. Evidence-backed promotions: Drive via mcco Drive metadata search (source ref resolved to gws:mcco:drive:researchco-corpus-search), msgvault via health/account/search metadata, GitHub repos via gh repo view metadata. Folio remains failed/unknown due localhost:3520 timeout. Transcript docs remain planned; no read-model pipeline found. ResearchCo package gaps: 12 -> 5; removed Drive access/freshness, msgvault access/freshness, and three repo freshness gaps. Verification passed: ResearchCo scaffold validator, focused unittest command, state_system validate, and north-star-answer rerun schema-valid."
+  },
+  {
+    "timestamp": "2026-05-20T22:57:40.138208+00:00",
+    "actor": "arendt-codex",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

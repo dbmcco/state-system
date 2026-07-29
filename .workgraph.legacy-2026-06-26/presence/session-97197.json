@@ -1,0 +1,12 @@
+{
+  "actor": {
+    "id": "session-97197",
+    "actor_class": "interactive",
+    "name": "codex",
+    "repo": "state-system"
+  },
+  "started_at": "2026-05-16T16:40:30.990886+00:00",
+  "last_heartbeat": "2026-05-16T16:40:30.990886+00:00",
+  "current_task": "",
+  "status": "active"
+}

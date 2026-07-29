@@ -1,0 +1,18 @@
+{
+  "id": "eval-researchco-state-instance-scaffold-v0-2026-05-20T19-41-56.846894+00-00",
+  "task_id": "researchco-state-instance-scaffold-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.94,
+  "dimensions": {
+    "source_readiness_gaps": 0.95,
+    "scope_drift": 0.85,
+    "validation": 1.0,
+    "guidance_privacy": 1.0,
+    "scaffold_artifacts": 0.96
+  },
+  "notes": "Manual FLIP by state:5 after reboot recovery. Evidence inspected: /Users/braydon/tmp/reboot-backup/pane-state_5.1.txt, central task logs/output, ResearchCo state-system artifacts, AGENTS.md/CLAUDE.md guidance. Fresh verification passed: validate_researchco_scaffold.py; instance-agent-package-render for instance_agent_package.researchco.ingrid.scaffold.v0; upstream unittest tests.test_instance_scaffold and tests.test_instance_agent_packages; upstream state_system.cli validate with 130 examples; JSON parse for 56 private scaffold JSON files; privacy/guidance rg checks. Scaffold includes state_instance.researchco, source modules folio/gws_drive/msgvault/local_path/repo/docs, 8 source readiness entries, 3 routes, governance refs, and no-raw-private-materialization boundary. Residual issue: original implementation exceeded churn budget and drift previously warned, but current FLIP drift is green and no concrete validation failure was found.",
+  "evaluator": "manual-flip:state:5",
+  "timestamp": "2026-05-20T19:41:56.846894+00:00",
+  "source": "manual-flip:state:5"
+}

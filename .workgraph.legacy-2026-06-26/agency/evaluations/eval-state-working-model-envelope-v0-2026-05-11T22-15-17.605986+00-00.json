@@ -1,0 +1,17 @@
+{
+  "id": "eval-state-working-model-envelope-v0-2026-05-11T22-15-17.605986+00-00",
+  "task_id": "state-working-model-envelope-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "schema": 1.0,
+    "docs": 1.0,
+    "diagram": 1.0,
+    "drift": 1.0
+  },
+  "notes": "Docs/design lane validated: Working Models defined as bounded non-truth assemblies over durable substrate; PAIA packets mapped as one implementation; Object/Claim substrate follow-up published; diagrams updated; schema validation/diff/drift green.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-11T22:15:17.605986+00:00",
+  "source": "codex-validation"
+}

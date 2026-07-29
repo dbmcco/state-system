@@ -1,0 +1,18 @@
+{
+  "id": "flip-ss-pressure-idempotency-2026-05-03T11-10-16.323977+00-00",
+  "task_id": "ss-pressure-idempotency",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.54,
+  "dimensions": {
+    "hallucination_rate": 0.6,
+    "requirement_coverage": 0.4,
+    "specificity_match": 0.5,
+    "semantic_match": 0.7
+  },
+  "notes": "The actual task focuses on pressure-testing source-event *dedupe* semantics with specific scenarios (duplicate IDs, field transitions with different timestamps, out-of-order watermarks, partial-to-full sync). The inferred version reframes this as 'fallback handling' (native ID fallback, field transition fallback) and adds acceptance criteria (unittest/json/diff, coredrift validation) not in the original. Only ~2 of 6-7 actual requirements are clearly captured (partial-to-full replay, out-of-order watermarks). Missing: explicit duplicate-ID testing, duplicate_of_ref semantics, the dedupe emphasis, and the \"file ambiguity as follow-up\" documentation approach. Hallucinated: native ID fallback framing, tool-specific validation (unittest/json/diff/coredrift), and manual coverage validation.\n\nFLIP metadata: {\"comparison_model\":\"opus\",\"comparison_source\":\"task-model\",\"inference_model\":\"opus\",\"inference_source\":\"task-model\",\"inferred_prompt\":\"Implement and validate comprehensive pressure tests for the state system's source-event handling. The tests must cover the following scenarios: (1) native id fallback - handling events when native IDs are missing or need fallback resolution, (2) field transition fallback - managing state transitions when fields are absent or incomplete, (3) partial-to-full replay - ensuring the system correctly processes replayed events that transition from partial to full state, and (4) out-of-order watermarks - validating correct handling of events arriving out of timestamp order. Acceptance criteria: all source-event pressure tests must pass, unittest/json/diff checks must all be green, coredrift validation must pass with no findings, and manual validation must confirm test coverage is complete. The task may require multiple attempts and debugging iterations.\"}",
+  "evaluator": "flip:opus+opus",
+  "timestamp": "2026-05-03T11:10:16.323977+00:00",
+  "model": "opus",
+  "source": "flip"
+}

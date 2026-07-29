@@ -1,0 +1,114 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-live-instance-federation-pack-materialization-v0 - Materialize federation packs in live instance packages
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Materialize InstanceFederationPack records into personal state, SampleCo, PortfolioCo, and ResearchCo packages/read models where the route is declared or planned."
+non_goals = [
+  "Do not create live source access that has not been proven",
+  "Do not materialize raw personal relationship data into company instances"
+]
+touch = [
+  "state_system/instance_agent_packages.py",
+  "state_system/instance_understanding_surface.py",
+  "tests/test_instance_agent_packages.py",
+  "tests/test_instance_understanding_surface.py",
+  "docs/runbooks/company-instance-scaffolding.md"
+]
+acceptance = [
+  "personal state package exposes SampleCo federation pack refs and freshness/gap policy",
+  "SampleCo package exposes Relationship Substrate federation pack refs with local_materialization=false",
+  "PortfolioCo and ResearchCo packages expose planned portfolio federation packs without pretending readiness",
+  "Renderer shows federation pack refs and materialization policy"
+]
+max_files = 8
+max_loc = 600
+pit_stop_after = 3
+auto_followups = true
+```
+
+This implements the package/read-model side after the federation pack contract exists.
+
+Context from dependencies:
+From state-instance-federation-pack-contract-v0 logs: 2026-05-18T19:11:48.661267+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-instance-federation-pack-contract-v0 logs: 2026-05-18T19:11:52.234209+00:00 Claimed by coordinator. Start drift yellow due inherited repo-wide package-layer churn; implementation will stay inside schema/examples/module/CLI/tests/docs touch set.
+From state-instance-federation-pack-contract-v0 logs: 2026-05-18T19:16:03.025306+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-instance-federation-pack-contract-v0 logs: 2026-05-18T19:16:10.100129+00:00 Implemented InstanceFederationPack contract: schema, synthetic registry examples, validation/render module, CLI validate/render commands, docs/source-modules section, and tests. Examples cover personal->SampleCo instance_read, SampleCo->personal Relationship Substrate source_substrate_query with local_materialization=false, and planned portfolio_rollup for PortfolioCo/ResearchCo using remote_instance_refs array. Validation green: federation+conformance focused 12 tests OK, full unittest discover 202 tests OK, state-system validate 128 examples OK, py_compile OK, git diff --check clean. End drift yellow only inherited repo-wide churn advisory.
+From state-instance-federation-pack-contract-v0 logs: 2026-05-18T19:16:12.999331+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-live-instance-federation-pack-materialization-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-live-instance-federation-pack-materialization-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-live-instance-federation-pack-materialization-v0 "message"
+- When complete: wg done state-live-instance-federation-pack-materialization-v0
+- If blocked: wg fail state-live-instance-federation-pack-materialization-v0 --reason "description"

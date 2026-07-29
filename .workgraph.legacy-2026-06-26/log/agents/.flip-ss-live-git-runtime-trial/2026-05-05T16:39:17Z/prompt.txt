@@ -1,0 +1,103 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: .flip-ss-live-git-runtime-trial - FLIP: ss-live-git-runtime-trial
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "FLIP: ss-live-git-runtime-trial"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Run FLIP (Fidelity via Latent Intent Probing) evaluation for task 'ss-live-git-runtime-trial'.
+
+Context from dependencies:
+From ss-live-git-runtime-trial logs: 2026-05-01T18:37:52.104081+00:00 Coredrift: OK (no findings)
+From ss-live-git-runtime-trial logs: 2026-05-01T18:44:00Z Implemented runtime seed, git-commit-from-repo, and source-only recent indexing for live Git package trials.
+From ss-live-git-runtime-trial logs: 2026-05-01T18:43:18Z Live trial passed against repo.state-system HEAD 209364de1e6cba20e451eddf39be7701aac7e06d: runtime seeded, commit ingested, recent indexed from source event, Patrick package had 1 entry, Laura package had 0 entries and 1 explicit exclusion. Validation: 49 unittest checks, compileall, CLI validate 56 examples, diff check.
+From ss-live-git-runtime-trial logs: 2026-05-01T18:43:24.087483+00:00 Coredrift: yellow (scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task .flip-ss-live-git-runtime-trial <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-live-git-runtime-trial --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log .flip-ss-live-git-runtime-trial "message"
+- When complete: wg done .flip-ss-live-git-runtime-trial
+- If blocked: wg fail .flip-ss-live-git-runtime-trial --reason "description"

@@ -1,0 +1,45 @@
+[
+  {
+    "timestamp": "2026-05-18T17:12:06.977328+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T17:12:15.411777+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T17:12:55.442363+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:15:42.185662+00:00",
+    "actor": "agent-107",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-18T17:16:05.257728+00:00",
+    "actor": "agent-107",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-05-18T18:23:20.881203+00:00",
+    "user": "braydon",
+    "message": "Lane report captured centrally: Caroline package/read-model validated against generic schemas; package route contracts and transcript gap refs checked with jq; relationship-index validator passed. Root AGENTS.md and CLAUDE.md in SampleCo include state/relationship substrate usage guidance. Remaining gap: SampleCo local Workgraph does not contain central task id, so local drift logs were not written there; implementation validation is otherwise green."
+  },
+  {
+    "timestamp": "2026-05-18T18:25:15.678099+00:00",
+    "user": "braydon",
+    "message": "Coordinator takeover after worker exit: verified Caroline package render from /Users/braydon/projects/work/sampleco with PYTHONPATH to the core state-system repo. Render shows SourceModuleSpec fields, route contracts, federated relationship route, local_materialization=false, subject note policy, fallback/gap behavior, and tool action refs. Patched /Users/braydon/projects/work/sampleco/AGENTS.md and CLAUDE.md with the exact working render command for fresh sessions."
+  },
+  {
+    "timestamp": "2026-05-18T18:25:20.009040+00:00",
+    "actor": "agent-107",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  }
+]

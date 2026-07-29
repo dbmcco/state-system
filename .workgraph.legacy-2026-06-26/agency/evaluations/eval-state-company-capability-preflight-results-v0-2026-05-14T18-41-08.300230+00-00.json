@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-company-capability-preflight-results-v0-2026-05-14T18-41-08.300230+00-00",
+  "task_id": "state-company-capability-preflight-results-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "schema": 1.0,
+    "cli": 1.0,
+    "docs": 1.0,
+    "drift": 1.0,
+    "tests": 1.0
+  },
+  "notes": "Preflight results are persisted/exported as live-access evidence only, keyed by scope_key and latest_by_scope_key; governance remains separate; PAIA owns actual checks and execution.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-14T18:41:08.300230+00:00",
+  "source": "codex-validation"
+}

@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-backward-gap-audit-2026-05-03T11-08-20.905765+00-00",
+  "task_id": "ss-backward-gap-audit",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.65,
+  "dimensions": {
+    "semantic_match": 0.75,
+    "specificity_match": 0.55,
+    "requirement_coverage": 0.65,
+    "hallucination_rate": 0.55
+  },
+  "notes": "The inferred version correctly identifies the core backward gap audit objective and the three committer blocker dimensions (pending approvals, evidence checks, high-risk freshness). However, it misses critical acceptance criteria from the original: the 4-category classification framework (committer blockers / already covered / follow-up later / deferred), explicit deferred-items tracking to prevent over-engineering, and file/LOC constraints (3 files, 250 LOC, pit stop after 3). Significantly, the inferred version adds coredrift verification and missing_contract resolution as primary objectives, which are not mentioned in the actual task contract. This represents a scope expansion inconsistent with the non-goals ('Do not add new runtime subsystems'). The inferred task appears to have been executed with an additional quality-gate step that wasn't part of the original specification.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Perform a backward gap audit of the state-system to identify and narrow down committer blockers related to pending approvals, evidence checks, and high-risk freshness. Run a coredrift check and resolve any findings (specifically the missing_contract issue noted) by adding a wg-contract block to the task description. Ensure that coredrift verification passes with no findings upon completion.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:08:20.905765+00:00",
+  "source": "flip"
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "ss-agent-activation-contract-v0",
+  "phase": "reconcile",
+  "checked_at": "2026-05-04T16:30:44.787615+00:00",
+  "warnings": [],
+  "repos": [
+    {
+      "repo": "state-system",
+      "status": "skipped",
+      "updated_files": [],
+      "reason": "docs/materials.toml missing"
+    }
+  ]
+}

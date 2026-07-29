@@ -1,0 +1,123 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: ss-runner-fixture-reviewer - Implement runner and fixture reviewer
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Implement runner and fixture reviewer"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Implement the Notice and Interpret test path: source event or trigger -> evidence packet -> relevant snapshots/journals/memory/persona context -> model review packet -> fixture reviewer output.
+
+## Model-Mediated Boundary
+The runner gathers factual inputs. The fixture reviewer returns fixture outputs for tests. Do not add heuristic meaning decisions to runner code.
+
+## Pressure Test
+- Can a no-op review pass?
+- Can missing evidence produce a review signal without mutating snapshots?
+- Can one trigger produce multiple proposals?
+
+## Validation
+- [ ] Runner builds packets matching existing examples.
+- [ ] Fixture reviewer can replay all four fixture outputs.
+- [ ] Missing evidence and no-op paths are tested.
+- [ ] No business judgment appears outside reviewer fixtures.
+
+Context from dependencies:
+From ss-file-stores logs: 2026-04-29T16:45:07.518279+00:00 Spawned by wg spawn --executor claude --model opus
+From ss-file-stores logs: 2026-04-29T16:46:32.542097+00:00 Task reset for retry from in-progress (attempt #4) — reason: Reset dead worker; no accepted output
+From ss-file-stores logs: 2026-04-29T16:47:03.565832+00:00 Coredrift: OK (no findings)
+From ss-file-stores logs: 2026-04-29T16:48:32.916945+00:00 Coredrift: OK (no findings)
+From ss-file-stores logs: 2026-04-29T16:48:39.868669+00:00 Task marked as done
+From ss-source-idempotency logs: 2026-04-29T16:49:09.026545+00:00 Coredrift: OK (no findings)
+From ss-source-idempotency logs: 2026-04-29T16:49:20.533645+00:00 Task reset for retry from in-progress (attempt #5) — reason: Reset dead worker; manual Codex execution continues
+From ss-source-idempotency logs: 2026-04-29T16:51:19.961784+00:00 Coredrift: OK (no findings)
+From ss-source-idempotency logs: 2026-04-29T16:51:28.975217+00:00 Validated manually: python3 -m unittest tests/test_contracts.py tests/test_stores.py tests/test_source_events.py; jq schema/example parse; git diff --check; coredrift green
+From ss-source-idempotency logs: 2026-04-29T16:51:32.385727+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task ss-runner-fixture-reviewer <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task ss-runner-fixture-reviewer --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log ss-runner-fixture-reviewer "message"
+- When complete: wg done ss-runner-fixture-reviewer
+- If blocked: wg fail ss-runner-fixture-reviewer --reason "description"

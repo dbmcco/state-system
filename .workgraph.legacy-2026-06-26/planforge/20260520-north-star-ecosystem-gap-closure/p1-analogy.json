@@ -1,0 +1,21 @@
+{
+  "analogies": [
+    {
+      "domain": "Incident management",
+      "solution": "Separate detection, triage, owner assignment, repair, and post-repair verification.",
+      "transferable_insight": "Treat each source gap as an incident with an owner, evidence, repair action, and acceptance gate."
+    },
+    {
+      "domain": "Data pipeline freshness",
+      "solution": "Expose freshness watermarks and explicit stale/failed statuses instead of hiding missing data.",
+      "transferable_insight": "The package is useful when it surfaces trustworthy state and gaps, even before every source is fresh."
+    },
+    {
+      "domain": "Release trains",
+      "solution": "Gate integration with a final manifest and smoke check after independent lane work completes.",
+      "transferable_insight": "Instance lanes can move independently, but the ecosystem North Star answer is the integration gate."
+    }
+  ],
+  "inversion": "The problem gets worse if agents rewrite dirty roots blindly, mark unavailable sources fresh, hide gaps in a prose renderer, or copy raw corpora into product artifacts.",
+  "key_insight": "The execution graph must preserve truthfulness as a first-class deliverable; a smaller number of better-evidenced gaps is a valid improvement."
+}

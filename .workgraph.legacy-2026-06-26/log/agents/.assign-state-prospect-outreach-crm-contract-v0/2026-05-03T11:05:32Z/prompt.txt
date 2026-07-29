@@ -1,0 +1,1 @@
+[inline claude task — no LLM prompt; runs: .assign-state-prospect-outreach-crm-contract-v0]

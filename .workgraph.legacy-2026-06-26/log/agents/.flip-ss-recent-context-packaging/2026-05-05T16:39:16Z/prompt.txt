@@ -1,0 +1,103 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: .flip-ss-recent-context-packaging - FLIP: ss-recent-context-packaging
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "FLIP: ss-recent-context-packaging"
+non_goals = [
+  "No fallbacks/retries/guardrails unless acceptance requires it",
+]
+touch = [
+]
+acceptance = [
+]
+max_files = 25
+max_loc = 800
+pit_stop_after = 3
+auto_followups = true
+```
+
+Run FLIP (Fidelity via Latent Intent Probing) evaluation for task 'ss-recent-context-packaging'.
+
+Context from dependencies:
+From ss-recent-context-packaging logs: 2026-04-28T21:11:37.949945+00:00 Task paused
+From ss-recent-context-packaging logs: 2026-04-28T21:11:53.921740+00:00 Task published
+From ss-recent-context-packaging logs: 2026-04-30T20:26:41Z Validated manually: recent-change indexer preserves source, journal, commit, review-signal, routing, opportunity, and freshness refs; context packager builds Laura opportunity packages with relevant state, memory, governance, freshness, and excluded operational context; recent-change packages include escalated routes and summarize ambient/excluded routes; 35 unittest checks, compileall, diff check, and coredrift green.
+From ss-recent-context-packaging logs: 2026-04-30T20:26:41Z Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task .flip-ss-recent-context-packaging <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task .flip-ss-recent-context-packaging --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log .flip-ss-recent-context-packaging "message"
+- When complete: wg done .flip-ss-recent-context-packaging
+- If blocked: wg fail .flip-ss-recent-context-packaging --reason "description"

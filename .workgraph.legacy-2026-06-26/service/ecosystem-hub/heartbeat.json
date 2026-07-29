@@ -1,0 +1,16 @@
+{
+  "last_tick_at": "2026-06-27T14:08:38.806156+00:00",
+  "supervisor": {
+    "enabled": true,
+    "cooldown_seconds": 180,
+    "max_starts_per_cycle": 4,
+    "checked_repos": 57,
+    "restart_candidates": 0,
+    "attempted": 0,
+    "started": 0,
+    "failed": 0,
+    "cooldown_skipped": 0,
+    "last_tick_at": "2026-06-27T14:08:37.876150+00:00",
+    "attempts": []
+  }
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from state_system.content_health import build_content_health, expired_at
 from state_system.company_capability import build_company_capability_read_model_from_runtime
 from state_system.company_preflight import build_company_preflight_read_model
 from state_system.contracts import JsonObject
@@ -27,9 +28,27 @@ def build_company_understanding_surface_read_model(
     )
 
     companies = [
-        _company_surface(company, preflight, freshness)
+        _company_surface(company, preflight, freshness, generated_at)
         for company in capability.get("companies", [])
     ]
+    content_health = build_content_health(
+        statuses=[
+            source.get("content_status", source.get("freshness_status", "unknown"))
+            for company in companies
+            for source in company.get("source_readiness", [])
+        ],
+        requires_refresh=any(
+            source.get("freshness_status") != "fresh"
+            for company in companies
+            for source in company.get("source_readiness", [])
+        ),
+        source_gap_refs=[
+            gap["gap_ref"]
+            for company in companies
+            for gap in company.get("source_gaps", [])
+        ],
+        generated_at=generated_at,
+    )
 
     return {
         "id": "company_understanding_surface_read_model",
@@ -48,6 +67,8 @@ def build_company_understanding_surface_read_model(
             for company in companies
             for gap in company.get("source_gaps", [])
         ],
+        "content_health": content_health,
+        "staleness_banner": content_health["staleness_banner"],
         "invariant": {
             "surface_declares_retrieval_contract": True,
             "surface_executes_retrieval": False,
@@ -64,6 +85,7 @@ def _company_surface(
     company: JsonObject,
     preflight_read_model: JsonObject,
     freshness_read_model: JsonObject,
+    generated_at: str,
 ) -> JsonObject:
     source_readiness = [
         _source_readiness(
@@ -71,6 +93,7 @@ def _company_surface(
             connector,
             preflight_read_model,
             freshness_read_model,
+            generated_at,
         )
         for connector in company.get("source_connectors", [])
     ]
@@ -79,6 +102,17 @@ def _company_surface(
         for source in source_readiness
         for gap in source.get("gaps", [])
     ]
+    content_health = build_content_health(
+        statuses=[
+            source.get("content_status", source.get("freshness_status", "unknown"))
+            for source in source_readiness
+        ],
+        requires_refresh=any(
+            source.get("freshness_status") != "fresh" for source in source_readiness
+        ),
+        source_gap_refs=[gap["gap_ref"] for gap in source_gaps],
+        generated_at=generated_at,
+    )
     return {
         "company_ref": company["company_ref"],
         "name": company["name"],
@@ -90,6 +124,8 @@ def _company_surface(
         "searchable_surfaces": company.get("index_manifests", []),
         "source_readiness": source_readiness,
         "source_gaps": source_gaps,
+        "content_health": content_health,
+        "staleness_banner": content_health["staleness_banner"],
     }
 
 
@@ -98,6 +134,7 @@ def _source_readiness(
     connector: JsonObject,
     preflight_read_model: JsonObject,
     freshness_read_model: JsonObject,
+    generated_at: str,
 ) -> JsonObject:
     company_ref = company["company_ref"]
     connector_ref = connector["id"]
@@ -120,7 +157,8 @@ def _source_readiness(
         or source_ref in manifest.get("source_refs", [])
     ]
     access_status = _access_status(preflight_records)
-    freshness_status = freshness_record.get("status", "missing")
+    freshness_status = _effective_freshness_status(freshness_record, generated_at)
+    content_status = "stale" if freshness_status == "stale" else freshness_status
     index_status = _index_status(index_manifests)
     gaps = _source_gaps(
         company_ref=company_ref,
@@ -136,11 +174,18 @@ def _source_readiness(
         "source_ref": source_ref,
         "access_status": access_status,
         "freshness_status": freshness_status,
+        "content_status": content_status,
+        "stale_after": freshness_record.get("stale_after", ""),
         "index_status": index_status,
         "understanding_status": _understanding_status(
             access_status=access_status,
             freshness_status=freshness_status,
             index_status=index_status,
+        ),
+        "staleness_banner": (
+            "HARD STALENESS BANNER: source freshness is not fresh; do not describe this company source as ready."
+            if freshness_status != "fresh"
+            else ""
         ),
         "preflight_records": preflight_records,
         "freshness_record": freshness_record,
@@ -181,6 +226,13 @@ def _freshness_record_for_source(
     return sorted(matching, key=lambda record: record.get("checked_at", ""), reverse=True)[
         0
     ]
+
+
+def _effective_freshness_status(freshness_record: JsonObject, generated_at: str) -> str:
+    status = freshness_record.get("status", "missing")
+    if status == "fresh" and expired_at(freshness_record.get("stale_after", ""), generated_at):
+        return "stale"
+    return status
 
 
 def _access_status(preflight_records: list[JsonObject]) -> str:

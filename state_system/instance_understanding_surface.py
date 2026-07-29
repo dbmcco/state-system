@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from state_system.content_health import build_content_health, expired_at
 from state_system.contracts import JsonObject
 from state_system.instance_capability import (
     build_instance_capability_read_model_from_runtime,
@@ -33,9 +34,27 @@ def build_instance_understanding_surface_read_model(
         default="",
     )
     instances = [
-        _instance_surface(instance, preflight, freshness)
+        _instance_surface(instance, preflight, freshness, generated_at)
         for instance in capability.get("instances", [])
     ]
+    content_health = build_content_health(
+        statuses=[
+            source.get("content_status", source.get("freshness_status", "unknown"))
+            for instance in instances
+            for source in instance.get("source_readiness", [])
+        ],
+        requires_refresh=any(
+            source.get("freshness_status") != "fresh"
+            for instance in instances
+            for source in instance.get("source_readiness", [])
+        ),
+        source_gap_refs=[
+            gap["gap_ref"]
+            for instance in instances
+            for gap in instance.get("source_gaps", [])
+        ],
+        generated_at=generated_at,
+    )
 
     return {
         "id": "instance_understanding_surface_read_model",
@@ -54,6 +73,8 @@ def build_instance_understanding_surface_read_model(
             for instance in instances
             for gap in instance.get("source_gaps", [])
         ],
+        "content_health": content_health,
+        "staleness_banner": content_health["staleness_banner"],
         "invariant": {
             "surface_declares_retrieval_contract": True,
             "surface_executes_retrieval": False,
@@ -70,6 +91,7 @@ def _instance_surface(
     instance: JsonObject,
     preflight_read_model: JsonObject,
     freshness_read_model: JsonObject,
+    generated_at: str,
 ) -> JsonObject:
     source_readiness = [
         _source_readiness(
@@ -77,6 +99,7 @@ def _instance_surface(
             connector,
             preflight_read_model,
             freshness_read_model,
+            generated_at,
         )
         for connector in instance.get("source_connectors", [])
     ]
@@ -86,6 +109,17 @@ def _instance_surface(
         for gap in source.get("gaps", [])
     ]
     federation_packs = _federation_packs(instance["instance_ref"], source_readiness)
+    content_health = build_content_health(
+        statuses=[
+            source.get("content_status", source.get("freshness_status", "unknown"))
+            for source in source_readiness
+        ],
+        requires_refresh=any(
+            source.get("freshness_status") != "fresh" for source in source_readiness
+        ),
+        source_gap_refs=[gap["gap_ref"] for gap in source_gaps],
+        generated_at=generated_at,
+    )
     return {
         "instance_ref": instance["instance_ref"],
         "primary_entity_ref": instance["primary_entity_ref"],
@@ -100,6 +134,8 @@ def _instance_surface(
         "source_readiness": source_readiness,
         "source_gaps": source_gaps,
         "federation_packs": federation_packs,
+        "content_health": content_health,
+        "staleness_banner": content_health["staleness_banner"],
     }
 
 
@@ -108,6 +144,7 @@ def _source_readiness(
     connector: JsonObject,
     preflight_read_model: JsonObject,
     freshness_read_model: JsonObject,
+    generated_at: str,
 ) -> JsonObject:
     instance_ref = instance["instance_ref"]
     connector_ref = connector["id"]
@@ -132,12 +169,17 @@ def _source_readiness(
     ]
     federated_instance = _federated_instance(connector)
     access_status = _access_status(preflight_records)
-    freshness_status = _effective_freshness_status(freshness_record)
+    freshness_status = _effective_freshness_status(freshness_record, generated_at)
     index_status = _index_status(index_manifests)
     connector_type = connector.get("connector_type", "")
     source_module_ref = connector.get(
         "source_module_ref",
         f"source_module.{connector_type}" if connector_type else "",
+    )
+    content_status = (
+        "stale"
+        if freshness_status == "stale"
+        else freshness_record.get("content_status", freshness_status)
     )
     gaps = _source_gaps(
         instance_ref=instance_ref,
@@ -181,7 +223,7 @@ def _source_readiness(
         "index_item_count": freshness_record.get("index_item_count"),
         "freshness_policy_ref": freshness_record.get("freshness_policy_ref", ""),
         "status_reason": freshness_record.get("status_reason", ""),
-        "content_status": freshness_record.get("content_status", "unknown"),
+        "content_status": content_status,
         "event_status": freshness_record.get("event_status", "unknown"),
         "index_freshness_status": freshness_record.get("index_status", "unknown"),
         "probe_status": freshness_record.get("probe_status", "unknown"),
@@ -216,6 +258,11 @@ def _source_readiness(
         ),
         "preflight_records": preflight_records,
         "freshness_record": freshness_record,
+        "staleness_banner": (
+            "HARD STALENESS BANNER: source freshness is not fresh; do not describe this instance source as ready."
+            if freshness_status != "fresh"
+            else ""
+        ),
         "index_refs": [manifest["index_ref"] for manifest in index_manifests],
         "gaps": gaps,
     }
@@ -438,7 +485,7 @@ def _index_status(index_manifests: list[JsonObject]) -> str:
     return "missing"
 
 
-def _effective_freshness_status(freshness_record: JsonObject) -> str:
+def _effective_freshness_status(freshness_record: JsonObject, generated_at: str) -> str:
     status = freshness_record.get("status", "missing")
     if (
         status == "fresh"
@@ -446,6 +493,11 @@ def _effective_freshness_status(freshness_record: JsonObject) -> str:
         in {"package_generation", "probe_only"}
     ):
         return "unknown"
+    if status == "fresh" and expired_at(
+        freshness_record.get("stale_after", ""),
+        generated_at,
+    ):
+        return "stale"
     return status
 
 

@@ -1,0 +1,56 @@
+[
+  {
+    "timestamp": "2026-05-18T17:11:52.172637+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-18T17:12:15.357203+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-18T17:12:55.428350+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:14:49.888803+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:15:44.820555+00:00",
+    "actor": "agent-111",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-18T17:16:09.299914+00:00",
+    "actor": "agent-111",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-05-18T17:50:17.210877+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core) | next: Split the task or adjust max_files/max_loc budgets in the contract"
+  },
+  {
+    "timestamp": "2026-05-18T17:50:39.765997+00:00",
+    "user": "braydon",
+    "message": "state:1.1 handoff: Relationship Substrate OSS contracts are aligned to the 2026-05-18 open-source ecosystem plan and relationship-substrate runbook. Changed Relationship Substrate files: README.md; docs/ASK_NETWORK_CONTRACT.md; docs/SOURCE_MODULE_SPEC.md; examples/source_module/relationship_substrate_records.json; migrations/007_subject_notes.sql; relationship_substrate/cli.py; relationship_substrate/contracts.py; relationship_substrate/dossiers.py; relationship_substrate/person_notes.py; relationship_substrate/search.py; relationship_substrate/subject_notes.py; tests/test_agent_cli_workflow.py; tests/test_network_ask.py; tests/test_person_notes.py; tests/test_source_module_contracts.py. Covered public typed models for person/organization/affiliation/interaction/subject_note, synthetic source-module fixture, record-subject-note/list-subject-notes CLI surface, person-note alias compatibility, subject_note_context demote/explain/not-hide behavior, and source_owned_correction_write/no external side-effect boundary. Validation: focused OSS/CLI/network tests passed (9 passed + 1 passed rerun); full Relationship Substrate suite passed: RELATIONSHIP_SUBSTRATE_TEST_DATABASE_URL=postgresql://localhost:5432/relationship_substrate_test uv run pytest -q => 172 passed in 950.86s. Completion drift check remains yellow only for known churn_files/churn_loc/hardening_in_core budget warnings."
+  },
+  {
+    "timestamp": "2026-05-18T17:51:04.197531+00:00",
+    "actor": "agent-111",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  },
+  {
+    "timestamp": "2026-05-18T18:05:32.470090+00:00",
+    "actor": "agent-111",
+    "user": "braydon",
+    "message": "Task marked as done (converged)"
+  }
+]

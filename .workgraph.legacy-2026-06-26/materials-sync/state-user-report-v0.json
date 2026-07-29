@@ -1,0 +1,14 @@
+{
+  "task_id": "state-user-report-v0",
+  "phase": "reconcile",
+  "checked_at": "2026-05-04T16:30:44.790589+00:00",
+  "warnings": [],
+  "repos": [
+    {
+      "repo": "state-system",
+      "status": "skipped",
+      "updated_files": [],
+      "reason": "docs/materials.toml missing"
+    }
+  ]
+}

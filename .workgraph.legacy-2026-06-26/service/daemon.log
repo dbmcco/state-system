@@ -1,0 +1,334 @@
+2026-05-03T11:05:01.475Z [INFO] Daemon starting (PID 77712, socket /Users/braydon/projects/experiments/state-system/.workgraph/service/daemon.sock)
+2026-05-03T11:05:01.475Z [INFO] Binary change detection armed: /Users/braydon/.cargo/bin/wg (size=48363120)
+2026-05-03T11:05:01.476Z [WARN] Deprecated config key 'dispatcher.poll_interval' is still accepted; please rename to 'dispatcher.safety_interval'
+2026-05-03T11:05:01.476Z [INFO] Coordinator config: poll_interval=5s, max_agents=8, executor=claude, model=claude:opus
+2026-05-03T11:05:01.479Z [INFO] Aggregated 3913 usage log entries on startup
+2026-05-03T11:05:01.482Z [INFO] No chat-loop tasks in graph — no chat supervisors spawned at boot. Use `wg chat new` (or the TUI '+' key) to create a chat agent.
+2026-05-03T11:05:01.484Z [INFO] Graph watcher active on /Users/braydon/projects/experiments/state-system/.workgraph/graph.jsonl (debounce=100ms, primary trigger; safety_interval=5s)
+2026-05-03T11:05:01.536Z [INFO] Coordinator tick #1 starting (max_agents=8, executor=claude)
+[triage] Successfully parsed metadata for agent agent-40: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-40 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-39: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35, branch=wg/agent-35/ss-model-reviewer-boundary
+[triage] Dead agent agent-39 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-43: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-43 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-52: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-49, branch=wg/agent-49/ss-cli
+[triage] Dead agent agent-52 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-49" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-36: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35, branch=wg/agent-35/ss-model-reviewer-boundary
+[triage] Dead agent agent-36 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-32: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27, branch=wg/agent-27/ss-runner-fixture-reviewer
+[triage] Dead agent agent-32 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-30: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27, branch=wg/agent-27/ss-runner-fixture-reviewer
+[triage] Dead agent agent-30 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-24: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-18, branch=wg/agent-18/ss-file-stores
+[triage] Dead agent agent-24 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-18" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-21: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-18, branch=wg/agent-18/ss-file-stores
+[triage] Dead agent agent-21 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-18" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-37: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-37 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-26: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19, branch=wg/agent-19/ss-source-idempotency
+[triage] Dead agent agent-26 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-20: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19, branch=wg/agent-19/ss-source-idempotency
+[triage] Dead agent agent-20 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-22: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19, branch=wg/agent-19/ss-source-idempotency
+[triage] Dead agent agent-22 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-19" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-53: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-50, branch=wg/agent-50/ss-paia-memory-adapter
+[triage] Dead agent agent-53 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-50" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-47: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-46, branch=wg/agent-46/ss-recent-context-packaging
+[triage] Dead agent agent-47 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-46" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-38: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-38 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-44: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-44 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-42: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34, branch=wg/agent-34/ss-committer-materializer
+[triage] Dead agent agent-42 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Successfully parsed metadata for agent agent-33: worktree=/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27, branch=wg/agent-27/ss-runner-fixture-reviewer
+[triage] Dead agent agent-33 has worktree at "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27" (preserved — use `wg worktree archive` to clean up manually)
+[triage] Dead agent cleanup completed for 19 agents
+[metrics] === Cleanup Metrics Summary ===
+[metrics] Success: 0 | Failure: 0 | Success Rate: 0.0%
+[metrics] Recovery Branches: 0 | Orphaned: 0 | Dead Agents: 0
+[metrics] Avg Cleanup Time: 0.0ms | Total Operations: 0
+[metrics] Resources Recovered: 0 worktrees, 0 bytes
+[dispatcher] Cleaned up 19 dead agent(s): ["agent-40", "agent-39", "agent-43", "agent-52", "agent-36", "agent-32", "agent-30", "agent-24", "agent-21", "agent-37", "agent-26", "agent-20", "agent-22", "agent-53", "agent-47", "agent-38", "agent-44", "agent-42", "agent-33"]
+[dispatcher] Reconciliation: recovered 1 orphaned task(s)
+[worktree-sweep] Removing agent-49 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-49/ss-cli
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-49/ss-cli' completed in 36ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-49: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-49/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-49/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-49': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[worktree-sweep] Removing agent-46 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-46/ss-recent-context-packaging
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-46/ss-recent-context-packaging' completed in 39ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-46: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-46/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-46/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-46': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[worktree-sweep] Removing agent-27 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-27/ss-runner-fixture-reviewer
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-27/ss-runner-fixture-reviewer' completed in 34ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-27: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-27': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[worktree-sweep] Removing agent-34 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-34/ss-committer-materializer
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-34/ss-committer-materializer' completed in 36ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-34: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-34': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[worktree-sweep] Removing agent-35 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-35/ss-model-reviewer-boundary
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-35/ss-model-reviewer-boundary' completed in 34ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-35: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-35': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[worktree-sweep] Removing agent-50 (eval-passed AND merged — safe to reap)
+[metrics] Starting cleanup timer for: remove_worktree: wg/agent-50/ss-paia-memory-adapter
+[worktree] Permission denied removing .workgraph symlink, attempting permission fix
+[metrics] Cleanup 'remove_worktree: wg/agent-50/ss-paia-memory-adapter' completed in 35ms (success: false, resources: 0 worktrees, 0 bytes recovered)
+[worktree-sweep] remove_worktree failed for agent-50: Worktree removal completed with errors:
+Failed to remove .workgraph symlink "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-50/.workgraph" even after permission fix: Failed to remove file "/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-50/.workgraph" after permission fix
+Git worktree remove failed: error: failed to delete '/Users/braydon/projects/experiments/state-system/.wg-worktrees/agent-50': Permission denied
+[worktree-sweep] Manual fallback remove_dir_all failed: Permission denied (os error 13)
+[dispatcher] Assignment path for 'state-user-testable-root': Learning (total_assignments=0)
+[lightweight-llm] native anthropic call failed for role=assigner model=haiku: Failed to create Anthropic client for lightweight call: No Anthropic API key found. Set ANTHROPIC_API_KEY environment variable, add [native_executor] api_key to .workgraph/config.toml, or create ~/.config/anthropic/api_key — falling back to claude CLI
+[dispatcher] Lightweight assignment failed for 'state-user-testable-root': Assignment LLM call failed, will retry next tick
+[dispatcher] Assignment time budget exceeded (10s), deferring remaining to next tick
+[eval-scaffold] Created FLIP task '.flip-ss-agent-consumer-contract-v0' blocked by 'ss-agent-consumer-contract-v0'
+[eval-scaffold] Created evaluation task '.evaluate-ss-agent-consumer-contract-v0' blocked by 'ss-agent-consumer-contract-v0'
+[eval-scaffold] Created FLIP task '.flip-ss-e2e-pressure-harness' blocked by 'ss-e2e-pressure-harness'
+[eval-scaffold] Created evaluation task '.evaluate-ss-e2e-pressure-harness' blocked by 'ss-e2e-pressure-harness'
+[eval-scaffold] Created FLIP task '.flip-ss-git-source-adapter-v0' blocked by 'ss-git-source-adapter-v0'
+[eval-scaffold] Created evaluation task '.evaluate-ss-git-source-adapter-v0' blocked by 'ss-git-source-adapter-v0'
+[eval-scaffold] Created FLIP task '.flip-ss-recent-context-packaging' blocked by 'ss-recent-context-packaging'
+[eval-scaffold] Created evaluation task '.evaluate-ss-recent-context-packaging' blocked by 'ss-recent-context-packaging'
+[eval-scaffold] Created FLIP task '.flip-ss-system-diagram-source-generalization' blocked by 'ss-system-diagram-source-generalization'
+[eval-scaffold] Created evaluation task '.evaluate-ss-system-diagram-source-generalization' blocked by 'ss-system-diagram-source-generalization'
+[eval-scaffold] Created FLIP task '.flip-ss-pressure-governance' blocked by 'ss-pressure-governance'
+[eval-scaffold] Created evaluation task '.evaluate-ss-pressure-governance' blocked by 'ss-pressure-governance'
+[eval-scaffold] Created FLIP task '.flip-ss-spec-anchor' blocked by 'ss-spec-anchor'
+[eval-scaffold] Created evaluation task '.evaluate-ss-spec-anchor' blocked by 'ss-spec-anchor'
+[eval-scaffold] Created FLIP task '.flip-ss-miriam-critical-reviewer-persona' blocked by 'ss-miriam-critical-reviewer-persona'
+[eval-scaffold] Created evaluation task '.evaluate-ss-miriam-critical-reviewer-persona' blocked by 'ss-miriam-critical-reviewer-persona'
+[eval-scaffold] Created FLIP task '.flip-drift-self-update-ss-runtime-v0-anchor' blocked by 'drift-self-update-ss-runtime-v0-anchor'
+[eval-scaffold] Created evaluation task '.evaluate-drift-self-update-ss-runtime-v0-anchor' blocked by 'drift-self-update-ss-runtime-v0-anchor'
+[eval-scaffold] Created FLIP task '.flip-ss-pressure-routing-freshness' blocked by 'ss-pressure-routing-freshness'
+[eval-scaffold] Created evaluation task '.evaluate-ss-pressure-routing-freshness' blocked by 'ss-pressure-routing-freshness'
+[eval-scaffold] Created FLIP task '.flip-ss-file-stores' blocked by 'ss-file-stores'
+[eval-scaffold] Created evaluation task '.evaluate-ss-file-stores' blocked by 'ss-file-stores'
+[eval-scaffold] Created FLIP task '.flip-ss-source-idempotency' blocked by 'ss-source-idempotency'
+[eval-scaffold] Created evaluation task '.evaluate-ss-source-idempotency' blocked by 'ss-source-idempotency'
+[eval-scaffold] Created FLIP task '.flip-ss-system-diagram-html' blocked by 'ss-system-diagram-html'
+[eval-scaffold] Created evaluation task '.evaluate-ss-system-diagram-html' blocked by 'ss-system-diagram-html'
+[eval-scaffold] Created FLIP task '.flip-ss-cli' blocked by 'ss-cli'
+[eval-scaffold] Created evaluation task '.evaluate-ss-cli' blocked by 'ss-cli'
+[eval-scaffold] Created FLIP task '.flip-ss-model-reviewer-boundary' blocked by 'ss-model-reviewer-boundary'
+[eval-scaffold] Created evaluation task '.evaluate-ss-model-reviewer-boundary' blocked by 'ss-model-reviewer-boundary'
+[eval-scaffold] Created FLIP task '.flip-ss-runner-fixture-reviewer' blocked by 'ss-runner-fixture-reviewer'
+[eval-scaffold] Created evaluation task '.evaluate-ss-runner-fixture-reviewer' blocked by 'ss-runner-fixture-reviewer'
+[eval-scaffold] Created FLIP task '.flip-ss-contracts-fixtures' blocked by 'ss-contracts-fixtures'
+[eval-scaffold] Created evaluation task '.evaluate-ss-contracts-fixtures' blocked by 'ss-contracts-fixtures'
+[eval-scaffold] Created FLIP task '.flip-ss-live-git-runtime-trial' blocked by 'ss-live-git-runtime-trial'
+[eval-scaffold] Created evaluation task '.evaluate-ss-live-git-runtime-trial' blocked by 'ss-live-git-runtime-trial'
+[eval-scaffold] Created FLIP task '.flip-ss-paia-memory-adapter' blocked by 'ss-paia-memory-adapter'
+[eval-scaffold] Created evaluation task '.evaluate-ss-paia-memory-adapter' blocked by 'ss-paia-memory-adapter'
+[eval-scaffold] Created FLIP task '.flip-ss-backward-gap-audit' blocked by 'ss-backward-gap-audit'
+[eval-scaffold] Created evaluation task '.evaluate-ss-backward-gap-audit' blocked by 'ss-backward-gap-audit'
+[eval-scaffold] Created FLIP task '.flip-ss-pressure-idempotency' blocked by 'ss-pressure-idempotency'
+[eval-scaffold] Created evaluation task '.evaluate-ss-pressure-idempotency' blocked by 'ss-pressure-idempotency'
+[eval-scaffold] Created FLIP task '.flip-ss-committer-materializer' blocked by 'ss-committer-materializer'
+[eval-scaffold] Created evaluation task '.evaluate-ss-committer-materializer' blocked by 'ss-committer-materializer'
+[eval-scaffold] Created FLIP task '.flip-ss-system-diagram-flow-first' blocked by 'ss-system-diagram-flow-first'
+[eval-scaffold] Created evaluation task '.evaluate-ss-system-diagram-flow-first' blocked by 'ss-system-diagram-flow-first'
+[eval-scaffold] Created FLIP task '.flip-ss-pressure-contracts' blocked by 'ss-pressure-contracts'
+[eval-scaffold] Created evaluation task '.evaluate-ss-pressure-contracts' blocked by 'ss-pressure-contracts'
+[dispatcher] Priority inheritance: .assign-state-user-testable-root (10 -> 50)
+[dispatcher] Priority inheritance: .assign-state-user-report-v0 (10 -> 50)
+[dispatcher] Priority dispatch order: [.assign-state-user-testable-root:10(d0), .assign-state-user-report-v0:10(d0), .flip-ss-spec-anchor:10(d0), .assign-state-stale-context-pressure-v0:10(d0), .flip-ss-runner-fixture-reviewer:10(d0), ...]
+[dispatcher] Spawning assignment inline for: .assign-state-user-testable-root - Assign agent for: planforge-root: user-testable State System surface
+[dispatcher] Spawned assignment agent-57 (PID 79872)
+[dispatcher] Spawning assignment inline for: .assign-state-user-report-v0 - Assign agent for: Generate user-testable trace report
+[dispatcher] Spawned assignment agent-58 (PID 79873)
+[dispatcher] Spawning eval inline for: .flip-ss-spec-anchor - FLIP: ss-spec-anchor (model: haiku)
+[dispatcher] Spawned eval agent-59 (PID 79874)
+[dispatcher] Spawning assignment inline for: .assign-state-stale-context-pressure-v0 - Assign agent for: Add stale-context pressure trace
+[dispatcher] Spawned assignment agent-60 (PID 79878)
+[dispatcher] Spawning eval inline for: .flip-ss-runner-fixture-reviewer - FLIP: ss-runner-fixture-reviewer (model: haiku)
+[dispatcher] Spawned eval agent-61 (PID 79893)
+[dispatcher] Spawning eval inline for: .flip-ss-pressure-governance - FLIP: ss-pressure-governance (model: haiku)
+[dispatcher] Spawned eval agent-62 (PID 79902)
+[dispatcher] Spawning eval inline for: .flip-ss-git-source-adapter-v0 - FLIP: ss-git-source-adapter-v0 (model: haiku)
+[dispatcher] Spawned eval agent-63 (PID 79908)
+[dispatcher] Spawning assignment inline for: .assign-state-prospect-outreach-crm-contract-v0 - Assign agent for: Add Prospecting to Outreach to CRM contract traces
+[dispatcher] Spawned assignment agent-64 (PID 79914)
+2026-05-03T11:05:32.493Z [INFO] Coordinator tick #1 complete: agents_alive=8, tasks_ready=29, spawned=8
+2026-05-03T11:05:32.494Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:05:32.784Z [INFO] Registry refresh complete: 335 models, diff: Initial population (no previous registry)
+2026-05-03T11:05:32.784Z [WARN] Failed to set IPC read timeout: Invalid argument (os error 22)
+2026-05-03T11:05:32.784Z [WARN] Failed to set IPC write timeout: Invalid argument (os error 22)
+2026-05-03T11:05:32.784Z [INFO] Aggregated 8 usage log entries
+2026-05-03T11:05:32.784Z [INFO] Coordinator tick #2 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:05:32.796Z [INFO] Coordinator tick #2 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:05:32.798Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:05:32.801Z [INFO] GraphChanged received, scheduling coordinator tick in 2000ms (settling delay)
+2026-05-03T11:05:32.803Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:32.811Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:32.818Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:32.987Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:32.997Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:32.998Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:33.246Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:05:35.363Z [INFO] Settling delay elapsed, running coordinator tick now
+2026-05-03T11:05:35.363Z [INFO] Aggregated 4 usage log entries
+2026-05-03T11:05:35.363Z [INFO] Coordinator tick #3 starting (max_agents=8, executor=claude)
+[dispatcher] Assignment path for 'state-model-mediated-drift-suite-v0': Learning (total_assignments=4)
+[lightweight-llm] native anthropic call failed for role=assigner model=haiku: Failed to create Anthropic client for lightweight call: No Anthropic API key found. Set ANTHROPIC_API_KEY environment variable, add [native_executor] api_key to .workgraph/config.toml, or create ~/.config/anthropic/api_key — falling back to claude CLI
+[dispatcher] Lightweight assignment failed for 'state-model-mediated-drift-suite-v0': Assignment LLM call failed, will retry next tick
+[dispatcher] Priority dispatch order: [state-user-testable-root:50(d0), .flip-ss-backward-gap-audit:10(d0), .flip-ss-pressure-contracts:10(d0), .flip-ss-e2e-pressure-harness:10(d0), .assign-state-model-mediated-drift-suite-v0:10(d0), ...]
+[dispatcher] state-user-testable-root: SpawnPlan executor=claude (from default), model=claude:opus (from dispatcher.default_model), endpoint=none (none (executor=claude))
+[dispatcher] Spawning agent for: state-user-testable-root - planforge-root: user-testable State System surface (executor: claude)
+[coordinator] state-user-testable-root: SpawnPlan executor=claude (from agency.effective_executor), model=claude:opus (from dispatcher.default_model), endpoint=none (none (executor=claude))
+[spawn] Worktree creation failed for agent-65, falling back to shared working directory: Failed to symlink .workgraph into worktree
+[dispatcher] Spawned agent-65 (PID 83311)
+[dispatcher] Spawning eval inline for: .flip-ss-backward-gap-audit - FLIP: ss-backward-gap-audit (model: haiku)
+[dispatcher] Spawned eval agent-66 (PID 83332)
+[dispatcher] Spawning eval inline for: .flip-ss-pressure-contracts - FLIP: ss-pressure-contracts (model: haiku)
+[dispatcher] Spawned eval agent-67 (PID 83350)
+[dispatcher] Spawning eval inline for: .flip-ss-e2e-pressure-harness - FLIP: ss-e2e-pressure-harness (model: haiku)
+[dispatcher] Spawned eval agent-68 (PID 83372)
+2026-05-03T11:06:05.823Z [INFO] Coordinator tick #3 complete: agents_alive=8, tasks_ready=22, spawned=4
+2026-05-03T11:06:05.824Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:05.825Z [INFO] Binary hash recorded: 3c5290b8febb
+2026-05-03T11:06:05.863Z [INFO] Aggregated 4 usage log entries
+2026-05-03T11:06:05.863Z [INFO] Coordinator tick #4 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:06:05.874Z [INFO] Coordinator tick #4 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:06:05.875Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:05.965Z [INFO] GraphChanged received, scheduling coordinator tick in 2000ms (settling delay)
+2026-05-03T11:06:07.967Z [INFO] Settling delay elapsed, running coordinator tick now
+2026-05-03T11:06:07.968Z [INFO] Aggregated 1 usage log entries
+2026-05-03T11:06:07.968Z [INFO] Coordinator tick #5 starting (max_agents=8, executor=claude)
+[dispatcher] Assignment path for 'state-model-mediated-drift-suite-v0': Learning (total_assignments=4)
+[lightweight-llm] native anthropic call failed for role=assigner model=haiku: Failed to create Anthropic client for lightweight call: No Anthropic API key found. Set ANTHROPIC_API_KEY environment variable, add [native_executor] api_key to .workgraph/config.toml, or create ~/.config/anthropic/api_key — falling back to claude CLI
+[dispatcher] Lightweight assignment failed for 'state-model-mediated-drift-suite-v0': Assignment LLM call failed, will retry next tick
+[dispatcher] Priority dispatch order: [.flip-ss-pressure-routing-freshness:10(d0), .flip-ss-source-idempotency:10(d0), .flip-ss-pressure-idempotency:10(d0), .flip-ss-file-stores:10(d0), .flip-ss-committer-materializer:10(d0), ...]
+[dispatcher] Spawning eval inline for: .flip-ss-pressure-routing-freshness - FLIP: ss-pressure-routing-freshness (model: haiku)
+[dispatcher] Spawned eval agent-69 (PID 88567)
+2026-05-03T11:06:38.122Z [INFO] Coordinator tick #5 complete: agents_alive=8, tasks_ready=19, spawned=1
+2026-05-03T11:06:38.123Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:38.176Z [INFO] Aggregated 3 usage log entries
+2026-05-03T11:06:38.176Z [INFO] Coordinator tick #6 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:06:38.186Z [INFO] Coordinator tick #6 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:06:38.188Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:41.530Z [WARN] Failed to set IPC read timeout: Invalid argument (os error 22)
+2026-05-03T11:06:41.530Z [WARN] Failed to set IPC write timeout: Invalid argument (os error 22)
+2026-05-03T11:06:43.178Z [INFO] Coordinator tick #7 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:06:43.209Z [INFO] Coordinator tick #7 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:06:43.210Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:48.179Z [INFO] Coordinator tick #8 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:06:48.213Z [INFO] Coordinator tick #8 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:06:48.214Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:53.181Z [INFO] Coordinator tick #9 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:06:53.208Z [INFO] Coordinator tick #9 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:06:53.209Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:06:56.902Z [INFO] Graph file changed (fs watcher), scheduling dispatcher tick in 2000ms (settling delay)
+2026-05-03T11:06:56.905Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:06:58.231Z [INFO] Aggregated 2 usage log entries
+2026-05-03T11:06:58.231Z [INFO] Coordinator tick #10 starting (max_agents=8, executor=claude)
+[dispatcher] Assignment path for 'state-model-mediated-drift-suite-v0': Learning (total_assignments=4)
+[lightweight-llm] native anthropic call failed for role=assigner model=haiku: Failed to create Anthropic client for lightweight call: No Anthropic API key found. Set ANTHROPIC_API_KEY environment variable, add [native_executor] api_key to .workgraph/config.toml, or create ~/.config/anthropic/api_key — falling back to claude CLI
+[dispatcher] Lightweight assignment failed for 'state-model-mediated-drift-suite-v0': Assignment LLM call failed, will retry next tick
+[dispatcher] Priority dispatch order: [.assign-state-model-mediated-drift-suite-v0:10(d0), .flip-ss-file-stores:10(d0), .flip-ss-pressure-idempotency:10(d0), .flip-ss-contracts-fixtures:10(d0), .flip-state-user-testable-root:10(d0), ...]
+[dispatcher] Spawning assignment inline for: .assign-state-model-mediated-drift-suite-v0 - Assign agent for: Add model-mediated drift pressure suite
+[dispatcher] Spawned assignment agent-70 (PID 94507)
+2026-05-03T11:07:28.422Z [INFO] Coordinator tick #10 complete: agents_alive=8, tasks_ready=19, spawned=1
+2026-05-03T11:07:28.423Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:28.425Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:07:28.425Z [INFO] Aggregated 1 usage log entries
+2026-05-03T11:07:28.425Z [INFO] Coordinator tick #11 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:28.435Z [INFO] Coordinator tick #11 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:28.436Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:28.465Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:07:28.492Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:07:28.735Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:07:28.765Z [INFO] GraphChanged received, resetting settling deadline (2000ms from now)
+2026-05-03T11:07:30.930Z [INFO] Settling delay elapsed, running coordinator tick now
+2026-05-03T11:07:30.930Z [INFO] Aggregated 6 usage log entries
+2026-05-03T11:07:30.930Z [INFO] Coordinator tick #12 starting (max_agents=8, executor=claude)
+[dispatcher] Priority dispatch order: [.flip-state-user-testable-root:10(d0), .flip-ss-pressure-idempotency:10(d0), .flip-ss-recent-context-packaging:10(d0), .flip-ss-source-idempotency:10(d0), .flip-ss-contracts-fixtures:10(d0), ...]
+[dispatcher] Spawning eval inline for: .flip-state-user-testable-root - FLIP: state-user-testable-root (model: haiku)
+[dispatcher] Spawned eval agent-71 (PID 95092)
+[dispatcher] Spawning eval inline for: .flip-ss-pressure-idempotency - FLIP: ss-pressure-idempotency (model: haiku)
+[dispatcher] Spawned eval agent-72 (PID 95121)
+2026-05-03T11:07:30.972Z [INFO] Coordinator tick #12 complete: agents_alive=8, tasks_ready=19, spawned=2
+2026-05-03T11:07:30.973Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:35.932Z [INFO] Aggregated 3 usage log entries
+2026-05-03T11:07:35.932Z [INFO] Coordinator tick #13 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:35.946Z [INFO] Coordinator tick #13 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:35.947Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:40.984Z [INFO] Coordinator tick #14 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:40.999Z [INFO] Coordinator tick #14 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:41.001Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:45.986Z [INFO] Aggregated 1 usage log entries
+2026-05-03T11:07:45.986Z [INFO] Coordinator tick #15 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:46.002Z [INFO] Coordinator tick #15 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:46.003Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:50.987Z [INFO] Aggregated 19 usage log entries
+2026-05-03T11:07:50.987Z [INFO] Coordinator tick #16 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:51.005Z [INFO] Coordinator tick #16 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:51.006Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:55.989Z [INFO] Coordinator tick #17 starting (max_agents=8, executor=claude)
+[dispatcher] Max agents (8) running, waiting...
+2026-05-03T11:07:56.000Z [INFO] Coordinator tick #17 complete: agents_alive=8, tasks_ready=0, spawned=0
+2026-05-03T11:07:56.001Z [INFO] Archival complete: 0 tasks archived (retention: 7d)
+2026-05-03T11:07:57.176Z [INFO] IPC Shutdown: force=false, kill_agents=false
+2026-05-03T11:07:57.176Z [INFO] Daemon shutting down
+2026-05-03T11:07:57.176Z [INFO] Daemon shutdown complete
+2026-05-20T19:35:51.661Z [INFO] Daemon starting (PID 44030, socket /Users/braydon/projects/experiments/state-system/.workgraph/service/daemon.sock)
+2026-05-20T19:35:51.661Z [INFO] Binary change detection armed: /Users/braydon/.cargo/bin/wg (size=48363120)
+2026-05-20T19:35:51.662Z [WARN] Deprecated config key 'dispatcher.poll_interval' is still accepted; please rename to 'dispatcher.safety_interval'
+2026-05-20T19:35:51.662Z [INFO] Coordinator config: poll_interval=5s, max_agents=5, executor=claude, model=claude:opus
+2026-05-20T19:35:51.677Z [INFO] Aggregated 21140 usage log entries on startup
+2026-05-20T19:35:51.689Z [INFO] No chat-loop tasks in graph — no chat supervisors spawned at boot. Use `wg chat new` (or the TUI '+' key) to create a chat agent.
+2026-05-20T19:35:51.690Z [INFO] Graph watcher active on /Users/braydon/projects/experiments/state-system/.workgraph/graph.jsonl (debounce=100ms, primary trigger; safety_interval=5s)
+2026-05-20T19:35:51.742Z [INFO] Coordinator tick #1 starting (max_agents=5, executor=claude)
+[dispatcher] Reconciliation: recovered 8 orphaned task(s)
+2026-05-20T19:36:10.133Z [INFO] Daemon starting (PID 44452, socket /Users/braydon/projects/experiments/state-system/.workgraph/service/daemon.sock)
+2026-05-20T19:36:10.133Z [INFO] Binary change detection armed: /Users/braydon/.cargo/bin/wg (size=48363120)
+2026-05-20T19:36:10.134Z [WARN] Deprecated config key 'dispatcher.poll_interval' is still accepted; please rename to 'dispatcher.safety_interval'
+2026-05-20T19:36:10.134Z [INFO] Coordinator config: poll_interval=5s, max_agents=5, executor=claude, model=claude:opus
+2026-05-20T19:36:10.134Z [INFO] Aggregated 9 usage log entries on startup
+2026-05-20T19:36:10.142Z [INFO] No chat-loop tasks in graph — no chat supervisors spawned at boot. Use `wg chat new` (or the TUI '+' key) to create a chat agent.
+2026-05-20T19:36:10.144Z [INFO] Graph watcher active on /Users/braydon/projects/experiments/state-system/.workgraph/graph.jsonl (debounce=100ms, primary trigger; safety_interval=5s)
+2026-05-20T19:36:10.195Z [INFO] Coordinator tick #1 starting (max_agents=5, executor=claude)
+[dispatcher] Assignment path for 'company-instance-scaffold-portfolio_co-researchco-v0': Learning (total_assignments=12)
+[lightweight-llm] native anthropic call failed for role=assigner model=haiku: Failed to create Anthropic client for lightweight call: No Anthropic API key found. Set ANTHROPIC_API_KEY environment variable, add [native_executor] api_key to .workgraph/config.toml, or create ~/.config/anthropic/api_key — falling back to claude CLI
+2026-05-20T19:37:34.461Z [INFO] Daemon starting (PID 45637, socket /Users/braydon/projects/experiments/state-system/.workgraph/service/daemon.sock)
+2026-05-20T19:37:34.461Z [INFO] Binary change detection armed: /Users/braydon/.cargo/bin/wg (size=48363120)
+2026-05-20T19:37:34.462Z [WARN] Deprecated config key 'dispatcher.poll_interval' is still accepted; please rename to 'dispatcher.safety_interval'
+2026-05-20T19:37:34.462Z [INFO] Coordinator config: poll_interval=5s, max_agents=5, executor=claude, model=claude:opus
+2026-05-20T19:37:34.462Z [INFO] Aggregated 5 usage log entries on startup
+2026-05-20T19:37:34.469Z [INFO] No chat-loop tasks in graph — no chat supervisors spawned at boot. Use `wg chat new` (or the TUI '+' key) to create a chat agent.
+2026-05-20T19:37:34.471Z [INFO] Graph watcher active on /Users/braydon/projects/experiments/state-system/.workgraph/graph.jsonl (debounce=100ms, primary trigger; safety_interval=5s)
+2026-05-20T19:37:34.523Z [INFO] Coordinator tick #1 starting (max_agents=5, executor=claude)
+[dispatcher] Assignment path for 'company-instance-scaffold-portfolio_co-researchco-v0': Learning (total_assignments=12)

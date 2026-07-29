@@ -1,0 +1,103 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-cross-repo-package-sync-v0 - Cross-repo sync report for package layer
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Produce a cross-repo sync report comparing generic contracts with deployed personal state and SampleCo state package/runtime artifacts."
+non_goals = ["Do not mutate source corpora", "Do not paper over drift findings"]
+touch = ["docs/reports/*package*sync*.md", "/Users/braydon/projects/personal/personal state/**", "/Users/braydon/projects/work/sampleco/state-system/**"]
+acceptance = ["report lists generic schema/example versions and deployed runtime artifact paths", "report confirms north-star alignment", "report lists source readiness gaps per repo", "report records validation commands and outcomes", "new drift follow-ups are created for unresolved mismatches"]
+max_files = 8
+max_loc = 500
+auto_followups = true
+```
+
+Context from dependencies:
+From bstate-samantha-package-runtime-v0 logs: 2026-05-17T16:16:35.840413+00:00 Task claimed by @codexd-bstate
+From bstate-samantha-package-runtime-v0 logs: 2026-05-17T16:16:35.863475+00:00 Generated /Users/braydon/projects/personal/personal state/state/instance-agent-packages/instance_agent_package.sample_personal.samantha.json and exported /Users/braydon/projects/personal/personal state/instance-agent-package/instance-agent-packages-read-model.json using the generic CLI. Validation: package JSON validates against instance-agent-package schema; rendered output includes Garmin/Spotify planned/unknown gaps and SampleCo federation availability.
+From bstate-samantha-package-runtime-v0 logs: 2026-05-17T16:16:35.900761+00:00 Task marked as done
+From bstate-source-readiness-proof-v0 logs: 2026-05-17T16:04:28.086286+00:00 Task claimed by @codexd-bstate
+From bstate-source-readiness-proof-v0 logs: 2026-05-17T16:04:32.073104+00:00 Coredrift: yellow (churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From bstate-source-readiness-proof-v0 logs: 2026-05-17T16:08:17.688952+00:00 Coredrift: yellow (churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From bstate-source-readiness-proof-v0 logs: 2026-05-17T16:08:29.970143+00:00 personal state readiness proof refreshed: recorded 2026-05-17T16:07:02Z preflight and freshness records for current declared sources, preserved Garmin/Spotify/msgvault/agentmem/SampleCo as planned/unknown where unproven, restored projects local metadata index declaration, regenerated personal state capability/preflight/freshness/understanding read models, validated 37 runtime records, ran focused instance tests, and raw corpus scan found no corpus files. End drift remains yellow on pre-existing scope/churn findings.
+From bstate-source-readiness-proof-v0 logs: 2026-05-17T16:08:39.152350+00:00 Task marked as done
+From sampleco-agent-package-runtime-v0 logs: 2026-05-17T16:16:36.092331+00:00 Task claimed by @codexd-sampleco
+From sampleco-agent-package-runtime-v0 logs: 2026-05-17T16:16:36.115105+00:00 Generated /Users/braydon/projects/work/sampleco/state-system/state/instance-agent-packages/instance_agent_package.sampleco.caroline.json and exported /Users/braydon/projects/work/sampleco/state-system/instance-agent-package/instance-agent-packages-read-model.json using the generic CLI. Validation: package JSON validates; rendered output shows folio/state_system ready and msgvault freshness_failed.
+From sampleco-agent-package-runtime-v0 logs: 2026-05-17T16:16:36.156351+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-cross-repo-package-sync-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-cross-repo-package-sync-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-cross-repo-package-sync-v0 "message"
+- When complete: wg done state-cross-repo-package-sync-v0
+- If blocked: wg fail state-cross-repo-package-sync-v0 --reason "description"

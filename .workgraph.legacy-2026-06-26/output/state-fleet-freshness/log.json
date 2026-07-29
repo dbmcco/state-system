@@ -1,0 +1,22 @@
+[
+  {
+    "timestamp": "2026-05-19T20:27:36.561266+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-19T20:33:18.754969+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-19T20:33:32.279247+00:00",
+    "user": "braydon",
+    "message": "Implemented FleetRefreshManifest schema, fleet_refresh runner/CLI, docs, tests, and downstream manifests for personal state/SampleCo/PortfolioCo/ResearchCo. Ran real ecosystem refresh at 2026-05-19T20:15:00Z; all four packages regenerated and package pressure passed 8/8. Focused tests 21 OK; validate 130 examples OK; diff checks clean. End drift advisory only: uxdrift missing URL and fixdrift wrapper absent; core/spec/datadrift checks green."
+  },
+  {
+    "timestamp": "2026-05-19T20:33:35.990746+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

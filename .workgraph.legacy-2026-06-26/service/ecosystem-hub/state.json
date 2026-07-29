@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-06-26T22:27:01.064644+00:00",
+  "host": "0.0.0.0",
+  "port": 8777,
+  "interval_seconds": 60,
+  "include_updates": true,
+  "max_next": 5,
+  "central_repo": "/Users/braydon/projects/experiments/speedrift-ecosystem/.workgraph/service/ecosystem-central",
+  "execute_draft_prs": false,
+  "draft_pr_title_prefix": "speedrift",
+  "supervise_services": true,
+  "supervise_cooldown_seconds": 180,
+  "supervise_max_starts": 4,
+  "enable_factory_brain": false,
+  "execute_factory_actions": false
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "path": "examples/traces/laura-approval-gated-publication.trace.json",
+    "size": 1756
+  },
+  {
+    "path": "state_system/trace_runner.py",
+    "size": 12552
+  },
+  {
+    "path": "tests/test_trace_runner.py",
+    "size": 4807
+  },
+  {
+    "path": "schemas/trace-manifest.schema.json",
+    "size": 4375
+  }
+]

@@ -1,0 +1,6 @@
+Assigned agent to task 'state-user-report-v0':
+  Agent:      Default Evaluator (31847164)
+  Role:       Evaluator (75d2fab8)
+  Tradeoff:   Evaluator Balanced (ac9bc242)
+[assign] Auto-selecting agent: 31847164 for task 'state-user-report-v0'
+Warning: failed to record assigner evaluation for 'state-user-report-v0': IO error: No such file or directory (os error 2)

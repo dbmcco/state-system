@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "max_agents": 5,
+  "poll_interval": 5,
+  "executor": "claude",
+  "model": "claude:opus",
+  "ticks": 0,
+  "last_tick": null,
+  "agents_alive": 0,
+  "tasks_ready": 0,
+  "agents_spawned": 0,
+  "paused": false,
+  "frozen": false,
+  "frozen_pids": [],
+  "accumulated_tokens": 0,
+  "cost_tracking": {
+    "session_cost_usd": 0.0,
+    "session_start": "2026-05-20T19:37:34.462484Z",
+    "last_key_check": null,
+    "key_status": null
+  }
+}

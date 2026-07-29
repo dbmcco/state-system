@@ -1,0 +1,27 @@
+{
+  "problem": "State System has reached a working package-layer shape across personal state, SampleCo, PortfolioCo, ResearchCo, and Relationship Substrate, but the model now needs to become operationally trustworthy and open-source-repeatable. A fresh agent or external adopter should know how to add connectors, declare modules, scaffold instances, federate state, expose gaps, and answer real questions without private prompt knowledge.",
+  "stakeholders": "Braydon, Sam, Caroline, future company agents such as Helena and Ingrid, and future outside users of the State System product. The cost of not solving this is drift: connectors like Spotify or Garmin become one-off private exceptions, company instances cannot be repeated, and agents answer from stale or incomplete evidence without knowing what is missing.",
+  "prior_attempts": "The package layer, source modules, tool actions, route contracts, scaffolding command, personal state/SampleCo runtime packages, and PortfolioCo/ResearchCo scaffolds have been implemented. What remains weak is the transition from schema-compatible artifacts to a repeatable lifecycle: source module onboarding, federation pack semantics, freshness repair loops, instance readiness promotion, and real-question pressure tests.",
+  "constraints": [
+    "Do not copy private corpora into the product repo or across deployed instances.",
+    "Do not encode connector behavior in private prompts when it belongs in schemas, contracts, docs, or package fields.",
+    "Company instances must not inherit personal sources such as Spotify, Garmin, or personal relationship records by default.",
+    "Relationship Substrate remains source-owned; State System declares and federates it but does not become a second people database.",
+    "Prefer explicit gaps, watermarks, and materialization policies over silent fallback behavior.",
+    "Keep implementation tasks scoped so multiple agents can work in parallel."
+  ],
+  "out_of_scope": [
+    "Building a hosted SaaS control plane.",
+    "Migrating every source connector to live production freshness in one pass.",
+    "Inventing live PortfolioCo or ResearchCo data that has not been proven.",
+    "Moving private raw data into generic examples."
+  ],
+  "success_criteria": [
+    "A new source module can be added from a documented contract kit with schema examples and tests.",
+    "A new company instance can be scaffolded and advanced from declared to preflighted to package-ready with visible gaps.",
+    "Federation between instances is represented by typed packs with source instance refs, route refs, materialization policy, identity/subject boundaries, freshness, and gap behavior.",
+    "Sam and Caroline can answer real pressure questions while naming missing sources and respecting relationship-substrate boundaries.",
+    "PortfolioCo and ResearchCo move from scaffolded roots to validated first packages with source readiness evidence.",
+    "Workgraph has implementation tasks, eval gates, and repair loops for freshness and federation drift."
+  ]
+}

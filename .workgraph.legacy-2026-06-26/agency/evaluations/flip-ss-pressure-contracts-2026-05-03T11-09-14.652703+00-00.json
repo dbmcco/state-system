@@ -1,0 +1,17 @@
+{
+  "id": "flip-ss-pressure-contracts-2026-05-03T11-09-14.652703+00-00",
+  "task_id": "ss-pressure-contracts",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.085,
+  "dimensions": {
+    "requirement_coverage": 0.0,
+    "specificity_match": 0.2,
+    "hallucination_rate": 0.95,
+    "semantic_match": 0.1
+  },
+  "notes": "The actual task is a detailed contract and fixture validation exercise (pressure-testing harness output, checking source ref preservation, representable outcomes, tracing schema gaps). The inferred task describes running coredrift for drift compliance and code quality checks. These are fundamentally different: the actual is about contracts/fixtures/schema validation with specific pressure-test questions and wg follow-up workflows; the inferred invokes an entirely different tool (coredrift) with different acceptance criteria. Almost no actual requirements appear in the inferred version, and the inferred version introduces details (coredrift, 'both validation checks', drift compliance) with no basis in the actual description.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Validate the state-system changes using coredrift to ensure code quality and configuration drift compliance. Run coredrift checks on the current branch state and mark the task complete once both validation checks pass with no findings.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-03T11:09:14.652703+00:00",
+  "source": "flip"
+}

@@ -1,0 +1,21 @@
+{
+  "cut_now": [
+    "Do not build a web app server.",
+    "Do not build live source connectors.",
+    "Do not implement downstream app repos yet.",
+    "Do not add complex dashboards, auth, or persistence beyond the existing file-backed runtime."
+  ],
+  "defer": [
+    "Live model invocation.",
+    "Reporting filters and multi-trace browsing.",
+    "CRM handoff execution.",
+    "Prospecting and Outreach app verticals."
+  ],
+  "watch": [
+    "Report generation must not become a second source of truth.",
+    "The report should surface evidence and boundaries rather than smoothing them away.",
+    "Avoid hardcoded business scoring or qualitative judgments in report code."
+  ],
+  "minimum_scope": "Generate a static HTML report from an executed trace output directory and wire the demo script to run the agent activation trace.",
+  "rationale": "A static trace report is the smallest useful user-test surface because it exercises the existing runtime and makes the agent activation contract inspectable."
+}

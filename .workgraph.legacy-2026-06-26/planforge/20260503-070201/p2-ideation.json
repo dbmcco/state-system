@@ -1,0 +1,46 @@
+{
+  "approaches": [
+    {
+      "name": "Static Trace Report",
+      "description": "Extend trace-run to write a local HTML report summarizing steps, activation boundaries, freshness, and captured responses.",
+      "strengths": [
+        "Smallest useful user-testable surface.",
+        "Generated from the actual runtime path.",
+        "Works without a server or new dependency."
+      ],
+      "weaknesses": [
+        "Single-run view only.",
+        "Not an interactive app."
+      ],
+      "implementation_shape": "Add reporting module, wire trace_runner to emit index.html, update demo script and README, add tests."
+    },
+    {
+      "name": "CLI Guided Demo",
+      "description": "Add a richer command-line walkthrough that prints selected artifacts and prompts the user to inspect them.",
+      "strengths": [
+        "Very fast to build.",
+        "No HTML rendering surface."
+      ],
+      "weaknesses": [
+        "Still feels like developer tooling.",
+        "Harder to share with non-technical reviewers."
+      ],
+      "implementation_shape": "Update shell script and CLI output only."
+    },
+    {
+      "name": "Local Web Dashboard",
+      "description": "Build a small local web UI for browsing traces and artifacts.",
+      "strengths": [
+        "Closest to a product surface.",
+        "Can grow into reporting."
+      ],
+      "weaknesses": [
+        "Too much infrastructure before the contracts are settled.",
+        "Higher testing burden and UI scope."
+      ],
+      "implementation_shape": "New web server or frontend app, static assets, route handling, and browser tests."
+    }
+  ],
+  "recommended": "Static Trace Report",
+  "recommendation_rationale": "It gets Braydon to a testable user surface while preserving the trace-driven build discipline and avoiding premature app infrastructure."
+}

@@ -1,0 +1,17 @@
+FLIP Phase 1: Inferring prompt from output (model: 'opus')...
+  Inferred prompt length: 406 chars
+FLIP Phase 2: Comparing prompts (model: 'opus')...
+
+=== FLIP Evaluation Complete ===
+Task:       planforge-root: user-testable State System surface (state-user-testable-root)
+Model:      opus
+FLIP Score: 0.09
+  semantic_match:        0.05
+  requirement_coverage:  0.00
+  specificity_match:     0.15
+  hallucination_rate:    0.95
+Evaluator:  flip:opus+opus
+Saved to:   /Users/braydon/projects/experiments/state-system/.workgraph/agency/evaluations/eval-state-user-testable-root-2026-05-03T11-09-15.033485+00-00.json
+
+Inferred prompt (preview):
+  Evaluate the completed task output against the provided rubric. Apply grading criteria to assess whether the actor-agent's work meets the specified acceptance criteria. Produce a calibrated grade with...

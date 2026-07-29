@@ -105,6 +105,8 @@ def render_instance_agent_package_for_agent(package: JsonObject) -> str:
         if source.get("pipeline_dependency"):
             lines.append(f"  Pipeline dependency: {source['pipeline_dependency']}")
         _append_inline_list(lines, "  Index refs", source.get("index_refs", []))
+        if source.get("staleness_banner"):
+            lines.append(f"  {source['staleness_banner']}")
         _append_inline_list(lines, "  Gap refs", source.get("gap_refs", []))
         _append_inline_list(lines, "  Evidence refs", source.get("evidence_refs", []))
         federated = source.get("federated_instance", {})
@@ -148,7 +150,12 @@ def render_instance_agent_package_for_agent(package: JsonObject) -> str:
     freshness = package.get("freshness", {})
     lines.append("Freshness:")
     lines.append(f"- Generated at: {freshness.get('generated_at', 'unknown')}")
+    lines.append(f"- Process status: {freshness.get('process_status', 'unknown')}")
+    lines.append(f"- Content status: {freshness.get('content_status', 'unknown')}")
+    if freshness.get("staleness_banner"):
+        lines.append(f"- {freshness['staleness_banner']}")
     _append_list(lines, "Watermark refs", freshness.get("watermark_refs", []))
+    _append_list(lines, "Expired freshness refs", freshness.get("expired_freshness_refs", []))
     if freshness.get("requires_refresh_before_external_action"):
         lines.append("- Requires refresh before external action.")
     lines.append("")

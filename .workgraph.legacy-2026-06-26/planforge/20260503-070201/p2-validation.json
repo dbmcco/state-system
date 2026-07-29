@@ -1,0 +1,21 @@
+{
+  "challenges": [
+    {
+      "approach": "Static Trace Report",
+      "failure_modes": [
+        "The report omits prohibited actions and creates a false sense that the agent may act.",
+        "The report shows status only and fails to expose evidence/freshness.",
+        "The report is hand-authored instead of generated from trace artifacts."
+      ],
+      "key_assumptions": [
+        "A static HTML file is enough for the first user test.",
+        "The activation trace contains enough data to be meaningful."
+      ],
+      "mitigations": [
+        "Tests assert prohibited action refs, freshness, and captured response content appear in the report.",
+        "Generate report after trace steps complete and read the actual JSON/text artifacts."
+      ]
+    }
+  ],
+  "show_stoppers": []
+}

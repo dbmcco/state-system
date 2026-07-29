@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-active-heartbeat-v0-2026-05-15T18-33-04.876614+00-00",
+  "task_id": "state-active-heartbeat-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "architecture": 1.0,
+    "tests": 1.0,
+    "cli": 1.0,
+    "docs": 1.0,
+    "drift": 1.0
+  },
+  "notes": "Active heartbeat v0 matches intended architecture: State System orchestrates freshness, directly checks safe local metadata, and records delegated boundaries for credentialed connectors without ingesting raw source data.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-15T18:33:04.876614+00:00",
+  "source": "codex-validation"
+}

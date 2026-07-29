@@ -1,0 +1,17 @@
+{
+  "id": "flip-state-mission-records-v0-2026-05-04T18-10-30.483160+00-00",
+  "task_id": "state-mission-records-v0",
+  "role_id": "unknown",
+  "tradeoff_id": "unknown",
+  "score": 0.48,
+  "dimensions": {
+    "requirement_coverage": 0.35,
+    "specificity_match": 0.3,
+    "semantic_match": 0.6,
+    "hallucination_rate": 0.3
+  },
+  "notes": "The inferred task captures the general domain (mission records implementation and validation) but fundamentally shifts emphasis from WHAT to implement (schemas, fixtures, replay, read model, CLI, fixture schema dispatch) to HOW to validate it (test passing, drift checks, artifact output). Most specific requirements are missing: no mention of the 11 record types, file-touched patterns, PAIA/Speedrift fixture as first deterministic example, schema design, no PAIA-specific names constraint, or scope boundaries (what NOT to build). The inferred version also adds concerns not in the actual (report suite smoke tests, formatting checks, coredrift specifically) and frames the task as testing outcomes rather than implementation design. This reads as an evaluator inferring the validation/CI requirements rather than the core implementation task.\n\nFLIP metadata: {\"comparison_model\":\"haiku\",\"comparison_source\":\"config\",\"inference_model\":\"haiku\",\"inference_source\":\"config\",\"inferred_prompt\":\"Implement the mission records replay fixture to generate mission-read-model.json with full validation including: (1) successful output of the mission-read-model.json artifact, (2) passing the state_system CLI validation via `python3 -m state_system.cli --project-root . validate`, (3) all mission-specific tests passing in the full unittest harness, (4) git diff checks passing with no formatting issues, (5) report suite smoke tests completing successfully, and (6) coredrift and specdrift drift checks remaining green. Resolve any scope drift issues that arise during implementation by reverting out-of-scope changes or adjusting touch globs as needed.\"}",
+  "evaluator": "flip:haiku+haiku",
+  "timestamp": "2026-05-04T18:10:30.483160+00:00",
+  "source": "flip"
+}

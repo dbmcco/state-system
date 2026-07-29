@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "2026-05-14T17:58:53.372297+00:00",
+    "user": "braydon",
+    "message": "Task paused"
+  },
+  {
+    "timestamp": "2026-05-14T17:58:53.383550+00:00",
+    "user": "braydon",
+    "message": "Task published"
+  },
+  {
+    "timestamp": "2026-05-14T17:58:53.848935+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-14T18:02:34.232087+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-14T18:02:46.552583+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-14T18:03:01.286494+00:00",
+    "user": "braydon",
+    "message": "Validated: added explicit tool_capability_bindings to CompanyCapabilityPack schema and SampleCo/ResearchCo/PortfolioCo fixtures; read model now emits bindings per company; docs define PAIA mechanical exposure contract. Focused 10 tests passed; schema validation 116 examples passed; runtime seed/read smoke passed; full 102-test suite passed; git diff --check passed; smart drift check green."
+  },
+  {
+    "timestamp": "2026-05-14T18:03:01.314097+00:00",
+    "user": "braydon",
+    "message": "Task pending eval (agent reported done; awaiting `.evaluate-*` to score)"
+  },
+  {
+    "timestamp": "2026-05-14T18:03:01.489828+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

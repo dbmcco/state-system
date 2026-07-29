@@ -1,0 +1,17 @@
+[
+  {
+    "timestamp": "2026-05-14T19:15:37.646674+00:00",
+    "user": "braydon",
+    "message": "Claimed by Codex for PAIA Folio preflight contract alignment; implementing minimal read-model projection of source_connectors only."
+  },
+  {
+    "timestamp": "2026-05-14T19:16:50.090170+00:00",
+    "user": "braydon",
+    "message": "Validated: added source_connectors to company capability read model so PAIA preflight runners can map connector_ref to connector_type/source_ref mechanically. Focused 12 tests passed; schema validation 116 examples passed; temp bootstrap verified portfolio_co Folio connector source_ref; production paia-bootstrap-export refreshed /Users/braydon/.paia/state-system; full 107-test suite passed; git diff --check passed."
+  },
+  {
+    "timestamp": "2026-05-14T19:16:55.393401+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

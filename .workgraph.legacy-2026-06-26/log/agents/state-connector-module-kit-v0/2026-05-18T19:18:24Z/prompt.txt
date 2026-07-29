@@ -1,0 +1,115 @@
+You are working in: /Users/braydon/projects/experiments/state-system
+
+Task: state-connector-module-kit-v0 - Build connector module kit for open-source source onboarding
+
+Description:
+```wg-contract
+schema = 1
+mode = "core"
+objective = "Create the repeatable connector module kit so outside agents can add Spotify-like, Garmin-like, and Relationship-Substrate-like modules without editing core package schemas."
+non_goals = [
+  "Do not implement live third-party API clients",
+  "Do not include private tokens, corpora, health records, listening history, people records, or emails"
+]
+touch = [
+  "docs/runbooks/connector-module-kit.md",
+  "examples/source-modules/*.json",
+  "examples/tool-actions/*.json",
+  "examples/question-routes/*.json",
+  "tests/test_source_module_spec.py",
+  "tests/test_tool_action_contract.py",
+  "tests/test_question_route_contract.py"
+]
+acceptance = [
+  "Runbook documents declared -> preflighted -> freshness_proven -> indexed -> package_bound -> route_bound -> pressure_tested lifecycle",
+  "Examples cover historical_cache, live_api, local_sync, source_owned_correction_write, and federated_query modes",
+  "Tests prove examples validate and package consumers can discover module modes and gaps without prompt-only instructions"
+]
+max_files = 9
+max_loc = 700
+pit_stop_after = 3
+auto_followups = true
+```
+
+Phase 2 from the operational federated state design.
+
+Context from dependencies:
+From state-operational-eval-gate-v0 logs: 2026-05-18T19:09:22.959638+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-operational-eval-gate-v0 logs: 2026-05-18T19:09:26.945173+00:00 Coordinator takeover after worker exit. Start drift yellow due inherited repo-wide package-layer churn; this task will only write docs/reports/2026-05-18-operational-model-eval-gate.md and Workgraph logs/follow-ups.
+From state-operational-eval-gate-v0 logs: 2026-05-18T19:11:30.920417+00:00 Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs
+From state-operational-eval-gate-v0 logs: 2026-05-18T19:11:35.415342+00:00 Eval gate complete by coordinator takeover. Attempted FLIP for 10 relevant gates; all failed at Claude CLI evaluator call. Direct eval smoke for source-module and personal state also failed due missing native Anthropic key and Claude CLI fallback exit 1. Wrote docs/reports/2026-05-18-operational-model-eval-gate.md; created state-evaluator-infra-repair-v0. Validation green: 127 examples, focused 33 tests, git diff --check clean. End drift yellow only inherited repo churn.
+From state-operational-eval-gate-v0 logs: 2026-05-18T19:11:38.435972+00:00 Task marked as done
+
+## Coredrift Protocol
+- Treat the `wg-contract` block (in the task description) as binding.
+- At start and just before completion, run:
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- If you need to change scope, update touch globs:
+  ./.workgraph/coredrift contract set-touch --task state-connector-module-kit-v0 <globs...>
+- If `hardening_in_core` is flagged, avoid adding guardrails in the core task; do/complete the `harden:` follow-up task instead.
+
+## Superpowers Protocol
+- If Superpowers-style skills are available in this environment, use:
+  /brainstorming before code
+  /test-driven-development for behavior changes
+  /verification-before-completion before `wg done`
+- If not available, follow the same phases explicitly.
+
+## Model-Mediated Protocol
+- Separate pipes vs decisions (facts/execution vs judgment).
+- If a Model-Mediated Architecture skill is available, apply it (model decides; code executes).
+- Log key decisions/deviations in `wg log`, and prefer follow-up tasks over bloating the current task.
+
+## archdrift Protocol
+- If this task includes an `archdrift` block (in the description), run:
+  ./.workgraph/archdrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (auto/all strategy can include archdrift):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.archdrift/`.
+
+
+## uxdrift Protocol
+- If this task includes a `uxdrift` block (in the description), run:
+  ./.workgraph/uxdrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (runs uxdrift when a spec is present):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- If it fails due to missing URL, set `url = "..."` in the `uxdrift` block or pass --url.
+
+
+## therapydrift Protocol
+- If this task includes a `therapydrift` block (in the description), run:
+  ./.workgraph/therapydrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (runs therapydrift when a spec is present):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.therapydrift/`.
+
+
+## fixdrift Protocol
+- If this task includes a `fixdrift` block (in the description), run:
+  ./.workgraph/fixdrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (runs fixdrift when a spec is present):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.fixdrift/`.
+
+
+## yagnidrift Protocol
+- If this task includes a `yagnidrift` block (in the description), run:
+  ./.workgraph/yagnidrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (runs yagnidrift when a spec is present):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.yagnidrift/`.
+
+
+## redrift Protocol
+- If this task includes a `redrift` block (in the description), run:
+  ./.workgraph/redrift wg check --task state-connector-module-kit-v0 --write-log --create-followups
+- Or run the unified check (runs redrift when a spec is present):
+  ./.workgraph/drifts check --task state-connector-module-kit-v0 --write-log --create-followups
+- Artifacts live under `.workgraph/.redrift/`.
+
+
+## Workgraph Rules
+- Stay focused on this task.
+- Log progress: wg log state-connector-module-kit-v0 "message"
+- When complete: wg done state-connector-module-kit-v0
+- If blocked: wg fail state-connector-module-kit-v0 --reason "description"

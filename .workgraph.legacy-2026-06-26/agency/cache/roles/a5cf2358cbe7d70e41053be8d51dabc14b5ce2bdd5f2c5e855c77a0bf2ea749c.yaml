@@ -1,0 +1,60 @@
+id: a5cf2358cbe7d70e41053be8d51dabc14b5ce2bdd5f2c5e855c77a0bf2ea749c
+name: Assigner
+description: Matches tasks to agent configurations by evaluating fit across role components, desired outcomes, and trade-off configurations. Uses performance history to weight matches. Can request task clarification when needed.
+component_ids:
+- 1911d2c5646b6bd28bb75d7d4901fd6fc08809405b99c9671b5a2390e9042393
+- 83731c1df5619e54a121db6b2578234f8e78a08842244c59c9f19c6a7f04eec6
+- cfe6357e550d2f56f2e5b07f2d01a76d830bdedfe224f641e69e873e4bf7ca76
+- 17b841e0e427f5b888f4e42b250a9da44d00012096ca3c713c2d3ae02f148d0c
+- 20470d55b058d9432ed850fc4f767fd6a7d9180c11b17ca94b466611fa387861
+- 41d036c3d7f66d4c83a390adc41f3e997d3a8798dd844bcdd585566359c12de4
+- 3de24c1c748f4c5caf3f5d1dcdd799f04c8203b954d0d6d237417672abfec920
+outcome_id: 94166ad020257a3ab2bb6e4fd2cc52e04e66a5a4badfa4b79e07c909c865b639
+performance:
+  task_count: 10
+  avg_score: 0.5
+  evaluations:
+  - score: 0.5
+    task_id: .assign-state-user-report-v0
+    timestamp: 2026-05-03T11:05:32.813375+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-stale-context-pressure-v0
+    timestamp: 2026-05-03T11:05:32.829078+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-model-mediated-drift-suite-v0
+    timestamp: 2026-05-03T11:07:28.470873+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-report-suite-mission-v0
+    timestamp: 2026-05-04T18:15:09.630133+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-mission-report-html-v0
+    timestamp: 2026-05-04T20:29:40.611765+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-demo-report-suite-v0
+    timestamp: 2026-05-04T20:35:14.420902+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-meeting-coordination-contract-v0
+    timestamp: 2026-05-04T20:52:16.567197+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-thoughtforge-provenance-contract-v0
+    timestamp: 2026-05-04T20:57:26.835758+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-visual-forge-qualitative-contract-v0
+    timestamp: 2026-05-04T21:01:30.142013+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+  - score: 0.5
+    task_id: .assign-state-crm-outcome-doctrine-contract-v0
+    timestamp: 2026-05-04T21:13:47.004596+00:00
+    context_id: 03b3c27a422fd7b2f76da1572c344fe83bfa265eec0020a6b7f7ec42eea243bb
+lineage:
+  generation: 0
+  created_by: human
+  created_at: 2026-04-28T21:07:39.858950Z

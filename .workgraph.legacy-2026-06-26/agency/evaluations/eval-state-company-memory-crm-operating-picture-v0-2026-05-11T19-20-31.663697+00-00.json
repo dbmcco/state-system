@@ -1,0 +1,18 @@
+{
+  "id": "eval-state-company-memory-crm-operating-picture-v0-2026-05-11T19-20-31.663697+00-00",
+  "task_id": "state-company-memory-crm-operating-picture-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "tests": 1.0,
+    "cli": 1.0,
+    "drift": 1.0,
+    "diagram": 1.0,
+    "schema": 1.0
+  },
+  "notes": "Validated substrate-first company memory + CRM operating picture v0: schemas/fixtures/read-model builder/CLI/agent slices, focused tests, full 90-test harness, schema validation for 112 examples, CLI JSON smoke, diff hygiene, drift green, diagrams updated.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-11T19:20:31.663697+00:00",
+  "source": "codex-validation"
+}

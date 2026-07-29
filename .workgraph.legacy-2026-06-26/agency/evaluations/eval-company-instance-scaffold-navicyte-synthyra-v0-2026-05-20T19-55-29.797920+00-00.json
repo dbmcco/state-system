@@ -1,0 +1,18 @@
+{
+  "id": "eval-company-instance-scaffold-portfolio_co-researchco-v0-2026-05-20T19-55-29.797920+00-00",
+  "task_id": "company-instance-scaffold-portfolio_co-researchco-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 0.92,
+  "dimensions": {
+    "scope_control": 0.8,
+    "privacy_scope": 0.96,
+    "validation": 0.96,
+    "portfolio_co": 0.91,
+    "researchco": 0.94
+  },
+  "notes": "Manual Codex evaluator pass, no Claude/wg service. Parent objective satisfied: PortfolioCo and ResearchCo state instance scaffolds are present, validated, package-ready, and privacy-bounded with explicit source readiness gaps. Uses child evaluations and parent close-out log as evidence. Caveats preserved: budget overrun and local/uncommitted NaviCyte workspace changes.",
+  "evaluator": "manual-eval:codex-state1",
+  "timestamp": "2026-05-20T19:55:29.797920+00:00",
+  "source": "manual-eval:codex-state1"
+}

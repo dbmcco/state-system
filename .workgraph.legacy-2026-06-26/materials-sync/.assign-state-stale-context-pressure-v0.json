@@ -1,0 +1,9 @@
+{
+  "task_id": ".assign-state-stale-context-pressure-v0",
+  "phase": "reconcile",
+  "checked_at": "2026-05-04T16:30:44.785648+00:00",
+  "warnings": [
+    "no touched repos inferred"
+  ],
+  "repos": []
+}

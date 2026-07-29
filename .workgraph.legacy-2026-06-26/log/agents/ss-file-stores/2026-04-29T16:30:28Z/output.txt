@@ -1,0 +1,3 @@
+Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"Invalid authentication credentials"},"request_id":"req_011CaYP2f2iJY4ArjtQoa2G7"}
+
+[wrapper] Agent exited with code 1, marking task failed

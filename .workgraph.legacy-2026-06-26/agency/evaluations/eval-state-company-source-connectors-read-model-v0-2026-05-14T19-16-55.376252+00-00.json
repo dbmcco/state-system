@@ -1,0 +1,17 @@
+{
+  "id": "eval-state-company-source-connectors-read-model-v0-2026-05-14T19-16-55.376252+00-00",
+  "task_id": "state-company-source-connectors-read-model-v0",
+  "role_id": "",
+  "tradeoff_id": "",
+  "score": 1.0,
+  "dimensions": {
+    "contract": 1.0,
+    "docs": 1.0,
+    "tests": 1.0,
+    "boundary": 1.0
+  },
+  "notes": "Read model now exports source_connectors so PAIA can resolve connector preflight targets without semantic inference from raw_corpus strings; State System still only declares context and stores evidence.",
+  "evaluator": "codex-validation",
+  "timestamp": "2026-05-14T19:16:55.376252+00:00",
+  "source": "codex-validation"
+}

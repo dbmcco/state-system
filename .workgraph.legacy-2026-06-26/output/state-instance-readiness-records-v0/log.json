@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-05-17T10:03:42.029349+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-17T10:03:49.074134+00:00",
+    "user": "braydon",
+    "message": "Start drift yellow: scope_drift because implementation also needs README.md, state_system/stores.py, examples/instance-preflight/*.json, and tests/test_stores.py for the instance preflight store/fixture/docs. Treating as explicit contract expansion; no source-specific personal probes in this task."
+  },
+  {
+    "timestamp": "2026-05-17T10:04:17.791141+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-17T10:04:32.757045+00:00",
+    "user": "braydon",
+    "message": "Coredrift: OK (no findings)"
+  },
+  {
+    "timestamp": "2026-05-17T10:04:32.788517+00:00",
+    "user": "braydon",
+    "message": "Completed instance readiness records v0: added instance preflight schema/runtime/CLI/export, store registry, example fixture, docs, and understanding-surface consumption. Verified focused 14 tests, schema validation 121 examples, and full unittest discover 141 tests all pass."
+  },
+  {
+    "timestamp": "2026-05-17T10:04:32.817540+00:00",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]

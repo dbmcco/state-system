@@ -1,0 +1,27 @@
+{
+  "problem": "The schema-backed North Star ecosystem run can inspect personal state, SampleCo, NaviCyte, and ResearchCo, but it reports 28 visible source-readiness gaps across 35 sources. The system needs source-owned repairs, regenerated packages, and a readable North Star render surface without hiding uncertainty or copying raw corpora.",
+  "stakeholders": "Braydon and the instance agents Samantha, Caroline, Helena, and Ingrid need current, grounded state answers. When gaps remain ambiguous, agents cannot reliably answer what changed, what evidence supports it, what remains uncertain, or what should happen next.",
+  "prior_attempts": "The instance scaffold and package lanes produced schema-valid packages and explicit gaps. A north-star-answer JSON substrate and schema gate were added. What is still missing is coordinated source-readiness repair across dirty runtime roots and a human/agent-readable render gate.",
+  "constraints": [
+    "Use codexd or codex executor paths, not Claude",
+    "Do not touch unrelated FLIP/evaluator tasks",
+    "Do not touch .workgraph/graph.jsonl except through intentional Workgraph task seeding",
+    "Do not write dirty runtime roots until a lane claims its root and records git status",
+    "Do not copy raw corpora into the product repo or public examples",
+    "Promote sources only from direct source-owned evidence"
+  ],
+  "out_of_scope": [
+    "Workgraph executor reconfiguration",
+    "Evaluator infrastructure repair",
+    "Fake freshness records for unavailable sources",
+    "Raw transcript, email, Drive, or relationship corpus materialization"
+  ],
+  "success_criteria": [
+    "north-star-answer remains schema-valid across all four current packages",
+    "Every source has explicit access, freshness, index, and understanding state",
+    "Remaining not-ready sources are typed visible gaps with evidence",
+    "Federated routes stay non-materializing",
+    "A readable North Star render surface preserves evidence, uncertainty, next actions, and non-execution boundaries",
+    "Focused tests and state_system.cli validate pass"
+  ]
+}

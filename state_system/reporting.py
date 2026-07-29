@@ -4,6 +4,7 @@ from html import escape
 import json
 from pathlib import Path
 
+from state_system.content_health import build_content_health, build_process_health
 from state_system.stores import JsonObject
 
 
@@ -57,34 +58,68 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
     )
 
     reports = [
-        {
-            "id": "agent-activation-trace",
-            "title": "Agent Activation Trace",
-            "status": trace_report["status"],
-            "report_path": str(trace_dir / "index.html"),
-            "summary": "Trace-run report for Maya activation, action boundaries, freshness, and captured response.",
-        },
-        {
-            "id": "app-integrations",
-            "title": "App Integration Report",
-            "status": app_report["status"],
-            "report_path": str(app_dir / "index.html"),
-            "summary": "Fixture-backed Prospect/Outreach/CRM contract inspection report.",
-        },
-        {
-            "id": "mission-records",
-            "title": "Mission Records Read Model",
-            "status": "passed",
-            "report_path": str(mission_report_path),
-            "summary": "Replay-backed mission read model for the Streamlinear repo-audit fixture.",
-        },
+        _suite_report_entry(
+            report_id="agent-activation-trace",
+            title="Agent Activation Trace",
+            status=trace_report["status"],
+            report_path=trace_dir / "index.html",
+            summary="Trace-run report for Maya activation, action boundaries, freshness, and captured response.",
+            raw_artifact_refs=_report_raw_artifact_refs(trace_report),
+            content_health=_trace_report_content_health(trace_report),
+        ),
+        _suite_report_entry(
+            report_id="app-integrations",
+            title="App Integration Report",
+            status=app_report["status"],
+            report_path=app_dir / "index.html",
+            summary="Fixture-backed Prospect/Outreach/CRM contract inspection report.",
+            raw_artifact_refs=_report_raw_artifact_refs(app_report),
+            content_health=build_content_health(statuses=["unknown"], generated_at=""),
+        ),
+        _suite_report_entry(
+            report_id="mission-records",
+            title="Mission Records Read Model",
+            status="passed",
+            report_path=mission_report_path,
+            summary="Replay-backed mission read model for the Streamlinear repo-audit fixture.",
+            raw_artifact_refs=[str(mission_read_model_path), str(mission_report_path)],
+            content_health=build_content_health(
+                statuses=[mission_read_model.get("mission", {}).get("freshness", "unknown")],
+                generated_at=str(mission_read_model.get("generated_at", "")),
+            ),
+        ),
     ]
     status = "passed" if all(report["status"] == "passed" for report in reports) else "failed"
+    process_health = build_process_health(
+        status=status,
+        generated_at="",
+        artifact_refs=[report["report_path"] for report in reports],
+    )
+    content_health = build_content_health(
+        statuses=[report["content_health"]["status"] for report in reports],
+        requires_refresh=any(
+            report["content_health"].get("requires_refresh_before_external_action")
+            for report in reports
+        ),
+        source_gap_refs=[
+            gap_ref
+            for report in reports
+            for gap_ref in report["content_health"].get("source_gap_refs", [])
+        ],
+        expired_freshness_refs=[
+            expired_ref
+            for report in reports
+            for expired_ref in report["content_health"].get("expired_freshness_refs", [])
+        ],
+    )
     suite: JsonObject = {
         "id": "report.suite",
         "title": "State System Report Suite",
         "status": status,
+        "process_health": process_health,
+        "content_health": content_health,
         "output_dir": str(output_dir),
+        "raw_artifact_refs": [str(output_dir / "report-suite.json")],
         "reports": reports,
     }
     _write_json(output_dir / "report-suite.json", suite)
@@ -93,6 +128,65 @@ def run_report_suite(*, project_root: Path, output_dir: Path) -> JsonObject:
         encoding="utf-8",
     )
     return suite
+
+
+def _suite_report_entry(
+    *,
+    report_id: str,
+    title: str,
+    status: str,
+    report_path: Path,
+    summary: str,
+    raw_artifact_refs: list[str],
+    content_health: JsonObject,
+) -> JsonObject:
+    resolved_raw_artifact_refs = sorted({str(report_path), *raw_artifact_refs})
+    return {
+        "id": report_id,
+        "title": title,
+        "status": status,
+        "process_health": build_process_health(
+            status=status,
+            artifact_refs=resolved_raw_artifact_refs,
+        ),
+        "content_health": content_health,
+        "report_path": str(report_path),
+        "raw_artifact_refs": resolved_raw_artifact_refs,
+        "summary": summary,
+    }
+
+
+def _report_raw_artifact_refs(report: JsonObject) -> list[str]:
+    refs = [
+        str(step.get("artifact_path"))
+        for step in report.get("steps", [])
+        if step.get("artifact_path")
+    ]
+    report_path = report.get("report_path")
+    if report_path:
+        refs.append(str(report_path))
+    return sorted({ref for ref in refs if ref})
+
+
+def _trace_report_content_health(report: JsonObject) -> JsonObject:
+    artifacts = _load_artifacts(report)
+    activation = artifacts.get("agent-activation")
+    if not isinstance(activation, dict):
+        return build_content_health(statuses=["unknown"], generated_at="")
+    freshness = activation.get("freshness", {})
+    if not isinstance(freshness, dict):
+        return build_content_health(statuses=["unknown"], generated_at="")
+    statuses = [str(freshness.get("content_status", "unknown"))]
+    if freshness.get("requires_refresh_before_external_action") or freshness.get("stale_at_activation"):
+        statuses.append("stale")
+    return build_content_health(
+        statuses=statuses,
+        requires_refresh=bool(freshness.get("requires_refresh_before_external_action")),
+        expired_freshness_refs=freshness.get("expired_freshness_refs", []),
+        source_gap_refs=freshness.get("source_gap_refs", []),
+        evidence_refs=freshness.get("watermark_refs", []),
+        generated_at=str(freshness.get("generated_at", "")),
+    )
 
 
 def render_report_suite_html(report: JsonObject) -> str:
@@ -126,7 +220,11 @@ def render_report_suite_html(report: JsonObject) -> str:
             "<section>",
             "<h2>Suite Summary</h2>",
             f"<p>Status: <span class=\"{escape(str(report['status']))}\">{escape(str(report['status']))}</span></p>",
+            f"<p>Process health: <code>{escape(str(report.get('process_health', {}).get('status', report['status'])))}</code></p>",
+            f"<p>Content health: <code>{escape(str(report.get('content_health', {}).get('status', 'unknown')))}</code></p>",
+            _banner_block(str(report.get("content_health", {}).get("staleness_banner", ""))),
             f"<p>Output directory: <code>{escape(str(report['output_dir']))}</code></p>",
+            "<p>Machine-readable suite: <a href=\"report-suite.json\">report-suite.json</a></p>",
             "</section>",
             "<section>",
             "<h2>Reports</h2>",
@@ -431,14 +529,24 @@ def _rendered_section(rendered_activation: str) -> str:
 def _report_suite_card(entry: JsonObject) -> str:
     path = Path(str(entry["report_path"]))
     link_path = f"{path.parent.name}/{path.name}"
+    raw_links = [
+        f"<li><code>{escape(str(ref))}</code></li>" for ref in entry.get("raw_artifact_refs", [])
+    ] or ["<li>None</li>"]
     return "\n".join(
         [
             "<div class=\"card\">",
             f"<h2>{escape(str(entry['title']))}</h2>",
             f"<p>Status: <span class=\"{escape(str(entry['status']))}\">{escape(str(entry['status']))}</span></p>",
+            f"<p>Process health: <code>{escape(str(entry.get('process_health', {}).get('status', entry['status'])))}</code></p>",
+            f"<p>Content health: <code>{escape(str(entry.get('content_health', {}).get('status', 'unknown')))}</code></p>",
+            _banner_block(str(entry.get("content_health", {}).get("staleness_banner", ""))),
             f"<p>{escape(str(entry['summary']))}</p>",
             f"<p><a href=\"{escape(link_path)}\">Open report</a></p>",
             f"<p><code>{escape(str(path))}</code></p>",
+            "<h3>Raw artifacts</h3>",
+            "<ul>",
+            *raw_links,
+            "</ul>",
             "</div>",
         ]
     )
@@ -482,6 +590,12 @@ def _mission_record_section(
             "</section>",
         ]
     )
+
+
+def _banner_block(message: str) -> str:
+    if not message:
+        return ""
+    return f"<p class=\"hold\"><strong>{escape(message)}</strong></p>"
 
 
 def _metric(label: str, value: object, class_name: str = "") -> str:

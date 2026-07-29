@@ -1,0 +1,221 @@
+{
+  "task_id": "state-prospect-outreach-crm-contract-v0",
+  "exit_code": 0,
+  "mode": "redirect",
+  "effective_mode": "redirect",
+  "contract_auto_ensure": {
+    "enabled": true,
+    "attempted": true,
+    "applied": true,
+    "error": null
+  },
+  "loop_safety": {
+    "max_redrift_depth": 2,
+    "observed_redrift_depth": 0,
+    "ready_drift_followups": 4,
+    "blocked_by_cycle": false,
+    "followups_blocked": false,
+    "reasons": []
+  },
+  "update_preflight": {
+    "enabled": true,
+    "checked": true,
+    "skipped": true,
+    "has_updates": false,
+    "has_discoveries": false,
+    "updates": [],
+    "user_findings": [],
+    "report_findings": [],
+    "errors": [],
+    "summary": null,
+    "followup_task_id": null,
+    "checked_at": "2026-05-04T17:23:43.901216+00:00",
+    "interval_seconds": 21600,
+    "elapsed_seconds": 3146
+  },
+  "lane_strategy": "smart",
+  "lane_plan": {
+    "strategy": "smart",
+    "full_suite": false,
+    "reasons": [
+      "smart routing via evidence package"
+    ],
+    "selected_plugins": [],
+    "plugin_reasons": {}
+  },
+  "policy_order": [
+    "specdrift",
+    "datadrift",
+    "archdrift",
+    "depsdrift",
+    "uxdrift",
+    "therapydrift",
+    "fixdrift",
+    "yagnidrift",
+    "redrift"
+  ],
+  "plugins": {
+    "coredrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "task_id": "state-prospect-outreach-crm-contract-v0",
+        "task_title": "Add Prospecting to Outreach to CRM contract traces",
+        "git_root": "/Users/braydon/projects/experiments/state-system",
+        "score": "green",
+        "contract": {
+          "schema": 1,
+          "mode": "core",
+          "objective": "Add cross-app fixture traces for Prospecting Partner -> Outreach Engine -> CRM handoff",
+          "touch": [
+            "examples/app-integrations/*",
+            "examples/traces/*",
+            "schemas/*",
+            "tests/*",
+            "state_system/contracts.py",
+            "README.md",
+            ".gitignore",
+            "docs/app-*.md",
+            "docs/system-diagram.html",
+            "docs/assets/*",
+            "docs/superpowers/specs/*"
+          ],
+          "acceptance": [
+            "prospect opportunity package fixture exists",
+            "outreach activation consumes prospect package",
+            "qualified CRM handoff artifact is represented",
+            "tests pass"
+          ],
+          "max_files": 30,
+          "max_loc": 1200,
+          "auto_followups": true
+        },
+        "telemetry": {
+          "files_changed": 27,
+          "loc_changed": 318
+        },
+        "findings": [],
+        "recommendations": []
+      }
+    },
+    "specdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "datadrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "archdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "depsdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "uxdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "note": "no standardized json output yet"
+    },
+    "therapydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "fixdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "yagnidrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "redrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "qadrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "qadrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "qadrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW"
+        }
+      }
+    },
+    "secdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "plandrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "factorydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "northstardrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "evolverdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "debatedrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "debatedrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "no debatedrift fence \u2014 skipping",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "debatedrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "no debatedrift fence \u2014 skipping"
+        }
+      }
+    }
+  },
+  "action_plan": [],
+  "contract_compliance": {
+    "total_checked": 3,
+    "contract_valid": 2,
+    "contract_invalid": 1,
+    "invalid_lanes": [
+      "coredrift"
+    ]
+  },
+  "enforcement": {
+    "blocked": false,
+    "warnings": [],
+    "exit_code": 0,
+    "counts": {}
+  }
+}

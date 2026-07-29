@@ -1,0 +1,21 @@
+{
+  "analogies": [
+    {
+      "domain": "CI build artifacts",
+      "solution": "Every run creates an inspectable report and machine-readable logs.",
+      "transferable_insight": "The user-testable surface should be generated from the same execution path that tests use."
+    },
+    {
+      "domain": "Data pipeline lineage tools",
+      "solution": "Lineage views show source evidence, transformations, and output artifacts.",
+      "transferable_insight": "State System reports should make evidence refs, activation decisions, and captured responses visible as lineage."
+    },
+    {
+      "domain": "Clinical decision support audit reports",
+      "solution": "Human reviewers inspect recommendations, constraints, and provenance before acting.",
+      "transferable_insight": "The report should emphasize approval boundaries and freshness instead of hiding uncertainty."
+    }
+  ],
+  "inversion": "The system gets worse if it produces a polished report that hides unresolved evidence, stale context, or prohibited actions. It also gets worse if humans can mutate state directly from the first UI and bypass the agent activation loop.",
+  "key_insight": "The first user-facing surface should be an audit/report surface over trace execution, not an operations dashboard."
+}

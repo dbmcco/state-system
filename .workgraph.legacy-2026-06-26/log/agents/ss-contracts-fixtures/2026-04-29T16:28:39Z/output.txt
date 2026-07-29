@@ -1,0 +1,5 @@
+Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"Invalid authentication credentials"},"request_id":"req_011CaYNmcPJS72FWeyWXoi2g"}
+
+[wrapper] Agent exited with code 1, marking task failed
+Agent archived to /Users/braydon/projects/experiments/state-system/.workgraph/log/agents/ss-contracts-fixtures/2026-04-29T16:27:02Z
+Output captured to /Users/braydon/projects/experiments/state-system/.workgraph/output/ss-contracts-fixtures

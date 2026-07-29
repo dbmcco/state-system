@@ -1,0 +1,216 @@
+{
+  "task_id": "ss-miriam-critical-reviewer-persona",
+  "exit_code": 0,
+  "mode": "redirect",
+  "effective_mode": "redirect",
+  "contract_auto_ensure": {
+    "enabled": true,
+    "attempted": true,
+    "applied": true,
+    "error": null
+  },
+  "loop_safety": {
+    "max_redrift_depth": 2,
+    "observed_redrift_depth": 0,
+    "ready_drift_followups": 0,
+    "blocked_by_cycle": false,
+    "followups_blocked": false,
+    "reasons": []
+  },
+  "update_preflight": {
+    "enabled": true,
+    "checked": true,
+    "skipped": false,
+    "has_updates": false,
+    "has_discoveries": false,
+    "updates": [],
+    "user_findings": [],
+    "report_findings": [],
+    "errors": [],
+    "summary": null,
+    "followup_task_id": null,
+    "checked_at": "2026-05-02T00:54:59.393043+00:00",
+    "interval_seconds": 21600,
+    "elapsed_seconds": 0
+  },
+  "lane_strategy": "auto",
+  "lane_plan": {
+    "strategy": "auto",
+    "full_suite": false,
+    "reasons": [],
+    "selected_plugins": [],
+    "plugin_reasons": {
+      "specdrift": "not selected",
+      "datadrift": "not selected",
+      "archdrift": "not selected",
+      "depsdrift": "not selected",
+      "uxdrift": "not selected",
+      "therapydrift": "not selected",
+      "fixdrift": "not selected",
+      "yagnidrift": "not selected",
+      "redrift": "not selected"
+    }
+  },
+  "policy_order": [
+    "specdrift",
+    "datadrift",
+    "archdrift",
+    "depsdrift",
+    "uxdrift",
+    "therapydrift",
+    "fixdrift",
+    "yagnidrift",
+    "redrift"
+  ],
+  "plugins": {
+    "coredrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "task_id": "ss-miriam-critical-reviewer-persona",
+        "task_title": "Add Miriam critical reviewer persona",
+        "git_root": "/Users/braydon/projects/experiments/state-system",
+        "score": "green",
+        "contract": {
+          "schema": 1,
+          "mode": "core",
+          "objective": "Add Miriam critical reviewer persona",
+          "non_goals": [
+            "No fallbacks/retries/guardrails unless acceptance requires it"
+          ],
+          "touch": [],
+          "acceptance": [],
+          "max_files": 25,
+          "max_loc": 800,
+          "pit_stop_after": 3,
+          "auto_followups": true
+        },
+        "telemetry": {
+          "files_changed": 5,
+          "loc_changed": 47
+        },
+        "findings": [],
+        "recommendations": []
+      }
+    },
+    "specdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "datadrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "archdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "depsdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "uxdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "note": "no standardized json output yet"
+    },
+    "therapydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "fixdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "yagnidrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "redrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "qadrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "qadrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "qadrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "0 findings: 0 HIGH, 0 MEDIUM, 0 LOW"
+        }
+      }
+    },
+    "secdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "plandrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "factorydrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "northstardrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "evolverdrift": {
+      "ran": false,
+      "exit_code": 0,
+      "report": null
+    },
+    "debatedrift": {
+      "ran": true,
+      "exit_code": 0,
+      "report": {
+        "lane": "debatedrift",
+        "findings": [],
+        "exit_code": 0,
+        "summary": "no debatedrift fence \u2014 skipping",
+        "_contract_valid": true,
+        "_lane_result": {
+          "lane": "debatedrift",
+          "findings_count": 0,
+          "exit_code": 0,
+          "summary": "no debatedrift fence \u2014 skipping"
+        }
+      }
+    }
+  },
+  "action_plan": [],
+  "contract_compliance": {
+    "total_checked": 3,
+    "contract_valid": 2,
+    "contract_invalid": 1,
+    "invalid_lanes": [
+      "coredrift"
+    ]
+  },
+  "enforcement": {
+    "blocked": false,
+    "warnings": [],
+    "exit_code": 0,
+    "counts": {}
+  }
+}

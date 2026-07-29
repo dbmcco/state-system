@@ -1,0 +1,35 @@
+[
+  {
+    "timestamp": "2026-05-18T19:16:36.813875+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T19:18:23.670180+00:00",
+    "actor": "agent-117",
+    "user": "braydon",
+    "message": "Spawned by wg spawn --executor claude --model opus"
+  },
+  {
+    "timestamp": "2026-05-18T19:18:29.610446+00:00",
+    "actor": "agent-117",
+    "user": "braydon",
+    "message": "Task marked as failed: Agent exited with code 1"
+  },
+  {
+    "timestamp": "2026-05-18T19:20:23.056525+00:00",
+    "user": "braydon",
+    "message": "Coredrift: yellow (churn_files, churn_loc, hardening_in_core, scope_drift) | next: Revert out-of-scope file changes or expand touch globs"
+  },
+  {
+    "timestamp": "2026-05-18T19:20:31.407094+00:00",
+    "user": "braydon",
+    "message": "Implemented package/read-model federation pack materialization. Instance understanding now exposes federation_packs summaries. Agent packages include federation_packs for personal->SampleCo instance_read, SampleCo->Relationship Substrate source_substrate_query with local_materialization=false, and planned PortfolioCo/ResearchCo portfolio rollup. Renderer shows federation pack refs, remote refs, materialization policy, raw corpus policy, freshness/gaps, and subject-note policy. Regenerated live Sam and Caroline packages/read models; repo-root renders show federation packs. Validation green: focused 21 tests OK, full 203 tests OK, state-system validate 128 examples OK, personal state validate 128 examples OK, git diff --check clean. Added schema declaration for federation_packs in instance-agent-package.schema.json to avoid implicit package fields. End drift yellow only inherited repo-wide churn plus that intentional schema touch."
+  },
+  {
+    "timestamp": "2026-05-18T19:20:34.767237+00:00",
+    "actor": "agent-117",
+    "user": "braydon",
+    "message": "Task marked as done"
+  }
+]
