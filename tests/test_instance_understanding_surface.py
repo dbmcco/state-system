@@ -244,7 +244,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             read_model["source_gap_refs"],
         )
 
-    def test_surface_preserves_garmin_ready_and_spotify_freshness_gap(self):
+    def test_surface_marks_generated_artifact_expiry_as_freshness_gap(self):
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
             InstanceCapabilityRuntime(stores).seed(
@@ -339,7 +339,11 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
         self.assertEqual("passed", spotify["access_status"])
         self.assertEqual("declared", garmin["index_status"])
         self.assertEqual("declared", spotify["index_status"])
-        self.assertEqual("ready", garmin["understanding_status"])
+        self.assertEqual("stale", garmin["freshness_status"])
+        self.assertEqual("stale", garmin["content_status"])
+        self.assertEqual("stale", personal["content_health"]["status"])
+        self.assertEqual("usable_with_freshness_gap", garmin["understanding_status"])
+        self.assertIn("HARD STALENESS BANNER", garmin["staleness_banner"])
         self.assertEqual("usable_with_freshness_gap", spotify["understanding_status"])
         self.assertEqual("source_module.garmin_connect", garmin["source_module_ref"])
         self.assertEqual("local_sync", garmin["module_mode"])
@@ -354,6 +358,7 @@ class InstanceUnderstandingSurfaceTests(unittest.TestCase):
             "source_module.spotify.gap_behavior",
             spotify["gap_behavior_ref"],
         )
+        self.assertEqual("usable_with_freshness_gap", garmin["usable_access_status"])
         self.assertEqual("usable_with_freshness_gap", spotify["usable_access_status"])
         self.assertNotIn(
             "gap.state_instance.sample_personal.connector.personal.garmin_connect.access_planned",

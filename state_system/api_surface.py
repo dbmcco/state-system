@@ -9,11 +9,13 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 import re
+import json
 from pathlib import Path
 from typing import Any, Mapping
 from uuid import uuid4
 
 from state_system.audit_ledger import StateAuditLedger
+from state_system.content_health import build_package_health
 from state_system.contracts import validate_all_examples
 from state_system.gap_acknowledgement import GapAcknowledgementLedger
 
@@ -163,13 +165,33 @@ class StateDispatcher:
             for entry in entries
             if entry.get("event_type") == "gap_acknowledgement"
         ]
+        package_ref = arguments.get("package_ref")
+        package = self._read_package(str(package_ref)) if isinstance(package_ref, str) else None
+        package_health = build_package_health(package) if package else None
         return {
             "scope": scope,
-            "package": arguments.get("package_ref"),
+            "package": package_ref,
             "source_gap_refs": list(arguments.get("gap_refs", []))
             if isinstance(arguments.get("gap_refs", []), list)
             else [],
-            "expired_freshness_refs": [],
+            "expired_freshness_refs": package_health["expired_freshness_refs"]
+            if package_health
+            else [],
+            "package_health": package_health,
+            "process_health": package_health.get("process_health")
+            if package_health
+            else {"status": "not_inspected", "generated_at": "", "artifact_refs": []},
+            "content_health": package_health.get("content_health")
+            if package_health
+            else {
+                "status": "unknown",
+                "requires_refresh_before_external_action": True,
+                "source_gap_refs": [],
+                "expired_freshness_refs": [],
+                "evidence_refs": [],
+                "generated_at": "",
+                "staleness_banner": "HARD STALENESS BANNER: content health is unknown; inspect a package before relying on this surface.",
+            },
             "acknowledged_gap_refs": [item.get("gap_ref") for item in acknowledgements],
             "repair_actions": ["repair", "acknowledge_gap"],
             "ledger": {
@@ -178,6 +200,18 @@ class StateDispatcher:
                 "retention_days": 400,
             },
         }
+
+    def _read_package(self, package_ref: str) -> dict[str, Any] | None:
+        if not package_ref or "/" in package_ref or "\\" in package_ref:
+            return None
+        path = self.state_root / "state" / "instance-agent-packages" / f"{package_ref}.json"
+        if not path.exists():
+            return None
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return None
+        return value if isinstance(value, dict) else None
 
     def _validate(self) -> dict[str, Any]:
         results = validate_all_examples(self.project_root)

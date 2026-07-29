@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 
+from state_system.content_health import expired_at, staleness_banner
 from state_system.contracts import JsonObject, validate_schema
 from state_system.instance_capability import InstanceCapabilityRuntime
 from state_system.instance_understanding_surface import (
@@ -87,7 +88,15 @@ def _package_from_instance(
     package_id: str | None,
     state_root: Path | None = None,
 ) -> JsonObject:
-    sources = [_package_source(source) for source in instance["source_readiness"]]
+    resolved_package_id = package_id or _package_id(instance["instance_ref"], agent_ref)
+    sources = [
+        _package_source_with_generation_staleness(
+            source,
+            package_id=resolved_package_id,
+            as_of=created_at,
+        )
+        for source in instance["source_readiness"]
+    ]
     evidence_refs = sorted(
         {
             evidence_ref
@@ -127,7 +136,6 @@ def _package_from_instance(
     index_refs.update(_question_route_index_refs(question_routes))
     federated_refs = sorted(federated_refs)
     index_refs = sorted(index_refs)
-    resolved_package_id = package_id or _package_id(instance["instance_ref"], agent_ref)
     expired_freshness_refs = _expired_freshness_refs(
         package_id=resolved_package_id,
         sources=sources,
@@ -188,6 +196,10 @@ def _package_from_instance(
             "status_reason": freshness_dimensions["status_reason"],
             "evidence_refs": evidence_refs,
             "process_status": "succeeded",
+            "staleness_banner": staleness_banner(
+                status=freshness_dimensions["content_status"],
+                requires_refresh=requires_refresh,
+            ),
             "source_gap_refs": gap_refs,
         },
         "invariant": {
@@ -268,6 +280,48 @@ def _package_source(source: JsonObject) -> JsonObject:
         packaged["pipeline_dependency"] = "raw_transcript_ingest"
     if "federated_instance" in source:
         packaged["federated_instance"] = source["federated_instance"]
+    return packaged
+
+
+def _package_source_with_generation_staleness(
+    source: JsonObject,
+    *,
+    package_id: str,
+    as_of: str,
+) -> JsonObject:
+    packaged = _package_source(source)
+    if not expired_at(packaged.get("stale_after", ""), as_of):
+        return packaged
+
+    expired_ref = _expired_freshness_ref(package_id, packaged)
+    if packaged.get("freshness_status") == "fresh":
+        packaged["freshness_status"] = "stale"
+    if packaged.get("content_status") == "fresh":
+        packaged["content_status"] = "stale"
+    packaged["understanding_status"] = (
+        "usable_with_freshness_gap"
+        if packaged.get("access_status") == "passed"
+        and packaged.get("index_status") == "declared"
+        else packaged.get("understanding_status", "gap")
+    )
+    packaged["usable_access_status"] = _usable_access_status(packaged)
+    packaged["source_gap_refs"] = sorted(
+        {str(ref) for ref in packaged.get("source_gap_refs", []) if ref}
+        | {expired_ref}
+    )
+    packaged["gap_refs"] = sorted(
+        {str(ref) for ref in packaged.get("gap_refs", []) if ref}
+        | {expired_ref}
+    )
+    reason = str(packaged.get("status_reason", "")).strip()
+    expired_reason = f"stale_after {packaged.get('stale_after', '')} expired before package generation {as_of}"
+    packaged["status_reason"] = "; ".join(
+        [part for part in [reason, expired_reason] if part]
+    )
+    packaged["staleness_banner"] = (
+        "HARD STALENESS BANNER: source freshness expired before this package "
+        "was generated; do not describe this source as fresh or ready."
+    )
     return packaged
 
 
@@ -403,11 +457,7 @@ def _expired_freshness_ref(package_id: str, source: JsonObject) -> str:
 def _is_expired(stale_after: object, as_of: str | None) -> bool:
     if not stale_after or not as_of:
         return False
-    stale_after_dt = _parse_timestamp(str(stale_after))
-    as_of_dt = _parse_timestamp(as_of)
-    if stale_after_dt is None or as_of_dt is None:
-        return False
-    return stale_after_dt < as_of_dt
+    return expired_at(stale_after, as_of)
 
 
 def _parse_timestamp(value: str) -> datetime | None:
