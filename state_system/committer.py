@@ -11,7 +11,7 @@ from state_system.stores import JsonObject, RecordNotFoundError, StateStoreBundl
 
 class CommitValidationError(ValueError):
     def __init__(self, errors: list[str]):
-        super().__init__("commit validation failed")
+        super().__init__("commit validation failed: " + "; ".join(errors))
         self.errors = tuple(errors)
 
 
@@ -28,11 +28,12 @@ class Committer:
         evidence_refs: Iterable[str],
     ) -> JsonObject:
         self._validate_model_output(model_output)
+        review_packet = self._stored_review_packet(model_output["review_packet_id"])
         commit_id = _commit_id(model_output)
         if commit_id in self.stores.commits.list_ids():
             return self.stores.commits.read(commit_id)
 
-        evidence_ref_set = set(evidence_refs)
+        evidence_ref_set = _review_packet_evidence_refs(review_packet)
         pending = _pending_approvals(model_output)
         rejected = self._rejected_proposals(model_output, evidence_ref_set)
         if pending or rejected:
@@ -96,6 +97,23 @@ class Committer:
         errors = validate_schema(model_output, self.schemas["model_output"])
         if errors:
             raise CommitValidationError(errors)
+
+    def _stored_review_packet(self, review_packet_id: str) -> JsonObject:
+        try:
+            packet = self.stores.review_packets.read(review_packet_id)
+        except RecordNotFoundError:
+            raise CommitValidationError(
+                [f"unknown review_packet_id: {review_packet_id}"]
+            ) from None
+
+        review_packet_schema = self.schemas.get("review_packet")
+        if review_packet_schema is not None:
+            errors = validate_schema(packet, review_packet_schema)
+            if errors:
+                raise CommitValidationError(
+                    [f"stored review packet {review_packet_id} invalid: {error}" for error in errors]
+                )
+        return packet
 
     def _rejected_proposals(
         self,
@@ -323,6 +341,11 @@ def _rejection(proposal_type: str, reason: str, target_ref: str) -> JsonObject:
 
 def _missing_refs(required_refs: list[str], available_refs: set[str]) -> list[str]:
     return [ref for ref in required_refs if ref not in available_refs]
+
+
+def _review_packet_evidence_refs(review_packet: JsonObject) -> set[str]:
+    refs = review_packet.get("evidence_packet", {}).get("evidence_refs", [])
+    return {ref for ref in refs if isinstance(ref, str)}
 
 
 def _commit_id(model_output: JsonObject) -> str:

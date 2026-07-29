@@ -27,6 +27,7 @@ SEED_COLLECTIONS = {
     "package": "context_packages",
     "commit": "commits",
     "source-event": "source_events",
+    "review-packet": "review_packets",
     "agent-activation": "agent_activations",
 }
 

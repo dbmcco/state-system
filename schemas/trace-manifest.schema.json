@@ -22,7 +22,7 @@
         "properties": {
           "collection": {
             "type": "string",
-            "enum": ["state", "memory", "recent", "package", "commit", "source-event", "agent-activation"]
+            "enum": ["state", "memory", "recent", "package", "commit", "source-event", "review-packet", "agent-activation"]
           },
           "path": { "type": "string" }
         }

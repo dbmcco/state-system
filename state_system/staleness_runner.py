@@ -669,7 +669,7 @@ def run_staleness_review(
             reviewed["review_packet_id"] = packet["id"]
             reviewed.setdefault("review_week", packet["review_week"])
             if output_schema is not None:
-                errors = _validate_output_deep(reviewed, output_schema)
+                errors = _validate_output_deep(reviewed, output_schema, packet=packet)
                 if errors:
                     raise StalenessOutputValidationError(errors)
             output = reviewed
@@ -696,19 +696,33 @@ def run_staleness_review(
     )
 
 
-def _validate_output_deep(output: JsonObject, schema: JsonObject) -> list[str]:
-    """Validate the top-level contract, then each entry against its $defs subschema.
+def _validate_output_deep(
+    output: JsonObject,
+    schema: JsonObject,
+    *,
+    packet: JsonObject,
+) -> list[str]:
+    """Validate output shape and packet-grounded evidence refs.
 
     The repo's ``validate_schema`` is a JSON-Schema subset that does not follow
     ``$ref``. Validating each entry against the ``$defs/entry`` subschema gives
     real per-entry contract enforcement (required/type/enum) without hand-rolled
-    checks — this is schema constraint, not heuristic judgment.
+    checks. Evidence ref checks are mechanical provenance checks against the
+    packet finding allowlist, not semantic judgment.
     """
     errors = list(validate_schema(output, schema))
     entry_schema = schema.get("$defs", {}).get("entry")
+    finding_evidence_refs = _finding_evidence_refs_by_scope(packet)
     if isinstance(entry_schema, dict):
         for index, entry in enumerate(output.get("entries", [])):
             errors.extend(validate_schema(entry, entry_schema, f"$.entries[{index}]"))
+            scope_key = entry.get("scope_key")
+            allowed_refs = finding_evidence_refs.get(scope_key, set())
+            missing_refs = _ungrounded_refs(entry.get("evidence_refs", []), allowed_refs)
+            for ref in missing_refs:
+                errors.append(
+                    f"$.entries[{index}].evidence_refs: evidence ref not in review packet allowlist: {ref}"
+                )
     proposal_schema = schema.get("$defs", {}).get("demote_proposal")
     if isinstance(proposal_schema, dict):
         for index, proposal in enumerate(output.get("demote_proposals", [])):
@@ -716,9 +730,24 @@ def _validate_output_deep(output: JsonObject, schema: JsonObject) -> list[str]:
     return errors
 
 
+def _finding_evidence_refs_by_scope(packet: JsonObject) -> dict[str, set[str]]:
+    return {
+        str(finding.get("scope_key")): {
+            ref for ref in finding.get("evidence_refs", []) if isinstance(ref, str)
+        }
+        for finding in packet.get("findings", [])
+    }
+
+
+def _ungrounded_refs(refs: object, allowed_refs: set[str]) -> list[str]:
+    if not isinstance(refs, list):
+        return []
+    return [ref for ref in refs if isinstance(ref, str) and ref not in allowed_refs]
+
+
 class StalenessOutputValidationError(ValueError):
     def __init__(self, errors: list[str]):
-        super().__init__("staleness review output validation failed")
+        super().__init__("staleness review output validation failed: " + "; ".join(errors))
         self.errors = tuple(errors)
 
 

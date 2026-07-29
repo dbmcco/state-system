@@ -331,6 +331,20 @@ def validate_schema(document: Any, schema: JsonObject, path: str = "$") -> list[
                 errors.extend(validate_schema(document[key], subschema, f"{path}.{key}"))
 
     if isinstance(document, list):
+        min_items = schema.get("minItems")
+        if isinstance(min_items, int) and len(document) < min_items:
+            errors.append(
+                f"{path}: minItems {min_items} violated by {len(document)} item(s)"
+            )
+
+        if schema.get("uniqueItems") is True:
+            seen: list[Any] = []
+            for item in document:
+                if item in seen:
+                    errors.append(f"{path}: uniqueItems violated by duplicate {item!r}")
+                    break
+                seen.append(item)
+
         item_schema = schema.get("items")
         if isinstance(item_schema, dict):
             for index, item in enumerate(document):

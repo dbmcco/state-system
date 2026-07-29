@@ -19,6 +19,10 @@
     {
       "collection": "package",
       "path": "examples/maya-southern-abrasives-opportunity-context-package.json"
+    },
+    {
+      "collection": "review-packet",
+      "path": "examples/maya-southern-abrasives-opportunity-review-packet.json"
     }
   ],
   "commit": {
