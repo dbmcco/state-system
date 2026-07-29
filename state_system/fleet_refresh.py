@@ -276,6 +276,7 @@ def _refresh_instance(
         as_of=parse_instant(checked_at),
         reviewer=reviewer,
     )
+    strategic_staleness = _strategic_staleness_summary(staleness_path)
     understanding = build_instance_understanding_surface_read_model(stores)
     understanding_path = _write_read_model(
         state_root,
@@ -322,9 +323,24 @@ def _refresh_instance(
             "instance_agent_package": str(package_read_model_path),
             "strategic_staleness": str(staleness_path),
         },
+        "strategic_staleness": strategic_staleness,
         "package_path": str(package_path),
         "source_status_counts": source_counts,
         "source_gap_refs": source_gap_refs,
+    }
+
+
+def _strategic_staleness_summary(read_model_path: Path) -> JsonObject:
+    read_model = load_json(read_model_path)
+    return {
+        "status": read_model.get("status", "unknown"),
+        "review_status": read_model.get("review_status", "unknown"),
+        "status_reason": read_model.get("status_reason", ""),
+        "read_model_path": str(read_model_path),
+        "entry_count": read_model.get("entry_count"),
+        "entity_judgment_count": read_model.get("entity_judgment_count"),
+        "finding_count": read_model.get("finding_count"),
+        "entity_finding_count": read_model.get("entity_finding_count"),
     }
 
 

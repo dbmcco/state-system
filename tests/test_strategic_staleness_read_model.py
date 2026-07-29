@@ -58,6 +58,53 @@ class StrategicStalenessReadModelShellTests(unittest.TestCase):
         self.assertIn("folio:ecs-note", judgment["evidence_refs"])
         self.assertIn("nl_question", judgment)
 
+    def test_empty_review_output_keeps_expired_ecs_card_visible_as_gap(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            ecs_dir = state_root / "state" / "entity-current-state"
+            ecs_dir.mkdir(parents=True)
+            ecs_dir.joinpath(
+                "entity_current_state.venture.cyrcle.2026-06-18T13-14-00Z.json"
+            ).write_text(json.dumps(_entity_current_state()), encoding="utf-8")
+
+            out_path = refresh_strategic_staleness_read_model(
+                state_root,
+                as_of=AS_OF,
+                reviewer=_EmptyReviewer(),
+            )
+            read_model = json.loads(out_path.read_text(encoding="utf-8"))
+
+        self.assertEqual("awaiting_model_review", read_model["review_status"])
+        self.assertEqual(0, read_model["entry_count"])
+        self.assertEqual(0, read_model["entity_judgment_count"])
+        self.assertEqual(1, read_model["finding_count"])
+        self.assertEqual(1, read_model["entity_finding_count"])
+        self.assertIn("venture.cyrcle", read_model["latest_by_entity_id"])
+        judgment = read_model["latest_by_entity_id"]["venture.cyrcle"]
+        self.assertEqual("awaiting_model_review", judgment["review_status"])
+        self.assertIn("review_returned_no_entity_judgments", judgment["gaps"])
+
+
+class _EmptyReviewer:
+    def review(self, packet: dict) -> dict:
+        return {
+            "id": "strategic_review_output.empty",
+            "review_packet_id": packet["id"],
+            "created_at": "2026-06-25T12:00:00Z",
+            "review_week": "2026-W26",
+            "decision": "surface_decisions",
+            "observations": [],
+            "entries": [],
+            "uncertainty": [],
+            "auto_revise_enabled": False,
+            "review_signal": {
+                "id": "review_signal.empty",
+                "status": "surface_decisions",
+                "created_at": "2026-06-25T12:00:00Z",
+                "trigger_ref": packet["id"],
+            },
+        }
+
 
 if __name__ == "__main__":
     unittest.main()

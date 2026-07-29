@@ -31,10 +31,12 @@ python3 -m state_system.cli \
 - Rebuilds and exports the CLI-facing instance agent package.
 - Generates a per-instance strategic-staleness read model from entity-current-state
   cards. When no live reviewer is wired, expired cards are surfaced as
-  `awaiting_model_review` gaps rather than a healthy-looking empty shell.
+  `awaiting_model_review` gaps; an empty projection is marked
+  `no_reviewable_findings` rather than presented as a healthy review.
 - Optionally runs package pressure over the refreshed package set.
 - Writes a fleet report with package paths, source status counts, source gap
-  refs, adapter command results, pressure results, and strategic-staleness paths.
+  refs, adapter command results, pressure results, and strategic-staleness paths
+  plus each instance's strategic-staleness `review_status` and `status_reason`.
 
 ## Multi-root entity-current-state wiring
 
@@ -78,8 +80,10 @@ read model carries one entry per `entity_id`:
   `review_packet_id`).
 - If no reviewer is wired, expired ECS cards are emitted with
   `review_status: awaiting_model_review`, `validity_window_exceeded: true`,
-  the declared `stale_after`, and evidence refs. This is an explicit gap,
-  not a claim that the content is healthy.
+  the declared `stale_after`, and evidence refs. If there are no reviewable ECS
+  findings, the top-level read model is marked
+  `review_status: no_reviewable_findings`. Both cases are explicit status
+  outputs, not claims that the content is healthy.
 
 To replay recorded model judgments during a refresh:
 

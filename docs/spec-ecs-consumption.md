@@ -64,6 +64,13 @@ The full design document with phases, rollback, and risks lives at
 
 ```json
 {
+  "status": "reviewed_with_entity_judgments",
+  "review_status": "reviewed",
+  "status_reason": "Model review output contained entity-current-state judgments.",
+  "reviewed_at": "<ISO, mapped from output created_at>",
+  "review_packet_id": "...",
+  "entry_count": 1,
+  "entity_judgment_count": 1,
   "latest_by_entity_id": {
     "<entity_id>": {
       "entity_id": "...",
@@ -87,6 +94,18 @@ The full design document with phases, rollback, and risks lives at
   reinterpreting a model judgment.
 - `nl_question` is included (a required model-owned field).
 - `reviewed_at` maps from the runner output's `created_at` / `review_signal.created_at`.
+- Top-level `status`, `review_status`, and `status_reason` are required so an
+  empty projection cannot be mistaken for a healthy review. Status values are:
+  `reviewed_with_entity_judgments`, `reviewed_no_entity_judgments`,
+  `awaiting_model_review`, `awaiting_model_review_no_entity_findings`, and
+  `no_reviewable_findings`. `review_status: no_reviewable_findings` means no
+  expired/entity-current-state findings surfaced. `review_status:
+  awaiting_model_review` means findings remain visible as explicit gaps. If a
+  reviewer returns no entity judgments for surfaced ECS findings, the runner
+  keeps those findings visible as `awaiting_model_review` with
+  `review_returned_no_entity_judgments` gaps rather than emitting a
+  reviewed-empty shell. The fleet report carries the read model's strategic
+  staleness status under each instance's `strategic_staleness` block.
 - Only entity-current-state entries carry `entity_id` (enriched by
   `_enrich_entries_with_entity_id`, `strategic_staleness.py:724`). Non-entity
   entries are excluded from `latest_by_entity_id` (deferred to the scope_key index).

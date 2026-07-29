@@ -9,7 +9,7 @@ The State System product repo has a tested live and scheduled content-staleness 
 ## Acceptance Criteria
 
 - LiveStalenessReviewer and LiveStrategicReviewer no longer raise NotImplementedError for the supported live review path and have unit coverage for success, stale, failed, unknown, and empty-source cases.
-- A scheduled or fleet-refresh-integrated staleness runner writes non-empty strategic-staleness read models when review inputs exist and writes explicit gap records when inputs are absent.
+- A scheduled or fleet-refresh-integrated staleness runner writes non-empty strategic-staleness read models when review inputs exist and writes explicit gap records when inputs are absent; an empty strategic-staleness projection carries top-level `review_status: no_reviewable_findings` rather than appearing as a healthy review.
 - Company understanding surfaces cannot claim all sources are fresh, passed, or ready when instance freshness says stale; they either regenerate on fleet-refresh cadence or carry a hard visible staleness banner.
 - Inspect and report surfaces expose process health separately from content health, with tests proving a successful process run can still report stale content.
 - Connector freshness records clearly distinguish remote HEAD, local checkout, sync index, remote corpus, probe-only, latest indexed timestamp, and latest observed source timestamp.

@@ -104,14 +104,22 @@ class FleetRefreshTests(unittest.TestCase):
             )
             self.assertTrue((state_root / "fleet-refresh" / "fleet-refresh-report.json").exists())
             # the strategic-staleness read model is produced on every refresh
-            # (honest empty until a reviewer is wired) so agents always have a
-            # current projection to read
-            self.assertTrue(
-                (
-                    state_root
-                    / "strategic-staleness"
-                    / "strategic-staleness-read-model.json"
-                ).exists()
+            # with explicit review metadata, so an empty projection cannot look
+            # like a successful healthy content review.
+            strategic_read_model_path = (
+                state_root
+                / "strategic-staleness"
+                / "strategic-staleness-read-model.json"
+            )
+            self.assertTrue(strategic_read_model_path.exists())
+            strategic_read_model = load_json(strategic_read_model_path)
+            self.assertEqual(
+                "no_reviewable_findings",
+                strategic_read_model["review_status"],
+            )
+            self.assertEqual(
+                "no_reviewable_findings",
+                instance["strategic_staleness"]["review_status"],
             )
             self.assertIn(
                 "strategic_staleness", instance["read_model_paths"]

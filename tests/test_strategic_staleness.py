@@ -23,6 +23,7 @@ from state_system.strategic_staleness import (
     StrategicOutputValidationError,
     build_strategic_review_packet,
     build_strategic_staleness_read_model,
+    build_strategic_staleness_read_model_from_findings,
     gather_strategic_findings,
     load_strategic_schemas,
     refresh_strategic_staleness_read_model,
@@ -848,9 +849,11 @@ class StrategicStalenessReadModelTests(unittest.TestCase):
         self.assertEqual(result.output["created_at"], judgment["reviewed_at"])
         self.assertEqual(result.output["review_packet_id"], judgment["review_packet_id"])
 
-    def test_read_model_excludes_non_entity_judgments(self):
+    def test_read_model_excludes_non_entity_judgments_but_declares_reviewed_status(self):
         # company_memory claims have no entity_id; they must not appear in the
-        # entity-keyed read model (deferred to a future scope_key index).
+        # entity-keyed read model (deferred to a future scope_key index). The
+        # empty entity index is still explicit about having reviewed model output
+        # so it cannot be misread as a healthy no-op shell.
         result = run_strategic_review(
             company_memory_docs=[(_company_memory(), "company_memory.acme")],
             as_of=AS_OF,
@@ -861,6 +864,36 @@ class StrategicStalenessReadModelTests(unittest.TestCase):
         self.assertTrue(result.judgments_present)
         read_model = build_strategic_staleness_read_model(result.output)
         self.assertEqual({}, read_model["latest_by_entity_id"])
+        self.assertEqual("reviewed_no_entity_judgments", read_model["review_status"])
+        self.assertEqual("reviewed_no_entity_judgments", read_model["status"])
+
+    def test_empty_unreviewed_read_model_declares_no_reviewable_findings(self):
+        read_model = build_strategic_staleness_read_model_from_findings([])
+
+        self.assertEqual({}, read_model["latest_by_entity_id"])
+        self.assertEqual("no_reviewable_findings", read_model["review_status"])
+        self.assertEqual("no_reviewable_findings", read_model["status"])
+        self.assertIn("No entity-current-state findings", read_model["status_reason"])
+        self.assertIsNone(read_model["reviewed_at"])
+        self.assertIsNone(read_model["review_packet_id"])
+        self.assertEqual(0, read_model["entry_count"])
+        self.assertEqual(0, read_model["entity_judgment_count"])
+
+    def test_non_entity_unreviewed_findings_are_explicitly_not_joinable(self):
+        read_model = build_strategic_staleness_read_model_from_findings(
+            [
+                {
+                    "scope_key": "company.acme|company_mission",
+                    "claim_kind": "company_mission",
+                    "evidence_refs": ["ev.acme"],
+                }
+            ]
+        )
+
+        self.assertEqual({}, read_model["latest_by_entity_id"])
+        self.assertEqual("awaiting_model_review", read_model["review_status"])
+        self.assertEqual("awaiting_model_review_no_entity_findings", read_model["status"])
+        self.assertIn("none are entity-current-state", read_model["status_reason"])
 
     def test_code_never_assigns_a_semantic_field(self):
         # boundary guard: the emitter source must not hardcode any model-owned
