@@ -156,6 +156,27 @@ class InstanceSourceFreshnessTests(unittest.TestCase):
                     }
                 )
 
+    def test_record_rejects_source_content_with_event_only_watermark(self):
+        with TemporaryDirectory() as directory:
+            runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
+
+            with self.assertRaisesRegex(ValueError, "source_content.*latest_source_modified_at"):
+                runtime.record(
+                    {
+                        "instance_ref": "state_instance.sample_personal",
+                        "connector_ref": "connector.personal.msgvault",
+                        "source_ref": "msgvault:tenant:personal-email",
+                        "connector_type": "msgvault",
+                        "status": "stale",
+                        "checked_at": "2026-05-17T10:15:00Z",
+                        "source_watermark": "msgvault.latest_sent_at:2026-05-17T10:12:00Z",
+                        "stale_after": "2026-05-17T10:30:00Z",
+                        "watermark_basis": "source_content",
+                        "latest_source_event_at": "2026-05-17T10:12:00Z",
+                        "status_reason": "event time alone is ambiguous for a source_content watermark",
+                    }
+                )
+
     def test_record_rejects_package_generation_marked_fresh(self):
         with TemporaryDirectory() as directory:
             runtime = InstanceSourceFreshnessRuntime(StateStoreBundle(Path(directory)))
