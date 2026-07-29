@@ -11,6 +11,7 @@ from state_system.fleet_refresh import (
     check_fleet_refresh_report_age,
     run_fleet_refresh,
 )
+from state_system.reporting import render_report_suite_html
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -129,6 +130,90 @@ class FleetRefreshReportAgeCanaryTests(unittest.TestCase):
         self.assertEqual(canary["report_checked_at"], "2026-07-29T20:00:00Z")
         # The on-disk artifact path is stamped once the report is written.
         self.assertTrue(str(canary["report_ref"]).endswith("fleet-refresh-report.json"))
+
+    def test_report_suite_html_exposes_canary_status(self) -> None:
+        html = render_report_suite_html(
+            {
+                "id": "report.suite",
+                "title": "State System Report Suite",
+                "status": "passed",
+                "process_health": {"status": "passed"},
+                "content_health": {"status": "fresh", "staleness_banner": ""},
+                "report_age_canary": {
+                    "status": "fail",
+                    "reason": "over_age",
+                    "age_seconds": 7200,
+                    "ttl_seconds": 3600,
+                    "report_checked_at": "2026-07-29T18:00:00Z",
+                    "report_ref": "/tmp/fleet-refresh-report.json",
+                },
+                "output_dir": "/tmp/report-suite",
+                "reports": [
+                    {
+                        "id": "fleet-refresh",
+                        "title": "Fleet Refresh",
+                        "status": "passed",
+                        "process_health": {"status": "passed"},
+                        "content_health": {"status": "fresh", "staleness_banner": ""},
+                        "report_age_canary": {
+                            "status": "pass",
+                            "reason": "fresh",
+                            "report_ref": "/tmp/fleet-refresh-report.json",
+                        },
+                        "report_path": "/tmp/report-suite/fleet-refresh/index.html",
+                        "raw_artifact_refs": ["/tmp/fleet-refresh-report.json"],
+                        "summary": "Fleet report.",
+                    }
+                ],
+            }
+        )
+
+        self.assertIn("Canary", html)
+        self.assertIn("Canary status", html)
+        self.assertIn("fail", html)
+        self.assertIn("over_age", html)
+        self.assertIn("7200", html)
+        self.assertIn("/tmp/fleet-refresh-report.json", html)
+
+    def test_report_suite_html_explains_missing_content_health_gap_refs(self) -> None:
+        html = render_report_suite_html(
+            {
+                "id": "report.suite",
+                "title": "State System Report Suite",
+                "status": "passed",
+                "process_health": {"status": "passed"},
+                "content_health": {
+                    "status": "stale",
+                    "staleness_banner": "HARD STALENESS BANNER: content health is stale; disclose freshness gaps.",
+                    "source_gap_refs": [],
+                    "evidence_refs": [],
+                    "expired_freshness_refs": [],
+                },
+                "output_dir": "/tmp/report-suite",
+                "reports": [
+                    {
+                        "id": "app-integrations",
+                        "title": "App Integration Report",
+                        "status": "passed",
+                        "process_health": {"status": "passed"},
+                        "content_health": {
+                            "status": "unknown",
+                            "staleness_banner": "HARD STALENESS BANNER: content health is unknown; disclose freshness gaps.",
+                            "source_gap_refs": [],
+                            "evidence_refs": [],
+                            "expired_freshness_refs": [],
+                        },
+                        "report_path": "/tmp/report-suite/app-integrations/index.html",
+                        "raw_artifact_refs": ["/tmp/report-suite/app-integrations/index.html"],
+                        "summary": "Fixture-backed report.",
+                    }
+                ],
+            }
+        )
+
+        self.assertIn("source gap refs", html)
+        self.assertIn("No source gap refs were provided", html)
+        self.assertIn("No evidence refs were provided", html)
 
 
 class FleetRefreshManifestSchemaTests(unittest.TestCase):

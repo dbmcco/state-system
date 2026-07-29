@@ -223,6 +223,8 @@ def render_report_suite_html(report: JsonObject) -> str:
             f"<p>Process health: <code>{escape(str(report.get('process_health', {}).get('status', report['status'])))}</code></p>",
             f"<p>Content health: <code>{escape(str(report.get('content_health', {}).get('status', 'unknown')))}</code></p>",
             _banner_block(str(report.get("content_health", {}).get("staleness_banner", ""))),
+            _content_health_refs_block(report.get("content_health", {})),
+            _canary_block(report.get("report_age_canary"), subject="suite"),
             f"<p>Output directory: <code>{escape(str(report['output_dir']))}</code></p>",
             "<p>Machine-readable suite: <a href=\"report-suite.json\">report-suite.json</a></p>",
             "</section>",
@@ -540,6 +542,8 @@ def _report_suite_card(entry: JsonObject) -> str:
             f"<p>Process health: <code>{escape(str(entry.get('process_health', {}).get('status', entry['status'])))}</code></p>",
             f"<p>Content health: <code>{escape(str(entry.get('content_health', {}).get('status', 'unknown')))}</code></p>",
             _banner_block(str(entry.get("content_health", {}).get("staleness_banner", ""))),
+            _content_health_refs_block(entry.get("content_health", {})),
+            _canary_block(entry.get("report_age_canary"), subject="report"),
             f"<p>{escape(str(entry['summary']))}</p>",
             f"<p><a href=\"{escape(link_path)}\">Open report</a></p>",
             f"<p><code>{escape(str(path))}</code></p>",
@@ -596,6 +600,90 @@ def _banner_block(message: str) -> str:
     if not message:
         return ""
     return f"<p class=\"hold\"><strong>{escape(message)}</strong></p>"
+
+
+def _content_health_refs_block(health: object) -> str:
+    if not isinstance(health, dict):
+        return ""
+    source_gap_refs = [str(ref) for ref in health.get("source_gap_refs", []) if ref]
+    evidence_refs = [str(ref) for ref in health.get("evidence_refs", []) if ref]
+    expired_refs = [str(ref) for ref in health.get("expired_freshness_refs", []) if ref]
+    needs_disclosure = str(health.get("status", "unknown")) in {"unknown", "stale", "failed"} or bool(
+        health.get("requires_refresh_before_external_action")
+    )
+    if not needs_disclosure and not (source_gap_refs or evidence_refs or expired_refs):
+        return ""
+    return "\n".join(
+        [
+            "<div>",
+            "<h3>Content health refs</h3>",
+            "<ul>",
+            _refs_item(
+                "source gap refs",
+                source_gap_refs,
+                empty_text="No source gap refs were provided.",
+            ),
+            _refs_item(
+                "evidence refs",
+                evidence_refs,
+                empty_text="No evidence refs were provided.",
+            ),
+            _refs_item(
+                "expired freshness refs",
+                expired_refs,
+                empty_text="No expired freshness refs were provided.",
+            ),
+            "</ul>",
+            "</div>",
+        ]
+    )
+
+
+def _canary_block(canary: object, *, subject: str) -> str:
+    if not isinstance(canary, dict):
+        return "\n".join(
+            [
+                "<div>",
+                "<h3>Canary</h3>",
+                f"<p>Canary status: no report-age canary was provided for this {escape(subject)}.</p>",
+                "</div>",
+            ]
+        )
+    status = str(canary.get("status", "unknown"))
+    status_class = "failed" if status == "fail" else "passed" if status == "pass" else ""
+    return "\n".join(
+        [
+            "<div>",
+            "<h3>Canary</h3>",
+            "<ul>",
+            _status_item("Canary status", status, status_class),
+            _optional_item("Reason", canary.get("reason")),
+            _optional_item("Age seconds", canary.get("age_seconds")),
+            _optional_item("TTL seconds", canary.get("ttl_seconds")),
+            _optional_item("Report checked at", canary.get("report_checked_at")),
+            _optional_item("Report ref", canary.get("report_ref")),
+            "</ul>",
+            "</div>",
+        ]
+    )
+
+
+def _refs_item(label: str, refs: list[str], *, empty_text: str) -> str:
+    if not refs:
+        return f"<li><strong>{escape(label)}</strong>: {escape(empty_text)}</li>"
+    joined = ", ".join(f"<code>{escape(ref)}</code>" for ref in refs)
+    return f"<li><strong>{escape(label)}</strong>: {joined}</li>"
+
+
+def _status_item(label: str, value: str, class_name: str = "") -> str:
+    class_attr = f" class=\"{class_name}\"" if class_name else ""
+    return f"<li><strong>{escape(label)}</strong>: <span{class_attr}>{escape(value)}</span></li>"
+
+
+def _optional_item(label: str, value: object) -> str:
+    if value in (None, ""):
+        return ""
+    return f"<li><strong>{escape(label)}</strong>: <code>{escape(str(value))}</code></li>"
 
 
 def _metric(label: str, value: object, class_name: str = "") -> str:

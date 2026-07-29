@@ -128,6 +128,13 @@ python3 -m state_system.cli --project-root /path/to/state-system \
 - `status=failed`: at least one required adapter failed.
 - `source_status_counts`: grouped as `access|freshness|understanding`.
 - `source_gap_refs`: the gaps agents must caveat before answering.
+- `report_age_canary`: the report-age canary status, reason, TTL, and report ref.
+  The generated report-suite HTML should show the canary status directly; operators
+  should not need to inspect raw JSON to see a canary failure or an absent canary.
+- Report-suite content health cards should list `source_gap_refs`, evidence refs,
+  and expired freshness refs when provided. If a stale or unknown card has no gap
+  refs, the HTML should explicitly say no source gap refs or evidence refs were
+  provided so the absence is not mistaken for freshness.
 
 ## Durable Scheduler Safety
 
