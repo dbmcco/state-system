@@ -704,24 +704,32 @@ class RecordedStrategicReviewer:
 class LiveStrategicReviewer:
     """Production hook: resolve a model route through the central registry.
 
-    NOT wired this build phase. The contract is documented here so the
-    production path is explicit: build the packet, resolve the route +
-    credential alias from the central registry, call the model with the packet
-    (the model may read the cited operating docs), validate its output against
-    ``strategic-review-output.schema.json``, and return it. Code never
-    substitutes a heuristic when the model is unavailable.
+    The supported live path is an injected ``model_client`` implementing
+    ``review(registry_route=..., packet=..., schema_ref=...)``. The caller
+    supplies the client so this module stays free of credential and routing
+    details. Code never substitutes a heuristic when the model is unavailable.
+
+    A configuration with no injected client is explicitly unsupported and
+    raises NotImplementedError.
     """
 
-    def __init__(self, *, registry_route: str):
+    def __init__(self, *, registry_route: str, model_client: object | None = None):
         self.registry_route = registry_route
+        self.model_client = model_client
 
-    def review(self, packet: JsonObject) -> JsonObject:  # pragma: no cover - not wired
-        raise NotImplementedError(
-            "Live strategic review is not wired this build phase. Resolve route "
-            f"'{self.registry_route}' through the central registry, call the model "
-            "with the packet (it may read the cited operating docs), and validate "
-            "its output against strategic-review-output.schema.json. Use the "
-            "recorded reviewer for dry-runs."
+    def review(self, packet: JsonObject) -> JsonObject:
+        if self.model_client is None:
+            raise NotImplementedError(
+                "Live strategic review requires an injected model_client. "
+                f"Resolve route '{self.registry_route}' through the central registry, "
+                "call the model with the packet (it may read the cited operating docs), "
+                "and validate its output against strategic-review-output.schema.json. "
+                "Use the recorded reviewer for dry-runs."
+            )
+        return self.model_client.review(
+            registry_route=self.registry_route,
+            packet=packet,
+            schema_ref="strategic-review-output.schema.json",
         )
 
 
@@ -1194,6 +1202,10 @@ def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
     Only entity-current-state entries carry an ``entity_id`` (enriched by
     ``_enrich_entries_with_entity_id``). Non-entity judgments are excluded —
     they are not joinable to ECS cards and belong to a future scope_key index.
+
+    Each emitted judgment also carries a ``status`` field for consumers that
+    need a uniform health key, and a ``content_health_result`` summarizing the
+    model's recommended action.
     """
     created_at = output.get("created_at")
     packet_id = output.get("review_packet_id")
@@ -1204,6 +1216,8 @@ def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
             continue  # non-entity judgment — excluded (deferred scope_key index)
         latest_by_entity_id[entity_id] = {
             "entity_id": entity_id,
+            "status": entry.get("classification"),
+            "content_health_result": entry.get("recommended_action"),
             "classification": entry.get("classification"),
             "recommended_action": entry.get("recommended_action"),
             "confidence": entry.get("confidence"),
@@ -1211,8 +1225,56 @@ def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
             "nl_question": entry.get("nl_question"),
             "reviewed_at": created_at,
             "review_packet_id": packet_id,
+            "evidence_refs": list(entry.get("evidence_refs", [])),
         }
     return {"latest_by_entity_id": latest_by_entity_id}
+
+
+def build_strategic_staleness_read_model_from_findings(
+    findings: list[JsonObject],
+) -> JsonObject:
+    """Project unreviewed strategic findings into an explicit-gap read model.
+
+    When no live reviewer is wired, an expired entity-current-state card must
+    still be visible as an explicit gap rather than a healthy empty shell. Each
+    entry is marked ``review_status: awaiting_model_review`` and carries the
+    objective evidence the reviewer would use (claim kind, validity window,
+    stale-after, evidence refs, and a plain-language question placeholder).
+    """
+    latest_by_entity_id: dict[str, JsonObject] = {}
+    for finding in findings:
+        entity_id = finding.get("entity_id")
+        if not entity_id:
+            continue
+        latest_by_entity_id[entity_id] = {
+            "entity_id": entity_id,
+            "status": "awaiting_model_review",
+            "review_status": "awaiting_model_review",
+            "content_health_result": finding.get("claim_kind"),
+            "claim_kind": finding.get("claim_kind"),
+            "validity_window_exceeded": bool(finding.get("validity_window_exceeded")),
+            "declared_stale_after": finding.get("declared_stale_after"),
+            "last_validated_at": finding.get("last_validated_at"),
+            "age_days": finding.get("age_days"),
+            "evidence_refs": list(finding.get("evidence_refs", [])),
+            "nl_question": "This strategic claim has surfaced for review but no model judgment is available yet.",
+            "source_doc_ref": finding.get("source_doc_ref"),
+            "gaps": ["missing_live_review"],
+        }
+    return {"latest_by_entity_id": latest_by_entity_id}
+
+
+def write_strategic_staleness_read_model_payload(
+    read_model: JsonObject, *, out_path: Path
+) -> Path:
+    """Materialize a pre-built per-entity staleness read model to a JSON file.
+
+    Mirrors how ``source-freshness-read-model.json`` is materialized by the
+    fleet-refresh daemon. Returns the written path.
+    """
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(read_model, indent=2, sort_keys=True) + "\n")
+    return out_path
 
 
 def write_strategic_staleness_read_model(
@@ -1220,13 +1282,12 @@ def write_strategic_staleness_read_model(
 ) -> Path:
     """Materialize the per-entity staleness read model to a JSON file.
 
-    Mirrors how ``source-freshness-read-model.json`` is materialized by the
-    fleet-refresh daemon. Returns the written path.
+    ``output`` is a strategic-review output dict (with ``entries``). To write
+    an already-projected read model dict (with ``latest_by_entity_id``), use
+    :func:`write_strategic_staleness_read_model_payload`.
     """
     read_model = build_strategic_staleness_read_model(output)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(read_model, indent=2, sort_keys=True) + "\n")
-    return out_path
+    return write_strategic_staleness_read_model_payload(read_model, out_path=out_path)
 
 
 def refresh_strategic_staleness_read_model(
@@ -1246,18 +1307,23 @@ def refresh_strategic_staleness_read_model(
     ``strategic-staleness-read-model.json``. Division of ownership is unchanged:
     code owns load + run + write; the reviewer owns every judgment.
 
-    ``reviewer`` is injected rather than constructed here so this stays free of
-    any live-model dependency. When ``reviewer`` is None (no live reviewer wired
-    yet) the step short-circuits the run and writes an honest EMPTY read model —
-    the file exists for consumers to read, with no fabricated judgment. When a
-    reviewer is wired the read model populates automatically.
+    When ``reviewer`` is None or no live reviewer is wired, expired ECS cards
+    are still surfaced as ``awaiting_model_review`` entries rather than a
+    healthy-looking empty shell. Code never fabricates model judgment.
     """
     ecs_dir = state_root / ecs_records_subdir
     ecs_files = (
         sorted(ecs_dir.glob("entity_current_state.*.json")) if ecs_dir.is_dir() else []
     )
+    findings: list[JsonObject] = []
+    if ecs_files:
+        findings = gather_strategic_findings(
+            entity_current_state_files=ecs_files,
+            as_of=as_of,
+        )
+
     output: JsonObject | None = None
-    if reviewer is not None and ecs_files:
+    if reviewer is not None and findings:
         result = run_strategic_review(
             entity_current_state_files=ecs_files,
             as_of=as_of,
@@ -1266,6 +1332,11 @@ def refresh_strategic_staleness_read_model(
             packet_schema=None,
         )
         output = result.output
-    payload = output if output is not None else {"entries": []}
+
+    if output is not None:
+        read_model = build_strategic_staleness_read_model(output)
+    else:
+        read_model = build_strategic_staleness_read_model_from_findings(findings)
+
     out_path = state_root / output_dir / "strategic-staleness-read-model.json"
-    return write_strategic_staleness_read_model(payload, out_path=out_path)
+    return write_strategic_staleness_read_model_payload(read_model, out_path=out_path)

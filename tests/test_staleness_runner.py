@@ -206,6 +206,160 @@ class AutoDemoteGateTests(unittest.TestCase):
         self.assertEqual(["e1"], proposals[0]["evidence_refs"])
 
 
+class RecordedReviewerResolutionTests(unittest.TestCase):
+    """The recorded staleness reviewer must replay judgments deterministically
+    across week boundaries and scopes without silently degrading or inflating
+    the result."""
+
+    def _reviewer(self, outputs: dict) -> RecordedStalenessReviewer:
+        return RecordedStalenessReviewer(outputs_by_packet_id=outputs)
+
+    def test_resolve_exact_match_wins(self):
+        reviewer = self._reviewer(
+            {
+                "staleness_review_packet.all.2026-W25": {"review_packet_id": "p25"},
+                "staleness_review_packet.all.2026-W26": {"review_packet_id": "p26"},
+            }
+        )
+        self.assertEqual(
+            "staleness_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("staleness_review_packet.all.2026-W26"),
+        )
+
+    def test_resolve_same_scope_previous_week_fallback(self):
+        reviewer = self._reviewer(
+            {
+                "staleness_review_packet.all.2026-W25": {"review_packet_id": "p25"},
+                "staleness_review_packet.all.2026-W26": {"review_packet_id": "p26"},
+            }
+        )
+        self.assertEqual(
+            "staleness_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("staleness_review_packet.all.2026-W27"),
+        )
+
+    def test_resolve_never_pulls_future_recording_backward(self):
+        reviewer = self._reviewer(
+            {
+                "staleness_review_packet.all.2026-W25": {"review_packet_id": "p25"},
+                "staleness_review_packet.all.2026-W27": {"review_packet_id": "p27"},
+            }
+        )
+        # Requesting W26: only the W25 (past) recording is eligible.
+        self.assertEqual(
+            "staleness_review_packet.all.2026-W25",
+            reviewer.resolve_recording_key("staleness_review_packet.all.2026-W26"),
+        )
+
+    def test_resolve_falls_back_to_all_scope_when_no_same_scope(self):
+        reviewer = self._reviewer(
+            {
+                "staleness_review_packet.navicyte.2026-W26": {"review_packet_id": "nav"},
+                "staleness_review_packet.all.2026-W26": {"review_packet_id": "all"},
+            }
+        )
+        # exact match for navicyte
+        self.assertEqual(
+            "staleness_review_packet.navicyte.2026-W26",
+            reviewer.resolve_recording_key("staleness_review_packet.navicyte.2026-W26"),
+        )
+        # no lfw recording, fall back to all
+        self.assertEqual(
+            "staleness_review_packet.all.2026-W26",
+            reviewer.resolve_recording_key("staleness_review_packet.lfw.2026-W26"),
+        )
+
+    def test_review_filters_broader_recording_to_packet_findings(self):
+        output = {
+            "id": "staleness_review_output.all.2026-W26",
+            "review_packet_id": "staleness_review_packet.all.2026-W26",
+            "created_at": "2026-06-25T12:00:00Z",
+            "review_week": "2026-W26",
+            "decision": "surface_decisions",
+            "observations": [],
+            "entries": [
+                {
+                    "scope_key": "state_instance.lfw|connector.lfw.linear|linear:lfw-engineering",
+                    "classification": "objective_stale",
+                    "recommended_action": "refresh",
+                    "confidence": 0.9,
+                    "evidence_refs": [],
+                    "nl_question": "q1",
+                },
+                {
+                    "scope_key": "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant",
+                    "classification": "uncertain",
+                    "recommended_action": "change",
+                    "confidence": 0.6,
+                    "evidence_refs": [],
+                    "nl_question": "q2",
+                },
+            ],
+            "uncertainty": [],
+            "auto_demote_enabled": False,
+            "review_signal": {
+                "id": "rs",
+                "status": "surface_decisions",
+                "created_at": "2026-06-25T12:00:00Z",
+                "trigger_ref": "t",
+            },
+        }
+        reviewer = self._reviewer(
+            {"staleness_review_packet.all.2026-W26": output}
+        )
+        packet = {
+            "id": "staleness_review_packet.navicyte.2026-W26",
+            "findings": [
+                {
+                    "scope_key": "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant"
+                }
+            ],
+        }
+        reviewed = reviewer.review(packet)
+        self.assertEqual(1, len(reviewed["entries"]))
+        self.assertEqual(
+            "state_instance.navicyte|connector.navicyte.notion|notion:navicyte-grant",
+            reviewed["entries"][0]["scope_key"],
+        )
+
+    def test_review_yields_empty_entries_when_packet_has_no_findings(self):
+        output = {
+            "id": "staleness_review_output.all.2026-W26",
+            "review_packet_id": "staleness_review_packet.all.2026-W26",
+            "created_at": "2026-06-25T12:00:00Z",
+            "review_week": "2026-W26",
+            "decision": "surface_decisions",
+            "observations": [],
+            "entries": [
+                {
+                    "scope_key": "state_instance.lfw|connector.lfw.linear|linear:lfw-engineering",
+                    "classification": "objective_stale",
+                    "recommended_action": "refresh",
+                    "confidence": 0.9,
+                    "evidence_refs": [],
+                    "nl_question": "q1",
+                }
+            ],
+            "uncertainty": [],
+            "auto_demote_enabled": False,
+            "review_signal": {
+                "id": "rs",
+                "status": "surface_decisions",
+                "created_at": "2026-06-25T12:00:00Z",
+                "trigger_ref": "t",
+            },
+        }
+        reviewer = self._reviewer(
+            {"staleness_review_packet.all.2026-W26": output}
+        )
+        packet = {
+            "id": "staleness_review_packet.empty.2026-W26",
+            "findings": [],
+        }
+        reviewed = reviewer.review(packet)
+        self.assertEqual([], reviewed["entries"])
+
+
 class MarkdownRenderTests(unittest.TestCase):
     def _run(self, **overrides):
         schemas = _schemas()
@@ -448,10 +602,10 @@ class CliDryRunTests(unittest.TestCase):
             summary = json.loads(buffer.getvalue())
         # navicyte has 1 surfaced finding (notion stale); email fresh is skipped.
         self.assertEqual(1, summary["findings"])
-        # No recorded fixture exists for the navicyte-scoped packet id, so the
-        # runner honestly surfaces evidence only rather than fabricating judgment.
-        self.assertFalse(summary["judgments_present"])
-        self.assertEqual("awaiting_review", summary["decision"])
+        # The recorded ``all`` fixture is reused for the navicyte-scoped packet,
+        # so the model judgment for that finding is present rather than
+        # degrading to evidence-only.
+        self.assertTrue(summary["judgments_present"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import io
 import os
 from pathlib import Path
 import sys
@@ -291,6 +292,41 @@ class FleetRefreshTests(unittest.TestCase):
 
             self.assertTrue(output["ok"], output)
             self.assertEqual(0, output["pressure_report"]["failed_count"])
+
+    def test_cli_rejects_live_reviewer_before_any_instance_writes(self):
+        """--reviewer live requires a programmatically injected model_client.
+
+        The CLI cannot supply one, so it must fail fast before any per-instance
+        writes (adapter commands, preflight, freshness, etc.) occur.
+        """
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            _seed_personal_state(state_root)
+            manifest_path = state_root / "fleet-refresh.json"
+            manifest = _manifest(state_root)
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            output_dir = state_root / "fleet-refresh-out"
+            output_dir.mkdir()
+            buffer = io.StringIO()
+            rc = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "fleet-refresh-run",
+                    str(manifest_path),
+                    "--reviewer",
+                    "live",
+                    "--output-dir",
+                    str(output_dir),
+                ],
+                stdout=buffer,
+            )
+            self.assertEqual(1, rc)
+            result = json.loads(buffer.getvalue())
+            self.assertFalse(result["ok"])
+            self.assertIn("model_client", result["error"])
+            # No instance outputs were written because we failed fast.
+            self.assertFalse((output_dir / "fleet-refresh-report.json").exists())
 
 
 def _seed_personal_state(state_root: Path) -> None:

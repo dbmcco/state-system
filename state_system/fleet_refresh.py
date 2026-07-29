@@ -39,6 +39,7 @@ def run_fleet_refresh(
     stale_after: str | None = None,
     output_dir: Path | None = None,
     dry_run: bool = False,
+    reviewer: Any | None = None,
 ) -> JsonObject:
     run_checked_at = checked_at or _now_utc()
     run_stale_after = stale_after or _default_stale_after(
@@ -52,6 +53,7 @@ def run_fleet_refresh(
             checked_at=run_checked_at,
             stale_after=run_stale_after,
             dry_run=dry_run,
+            reviewer=reviewer,
         )
         for instance in manifest.get("instances", [])
     ]
@@ -135,6 +137,7 @@ def _refresh_instance(
     checked_at: str,
     stale_after: str,
     dry_run: bool,
+    reviewer: Any | None = None,
 ) -> JsonObject:
     state_root = Path(config["state_root"]).expanduser()
     stores = StateStoreBundle(state_root)
@@ -185,12 +188,14 @@ def _refresh_instance(
         build_instance_source_freshness_read_model(stores),
     )
     # Strategic-staleness read model: the per-entity projection agents consume.
-    # Reviewer is None until a live reviewer is wired; until then this writes
-    # an honest empty read model so the file exists for consumers without any
-    # fabricated judgment. Code owns load/run/write; the reviewer owns judgment.
+    # Reviewer is injected from the caller (CLI, manifest, or test); when None,
+    # expired ECS cards are surfaced as explicit awaiting_model_review gaps rather
+    # than a healthy-looking empty shell. Code owns load/run/write; the reviewer
+    # owns every judgment.
     staleness_path = refresh_strategic_staleness_read_model(
         state_root,
         as_of=parse_instant(checked_at),
+        reviewer=reviewer,
     )
     understanding = build_instance_understanding_surface_read_model(stores)
     understanding_path = _write_read_model(

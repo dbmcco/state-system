@@ -1083,16 +1083,21 @@ class FleetRefreshStalenessStepTests(unittest.TestCase):
                 written["latest_by_entity_id"]["venture.cyrcle"]["confidence"], float
             )
 
-    def test_writes_honest_empty_read_model_when_no_reviewer_wired(self):
+    def test_writes_explicit_awaiting_review_read_model_when_no_reviewer_wired(self):
         with TemporaryDirectory() as tmp:
             state_root = Path(tmp)
             self._seed_ecs_card(state_root, entity_id="venture.cyrcle")
             out_path = refresh_strategic_staleness_read_model(
                 state_root, as_of=AS_OF, reviewer=None
             )
-            # honest: no reviewer -> no fabricated judgments, but the file exists
+            # honest: no reviewer -> no fabricated judgments, but expired ECS
+            # cards are still surfaced as explicit awaiting_model_review gaps.
             self.assertTrue(out_path.exists())
-            self.assertEqual({}, json.loads(out_path.read_text())["latest_by_entity_id"])
+            read_model = json.loads(out_path.read_text())
+            self.assertIn("venture.cyrcle", read_model["latest_by_entity_id"])
+            judgment = read_model["latest_by_entity_id"]["venture.cyrcle"]
+            self.assertEqual("awaiting_model_review", judgment["review_status"])
+            self.assertTrue(judgment["validity_window_exceeded"])
 
 
 if __name__ == "__main__":

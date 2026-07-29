@@ -29,9 +29,56 @@ python3 -m state_system.cli \
 - Exports instance preflight and source freshness read models.
 - Regenerates the instance understanding surface.
 - Rebuilds and exports the CLI-facing instance agent package.
+- Generates a per-instance strategic-staleness read model from entity-current-state
+  cards. When no live reviewer is wired, expired cards are surfaced as
+  `awaiting_model_review` gaps rather than a healthy-looking empty shell.
 - Optionally runs package pressure over the refreshed package set.
 - Writes a fleet report with package paths, source status counts, source gap
-  refs, adapter command results, and pressure results.
+  refs, adapter command results, pressure results, and strategic-staleness paths.
+
+## Strategic Staleness
+
+By default each instance refresh materializes
+`<state_root>/strategic-staleness/strategic-staleness-read-model.json`. The
+read model carries one entry per `entity_id`:
+
+- If a reviewer is wired, the model's judgment is carried verbatim
+  (`classification`, `recommended_action`, `confidence`, `reviewed_at`,
+  `review_packet_id`).
+- If no reviewer is wired, expired ECS cards are emitted with
+  `review_status: awaiting_model_review`, `validity_window_exceeded: true`,
+  the declared `stale_after`, and evidence refs. This is an explicit gap,
+  not a claim that the content is healthy.
+
+To replay recorded model judgments during a refresh:
+
+```bash
+python3 -m state_system.cli \
+  --project-root /path/to/state-system \
+  fleet-refresh-run /path/to/fleet-refresh.json \
+  --reviewer recorded \
+  --output-dir /tmp/state-system-fleet-refresh
+```
+
+To wire a live reviewer, supply an injected model client programmatically; the
+CLI `--reviewer live` flag is rejected before any per-instance writes because
+the CLI cannot supply a model client. Without a client the unsupported
+configuration returns an error so callers cannot accidentally fabricate judgment.
+
+The standalone scheduled runners are also deterministic inputs:
+
+```bash
+python3 -m state_system.cli --project-root /path/to/state-system \
+  staleness-review-run --reviewer recorded \
+  --freshness-dir /path/to/freshness --as-of 2026-06-25T12:00:00Z \
+  --output-dir /tmp/staleness-review
+
+python3 -m state_system.cli --project-root /path/to/state-system \
+  strategic-review-run --reviewer recorded \
+  --entity-current-state-dir /path/to/entity-current-state \
+  --as-of 2026-06-25T12:00:00Z \
+  --output-dir /tmp/strategic-staleness
+```
 
 ## What It Does Not Do
 

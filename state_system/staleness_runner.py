@@ -307,6 +307,24 @@ class MissingStalenessJudgmentError(KeyError):
     """
 
 
+def _staleness_packet_scope_week(packet_id: str) -> tuple[str | None, str | None]:
+    """Return (scope, week) from a packet id, or None if not a staleness packet.
+
+    Packet ids are ``staleness_review_packet.<scope>.<YYYY-WW>``; the week is
+    always the trailing ``.``-segment, so the scope is everything between the
+    prefix and the week. Robust to scopes that themselves contain dots.
+    YYYY-WW sorts chronologically as a string, so weeks compare correctly.
+    Used only for code-owned recording routing — not a semantic judgment.
+    """
+    if not packet_id.startswith("staleness_review_packet."):
+        return None, None
+    body = packet_id[len("staleness_review_packet.") :]
+    if "." not in body:
+        return None, None
+    scope, week = body.rsplit(".", 1)
+    return scope, week
+
+
 class RecordedStalenessReviewer:
     """Replay recorded staleness review outputs, keyed by review packet id.
 
@@ -314,6 +332,10 @@ class RecordedStalenessReviewer:
     ``reviewer.FixtureReviewer``): a recorded output represents a real model's
     judgment about a specific packet. It is the dry-run / test reviewer; it does
     not invent judgment for packets it has no recording for.
+
+    A scoped packet with no exact recording falls back to the most recent
+    same-scope recording at or before the requested week, so a judgment does
+    not silently degrade to evidence-only at every week boundary.
     """
 
     def __init__(self, outputs_by_packet_id: dict[str, JsonObject]):
@@ -329,33 +351,88 @@ class RecordedStalenessReviewer:
             outputs[output["review_packet_id"]] = output
         return cls(outputs)
 
+    def resolve_recording_key(self, packet_id: str) -> str | None:
+        """Resolve the recording key for a (possibly week-bound) packet id.
+
+        Exact match wins. Otherwise fall back to the most recent SAME-SCOPE
+        recording at or before the requested week — so a judgment made last
+        week still replays this week instead of silently degrading to
+        evidence-only, but a FUTURE recording is never pulled backward out of
+        its own week. If no same-scope recording exists, fall back to the
+        broadest ``all`` scope recording for the same week; the ``all``
+        recording contains findings across every scope and is the canonical
+        fixture when no narrower recording is present.
+        """
+        if packet_id in self.outputs_by_packet_id:
+            return packet_id
+        scope, requested_week = _staleness_packet_scope_week(packet_id)
+        if scope is None:
+            return None
+        candidates: list[str] = []
+        all_candidates: list[str] = []
+        for key in self.outputs_by_packet_id:
+            k_scope, k_week = _staleness_packet_scope_week(key)
+            if k_scope is None:
+                continue
+            if k_scope == scope:
+                if requested_week is None or k_week is None or k_week <= requested_week:
+                    candidates.append(key)
+            elif k_scope == "all":
+                if requested_week is None or k_week is None or k_week <= requested_week:
+                    all_candidates.append(key)
+        if candidates:
+            return max(candidates)
+        return max(all_candidates) if all_candidates else None
+
     def review(self, packet: JsonObject) -> JsonObject:
-        packet_id = packet["id"]
-        if packet_id not in self.outputs_by_packet_id:
-            raise MissingStalenessJudgmentError(packet_id)
-        return deepcopy(self.outputs_by_packet_id[packet_id])
+        key = self.resolve_recording_key(packet["id"])
+        if key is None:
+            raise MissingStalenessJudgmentError(packet["id"])
+        output = deepcopy(self.outputs_by_packet_id[key])
+        # When replaying a broader recording for a narrower-scoped packet, keep
+        # only entries whose scope_keys match the requested packet's findings.
+        # This preserves the model's per-finding judgments while honoring the
+        # caller's scope. If the packet has no findings, the filter yields an
+        # empty entry list rather than replaying the whole broader recording.
+        packet_scope_keys = {finding["scope_key"] for finding in packet.get("findings", [])}
+        if key != packet["id"]:
+            output["entries"] = [
+                entry
+                for entry in output.get("entries", [])
+                if entry.get("scope_key") in packet_scope_keys
+            ]
+        return output
 
 
 class LiveStalenessReviewer:
     """Production hook: resolve a model route through the central registry.
 
-    NOT wired in this build phase. The contract is documented here so the
-    production path is explicit: build the packet, resolve the route + credential
-    alias from the central registry, call the model, validate its output against
-    ``staleness-review-output.schema.json``, and return it. Code never substitutes
-    a heuristic when the model is unavailable.
+    The supported live path is an injected ``model_client`` implementing
+    ``review(registry_route=..., packet=..., schema_ref=...)``. The caller
+    supplies the client so this module stays free of credential and routing
+    details. Code never substitutes a heuristic when the model is unavailable.
+
+    A configuration with no injected client is explicitly unsupported and
+    raises NotImplementedError.
     """
 
-    def __init__(self, *, registry_route: str):
+    def __init__(self, *, registry_route: str, model_client: object | None = None):
         self.registry_route = registry_route
+        self.model_client = model_client
 
-    def review(self, packet: JsonObject) -> JsonObject:  # pragma: no cover - not wired
-        raise NotImplementedError(
-            "Live staleness review is not wired this build phase. Resolve route "
-            f"'{self.registry_route}' through the central registry, call the model "
-            "with the packet, and validate its output against "
-            "staleness-review-output.schema.json. Use the recorded reviewer for "
-            "dry-runs."
+    def review(self, packet: JsonObject) -> JsonObject:
+        if self.model_client is None:
+            raise NotImplementedError(
+                "Live staleness review requires an injected model_client. "
+                f"Resolve route '{self.registry_route}' through the central registry, "
+                "call the model with the packet, and validate its output against "
+                "staleness-review-output.schema.json. Use the recorded reviewer for "
+                "dry-runs."
+            )
+        return self.model_client.review(
+            registry_route=self.registry_route,
+            packet=packet,
+            schema_ref="staleness-review-output.schema.json",
         )
 
 

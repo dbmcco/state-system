@@ -1091,6 +1091,28 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
         if errors:
             _write_json(stdout, {"ok": False, "errors": errors})
             return 1
+        reviewer = None
+        if args.reviewer == "recorded":
+            reviewer = RecordedStrategicReviewer.from_examples(
+                project_root / "examples" / "strategic-reviews"
+            )
+        elif args.reviewer == "live":
+            # Live review requires a programmatically injected model client.
+            # The CLI constructs the reviewer boundary but cannot supply the
+            # client, so fail fast before any per-instance writes.
+            _write_json(
+                stdout,
+                {
+                    "ok": False,
+                    "error": (
+                        "--reviewer live requires a programmatically injected "
+                        "model_client. Use the recorded reviewer for CLI dry-runs, "
+                        "or call run_fleet_refresh() with a LiveStrategicReviewer "
+                        "that has model_client set."
+                    ),
+                },
+            )
+            return 1
         report = run_fleet_refresh(
             manifest,
             project_root=project_root,
@@ -1098,6 +1120,7 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
             stale_after=args.stale_after,
             output_dir=Path(args.output_dir) if args.output_dir else None,
             dry_run=args.dry_run,
+            reviewer=reviewer,
         )
         _write_json(stdout, report)
         return 0 if report["ok"] else 1
@@ -1875,6 +1898,20 @@ def _parser() -> argparse.ArgumentParser:
     fleet_refresh.add_argument("--stale-after")
     fleet_refresh.add_argument("--output-dir")
     fleet_refresh.add_argument("--dry-run", action="store_true")
+    fleet_refresh.add_argument(
+        "--reviewer",
+        choices=["recorded", "live", "none"],
+        default="none",
+        help=(
+            "Strategic-staleness reviewer backend for the refresh. 'recorded' "
+            "replays fixtures; 'live' requires an injected model client; 'none' "
+            "(default) emits awaiting_model_review gaps for expired ECS cards."
+        ),
+    )
+    fleet_refresh.add_argument(
+        "--registry-route",
+        help="Central-registry route for the live reviewer (e.g. strategic-review).",
+    )
 
     instance_scaffold = subcommands.add_parser("instance-scaffold")
     instance_scaffold.add_argument("--runtime-root", required=True)
