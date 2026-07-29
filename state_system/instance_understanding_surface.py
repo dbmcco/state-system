@@ -469,9 +469,47 @@ def _freshness_record_for_source(
     ]
     if not matching:
         return {}
-    return sorted(matching, key=lambda record: record.get("checked_at", ""), reverse=True)[
+    newest = sorted(matching, key=lambda record: record.get("checked_at", ""), reverse=True)[
         0
     ]
+    folded = _folded_content_status(matching)
+    if folded is not None:
+        # A fresh non-content basis (remote_head/source_event) must not hide a
+        # stale content dimension. Carry the worst content-proving status onto
+        # the newest record so downstream content health stays honest.
+        return {**newest, "content_status": folded}
+    return newest
+
+
+_CONTENT_PROVING_BASES = frozenset(
+    {"source_content", "remote_corpus", "remote_head", "local_checkout"}
+)
+
+
+def _folded_content_status(records: list[JsonObject]) -> str | None:
+    """Worst-status-wins across content-proving basis records for one source.
+
+    A fresh remote-head or source-event record is not content proof: its
+    content_status is 'unknown' and must not hide a stale content dimension
+    recorded by an older source_content / remote_corpus / local_checkout record.
+    Only content-proving bases contribute; the worst among them wins so a stale
+    content basis surfaces even when a newer non-content record was checked more
+    recently. Returns None when no content-proving record exists, leaving the
+    caller's default content_status untouched.
+    """
+    proving = [
+        record for record in records if record.get("watermark_basis") in _CONTENT_PROVING_BASES
+    ]
+    if not proving:
+        return None
+    statuses = [str(record.get("content_status") or "unknown") for record in proving]
+    if any(status in {"failed", "error"} for status in statuses):
+        return "failed"
+    if any(status == "stale" for status in statuses):
+        return "stale"
+    if any(status == "unknown" for status in statuses):
+        return "unknown"
+    return "fresh"
 
 
 def _index_status(index_manifests: list[JsonObject]) -> str:

@@ -631,4 +631,70 @@ def check_fleet_refresh_report_age(
 
 
 def validate_fleet_refresh_manifest(manifest: JsonObject, schema: JsonObject) -> list[str]:
-    return validate_schema(manifest, schema)
+    errors = validate_schema(manifest, schema)
+    errors.extend(_validate_entity_current_state(manifest.get("entity_current_state")))
+    return errors
+
+
+_ECS_ROOT_FIELDS = {"state_root", "label", "output_dir"}
+
+
+def _validate_entity_current_state(ecs: object) -> list[str]:
+    """Enforce the entity_current_state oneOf the repo validator cannot.
+
+    ``validate_schema`` checks type/required/enum only; it does not enforce
+    oneOf branching, nested required keys, minItems, or additionalProperties.
+    Invalid ECS shapes (empty roots, missing labels, unknown keys) would
+    otherwise validate then crash or silently no-op at refresh time. This makes
+    those failures fail at validation instead.
+    """
+    if ecs is None:
+        return []
+    if not isinstance(ecs, dict):
+        return ["entity_current_state must be null, a single-root, or a multi-root object"]
+
+    extra_top = set(ecs) - {"state_root", "output_dir", "roots"}
+    if extra_top:
+        return [
+            f"entity_current_state has unknown keys: {sorted(extra_top)}; "
+            "allowed: state_root, output_dir, roots"
+        ]
+
+    has_single = "state_root" in ecs
+    has_multi = "roots" in ecs
+    if has_single and has_multi:
+        return [
+            "entity_current_state is ambiguous: provide either state_root (single-root) "
+            "or roots (multi-root), not both"
+        ]
+    if not has_single and not has_multi:
+        return [
+            "entity_current_state object must declare state_root (single-root) "
+            "or roots (multi-root)"
+        ]
+
+    if has_single:
+        if not str(ecs.get("state_root") or "").strip():
+            return ["entity_current_state.state_root must be a non-empty string"]
+        return []
+
+    roots = ecs.get("roots")
+    if not isinstance(roots, list) or not roots:
+        return ["entity_current_state.roots must be a non-empty array"]
+    errors: list[str] = []
+    for index, root in enumerate(roots):
+        if not isinstance(root, dict):
+            errors.append(f"entity_current_state.roots[{index}] must be an object")
+            continue
+        missing = [key for key in ("state_root", "label") if not str(root.get(key) or "").strip()]
+        if missing:
+            errors.append(
+                f"entity_current_state.roots[{index}] missing required non-empty: {missing}"
+            )
+        unknown = set(root) - _ECS_ROOT_FIELDS
+        if unknown:
+            errors.append(
+                f"entity_current_state.roots[{index}] has unknown keys: {sorted(unknown)}; "
+                f"allowed: {sorted(_ECS_ROOT_FIELDS)}"
+            )
+    return errors

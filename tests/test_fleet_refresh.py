@@ -12,7 +12,7 @@ import unittest
 from state_system import cli
 from state_system.contracts import load_json, validate_schema
 from state_system.entity_current_state import EntityCurrentStateRuntime
-from state_system.fleet_refresh import run_fleet_refresh
+from state_system.fleet_refresh import run_fleet_refresh, validate_fleet_refresh_manifest
 from state_system.instance_capability import InstanceCapabilityRuntime
 from state_system.instance_preflight import InstancePreflightRuntime
 from state_system.instance_source_freshness import InstanceSourceFreshnessRuntime
@@ -403,3 +403,63 @@ def _run_cli(argv: list[str]) -> dict:
     if code != 0:
         raise AssertionError(payload)
     return payload
+
+
+class FleetRefreshManifestEcsEnforcementTests(unittest.TestCase):
+    """validate_schema cannot enforce oneOf/minItems/nested-required; the
+    manifest validator must catch invalid entity_current_state shapes that would
+    otherwise validate then crash or no-op at refresh time.
+    """
+
+    def _schema(self):
+        return load_json(ROOT / "schemas" / "fleet-refresh-manifest.schema.json")
+
+    def _manifest_with_ecs(self, ecs):
+        with TemporaryDirectory() as directory:
+            manifest = _manifest(Path(directory))
+        manifest["entity_current_state"] = ecs
+        return manifest
+
+    def test_empty_roots_is_rejected(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs({"roots": []}), self._schema()
+        )
+        self.assertTrue(any("non-empty" in e for e in errors), errors)
+
+    def test_root_missing_label_is_rejected(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs({"roots": [{"state_root": "/tmp/x"}]}), self._schema()
+        )
+        self.assertTrue(any("label" in e for e in errors), errors)
+
+    def test_root_unknown_key_is_rejected(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs(
+                {"roots": [{"state_root": "/tmp/x", "label": "x", "bogus": 1}]}
+            ),
+            self._schema(),
+        )
+        self.assertTrue(any("unknown keys" in e for e in errors), errors)
+
+    def test_ambiguous_single_and_multi_root_is_rejected(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs({"state_root": "/tmp/x", "roots": []}),
+            self._schema(),
+        )
+        self.assertTrue(any("ambiguous" in e for e in errors), errors)
+
+    def test_unknown_top_level_key_is_rejected(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs({"state_root": "/tmp/x", "projecton": "bad"}),
+            self._schema(),
+        )
+        self.assertTrue(any("unknown keys" in e for e in errors), errors)
+
+    def test_valid_multi_root_manifest_passes(self):
+        errors = validate_fleet_refresh_manifest(
+            self._manifest_with_ecs(
+                {"roots": [{"state_root": "/tmp/a", "label": "lfw"}, {"state_root": "/tmp/b", "label": "synth"}]}
+            ),
+            self._schema(),
+        )
+        self.assertEqual([], errors)

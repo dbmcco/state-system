@@ -13,6 +13,7 @@ from state_system.instance_preflight import InstancePreflightRuntime
 from state_system.instance_source_freshness import InstanceSourceFreshnessRuntime
 from state_system.instance_understanding_surface import (
     build_instance_understanding_surface_read_model,
+    _freshness_record_for_source,
 )
 from state_system.stores import StateStoreBundle
 
@@ -434,6 +435,67 @@ def _federation_pack(instance: dict, pack_id: str):
     if not matches:
         raise AssertionError(f"{pack_id} not found")
     return matches[0]
+
+
+class FreshnessRecordMultiBasisFoldTests(unittest.TestCase):
+    """A fresh non-content basis must not hide a stale content dimension.
+
+    The understanding surface used to pick the single newest checked_at record
+    per source, so a fresh remote_head/source_event record (content_status
+    unknown) could shadow an older source_content record whose content was
+    actually stale. The fold is worst-status-wins across content-proving bases.
+    """
+
+    @staticmethod
+    def _read_model(records):
+        return {"latest_by_scope_key": {str(i): r for i, r in enumerate(records)}}
+
+    def _record(self, *, basis, content_status, checked_at):
+        return {
+            "instance_ref": "inst",
+            "connector_ref": "conn",
+            "source_ref": "src",
+            "checked_at": checked_at,
+            "watermark_basis": basis,
+            "content_status": content_status,
+        }
+
+    def test_stale_content_basis_survives_a_fresher_non_content_record(self):
+        records = [
+            self._record(basis="source_content", content_status="stale", checked_at="2026-07-20T00:00:00Z"),
+            self._record(basis="source_event", content_status="unknown", checked_at="2026-07-29T00:00:00Z"),
+        ]
+        record = _freshness_record_for_source(self._read_model(records), "inst", "conn", "src")
+        # The newer source_event record is chosen as the base, but its unknown
+        # content_status is overridden by the stale content-proving dimension.
+        self.assertEqual("2026-07-29T00:00:00Z", record["checked_at"])
+        self.assertEqual("stale", record["content_status"])
+
+    def test_equal_timestamps_still_fold_to_worst_content_status(self):
+        records = [
+            self._record(basis="source_content", content_status="stale", checked_at="2026-07-29T00:00:00Z"),
+            self._record(basis="source_event", content_status="fresh", checked_at="2026-07-29T00:00:00Z"),
+        ]
+        record = _freshness_record_for_source(self._read_model(records), "inst", "conn", "src")
+        self.assertEqual("stale", record["content_status"])
+
+    def test_two_content_proving_bases_take_the_worst(self):
+        records = [
+            self._record(basis="remote_corpus", content_status="fresh", checked_at="2026-07-29T00:00:00Z"),
+            self._record(basis="source_content", content_status="stale", checked_at="2026-07-28T00:00:00Z"),
+        ]
+        record = _freshness_record_for_source(self._read_model(records), "inst", "conn", "src")
+        self.assertEqual("stale", record["content_status"])
+
+    def test_no_content_proving_basis_leaves_content_status_unchanged(self):
+        records = [
+            self._record(basis="source_event", content_status="unknown", checked_at="2026-07-29T00:00:00Z"),
+            self._record(basis="probe_only", content_status="unknown", checked_at="2026-07-28T00:00:00Z"),
+        ]
+        record = _freshness_record_for_source(self._read_model(records), "inst", "conn", "src")
+        # No content-proving basis: fold returns None, newest record's status kept.
+        self.assertEqual("2026-07-29T00:00:00Z", record["checked_at"])
+        self.assertEqual("unknown", record["content_status"])
 
 
 if __name__ == "__main__":
