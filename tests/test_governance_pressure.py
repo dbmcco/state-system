@@ -19,6 +19,13 @@ class GovernancePressureTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = StateStoreBundle(Path(directory))
+            stores.review_packets.create(
+                load_json(
+                    ROOT
+                    / "examples"
+                    / "maya-southern-abrasives-opportunity-review-packet.json"
+                )
+            )
             result = Committer(stores, self._schemas()).commit(
                 model_output,
                 created_at="2026-04-28T16:11:00Z",
@@ -49,6 +56,9 @@ class GovernancePressureTests(unittest.TestCase):
             stores = StateStoreBundle(Path(directory))
             stores.state_objects.create(
                 load_json(ROOT / "examples" / "harbor-contract-obligation-state.json")
+            )
+            stores.review_packets.create(
+                load_json(ROOT / "examples" / "alex-model-review-packet.json")
             )
 
             result = Committer(stores, self._schemas()).commit(
@@ -82,6 +92,22 @@ class GovernancePressureTests(unittest.TestCase):
             stores = StateStoreBundle(Path(directory))
             stores.state_objects.create(
                 load_json(ROOT / "examples" / "marketing-campaign-state.json")
+            )
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-audience-clarified",
+                [
+                    "conversation.2026-04-28.state-system",
+                    "state.campaign.launch-positioning-v1",
+                ],
+            )
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-proof-gap-correction",
+                [
+                    "journal.campaign.launch-positioning-v1.audience-clarified",
+                    "conversation.2026-04-28.state-system",
+                ],
             )
             committer = Committer(stores, self._schemas())
 
@@ -126,6 +152,13 @@ class GovernancePressureTests(unittest.TestCase):
                 snapshot["latest_journal_entry_id"],
             )
             self.assertIn("Proof point is now the next blocker", snapshot["summary"])
+
+    def _persist_review_packet(self, stores, packet_id, evidence_refs):
+        packet = load_json(ROOT / "examples" / "maya-model-review-packet.json")
+        packet["id"] = packet_id
+        packet["evidence_packet"]["evidence_refs"] = list(evidence_refs)
+        stores.review_packets.create(packet)
+        return packet
 
     def _schemas(self):
         return {

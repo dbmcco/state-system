@@ -70,6 +70,7 @@ class E2EPressureHarnessTests(unittest.TestCase):
                 ],
             )
             self.assertEqual([], validate_schema(packet, schemas["review_packet"]))
+            stores.review_packets.create(packet)
 
             model_output = FixtureReviewer.from_examples(ROOT / "examples").review(packet)
             commit = Committer(stores, schemas).commit(
@@ -188,6 +189,13 @@ class E2EPressureHarnessTests(unittest.TestCase):
             stores = self._seed_southern_abrasives_runtime(Path(directory))
             schemas = self._schemas()
             before = stores.state_objects.read("state.sampleco.deal.southern-abrasives")
+            self._persist_review_packet(stores, "review_packet.review.no-op")
+            self._persist_review_packet(
+                stores,
+                "review_packet.e2e-missing-evidence",
+                ["linear:deal:southern-abrasives"],
+            )
+            self._persist_review_packet(stores, "review_packet.e2e-external-action")
             committer = Committer(stores, schemas)
 
             no_op = self._empty_output(
@@ -238,6 +246,18 @@ class E2EPressureHarnessTests(unittest.TestCase):
         ):
             stores.state_objects.create(load_json(ROOT / "examples" / example))
         return stores
+
+    def _persist_review_packet(self, stores, packet_id, evidence_refs=None):
+        packet = load_json(
+            ROOT
+            / "examples"
+            / "linear-southern-abrasives-won-model-review-packet.json"
+        )
+        packet["id"] = packet_id
+        if evidence_refs is not None:
+            packet["evidence_packet"]["evidence_refs"] = list(evidence_refs)
+        stores.review_packets.create(packet)
+        return packet
 
     def _schemas(self):
         return {

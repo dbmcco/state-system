@@ -32,6 +32,14 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-audience-clarified",
+                [
+                    "conversation.2026-04-28.state-system",
+                    "state.campaign.launch-positioning-v1",
+                ],
+            )
             result = Committer(stores, self._schemas()).commit(
                 model_output,
                 created_at=CREATED_AT,
@@ -65,6 +73,11 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.external-copy-review",
+                ["conversation.2026-04-28.state-system"],
+            )
             before = stores.state_objects.read("state.campaign.launch-positioning-v1")
 
             result = Committer(stores, self._schemas()).commit(
@@ -88,6 +101,11 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-audience-clarified",
+                ["state.campaign.launch-positioning-v1"],
+            )
             before = stores.state_objects.read("state.campaign.launch-positioning-v1")
 
             result = Committer(stores, self._schemas()).commit(
@@ -114,6 +132,14 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-audience-clarified",
+                [
+                    "conversation.2026-04-28.state-system",
+                    "state.campaign.launch-positioning-v1",
+                ],
+            )
             result = Committer(stores, self._schemas()).commit(
                 model_output,
                 created_at=CREATED_AT,
@@ -155,6 +181,11 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.no-op",
+                ["conversation.2026-04-28.state-system"],
+            )
             before = stores.state_objects.read("state.campaign.launch-positioning-v1")
             result = Committer(stores, self._schemas()).commit(
                 model_output,
@@ -180,6 +211,14 @@ class CommitterMaterializerTests(unittest.TestCase):
 
         with TemporaryDirectory() as directory:
             stores = self._stores_with_campaign(Path(directory))
+            self._persist_review_packet(
+                stores,
+                "review_packet.maya.campaign-audience-clarified",
+                [
+                    "conversation.2026-04-28.state-system",
+                    "state.campaign.launch-positioning-v1",
+                ],
+            )
             committer = Committer(stores, self._schemas())
 
             first = committer.commit(
@@ -209,6 +248,13 @@ class CommitterMaterializerTests(unittest.TestCase):
             load_json(ROOT / "examples" / "marketing-campaign-state.json")
         )
         return stores
+
+    def _persist_review_packet(self, stores, packet_id, evidence_refs):
+        packet = load_json(ROOT / "examples" / "maya-model-review-packet.json")
+        packet["id"] = packet_id
+        packet["evidence_packet"]["evidence_refs"] = list(evidence_refs)
+        stores.review_packets.create(packet)
+        return packet
 
     def _schemas(self):
         return {
