@@ -1,0 +1,16 @@
+{
+  "id": "state_instance.navicyte",
+  "instance_ref": "state_instance.navicyte",
+  "kind": "project",
+  "display_name": "Navicyte",
+  "runtime_root": "/path/to/navicyte/state-system",
+  "primary_entity_ref": "entity.navicyte",
+  "entity_kind": "project",
+  "governance_refs": [
+    "governance.navicyte.default"
+  ],
+  "sensitivity_default": "confidential",
+  "federates_with": [],
+  "created_at": "2026-06-25T11:00:00Z",
+  "updated_at": "2026-06-25T11:00:00Z"
+}

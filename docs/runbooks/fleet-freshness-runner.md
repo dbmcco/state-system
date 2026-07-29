@@ -36,7 +36,38 @@ python3 -m state_system.cli \
 - Writes a fleet report with package paths, source status counts, source gap
   refs, adapter command results, pressure results, and strategic-staleness paths.
 
-## Strategic Staleness
+## Multi-root entity-current-state wiring
+
+Fleet manifests may refresh entity-current-state projections from more than one
+state root. Use the `entity_current_state.roots` array instead of the legacy
+single `state_root` field:
+
+```json
+{
+  "entity_current_state": {
+    "roots": [
+      {"state_root": "/path/to/b-state", "label": "b_state"},
+      {"state_root": "/path/to/company", "label": "company"}
+    ],
+    "output_dir": "entity-current-state"
+  }
+}
+```
+
+Each root is refreshed independently. A missing or unreachable root is reported
+as a `gap.fleet_ecs.<label>.state_root_missing` gap and fails the overall fleet
+report, so a missing satellite cannot make the rest of the fleet look fresh.
+The legacy single-root shape (`{"state_root": "..."}`) is still accepted.
+
+## Navicyte refresh path
+
+`examples/fleet-refresh/fleet-refresh-navicyte.json` is the product-supported
+refresh manifest for the Navicyte state instance. It declares Notion and email
+source connectors through delegated adapter commands, surfaces their freshness
+state in the generated package, and does not copy any private Navicyte corpus or
+credentials into the repository. Navicyte is covered by default; if an operator
+decides to drop the satellite, that decision must be recorded in a non-code
+artifact before removing the manifest.
 
 By default each instance refresh materializes
 `<state_root>/strategic-staleness/strategic-staleness-read-model.json`. The

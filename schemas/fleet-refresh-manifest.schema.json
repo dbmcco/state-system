@@ -74,13 +74,41 @@
       }
     },
     "entity_current_state": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["state_root"],
-      "properties": {
-        "state_root": { "type": "string", "minLength": 1 },
-        "output_dir": { "type": "string", "minLength": 1 }
-      }
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Legacy single-root projection target.",
+          "required": ["state_root"],
+          "properties": {
+            "state_root": { "type": "string", "minLength": 1 },
+            "output_dir": { "type": "string", "minLength": 1 }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Multi-root projection target for fleet-wide entity-current-state coverage.",
+          "required": ["roots"],
+          "properties": {
+            "output_dir": { "type": "string", "minLength": 1 },
+            "roots": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["state_root", "label"],
+                "properties": {
+                  "state_root": { "type": "string", "minLength": 1 },
+                  "label": { "type": "string", "minLength": 1 },
+                  "output_dir": { "type": "string", "minLength": 1 }
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "pressure": {
       "type": "object",

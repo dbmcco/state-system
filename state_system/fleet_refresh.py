@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import signal
 import subprocess
 from datetime import datetime, timedelta, timezone
@@ -117,83 +118,96 @@ def _refresh_entity_current_state(
 ) -> JsonObject | None:
     if config is None:
         return None
-    # Multi-root form: a ``roots`` list (each with its own state_root + label)
-    # projected per root under a shared output_dir. Reported as one
-    # entity_current_state block with a per-root breakdown.
-    if "roots" in config:
-        return _refresh_entity_current_state_roots(
-            config, checked_at=checked_at, dry_run=dry_run
-        )
-    state_root = Path(config["state_root"]).expanduser()
-    output_path = state_root / config.get(
-        "output_dir", "entity-current-state"
-    ) / "entity-current-state-read-model.json"
-    result = {
-        "state_root": str(state_root),
-        "read_model_path": str(output_path),
-    }
-    if dry_run:
-        return {**result, "status": "planned"}
-    try:
-        read_model = build_entity_current_state_read_model(
-            StateStoreBundle(state_root),
-            as_of=checked_at,
-        )
-        _write_json(output_path, read_model)
-    except (KeyError, OSError, TypeError, ValueError) as error:
-        return {**result, "status": "failed", "error": str(error)}
-    return {**result, "status": "refreshed", "as_of": checked_at}
 
+    roots = _entity_current_state_roots(config)
+    default_output_dir = config.get("output_dir", "entity-current-state")
+    refreshed_roots: list[JsonObject] = []
+    aggregated_gap_refs: list[str] = []
 
-def _refresh_entity_current_state_roots(
-    config: JsonObject,
-    *,
-    checked_at: str,
-    dry_run: bool,
-) -> JsonObject:
-    """Project the multi-root entity_current_state form.
-
-    Each declared root is refreshed independently under a shared ``output_dir``;
-    the block reports an aggregate status plus a per-root breakdown (label,
-    state_root, read_model_path, status). A failed root surfaces as ``failed``
-    and drives the aggregate to ``failed`` so the fleet boundary stays honest.
-    """
-    output_dir = config.get("output_dir", "entity-current-state")
-    roots: list[JsonObject] = []
-    for entry in config.get("roots", []):
-        state_root = Path(entry["state_root"]).expanduser()
-        output_path = (
-            state_root / output_dir / "entity-current-state-read-model.json"
-        )
+    for root_config in roots:
+        state_root = Path(root_config["state_root"]).expanduser()
+        label = root_config["label"]
+        output_dir = root_config.get("output_dir") or default_output_dir
+        output_path = state_root / output_dir / "entity-current-state-read-model.json"
         root_result: JsonObject = {
-            "label": entry.get("label", ""),
             "state_root": str(state_root),
+            "label": label,
             "read_model_path": str(output_path),
         }
         if dry_run:
-            root_result["status"] = "planned"
-        else:
-            try:
-                read_model = build_entity_current_state_read_model(
-                    StateStoreBundle(state_root),
-                    as_of=checked_at,
-                )
-                _write_json(output_path, read_model)
-                root_result["status"] = "refreshed"
-                root_result["as_of"] = checked_at
-            except (KeyError, OSError, TypeError, ValueError) as error:
-                root_result["status"] = "failed"
-                root_result["error"] = str(error)
-        roots.append(root_result)
-    statuses = {root["status"] for root in roots}
-    if dry_run:
-        aggregate = "planned"
-    elif "failed" in statuses:
-        aggregate = "failed"
-    else:
-        aggregate = "refreshed"
-    return {"status": aggregate, "roots": roots, "output_dir": output_dir}
+            refreshed_roots.append({**root_result, "status": "planned"})
+            continue
 
+        if not state_root.exists():
+            gap_ref = f"gap.fleet_ecs.{_slug(label)}.state_root_missing"
+            aggregated_gap_refs.append(gap_ref)
+            refreshed_roots.append(
+                {
+                    **root_result,
+                    "status": "failed",
+                    "error": f"state_root does not exist: {state_root}",
+                    "gap_refs": [gap_ref],
+                }
+            )
+            continue
+
+        try:
+            read_model = build_entity_current_state_read_model(
+                StateStoreBundle(state_root),
+                as_of=checked_at,
+            )
+            _write_json(output_path, read_model)
+            refreshed_roots.append({**root_result, "status": "refreshed", "as_of": checked_at})
+        except (KeyError, OSError, TypeError, ValueError) as error:
+            gap_ref = f"gap.fleet_ecs.{_slug(label)}.projection_failed"
+            aggregated_gap_refs.append(gap_ref)
+            refreshed_roots.append(
+                {
+                    **root_result,
+                    "status": "failed",
+                    "error": str(error),
+                    "gap_refs": [gap_ref],
+                }
+            )
+
+    statuses = {root["status"] for root in refreshed_roots}
+    if "failed" in statuses:
+        overall_status = "failed"
+    elif dry_run or statuses == {"planned"}:
+        overall_status = "planned"
+    else:
+        overall_status = "refreshed"
+
+    result: JsonObject = {
+        "status": overall_status,
+        "roots": refreshed_roots,
+        "gap_refs": sorted(set(aggregated_gap_refs)),
+    }
+
+    # Preserve the legacy single-root surface for existing manifests.
+    if len(roots) == 1 and "state_root" in config:
+        single_root = refreshed_roots[0]
+        result["state_root"] = single_root["state_root"]
+        result["read_model_path"] = single_root["read_model_path"]
+        if single_root.get("as_of"):
+            result["as_of"] = single_root["as_of"]
+
+    return result
+
+
+def _entity_current_state_roots(config: JsonObject) -> list[JsonObject]:
+    if "roots" in config:
+        return list(config["roots"])
+    return [
+        {
+            "state_root": config["state_root"],
+            "label": "default",
+        }
+    ]
+
+
+def _slug(value: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_.-]+", "-", value).strip("-")
 
 def _refresh_instance(
     config: JsonObject,

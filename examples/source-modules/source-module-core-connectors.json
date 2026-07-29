@@ -288,6 +288,38 @@
       "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
     },
     {
+      "id": "source_module.notion",
+      "connector_type": "notion",
+      "status": "experimental",
+      "description": "Notion workspace pages, databases, and structured notes.",
+      "allowed_instance_kinds": ["company", "project", "research"],
+      "source_ref": { "pattern": "notion:workspace:{workspace}", "examples": ["notion:workspace:navicyte-grant"] },
+      "access": { "mode": "api", "owner": "source_system", "runtime_dependency": "Notion integration token or MCP", "supports_write": true },
+      "preflight_contract": { "required": true, "result_schema_ref": "schemas/instance-preflight-result.schema.json", "checks": ["workspace_resolves", "sample_page_read"] },
+      "freshness_contract": { "required": true, "record_schema_ref": "schemas/instance-source-freshness-record.schema.json", "watermark_strategy": "last_edited_time of most recently modified page or database", "suggested_stale_after": "P1D" },
+      "index_contract": { "ownership": "source_system", "index_scopes": ["raw_source_index"], "record_kinds": ["page", "database", "block"] },
+      "tool_contract": { "tool_refs": ["tool.notion.search"], "capability_ref_patterns": ["capability.{scope}.notion.read"], "action_ref_patterns": ["action_surface.{scope}.read_notion"] },
+      "governance_defaults": { "privacy_boundary": "Notion workspace content stays in the tenant instance.", "data_classification": "private_instance", "allowed_uses": ["workspace evidence lookup", "structured note retrieval"], "prohibited_uses": ["publishing private workspace pages in open-source examples"] },
+      "example_declarations": [{ "instance_kind": "project", "connector": { "connector_type": "notion", "source_ref": "notion:workspace:navicyte-grant", "owner": "source_system" } }],
+      "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
+    },
+    {
+      "id": "source_module.email",
+      "connector_type": "email",
+      "status": "experimental",
+      "description": "Email or message-archive mailbox source.",
+      "allowed_instance_kinds": ["company", "person", "project"],
+      "source_ref": { "pattern": "email:mailbox:{mailbox}", "examples": ["email:mailbox:navicyte-mike"] },
+      "access": { "mode": "api", "owner": "source_system", "runtime_dependency": "Email provider API or governed msgvault archive", "supports_write": false },
+      "preflight_contract": { "required": true, "result_schema_ref": "schemas/instance-preflight-result.schema.json", "checks": ["mailbox_resolves", "sample_search"] },
+      "freshness_contract": { "required": true, "record_schema_ref": "schemas/instance-source-freshness-record.schema.json", "watermark_strategy": "latest message timestamp", "suggested_stale_after": "P2D" },
+      "index_contract": { "ownership": "source_system", "index_scopes": ["raw_source_index"], "record_kinds": ["message", "thread"] },
+      "tool_contract": { "tool_refs": ["tool.email.search"], "capability_ref_patterns": ["capability.{scope}.email.read"], "action_ref_patterns": ["action_surface.{scope}.search_email"] },
+      "governance_defaults": { "privacy_boundary": "Message bodies remain private to the tenant instance.", "data_classification": "private_instance", "allowed_uses": ["thread retrieval", "relationship and work evidence"], "prohibited_uses": ["open-source fixture excerpts from private mail"] },
+      "example_declarations": [{ "instance_kind": "project", "connector": { "connector_type": "email", "source_ref": "email:mailbox:navicyte-mike", "owner": "source_system" } }],
+      "invariant": { "module_declares_interface_not_live_access": true, "private_data_not_required": true, "generic_schema_compatible": true }
+    },
+    {
       "id": "source_module.spotify",
       "connector_type": "spotify",
       "status": "experimental",
