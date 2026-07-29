@@ -173,6 +173,18 @@ def _validate_freshness_contract(record: JsonObject) -> None:
             "source_event freshness requires latest_source_event_at"
         )
 
+    # Non-conflation: a source_content claim proves CONTENT freshness, so it
+    # must carry the content watermark (latest_source_modified_at). An
+    # event-only watermark (latest_source_event_at) is a different dimension
+    # (an event occurring does not mean content changed) and must not be
+    # conflated to prove content freshness.
+    if basis == "source_content" and not record.get("latest_source_modified_at"):
+        raise ValueError(
+            "source_content watermark_basis requires latest_source_modified_at; "
+            "an event-only watermark (latest_source_event_at) is ambiguous for "
+            "content freshness"
+        )
+
     if basis in {"source_index", "derived_index"} and not record.get(
         "latest_indexed_at"
     ):

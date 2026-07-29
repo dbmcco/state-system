@@ -16,6 +16,8 @@ from uuid import uuid4
 from state_system.audit_ledger import StateAuditLedger
 from state_system.contracts import validate_all_examples
 from state_system.gap_acknowledgement import GapAcknowledgementLedger
+from state_system.instance_agent_packages import InstanceAgentPackageRuntime
+from state_system.stores import StateStoreBundle
 
 
 PROTOCOL_VERSION = "state-system.v1"
@@ -163,9 +165,11 @@ class StateDispatcher:
             for entry in entries
             if entry.get("event_type") == "gap_acknowledgement"
         ]
+        package_health = self._package_health(arguments.get("package_ref"))
         return {
             "scope": scope,
             "package": arguments.get("package_ref"),
+            "package_health": package_health,
             "source_gap_refs": list(arguments.get("gap_refs", []))
             if isinstance(arguments.get("gap_refs", []), list)
             else [],
@@ -177,6 +181,35 @@ class StateDispatcher:
                 "entry_count": len(entries),
                 "retention_days": 400,
             },
+        }
+
+    def _package_health(self, package_ref: str | None) -> dict[str, Any] | None:
+        """Surface a package's content/process health separately, not conflated.
+
+        Content freshness and process health are distinct dimensions: a source
+        can be fully ingested (process ``succeeded``) while its content is
+        ``stale`` past stale-after. ``inspect`` reports both verbatim from the
+        rendered package so a caller treats a stale content status as a visible
+        caveat rather than reading a green process status as current. Returns
+        None when no package_ref is supplied or the package is absent.
+        """
+        if not package_ref:
+            return None
+        stores = StateStoreBundle(self.state_root)
+        # An absent package has no health to report; this is the read semantics
+        # of an optional lookup. A package that exists but is malformed is
+        # allowed to surface rather than being swallowed.
+        if not stores.instance_agent_packages.path_for(package_ref).exists():
+            return None
+        package = InstanceAgentPackageRuntime(stores).read(package_ref)
+        freshness = package.get("freshness", {})
+        return {
+            "process_status": freshness.get("process_status"),
+            "content_status": freshness.get("content_status"),
+            "requires_refresh_before_external_action": freshness.get(
+                "requires_refresh_before_external_action"
+            ),
+            "source_gap_refs": list(freshness.get("source_gap_refs", [])),
         }
 
     def _validate(self) -> dict[str, Any]:

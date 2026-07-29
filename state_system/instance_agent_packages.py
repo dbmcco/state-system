@@ -87,7 +87,7 @@ def _package_from_instance(
     package_id: str | None,
     state_root: Path | None = None,
 ) -> JsonObject:
-    sources = [_package_source(source) for source in instance["source_readiness"]]
+    sources = [_package_source(source, as_of=created_at) for source in instance["source_readiness"]]
     evidence_refs = sorted(
         {
             evidence_ref
@@ -198,7 +198,7 @@ def _package_from_instance(
     }
 
 
-def _package_source(source: JsonObject) -> JsonObject:
+def _package_source(source: JsonObject, *, as_of: str | None = None) -> JsonObject:
     connector_type = source["connector_type"]
     freshness_record = source.get("freshness_record", {})
     preflight_records = source.get("preflight_records", [])
@@ -243,7 +243,9 @@ def _package_source(source: JsonObject) -> JsonObject:
         "gap_behavior_ref": f"{source_module_ref}.gap_behavior",
         "usable_access_status": _usable_access_status(source),
         "access_status": source["access_status"],
-        "freshness_status": source["freshness_status"],
+        "freshness_status": _effective_freshness_status(
+            source["freshness_status"], source.get("stale_after", ""), as_of
+        ),
         "index_status": source["index_status"],
         "understanding_status": source["understanding_status"],
         "index_refs": source.get("index_refs", []),
@@ -408,6 +410,24 @@ def _is_expired(stale_after: object, as_of: str | None) -> bool:
     if stale_after_dt is None or as_of_dt is None:
         return False
     return stale_after_dt < as_of_dt
+
+
+def _effective_freshness_status(
+    recorded_status: str, stale_after: object, as_of: str | None
+) -> str:
+    """Resolve a source's freshness status as-of package generation time.
+
+    A source recorded ``fresh`` at check time can be stale by the time the
+    package is generated if its own ``stale_after`` validity window has since
+    expired. A package is a point-in-time artifact, so its per-source freshness
+    is evaluated at ``created_at`` (``as_of``), not at check time. This mirrors
+    ``_is_expired`` arithmetic on fields the source itself declares; it never
+    promotes a non-fresh status, and it never fabricates a status for a source
+    that was not checked (those stay as recorded).
+    """
+    if recorded_status == "fresh" and _is_expired(stale_after, as_of):
+        return "stale"
+    return recorded_status
 
 
 def _parse_timestamp(value: str) -> datetime | None:
