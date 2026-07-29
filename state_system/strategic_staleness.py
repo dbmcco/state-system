@@ -1209,8 +1209,9 @@ def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
     """
     created_at = output.get("created_at")
     packet_id = output.get("review_packet_id")
+    entries = list(output.get("entries", []))
     latest_by_entity_id: dict[str, JsonObject] = {}
-    for entry in output.get("entries", []):
+    for entry in entries:
         entity_id = entry.get("entity_id")
         if not entity_id:
             continue  # non-entity judgment — excluded (deferred scope_key index)
@@ -1227,7 +1228,28 @@ def build_strategic_staleness_read_model(output: JsonObject) -> JsonObject:
             "review_packet_id": packet_id,
             "evidence_refs": list(entry.get("evidence_refs", [])),
         }
-    return {"latest_by_entity_id": latest_by_entity_id}
+    status = (
+        "reviewed_with_entity_judgments"
+        if latest_by_entity_id
+        else "reviewed_no_entity_judgments"
+    )
+    return {
+        "status": status,
+        "review_status": "reviewed",
+        "status_reason": (
+            "Model review output contained entity-current-state judgments."
+            if latest_by_entity_id
+            else (
+                "Model review output was present, but no entity-current-state "
+                "judgments were joinable to this read model."
+            )
+        ),
+        "reviewed_at": created_at,
+        "review_packet_id": packet_id,
+        "entry_count": len(entries),
+        "entity_judgment_count": len(latest_by_entity_id),
+        "latest_by_entity_id": latest_by_entity_id,
+    }
 
 
 def build_strategic_staleness_read_model_from_findings(
@@ -1261,7 +1283,33 @@ def build_strategic_staleness_read_model_from_findings(
             "source_doc_ref": finding.get("source_doc_ref"),
             "gaps": ["missing_live_review"],
         }
-    return {"latest_by_entity_id": latest_by_entity_id}
+    if latest_by_entity_id:
+        status = "awaiting_model_review"
+        review_status = "awaiting_model_review"
+        status_reason = (
+            "Entity-current-state findings surfaced, but no model judgment is "
+            "available yet."
+        )
+    elif findings:
+        status = "awaiting_model_review_no_entity_findings"
+        review_status = "awaiting_model_review"
+        status_reason = (
+            "Strategic findings surfaced, but none are entity-current-state "
+            "findings joinable to this read model."
+        )
+    else:
+        status = "no_reviewable_findings"
+        review_status = "no_reviewable_findings"
+        status_reason = (
+            "No entity-current-state findings surfaced for strategic-staleness "
+            "review."
+        )
+    return {
+        "status": status,
+        "review_status": review_status,
+        "status_reason": status_reason,
+        "latest_by_entity_id": latest_by_entity_id,
+    }
 
 
 def write_strategic_staleness_read_model_payload(

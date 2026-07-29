@@ -23,6 +23,7 @@ from state_system.strategic_staleness import (
     StrategicOutputValidationError,
     build_strategic_review_packet,
     build_strategic_staleness_read_model,
+    build_strategic_staleness_read_model_from_findings,
     gather_strategic_findings,
     load_strategic_schemas,
     refresh_strategic_staleness_read_model,
@@ -1098,6 +1099,59 @@ class FleetRefreshStalenessStepTests(unittest.TestCase):
             judgment = read_model["latest_by_entity_id"]["venture.cyrcle"]
             self.assertEqual("awaiting_model_review", judgment["review_status"])
             self.assertTrue(judgment["validity_window_exceeded"])
+
+
+class StrategicStalenessReadModelStatusTests(unittest.TestCase):
+    """The read model must carry an honest status, not a bare empty shell.
+
+    An empty latest_by_entity_id used to look identical whether the model
+    reviewed and found nothing, or never reviewed at all. The status field
+    distinguishes reviewed-with-no-judgments from awaiting-review from
+    no-reviewable-findings so consumers cannot mistake a frozen shell for
+    a healthy current picture.
+    """
+
+    def test_reviewed_with_entity_judgments_reports_status(self):
+        output = {
+            "created_at": "2026-07-29T20:00:00Z",
+            "review_packet_id": "pkt-1",
+            "entries": [
+                {"entity_id": "venture.cyrcle", "classification": "objective_drift"}
+            ],
+        }
+        read_model = build_strategic_staleness_read_model(output)
+        self.assertEqual("reviewed_with_entity_judgments", read_model["status"])
+        self.assertEqual("reviewed", read_model["review_status"])
+        self.assertEqual(1, read_model["entry_count"])
+        self.assertEqual(1, read_model["entity_judgment_count"])
+        self.assertEqual("pkt-1", read_model["review_packet_id"])
+
+    def test_reviewed_without_entity_judgments_reports_honest_status(self):
+        # A judgment with no entity_id is non-entity and excluded from the
+        # entity-keyed view; the status must say so rather than look healthy.
+        output = {
+            "created_at": "2026-07-29T20:00:00Z",
+            "review_packet_id": "pkt-2",
+            "entries": [{"classification": "uncertain"}],  # no entity_id
+        }
+        read_model = build_strategic_staleness_read_model(output)
+        self.assertEqual("reviewed_no_entity_judgments", read_model["status"])
+        self.assertEqual("reviewed", read_model["review_status"])
+        self.assertEqual(0, read_model["entity_judgment_count"])
+        self.assertEqual({}, read_model["latest_by_entity_id"])
+
+    def test_unreviewed_findings_report_awaiting_status(self):
+        findings = [{"entity_id": "venture.cyrcle", "claim_kind": "objective"}]
+        read_model = build_strategic_staleness_read_model_from_findings(findings)
+        self.assertEqual("awaiting_model_review", read_model["status"])
+        self.assertEqual("awaiting_model_review", read_model["review_status"])
+        self.assertIn("venture.cyrcle", read_model["latest_by_entity_id"])
+
+    def test_no_findings_report_no_reviewable_findings_status(self):
+        read_model = build_strategic_staleness_read_model_from_findings([])
+        self.assertEqual("no_reviewable_findings", read_model["status"])
+        self.assertEqual("no_reviewable_findings", read_model["review_status"])
+        self.assertEqual({}, read_model["latest_by_entity_id"])
 
 
 if __name__ == "__main__":
