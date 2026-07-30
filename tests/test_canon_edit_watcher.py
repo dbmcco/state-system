@@ -70,3 +70,29 @@ def test_scan_canon_edits_detects_add_edit_and_delete(tmp_path):
     assert changes["canon.sample.deleted"]["before"]["id"] == "canon.sample.deleted"
     assert changes["canon.sample.deleted"]["after"] is None
     assert unchanged["id"] not in changes
+
+
+def test_scan_canon_edits_is_idempotent_after_baseline_reset(tmp_path):
+    # A lost or reset baseline must not crash the cron: re-scanning the same
+    # state skips edits already queued (identical content -> identical id).
+    stores = StateStoreBundle(tmp_path)
+    runtime = CanonicalClaimRuntime(stores)
+    runtime.record(_claim(id="canon.sample.one"))
+    runtime.record(_claim(id="canon.sample.two"))
+    baseline_path = tmp_path / "baseline" / "canon-claims.json"
+
+    first = scan_canon_edits(tmp_path, baseline_path=baseline_path, detected_at=AS_OF)
+    assert first["emitted_count"] == 2
+    queued_before = set(stores.canon_edits.list_ids())
+    assert len(queued_before) == 2
+
+    # Simulate a baseline loss / reset / first run on a state that already has
+    # queued edits. Previously this raised RecordExistsError and crashed the cron.
+    baseline_path.unlink()
+
+    rerun = scan_canon_edits(tmp_path, baseline_path=baseline_path, detected_at=AS_OF)
+
+    assert rerun["ok"] is True
+    assert rerun["emitted_count"] == 0  # all adds already queued -> skipped
+    queued_after = set(stores.canon_edits.list_ids())
+    assert queued_after == queued_before  # no duplicate records written

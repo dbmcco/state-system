@@ -44,44 +44,49 @@ def scan_canon_edits(
     now = detected_at or _now()
     emitted: list[JsonObject] = []
     store = StateStoreBundle(root).canon_edits
+    # Idempotent: a re-scan after a lost/reset baseline must not crash on edits
+    # already queued (identical content yields an identical edit id). Skip
+    # duplicates so the cron diff is safe to re-run on the same state.
+    existing_ids = set(store.list_ids())
+
+    def _queue(edit: JsonObject) -> None:
+        if edit["id"] in existing_ids:
+            return
+        store.create(edit)
+        existing_ids.add(edit["id"])
+        emitted.append(edit)
 
     for claim_id in sorted(set(current) - set(baseline)):
-        edit = _edit_record(
+        _queue(_edit_record(
             state_root=root,
             detected_at=now,
             change_type=CHANGE_ADD,
             target_claim_id=claim_id,
             before=None,
             after=current[claim_id]["record"],
-        )
-        store.create(edit)
-        emitted.append(edit)
+        ))
 
     for claim_id in sorted(set(current) & set(baseline)):
         if current[claim_id]["hash"] == baseline[claim_id]["hash"]:
             continue
-        edit = _edit_record(
+        _queue(_edit_record(
             state_root=root,
             detected_at=now,
             change_type=CHANGE_EDIT,
             target_claim_id=claim_id,
             before=baseline[claim_id].get("record"),
             after=current[claim_id]["record"],
-        )
-        store.create(edit)
-        emitted.append(edit)
+        ))
 
     for claim_id in sorted(set(baseline) - set(current)):
-        edit = _edit_record(
+        _queue(_edit_record(
             state_root=root,
             detected_at=now,
             change_type=CHANGE_DELETE,
             target_claim_id=claim_id,
             before=baseline[claim_id].get("record"),
             after=None,
-        )
-        store.create(edit)
-        emitted.append(edit)
+        ))
 
     _write_baseline(Path(baseline_path), current)
     return {
