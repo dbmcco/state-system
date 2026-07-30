@@ -844,15 +844,15 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
 
     if args.command == "canon-edit-reconcile-run":
         if args.reviewer == "live":
-            try:
-                reviewer = LiveCanonEditReviewer(registry_route=args.registry_route)
-                reviewer.judge_edit(
-                    {"id": "canon_edit.live-probe"},
-                    {"probe": True},
-                )
-            except NotImplementedError as error:
-                _write_json(stdout, {"ok": False, "error": str(error)})
-                return 1
+            from state_system.model_client import DEFAULT_MODEL_ROUTE, PiModelClient
+
+            reviewer = LiveCanonEditReviewer(
+                registry_route=args.registry_route,
+                model_client=PiModelClient(
+                    model_route=args.model or DEFAULT_MODEL_ROUTE,
+                    project_root=project_root,
+                ),
+            )
         else:
             reviewer = RecordedCanonEditReviewer.from_examples(
                 project_root / "examples" / "canon-edit-judgments"
@@ -1912,6 +1912,11 @@ def _parser() -> argparse.ArgumentParser:
         "--registry-route",
         default="canon-edit-reconcile",
         help="Central-registry route for the live reviewer.",
+    )
+    canon_edit_reconcile_run.add_argument(
+        "--model",
+        default=None,
+        help="Non-anthropic pi model route for --reviewer live (e.g. openai-codex/gpt-5.5).",
     )
 
     canonical_claim_review_run = subcommands.add_parser("canonical-claim-review-run")
