@@ -76,6 +76,37 @@ adapter evidence, and operational artifacts. Those do not belong in this repo.
    the routes, sources, gaps, freshness, tools, and federation boundaries an
    agent needs before answering.
 
+## Canonical Claims
+
+Canonical claims are first-class records of **current canon**: priorities,
+decisions, framings, artifact pointers (e.g. the current approved deck), and
+scientific claims. They answer "is this still our current thinking?" rather than
+only "was this checked recently?"
+
+Each claim carries a `claim_type` (`priority`, `decision`, `framing`,
+`artifact_pointer`, `scientific_claim`, `operating_decision`), supersession
+links (`status: active|superseded|retracted`, `supersedes`, `superseded_by`),
+a validity window with `determined_at` / `last_confirmed_at`, and provenance
+(`generated_by`).
+
+**Re-evaluation is code-owned arithmetic.** `derive_reevaluation` reports
+`current`, `due_for_reconfirmation`, or `overdue` from the most recent
+confirmation and emits an agent-facing directive ("determined N days ago,
+reconfirm before relying on it"). It never judges whether the claim still
+holds — that is model-owned.
+
+**Edit reconcile loop.** Humans may edit canonical claims directly (add, edit,
+delete files). A cron watcher (`scripts/run-canon-reconcile.sh`, hourly per
+root) diffs the store, queues unreconciled edits, and reconciles them through a
+live reviewer that judges the governed action (supersede, amend, retract, add,
+uncertain). Uncertain or invalid judgments are held for human review and
+surfaced to agents in chat — never silently committed. The model owns the
+judgment; code owns diffing, gating, schema validation, and provenance.
+
+CLI: `canonical-claim-record`, `canonical-claim-supersede`,
+`canonical-claim-read` / `canon-read`, `canon-edit-scan`,
+`canon-edit-reconcile-run --reviewer recorded|live --model <route>`.
+
 ## Integrating Sources
 
 Source integrations are first-class. To add one:

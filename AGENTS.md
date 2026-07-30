@@ -38,6 +38,28 @@ source systems or private runtime directories directly.
 - Do not authorize protected external actions from freshness or preflight
   alone. Governance remains a separate boundary.
 
+## Canonical Claims
+
+Canonical claims hold current canon (priorities, decisions, framings, approved
+artifacts, scientific claims) with supersession, validity windows, and honest
+re-evaluation. This is how "is this still our current thinking?" is represented.
+
+- Read canon through `canonical-claim-read` / the `canon` API operation, or the
+  `canonical_claims` block in a context package. Each active claim carries a
+  re-evaluation directive; honor `due_for_reconfirmation`/`overdue` as a caveat.
+- A claim marked current is a recency-of-declaration, not a verified truth.
+  Code never judges whether a claim still holds — that is the live reviewer's
+  job (`canonical-claim-review-run --reviewer live`).
+- Propose canon changes through the governed path (`canonical-claim-record` /
+  `canonical-claim-supersede`) with evidence and provenance. Direct human edits
+  are caught by the canon-edit watcher and reconciled by the live reviewer
+  (`canon-edit-reconcile-run`).
+- `uncertain` or invalid judgments are held for human review (`pending_human_review`)
+  and surface in chat. Do not treat a held item as canon.
+- Review is model-mediated and non-anthropic: the `model_client` rejects
+  anthropic routes. Default route is `zai/glm-5.2`; override per root with the
+  `STATE_SYSTEM_CANON_MODEL` environment variable.
+
 ## Source Integration Rule
 
 Every new source needs a declared source module, a capability connector,
