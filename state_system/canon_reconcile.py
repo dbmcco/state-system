@@ -19,6 +19,7 @@ from state_system.canonical_claims import (
     CanonicalClaimRuntime,
     build_canonical_claims_read_model,
     supersede,
+    validate_canonical_claim,
 )
 from state_system.contracts import JsonObject, load_json
 from state_system.stores import RecordNotFoundError, StateStoreBundle
@@ -107,6 +108,7 @@ def reconcile_edit(
     reviewer: CanonEditReviewer,
     stores: StateStoreBundle,
     as_of: str,
+    claim_schema: JsonObject | None = None,
 ) -> JsonObject:
     """Reconcile one raw edit using a reviewer-owned semantic judgment.
 
@@ -142,7 +144,35 @@ def reconcile_edit(
 
     resulting_claim = _claim_for_action(action, judgment, edit_item, as_of=as_of)
     resulting_claim = _stamp_provenance(resulting_claim, edit_item)
-    commit_result = _commit_claim_action(action, resulting_claim, edit_item, stores)
+    commit_result = _commit_claim_action(
+        action, resulting_claim, edit_item, stores, claim_schema=claim_schema
+    )
+
+    if commit_result.get("held"):
+        # Invalid reviewer-produced claim: hold for human review rather than
+        # persist malformed canon. Code owns this gate; the reviewer is not
+        # re-consulted (a schema failure is structural, not semantic).
+        held = deepcopy(edit_item)
+        held["status"] = STATUS_PENDING_HUMAN_REVIEW
+        held["requires_human_review"] = True
+        held["review_reason"] = (
+            f"{commit_result.get('hold_reason', 'invalid')}: "
+            f"{commit_result.get('validation_errors', [])}"
+        )
+        held["reconciliation"] = _reconciliation_payload(judgment, None)
+        held["reconciled_at"] = None
+        replace_canon_edit(stores, held)
+        return {
+            "ok": True,
+            "status": STATUS_PENDING_HUMAN_REVIEW,
+            "edit": held,
+            "committed_canon_change": False,
+            "evidence": evidence,
+            "judgment": judgment,
+            "hold_reason": commit_result.get("hold_reason"),
+            "validation_errors": commit_result.get("validation_errors", []),
+            "invariant": _boundary_invariant(),
+        }
 
     reconciled = deepcopy(edit_item)
     reconciled["status"] = STATUS_RECONCILED
@@ -170,12 +200,18 @@ def reconcile_unreconciled_edits(
     reviewer: CanonEditReviewer,
     stores: StateStoreBundle,
     as_of: str,
+    claim_schema: JsonObject | None = None,
 ) -> JsonObject:
     results = []
     for edit in stores.canon_edits.replay():
         if edit.get("status") != "unreconciled":
             continue
-        results.append(reconcile_edit(edit, reviewer=reviewer, stores=stores, as_of=as_of))
+        results.append(
+            reconcile_edit(
+                edit, reviewer=reviewer, stores=stores, as_of=as_of,
+                claim_schema=claim_schema,
+            )
+        )
     return {
         "ok": True,
         "as_of": as_of,
@@ -213,11 +249,32 @@ def _commit_claim_action(
     resulting_claim: JsonObject,
     edit_item: JsonObject,
     stores: StateStoreBundle,
+    *,
+    claim_schema: JsonObject | None = None,
 ) -> JsonObject:
+    # Code owns the schema gate: validate the reviewer-produced claim before it
+    # is persisted. Invalid model output is held for human review rather than
+    # committed (the model owns the judgment; code owns structural integrity).
+    if claim_schema is not None:
+        errors = validate_canonical_claim(resulting_claim, claim_schema)
+        if errors:
+            return {
+                "action": action,
+                "held": True,
+                "hold_reason": "invalid_resulting_claim",
+                "validation_errors": errors,
+            }
     runtime = CanonicalClaimRuntime(stores)
     if action == "supersede":
         old_id = str(resulting_claim.get("supersedes") or edit_item["target_claim_id"])
-        result = supersede(old_id, resulting_claim, stores)
+        # Use the baseline prior snapshot so the superseded marker records what
+        # was actually replaced, not the live (already-human-edited) record.
+        prior = (
+            edit_item.get("before")
+            if isinstance(edit_item.get("before"), dict)
+            else None
+        )
+        result = supersede(old_id, resulting_claim, stores, prior_record=prior)
         return {
             "action": action,
             "resulting_claim_id": result["active_claim"]["id"],

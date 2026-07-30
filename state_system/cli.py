@@ -861,6 +861,9 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
             reviewer=reviewer,
             stores=stores,
             as_of=args.as_of,
+            claim_schema=load_json(
+                project_root / "schemas" / "canonical-claim.schema.json"
+            ),
         )
         _write_json(stdout, result)
         return 0

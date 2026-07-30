@@ -215,3 +215,36 @@ def test_context_package_includes_canonical_claims_block_for_agent_chat(tmp_path
     assert package["canonical_claims"]["active_claims"][0]["id"] == "canon.sample.priority"
     assert package["canonical_claims"]["pending_human_review_count"] == 1
     assert "chat" in package["canonical_claims"]["agent_chat_directive"]
+
+
+def test_reconcile_holds_invalid_reviewer_claim_for_human_review(tmp_path):
+    # Code owns the schema gate: a reviewer-produced claim that fails canonical-
+    # claim schema validation is held for human review, never persisted as canon.
+    stores = StateStoreBundle(tmp_path)
+    old_claim = CanonicalClaimRuntime(stores).record(_claim())
+    edit = _edit(before=deepcopy(old_claim))
+    stores.canon_edits.create(edit)
+    invalid_judgment = {
+        "edit_item_id": edit["id"],
+        "action": "supersede",
+        "confidence": 0.8,
+        "rationale": "framing changed",
+        "requires_human_review": False,
+        "resulting_claim": {
+            "id": "canon.sample.priority.v2",
+            "entity_ref": "sampleco",
+            "claim_type": "priority",
+            # missing required statement/determined_at/validity/status/generated_at
+        },
+    }
+    reviewer = _reviewer(tmp_path, invalid_judgment)
+    schema = load_json(ROOT / "schemas" / "canonical-claim.schema.json")
+    result = reconcile_edit(
+        edit, reviewer=reviewer, stores=stores, as_of=AS_OF, claim_schema=schema
+    )
+    assert result["status"] == "pending_human_review"
+    assert result["committed_canon_change"] is False
+    assert result["edit"]["requires_human_review"] is True
+    # The original active claim is unchanged — no supersession was committed.
+    read_model = build_canonical_claims_read_model(stores, as_of=AS_OF)
+    assert [c["id"] for c in read_model["active_claims"]] == ["canon.sample.priority"]

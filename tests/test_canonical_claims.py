@@ -132,6 +132,42 @@ def test_supersede_writes_new_active_claim_and_append_only_superseded_marker(tmp
     assert old_claim["id"] in read_model["superseded_claim_refs"]
 
 
+def test_derive_reevaluation_uses_last_confirmed_at_when_present():
+    # Determined months ago (would be overdue by determined_at alone) but
+    # reconfirmed recently: reevaluation must track the confirmation, not the
+    # original determination, so a reconfirmed claim reads as current.
+    claim = _claim(determined_at="2026-04-01T00:00:00Z")
+    claim["validity"] = {
+        "window_days": 30,
+        "basis": "calendar",
+        "last_confirmed_at": "2026-07-20T00:00:00Z",
+    }
+    result = derive_reevaluation(claim, as_of=AS_OF)
+    assert result["reevaluation_status"] == "current"
+    # age is measured from last_confirmed_at (11 days), not determined_at (121 days)
+    assert result["age_days"] == 11
+    assert result["reconfirm_by"].startswith("2026-08-19")
+
+
+def test_supersede_uses_prior_record_snapshot_for_marker(tmp_path):
+    # In the scan/reconcile flow the live store has already been edited before
+    # supersession, so the marker must use the baseline prior snapshot passed in,
+    # not whatever the live store currently holds.
+    stores = StateStoreBundle(tmp_path)
+    runtime = CanonicalClaimRuntime(stores)
+    old_claim = runtime.record(_claim(statement="LIVE STORE STATEMENT"))
+    baseline_prior = deepcopy(old_claim)
+    baseline_prior["statement"] = "BASELINE SNAPSHOT"
+    new_claim = _claim(
+        id="canon.sample.priority.v2",
+        determined_at="2026-07-20T00:00:00Z",
+        generated_at="2026-07-20T00:05:00Z",
+    )
+    result = supersede(old_claim["id"], new_claim, stores, prior_record=baseline_prior)
+    # The superseded marker records the baseline prior, not the live record.
+    assert result["superseded_claim"]["statement"] == "BASELINE SNAPSHOT"
+
+
 def test_recorded_canonical_claim_reviewer_replays_recorded_judgment(tmp_path):
     examples = tmp_path / "examples"
     examples.mkdir()

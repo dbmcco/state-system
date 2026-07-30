@@ -55,16 +55,29 @@ def validate_canonical_claim(record: JsonObject, schema: JsonObject) -> list[str
 
 
 def supersede(
-    old_id: str, new_record: JsonObject, stores: StateStoreBundle
+    old_id: str,
+    new_record: JsonObject,
+    stores: StateStoreBundle,
+    *,
+    prior_record: JsonObject | None = None,
 ) -> JsonObject:
     """Append a new active claim and an append-only superseded marker.
 
     The prior raw record is not destructively rewritten. The marker records the
     inactive state with ``status=superseded`` and ``superseded_by=<new_id>`` so
     agent-facing surfaces can name the superseder while retaining history.
+
+    ``prior_record`` is the baseline snapshot of the claim being replaced. In the
+    scan/reconcile flow the live store has already been edited by the time
+    supersession runs, so reading the prior from the store would capture the
+    post-edit record and corrupt history. Callers that hold the baseline (e.g.
+    an edit item's ``before``) pass it here; otherwise the current store record
+    is read.
     """
     runtime = CanonicalClaimRuntime(stores)
-    old_record = runtime.read(old_id)
+    old_record = (
+        prior_record if isinstance(prior_record, dict) else runtime.read(old_id)
+    )
     active_record = _normalize_claim(new_record)
     active_record["status"] = ACTIVE
     active_record["supersedes"] = old_id
@@ -103,8 +116,17 @@ def derive_reevaluation(claim: JsonObject, *, as_of: str) -> JsonObject:
     basis = str(validity.get("basis", ""))
     determined_at = str(claim.get("determined_at", ""))
     last_confirmed_at = str(validity.get("last_confirmed_at", ""))
-    reconfirm_by = _zulu(_parse_instant(determined_at) + timedelta(days=window_days))
-    age_days = max(0, (_parse_instant(as_of) - _parse_instant(determined_at)).days)
+    # Re-evaluation age tracks the most recent confirmation, not the original
+    # determination: a claim reconfirmed today is current even if it was first
+    # determined months ago. Falls back to determined_at when no confirmation is
+    # recorded, so legacy records without last_confirmed_at behave as before.
+    reference_at = (
+        _parse_instant(last_confirmed_at)
+        if last_confirmed_at
+        else _parse_instant(determined_at)
+    )
+    reconfirm_by = _zulu(reference_at + timedelta(days=window_days))
+    age_days = max(0, (_parse_instant(as_of) - reference_at).days)
     status = str(claim.get("status", ACTIVE))
 
     if status != ACTIVE:
