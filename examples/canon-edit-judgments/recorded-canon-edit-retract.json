@@ -1,0 +1,8 @@
+{
+  "edit_item_id": "canon_edit.canon.sample.old-decision.delete.retract",
+  "action": "retract",
+  "resulting_claim": null,
+  "confidence": 0.79,
+  "rationale": "The human delete removes an obsolete active decision and should be recorded as a retraction marker.",
+  "requires_human_review": false
+}

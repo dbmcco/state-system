@@ -92,6 +92,16 @@
     },
     "generated_by": {
       "type": "string"
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Optional provenance for governed records structured from raw human edits or agent outputs.",
+      "additionalProperties": true,
+      "properties": {
+        "origin": { "type": "string" },
+        "structured_by": { "type": "string" },
+        "edit_item_id": { "type": "string" }
+      }
     }
   }
 }

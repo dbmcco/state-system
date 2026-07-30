@@ -1,0 +1,50 @@
+{
+  "id": "canon_edit.canon.sample.position.edit.uncertain",
+  "state_root": "examples/state-root",
+  "detected_at": "2026-07-30T00:00:00Z",
+  "change_type": "edit",
+  "target_claim_id": "canon.sample.position",
+  "before": {
+    "id": "canon.sample.position",
+    "entity_ref": "sampleco",
+    "claim_type": "framing",
+    "statement": "SampleCo positions the product as operational workflow software.",
+    "artifact_ref": null,
+    "evidence_refs": ["memory:position-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-07-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-01T00:00:00Z"
+    },
+    "generated_at": "2026-07-01T00:05:00Z",
+    "generated_by": "example"
+  },
+  "after": {
+    "id": "canon.sample.position",
+    "entity_ref": "sampleco",
+    "claim_type": "framing",
+    "statement": "SampleCo positions the product as workflow software for operators.",
+    "artifact_ref": null,
+    "evidence_refs": ["memory:position-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-07-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-01T00:00:00Z"
+    },
+    "generated_at": "2026-07-30T00:05:00Z",
+    "generated_by": "human-edit"
+  },
+  "status": "unreconciled",
+  "requires_human_review": false,
+  "review_reason": null,
+  "reconciliation": null,
+  "reconciled_at": null
+}

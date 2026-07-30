@@ -13,6 +13,7 @@ DEFAULT_COLLECTIONS = {
     "source_events": "source-events",
     "review_packets": "review-packets",
     "canonical_claims": "canonical-claims",
+    "canon_edits": "canon-edits",
     "journals": "journals",
     "memory": "memory",
     "rollups": "rollups",

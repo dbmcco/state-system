@@ -7,6 +7,7 @@ freshness.
 
 from __future__ import annotations
 
+from collections import Counter
 from datetime import UTC, datetime
 import re
 import json
@@ -15,15 +16,19 @@ from typing import Any, Mapping
 from uuid import uuid4
 
 from state_system.audit_ledger import StateAuditLedger
+from state_system.canon_edit_watcher import summarize_canon_edits
+from state_system.canonical_claims import build_canonical_claims_read_model
 from state_system.content_health import build_package_health
 from state_system.contracts import validate_all_examples
 from state_system.gap_acknowledgement import GapAcknowledgementLedger
+from state_system.stores import StateStoreBundle
 
 
 PROTOCOL_VERSION = "state-system.v1"
 OPERATIONS = (
     "handshake",
     "inspect",
+    "canon",
     "validate",
     "refresh",
     "search",
@@ -70,7 +75,7 @@ class StateDispatcher:
                 request_id,
                 "unknown_operation",
                 f"Unsupported operation {operation!r}; choose a declared operation.",
-                expected_shape="operation: one of handshake, inspect, validate, refresh, search, record, repair, acknowledge_gap",
+                expected_shape="operation: one of handshake, inspect, canon, validate, refresh, search, record, repair, acknowledge_gap",
                 received_value_redacted=str(operation)[:256],
                 safe_examples=["{\"operation\": \"inspect\", \"scope\": \"state:local\"}"],
                 next_steps=["Call handshake to discover operations, then retry with a declared operation."],
@@ -107,6 +112,12 @@ class StateDispatcher:
                     operation,
                     request_id,
                     data=self._inspect(scope=scope, arguments=arguments),
+                )
+            if operation == "canon":
+                return _ok_response(
+                    operation,
+                    request_id,
+                    data=self._canon(scope=scope, arguments=arguments),
                 )
             if operation == "validate":
                 return _ok_response(
@@ -212,6 +223,40 @@ class StateDispatcher:
         except (OSError, UnicodeDecodeError, json.JSONDecodeError):
             return None
         return value if isinstance(value, dict) else None
+
+    def _canon(self, *, scope: str, arguments: Mapping[str, Any]) -> dict[str, Any]:
+        as_of = str(arguments.get("as_of") or datetime.now(UTC).isoformat().replace("+00:00", "Z"))
+        entity_ref = arguments.get("entity_ref")
+        if not isinstance(entity_ref, str):
+            entity_ref = _entity_ref_from_scope(scope)
+        stores = StateStoreBundle(self.state_root)
+        read_model = build_canonical_claims_read_model(stores, as_of=as_of)
+        active_claims = [
+            claim
+            for claim in read_model["active_claims"]
+            if entity_ref is None or claim.get("entity_ref", "") == entity_ref
+        ]
+        edit_summary = summarize_canon_edits(stores, entity_ref=entity_ref)
+        return {
+            "scope": scope,
+            "entity_ref": entity_ref,
+            "as_of": as_of,
+            "active_claims": active_claims,
+            "counts_by_reevaluation_status": dict(
+                sorted(
+                    Counter(
+                        claim["reevaluation"]["reevaluation_status"]
+                        for claim in active_claims
+                    ).items()
+                )
+            ),
+            "canon_edit_queue": edit_summary,
+            "invariant": {
+                "reevaluation_is_window_arithmetic": True,
+                "semantic_judgment_is_reviewer_owned": True,
+                "agent_chat_surface_includes_pending_human_review": True,
+            },
+        }
 
     def _validate(self) -> dict[str, Any]:
         results = validate_all_examples(self.project_root)
@@ -322,6 +367,7 @@ def build_handshake(*, scope: str = "state:local") -> dict[str, Any]:
     descriptions = {
         "handshake": ("Discover the versioned State System protocol and declared operations.", "read_only"),
         "inspect": ("Read package, freshness, gap, repair, and ledger status without mutation.", "read_only"),
+        "canon": ("Read active canonical claims with reevaluation directives and pending edit-review counts.", "read_only"),
         "validate": ("Validate repository examples and published contracts.", "read_only"),
         "refresh": ("Request a declared internal refresh; source adapters own connector behavior.", "internal_write"),
         "search": ("Search declared State System read models; do not infer connector behavior.", "read_only"),
@@ -465,6 +511,12 @@ def _response(
         "gap_refs": [],
         "freshness": None,
     }
+
+
+def _entity_ref_from_scope(scope: str) -> str | None:
+    if scope.startswith(("entity:", "company:", "state_instance:")):
+        return scope.split(":", 1)[1]
+    return None
 
 
 def _valid_ref(value: Any) -> bool:

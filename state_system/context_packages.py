@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from copy import deepcopy
 
+from state_system.canon_edit_watcher import summarize_canon_edits
+from state_system.canonical_claims import build_canonical_claims_read_model
 from state_system.contracts import validate_schema
 from state_system.stores import JsonObject, StateStoreBundle
 
@@ -207,6 +209,7 @@ class ContextPackager:
                 "unresolved_evidence_refs": list(unresolved_evidence_refs),
             },
             "governance_context": {"constraints": deepcopy(governance_constraints)},
+            "canonical_claims": self._canonical_claims_context(created_at),
             "relationship_sensitivity": deepcopy(relationship_sensitivity),
             "available_actions": deepcopy(available_actions),
             "excluded_context_summary": deepcopy(excluded_context_summary),
@@ -219,6 +222,28 @@ class ContextPackager:
                 ),
                 "stale_if_refs_change": list(stale_if_refs_change),
             },
+        }
+
+    def _canonical_claims_context(self, as_of: str) -> JsonObject:
+        read_model = build_canonical_claims_read_model(self.stores, as_of=as_of)
+        edit_summary = summarize_canon_edits(self.stores)
+        return {
+            "as_of": as_of,
+            "active_claims": deepcopy(read_model["active_claims"][:10]),
+            "counts_by_reevaluation_status": deepcopy(
+                read_model["counts_by_reevaluation_status"]
+            ),
+            "pending_human_review_count": edit_summary[
+                "pending_human_review_count"
+            ],
+            "unreconciled_count": edit_summary["unreconciled_count"],
+            "pending_human_review_items": deepcopy(
+                edit_summary["pending_human_review_items"]
+            ),
+            "agent_chat_directive": (
+                "Pending human-review canon edits are surfaced here so agents in "
+                "chat can ask for or provide judgment before canon is changed."
+            ),
         }
 
     def _recent_entry_for_persona(

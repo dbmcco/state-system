@@ -1,0 +1,32 @@
+{
+  "id": "canon_edit.canon.sample.old-decision.delete.retract",
+  "state_root": "examples/state-root",
+  "detected_at": "2026-07-30T00:00:00Z",
+  "change_type": "delete",
+  "target_claim_id": "canon.sample.old-decision",
+  "before": {
+    "id": "canon.sample.old-decision",
+    "entity_ref": "sampleco",
+    "claim_type": "decision",
+    "statement": "SampleCo will keep the deprecated launch sequence active.",
+    "artifact_ref": null,
+    "evidence_refs": ["memory:old-decision-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-06-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-06-01T00:00:00Z"
+    },
+    "generated_at": "2026-06-01T00:05:00Z",
+    "generated_by": "example"
+  },
+  "after": null,
+  "status": "unreconciled",
+  "requires_human_review": false,
+  "review_reason": null,
+  "reconciliation": null,
+  "reconciled_at": null
+}

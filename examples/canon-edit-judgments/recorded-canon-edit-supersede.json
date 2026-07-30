@@ -1,0 +1,26 @@
+{
+  "edit_item_id": "canon_edit.canon.sample.priority.edit.supersede",
+  "action": "supersede",
+  "resulting_claim": {
+    "id": "canon.sample.priority.v2",
+    "entity_ref": "sampleco",
+    "claim_type": "priority",
+    "statement": "SampleCo should prioritize onboarding pilots.",
+    "artifact_ref": null,
+    "evidence_refs": ["memory:canonical-priority-note"],
+    "status": "active",
+    "supersedes": "canon.sample.priority",
+    "superseded_by": null,
+    "determined_at": "2026-07-30T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-30T00:00:00Z"
+    },
+    "generated_at": "2026-07-30T00:05:00Z",
+    "generated_by": "recorded-canon-edit-reviewer"
+  },
+  "confidence": 0.82,
+  "rationale": "The human edit changes the active priority meaning, so it should supersede the prior claim.",
+  "requires_human_review": false
+}

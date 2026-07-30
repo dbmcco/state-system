@@ -1,0 +1,8 @@
+{
+  "edit_item_id": "canon_edit.canon.sample.position.edit.uncertain",
+  "action": "uncertain",
+  "resulting_claim": null,
+  "confidence": 0.35,
+  "rationale": "The edit may be either a wording cleanup or a positioning change; ask an agent in chat to resolve it.",
+  "requires_human_review": true
+}

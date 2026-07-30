@@ -1,0 +1,26 @@
+{
+  "edit_item_id": "canon_edit.canon.sample.deck.edit.amend",
+  "action": "amend",
+  "resulting_claim": {
+    "id": "canon.sample.deck",
+    "entity_ref": "sampleco",
+    "claim_type": "artifact_pointer",
+    "statement": "SampleCo's approved deck is sample-deck-v1.",
+    "artifact_ref": "drive:sample-deck-v1",
+    "evidence_refs": ["memory:deck-approval-note", "memory:deck-folder-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-07-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-01T00:00:00Z"
+    },
+    "generated_at": "2026-07-30T00:05:00Z",
+    "generated_by": "recorded-canon-edit-reviewer"
+  },
+  "confidence": 0.88,
+  "rationale": "The edit adds evidence but does not change claim meaning.",
+  "requires_human_review": false
+}

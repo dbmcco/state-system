@@ -24,6 +24,12 @@ from state_system.company_capability import (
     build_company_capability_read_model,
     build_company_capability_read_model_from_runtime,
 )
+from state_system.canon_edit_watcher import scan_canon_edits
+from state_system.canon_reconcile import (
+    LiveCanonEditReviewer,
+    RecordedCanonEditReviewer,
+    reconcile_unreconciled_edits,
+)
 from state_system.canonical_claim_review import (
     RecordedCanonicalClaimReviewer,
     assemble_claim_evidence,
@@ -151,6 +157,7 @@ COLLECTIONS = {
     "source-event": "source_events",
     "review-packet": "review_packets",
     "canonical-claim": "canonical_claims",
+    "canon-edit": "canon_edits",
     "journal": "journals",
     "memory": "memory",
     "rollup": "rollups",
@@ -813,6 +820,49 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
     if args.command == "canonical-claim-read":
         read_model = build_canonical_claims_read_model(stores, as_of=args.as_of)
         _write_json(stdout, read_model)
+        return 0
+
+    if args.command == "canon-read":
+        response = dispatch_operation(
+            "canon",
+            project_root=project_root,
+            state_root=state_root,
+            scope=args.scope,
+            arguments={"as_of": args.as_of, "entity_ref": args.entity_ref},
+        )
+        _write_json(stdout, response)
+        return 0 if response["status"] == "ok" else 1
+
+    if args.command == "canon-edit-scan":
+        result = scan_canon_edits(
+            state_root,
+            baseline_path=Path(args.baseline_path),
+            detected_at=args.detected_at,
+        )
+        _write_json(stdout, result)
+        return 0
+
+    if args.command == "canon-edit-reconcile-run":
+        if args.reviewer == "live":
+            try:
+                reviewer = LiveCanonEditReviewer(registry_route=args.registry_route)
+                reviewer.judge_edit(
+                    {"id": "canon_edit.live-probe"},
+                    {"probe": True},
+                )
+            except NotImplementedError as error:
+                _write_json(stdout, {"ok": False, "error": str(error)})
+                return 1
+        else:
+            reviewer = RecordedCanonEditReviewer.from_examples(
+                project_root / "examples" / "canon-edit-judgments"
+            )
+        result = reconcile_unreconciled_edits(
+            reviewer=reviewer,
+            stores=stores,
+            as_of=args.as_of,
+        )
+        _write_json(stdout, result)
         return 0
 
     if args.command == "canonical-claim-review-run":
@@ -1838,6 +1888,28 @@ def _parser() -> argparse.ArgumentParser:
 
     canonical_claim_read = subcommands.add_parser("canonical-claim-read")
     canonical_claim_read.add_argument("--as-of", required=True)
+
+    canon_read = subcommands.add_parser("canon-read")
+    canon_read.add_argument("--as-of", required=True)
+    canon_read.add_argument("--scope", default="state:local")
+    canon_read.add_argument("--entity-ref")
+
+    canon_edit_scan = subcommands.add_parser("canon-edit-scan")
+    canon_edit_scan.add_argument("--baseline-path", required=True)
+    canon_edit_scan.add_argument("--detected-at")
+
+    canon_edit_reconcile_run = subcommands.add_parser("canon-edit-reconcile-run")
+    canon_edit_reconcile_run.add_argument("--as-of", required=True)
+    canon_edit_reconcile_run.add_argument(
+        "--reviewer",
+        choices=["recorded", "live"],
+        default="recorded",
+    )
+    canon_edit_reconcile_run.add_argument(
+        "--registry-route",
+        default="canon-edit-reconcile",
+        help="Central-registry route for the live reviewer.",
+    )
 
     canonical_claim_review_run = subcommands.add_parser("canonical-claim-review-run")
     canonical_claim_review_run.add_argument("--as-of", required=True)

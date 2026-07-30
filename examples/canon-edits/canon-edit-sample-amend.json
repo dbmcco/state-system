@@ -1,0 +1,50 @@
+{
+  "id": "canon_edit.canon.sample.deck.edit.amend",
+  "state_root": "examples/state-root",
+  "detected_at": "2026-07-30T00:00:00Z",
+  "change_type": "edit",
+  "target_claim_id": "canon.sample.deck",
+  "before": {
+    "id": "canon.sample.deck",
+    "entity_ref": "sampleco",
+    "claim_type": "artifact_pointer",
+    "statement": "SampleCo's approved deck is sample-deck-v1.",
+    "artifact_ref": "drive:sample-deck-v1",
+    "evidence_refs": ["memory:deck-approval-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-07-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-01T00:00:00Z"
+    },
+    "generated_at": "2026-07-01T00:05:00Z",
+    "generated_by": "example"
+  },
+  "after": {
+    "id": "canon.sample.deck",
+    "entity_ref": "sampleco",
+    "claim_type": "artifact_pointer",
+    "statement": "SampleCo's approved deck is sample-deck-v1.",
+    "artifact_ref": "drive:sample-deck-v1",
+    "evidence_refs": ["memory:deck-approval-note", "memory:deck-folder-note"],
+    "status": "active",
+    "supersedes": null,
+    "superseded_by": null,
+    "determined_at": "2026-07-01T00:00:00Z",
+    "validity": {
+      "window_days": 30,
+      "basis": "calendar",
+      "last_confirmed_at": "2026-07-01T00:00:00Z"
+    },
+    "generated_at": "2026-07-30T00:05:00Z",
+    "generated_by": "human-edit"
+  },
+  "status": "unreconciled",
+  "requires_human_review": false,
+  "review_reason": null,
+  "reconciliation": null,
+  "reconciled_at": null
+}

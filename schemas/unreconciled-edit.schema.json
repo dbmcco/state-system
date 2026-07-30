@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/unreconciled-edit.schema.json",
+  "title": "UnreconciledCanonEdit",
+  "description": "A pure diff-detected add/edit/delete in the canonical-claims store awaiting agent reconciliation. Code detects the diff and gates uncertain judgments; the reviewer owns what the change means and whether it is uncertain.",
+  "type": "object",
+  "required": [
+    "id",
+    "state_root",
+    "detected_at",
+    "change_type",
+    "target_claim_id",
+    "before",
+    "after",
+    "status",
+    "requires_human_review",
+    "review_reason",
+    "reconciliation",
+    "reconciled_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^canon_edit\\."
+    },
+    "state_root": { "type": "string" },
+    "detected_at": { "type": "string", "format": "date-time" },
+    "change_type": {
+      "type": "string",
+      "enum": ["add", "edit", "delete"]
+    },
+    "target_claim_id": { "type": "string" },
+    "before": { "type": ["object", "null"] },
+    "after": { "type": ["object", "null"] },
+    "status": {
+      "type": "string",
+      "enum": ["unreconciled", "reconciled", "pending_human_review", "flagged"]
+    },
+    "requires_human_review": { "type": "boolean" },
+    "review_reason": { "type": ["string", "null"] },
+    "reconciliation": {
+      "type": ["object", "null"],
+      "properties": {
+        "action": {
+          "type": "string",
+          "enum": ["supersede", "amend", "retract", "add", "uncertain"]
+        },
+        "resulting_claim_id": { "type": ["string", "null"] },
+        "provenance": { "type": "object" },
+        "confidence": { "type": "number" },
+        "rationale": { "type": "string" }
+      }
+    },
+    "reconciled_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

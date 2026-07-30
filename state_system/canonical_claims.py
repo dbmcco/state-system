@@ -156,13 +156,15 @@ def build_canonical_claims_read_model(
     """Build the agent/consumer read model for active canonical claims."""
     records = CanonicalClaimRuntime(stores).list_records()
     superseded_source_ids = _superseded_source_ids(records)
+    retracted_source_ids = _retracted_source_ids(records)
+    inactive_source_ids = superseded_source_ids | retracted_source_ids
     active_claims: list[JsonObject] = []
 
     for record in records:
         record_id = str(record.get("id", ""))
         if record.get("status") != ACTIVE:
             continue
-        if record_id in superseded_source_ids:
+        if record_id in inactive_source_ids:
             continue
         claim = deepcopy(record)
         claim["reevaluation"] = derive_reevaluation(claim, as_of=as_of)
@@ -187,9 +189,12 @@ def build_canonical_claims_read_model(
         "counts_by_reevaluation_status": dict(sorted(counts.items())),
         "superseded_claim_refs": sorted(superseded_source_ids),
         "retracted_claim_refs": sorted(
-            str(record.get("id", ""))
-            for record in records
-            if record.get("status") == RETRACTED
+            retracted_source_ids
+            | {
+                str(record.get("id", ""))
+                for record in records
+                if record.get("status") == RETRACTED and not record.get("supersedes")
+            }
         ),
         "invariant": {
             "reevaluation_is_window_arithmetic": True,
@@ -223,6 +228,14 @@ def _superseded_source_ids(records: list[JsonObject]) -> set[str]:
         if record.get("status") == SUPERSEDED and record.get("supersedes")
     )
     return ids
+
+
+def _retracted_source_ids(records: list[JsonObject]) -> set[str]:
+    return {
+        str(record["supersedes"])
+        for record in records
+        if record.get("status") == RETRACTED and record.get("supersedes")
+    }
 
 
 def _superseded_marker_id(old_id: str, new_id: str) -> str:
