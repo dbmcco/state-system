@@ -9,6 +9,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
+from state_system.content_health import build_content_health, build_process_health
 from state_system.contracts import JsonObject, load_json, validate_schema
 from state_system.entity_current_state import build_entity_current_state_read_model
 from state_system.instance_agent_packages import InstanceAgentPackageRuntime
@@ -74,15 +75,34 @@ def run_fleet_refresh(
         project_root=project_root,
         dry_run=dry_run,
     )
+    process_ok = (
+        all(result.get("process_ok", result.get("ok", False)) for result in instance_results)
+        and (
+            entity_current_state is None
+            or entity_current_state["status"] in {"planned", "refreshed"}
+        )
+        and (pressure_report is None or pressure_report["ok"])
+    )
+    content_health = _fleet_content_health(
+        instance_results,
+        entity_current_state=entity_current_state,
+        checked_at=run_checked_at,
+    )
+    content_ok = _content_health_ok(content_health)
     report = {
         "id": f"fleet_refresh_report.{manifest.get('id', 'unknown')}",
         "manifest_id": manifest.get("id"),
         "checked_at": run_checked_at,
         "stale_after": run_stale_after,
         "dry_run": dry_run,
-        "ok": all(result["ok"] for result in instance_results)
-        and (entity_current_state is None or entity_current_state["status"] in {"planned", "refreshed"})
-        and (pressure_report is None or pressure_report["ok"]),
+        "ok": process_ok,
+        "process_ok": process_ok,
+        "content_ok": content_ok,
+        "process_health": build_process_health(
+            status="passed" if process_ok else "failed",
+            generated_at=run_checked_at,
+        ),
+        "content_health": content_health,
         "instance_count": len(instance_results),
         "instances": instance_results,
         "pressure_report": pressure_report,
@@ -232,15 +252,27 @@ def _refresh_instance(
     command_failures = [
         command
         for command in commands
-        if command["status"] == "failed" and command.get("required", True)
+        if command["status"] == "failed_to_run" and command.get("required", True)
     ]
+    process_ok = not command_failures
     if dry_run:
+        content_health = build_content_health(
+            statuses=["unknown"],
+            generated_at=checked_at,
+        )
         return {
             "id": config["id"],
             "state_root": str(state_root),
             "instance_ref": config["instance_ref"],
             "package_id": config["package_id"],
-            "ok": not command_failures,
+            "ok": process_ok,
+            "process_ok": process_ok,
+            "content_ok": _content_health_ok(content_health),
+            "process_health": build_process_health(
+                status="planned",
+                generated_at=checked_at,
+            ),
+            "content_health": content_health,
             "status": "planned",
             "adapter_commands": commands,
         }
@@ -307,13 +339,24 @@ def _refresh_instance(
     )
     source_counts = _source_counts(package)
     source_gap_refs = package.get("source_context", {}).get("source_gap_refs", [])
+    content_health = _package_content_health(package, checked_at=checked_at)
+    content_ok = _content_health_ok(content_health)
+    commands = _annotate_adapter_content_outcomes(commands, content_ok=content_ok)
     return {
         "id": config["id"],
         "state_root": str(state_root),
         "instance_ref": config["instance_ref"],
         "package_id": config["package_id"],
-        "ok": not command_failures,
-        "status": "failed" if command_failures else "refreshed",
+        "ok": process_ok,
+        "process_ok": process_ok,
+        "content_ok": content_ok,
+        "process_health": build_process_health(
+            status="passed" if process_ok else "failed",
+            generated_at=checked_at,
+            artifact_refs=[package_path],
+        ),
+        "content_health": content_health,
+        "status": "failed" if not process_ok else "refreshed",
         "adapter_commands": commands,
         "read_model_paths": {
             "instance_preflight": str(preflight_path),
@@ -366,12 +409,12 @@ def _run_adapter_command(
     except subprocess.TimeoutExpired as error:
         if process is not None:
             _terminate_process_group(process)
-        return {**result, "status": "failed", "error": str(error)}
+        return {**result, "status": "failed_to_run", "error": str(error)}
     except OSError as error:
-        return {**result, "status": "failed", "error": str(error)}
+        return {**result, "status": "failed_to_run", "error": str(error)}
     return {
         **result,
-        "status": "passed" if process.returncode == 0 else "failed",
+        "status": "passed" if process.returncode == 0 else "failed_to_run",
         "returncode": process.returncode,
         "stdout": stdout[-4000:],
         "stderr": stderr[-4000:],
@@ -493,6 +536,102 @@ def _source_counts(package: JsonObject) -> JsonObject:
         )
         counts[key] = counts.get(key, 0) + 1
     return dict(sorted(counts.items()))
+
+
+def _fleet_content_health(
+    instance_results: list[JsonObject],
+    *,
+    entity_current_state: JsonObject | None,
+    checked_at: str,
+) -> JsonObject:
+    statuses = [
+        result.get("content_health", {}).get("status", "unknown")
+        for result in instance_results
+    ]
+    source_gap_refs = [
+        gap_ref
+        for result in instance_results
+        for gap_ref in result.get("content_health", {}).get("source_gap_refs", [])
+    ]
+    expired_freshness_refs = [
+        expired_ref
+        for result in instance_results
+        for expired_ref in result.get("content_health", {}).get(
+            "expired_freshness_refs", []
+        )
+    ]
+    evidence_refs = [
+        evidence_ref
+        for result in instance_results
+        for evidence_ref in result.get("content_health", {}).get("evidence_refs", [])
+    ]
+    if entity_current_state is not None:
+        source_gap_refs.extend(entity_current_state.get("gap_refs", []))
+        if entity_current_state["status"] not in {"planned", "refreshed"}:
+            statuses.append("failed")
+    return build_content_health(
+        statuses=statuses,
+        source_gap_refs=source_gap_refs,
+        expired_freshness_refs=expired_freshness_refs,
+        evidence_refs=evidence_refs,
+        generated_at=checked_at,
+    )
+
+
+def _package_content_health(package: JsonObject, *, checked_at: str) -> JsonObject:
+    freshness = package.get("freshness", {})
+    sources = package.get("source_context", {}).get("source_readiness", [])
+    statuses = [
+        source.get("content_status", source.get("freshness_status", "unknown"))
+        for source in sources
+    ]
+    if isinstance(freshness, dict):
+        statuses.append(freshness.get("content_status", "unknown"))
+    source_gap_refs = list(package.get("source_context", {}).get("source_gap_refs", []))
+    if isinstance(freshness, dict):
+        source_gap_refs.extend(freshness.get("source_gap_refs", []))
+    expired_freshness_refs = (
+        freshness.get("expired_freshness_refs", []) if isinstance(freshness, dict) else []
+    )
+    evidence_refs = (
+        freshness.get("evidence_refs", []) if isinstance(freshness, dict) else []
+    )
+    return build_content_health(
+        statuses=statuses,
+        requires_refresh=bool(
+            freshness.get("requires_refresh_before_external_action")
+        )
+        if isinstance(freshness, dict)
+        else False,
+        source_gap_refs=source_gap_refs,
+        expired_freshness_refs=expired_freshness_refs,
+        evidence_refs=evidence_refs,
+        generated_at=checked_at,
+    )
+
+
+def _content_health_ok(content_health: JsonObject) -> bool:
+    return (
+        content_health.get("status") == "fresh"
+        and not content_health.get("requires_refresh_before_external_action", False)
+        and not content_health.get("source_gap_refs", [])
+        and not content_health.get("expired_freshness_refs", [])
+    )
+
+
+def _annotate_adapter_content_outcomes(
+    commands: list[JsonObject],
+    *,
+    content_ok: bool,
+) -> list[JsonObject]:
+    if content_ok:
+        return commands
+    return [
+        {**command, "status": "ran_with_gaps"}
+        if command.get("status") == "passed"
+        else command
+        for command in commands
+    ]
 
 
 def _now_utc() -> str:

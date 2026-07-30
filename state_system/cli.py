@@ -1123,7 +1123,7 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
             reviewer=reviewer,
         )
         _write_json(stdout, report)
-        return 0 if report["ok"] else 1
+        return 0 if report["process_ok"] else 1
 
     if args.command == "instance-scaffold":
         try:

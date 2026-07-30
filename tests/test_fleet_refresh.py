@@ -144,9 +144,106 @@ class FleetRefreshTests(unittest.TestCase):
             )
 
             self.assertFalse(report["ok"])
+            self.assertFalse(report["process_ok"])
             command = report["instances"][0]["adapter_commands"][0]
-            self.assertEqual("failed", command["status"])
+            self.assertEqual("failed_to_run", command["status"])
             self.assertEqual(7, command["returncode"])
+
+    def test_content_gaps_do_not_fail_refresh_process_or_cli(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            _seed_personal_state(state_root)
+            InstanceSourceFreshnessRuntime(StateStoreBundle(state_root)).record(
+                {
+                    "instance_ref": "state_instance.sample_personal",
+                    "connector_ref": "connector.personal.kb",
+                    "source_ref": "kb:tenant:personal",
+                    "connector_type": "kb",
+                    "status": "stale",
+                    "checked_at": "2026-05-19T20:00:00Z",
+                    "source_watermark": "kb.latest_modified_at:2026-05-18T20:00:00Z",
+                    "stale_after": "2026-05-19T19:00:00Z",
+                    "watermark_basis": "source_content",
+                    "latest_source_modified_at": "2026-05-18T20:00:00Z",
+                    "status_reason": "test fixture deliberately leaves content stale",
+                    "evidence_refs": ["freshness:kb:stale"],
+                }
+            )
+            manifest = _manifest(
+                state_root,
+                adapter_commands=[
+                    {
+                        "id": "adapter.refreshes_metadata",
+                        "argv": [sys.executable, "-c", "raise SystemExit(0)"],
+                        "required": True,
+                    }
+                ],
+            )
+            manifest_path = state_root / "fleet-refresh.json"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            buffer = io.StringIO()
+
+            rc = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "fleet-refresh-run",
+                    str(manifest_path),
+                    "--checked-at",
+                    "2026-05-19T20:30:00Z",
+                    "--stale-after",
+                    "2026-05-19T21:30:00Z",
+                ],
+                stdout=buffer,
+            )
+
+            self.assertEqual(0, rc, buffer.getvalue())
+            report = json.loads(buffer.getvalue())
+            self.assertTrue(report["ok"], report)
+            self.assertTrue(report["process_ok"], report)
+            self.assertFalse(report["content_ok"], report)
+            self.assertEqual("stale", report["content_health"]["status"])
+            command = report["instances"][0]["adapter_commands"][0]
+            self.assertEqual("ran_with_gaps", command["status"])
+
+    def test_failed_adapter_is_process_failure_and_cli_nonzero(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            _seed_personal_state(state_root)
+            manifest = _manifest(
+                state_root,
+                adapter_commands=[
+                    {
+                        "id": "adapter.crash",
+                        "argv": [sys.executable, "-c", "import sys; sys.exit(7)"],
+                        "required": True,
+                    }
+                ],
+            )
+            manifest_path = state_root / "fleet-refresh.json"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            buffer = io.StringIO()
+
+            rc = cli.main(
+                [
+                    "--project-root",
+                    str(ROOT),
+                    "fleet-refresh-run",
+                    str(manifest_path),
+                    "--checked-at",
+                    "2026-05-19T20:00:00Z",
+                    "--stale-after",
+                    "2026-05-19T21:00:00Z",
+                ],
+                stdout=buffer,
+            )
+
+            self.assertEqual(1, rc, buffer.getvalue())
+            report = json.loads(buffer.getvalue())
+            self.assertFalse(report["ok"], report)
+            self.assertFalse(report["process_ok"], report)
+            command = report["instances"][0]["adapter_commands"][0]
+            self.assertEqual("failed_to_run", command["status"])
 
     def test_adapter_timeout_terminates_child_process_group(self):
         with TemporaryDirectory() as directory:
@@ -183,7 +280,7 @@ class FleetRefreshTests(unittest.TestCase):
             )
 
             command = report["instances"][0]["adapter_commands"][0]
-            self.assertEqual("failed", command["status"])
+            self.assertEqual("failed_to_run", command["status"])
             self.assertIn("timed out", command["error"])
             child_pid = int(child_pid_path.read_text())
             deadline = time.monotonic() + 2
@@ -232,6 +329,27 @@ class FleetRefreshTests(unittest.TestCase):
                     / "instance_agent_package.sample_personal.nova.json"
                 ).exists()
             )
+
+    def test_source_content_freshness_requires_latest_source_modified_at(self):
+        with TemporaryDirectory() as directory:
+            state_root = Path(directory)
+            stores = StateStoreBundle(state_root)
+            with self.assertRaisesRegex(ValueError, "source_content.*latest_source_modified_at"):
+                InstanceSourceFreshnessRuntime(stores).record(
+                    {
+                        "instance_ref": "state_instance.sample_personal",
+                        "connector_ref": "connector.personal.kb",
+                        "source_ref": "kb:tenant:personal",
+                        "connector_type": "kb",
+                        "status": "stale",
+                        "checked_at": "2026-05-19T20:00:00Z",
+                        "source_watermark": "kb.latest_event_at:2026-05-19T19:58:00Z",
+                        "stale_after": "2026-05-19T21:00:00Z",
+                        "watermark_basis": "source_content",
+                        "latest_source_event_at": "2026-05-19T19:58:00Z",
+                        "status_reason": "event-only timestamp must not prove source_content freshness",
+                    }
+                )
 
     def test_cli_runs_pressure_after_refresh(self):
         with TemporaryDirectory() as directory:
