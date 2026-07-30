@@ -16,7 +16,7 @@ from typing import Any
 
 from state_system.contracts import JsonObject, load_json, validate_schema
 
-DEFAULT_MODEL_ROUTE = "openai-codex/gpt-5.5"
+DEFAULT_MODEL_ROUTE = "zai/glm-5.2"
 
 
 class ModelOutputInvalid(ValueError):

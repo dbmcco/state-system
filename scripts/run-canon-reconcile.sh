@@ -15,7 +15,7 @@ STATE_ROOT="$1"
 BASELINE="${STATE_ROOT}/state/canon-edit-baseline.json"
 LOG_DIR="${STATE_ROOT}/canon-reconcile"
 LOCK_DIR="${LOG_DIR}/.canon-reconcile.lock"
-MODEL_ROUTE="${STATE_SYSTEM_CANON_MODEL:-openai-codex/gpt-5.5}"
+MODEL_ROUTE="${STATE_SYSTEM_CANON_MODEL:-zai/glm-5.2}"
 NOW="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 export PYTHONPATH="${PROJECT_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"

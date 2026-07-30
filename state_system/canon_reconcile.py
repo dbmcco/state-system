@@ -206,12 +206,33 @@ def reconcile_unreconciled_edits(
     for edit in stores.canon_edits.replay():
         if edit.get("status") != "unreconciled":
             continue
-        results.append(
-            reconcile_edit(
-                edit, reviewer=reviewer, stores=stores, as_of=as_of,
-                claim_schema=claim_schema,
+        try:
+            results.append(
+                reconcile_edit(
+                    edit, reviewer=reviewer, stores=stores, as_of=as_of,
+                    claim_schema=claim_schema,
+                )
             )
-        )
+        except Exception as error:  # noqa: BLE001 - a cron batch must not abort on one edit
+            # Any per-edit failure (model call error, transient outage, unexpected)
+            # holds that edit for human review and continues the batch. The model
+            # owns the judgment; this never fabricates one — it surfaces the failure.
+            held = deepcopy(edit)
+            held["status"] = STATUS_PENDING_HUMAN_REVIEW
+            held["requires_human_review"] = True
+            held["review_reason"] = f"{type(error).__name__}: {error}"
+            held["reconciliation"] = None
+            held["reconciled_at"] = None
+            replace_canon_edit(stores, held)
+            results.append({
+                "ok": True,
+                "status": STATUS_PENDING_HUMAN_REVIEW,
+                "edit": held,
+                "committed_canon_change": False,
+                "held_for_human_review": True,
+                "hold_reason": type(error).__name__,
+                "invariant": _boundary_invariant(),
+            })
     return {
         "ok": True,
         "as_of": as_of,
@@ -281,6 +302,13 @@ def _commit_claim_action(
             "superseded_claim_id": old_id,
         }
     if action == "add":
+        # Idempotent: a raw human add is already on disk (the watcher detected the
+        # new file), so the resulting_claim frequently already exists. Acknowledge
+        # it as canon without a duplicate record; the model's job was to judge the
+        # add was valid, which it did. If a different claim should result, the
+        # reviewer returns supersede/amend, not add.
+        if resulting_claim.get("id") in stores.canonical_claims.list_ids():
+            return {"action": action, "resulting_claim_id": resulting_claim["id"], "already_present": True}
         record = runtime.record(resulting_claim)
         return {"action": action, "resulting_claim_id": record["id"]}
     if action == "amend":
