@@ -12,6 +12,7 @@ DEFAULT_COLLECTIONS = {
     "state_objects": "objects",
     "source_events": "source-events",
     "review_packets": "review-packets",
+    "canonical_claims": "canonical-claims",
     "journals": "journals",
     "memory": "memory",
     "rollups": "rollups",

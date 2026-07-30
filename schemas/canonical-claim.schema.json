@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://state-system.local/schemas/canonical-claim.schema.json",
+  "title": "CanonicalClaim",
+  "description": "A first-class canonical claim record. Code owns schema, persistence, supersession, evidence assembly, and reevaluation-window arithmetic. Model/human reviewers own the semantic claim statement and whether it still holds.",
+  "type": "object",
+  "required": [
+    "id",
+    "entity_ref",
+    "claim_type",
+    "statement",
+    "evidence_refs",
+    "status",
+    "supersedes",
+    "determined_at",
+    "validity",
+    "generated_at",
+    "generated_by"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^canon\\.",
+      "description": "Stable canonical claim id, prefixed with canon."
+    },
+    "entity_ref": {
+      "type": "string",
+      "description": "Entity/company/instance scope, or empty string for cross-cutting and scientific claims."
+    },
+    "claim_type": {
+      "type": "string",
+      "enum": [
+        "priority",
+        "decision",
+        "framing",
+        "artifact_pointer",
+        "scientific_claim",
+        "operating_decision"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifact_ref": {
+      "type": ["string", "null"],
+      "description": "For artifact_pointer claims: the authoritative artifact ref, such as a drive id, path, or content hash."
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "superseded", "retracted"]
+    },
+    "supersedes": {
+      "type": ["string", "null"],
+      "description": "Id of the prior claim this one replaces, or null."
+    },
+    "superseded_by": {
+      "type": ["string", "null"],
+      "description": "Id of the active claim that superseded this claim, when this is a superseded-state marker."
+    },
+    "determined_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validity": {
+      "type": "object",
+      "required": ["window_days", "basis", "last_confirmed_at"],
+      "additionalProperties": false,
+      "properties": {
+        "window_days": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "basis": {
+          "type": "string",
+          "enum": ["calendar", "event"]
+        },
+        "last_confirmed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generated_by": {
+      "type": "string"
+    }
+  }
+}

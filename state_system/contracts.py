@@ -232,6 +232,10 @@ def schema_for_example(filename: str) -> str | None:
         return "instance-source-freshness-record.schema.json"
     if filename.startswith("entity-current-state-") and filename.endswith(".json"):
         return "entity-current-state-record.schema.json"
+    if filename.startswith("canonical-claim-judgment-") and filename.endswith(".json"):
+        return "canonical-claim-judgment.schema.json"
+    if filename.startswith("canonical-claim-") and filename.endswith(".json"):
+        return "canonical-claim.schema.json"
     if filename.startswith("staleness-review-packet-") and filename.endswith(".json"):
         return "staleness-review-packet.schema.json"
     if filename.startswith("staleness-review-output-") and filename.endswith(".json"):

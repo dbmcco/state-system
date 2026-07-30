@@ -1,0 +1,21 @@
+{
+  "artifact_ref": "drive:sample-approved-deck-v1",
+  "claim_type": "artifact_pointer",
+  "determined_at": "2026-07-10T00:00:00Z",
+  "entity_ref": "sampleco",
+  "evidence_refs": [
+    "memory:approved-deck-decision"
+  ],
+  "generated_at": "2026-07-10T00:05:00Z",
+  "generated_by": "example-fixture",
+  "id": "canon.sampleco.current-approved-deck",
+  "statement": "The current approved SampleCo overview deck is sample-approved-deck-v1.",
+  "status": "active",
+  "supersedes": null,
+  "superseded_by": null,
+  "validity": {
+    "basis": "calendar",
+    "last_confirmed_at": "2026-07-10T00:00:00Z",
+    "window_days": 14
+  }
+}

@@ -71,6 +71,7 @@ class JsonFileStoreTests(unittest.TestCase):
                     "state_objects",
                     "source_events",
                     "review_packets",
+                    "canonical_claims",
                     "journals",
                     "memory",
                     "rollups",

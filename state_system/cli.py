@@ -24,6 +24,16 @@ from state_system.company_capability import (
     build_company_capability_read_model,
     build_company_capability_read_model_from_runtime,
 )
+from state_system.canonical_claim_review import (
+    RecordedCanonicalClaimReviewer,
+    assemble_claim_evidence,
+)
+from state_system.canonical_claims import (
+    CanonicalClaimRuntime,
+    build_canonical_claims_read_model,
+    supersede as supersede_canonical_claim,
+    validate_canonical_claim,
+)
 from state_system.company_memory import build_company_memory_read_model
 from state_system.company_preflight import (
     CompanyPreflightRuntime,
@@ -140,6 +150,7 @@ COLLECTIONS = {
     "state": "state_objects",
     "source-event": "source_events",
     "review-packet": "review_packets",
+    "canonical-claim": "canonical_claims",
     "journal": "journals",
     "memory": "memory",
     "rollup": "rollups",
@@ -771,6 +782,64 @@ def _legacy_main(argv: list[str] | None = None, stdout: TextIO | None = None) ->
                 "read_model_id": read_model["id"],
                 "read_model_path": str(read_model_path),
             },
+        )
+        return 0
+
+    if args.command == "canonical-claim-record":
+        claim = load_json(Path(args.claim))
+        schema = load_json(project_root / "schemas" / "canonical-claim.schema.json")
+        errors = validate_canonical_claim(claim, schema)
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        result = CanonicalClaimRuntime(stores).record(claim)
+        _write_json(stdout, {"ok": True, "canonical_claim": result})
+        return 0
+
+    if args.command == "canonical-claim-supersede":
+        claim = load_json(Path(args.claim))
+        schema = load_json(project_root / "schemas" / "canonical-claim.schema.json")
+        claim = dict(claim)
+        claim["status"] = "active"
+        claim["supersedes"] = args.old_id
+        errors = validate_canonical_claim(claim, schema)
+        if errors:
+            _write_json(stdout, {"ok": False, "errors": errors})
+            return 1
+        result = supersede_canonical_claim(args.old_id, claim, stores)
+        _write_json(stdout, {"ok": True, **result})
+        return 0
+
+    if args.command == "canonical-claim-read":
+        read_model = build_canonical_claims_read_model(stores, as_of=args.as_of)
+        _write_json(stdout, read_model)
+        return 0
+
+    if args.command == "canonical-claim-review-run":
+        if args.reviewer == "live":
+            _write_json(
+                stdout,
+                {
+                    "ok": False,
+                    "error": (
+                        "--reviewer live requires a programmatically injected "
+                        "model_client. Use the recorded reviewer for CLI dry-runs, "
+                        "or call LiveCanonicalClaimReviewer with model_client set."
+                    ),
+                },
+            )
+            return 1
+        reviewer = RecordedCanonicalClaimReviewer.from_examples(
+            project_root / "examples" / "canonical-claims"
+        )
+        judgments = []
+        for claim in build_canonical_claims_read_model(stores, as_of=args.as_of)[
+            "active_claims"
+        ]:
+            evidence = assemble_claim_evidence(claim, stores)
+            judgments.append(reviewer.review(claim, evidence))
+        _write_json(
+            stdout, {"ok": True, "reviewer": args.reviewer, "judgments": judgments}
         )
         return 0
 
@@ -1759,6 +1828,29 @@ def _parser() -> argparse.ArgumentParser:
     entity_state_export = subcommands.add_parser("entity-current-state-export")
     entity_state_export.add_argument("--as-of", required=True)
     entity_state_export.add_argument("--output-dir", required=True)
+
+    canonical_claim_record = subcommands.add_parser("canonical-claim-record")
+    canonical_claim_record.add_argument("claim")
+
+    canonical_claim_supersede = subcommands.add_parser("canonical-claim-supersede")
+    canonical_claim_supersede.add_argument("old_id")
+    canonical_claim_supersede.add_argument("claim")
+
+    canonical_claim_read = subcommands.add_parser("canonical-claim-read")
+    canonical_claim_read.add_argument("--as-of", required=True)
+
+    canonical_claim_review_run = subcommands.add_parser("canonical-claim-review-run")
+    canonical_claim_review_run.add_argument("--as-of", required=True)
+    canonical_claim_review_run.add_argument(
+        "--reviewer",
+        choices=["recorded", "live"],
+        default="recorded",
+    )
+    canonical_claim_review_run.add_argument(
+        "--registry-route",
+        default="canonical-claim-review",
+        help="Central-registry route for the live reviewer.",
+    )
 
     freshness_record = subcommands.add_parser("source-freshness-record")
     freshness_record.add_argument("--company-ref", required=True)

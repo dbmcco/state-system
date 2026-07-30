@@ -1,0 +1,8 @@
+{
+  "claim_id": "canon.sampleco.discovery-framing",
+  "confidence": 0.84,
+  "judgment": "still_holds",
+  "newer_evidence_refs": [],
+  "rationale": "Recorded fixture judgment: the provided example evidence does not include a newer contradictory decision.",
+  "reviewed_at": "2026-07-15T00:00:00Z"
+}

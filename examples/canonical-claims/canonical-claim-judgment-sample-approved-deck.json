@@ -1,0 +1,8 @@
+{
+  "claim_id": "canon.sampleco.current-approved-deck",
+  "confidence": 0.78,
+  "judgment": "still_holds",
+  "newer_evidence_refs": [],
+  "rationale": "Recorded fixture judgment: the example deck pointer has no newer recorded replacement.",
+  "reviewed_at": "2026-07-15T00:00:00Z"
+}

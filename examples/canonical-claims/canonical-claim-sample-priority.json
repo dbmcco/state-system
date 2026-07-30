@@ -1,0 +1,21 @@
+{
+  "artifact_ref": null,
+  "claim_type": "priority",
+  "determined_at": "2026-07-01T00:00:00Z",
+  "entity_ref": "sampleco",
+  "evidence_refs": [
+    "memory:canonical-priority-note"
+  ],
+  "generated_at": "2026-07-01T00:05:00Z",
+  "generated_by": "example-fixture",
+  "id": "canon.sampleco.discovery-framing",
+  "statement": "SampleCo's current discovery framing is to validate one narrow workflow before broadening scope.",
+  "status": "active",
+  "supersedes": null,
+  "superseded_by": null,
+  "validity": {
+    "basis": "calendar",
+    "last_confirmed_at": "2026-07-01T00:00:00Z",
+    "window_days": 30
+  }
+}
